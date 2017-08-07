@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FF3030</color>
+    <color name="colorPrimaryDark">#FFDC370C</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="grey21">#363636</color>
+    <color name="grey11">#1C1C1C</color>
+
+
+    <color name="seminar_gray">#EEE9E9</color><!-- //#D3D3D3 -->
+
+    <!--主体色调-->
+    <!--<color name="home">#DC370C</color>-->
+    <color name="home">#FFDC370C</color>
+    <color name="menu_red">#B2C83D51</color>
+    <color name="home_transparent">#80E62129</color>
+
+    <color name="white">#ffffff</color>
+
+
+    <color name="grey_font">#ff9e9e9e</color>
+    <color name="skip_transparent">#80070101</color>
+</resources>
