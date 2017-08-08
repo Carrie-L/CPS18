@@ -5,14 +5,45 @@
     <string name="hello_blank_fragment">Hello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blaHello blank fragmentHello blank fragment
 
 
-    </string> <string name="left_menu_user_login">預先登記觀眾登入</string>
+    </string>
+    <string name="left_menu_user_login">預先登記觀眾登入</string>
     <string name="left_menu_login">登錄</string>
     <string name="left_menu_logout">登出</string>
     <string name="left_menu_sync">同步</string>
 
     <string name="loading_skip">跳過</string>
+    <string name="title_activity_register">RegisterActivity</string>
 
+    <!-- 登录 -->
+    <string name="login_title_1">預先登記觀眾登入</string>
+    <string name="login_title">觀眾登入</string>
+    <string name="login_title_2">登出</string>
+    <string name="login_text1">請輸入預先登記的登入電郵及密碼</string>
+    <string name="login_text2">登入名稱:</string>
+    <string name="login_text3">密碼:</string>
+    <string name="login_text4">登入</string>
+    <string name="login_text5">忘記密碼</string>
+    <string name="login_text6">如還未有觀眾登入帳號? 請即登記！</string>
+    <string name="login_error_msg_1">請輸入\"登入名稱\"</string>
+    <string name="login_error_msg_2">請輸入\"密碼\"</string>
+    <string name="login_error_msg_3">登入名稱或密碼不正確，請重新輸入。</string>
+    <string name="loading">載入中</string>
+    <string name="loading...">載入中…</string>
+    <string name="network_error">沒有網路</string>
+    <string name="check_account_pw_title">請到已登記的電子郵件檢查登入帳號及密碼:</string>
+    <string name="check_account_pw_msg">賬號已申請</string>
 
+    <string name="login_first_add_exhibitor">需要登錄后才能添加參展商，是否登錄？</string>
+    <string name="login_first_add_schedule">需要登錄后才能添加議程，是否登錄？</string>
+    <string name="login_first_save_note">需要登錄后才能保存筆記，是否登錄？</string>
+
+    <!-- logout -->
+    <string name="logout">登出</string>
+    <string name="logout_message">確認登出?</string>
+    <string name="syncMessage">在應用內的 [我的參展商] 資料，將會跟CHINAPLASONLILNE.com的 [我的參展商] 同步，請確認繼續。</string>
+    <string name="syncSuccess">同步成功</string>
+    <string name="syncFailure">同步失敗</string>
+    <string name="title_activity_interested_product">InterestedProduct</string>
 
 
 </resources>

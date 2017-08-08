@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <data>
+        <variable
+            name="loginViewModel"
+            type="com.adsale.ChinaPlas.viewmodel.LoginViewModel"/>
+
+        <variable
+            name="activity"
+            type="com.adsale.ChinaPlas.ui.LoginActivity"/>
+    </data>
+
+
+    <LinearLayout
+        android:id="@+id/rl_login"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@string/login_text1"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:id="@+id/rl_loginPwd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp">
+
+            <TextView
+                android:id="@+id/tv_loginName"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:gravity="center_vertical"
+                android:text="@string/login_text2"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/emailLogin"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_toEndOf="@id/tv_loginName"
+                android:layout_toRightOf="@id/tv_loginName"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
+                android:nextFocusDown="@+id/passwordLogin"
+                android:singleLine="true"
+                android:text="@={loginViewModel.loginName}"
+                />
+
+            <TextView
+                android:id="@+id/tv_loginPwd"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_below="@id/tv_loginName"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:gravity="center_vertical"
+                android:text="@string/login_text3"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/passwordLogin"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_alignLeft="@id/emailLogin"
+                android:layout_alignStart="@id/emailLogin"
+                android:layout_below="@id/emailLogin"
+                android:layout_toEndOf="@id/tv_loginPwd"
+                android:layout_toRightOf="@id/tv_loginPwd"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                android:singleLine="true"
+                android:text="@={loginViewModel.loginPwd}"
+                />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="80dp"
+            android:layout_height="38dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bttn_red"
+            android:onClick="@{() -> loginViewModel.loginAction()}"
+            android:text="@string/login_text4"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/regNow"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:padding="10dp"
+                android:text="@string/login_text6"
+                android:textColor="#fe4b10"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:onClick="@{activity::toRegister}"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:onClick="forgotPwAction"
+                android:padding="10dp"
+                android:text="@string/login_text5"
+                android:textColor="#fe4b10"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</layout>

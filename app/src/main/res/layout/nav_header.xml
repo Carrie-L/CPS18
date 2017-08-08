@@ -5,11 +5,16 @@
         <variable
             name="viewmodel"
             type="com.adsale.ChinaPlas.viewmodel.LoginViewModel"/>
+
+        <variable
+            name="navViewModel"
+            type="com.adsale.ChinaPlas.viewmodel.NavViewModel"/>
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/white"
         >
 
         <RelativeLayout
@@ -36,7 +41,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_toRightOf="@id/iv_user"
                 android:gravity="center_vertical"
-                android:text="@string/left_menu_user_login"
+                android:text="@{viewmodel.isLoginSuccess?viewmodel.loginName:@string/login_title_1}"
                 android:textSize="14sp" />
 
             <Button
@@ -109,7 +114,6 @@
             android:layout_height="match_parent"
             android:layout_above="@id/language"
             android:layout_below="@id/iv_header"
-
             />
 
     </RelativeLayout>
