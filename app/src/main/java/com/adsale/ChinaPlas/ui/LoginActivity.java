@@ -30,5 +30,9 @@ public class LoginActivity extends BaseActivity {
         startActivity(intent);
     }
 
+    public void onLogin(){
+
+    }
+
 
 }

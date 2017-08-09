@@ -18,14 +18,12 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
+
+
+            <FrameLayout
+                android:id="@+id/toolbarFrame"
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="@drawable/inner_banner"
-                android:minHeight="56dp"
-                android:theme="@style/MyToolBar"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
+                android:layout_height="wrap_content" />
 
             <FrameLayout
                 android:id="@+id/contentFrame"

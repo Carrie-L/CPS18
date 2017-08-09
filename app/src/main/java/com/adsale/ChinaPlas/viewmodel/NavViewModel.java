@@ -44,6 +44,8 @@ public class NavViewModel {
     }
 
     public void onStart(RecyclerView recyclerView){
+        long startTime = System.currentTimeMillis();
+
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
 
@@ -52,12 +54,17 @@ public class NavViewModel {
 
         initPadList();
 
-        processDraerList();
+        processDrawerList();
 
         setAdapter(recyclerView);
+
+        long endTime = System.currentTimeMillis();
+        LogUtil.i(TAG, "------------- onStart spend : " + (endTime - startTime) + "ms");
     }
 
-    public void processDraerList() {
+    private void processDrawerList() {
+        long startTime = System.currentTimeMillis();
+
         ArrayList<MainIcon> child = new ArrayList<>();
         mLeftMenus = mainIconRepository.getLeftMenus(mLeftMenus, mParents, child);
 
@@ -83,9 +90,14 @@ public class NavViewModel {
                 }
             }
         }
+
+        long endTime = System.currentTimeMillis();
+        LogUtil.i(TAG, " processDrawerList spend : " + (endTime - startTime) + "ms");
     }
 
-    public void setAdapter(RecyclerView recyclerView){
+    private void setAdapter(RecyclerView recyclerView){
+        long startTime = System.currentTimeMillis();
+
         DrawerAdapter drawerAdapter = new DrawerAdapter(mLeftMenus, mParents, children, mLanguage, true);
         recyclerView.setAdapter(drawerAdapter);
         recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
@@ -94,13 +106,22 @@ public class NavViewModel {
                 super.onDraw(c, parent, state);
             }
         });
+
+        long endTime = System.currentTimeMillis();
+        LogUtil.i(TAG, " setAdapter spend : " + (endTime - startTime) + "ms");
     }
 
     private void initPadList(){
+        long startTime = System.currentTimeMillis();
+
         mLeftMenus = new ArrayList<>();
         mParents = new ArrayList<>();
         children = new ArrayList<>();
+
+        long endTime = System.currentTimeMillis();
+        LogUtil.i(TAG, " initPadList spend : " + (endTime - startTime) + "ms");
     }
+
 
 
 }

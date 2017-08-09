@@ -31,8 +31,8 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
     private ArrayList<MainIcon> lists;
     private ArrayList<MainIcon> mainIcons;
 
-    public static final int TYPE_PARENT = 0;
-    public static final int TYPE_CHILD = 1;
+    private static final int TYPE_PARENT = 0;
+    private static final int TYPE_CHILD = 1;
 
     private ChildViewHolder childHolder;
     private ParentViewHolder parentHolder;

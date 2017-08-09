@@ -32,6 +32,9 @@ ext{
     // App dependencies
     supportLibraryVersion = '26.0.0'
 
+    rxJavaVersion = '2.0.7'
+
+
 
 }
 

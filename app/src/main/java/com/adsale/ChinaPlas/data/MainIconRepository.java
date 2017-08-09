@@ -142,6 +142,8 @@ public class MainIconRepository implements DataSource<MainIcon> {
      * 获取侧边栏数据
      */
     public ArrayList<MainIcon> getLeftMenus(ArrayList<MainIcon> leftMenus, ArrayList<MainIcon> parentList, ArrayList<MainIcon> childList) {
+        long startTime = System.currentTimeMillis();
+
         Cursor cursor = db.rawQuery(
                 "select * from MAIN_ICON where IS_HIDDEN NOT LIKE 1 AND GOOGLE__TJ like \"%|%\" and GOOGLE__TJ like \"%S_%\" order by GOOGLE__TJ asc", null);
         if (cursor != null) {
@@ -170,6 +172,8 @@ public class MainIconRepository implements DataSource<MainIcon> {
 
             cursor.close();
         }
+        long endTime = System.currentTimeMillis();
+        LogUtil.i(TAG, " getLeftMenus spend : " + (endTime - startTime) + "ms");
         Log.i(TAG, "CPS:leftMenus====================" + leftMenus.size());
         return leftMenus;
     }
