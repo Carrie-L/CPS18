@@ -6,12 +6,14 @@ package com.adsale.ChinaPlas.utils;
 
 public class Constant {
 
-    /**---------------------Config 配置信息---------------------------------------**/
-    public static final String SP_CONFIG="Config";
+    /**
+     * ---------------------Config 配置信息---------------------------------------
+     **/
+    public static final String SP_CONFIG = "Config";
     public static final String SP_UPDATE_INFO = "UpdateInfo";
     public static final String SP_UPDATE_INFO_BEFORE = "UpdateInfoBefore";
-    public static final String SP_LASTMODIFIED="LastModified";
-    public static final String SP_LUT="LastUpdateTime";
+    public static final String SP_LASTMODIFIED = "LastModified";
+    public static final String SP_LUT = "LastUpdateTime";
     public static final String SP_LOGIN = "Login";
 
     //-------------------MainIcon的最后更新时间----------------
@@ -22,7 +24,11 @@ public class Constant {
     public static final String exFloorLUT = "ExFloorLUT";
     public static final String mapFloorLUT = "MapFloorLUT";
 
-    public static final String TRAD_STROKE="劃";
+    public static final String TRAD_STROKE = "劃";
+
+    public static final String IS_LOGIN = "isLogin";
+    public static final String USER_EMAIL = "userEmail";
+    public static final String USER_PWD = "userPassword";
 
 
 }

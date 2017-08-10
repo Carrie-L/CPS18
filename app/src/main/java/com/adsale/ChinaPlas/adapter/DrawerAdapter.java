@@ -2,6 +2,7 @@ package com.adsale.ChinaPlas.adapter;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
@@ -16,11 +17,14 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.dao.MainIcon;
+import com.adsale.ChinaPlas.ui.MainActivity;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.AppUtil;
+import com.adsale.ChinaPlas.viewmodel.NavViewModel;
 
 public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
     private static final String TAG = "DrawerAdapter";
@@ -57,19 +61,21 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
     private ArrayList<ArrayList<MainIcon>> mChildren;
     private int mLanguage;
     private boolean isPadDevice;
+    private NavViewModel mNavViewModel;
 
-    public DrawerAdapter(ArrayList<MainIcon> icons, ArrayList<MainIcon> parentList, ArrayList<ArrayList<MainIcon>> children, int language, boolean isLogin) {
+    public DrawerAdapter(ArrayList<MainIcon> icons, ArrayList<MainIcon> parentList, ArrayList<ArrayList<MainIcon>> children, NavViewModel baseViewModel) {
         super();
         this.mainIcons = icons;
-        this.language = language;
         this.mParents=parentList;
         this.mChildren=children;
-        this.isLogin=isLogin;
+        this.mNavViewModel=baseViewModel;
 
         LogUtil.e(TAG, "_________LeftMenuAdapter_____________parentList= "+parentList.size()+",children="+children.size()+",icons="+icons.size());
 
         lists = new ArrayList<>();
         lists=mParents;
+
+
 
     }
 
@@ -152,7 +158,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup group, int viewType) {
         mContext = group.getContext();
-        isLogin=AppUtil.isLogin(mContext);
+        isLogin=AppUtil.isLogin();
         language = AppUtil.getCurLanguage(mContext);
         isPadDevice=AppUtil.isPadDevice(mContext);
 
@@ -379,6 +385,15 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
         else {
 
         }
+        mCloseListener.close();
+        Toast.makeText(mContext,"click: "+mainIcon.getBaiDu_TJ(),Toast.LENGTH_SHORT).show();
+        mNavViewModel.intent((Activity) mContext,mainIcon);
+        if(!(mContext instanceof MainActivity)){
+            ((Activity) mContext).finish();
+        }
+
+
+
     }
 
     public class ChildViewHolder extends ViewHolder {
@@ -401,6 +416,18 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
             });
         }
     }
+
+    //在 NavViewModel 类中实现这个接口
+    public interface OnCloseDrawerListener{
+        void close();
+    }
+
+    public void setOnCloseDrawerListener(OnCloseDrawerListener listener){
+        AppUtil.checkNotNull(listener);
+        mCloseListener=listener;
+    }
+
+    private OnCloseDrawerListener mCloseListener;
 
 
 

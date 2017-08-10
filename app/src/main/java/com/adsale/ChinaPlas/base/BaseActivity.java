@@ -1,5 +1,6 @@
 package com.adsale.ChinaPlas.base;
 
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.support.design.widget.NavigationView;
@@ -14,16 +15,18 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.dao.DBHelper;
 import com.adsale.ChinaPlas.databinding.ActivityBaseBinding;
 import com.adsale.ChinaPlas.databinding.NavHeaderBinding;
+import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.viewmodel.NavViewModel;
 
-import static com.adsale.ChinaPlas.R.id.toolbarFrame;
+import static org.jsoup.nodes.Entities.EscapeMode.base;
 
 public abstract class BaseActivity extends AppCompatActivity {
     protected static String TAG;
@@ -32,7 +35,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected DBHelper mDBHelper;
     private RecyclerView recyclerView;
     private ActivityBaseBinding mBaseBinding;
-    private NavViewModel mNavViewModel;
+    protected NavViewModel mNavViewModel;
     private boolean isInitedDrawer;
 
     protected int mToolbarLayoutId = R.layout.toolbar_base;
@@ -52,6 +55,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         initView();
         initData();
+
+
     }
 
     private void initDrawer() {
@@ -66,7 +71,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         NavHeaderBinding navBinding = NavHeaderBinding.inflate(getLayoutInflater(), navigationView, true);
 
         mNavViewModel = new NavViewModel(getApplicationContext());
-        navBinding.setNavViewModel(mNavViewModel);
+        navBinding.setNavModel(mNavViewModel);
 
         recyclerView = navBinding.recyclerView;
 
@@ -75,7 +80,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     private void setupDrawer() {
-        mNavViewModel.onStart(recyclerView);
+        mNavViewModel.onStart(recyclerView,mDrawerLayout);
     }
 
     @Override
@@ -88,6 +93,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             } else {
                 LogUtil.i(TAG, "已经 isInitedDrawer=" + isInitedDrawer);
             }
+            mNavViewModel.openDrawer();
             mDrawerLayout.openDrawer(GravityCompat.START);
         }
         return super.onOptionsItemSelected(item);
@@ -105,6 +111,17 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    public void logout(View view){
+        AppUtil.showAlertDialog(this,getString(R.string.logout_message), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                AppUtil.putLogout();
+                dialog.dismiss();
+                mNavViewModel.isLoginSuccess.set(false);
+            }
+        });
+    }
+
     protected void preView() {
 
     }
@@ -112,6 +129,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract void initView();
 
     protected abstract void initData();
+
 
 
 }

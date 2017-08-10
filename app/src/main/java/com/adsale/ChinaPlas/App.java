@@ -14,6 +14,7 @@ import com.adsale.ChinaPlas.dao.DaoMaster;
 import com.adsale.ChinaPlas.dao.DaoSession;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.CrashHandler;
+import com.adsale.ChinaPlas.utils.FileUtils;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.crashlytics.android.Crashlytics;
 
@@ -53,15 +54,20 @@ public class App extends Application {
     public static DBHelper mDBHelper;
     public static String DB_PATH = "";// 在手机里存放数据库的位置
     private static Resources resources;
+    public static String rootDir;
+    public static String memoryFileDir;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
+//        Fabric.with(this, new Crashlytics());
         initCrashHandle();
         initSP();
-        resources=getResources();
+        resources = getResources();
         DB_PATH = "/data" + Environment.getDataDirectory().getAbsolutePath() + "/" + getPackageName() + "/databases";
+        rootDir = FileUtils.getFileRootDir(getApplicationContext());
+        memoryFileDir = "/data" + Environment.getDataDirectory().getAbsolutePath() + "/" + getPackageName() + "/files";
+
         getDbHelper();
     }
 

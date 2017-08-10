@@ -229,9 +229,9 @@ public class MainIcon implements java.io.Serializable {
 
     // KEEP METHODS - put your custom methods here
     public String getTitle(Context context,int language){
-        if((TitleCN.contains("|")||TitleEN.contains("|")||TitleTW.contains("|"))&& AppUtil.isLogin(context)){
+        if((TitleCN.contains("|")||TitleEN.contains("|")||TitleTW.contains("|"))&& AppUtil.isLogin()){
             return title(language).split("\\|")[1];
-        }else if((TitleCN.contains("|")||TitleEN.contains("|")||TitleTW.contains("|"))&&!AppUtil.isLogin(context)){
+        }else if((TitleCN.contains("|")||TitleEN.contains("|")||TitleTW.contains("|"))&&!AppUtil.isLogin()){
             return title(language).split("\\|")[0];
         }else{
             return title(language);
