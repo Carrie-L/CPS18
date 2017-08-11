@@ -34,7 +34,9 @@
             android:value="e9711e47de2f01e87b1b2a761338687e93c10e5d" />
 
         <activity android:name=".ui.WebViewActivity" />
-        <activity android:name=".ui.MyAccountActivity"></activity>
+        <activity android:name=".ui.MyAccountActivity" />
+        <activity android:name=".ui.ScheduleActivity" />
+        <activity android:name=".ui.ScheduleEditActivity"></activity>
     </application>
 
 </manifest>

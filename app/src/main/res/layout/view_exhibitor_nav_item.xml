@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="iconView"
+            type="com.adsale.ChinaPlas.ui.view.IconView" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rl_icon_view"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginTop="0.5dp"
+        android:onClick="@{iconView.clickListener}">
+
+        <ImageView
+            android:id="@+id/imgNavIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            app:imageResource="@{iconView.leftIcon}" />
+
+        <!--android:src="@{iconView.leftIcon}"-->
+
+        <TextView
+            android:id="@+id/textNvaName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_toEndOf="@+id/imgNavIcon"
+            android:layout_toRightOf="@+id/imgNavIcon"
+            android:text="@{iconView.text}"
+            android:textColor="@color/grey11" />
+
+        <TextView
+            android:id="@+id/textNvaSyncTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/line"
+            android:layout_below="@id/textNvaName"
+            android:layout_marginBottom="0.5dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="1.7dp"
+            android:layout_toEndOf="@+id/imgNavIcon"
+            android:layout_toRightOf="@+id/imgNavIcon"
+            android:lines="1"
+            android:textColor="@color/deep_gray"
+            android:textSize="12sp"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/iv_right"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:scaleType="centerInside"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@color/gray_qrcode_tips"
+            android:visibility="@{iconView.isLineVisible?View.VISIBLE:View.INVISIBLE}" />
+
+    </RelativeLayout>
+
+</layout>

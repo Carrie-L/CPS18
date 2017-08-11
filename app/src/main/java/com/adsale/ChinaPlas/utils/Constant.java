@@ -30,5 +30,11 @@ public class Constant {
     public static final String USER_EMAIL = "userEmail";
     public static final String USER_PWD = "userPassword";
 
+    public static final String SCHEDULE_DAY01 = "2017-05-16";
+    public static final String SCHEDULE_DAY02 = "2017-05-17";
+    public static final String SCHEDULE_DAY03 = "2017-05-18";
+    public static final String SCHEDULE_DAY04 = "2017-05-19";
+
+
 
 }

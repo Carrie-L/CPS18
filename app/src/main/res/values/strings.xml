@@ -37,13 +37,6 @@
     <string name="login_first_add_schedule">需要登錄后才能添加議程，是否登錄？</string>
     <string name="login_first_save_note">需要登錄后才能保存筆記，是否登錄？</string>
 
-    <!-- logout -->
-    <string name="logout">登出</string>
-    <string name="logout_message">確認登出?</string>
-    <string name="syncMessage">在應用內的 [我的參展商] 資料，將會跟CHINAPLASONLILNE.com的 [我的參展商] 同步，請確認繼續。</string>
-    <string name="syncSuccess">同步成功</string>
-    <string name="syncFailure">同步失敗</string>
-    <string name="title_activity_interested_product">InterestedProduct</string>
 
     <!--预登记-->
     <string name="reg_reset">重置</string>
@@ -53,5 +46,47 @@
     <string name="confirm">確定</string>
     <string name="cancel">取消</string>
 
+    <!--MyAccount-->
+    <string name="title_my_exhibitor">我的參展商</string>
+    <string name="title_schedule">我的日程表</string>
+    <string name="title_my_name_card">我的名片</string>
+    <string name="title_history_exhibitor">我的歷史記錄</string>
+    <!-- logout -->
+    <string name="logout">登出</string>
+    <string name="logout_message">確認登出?</string>
+    <string name="syncMessage">在應用內的 [我的參展商] 資料，將會跟CHINAPLASONLILNE.com的 [我的參展商] 同步，請確認繼續。</string>
+    <string name="syncSuccess">同步成功</string>
+    <string name="syncFailure">同步失敗</string>
+
+    <!--  日程表-->
+    <string name="schedule_title">標題</string>
+    <string name="schedule_location">位置</string>
+    <string name="schedule_startTime">時間</string>
+    <string name="schedule_length">為時</string>
+    <string name="schedule_note">筆記</string>
+    <string name="schedule_hour">小時</string>
+    <string name="schedule_minute">分鐘</string>
+    <string name="schedule_save">儲存</string>
+    <string name="schedule_del">刪除</string>
+    <string name="schedule_date">2017年5月</string>
+
+    <string name="schedule_exhibitor">參展商</string>
+    <string name="schedule_event">同期活動</string>
+
+    <string name="nodata">沒有相關信息</string>
+    <string name="no_schedule">暫無議程</string>
+    <string name="no_keyword_result">如需獲取所有展商列表，請前往內容更新中心更新展商資料庫。</string>
+
+    <string name="btnSave">儲存</string>
+    <string name="btnClear">清除所有</string>
+    <string name="btnDel">删除</string>
+
+    <string name="note_successful">成功儲存筆記</string>
+    <string name="ask_clear_note">你確定想清除筆記?</string>
+    <string name="ask_schedule">相同時間已儲存了另一個議程，繼續儲存?</string>
+    <string name="not_title">標題不能為空</string>
+
+    <string name="ScheduleInfo_lable">議程%1$s:</string>
+    <string name="ScheduleInfo_startTime">時間:%1$s</string>
 
 </resources>

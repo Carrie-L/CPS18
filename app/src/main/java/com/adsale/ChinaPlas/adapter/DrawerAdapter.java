@@ -110,7 +110,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        language=AppUtil.getCurLanguage(mContext);
+        language=AppUtil.getCurLanguage();
 
         if (holder.getItemViewType() == TYPE_PARENT) {
             parentHolder = (ParentViewHolder) holder;
@@ -159,7 +159,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
     public ViewHolder onCreateViewHolder(ViewGroup group, int viewType) {
         mContext = group.getContext();
         isLogin=AppUtil.isLogin();
-        language = AppUtil.getCurLanguage(mContext);
+        language = AppUtil.getCurLanguage();
         isPadDevice=AppUtil.isPadDevice(mContext);
 
         // 分别为 父 与 子 设置布局

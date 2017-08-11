@@ -1,6 +1,7 @@
 package com.adsale.ChinaPlas.base;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.support.design.widget.NavigationView;
@@ -23,6 +24,7 @@ import com.adsale.ChinaPlas.dao.DBHelper;
 import com.adsale.ChinaPlas.databinding.ActivityBaseBinding;
 import com.adsale.ChinaPlas.databinding.NavHeaderBinding;
 import com.adsale.ChinaPlas.utils.AppUtil;
+import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.viewmodel.NavViewModel;
 
@@ -129,6 +131,17 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract void initView();
 
     protected abstract void initData();
+
+    protected <T> void intent(Class<T> cls){
+        Intent intent = new Intent(this,cls);
+        startActivity(intent);
+    }
+
+    protected <T> void intent(Class<T> cls, Bundle bundle){
+        Intent intent = new Intent(this,cls);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
 
 
 

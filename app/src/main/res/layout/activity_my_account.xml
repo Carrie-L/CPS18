@@ -1,9 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.adsale.ChinaPlas.ui.MyAccountActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    >
 
-</android.support.constraint.ConstraintLayout>
+    <data>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.adsale.ChinaPlas.ui.view.IconView
+            android:id="@+id/my_exhibitor"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            />
+
+        <com.adsale.ChinaPlas.ui.view.IconView
+            android:id="@+id/my_schedule"
+            android:layout_width="match_parent"
+            android:layout_height="55dp" />
+
+        <com.adsale.ChinaPlas.ui.view.IconView
+            android:id="@+id/my_name_card"
+            android:layout_width="match_parent"
+            android:layout_height="55dp" />
+
+        <com.adsale.ChinaPlas.ui.view.IconView
+            android:id="@+id/my_history"
+            android:layout_width="match_parent"
+            android:layout_height="55dp" />
+
+        <com.adsale.ChinaPlas.ui.view.IconView
+            android:id="@+id/my_logout"
+            android:layout_width="match_parent"
+            android:layout_height="55dp" />
+
+
+    </LinearLayout>
+
+</layout>

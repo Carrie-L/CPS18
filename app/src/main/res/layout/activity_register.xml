@@ -1,16 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/frame_register"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.adsale.ChinaPlas.ui.RegisterActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+   >
 
+    <data>
 
+        <import type="android.view.View" />
 
+        <variable
+            name="regModel"
+            type="com.adsale.ChinaPlas.viewmodel.RegisterViewModel" />
+    </data>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:progressDrawable="@drawable/progressbar_selector"
+            />
 
+        <WebView
+            android:id="@+id/reg_web"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{regModel.isLoginOrReged?View.GONE:View.VISIBLE}"
+            android:layout_below="@id/progress_bar"
+            />
 
-</FrameLayout>
+        <ScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/rl_registed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="@{regModel.isLoginOrReged?View.VISIBLE:View.GONE}">
+
+                <TextView
+                    android:id="@+id/tv_register_info1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:lineSpacingExtra="1.3dp" />
+
+                <ImageView
+                    android:id="@+id/iv_registed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_register_info1"
+                    android:layout_centerHorizontal="true"
+                    android:paddingLeft="50dp"
+                    android:paddingRight="50dp" />
+
+                <TextView
+                    android:id="@+id/tv_register_info2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/iv_registed"
+                    android:layout_margin="16dp"
+                    android:lineSpacingExtra="1.3dp" />
+
+                <ImageView
+                    android:id="@+id/iv_center_line"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true" />
+
+                <Button
+                    android:id="@+id/btn_add_calendar"
+                    android:layout_width="150dp"
+                    android:layout_height="32dp"
+                    android:layout_below="@id/tv_register_info2"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_toLeftOf="@id/iv_center_line"
+                    android:layout_toStartOf="@id/iv_center_line"
+                    android:background="@drawable/bttn_red"
+                    android:onClick="@{() -> regModel.addToCalendar()}"
+                    android:text="@string/reg_calendar"
+                    android:textColor="@drawable/btn_text_color" />
+
+                <Button
+                    android:id="@+id/btn_reRegister"
+                    android:layout_width="150dp"
+                    android:layout_height="32dp"
+                    android:layout_below="@id/tv_register_info2"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_toEndOf="@id/iv_center_line"
+                    android:layout_toRightOf="@id/iv_center_line"
+                    android:background="@drawable/bttn_grey"
+                    android:onClick="@{() -> regModel.reset()}"
+                    android:text="@string/reg_again" />
+            </RelativeLayout>
+
+        </ScrollView>
+
+    </RelativeLayout>
+
+</layout>

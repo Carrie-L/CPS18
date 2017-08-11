@@ -17,9 +17,11 @@ public class NetWorkHelper {
 
     /*预登记*/
     public static final String Register_EN_URL = "https://www.chinaplasonline.com/CPS17/Mobile/Home/lang-eng/QuickPreReg.aspx?device=mobileapp";
-    public static final String Register_TW_URL = "https://www.chinaplasonline.com/CPS17/Mobile/Home/lang-trad/QuickPreReg.aspx?device=mobileapp";
+//    public static final String Register_TW_URL = "https://www.chinaplasonline.com/CPS17/Mobile/Home/lang-trad/QuickPreReg.aspx?device=mobileapp";
     public static final String Register_CN_URL = "https://www.chinaplasonline.com/CPS17/Mobile/Home/lang-simp/QuickPreReg.aspx?device=mobileapp";
 
+    //test
+    public static final String Register_TW_URL = "https://www.printingsouthchina.com/PRT18/Mobile/Home/lang-trad/QuickPreReg.aspx";
 
 
 

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="scheduleModel"
+            type="com.adsale.ChinaPlas.viewmodel.ScheduleViewModel"/>
+        <variable
+            name="view"
+            type="com.adsale.ChinaPlas.ui.ScheduleActivity"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="16dp"
+            android:gravity="center_vertical"
+            android:text="@string/schedule_date"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <ImageView
+            style="@style/help_btn_style" />
+
+        <ImageView
+            android:id="@+id/line1"
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:layout_below="@id/textView1"
+            android:background="@color/gray_qrcode_tips" />
+
+        <ImageView
+            android:id="@+id/line2"
+            android:layout_width="0.1dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="48dp"
+            android:layout_below="@id/textView1"
+            android:background="@color/black" />
+
+        <!-- android:background="#f0f0f0" -->
+        <RadioGroup
+            android:id="@+id/ll_date"
+            android:layout_width="48dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/textView1"
+            android:layout_marginTop="0.2dp"
+            android:background="@color/white_smoke"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+
+            <RadioButton
+                android:id="@+id/btnDate1"
+                style="@style/schedule_date_style"
+                android:checked="true"
+                android:text="16"
+                android:onClick="@{() -> scheduleModel.onDateClick(0)}"
+                />
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="0.2dp"
+                android:background="@drawable/line" />
+
+            <RadioButton
+                android:id="@+id/btnDate2"
+                style="@style/schedule_date_style"
+                android:text="17"
+                android:onClick="@{() -> scheduleModel.onDateClick(1)}"
+                />
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="0.2dp"
+                android:background="@drawable/line" />
+
+            <RadioButton
+                android:id="@+id/btnDate3"
+                style="@style/schedule_date_style"
+                android:text="18"
+                android:onClick="@{() -> scheduleModel.onDateClick(2)}"
+                />
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="0.2dp"
+                android:background="@drawable/line" />
+
+            <RadioButton
+                android:id="@+id/btnDate4"
+                style="@style/schedule_date_style"
+                android:text="19"
+                android:onClick="@{() -> scheduleModel.onDateClick(3)}"
+                />
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="0.2dp"
+                android:background="@drawable/line" />
+        </RadioGroup>
+        <!-- </RelativeLayout> -->
+
+       <android.support.v7.widget.RecyclerView
+           android:id="@+id/rv_schedule"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:layout_below="@id/line1"
+           android:layout_marginLeft="1dp"
+           android:layout_marginStart="1dp"
+           android:layout_toRightOf="@id/ll_date"
+           android:layout_toEndOf="@id/ll_date"
+           android:paddingRight="16dp"
+           android:paddingLeft="16dp"
+           app:scheduleItems="@{scheduleModel.scheduleInfos}"
+           />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_toRightOf="@id/ll_date"
+            android:layout_toEndOf="@id/ll_date"
+            android:text="@{scheduleModel.noSchedules}"
+            android:visibility="@{scheduleModel.isEmpty?View.VISIBLE:View.INVISIBLE}"
+            />
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_add_white"
+            app:backgroundTint="@color/colorPrimary"
+            app:fabSize="normal"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="16dp"
+            android:onClick="@{() -> view.onAddClick()}"
+            />
+
+    </RelativeLayout>
+
+</layout>

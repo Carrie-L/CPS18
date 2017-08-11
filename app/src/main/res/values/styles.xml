@@ -24,5 +24,45 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <!-- 帮助按钮 ?  -->
+    <style name="help_btn_style">
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:src">@drawable/ic_help</item>
+        <item name="android:scaleType">centerInside</item>
+        <item name="android:layout_marginRight">4dp</item>
+    </style>
+
+    <!-- 日程表列表日期按钮 -->
+    <style name="schedule_date_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:background">@drawable/btn_schedule</item>
+        <item name="android:textColor">@drawable/oval_text_color</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <!--Schedule Edit Style-->
+    <style name="schedule_edit_text_style">
+        <item name="android:layout_height">34dp</item>
+        <item name="android:background">@drawable/edittext_bg</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="schedule_edit_title_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/schedule_edit_item_height</item>
+        <item name="android:layout_alignLeft">@id/sche_title</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:layout_toRightOf">@id/sche_icon</item>
+        <item name="android:gravity">center</item>
+    </style>
+
 
 </resources>

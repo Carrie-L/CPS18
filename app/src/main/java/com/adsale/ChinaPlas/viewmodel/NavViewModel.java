@@ -70,7 +70,7 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
 
         mainIconRepository = MainIconRepository.getInstance();
-        mLanguage = AppUtil.getCurLanguage(mContext);
+        mLanguage = AppUtil.getCurLanguage();
 
         initPadList();
 
