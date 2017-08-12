@@ -1,10 +1,14 @@
 package com.adsale.ChinaPlas.ui;
 
+import android.content.SharedPreferences;
 import android.os.Environment;
+import android.util.DisplayMetrics;
 
+import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.databinding.ActivityMainBinding;
+import com.adsale.ChinaPlas.utils.DisplayUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.PermissionUtil;
 
@@ -22,7 +26,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        binding = ActivityMainBinding.inflate(getLayoutInflater(),mBaseFrameLayout,true);
+        binding = ActivityMainBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
 
         MainFragment mainFragment = MainFragment.newInstance();
         getFragmentManager().beginTransaction().add(R.id.contentFrame, mainFragment).commit();
@@ -32,24 +36,31 @@ public class MainActivity extends BaseActivity {
     protected void initData() {
         permissionSD();
 
-        String filedir="/data" + Environment.getDataDirectory().getAbsolutePath() + "/" + getPackageName() + "/files";
-        LogUtil.i(TAG,"filedir="+filedir);
+        String filedir = "/data" + Environment.getDataDirectory().getAbsolutePath() + "/" + getPackageName() + "/files";
+        LogUtil.i(TAG, "filedir=" + filedir);
 
-        String fileAbsDir=getFilesDir().getAbsolutePath();
-        LogUtil.i(TAG,"fileAbsDir="+fileAbsDir);
+        String fileAbsDir = getFilesDir().getAbsolutePath();
+        LogUtil.i(TAG, "fileAbsDir=" + fileAbsDir);
 
-
-
+        getScreenSize();
 
     }
 
-    private void permissionSD(){
-       boolean sdPermission= PermissionUtil.checkPermission(this,PermissionUtil.PERMISSION_WRITE_EXTERNAL_STORAGE);
-        LogUtil.i(TAG,"sdPermission="+sdPermission);
+    private void permissionSD() {
+        boolean sdPermission = PermissionUtil.checkPermission(this, PermissionUtil.PERMISSION_WRITE_EXTERNAL_STORAGE);
+        LogUtil.i(TAG, "sdPermission=" + sdPermission);
 
-        if(!sdPermission){
-            LogUtil.i(TAG,"请求权限");
-            PermissionUtil.requestPermission(this,PermissionUtil.PERMISSION_WRITE_EXTERNAL_STORAGE,PMS_CODE_WRITE_SD);
+        if (!sdPermission) {
+            LogUtil.i(TAG, "请求权限");
+            PermissionUtil.requestPermission(this, PermissionUtil.PERMISSION_WRITE_EXTERNAL_STORAGE, PMS_CODE_WRITE_SD);
         }
+    }
+
+    private void getScreenSize() {
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        App.mScreenWidth = metrics.widthPixels;
+        App.mScreenHeight = metrics.heightPixels;
+        LogUtil.i(TAG,"设备的屏幕尺寸为，宽："+App.mScreenWidth+"，高："+App.mScreenHeight);
     }
 }

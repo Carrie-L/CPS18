@@ -89,4 +89,39 @@
     <string name="ScheduleInfo_lable">議程%1$s:</string>
     <string name="ScheduleInfo_startTime">時間:%1$s</string>
 
+
+    <!--参展商-->
+    <string name="title_sort">劃</string>
+    <string name="editFilter_hint">參展商名稱/展覽攤位</string>
+    <string name="editFilter_hint_category">产品名称</string>
+
+    <string name="txtAddCollection">加入我的參展商</string>
+    <string name="txtAddCollection2">已經加到我的參展商</string>
+    <string name="tab1">公司資料</string>
+    <string name="tab0">關於</string>
+    <string name="tab2">議程</string>
+    <string name="tab3">筆記選項</string>
+
+    <string name="added_exhibitor">已添加進我的參展商。</string>
+    <string name="removed_exhibitor">已從我的參展商中移除。</string>
+
+    <string name="booth">展覽攤位：</string>
+    <string name="address">地址：</string>
+    <string name="email">電郵：</string>
+    <string name="tel">電話：</string>
+    <string name="fax">傳真：</string>
+    <string name="Website">網址：</string>
+    <string name="description">描述</string>
+    <string name="category">產品</string>
+    <string name="application_cata">應用行業類別</string>
+    <string name="application_exhi">應用行業</string>
+    <string name="category_exhi">產品</string>
+    <string name="info_exhi">公司資料</string>
+    <string name="about_exhi">關於</string>
+    <string name="about_website">網址：</string>
+
+    <string name="toast_floor_not_shown">詳細展館平面圖稍後公布。</string>
+    <string name="toast_floor_download">為了更好的體驗平面圖功能，請您更新展館平面圖對應數據。</string>
+    <string name="toast_floor_update">請您更新平面圖數據，以便獲取更准確的資料。</string>
+
 </resources>

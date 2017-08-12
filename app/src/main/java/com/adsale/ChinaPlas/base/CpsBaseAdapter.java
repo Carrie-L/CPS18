@@ -6,11 +6,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.adsale.ChinaPlas.dao.ScheduleInfo;
+
+import java.util.ArrayList;
+
 /**
  * Created by Carrie on 2017/8/3.
  */
 
-public abstract class CpsBaseAdapter extends RecyclerView.Adapter<CpsBaseViewHolder> {
+public abstract class CpsBaseAdapter<T> extends RecyclerView.Adapter<CpsBaseViewHolder> {
 
     @Override
     public CpsBaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -38,7 +42,7 @@ public abstract class CpsBaseAdapter extends RecyclerView.Adapter<CpsBaseViewHol
 
     }
 
-    protected void updateList(){
+    public void setList(ArrayList<T> list){
         notifyDataSetChanged();
     }
 

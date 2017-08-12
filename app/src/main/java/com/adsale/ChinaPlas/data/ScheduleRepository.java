@@ -3,10 +3,12 @@ package com.adsale.ChinaPlas.data;
 import com.adsale.ChinaPlas.dao.DBHelper;
 import com.adsale.ChinaPlas.dao.ScheduleInfo;
 import com.adsale.ChinaPlas.dao.ScheduleInfoDao;
+import com.adsale.ChinaPlas.utils.LogUtil;
 
 import java.util.ArrayList;
 
 import static android.R.id.list;
+import static android.content.ContentValues.TAG;
 import static com.adsale.ChinaPlas.App.mDBHelper;
 
 /**
@@ -24,16 +26,8 @@ public class ScheduleRepository implements DataSource<ScheduleInfo> {
         return INSTANCE;
     }
 
-    //StartTime 的格式： 0/09:00 ； 1/13:00 ; 0,1,2,3 代表第几天
-
     public ArrayList<ScheduleInfo> getDateSchedules(String date){
-        return (ArrayList<ScheduleInfo>) mScheduleInfoDao.queryBuilder().where(ScheduleInfoDao.Properties.StartTime.like("%"+date+"%")).list();
-    }
-
-
-    @Override
-    public void insertData(ArrayList<ScheduleInfo> list) {
-
+        return (ArrayList<ScheduleInfo>) mScheduleInfoDao.queryBuilder().where(ScheduleInfoDao.Properties.StartDate.eq(date)).list();
     }
 
     @Override
@@ -42,13 +36,18 @@ public class ScheduleRepository implements DataSource<ScheduleInfo> {
     }
 
     @Override
+    public void deleteItemData(Object obj) {
+        mScheduleInfoDao.deleteByKey((Long) obj);
+    }
+
+    @Override
     public ArrayList<ScheduleInfo> getData() {
         return null;
     }
 
     @Override
-    public ScheduleInfo getItemData(String id) {
-        return null;
+    public ScheduleInfo getItemData(Object id) {
+        return mScheduleInfoDao.load((Long) id);
     }
 
     public ScheduleInfo getItemData(long id){
@@ -56,37 +55,13 @@ public class ScheduleRepository implements DataSource<ScheduleInfo> {
     }
 
     @Override
-    public void saveData(ArrayList<ScheduleInfo> list) {
-
-    }
-
-    @Override
-    public void saveItemData(ScheduleInfo entity) {
-
-    }
-
-    @Override
-    public void updateData(ArrayList<ScheduleInfo> list) {
-
-    }
-
-    @Override
     public void updateItemData(ScheduleInfo entity) {
-
+        mScheduleInfoDao.update(entity);
     }
 
-    @Override
-    public void deleteData() {
-
+    public boolean isSameTimeSchedule(String date,String time){
+       return !mScheduleInfoDao.queryBuilder().where(ScheduleInfoDao.Properties.StartDate.eq(date),ScheduleInfoDao.Properties.StartTime.like("%"+time+"%")).limit(1).list().isEmpty();
     }
 
-    @Override
-    public void deleteItemData(String id) {
 
-    }
-
-    @Override
-    public void queryData(String text) {
-
-    }
 }

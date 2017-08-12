@@ -36,7 +36,9 @@
         <activity android:name=".ui.WebViewActivity" />
         <activity android:name=".ui.MyAccountActivity" />
         <activity android:name=".ui.ScheduleActivity" />
-        <activity android:name=".ui.ScheduleEditActivity"></activity>
+        <activity android:name=".ui.ScheduleEditActivity" />
+        <activity android:name=".ui.ExhibitorAllListActivity" />
+        <activity android:name=".ui.ExhibitorDtlActivity"></activity>
     </application>
 
 </manifest>

@@ -38,7 +38,6 @@ public class MainIconRepository implements DataSource<MainIcon> {
         return INSTANCE;
     }
 
-    @Override
     public void insertData(final ArrayList<MainIcon> icons) {
         final long startTime = System.currentTimeMillis();
         if (icons == null || icons.isEmpty()) {
@@ -75,6 +74,11 @@ public class MainIconRepository implements DataSource<MainIcon> {
     }
 
     @Override
+    public void deleteItemData(Object obj) {
+
+    }
+
+    @Override
     public ArrayList<MainIcon> getData() {
         icons = new ArrayList<>();
         mIconDao.getSession().runInTx(new Runnable() {
@@ -88,43 +92,12 @@ public class MainIconRepository implements DataSource<MainIcon> {
     }
 
     @Override
-    public MainIcon getItemData(String id) {
+    public MainIcon getItemData(Object id) {
         return null;
-    }
-
-
-    @Override
-    public void saveData(ArrayList<MainIcon> list) {
-
-    }
-
-    @Override
-    public void saveItemData(MainIcon entity) {
-
-    }
-
-    @Override
-    public void updateData(ArrayList<MainIcon> list) {
-
     }
 
     @Override
     public void updateItemData(MainIcon entity) {
-
-    }
-
-    @Override
-    public void deleteData() {
-
-    }
-
-    @Override
-    public void deleteItemData(String id) {
-
-    }
-
-    @Override
-    public void queryData(String text) {
 
     }
 

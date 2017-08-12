@@ -23,9 +23,6 @@ public class LoginActivity extends BaseActivity {
         viewModel = new LoginViewModel(getApplicationContext());
         binding.setLoginViewModel(viewModel);
         binding.setActivity(this);
-
-//        viewModel.setOnLoginSuccessListener(mListener);
-
     }
 
     public void toRegister(View view){

@@ -35,6 +35,8 @@ public class Constant {
     public static final String SCHEDULE_DAY03 = "2017-05-18";
     public static final String SCHEDULE_DAY04 = "2017-05-19";
 
+    public static final String COMPANY_ID="CompanyID";
+
 
 
 }

@@ -1,6 +1,5 @@
 package com.adsale.ChinaPlas.viewmodel;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -12,30 +11,23 @@ import android.databinding.ObservableInt;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.DatePicker;
-import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.adsale.ChinaPlas.R;
-import com.adsale.ChinaPlas.dao.DBHelper;
 import com.adsale.ChinaPlas.dao.ScheduleInfo;
 import com.adsale.ChinaPlas.data.ScheduleRepository;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
 
-import org.w3c.dom.Text;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-
-import static android.R.attr.id;
-import static android.R.id.list;
 
 
 /**
+ * ScheduleList 和 ScheduleEdit 共同使用。
+ * todo 当insert时插入到日历，delete时也从日历删除。
  * Created by Carrie on 2017/8/11.
  */
 
@@ -43,7 +35,8 @@ public class ScheduleViewModel extends BaseObservable {
     private static final String TAG = "ScheduleViewModel";
     /*Schedule List*/
     public final ObservableArrayList<ScheduleInfo> scheduleInfos = new ObservableArrayList<>();
-    public final ObservableField<String> noSchedules = new ObservableField<>();
+//    public final ObservableField<String> noSchedules = new ObservableField<>();
+    public final ObservableBoolean noSchedules = new ObservableBoolean(true);
     public final ObservableBoolean isEmpty = new ObservableBoolean();
     public final ObservableInt dateIndex = new ObservableInt(0);
 
@@ -55,17 +48,19 @@ public class ScheduleViewModel extends BaseObservable {
     public final ObservableField<String> etNote = new ObservableField<>();
     public final ObservableField<String> etHour = new ObservableField<>("0");
     public final ObservableField<String> etMinute = new ObservableField<>("15");
+    /*是 edit 还是 add ,true: edit; false: add */
     public final ObservableBoolean isEdit = new ObservableBoolean();
 
     private Context mContext;
     private ScheduleRepository mScheduleRepository;
     private long mId;
     private ScheduleInfo mScheduleInfo;
+    private String mCompanyId;
 
     public ScheduleViewModel(Context context) {
         this.mContext = context.getApplicationContext();
         mScheduleRepository = ScheduleRepository.getInstance();
-        noSchedules.set(context.getString(R.string.no_schedule));
+//        noSchedules.set(context.getString(R.string.no_schedule));
     }
 
     //由 list 的 item 点击而来
@@ -74,12 +69,8 @@ public class ScheduleViewModel extends BaseObservable {
         this.mId = id;
         mScheduleRepository = ScheduleRepository.getInstance();
         mScheduleInfo = mScheduleRepository.getItemData(mId);
-        if (mScheduleInfo != null) {
-            LogUtil.i(TAG, "mScheduleInfo=" + mScheduleInfo.toString());
-            setupEditView();
-        }
-        etStartDate.set(toStrDate());
-        LogUtil.i(TAG, " etStartDate=" + etStartDate.get());
+        setupEditView();
+        isEdit.set(true);
     }
 
     //由 add 按钮点击而来
@@ -88,16 +79,18 @@ public class ScheduleViewModel extends BaseObservable {
         dateIndex.set(index);
         mScheduleRepository = ScheduleRepository.getInstance();
         etStartDate.set(toStrDate());
+        isEdit.set(false);
         LogUtil.i(TAG, " etStartDate=" + etStartDate.get());
     }
 
     private void setupEditView() {
+        LogUtil.i(TAG, "mScheduleInfo=" + mScheduleInfo.toString());
         etTitle.set(mScheduleInfo.getTitle());
         etLocation.set(mScheduleInfo.getLocation());
-        etStartDate.set(mScheduleInfo.getStartTime().split(" ")[0]);
-        etStartTime.set(mScheduleInfo.getStartTime().split(" ")[1]);
-        etMinute.set(mScheduleInfo.getLength() + "");
-        etHour.set(mScheduleInfo.getAllday() + "");
+        etStartDate.set(mScheduleInfo.getStartDate());
+        etStartTime.set(mScheduleInfo.getStartTime());
+        etMinute.set(mScheduleInfo.getMinute() + "");
+        etHour.set(mScheduleInfo.getHour() + "");
         etNote.set(mScheduleInfo.getNote());
     }
 
@@ -124,19 +117,13 @@ public class ScheduleViewModel extends BaseObservable {
         return dateIndex.get() == 0 ? Constant.SCHEDULE_DAY01 : dateIndex.get() == 1 ? Constant.SCHEDULE_DAY02 : dateIndex.get() == 2 ? Constant.SCHEDULE_DAY03 : Constant.SCHEDULE_DAY04;
     }
 
-    public void delete() {
-
-    }
-
     public void save() {
         if (TextUtils.isEmpty(etTitle.get())) {
             Toast.makeText(mContext, R.string.not_title, Toast.LENGTH_SHORT).show();
             return;
         }
-        //Long id, String Title, String Note, String Location, String CompanyID, String StartTime, Integer Length, Integer Allday,String event_CId
-        String companyId = "";
-
-        mScheduleInfo = new ScheduleInfo(mId == 0 ? null : mId, etTitle.get(), etNote.get(), etLocation.get(), companyId, etStartDate.get() + " " + etStartTime.get(), Integer.valueOf(etMinute.get()), Integer.valueOf(etHour.get()), "");
+        //Long id, String Title, String Note, String Location, String CompanyID,  String StartDate,String StartTime, Integer Hour, Integer Minute,String event_CId
+        mScheduleInfo = new ScheduleInfo(mId == 0 ? null : mId, etTitle.get(), etNote.get(), etLocation.get(), mCompanyId, etStartDate.get(), etStartTime.get(), Integer.valueOf(etHour.get()), Integer.valueOf(etMinute.get()), "");
         if (mId == 0) {
             insertSchedule();
         } else {
@@ -181,26 +168,61 @@ public class ScheduleViewModel extends BaseObservable {
     }
 
     private void insertSchedule() {
-        mScheduleRepository.insertItemData(mScheduleInfo);
-        LogUtil.i(TAG, "insertSchedule");
+        //当相同时间储存了一个议程时，提醒用户
+        boolean isSameTimeSchedule = mScheduleRepository.isSameTimeSchedule(etStartDate.get(), etStartTime.get());
+        LogUtil.i(TAG,"isSameTimeSchedule="+isSameTimeSchedule);
+        if (isSameTimeSchedule && mEditListener != null) {
+            mEditListener.onSameTimeSave();
+        }else{
+            insert();
+        }
     }
 
     private void updateSchedule() {
         mScheduleRepository.updateItemData(mScheduleInfo);
-        LogUtil.i(TAG, "updateSchedule");
+        LogUtil.i(TAG, "updateSchedule："+mScheduleInfo.toString());
+        onFinish();
     }
 
-    public void insertSchedule(ScheduleInfo scheduleInfo) {
-        mScheduleRepository.insertItemData(scheduleInfo);
+    public void insert(){
+        mScheduleRepository.insertItemData(mScheduleInfo);
+        onFinish();
     }
 
-    public void saveSchedule() {
-
+    public void delete() {
+        mScheduleRepository.deleteItemData(mId);
+        onFinish();
     }
 
-    public void deleteSchedule() {
-
+    private void onFinish() {
+        if (mEditListener != null) {
+            mEditListener.onFinish();
+        }
     }
 
+    public void clickExhibitor(){
+        if(mEditListener!=null){
+            mEditListener.toExhibitorDtl(mCompanyId);
+        }
+    }
+
+    public interface ScheduleEditListenr {
+        void onSameTimeSave();
+
+        void toExhibitorDtl(String companyId);
+
+        void onFinish();
+    }
+
+    public void setScheduleEditListener(ScheduleEditListenr listener) {
+        mEditListener = listener;
+    }
+
+    private ScheduleEditListenr mEditListener;
+
+    public void onActivityDestroyed() {
+        mEditListener = null;
+        mScheduleRepository = null;
+    }
 
 }

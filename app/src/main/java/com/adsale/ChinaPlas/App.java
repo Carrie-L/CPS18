@@ -163,4 +163,8 @@ public class App extends Application {
         return daoMaster;
     }
 
+    public void finish(){
+        finish();
+    }
+
 }

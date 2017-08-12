@@ -16,11 +16,10 @@ import java.util.ArrayList;
 
 import static android.R.attr.id;
 
-public class ScheduleActivity extends BaseActivity {
+public class ScheduleActivity extends BaseActivity{
 
     private ScheduleViewModel mScheduleModel;
     private RecyclerView recyclerView;
-    private int mCurrDate;
 
     @Override
     protected void initView() {
@@ -48,6 +47,10 @@ public class ScheduleActivity extends BaseActivity {
     }
 
     public void onAddClick(){
+        intent(ExhibitorAllListActivity.class);
+    }
+
+    private void toAddSchedule(){
         Bundle bundle = new Bundle();
         bundle.putInt("dateIndex",mScheduleModel.dateIndex.get());
         intent(ScheduleEditActivity.class,bundle);
@@ -56,6 +59,7 @@ public class ScheduleActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mScheduleModel.onStart(mCurrDate);
+        mScheduleModel.onStart(mScheduleModel.dateIndex.get());
     }
+
 }

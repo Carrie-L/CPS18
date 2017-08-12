@@ -53,10 +53,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginViewModel {
     private static final String TAG = "LoginViewModel";
-    //侧边栏
-    public final ObservableField<String> drawerLoginTitle = new ObservableField<>();
-    public final ObservableField<String> drawerLogin = new ObservableField<>();
-    public final ObservableField<String> drawerLogout = new ObservableField<>();
 
     public final ObservableBoolean isDialogShow = new ObservableBoolean(false);
 
@@ -186,7 +182,7 @@ public class LoginViewModel {
                 });
     }
 
-    public String findLoginLink(String result) {
+    private String findLoginLink(String result) {
         String link = null;
         if (TextUtils.isEmpty(result)) {
             return "";

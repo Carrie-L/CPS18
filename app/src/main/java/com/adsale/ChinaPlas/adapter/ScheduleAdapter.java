@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * Created by Carrie on 2017/8/11.
  */
 
-public class ScheduleAdapter extends CpsBaseAdapter {
+public class ScheduleAdapter extends CpsBaseAdapter<ScheduleInfo> {
     private ArrayList<ScheduleInfo> list;
     private ScheduleActivity mContext;
 
@@ -24,9 +24,10 @@ public class ScheduleAdapter extends CpsBaseAdapter {
         mContext = context;
     }
 
-    public void setList(ArrayList<ScheduleInfo> list){
-        this.list = list;
-        notifyDataSetChanged();
+    @Override
+    public void setList(ArrayList<ScheduleInfo> list) {
+        this.list=list;
+        super.setList(list);
     }
 
     @Override

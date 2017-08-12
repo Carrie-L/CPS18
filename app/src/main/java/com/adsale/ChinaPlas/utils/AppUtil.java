@@ -30,14 +30,14 @@ import static com.adsale.ChinaPlas.dao.SeminarSpeakerDao.Properties.Language;
  */
 
 public class AppUtil {
-    private static final String TAG="AppUtil";
+    private static final String TAG = "AppUtil";
 
     public static boolean isPadDevice(Context c) {
-        return !App.mSP_Config.getBoolean("isPhone",false);
+        return !App.mSP_Config.getBoolean("isPhone", false);
     }
 
-    public static void setIsPhone(boolean bool){
-        App.mSP_Config.edit().putBoolean("isPhone",bool).apply();
+    public static void setIsPhone(boolean bool) {
+        App.mSP_Config.edit().putBoolean("isPhone", bool).apply();
     }
 
     public static void setDeviceId(Context context) {
@@ -92,28 +92,39 @@ public class AppUtil {
         }
     }
 
-
-    public static boolean isLogin(){
-       return App.mSP_Login.getBoolean(Constant.IS_LOGIN,false);
+    public static String getName(String tc, String en, String sc) {
+        int language = getCurLanguage();
+        if (language == 0) {
+            return tc;
+        } else if (language == 1) {
+            return en;
+        } else {
+            return sc;
+        }
     }
 
-    public static void putLogout(){
-        App.mSP_Login.edit().putBoolean(Constant.IS_LOGIN,false).apply();
+
+    public static boolean isLogin() {
+        return App.mSP_Login.getBoolean(Constant.IS_LOGIN, false);
     }
 
-    public static String getUserEmail(){
-        return App.mSP_Login.getString(Constant.USER_EMAIL,"");
+    public static void putLogout() {
+        App.mSP_Login.edit().putBoolean(Constant.IS_LOGIN, false).apply();
+    }
+
+    public static String getUserEmail() {
+        return App.mSP_Login.getString(Constant.USER_EMAIL, "");
     }
 
     /**
      * @param context 0:ZhTw; 1:en;2:ZhCn;
      */
     public static int getCurLanguage() {
-        return App.mSP_Config.getInt("CUR_LANGUAGE",0);
+        return App.mSP_Config.getInt("CUR_LANGUAGE", 0);
     }
 
-    public static void setCurLanguage(int language){
-        App.mSP_Config.edit().putInt("CUR_LANGUAGE",language).apply();
+    public static void setCurLanguage(int language) {
+        App.mSP_Config.edit().putInt("CUR_LANGUAGE", language).apply();
     }
 
     /**
@@ -130,10 +141,10 @@ public class AppUtil {
         resources.updateConfiguration(config, dm);
     }
 
-    private static Locale getLocale(int language){
-        if(language==1){
+    private static Locale getLocale(int language) {
+        if (language == 1) {
             return Locale.US;
-        }else if(language==2){
+        } else if (language == 2) {
             return Locale.SIMPLIFIED_CHINESE;
         }
         return Locale.TRADITIONAL_CHINESE;
@@ -145,9 +156,6 @@ public class AppUtil {
         LogUtil.d(TAG, "getLocaleLanguage=" + config.locale.getCountry());
         return config.locale.getCountry();
     }
-
-
-
 
 
     // \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\  工具  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -169,8 +177,8 @@ public class AppUtil {
         }).show();
     }
 
-    public static void showAlertDialog(Context context, String msg, DialogInterface.OnClickListener posListener,DialogInterface.OnClickListener negListener) {
-        new AlertDialog.Builder(context).setMessage(msg).setPositiveButton(context.getString(R.string.confirm), posListener).setNegativeButton(context.getString(R.string.cancel),negListener).show();
+    public static void showAlertDialog(Context context, String msg, DialogInterface.OnClickListener posListener, DialogInterface.OnClickListener negListener) {
+        new AlertDialog.Builder(context).setMessage(msg).setPositiveButton(context.getString(R.string.confirm), posListener).setNegativeButton(context.getString(R.string.cancel), negListener).show();
     }
 
     /**
@@ -198,7 +206,7 @@ public class AppUtil {
         return sdf.format(date);
     }
 
-     public static String timeToString(Date date) {
+    public static String timeToString(Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
         return sdf.format(date);
     }

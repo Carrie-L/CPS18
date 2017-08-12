@@ -2,55 +2,52 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+
         <variable
             name="obj"
-            type="com.adsale.ChinaPlas.dao.ScheduleInfo"/>
+            type="com.adsale.ChinaPlas.dao.ScheduleInfo" />
+
         <variable
             name="activity"
-            type="com.adsale.ChinaPlas.ui.ScheduleActivity"/>
+            type="com.adsale.ChinaPlas.ui.ScheduleActivity" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:gravity="center_vertical"
-        android:onClick="@{() -> activity.onItemClick(obj.id)}"
-        >
-
-        <TextView
-            android:id="@+id/txtTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:layout_toLeftOf="@+id/imageView1"
-            android:layout_toStartOf="@+id/imageView1"
-            android:text="@{obj.title}"
-            />
-
-        <TextView
-            android:id="@+id/txtStartTime"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/txtTitle"
-            android:textSize="12sp"
-            android:layout_marginTop="4dp"
-            android:text="@{obj.startTime}"
-            />
+        android:onClick="@{() -> activity.onItemClick(obj.id)}">
 
         <ImageView
             android:id="@+id/imageView1"
             android:layout_width="15dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:scaleType="centerInside"
-            android:src="@drawable/arrow"
-            />
+            android:src="@drawable/arrow" />
+
+        <TextView
+            android:id="@+id/txtStartTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:text="@{obj.startTime}"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_toLeftOf="@+id/imageView1"
+            android:layout_toRightOf="@id/txtStartTime"
+            android:singleLine="true"
+            android:text="@{obj.title}" />
 
     </RelativeLayout>
 

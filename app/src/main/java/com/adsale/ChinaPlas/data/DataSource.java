@@ -8,27 +8,15 @@ import java.util.ArrayList;
 
 public interface DataSource<T> {
 
-    void insertData(ArrayList<T> list);
-
-    void insertItemData(T entity);
-
     ArrayList<T> getData();
 
-    T getItemData(String id);
-
-    void saveData(ArrayList<T> list);
-
-    void saveItemData(T entity);
-
-    void updateData(ArrayList<T> list);
+    T getItemData(Object obj);
 
     void updateItemData(T entity);
 
-    void deleteData();
+    void insertItemData(T entity);
 
-    void deleteItemData(String id);
-
-    void queryData(String text);
+    void deleteItemData(Object obj);
 
     interface SearchData {
         void queryData(String queryText);

@@ -19,9 +19,10 @@ public class ScheduleInfo implements java.io.Serializable {
     private String Note;
     private String Location;
     private String CompanyID;
+    private String StartDate;
     private String StartTime;
-    private Integer Length;
-    private Integer Allday;
+    private Integer Hour;
+    private Integer Minute;
     private String Event_CId;
 
     // KEEP FIELDS - put your custom fields here
@@ -34,15 +35,16 @@ public class ScheduleInfo implements java.io.Serializable {
         this.id = id;
     }
 
-    public ScheduleInfo(Long id, String Title, String Note, String Location, String CompanyID, String StartTime, Integer Length, Integer Allday,String event_CId) {
+    public ScheduleInfo(Long id, String Title, String Note, String Location, String CompanyID,  String StartDate,String StartTime, Integer Hour, Integer Minute,String event_CId) {
         this.id = id;
         this.Title = Title;
         this.Note = Note;
         this.Location = Location;
         this.CompanyID = CompanyID;
+        this.StartDate = StartDate;
         this.StartTime = StartTime;
-        this.Length = Length;
-        this.Allday = Allday;
+        this.Hour = Hour;
+        this.Minute = Minute;
         this.Event_CId=event_CId;
     }
 
@@ -86,28 +88,34 @@ public class ScheduleInfo implements java.io.Serializable {
         this.CompanyID = CompanyID;
     }
 
-    public String getStartTime() {
-        return StartTime;
+    public String getStartDate() {
+        return StartDate;    }
+
+    public void setStartDate(String StartDate) {
+        this.StartDate = StartDate;
     }
+
+    public String getStartTime() {
+        return StartTime;    }
 
     public void setStartTime(String StartTime) {
         this.StartTime = StartTime;
     }
 
-    public Integer getLength() {
-        return Length;
+    public Integer getHour() {
+        return Hour;
     }
 
-    public void setLength(Integer Length) {
-        this.Length = Length;
+    public Integer getMinute() {
+        return Minute;
     }
 
-    public Integer getAllday() {
-        return Allday;
+    public void setHour(Integer hour) {
+        Hour = hour;
     }
 
-    public void setAllday(Integer Allday) {
-        this.Allday = Allday;
+    public void setMinute(Integer minute) {
+        Minute = minute;
     }
 
     public String getEvent_CId() {
@@ -131,9 +139,10 @@ public class ScheduleInfo implements java.io.Serializable {
                 ", Note='" + Note + '\'' +
                 ", Location='" + Location + '\'' +
                 ", CompanyID='" + CompanyID + '\'' +
+                ", StartDate='" + StartDate + '\'' +
                 ", StartTime='" + StartTime + '\'' +
-                ", Length=" + Length +
-                ", Allday=" + Allday +
+                ", Hour=" + Hour +
+                ", Minute=" + Minute +
                 ", Event_CId='" + Event_CId + '\'' +
                 '}';
     }

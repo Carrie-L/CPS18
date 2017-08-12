@@ -48,7 +48,7 @@ public class MainFragment extends Fragment {
     }
 
     public void intent(){
-        Intent intent = new Intent(getActivity(),LoginActivity.class);
+        Intent intent = new Intent(getActivity(),ExhibitorAllListActivity.class);
         startActivity(intent);
     }
 
