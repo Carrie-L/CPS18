@@ -1,5 +1,7 @@
 package com.adsale.ChinaPlas.adapter;
 
+import android.app.Activity;
+import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
 import android.widget.RelativeLayout;
@@ -10,6 +12,7 @@ import com.adsale.ChinaPlas.base.CpsBaseAdapter;
 import com.adsale.ChinaPlas.base.CpsBaseViewHolder;
 import com.adsale.ChinaPlas.dao.SideBar;
 import com.adsale.ChinaPlas.databinding.ItemSideLetterBinding;
+import com.adsale.ChinaPlas.ui.ExhibitorAllListActivity;
 import com.adsale.ChinaPlas.utils.LogUtil;
 
 import java.util.ArrayList;
@@ -27,11 +30,13 @@ public class SideAdapter extends CpsBaseAdapter<SideBar> {
     private int itemHeight;
     private TextView tvLetter;
     private ItemSideLetterBinding binding1;
+    private RecyclerView.LayoutParams params;
+    private ExhibitorAllListActivity activity;
 
-    public SideAdapter(ArrayList<SideBar> list, int height) {
+    public SideAdapter(ExhibitorAllListActivity activity, ArrayList<SideBar> list, int height) {
         this.list = list;
-        this.mSideHeight=height;
-        LogUtil.i(TAG,"SideAdapter");
+        this.mSideHeight = height;
+        this.activity = activity;
     }
 
     @Override
@@ -43,25 +48,24 @@ public class SideAdapter extends CpsBaseAdapter<SideBar> {
     @Override
     public void onBindViewHolder(CpsBaseViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        LogUtil.i(TAG,"onBindViewHolder");
-
-        tvLetter = binding1.tvLetter;
-        RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) tvLetter.getLayoutParams();
-        params.height=itemHeight;
-        tvLetter.setLayoutParams(params);
-
-
+        if (itemHeight > 0) {
+            tvLetter = binding1.tvLetter;
+            params = (RecyclerView.LayoutParams) tvLetter.getLayoutParams();
+            params.height = itemHeight;
+            tvLetter.setLayoutParams(params);
+        }
     }
 
     @Override
     protected void bindVariable(ViewDataBinding binding) {
         super.bindVariable(binding);
-        LogUtil.i(TAG,"bindVariable");
         binding1 = (ItemSideLetterBinding) binding;
-
-        count=list.size();
-        itemHeight=mSideHeight/count;
-        LogUtil.i("SideAdapter","itemHeight="+itemHeight);
+        count = list.size();
+        if (count > 0) {
+            itemHeight = mSideHeight / (count + 1);
+            LogUtil.i("SideAdapter", "itemHeight=" + itemHeight);
+        }
+        ((ItemSideLetterBinding) binding).setActivity(activity);
 
     }
 
@@ -77,7 +81,7 @@ public class SideAdapter extends CpsBaseAdapter<SideBar> {
 
     @Override
     public int getItemCount() {
-        LogUtil.i(TAG,"getItemCount");
         return list.size();
     }
+
 }

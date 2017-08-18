@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+        <variable
+            name="activity"
+            type="com.adsale.ChinaPlas.base.BaseActivity" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@drawable/inner_bar"
+        android:visibility="@{activity.isShowTitleBar?View.VISIBLE:View.GONE}">
+
+        <ImageView
+            android:id="@+id/txtBarBack"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:onClick="@{() -> activity.back()}"
+            android:scaleType="centerInside"
+            android:src="@drawable/bttn_back"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/txtBarHome"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:scaleType="centerInside"
+            android:src="@drawable/bttn_home"
+            android:onClick="@{() -> activity.home()}"
+            />
+
+        <TextView
+            android:id="@+id/txtBarTitle"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_toLeftOf="@id/txtBarHome"
+            android:layout_toRightOf="@id/txtBarBack"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@={activity.barTitle}"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+</layout>

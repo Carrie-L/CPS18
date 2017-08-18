@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="obj"
+            type="com.adsale.ChinaPlas.dao.News"/>
+        <variable
+            name="activity"
+            type="com.adsale.ChinaPlas.ui.NewsActivity"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center_vertical"
+        android:onClick="@{() -> activity.onItemClick(obj)}"
+        >
+        <!--//obj.NewsID,obj.title-->
+
+        <ImageView
+            android:id="@+id/iv_news_pic"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+
+            android:layout_marginLeft="16dp"
+            />
+
+        <!--android:background="@{obj.logo}"-->
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="72dp"
+            android:paddingTop="4dp"
+            android:text="@{obj.title}"
+            android:textSize="14sp"
+            android:maxLines="2"
+            android:layout_marginRight="16dp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="72dp"
+            android:paddingTop="4dp"
+            android:layout_below="@id/tv_title"
+            android:textSize="13sp"
+            android:text="@{obj.publishDate}"
+            android:textColor="@color/grey_font"
+            />
+    </RelativeLayout>
+
+    <!--.-->
+
+
+</layout>

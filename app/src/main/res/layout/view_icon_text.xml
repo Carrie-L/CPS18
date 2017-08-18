@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rl_icon_view"
     android:layout_width="match_parent"
-    android:layout_height="55dp">
+    android:layout_height="56dp"
+    android:background="@color/white">
 
     <ImageView
         android:id="@+id/imgNavIcon"
@@ -10,7 +11,8 @@
         android:layout_height="24dp"
         android:layout_centerVertical="true"
         android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp" />
+        android:layout_marginStart="16dp"
+        android:background="@drawable/ic_filter" />
 
 
     <TextView
@@ -18,11 +20,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_toEndOf="@+id/imgNavIcon"
-        android:layout_toRightOf="@+id/imgNavIcon"
-        android:textColor="@color/grey11" />
+        android:layout_marginLeft="72dp"
+        android:layout_marginStart="72dp"
+        android:text="全部参展商"
+        android:textColor="@color/grey11"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/textNvaSyncTime"
@@ -58,8 +60,10 @@
         android:layout_width="match_parent"
         android:layout_height="0.2dp"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="1dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:background="@color/gray_qrcode_tips" />
+
 
 </RelativeLayout>

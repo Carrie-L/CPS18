@@ -29,4 +29,7 @@ public interface LoginClient {
 
     @GET
     Observable<Response<ResponseBody>> downImg(@Url String url);
+
+    @POST("info/CartSync.aspx?vf=581")
+    Observable<Response<ResponseBody>> sync(@Body RequestBody body);
 }

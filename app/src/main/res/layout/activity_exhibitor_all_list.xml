@@ -15,6 +15,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageView
+            android:id="@+id/iv_filter"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_filter"
+            android:scaleType="center"
+            android:onClick="@{() -> exhibitorModel.onImgFilter()}"
+            />
+
         <EditText
             android:id="@+id/editFilter"
             android:layout_width="match_parent"
@@ -24,15 +34,19 @@
             android:hint="@string/editFilter_hint"
             android:padding="10dp"
             android:singleLine="true"
+            android:layout_toLeftOf="@id/iv_filter"
             android:text="@{exhibitorModel.etFilter}"
             />
+
+
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_ks"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/editFilter"
-            app:items="@{exhibitorModel.exhibitors}"
+            app:exhibitors="@{exhibitorModel.exhibitors}"
             />
 
         <android.support.v7.widget.RecyclerView

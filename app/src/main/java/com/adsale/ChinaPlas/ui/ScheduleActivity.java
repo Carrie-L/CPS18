@@ -1,5 +1,6 @@
 package com.adsale.ChinaPlas.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,8 +9,10 @@ import android.widget.LinearLayout;
 
 import com.adsale.ChinaPlas.adapter.ScheduleAdapter;
 import com.adsale.ChinaPlas.base.BaseActivity;
+import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.dao.ScheduleInfo;
 import com.adsale.ChinaPlas.databinding.ActivityScheduleBinding;
+import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.viewmodel.ScheduleViewModel;
 
 import java.util.ArrayList;
@@ -47,7 +50,9 @@ public class ScheduleActivity extends BaseActivity{
     }
 
     public void onAddClick(){
-        intent(ExhibitorAllListActivity.class);
+        Intent intent = new Intent(this,ExhibitorAllListActivity.class);
+        intent.putExtra("dateIndex",mScheduleModel.dateIndex.get());
+        startActivity(intent);
     }
 
     private void toAddSchedule(){
@@ -62,4 +67,14 @@ public class ScheduleActivity extends BaseActivity{
         mScheduleModel.onStart(mScheduleModel.dateIndex.get());
     }
 
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if(resultCode==RESULT_OK&&requestCode==Constant.REQUEST_CODE_ADD_SCHEDULE){
+//            Exhibitor exhibitor = data.getParcelableExtra(Constant.EXHIBITOR);
+//            mScheduleModel.setCompanyId(exhibitor.getCompanyID());
+//            mScheduleModel.etTitle.set(exhibitor.getCompanyName());
+//            mScheduleModel.etLocation.set(exhibitor.getBoothNo());
+//        }
+//    }
 }

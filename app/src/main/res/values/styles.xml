@@ -73,5 +73,31 @@
         <item name="android:textColor">#000</item>
     </style>
 
+    <!--Create Name Card Style-->
+    <style name="ncard_tv_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:layout_alignLeft">@id/tv_company</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="ncard_edit_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:layout_alignLeft">@id/et_company</item>
+        <item name="android:layout_alignRight">@id/et_company</item>
+    </style>
+
+    <style name="myqrcode_btn_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">38dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginLeft">80dp</item>
+        <item name="android:layout_marginRight">80dp</item>
+        <item name="android:background">@drawable/btn_red3</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
 
 </resources>

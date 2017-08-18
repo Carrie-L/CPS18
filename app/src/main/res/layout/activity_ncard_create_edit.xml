@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="ncModel"
+            type="com.adsale.ChinaPlas.viewmodel.NCardViewModel" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="16dp"
+            android:background="@drawable/edittext_bg">
+
+            <TextView
+                android:id="@+id/tv_company"
+                android:layout_width="wrap_content"
+                android:layout_height="56dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:gravity="center_vertical"
+                android:text="@string/card_company" />
+
+            <EditText
+                android:id="@+id/et_company"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_alignTop="@id/tv_company"
+                android:layout_marginLeft="36dp"
+                android:layout_marginRight="16dp"
+                android:layout_toRightOf="@id/tv_company"
+                android:text="@={ncModel.company}"
+                />
+
+            <TextView
+                android:id="@+id/tv_name"
+                style="@style/ncard_tv_style"
+                android:layout_below="@id/tv_company"
+                android:text="@string/card_name" />
+
+            <EditText
+                android:id="@+id/et_name"
+                style="@style/ncard_edit_style"
+                android:layout_alignTop="@id/tv_name"
+                android:gravity="center_vertical"
+                android:text="@={ncModel.name}" />
+
+            <!--title-->
+            <TextView
+                android:id="@+id/tv_title"
+                style="@style/ncard_tv_style"
+                android:layout_below="@id/tv_name"
+                android:text="@string/card_title" />
+
+            <EditText
+                android:id="@+id/et_title"
+                style="@style/ncard_edit_style"
+                android:layout_alignTop="@id/tv_title"
+                android:text="@={ncModel.title}" />
+
+            <!--Phone-->
+            <TextView
+                android:id="@+id/tv_phone"
+                style="@style/ncard_tv_style"
+                android:layout_below="@id/tv_title"
+                android:text="@string/card_phone" />
+
+            <EditText
+                android:id="@+id/et_phone1"
+                android:layout_width="64dp"
+                android:layout_height="56dp"
+                android:layout_alignLeft="@id/et_company"
+                android:layout_alignTop="@id/tv_phone"
+                android:gravity="center_vertical"
+                android:inputType="phone"
+                android:text="@={ncModel.phone1}"
+                android:maxLength="4"
+                />
+
+            <ImageView
+                android:layout_width="5dp"
+                android:layout_height="0.5dp"
+                android:layout_alignBaseline="@id/et_phone1"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_toRightOf="@id/et_phone1"
+                android:background="@color/grey11" />
+
+            <EditText
+                android:id="@+id/et_phone2"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_alignRight="@id/et_company"
+                android:layout_alignTop="@id/tv_phone"
+                android:layout_marginLeft="21dp"
+                android:layout_toRightOf="@id/et_phone1"
+                android:gravity="center_vertical"
+                android:inputType="phone"
+                android:text="@={ncModel.phone2}"
+                android:maxLength="20"
+                />
+
+            <!--Email-->
+            <TextView
+                android:id="@+id/tv_email"
+                style="@style/ncard_tv_style"
+                android:layout_below="@id/tv_phone"
+                android:text="@string/card_email" />
+
+            <EditText
+                android:id="@+id/et_email"
+                style="@style/ncard_edit_style"
+                android:layout_alignTop="@id/tv_email"
+                android:text="@={ncModel.email}" />
+
+            <!--QQ-->
+            <TextView
+                android:id="@+id/tv_qq"
+                style="@style/ncard_tv_style"
+                android:layout_below="@id/tv_email"
+                android:text="@string/card_qq" />
+
+            <EditText
+                android:id="@+id/et_qq"
+                style="@style/ncard_edit_style"
+                android:layout_alignTop="@id/tv_qq"
+                android:text="@={ncModel.qq}" />
+
+            <!--WeChat-->
+            <TextView
+                android:id="@+id/tv_weChat"
+                style="@style/ncard_tv_style"
+                android:layout_below="@id/tv_qq"
+                android:text="@string/card_wechat" />
+
+            <EditText
+                android:id="@+id/et_weChat"
+                style="@style/ncard_edit_style"
+                android:layout_alignTop="@id/tv_weChat"
+                android:text="@={ncModel.weChat}" />
+
+            <Button
+                android:id="@+id/btnQrCode"
+                android:layout_width="180dp"
+                android:layout_height="48dp"
+                android:layout_below="@id/tv_weChat"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="32dp"
+                android:background="@drawable/btn_red2"
+                android:onClick="@{() -> ncModel.save()}"
+                android:text="@{ncModel.isCreate?@string/create_card:@string/update_card}"
+                android:textColor="@color/white" />
+
+        </RelativeLayout>
+    </ScrollView>
+
+</layout>

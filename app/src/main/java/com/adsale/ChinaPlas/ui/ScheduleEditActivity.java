@@ -1,15 +1,19 @@
 package com.adsale.ChinaPlas.ui;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
+import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.databinding.ActivityScheduleItemBinding;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.viewmodel.ScheduleViewModel;
+
+import static android.R.attr.data;
 
 /**
  * 日程表 add or edit
@@ -37,6 +41,17 @@ public class ScheduleEditActivity extends BaseActivity implements ScheduleViewMo
     @Override
     protected void initData() {
         mScheduleModel.setScheduleEditListener(this);
+
+        Intent data=getIntent();
+        Exhibitor exhibitor = data.getParcelableExtra(Constant.EXHIBITOR);
+        if(exhibitor!=null){
+            mScheduleModel.dateIndex.set(data.getIntExtra("dateIndex",0));
+            mScheduleModel.setCompanyId(exhibitor.getCompanyID());
+            mScheduleModel.etTitle.set(exhibitor.getCompanyName());
+            mScheduleModel.etLocation.set(exhibitor.getBoothNo());
+            mScheduleModel.etNote.set(exhibitor.getNote());
+        }
+
     }
 
     @Override

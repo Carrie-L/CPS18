@@ -1,11 +1,7 @@
 <resources>
     <string name="app_name">CPS18</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blank fragmentHello blaHello blank fragmentHello blank fragment
 
-
-    </string>
     <string name="left_menu_user_login">預先登記觀眾登入</string>
     <string name="left_menu_login">登錄</string>
     <string name="left_menu_logout">登出</string>
@@ -55,6 +51,7 @@
     <string name="logout">登出</string>
     <string name="logout_message">確認登出?</string>
     <string name="syncMessage">在應用內的 [我的參展商] 資料，將會跟CHINAPLASONLILNE.com的 [我的參展商] 同步，請確認繼續。</string>
+    <string name="syncStart">开始同步</string>
     <string name="syncSuccess">同步成功</string>
     <string name="syncFailure">同步失敗</string>
 
@@ -91,6 +88,10 @@
 
 
     <!--参展商-->
+    <string name="item_all_exhibitor">全部參展商</string>
+    <string name="item_criteria_search">分類搜索</string>
+    <string name="item_keyword_search">關鍵字搜索</string>
+
     <string name="title_sort">劃</string>
     <string name="editFilter_hint">參展商名稱/展覽攤位</string>
     <string name="editFilter_hint_category">产品名称</string>
@@ -123,5 +124,60 @@
     <string name="toast_floor_not_shown">詳細展館平面圖稍後公布。</string>
     <string name="toast_floor_download">為了更好的體驗平面圖功能，請您更新展館平面圖對應數據。</string>
     <string name="toast_floor_update">請您更新平面圖數據，以便獲取更准確的資料。</string>
+
+    <!--Name Card-->
+    <!-- cardlist_item -->
+    <string name="card_phone">電話:</string>
+    <string name="card_email">電子郵件:</string>
+    <string name="card_qq">QQ:</string>
+    <string name="card_wechat">微信:</string>
+    <string name="card_title">職位:</string>
+    <string name="save_card_to_list">存儲至名片列表</string>
+    <string name="card_delete">刪除</string>
+    <string name="card_back">返回</string>
+
+    <string name="update_card">存儲及更新二維碼</string>
+    <string name="create_card">創建名片</string>
+    <string name="btn_edit_card">編輯</string>
+    <string name="btn_scanner_card">二維碼掃描器</string>
+    <string name="btn_all_card">全部名片列表</string>
+    <string name="btn_delete_card">刪除</string>
+    <string name="btn_save_to_contact">存儲至通訊錄</string>
+    <string name="btn_export_name_card">導出名片</string>
+    <string name="search_name_card">搜索</string>
+    <string name="title_edit_name_card">編輯名片</string>
+    <string name="card_name">姓名:</string>
+    <string name="card_company">單位:</string>
+    <string name="dialog_toast_update_namecard">名片列表中已經存在此名片，是否更新此名片資料？</string>
+    <string name="title_all_name_card">名片列表</string>
+
+    <!-- 二维码 提示 -->
+    <string name="toast_input_name">請輸入"姓名"</string>
+    <string name="toast_input_title">請輸入"職位"</string>
+    <string name="toast_input_company">請輸入"單位"</string>
+    <string name="toast_input_phone">請輸入"電話"</string>
+    <string name="toast_input_country">請輸入"國家編碼"</string>
+    <string name="toast_input_email">請輸入"電子郵件"</string>
+    <string name="toast_input_phone_1">電話只允許輸入數字。</string>
+    <string name="toast_input_country_1">國家編碼只允許輸入數字.</string>
+    <string name="toast_input_email_1">請輸入有效的"電子郵件"</string>
+    <string name="toast_input_name_1">輸入姓名時，請不要輸入數位或符號！</string>
+    <string name="scan_qrcode_text">掃一掃上面的二維碼圖案，加我好友</string>
+    <string name="loading_check_update">檢測到資料需要更新</string>
+    <string name="download_map_update">檢測到展館平面圖有更新，請在WIFI環境下更新展館平面圖.</string>
+
+    <string name="create_qrcode">創建二維碼</string>
+    <string name="edit_qrcode">編輯</string>
+    <string name="create">創建</string>
+    <string name="my_qrcode">我的二維碼</string>
+    <string name="qrcode_scanner">二維碼掃描</string>
+    <string name="qrcode_all">名片列表</string>
+    <string name="qrcode_edit_save">保存&amp;更新二維碼</string>
+    <string name="reg_reset_title">確定重置預登記信息?</string>
+    <string name="reg_reset_confirm">重置</string>
+    <string name="reg_reset_cancel">取消</string>
+    <string name="waiting">加载中&#8230;</string>
+
+
 
 </resources>

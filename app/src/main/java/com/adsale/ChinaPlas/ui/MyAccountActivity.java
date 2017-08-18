@@ -1,5 +1,6 @@
 package com.adsale.ChinaPlas.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Toast;
@@ -9,7 +10,7 @@ import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.databinding.ActivityMyAccountBinding;
 import com.adsale.ChinaPlas.ui.view.IconView;
 import com.adsale.ChinaPlas.utils.AppUtil;
-import com.adsale.ChinaPlas.utils.LogUtil;
+import com.adsale.ChinaPlas.viewmodel.SyncViewModel;
 
 public class MyAccountActivity extends BaseActivity {
     private ActivityMyAccountBinding binding;
@@ -33,6 +34,8 @@ public class MyAccountActivity extends BaseActivity {
         ivHistory.setIconText(R.drawable.ic_my_history, R.string.title_history_exhibitor);
         ivLogout.setIconText(R.drawable.ic_logout, R.string.logout);
 
+        whetherSync();
+
         ivExhibitor.clickListener.set(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,13 +45,12 @@ public class MyAccountActivity extends BaseActivity {
         ivHistory.clickListener.set(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "ivLogout", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "ivHistory", Toast.LENGTH_SHORT).show();
             }
         });
         ivSchedule.clickListener.set(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "ivSchedule", Toast.LENGTH_SHORT).show();
                 intent(ScheduleActivity.class);
             }
         });
@@ -61,14 +63,35 @@ public class MyAccountActivity extends BaseActivity {
         ivLogout.clickListener.set(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "ivLogout", Toast.LENGTH_SHORT).show();
-                AppUtil.putLogout();
-                mNavViewModel.isLoginSuccess.set(false);
+                AppUtil.showAlertDialog(MyAccountActivity.this,getString(R.string.logout_message), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        AppUtil.putLogout();
+                        dialog.dismiss();
+                        Intent intent = new Intent(MyAccountActivity.this,LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
             }
         });
+
+
+
+
     }
 
-
+    private void whetherSync(){
+        if(getIntent().getBooleanExtra("LoginSync",false)){
+            AppUtil.showAlertDialog(this, getString(R.string.syncMessage), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    SyncViewModel syncViewModel = new SyncViewModel(getApplicationContext());
+                    syncViewModel.syncMyExhibitor();
+                }
+            });
+        }
+    }
 
 
 }

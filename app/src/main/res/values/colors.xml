@@ -7,7 +7,6 @@
     <color name="grey21">#363636</color>
     <color name="grey11">#1C1C1C</color>
 
-
     <color name="seminar_gray">#EEE9E9</color><!-- //#D3D3D3 -->
 
     <!--主体色调-->
@@ -28,4 +27,6 @@
     <color name="grey">#BEBEBE</color>
     <color name="deep_gray">#505050</color>
     <color name="light_gray">#CCCCCC</color>
+    <color name="dark_gray">#5d5657</color>
+
 </resources>

@@ -4,10 +4,14 @@ package com.adsale.ChinaPlas.dao;
 
 // KEEP INCLUDES - put your custom includes here
 // KEEP INCLUDES END
+
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Entity mapped to table "NEWS".
  */
-public class News {
+public class News implements Parcelable {
 
     private String NewsID;
     private Integer LType;
@@ -15,11 +19,17 @@ public class News {
     private String ShareLink;
     private String Title;
     private String Description;
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     private String CreateDateTime;
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     private String UpdateDateTime;
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     private String RecordTimeStamp;
     private String PublishDate;
 
@@ -94,37 +104,50 @@ public class News {
         this.Description = Description;
     }
 
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     public String getCreateDateTime() {
         return CreateDateTime;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
+    /**
+     * Not-null value; ensure this value is available before it is saved to the database.
+     */
     public void setCreateDateTime(String CreateDateTime) {
         this.CreateDateTime = CreateDateTime;
     }
 
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     public String getUpdateDateTime() {
         return UpdateDateTime;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
+    /**
+     * Not-null value; ensure this value is available before it is saved to the database.
+     */
     public void setUpdateDateTime(String UpdateDateTime) {
         this.UpdateDateTime = UpdateDateTime;
     }
 
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     public String getRecordTimeStamp() {
         return RecordTimeStamp;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
+    /**
+     * Not-null value; ensure this value is available before it is saved to the database.
+     */
     public void setRecordTimeStamp(String RecordTimeStamp) {
         this.RecordTimeStamp = RecordTimeStamp;
     }
 
     public String getPublishDate() {
+        PublishDate = PublishDate.split(" ")[0];
         return PublishDate;
     }
 
@@ -133,6 +156,65 @@ public class News {
     }
 
     // KEEP METHODS - put your custom methods here
+
+    @Override
+    public String toString() {
+        return "News{" +
+                "NewsID='" + NewsID + '\'' +
+                ", LType=" + LType +
+                ", Logo='" + Logo + '\'' +
+                ", ShareLink='" + ShareLink + '\'' +
+                ", Title='" + Title + '\'' +
+                ", Description='" + Description + '\'' +
+                ", CreateDateTime='" + CreateDateTime + '\'' +
+                ", UpdateDateTime='" + UpdateDateTime + '\'' +
+                ", RecordTimeStamp='" + RecordTimeStamp + '\'' +
+                ", PublishDate='" + PublishDate + '\'' +
+                '}';
+    }
+
+
     // KEEP METHODS END
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.NewsID);
+        dest.writeValue(this.LType);
+        dest.writeString(this.Logo);
+        dest.writeString(this.ShareLink);
+        dest.writeString(this.Title);
+        dest.writeString(this.Description);
+        dest.writeString(this.CreateDateTime);
+        dest.writeString(this.UpdateDateTime);
+        dest.writeString(this.RecordTimeStamp);
+        dest.writeString(this.PublishDate);
+    }
+
+    protected News(Parcel in) {
+        this.NewsID = in.readString();
+        this.LType = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.Logo = in.readString();
+        this.ShareLink = in.readString();
+        this.Title = in.readString();
+        this.Description = in.readString();
+        this.CreateDateTime = in.readString();
+        this.UpdateDateTime = in.readString();
+        this.RecordTimeStamp = in.readString();
+        this.PublishDate = in.readString();
+    }
+
+    public static final Parcelable.Creator<News> CREATOR = new Parcelable.Creator<News>() {
+        public News createFromParcel(Parcel source) {
+            return new News(source);
+        }
+
+        public News[] newArray(int size) {
+            return new News[size];
+        }
+    };
 }

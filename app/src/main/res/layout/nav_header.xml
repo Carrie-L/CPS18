@@ -91,7 +91,9 @@
                 android:layout_marginLeft="3dp"
                 android:layout_marginRight="3dp"
                 android:layout_weight="1"
-                android:background="@drawable/bttn_eng" />
+                android:background="@drawable/bttn_eng"
+                android:onClick="@{() -> navModel.clickEN()}"
+                />
 
             <Button
                 android:id="@+id/btn_sc"
@@ -99,7 +101,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="3dp"
                 android:layout_weight="1"
-                android:background="@drawable/bttn_simp" />
+                android:background="@drawable/bttn_simp"
+                android:onClick="@{() -> navModel.clickCN()}"
+                />
 
             <Button
                 android:id="@+id/btn_tc"
@@ -107,7 +111,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="3dp"
                 android:layout_weight="1"
-                android:background="@drawable/bttn_trad" />
+                android:background="@drawable/bttn_trad"
+                android:onClick="@{() -> navModel.clickTW()}"
+                />
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView

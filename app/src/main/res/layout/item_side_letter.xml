@@ -5,6 +5,10 @@
         <variable
             name="obj"
             type="com.adsale.ChinaPlas.data.model.SideLetter"/>
+
+        <variable
+            name="activity"
+            type="com.adsale.ChinaPlas.ui.ExhibitorAllListActivity"/>
     </data>
 
     <TextView
@@ -14,7 +18,9 @@
         android:gravity="center"
         android:orientation="vertical"
         android:textSize="12sp"
-        android:text="@{obj.letter}" />
+        android:text="@{obj.letter}"
+        android:onClick="@{() -> activity.onLetterClick(obj.letter)}"
+        />
 
 
 </layout>

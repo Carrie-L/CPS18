@@ -2,6 +2,7 @@ package com.adsale.ChinaPlas.viewmodel;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.os.Environment;
@@ -12,6 +13,7 @@ import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.data.LoginClient;
 import com.adsale.ChinaPlas.data.model.EmailVisitorData;
+import com.adsale.ChinaPlas.ui.RegisterActivity;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.FileUtil;
@@ -172,15 +174,33 @@ public class LoginViewModel {
                             Toast.makeText(mContext, mContext.getString(R.string.login_error_msg_3), Toast.LENGTH_LONG).show();
                             return;
                         }
+
+                        if(mLoginListener!=null){
+                            mLoginListener.login(false);
+                        }
                     }
 
                     @Override
                     public void onComplete() {
                         LogUtil.i(TAG, "onComplete");
                         isDialogShow.set(false);
+                        if(mLoginListener!=null){
+                            mLoginListener.login(true);
+                        }
+
                     }
                 });
     }
+
+    public interface OnLoginFinishListener{
+        void login(boolean bool);
+    }
+
+    public void setOnLoginFinishListener(OnLoginFinishListener listener){
+        mLoginListener=listener;
+    }
+
+    private OnLoginFinishListener mLoginListener;
 
     private String findLoginLink(String result) {
         String link = null;

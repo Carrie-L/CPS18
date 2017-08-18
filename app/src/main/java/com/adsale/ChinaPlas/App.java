@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.databinding.ObservableInt;
 import android.os.Environment;
 
 import com.adsale.ChinaPlas.dao.DBHelper;
@@ -31,6 +32,8 @@ import io.fabric.sdk.android.Fabric;
 
 public class App extends Application {
     private static final String TAG = "App";
+
+//    public static final ObservableInt language=new ObservableInt(0);
 
     public static SharedPreferences mSP_Config;
     public static SharedPreferences mSP_UpdateInfo;

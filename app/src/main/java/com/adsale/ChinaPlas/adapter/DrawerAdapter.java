@@ -79,6 +79,10 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     }
 
+    public void refresh(){
+        notifyDataSetChanged();
+    }
+
     public void setIsLogin(boolean isLogin){
         this.isLogin=isLogin;
     }
@@ -114,7 +118,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         if (holder.getItemViewType() == TYPE_PARENT) {
             parentHolder = (ParentViewHolder) holder;
-            parentHolder.tv_parent_name.setText(lists.get(position).getTitle(mContext,language));
+            parentHolder.tv_parent_name.setText(lists.get(position).getTitle());
 
             if (lists.get(position).hasChild) {
                 if(lists.get(position).getBaiDu_TJ().trim().equals("Visitor")&&!isLogin){
@@ -149,7 +153,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
             }
         } else if (holder.getItemViewType() == TYPE_CHILD) {
             childHolder = (ChildViewHolder) holder;
-            childHolder.tv_child_name.setText(lists.get(position).getTitle(mContext,language));
+            childHolder.tv_child_name.setText(lists.get(position).getTitle());
             childHolder.tv_child_name.setTextColor(mContext.getResources().getColor(R.color.gray_qrcode_tips));
             childHolder.item_child_rl.setBackgroundColor(mContext.getResources().getColor(R.color.white_smoke));
         }

@@ -63,6 +63,10 @@ public class ScheduleViewModel extends BaseObservable {
 //        noSchedules.set(context.getString(R.string.no_schedule));
     }
 
+    public void setCompanyId(String companyId){
+        mCompanyId=companyId;
+    }
+
     //由 list 的 item 点击而来
     public ScheduleViewModel(Context context, long id) {
         this.mContext = context.getApplicationContext();

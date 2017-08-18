@@ -58,7 +58,6 @@ dependencies {
         transitive = true;
     }
     compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'org.greenrobot:greendao:2.2.0'
     compile 'com.android.support:design:25.3.1'
     compile 'io.reactivex.rxjava2:rxjava:2.1.2'

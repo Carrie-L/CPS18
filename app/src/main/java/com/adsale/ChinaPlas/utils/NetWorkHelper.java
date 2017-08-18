@@ -6,12 +6,18 @@ package com.adsale.ChinaPlas.utils;
 
 public class NetWorkHelper {
     public static final String TAG="NetWorkHelper";
+
+    // WEBSERVICE 17年
+    public static final String DOWNLOAD_PATH = "https://eform.adsale.com.hk/AppCPS17Services/";
+    public static final String WEBSERVICEURL = "https://eform.adsale.com.hk/AppCPS17Services/wsCLE15.asmx";
+
+
     public static final String BASE_URL_CPS="https://www.chinaplasonline.com/CPS17/";
     public static final String BASE_URL_EFORM="http://eform.adsale.com.hk/";
     public static final String BASE_URL_EFORM_API="http://eform.adsale.com.hk/GeniusAnalyst/api/appapi/";
 
     public static final String LoginPreLink = "Membership/###/MyExhibitor.aspx?istest=321";
-    public static final String syncMyExhibitor = "info/CartSync.aspx?vf=581";
+    public static final String syncMyExhibitor = "info/CartSync.aspx?vf=581";//prefix: BASE_URL_CPS
 
     public static final String GET_VISITOR_DATA_URL = "http://eform.adsale.com.hk/GeniusAnalyst/api/appapi/GetVisitorDataByEmail";
 

@@ -38,7 +38,12 @@
         <activity android:name=".ui.ScheduleActivity" />
         <activity android:name=".ui.ScheduleEditActivity" />
         <activity android:name=".ui.ExhibitorAllListActivity" />
-        <activity android:name=".ui.ExhibitorDtlActivity"></activity>
+        <activity android:name=".ui.ExhibitorDtlActivity" />
+        <activity android:name=".ui.ExhibitorActivity" />
+        <activity android:name=".ui.NewsActivity" />
+        <activity android:name=".ui.NewsDtlActivity" />
+        <activity android:name=".ui.NCardCreateEditActivity" />
+        <activity android:name=".ui.NCardActivity"></activity>
     </application>
 
 </manifest>

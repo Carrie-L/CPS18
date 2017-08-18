@@ -8,6 +8,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.LocaleList;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.telephony.TelephonyManager;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
+import com.adsale.ChinaPlas.viewmodel.NavViewModel;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -117,10 +119,11 @@ public class AppUtil {
     }
 
     /**
-     * @param context 0:ZhTw; 1:en;2:ZhCn;
+     *    0:ZhTw; 1:en;2:ZhCn;
      */
     public static int getCurLanguage() {
         return App.mSP_Config.getInt("CUR_LANGUAGE", 0);
+//        return App.language.get();
     }
 
     public static void setCurLanguage(int language) {
@@ -137,7 +140,7 @@ public class AppUtil {
         Resources resources = mContext.getResources();
         Configuration config = resources.getConfiguration();
         DisplayMetrics dm = resources.getDisplayMetrics();
-        config.locale = getLocale(language);
+        config.locale=getLocale(language);
         resources.updateConfiguration(config, dm);
     }
 
@@ -209,6 +212,122 @@ public class AppUtil {
     public static String timeToString(Date date) {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
         return sdf.format(date);
+    }
+
+    public static String getCurrentTime(){
+        SimpleDateFormat sFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.getDefault());
+        return sFormat.format(new Date());
+    }
+
+    /**
+     * 截取符号前面的字符串 如：E6_20160219.jpg ，c='_'  ——》 E6
+     *
+     * @param str
+     * @param c
+     * @return
+     * @version 创建时间：2016年4月14日 下午2:48:29
+     */
+    public static String subStringFront(String str, char c) {
+        return str.substring(0, str.length() - str.substring(str.lastIndexOf(c) - 1).length() + 1);
+    }
+
+    public static String subStringFront(String str, String c) {
+        return str.substring(0, str.length() - str.substring(str.lastIndexOf(c) - 1).length() + 1);
+    }
+
+    /**
+     * (截取包括c的部分) 如：E6_20160219.jpg  ，c='_'  ——》 E6_
+     *
+     * @param str
+     * @param c
+     * @return
+     * @version 创建时间：2016年4月14日 下午2:48:29
+     */
+    public static String subStringFront1(String str, char c) {
+        return str.substring(0, str.length() - str.substring(str.lastIndexOf(c) - 1).length() + 2);
+    }
+
+    /**
+     * 截取字符串符号后的字段 如：E6_20160219.jpg ，c='_' ——》 jpg
+     *
+     * @param str
+     * @param c
+     * @return
+     * @version 创建时间：2016年4月14日 下午2:47:43
+     */
+    public static String subStringLast(String str, char c) {
+        return str.substring(str.lastIndexOf(c) + 1);
+    }
+
+    /**
+     * 截取字符串符号后的字段 如：E6_20160219.jpg ，c='.' ——》 jpg
+     *
+     * @param str
+     * @param c
+     * @return
+     */
+    public static String subStringLast(String str, String c) {
+        return str.substring(str.lastIndexOf(c) + 1);
+    }
+
+    /**
+     * 截取(包括字符串)的字段 如：E6_20160219.jpg ，c='_' ——》 .jpg
+     *
+     * @param str
+     * @param c
+     * @return
+     * @version 创建时间：2016年4月14日 下午2:47:43
+     */
+    public static String subStringLast1(String str, char c) {
+        return str.substring(str.lastIndexOf(c));
+    }
+
+    /**
+     * 获取中间部分
+     *
+     * @param str https://o97tbiy1f.qnssl.com/ExhibtorInfo/ExhibitorInfo.zip
+     * @param c1  '/' 先截取最后部分 ——> ExhibitorInfo.zip
+     * @param c2  '.' 再获取前面部分 ——> ExhibitorInfo
+     * @return String <font color="#f97798">ExhibitorInfo</font>
+     * @version 创建时间：2016年9月6日 下午2:03:29
+     */
+    public static String subStringLastFront(String str, char c1, char c2) {
+        String str1 = subStringLast(str, c1);
+        return subStringFront(str1, c2);
+    }
+
+    /**
+     * 获取中间部分
+     *
+     * @param str https://o97tbiy1f.qnssl.com/ExhibtorInfo/ExhibitorInfo.zip
+     * @param c1  '/' 先截取最后部分 ——> ExhibitorInfo.zip
+     * @param c2  '.' 再获取前面部分 ——> ExhibitorInfo.   (截取包括c2的部分)
+     * @return String <font color="#f97798">ExhibitorInfo</font>
+     * @version 创建时间：2016年9月6日 下午2:03:29
+     */
+    public static String subStringLastFront1(String str, char c1, char c2) {
+        String str1 = subStringLast1(str, c1);
+        return subStringFront1(str1, c2);
+    }
+
+    /**
+     * 截取字母前的数字，如11.2D1——> 11.2
+     * @param str 完整字符串
+     * @return
+     */
+    public static String subLetterFront(String str){
+        StringBuilder sb=new StringBuilder();
+        char c;
+        for(int i=0;i<str.length();i++){
+            c=str.charAt(i);
+            if(!Character.isLetter(c)){
+                sb.append(c);
+            }else{
+                LogUtil.i(TAG,"Character.isLetter="+c);
+                break;
+            }
+        }
+        return sb.toString();
     }
 
 }

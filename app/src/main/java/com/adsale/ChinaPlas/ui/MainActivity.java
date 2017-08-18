@@ -8,7 +8,6 @@ import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.databinding.ActivityMainBinding;
-import com.adsale.ChinaPlas.utils.DisplayUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.PermissionUtil;
 
@@ -22,6 +21,7 @@ public class MainActivity extends BaseActivity {
     protected void preView() {
         super.preView();
         mToolbarLayoutId = R.layout.toolbar_main;
+        isShowTitleBar.set(false);
     }
 
     @Override
@@ -44,6 +44,10 @@ public class MainActivity extends BaseActivity {
 
         getScreenSize();
 
+        if(mNavViewModel!=null){
+            mNavViewModel.setMainActivity(this);
+        }
+
     }
 
     private void permissionSD() {
@@ -62,5 +66,12 @@ public class MainActivity extends BaseActivity {
         App.mScreenWidth = metrics.widthPixels;
         App.mScreenHeight = metrics.heightPixels;
         LogUtil.i(TAG,"设备的屏幕尺寸为，宽："+App.mScreenWidth+"，高："+App.mScreenHeight);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
     }
 }

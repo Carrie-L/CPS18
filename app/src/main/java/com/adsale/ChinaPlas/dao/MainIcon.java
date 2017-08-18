@@ -6,14 +6,18 @@ package com.adsale.ChinaPlas.dao;
 // KEEP INCLUDES END
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.adsale.ChinaPlas.utils.AppUtil;
+
+import static com.adsale.ChinaPlas.R.id.language;
 
 
 /**
  * Entity mapped to table "MAIN_ICON".
  */
-public class MainIcon implements java.io.Serializable {
+public class MainIcon implements Parcelable {
 
     private String IconID;
     /** Not-null value. */
@@ -228,7 +232,8 @@ public class MainIcon implements java.io.Serializable {
     }
 
     // KEEP METHODS - put your custom methods here
-    public String getTitle(Context context,int language){
+    public String getTitle(){
+        int language =AppUtil.getCurLanguage();
         if((TitleCN.contains("|")||TitleEN.contains("|")||TitleTW.contains("|"))&& AppUtil.isLogin()){
             return title(language).split("\\|")[1];
         }else if((TitleCN.contains("|")||TitleEN.contains("|")||TitleTW.contains("|"))&&!AppUtil.isLogin()){
@@ -301,4 +306,73 @@ public class MainIcon implements java.io.Serializable {
     public int lastPos=0;
     // KEEP METHODS END
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.IconID);
+        dest.writeString(this.TitleTW);
+        dest.writeString(this.TitleCN);
+        dest.writeString(this.TitleEN);
+        dest.writeString(this.Icon);
+        dest.writeInt(this.CType);
+        dest.writeString(this.CFile);
+        dest.writeString(this.ZipDateTime);
+        dest.writeInt(this.IsHidden);
+        dest.writeInt(this.SEQ);
+        dest.writeString(this.CreateDateTime);
+        dest.writeString(this.UpdateDateTime);
+        dest.writeString(this.RecordTimeStamp);
+        dest.writeInt(this.IsDown);
+        dest.writeString(this.BaiDu_TJ);
+        dest.writeString(this.Google_TJ);
+        dest.writeByte(isExpanded ? (byte) 1 : (byte) 0);
+        dest.writeByte(hasChild ? (byte) 1 : (byte) 0);
+        dest.writeByte(isMenuHasChild ? (byte) 1 : (byte) 0);
+        dest.writeByte(isChecked ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.color);
+        dest.writeByte(isCoverGone ? (byte) 1 : (byte) 0);
+        dest.writeByte(isClicked ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.lastPos);
+    }
+
+    protected MainIcon(Parcel in) {
+        this.IconID = in.readString();
+        this.TitleTW = in.readString();
+        this.TitleCN = in.readString();
+        this.TitleEN = in.readString();
+        this.Icon = in.readString();
+        this.CType = in.readInt();
+        this.CFile = in.readString();
+        this.ZipDateTime = in.readString();
+        this.IsHidden = in.readInt();
+        this.SEQ = in.readInt();
+        this.CreateDateTime = in.readString();
+        this.UpdateDateTime = in.readString();
+        this.RecordTimeStamp = in.readString();
+        this.IsDown = in.readInt();
+        this.BaiDu_TJ = in.readString();
+        this.Google_TJ = in.readString();
+        this.isExpanded = in.readByte() != 0;
+        this.hasChild = in.readByte() != 0;
+        this.isMenuHasChild = in.readByte() != 0;
+        this.isChecked = in.readByte() != 0;
+        this.color = in.readInt();
+        this.isCoverGone = in.readByte() != 0;
+        this.isClicked = in.readByte() != 0;
+        this.lastPos = in.readInt();
+    }
+
+    public static final Parcelable.Creator<MainIcon> CREATOR = new Parcelable.Creator<MainIcon>() {
+        public MainIcon createFromParcel(Parcel source) {
+            return new MainIcon(source);
+        }
+
+        public MainIcon[] newArray(int size) {
+            return new MainIcon[size];
+        }
+    };
 }

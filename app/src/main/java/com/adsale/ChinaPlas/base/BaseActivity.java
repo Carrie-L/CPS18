@@ -3,6 +3,8 @@ package com.adsale.ChinaPlas.base;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.databinding.ObservableBoolean;
+import android.databinding.ObservableField;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -11,21 +13,31 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import com.adsale.ChinaPlas.App;
+import com.adsale.ChinaPlas.BR;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.dao.DBHelper;
 import com.adsale.ChinaPlas.databinding.ActivityBaseBinding;
 import com.adsale.ChinaPlas.databinding.NavHeaderBinding;
+import com.adsale.ChinaPlas.ui.LoginActivity;
+import com.adsale.ChinaPlas.ui.MainActivity;
 import com.adsale.ChinaPlas.utils.AppUtil;
+import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.viewmodel.NavViewModel;
+import com.adsale.ChinaPlas.viewmodel.SyncViewModel;
 
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity implements NavViewModel.OnDrawerClickListener {
+    //title bar
+    public final ObservableField<String> barTitle = new ObservableField<>();
+    public final ObservableBoolean isShowTitleBar = new ObservableBoolean(true);
+
     protected static String TAG;
     protected DrawerLayout mDrawerLayout;
     protected FrameLayout mBaseFrameLayout;
@@ -43,15 +55,26 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mBaseBinding = DataBindingUtil.setContentView(this, R.layout.activity_base);
         mBaseFrameLayout = mBaseBinding.contentFrame;
+        mBaseBinding.setVariable(BR.activity, this);
 
         mDBHelper = App.mDBHelper;
         TAG = getClass().getSimpleName();
+
+        mNavViewModel = new NavViewModel(getApplicationContext());
+
+
 
         preView();
 
         setupToolBar();
 
         initView();
+
+        if(TextUtils.isEmpty(barTitle.get())){
+            barTitle.set(getIntent().getStringExtra(Constant.TITLE));
+        }
+
+
         initData();
 
 
@@ -67,18 +90,18 @@ public abstract class BaseActivity extends AppCompatActivity {
         NavigationView navigationView = mBaseBinding.navView;
         View navHeaderView = navigationView.getHeaderView(0);
         NavHeaderBinding navBinding = NavHeaderBinding.inflate(getLayoutInflater(), navigationView, true);
-
-        mNavViewModel = new NavViewModel(getApplicationContext());
         navBinding.setNavModel(mNavViewModel);
 
         recyclerView = navBinding.recyclerView;
+
+        mNavViewModel.setOnDrawerClickListener(this);
 
         long endTime = System.currentTimeMillis();
         LogUtil.i(TAG, "initDrawer spend : " + (endTime - startTime) + "ms");
     }
 
     private void setupDrawer() {
-        mNavViewModel.onStart(recyclerView,mDrawerLayout);
+        mNavViewModel.onStart(recyclerView, mDrawerLayout);
     }
 
     @Override
@@ -109,8 +132,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public void logout(View view){
-        AppUtil.showAlertDialog(this,getString(R.string.logout_message), new DialogInterface.OnClickListener() {
+    public void logout(View view) {
+        AppUtil.showAlertDialog(this, getString(R.string.logout_message), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 AppUtil.putLogout();
@@ -128,15 +151,58 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected abstract void initData();
 
-    protected <T> void intent(Class<T> cls){
-        Intent intent = new Intent(this,cls);
+    protected <T> void intent(Class<T> cls) {
+        Intent intent = new Intent(this, cls);
         startActivity(intent);
     }
 
-    protected <T> void intent(Class<T> cls, Bundle bundle){
-        Intent intent = new Intent(this,cls);
+    protected <T> void intent(Class<T> cls, Bundle bundle) {
+        Intent intent = new Intent(this, cls);
         intent.putExtras(bundle);
         startActivity(intent);
+    }
+
+    @Override
+    public void login() {
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void logout() {
+
+    }
+
+    @Override
+    public void itemClicked(String bdTJ) {
+
+    }
+
+    @Override
+    public void languageChanged(int language, boolean inMainAty) {
+        if (!inMainAty) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+        LogUtil.i(TAG, "BaseAty: languageChanged=" + language + ",inMainAty=" + inMainAty);
+    }
+
+    @Override
+    public void sync() {
+        SyncViewModel syncViewModel = new SyncViewModel(getApplicationContext());
+        syncViewModel.syncMyExhibitor();
+    }
+
+    public void back() {
+        finish();
+    }
+
+    public void home() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
 }
