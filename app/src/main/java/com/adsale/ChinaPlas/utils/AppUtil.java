@@ -20,10 +20,14 @@ import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.viewmodel.NavViewModel;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import static android.content.Context.MODE_PRIVATE;
 import static com.adsale.ChinaPlas.R.id.language;
 import static com.adsale.ChinaPlas.dao.SeminarSpeakerDao.Properties.Language;
 
@@ -52,13 +56,8 @@ public class AppUtil {
         App.mSP_Config.edit().putString("DeviceId", deviceId).apply();
     }
 
-    public static void saveDeviceId(String deviceId) {
-        App.mSP_Config.edit().putString("DeviceId", deviceId).apply();
-    }
-
-    public static String getDeviceId(Context context) {
-        String deviceId = App.mSP_Config.getString("DeviceId", "");
-        return App.mSP_Config.getString("DeviceId", "");
+    public static String getUUID() {
+        return App.mSP_Config.getString("UUID", "");
     }
 
 //    public static boolean isLogin(Context context) {
@@ -119,7 +118,7 @@ public class AppUtil {
     }
 
     /**
-     *    0:ZhTw; 1:en;2:ZhCn;
+     * 0:ZhTw; 1:en;2:ZhCn;
      */
     public static int getCurLanguage() {
         return App.mSP_Config.getInt("CUR_LANGUAGE", 0);
@@ -140,7 +139,7 @@ public class AppUtil {
         Resources resources = mContext.getResources();
         Configuration config = resources.getConfiguration();
         DisplayMetrics dm = resources.getDisplayMetrics();
-        config.locale=getLocale(language);
+        config.locale = getLocale(language);
         resources.updateConfiguration(config, dm);
     }
 
@@ -158,6 +157,26 @@ public class AppUtil {
         Configuration config = resources.getConfiguration();
         LogUtil.d(TAG, "getLocaleLanguage=" + config.locale.getCountry());
         return config.locale.getCountry();
+    }
+
+    /**
+     * 保存文件到data/data/com.adsale.ChinaPlas/files/目录下
+     * @param context
+     * @param fileName 如：reg.png
+     * @param bytes
+     * @return  true,保存成功；
+     */
+    public static boolean saveFileOutput(Context context,String fileName, byte[] bytes){
+        context=context.getApplicationContext();
+        try {
+            FileOutputStream fos=context.openFileOutput(fileName,MODE_PRIVATE);
+            fos.write(bytes);
+            fos.close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 
@@ -214,8 +233,8 @@ public class AppUtil {
         return sdf.format(date);
     }
 
-    public static String getCurrentTime(){
-        SimpleDateFormat sFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.getDefault());
+    public static String getCurrentTime() {
+        SimpleDateFormat sFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         return sFormat.format(new Date());
     }
 
@@ -312,18 +331,19 @@ public class AppUtil {
 
     /**
      * 截取字母前的数字，如11.2D1——> 11.2
+     *
      * @param str 完整字符串
      * @return
      */
-    public static String subLetterFront(String str){
-        StringBuilder sb=new StringBuilder();
+    public static String subLetterFront(String str) {
+        StringBuilder sb = new StringBuilder();
         char c;
-        for(int i=0;i<str.length();i++){
-            c=str.charAt(i);
-            if(!Character.isLetter(c)){
+        for (int i = 0; i < str.length(); i++) {
+            c = str.charAt(i);
+            if (!Character.isLetter(c)) {
                 sb.append(c);
-            }else{
-                LogUtil.i(TAG,"Character.isLetter="+c);
+            } else {
+                LogUtil.i(TAG, "Character.isLetter=" + c);
                 break;
             }
         }

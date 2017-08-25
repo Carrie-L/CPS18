@@ -3,6 +3,7 @@ package com.adsale.ChinaPlas.viewmodel;
 import android.content.Context;
 import android.databinding.ObservableBoolean;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -15,6 +16,7 @@ import android.widget.ProgressBar;
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.data.LoginClient;
 import com.adsale.ChinaPlas.utils.AppUtil;
+import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.FileUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.NetWorkHelper;
@@ -22,6 +24,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -43,7 +48,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * todo webView无法点击
- *
+ * <p>
  * Created by Carrie on 2017/8/10.
  */
 
@@ -63,10 +68,10 @@ public class RegisterViewModel {
         mLanguage = AppUtil.getCurLanguage();
     }
 
-    public void start(WebView wv, ImageView iv,ProgressBar pb){
-        mWebView=wv;
-        mImageView=iv;
-        mProgressBar=pb;
+    public void start(WebView wv, ImageView iv, ProgressBar pb) {
+        mWebView = wv;
+        mImageView = iv;
+        mProgressBar = pb;
     }
 
     public void showWebView() {
@@ -77,13 +82,13 @@ public class RegisterViewModel {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
-                    mProgressBar.setVisibility(View.VISIBLE);
+                mProgressBar.setVisibility(View.VISIBLE);
             }
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 if (url.startsWith("appsave")) {
-                    LogUtil.i(TAG,"appsave: URL="+url);
+                    LogUtil.i(TAG, "appsave: URL=" + url);
                     downPic(url);
                 } else {
                     view.loadUrl(url);
@@ -131,7 +136,7 @@ public class RegisterViewModel {
                     public Boolean apply(@NonNull Response<ResponseBody> responseBodyResponse) throws Exception {
                         //保存图片
                         byte[] bytes = responseBodyResponse.body().bytes();
-                        final boolean isSaveSuccess = FileUtil.saveToMemory(App.memoryFileDir, "reg.png", bytes);
+                        final boolean isSaveSuccess = AppUtil.saveFileOutput(mContext,Constant.REG_PNG, bytes);
                         LogUtil.i(TAG, "isSaveSuccess=" + isSaveSuccess);
                         return isSaveSuccess;
                     }
@@ -146,7 +151,7 @@ public class RegisterViewModel {
 
                     @Override
                     public void onNext(@NonNull Boolean aBoolean) {
-                        if(aBoolean){
+                        if (aBoolean) {
                             showPicView();
                         }
                     }
@@ -171,12 +176,14 @@ public class RegisterViewModel {
     }
 
     private void showPic() {
-        String imgPath = App.memoryFileDir+"/reg.png";
-        if(!new File(imgPath).exists()){
+        try {
+            FileInputStream fis = mContext.openFileInput(Constant.REG_PNG);
+            mImageView.setImageBitmap(BitmapFactory.decodeStream(fis));
+            fis.close();
+        } catch (IOException e) {
+            e.printStackTrace();
             //如果图片不存在，下载 [登录时保存的regImageName]
         }
-
-        mImageView.setImageURI(Uri.fromFile(new File(imgPath)));
     }
 
     public void reset() {
@@ -185,8 +192,8 @@ public class RegisterViewModel {
         showWebView();
     }
 
-    public void addToCalendar(){
-        LogUtil.i(TAG,"addToCalendar");
+    public void addToCalendar() {
+        LogUtil.i(TAG, "addToCalendar");
     }
 
 

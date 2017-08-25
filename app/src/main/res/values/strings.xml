@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">CPS18</string>
 
+    <string name="app_label"> </string>
+
 
     <string name="left_menu_user_login">預先登記觀眾登入</string>
     <string name="left_menu_login">登錄</string>
@@ -177,7 +179,6 @@
     <string name="reg_reset_confirm">重置</string>
     <string name="reg_reset_cancel">取消</string>
     <string name="waiting">加载中&#8230;</string>
-
 
 
 </resources>

@@ -25,6 +25,7 @@ import com.adsale.ChinaPlas.ui.ExhibitorActivity;
 import com.adsale.ChinaPlas.ui.LoginActivity;
 import com.adsale.ChinaPlas.ui.MainActivity;
 import com.adsale.ChinaPlas.ui.MyAccountActivity;
+import com.adsale.ChinaPlas.ui.NCardActivity;
 import com.adsale.ChinaPlas.ui.NCardCreateEditActivity;
 import com.adsale.ChinaPlas.ui.NewsActivity;
 import com.adsale.ChinaPlas.ui.RegisterActivity;
@@ -255,6 +256,7 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
     private void newIntent(Activity activity, MainIcon mainIcon) {
         switch (mainIcon.getBaiDu_TJ()) {
             case Constant.BDTJ_VISITOR_REG://预登记
+            case Constant.BDTJ_VISITOR_REG_TEXT://预登记
                 intent = new Intent(activity, RegisterActivity.class);
                 break;
             case Constant.BDTJ_MY_ACCOUNT://用户资料
@@ -275,7 +277,13 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
 //                intent = new Intent(context, UpdateCenterActivity.class);
                 break;
             case Constant.BDTJ_MY_NAME_CARD://名片
-                intent = new Intent(activity, NCardCreateEditActivity.class);
+                SharedPreferences spNameCard=activity.getSharedPreferences("MyNameCard", Context.MODE_PRIVATE);
+                boolean isCreate=spNameCard.getBoolean("isCreate",true);
+                if(isCreate){
+                    intent = new Intent(activity, NCardCreateEditActivity.class);
+                }else{
+                    intent = new Intent(activity, NCardActivity.class);
+                }
                 break;
             case Constant.BDTJ_HALL_MAP_TEXT:
             case Constant.BDTJ_HALL_MAP:

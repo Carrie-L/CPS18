@@ -1,6 +1,7 @@
 package com.adsale.ChinaPlas;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -20,6 +21,7 @@ import com.adsale.ChinaPlas.utils.LogUtil;
 import com.crashlytics.android.Crashlytics;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -58,18 +60,19 @@ public class App extends Application {
     public static String DB_PATH = "";// 在手机里存放数据库的位置
     private static Resources resources;
     public static String rootDir;
-    public static String memoryFileDir;
+//    public static String memoryFileDir;
 
     @Override
     public void onCreate() {
         super.onCreate();
-//        Fabric.with(this, new Crashlytics());
+        Fabric.with(this, new Crashlytics());
         initCrashHandle();
         initSP();
         resources = getResources();
         DB_PATH = "/data" + Environment.getDataDirectory().getAbsolutePath() + "/" + getPackageName() + "/databases";
-        rootDir = FileUtils.getFileRootDir(getApplicationContext());
-        memoryFileDir = "/data" + Environment.getDataDirectory().getAbsolutePath() + "/" + getPackageName() + "/files";
+
+        rootDir = getDir("cps18",MODE_PRIVATE).getAbsolutePath();
+        LogUtil.i(TAG,"rootDir="+rootDir);
 
         getDbHelper();
     }

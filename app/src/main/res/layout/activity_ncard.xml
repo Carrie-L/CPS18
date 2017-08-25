@@ -1,8 +1,10 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="view"
+            type="com.adsale.ChinaPlas.ui.NCardActivity"/>
+    </data>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -13,13 +15,14 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
             <ImageView
                 android:id="@+id/img_qrcode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="16dp"
+                android:src="@{view.bitmap}"
+                />
 
             <TextView
                 android:id="@+id/tv_qrcode"
@@ -30,24 +33,27 @@
                 android:textColor="@color/gray_qrcode_tips" />
 
             <Button
-                android:id="@+id/btn_edit"
                 style="@style/myqrcode_btn_style"
                 android:layout_marginTop="21dp"
-                android:text="@string/edit_qrcode" />
+                android:text="@string/edit_qrcode"
+                android:onClick="@{() -> view.onEdit()}"
+                />
 
             <Button
-                android:id="@+id/btn_qrcode_scanner"
                 style="@style/myqrcode_btn_style"
-                android:text="@string/qrcode_scanner" />
+                android:text="@string/qrcode_scanner"
+                android:onClick="@{() -> view.onScanner()}"
+                />
 
             <Button
-                android:id="@+id/btn_allname_card"
                 style="@style/myqrcode_btn_style"
                 android:layout_marginBottom="16dp"
-                android:text="@string/qrcode_all" />
+                android:text="@string/qrcode_all"
+                android:onClick="@{() -> view.onAllList()}"
+                />
 
         </LinearLayout>
 
     </ScrollView>
 
-</LinearLayout>
+</layout>

@@ -27,6 +27,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -45,6 +48,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 /**
@@ -120,7 +125,7 @@ public class LoginViewModel {
                 .flatMap(new Function<String, Observable<EmailVisitorData>>() {//根据email得到 EmailVisitorData
                     @Override
                     public Observable<EmailVisitorData> apply(@NonNull String s) throws Exception {
-                        App.mSP_Login.edit().putString(Constant.USER_EMAIL, loginName.get().trim()).putString(Constant.USER_PWD, loginPwd.get().trim()).putBoolean(Constant.IS_LOGIN,true).apply();
+                        App.mSP_Login.edit().putString(Constant.USER_EMAIL, loginName.get().trim()).putString(Constant.USER_PWD, loginPwd.get().trim()).putBoolean(Constant.IS_LOGIN, true).apply();
                         LogUtil.i(TAG, "NAME=" + loginName.get() + ",PWD=" + loginPwd.get());
                         return client.regGetData(regRequestBody).subscribeOn(Schedulers.io());
                     }
@@ -134,11 +139,12 @@ public class LoginViewModel {
                     }
                 })
                 .flatMap(new Function<Response<ResponseBody>, Observable<Boolean>>() {
+
                     @Override
                     public Observable<Boolean> apply(@NonNull Response<ResponseBody> responseBodyResponse) throws Exception {
                         //保存图片
                         byte[] bytes = responseBodyResponse.body().bytes();
-                        final boolean isSaveSuccess = FileUtil.saveToMemory(App.memoryFileDir, "reg.png", bytes);
+                        final boolean isSaveSuccess = AppUtil.saveFileOutput(mContext, Constant.REG_PNG, bytes);
                         return Observable.create(new ObservableOnSubscribe<Boolean>() {
                             @Override
                             public void subscribe(@NonNull ObservableEmitter<Boolean> subscriber) throws Exception {
@@ -175,7 +181,7 @@ public class LoginViewModel {
                             return;
                         }
 
-                        if(mLoginListener!=null){
+                        if (mLoginListener != null) {
                             mLoginListener.login(false);
                         }
                     }
@@ -184,7 +190,7 @@ public class LoginViewModel {
                     public void onComplete() {
                         LogUtil.i(TAG, "onComplete");
                         isDialogShow.set(false);
-                        if(mLoginListener!=null){
+                        if (mLoginListener != null) {
                             mLoginListener.login(true);
                         }
 
@@ -192,12 +198,12 @@ public class LoginViewModel {
                 });
     }
 
-    public interface OnLoginFinishListener{
+    public interface OnLoginFinishListener {
         void login(boolean bool);
     }
 
-    public void setOnLoginFinishListener(OnLoginFinishListener listener){
-        mLoginListener=listener;
+    public void setOnLoginFinishListener(OnLoginFinishListener listener) {
+        mLoginListener = listener;
     }
 
     private OnLoginFinishListener mLoginListener;

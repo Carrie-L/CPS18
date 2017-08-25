@@ -12,6 +12,7 @@ import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.databinding.ActivityNcardCreateEditBinding;
 import com.adsale.ChinaPlas.utils.AppUtil;
+import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.viewmodel.NCardViewModel;
 
 import java.util.regex.Matcher;
@@ -125,8 +126,11 @@ public class NCardCreateEditActivity extends BaseActivity implements NCardViewMo
 
     @Override
     public void saved() {
-        Intent intent = new Intent(this,NCardActivity.class);
-        startActivity(intent);
+        if(!getIntent().getBooleanExtra("edit",false)){
+            LogUtil.i(TAG,"! EDIT");
+            Intent intent = new Intent(this,NCardActivity.class);
+            startActivity(intent);
+        }
         finish();
     }
 

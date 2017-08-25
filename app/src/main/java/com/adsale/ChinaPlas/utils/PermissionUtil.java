@@ -17,12 +17,14 @@ public class PermissionUtil {
     public static final String PERMISSION_RECEIVE_SMS= Manifest.permission.RECEIVE_SMS;
     public static final String PERMISSION_WRITE_EXTERNAL_STORAGE= Manifest.permission.WRITE_EXTERNAL_STORAGE;
     public static final String PERMISSION_READ_CALENDAR= Manifest.permission.READ_CALENDAR;
+    public static final String PERMISSION_READ_PHONE_STATE= Manifest.permission.READ_PHONE_STATE;
 
     //请求码
     public static final Integer PMS_CODE_SEND_SMS=101;//发送短信
     public static final Integer PMS_CODE_WRITE_SD=102;//写入SD
     public static final Integer PMS_CODE_READ_SD=103;//读取SD
     public static final Integer PMS_CODE_READ_CALENDAR=104;//读取日历
+    public static final Integer PMS_CODE_READ_PHONE_STATE=105;//读取手机状态
 
     /**
      * 检查是否有该权限

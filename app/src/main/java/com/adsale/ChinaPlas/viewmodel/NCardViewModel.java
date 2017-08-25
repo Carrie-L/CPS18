@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
+import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
@@ -12,9 +13,16 @@ import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.dao.NameCardDao;
 import com.adsale.ChinaPlas.utils.AESCrypt;
+import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
 
 import java.security.GeneralSecurityException;
+import java.util.Hashtable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,6 +50,7 @@ public class NCardViewModel {
     private NameCardDao nameCardDao;
     private Context mContext;
     private final SharedPreferences spNameCard;
+    private StringBuffer mQRContents;
 
     public NCardViewModel(Context context){
         mContext=context.getApplicationContext();
@@ -93,11 +102,13 @@ public class NCardViewModel {
 
     private void saveToSP(){
         LogUtil.i(TAG,"saveToSP: isCreate2="+isCreate.get());
+        mQRContents = new StringBuffer();
+        mQRContents.append(AppUtil.getUUID()).append("###").append(company.get()).append("###").append(name.get()).append("###").
+                append(title.get()).append("###").append("+").append(phone1.get()).append(phone2.get()).append("###").append(email.get()).append("###").append(qq.get()).append("###").append(weChat.get());
+
         spNameCard.edit().putBoolean("isCreate",isCreate.get()).putString("company",company.get()).putString("name",name.get()).putString("title",title.get()).putString("phone1",phone1.get()).putString("phone2",phone2.get()).
-                putString("email",email.get()).putString("qq",qq.get()).putString("weChat",weChat.get()).apply();
+                putString("email",email.get()).putString("qq",qq.get()).putString("weChat",weChat.get()).putString("my_qrcode",mQRContents.toString()).apply();
     }
-
-
 
     private void encrypt(){
         try {
@@ -113,6 +124,8 @@ public class NCardViewModel {
             if(weChat.get()!=null&&!TextUtils.isEmpty(weChat.get().trim())){
                 weChat.set(AESCrypt.encrypt(AESCrypt.AESPASSWORD,weChat.get()));
             }
+
+
         } catch (GeneralSecurityException e) {
             e.printStackTrace();
         }
@@ -135,6 +148,29 @@ public class NCardViewModel {
         } catch (GeneralSecurityException e) {
             e.printStackTrace();
         }
+    }
+
+    public Bitmap createQrCode(String string, BarcodeFormat format) throws WriterException {
+        MultiFormatWriter writer = new MultiFormatWriter();
+        Hashtable<EncodeHintType, String> hst = new Hashtable<>();
+        hst.put(EncodeHintType.CHARACTER_SET, "UTF-8");
+        BitMatrix matrix = writer.encode(string, format, 700, 700, hst);
+        int width = matrix.getWidth();
+        int height = matrix.getHeight();
+
+        LogUtil.i(TAG,"qr_code_width="+width+",height="+height);
+
+        int[] pixels = new int[width * height];
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                if (matrix.get(x, y)) {
+                    pixels[y * width + x] = 0xff000000;
+                }
+            }
+        }
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+        return bitmap;
     }
 
     private void insert(){
