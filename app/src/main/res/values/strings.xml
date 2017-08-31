@@ -180,5 +180,9 @@
     <string name="reg_reset_cancel">取消</string>
     <string name="waiting">加载中&#8230;</string>
 
+    <!--扫描二维码-->
+    <string name="scanner_tips">將二維碼放入框內，即可自動掃描</string>
+    <string name="no_camera_permission">沒有照相機權限，無法掃描</string>
+
 
 </resources>

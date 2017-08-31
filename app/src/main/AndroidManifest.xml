@@ -8,12 +8,15 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
 
     <application
         android:name=".App"
         android:allowBackup="true"
-        android:label="@string/app_name"
         android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -46,6 +49,9 @@
         <activity android:name=".ui.NCardCreateEditActivity" />
         <activity android:name=".ui.NCardActivity" />
         <activity android:name=".ui.LoginActivity" />
+        <activity android:name=".ui.NCardListActivity" />
+        <activity android:name=".ui.ScannerActivity" />
+        <activity android:name=".ui.ScanDtlActivity"></activity>
     </application>
 
 </manifest>

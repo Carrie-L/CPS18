@@ -2,6 +2,7 @@ package com.adsale.ChinaPlas.viewmodel;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.graphics.Bitmap;
@@ -11,7 +12,10 @@ import android.widget.Toast;
 
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
+import com.adsale.ChinaPlas.dao.Exhibitor;
+import com.adsale.ChinaPlas.dao.NameCard;
 import com.adsale.ChinaPlas.dao.NameCardDao;
+import com.adsale.ChinaPlas.data.NameCardRepository;
 import com.adsale.ChinaPlas.utils.AESCrypt;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
@@ -22,6 +26,7 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -47,15 +52,21 @@ public class NCardViewModel {
 
     public final ObservableBoolean isCreate = new ObservableBoolean();
 
-    private NameCardDao nameCardDao;
+    private StringBuffer mQRContents;
+
+    /*全部名片列表*/
+    public final ObservableArrayList<NameCard> nameCards=new ObservableArrayList<>();
+    public final ObservableBoolean noData = new ObservableBoolean(true);
+    private ArrayList<NameCard> mCardsCaches = new ArrayList<>();
+
+    private NameCardRepository mRepository;
     private Context mContext;
     private final SharedPreferences spNameCard;
-    private StringBuffer mQRContents;
+
 
     public NCardViewModel(Context context){
         mContext=context.getApplicationContext();
 
-        nameCardDao= App.mDBHelper.mNameCardDao;
         spNameCard = context.getSharedPreferences("MyNameCard", Context.MODE_PRIVATE);
     }
 
@@ -196,4 +207,28 @@ public class NCardViewModel {
     }
 
     private OnNCSavedListener mListener;
+
+
+    /*-----------NCardList--------------------*/
+    public void onListStart(){
+        mRepository= new NameCardRepository();
+        nameCards.addAll(mRepository.getData());
+        noData.set(nameCards.isEmpty());
+    }
+
+    public void exportBsCard(){
+
+    }
+
+    public void resetList(){
+        nameCards.clear();
+        nameCards.addAll(mCardsCaches);
+    }
+
+    public void search(String text){
+        nameCards.clear();
+        nameCards.addAll(mRepository.getSearchData(text));
+        noData.set(nameCards.isEmpty());
+    }
+
 }

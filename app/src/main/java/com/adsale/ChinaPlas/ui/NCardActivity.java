@@ -5,14 +5,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.ObservableField;
 import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.databinding.ActivityNcardBinding;
 import com.adsale.ChinaPlas.utils.LogUtil;
+import com.adsale.ChinaPlas.utils.PermissionUtil;
 import com.adsale.ChinaPlas.viewmodel.NCardViewModel;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
@@ -20,7 +23,11 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 
+import java.security.Permission;
 import java.util.Hashtable;
+
+import static com.adsale.ChinaPlas.utils.PermissionUtil.PERMISSION_CAMERA;
+import static com.adsale.ChinaPlas.utils.PermissionUtil.PMS_CODE_CAMERA;
 
 /**
  * 我的名片
@@ -30,11 +37,11 @@ public class NCardActivity extends BaseActivity {
     private SharedPreferences spNameCard;
     private NCardViewModel viewModel;
 
-    public final ObservableField<Bitmap> bitmap=new ObservableField<>();
+    public final ObservableField<Bitmap> bitmap = new ObservableField<>();
 
     @Override
     protected void initView() {
-        ActivityNcardBinding binding = ActivityNcardBinding.inflate(getLayoutInflater(),mBaseFrameLayout,true);
+        ActivityNcardBinding binding = ActivityNcardBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         binding.setView(this);
         viewModel = new NCardViewModel(getApplicationContext());
     }
@@ -44,26 +51,37 @@ public class NCardActivity extends BaseActivity {
         spNameCard = getSharedPreferences("MyNameCard", Context.MODE_PRIVATE);
     }
 
-    public void onEdit(){
-        Intent intent = new Intent(this,NCardCreateEditActivity.class);
-        intent.putExtra("edit",true);
+    public void onEdit() {
+        Intent intent = new Intent(this, NCardCreateEditActivity.class);
+        intent.putExtra("edit", true);
         startActivity(intent);
     }
 
-    public void onScanner(){
-
+    public void onScanner() {
+        boolean hasCameraPerm = PermissionUtil.checkPermission(this, PERMISSION_CAMERA);
+        if (hasCameraPerm) {
+            toScanner();
+        } else {
+            PermissionUtil.requestPermission(this, PERMISSION_CAMERA, PMS_CODE_CAMERA);
+        }
     }
 
-    public void onAllList(){
+    private void toScanner() {
+        Intent intent = new Intent(this, ScannerActivity.class);
+        startActivity(intent);
+    }
 
+    public void onAllList() {
+        Intent intent = new Intent(this, NCardListActivity.class);
+        startActivity(intent);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        String qrCode= spNameCard.getString("my_qrcode","");
-        LogUtil.i(TAG,"qrCode="+qrCode);
+        String qrCode = spNameCard.getString("my_qrcode", "");
+        LogUtil.i(TAG, "qrCode=" + qrCode);
 
         try {
             bitmap.set(viewModel.createQrCode("UserNC:" + qrCode, BarcodeFormat.QR_CODE));
@@ -74,6 +92,13 @@ public class NCardActivity extends BaseActivity {
     }
 
 
-
-
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PMS_CODE_CAMERA && PermissionUtil.getGrantResults(grantResults)) {
+            toScanner();
+        }else{
+            Toast.makeText(getApplicationContext(),getString(R.string.no_camera_permission),Toast.LENGTH_SHORT).show();
+        }
+    }
 }

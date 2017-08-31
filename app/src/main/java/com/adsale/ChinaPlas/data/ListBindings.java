@@ -20,8 +20,7 @@ import java.util.ArrayList;
 public class ListBindings {
 
     @BindingAdapter("app:items")
-    public static <T> void
-    setItems(RecyclerView recyclerView, ArrayList<T> list) {
+    public static <T> void setItems(RecyclerView recyclerView, ArrayList<T> list) {
         CpsBaseAdapter<T> adapter = (CpsBaseAdapter<T>) recyclerView.getAdapter();
         if (adapter != null) {
             adapter.setList(list);
