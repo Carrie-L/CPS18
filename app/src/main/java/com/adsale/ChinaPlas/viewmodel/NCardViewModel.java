@@ -32,6 +32,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.adsale.ChinaPlas.R.id.et_company;
+import static com.adsale.ChinaPlas.R.string.tel;
 
 
 /**
@@ -41,11 +42,13 @@ import static com.adsale.ChinaPlas.R.id.et_company;
 public class NCardViewModel {
     private static final String TAG="NCardViewModel";
 
+    public final ObservableField<String> deviceId = new ObservableField<>();
     public final ObservableField<String> company = new ObservableField<>();
     public final ObservableField<String> name = new ObservableField<>();
     public final ObservableField<String> title = new ObservableField<>();
     public final ObservableField<String> phone1 = new ObservableField<>();
     public final ObservableField<String> phone2 = new ObservableField<>();
+    public final ObservableField<String> phone = new ObservableField<>();
     public final ObservableField<String> email = new ObservableField<>();
     public final ObservableField<String> qq = new ObservableField<>();
     public final ObservableField<String> weChat = new ObservableField<>();
@@ -62,6 +65,7 @@ public class NCardViewModel {
     private NameCardRepository mRepository;
     private Context mContext;
     private final SharedPreferences spNameCard;
+    private NameCard nameCard;
 
 
     public NCardViewModel(Context context){
@@ -230,5 +234,44 @@ public class NCardViewModel {
         nameCards.addAll(mRepository.getSearchData(text));
         noData.set(nameCards.isEmpty());
     }
+
+    /*---------------------ScanDtl--------------*/
+      public void getNCInfo(String nameCardInfo){
+        deviceId.set(nameCardInfo.split("###")[0]);
+        company.set(nameCardInfo.split("###")[1]);
+        name.set(nameCardInfo.split("###")[2]);
+        title.set(nameCardInfo.split("###")[3]);
+        phone.set(nameCardInfo.split("###")[4]);
+        email.set(nameCardInfo.split("###")[5]);
+        qq.set(nameCardInfo.split("###")[6]);
+        weChat.set(nameCardInfo.split("###")[7]);
+    }
+
+    private boolean isNameCardExisits(){
+       return mRepository.isNameCardExisits(deviceId.get());
+    }
+
+    private void addToList(){
+        nameCard = new NameCard(deviceId.get(),company.get(),name.get(),title.get(),phone.get(),email.get(),qq.get(),weChat.get(), AppUtil.getCurrentTime());
+        if(isNameCardExisits()){
+            updateNameCard();
+        }else{
+            insertNameCard();
+        }
+    }
+
+    private void updateNameCard(){
+        mRepository.updateItemData(nameCard);
+    }
+
+    private void insertNameCard(){
+        //String DeviceId, String Company, String Name, String Title, String Phone, String Email, String QQ,String WeChat, String UpdateDateTime
+        mRepository.insertItemData(nameCard);
+    }
+
+    public void delete(){
+        mRepository.deleteItemData();
+    }
+
 
 }

@@ -29,6 +29,7 @@ import com.adsale.ChinaPlas.ui.NCardActivity;
 import com.adsale.ChinaPlas.ui.NCardCreateEditActivity;
 import com.adsale.ChinaPlas.ui.NewsActivity;
 import com.adsale.ChinaPlas.ui.RegisterActivity;
+import com.adsale.ChinaPlas.ui.ScannerActivity;
 import com.adsale.ChinaPlas.ui.ScheduleActivity;
 import com.adsale.ChinaPlas.ui.WebViewActivity;
 import com.adsale.ChinaPlas.utils.AppUtil;
@@ -312,7 +313,7 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
 //                intent = new Intent(activity,SubscribeActivity.class);
                 break;
             case Constant.BDTJ_QR_SCANNER:
-//                intent = new Intent(context, CaptureActivity.class);
+                intent = new Intent(activity, ScannerActivity.class);
                 break;
             case Constant.BDTJ_NOTIFICATION_CENTER:
 //                intent = new Intent(context, CommonListActivity.class);

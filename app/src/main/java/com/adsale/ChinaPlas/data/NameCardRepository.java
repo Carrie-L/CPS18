@@ -30,16 +30,20 @@ public class NameCardRepository implements DataSource<NameCard> {
 
     @Override
     public void updateItemData(NameCard entity) {
-
+        nameCardDao.update(entity);
     }
 
     @Override
     public void insertItemData(NameCard entity) {
-
+        nameCardDao.insert(entity);
     }
 
     @Override
     public void deleteItemData(Object obj) {
 
+    }
+
+    public boolean isNameCardExisits(String deviceId){
+        return  !nameCardDao.queryBuilder().where(NameCardDao.Properties.DeviceId.eq(deviceId)).list().isEmpty();
     }
 }

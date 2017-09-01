@@ -49,7 +49,6 @@ public class ScannerActivity extends BaseActivity implements SurfaceHolder.Callb
 
     private void initCamera(SurfaceHolder holder){
         viewModel.onStart(holder,binding.captureCropLayout,binding.rlScanner,binding.captureScanLine);
-//        viewModel.onResume();
     }
 
     @Override
@@ -66,7 +65,7 @@ public class ScannerActivity extends BaseActivity implements SurfaceHolder.Callb
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-
+        release();
     }
 
     @Override
@@ -84,13 +83,20 @@ public class ScannerActivity extends BaseActivity implements SurfaceHolder.Callb
     @Override
     protected void onPause() {
         super.onPause();
-        viewModel.unSubscribe();
-        viewModel.onPause();
+        release();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        release();
+    }
+
+    private void release(){
+        hasSurface=false;
+        if(mHolder!=null){
+            mHolder.removeCallback(this);
+        }
         viewModel.unSubscribe();
         viewModel.destroy();
     }

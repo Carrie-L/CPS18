@@ -2,6 +2,7 @@ package com.adsale.ChinaPlas.viewmodel;
 
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
+import android.databinding.ObservableField;
 import android.graphics.Point;
 import android.hardware.Camera;
 import android.media.AudioManager;
@@ -21,9 +22,6 @@ import com.adsale.ChinaPlas.utils.LogUtil;
 import com.zbar.lib.ZbarManager;
 import com.zbar.lib.camera.CameraSetting;
 
-
-import org.reactivestreams.Subscriber;
-
 import java.io.IOException;
 
 import io.reactivex.Observable;
@@ -34,31 +32,20 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-
-import static android.R.attr.data;
-import static android.R.attr.width;
-import static com.adsale.ChinaPlas.R.id.decode;
 
 /**
  * Created by Carrie on 2017/8/30.
  */
 
-public class ScannerViewModel implements Camera.PreviewCallback {
+public class ScannerViewModel implements Camera.PreviewCallback, Camera.AutoFocusCallback {
     private static final String TAG = "ScannerViewModel";
     public final Integer SCAN_RESULT = 1;
     public final Integer SCAN_FLOOR = 2;
 
-
     private Context mContext;
     private final CameraSetting mCameraSetting;
-    private Camera.AutoFocusCallback mFocusCallback = new Camera.AutoFocusCallback() {
-        @Override
-        public void onAutoFocus(boolean success, Camera camera) {
-            LogUtil.i(TAG, "onAutoFocus: " + success);
-        }
-    };
+
     private int frameX;
     private int frameY;
     private int cropWidth;
@@ -68,7 +55,6 @@ public class ScannerViewModel implements Camera.PreviewCallback {
     private ZbarManager manager;
     private CompositeDisposable mDisposables;
     private String mScanData;
-    private SurfaceHolder mHolder;
 
     private MediaPlayer mediaPlayer;
     private boolean playBeep;
@@ -77,22 +63,18 @@ public class ScannerViewModel implements Camera.PreviewCallback {
 
     public ScannerViewModel(Context context) {
         mContext = context;
-        mCameraSetting = CameraSetting.getInstance(context, mFocusCallback, this);
+        mCameraSetting = CameraSetting.getInstance(context, this,this);
         mDisposables = new CompositeDisposable();
         manager = new ZbarManager();
     }
 
     public void onStart(final SurfaceHolder holder, final RelativeLayout mCropLayout, final RelativeLayout mContainer, final ImageView ivLine) {
-//        mCameraSetting.requestAutoFocus();
-
         Observable.create(new ObservableOnSubscribe<TranslateAnimation>() {
             @Override
             public void subscribe(@NonNull ObservableEmitter<TranslateAnimation> e) throws Exception {
                 mCameraSetting.openCamera(holder);
-                mCameraSetting.startPreview();
-                mCameraSetting.requestPreviewFrame();
-
                 setCameraFrame(mCropLayout, mContainer);
+                mCameraSetting.startPreview();
 
                 TranslateAnimation mAnimation = new TranslateAnimation(TranslateAnimation.ABSOLUTE, 0f,
                         TranslateAnimation.ABSOLUTE, 0f, TranslateAnimation.RELATIVE_TO_PARENT, 0f,
@@ -118,6 +100,7 @@ public class ScannerViewModel implements Camera.PreviewCallback {
                     @Override
                     public void onNext(@NonNull TranslateAnimation animation) {
                         ivLine.startAnimation(animation);
+                        mCameraSetting.requestAutoFocus();
                     }
 
                     @Override
@@ -132,7 +115,7 @@ public class ScannerViewModel implements Camera.PreviewCallback {
                 });
     }
 
-    public void setCameraFrame(RelativeLayout mCropLayout, RelativeLayout mContainer) {
+    private void setCameraFrame(RelativeLayout mCropLayout, RelativeLayout mContainer) {
         LogUtil.i(TAG, "setCameraFrame");
         // 修改zbar有效扫描区域的代码
         Point point = mCameraSetting.getCameraResolution();
@@ -146,10 +129,6 @@ public class ScannerViewModel implements Camera.PreviewCallback {
         cropHeight = mCropLayout.getHeight() * height / mContainer.getHeight();
 
 
-    }
-
-    public void onResume() {
-        initAudio();
     }
 
     @Override
@@ -224,12 +203,11 @@ public class ScannerViewModel implements Camera.PreviewCallback {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        String name = "";
-        String email = "";
+        String name="";
+        String email="";
         if (nameCardInfo.contains("###")) {
-            name = nameCardInfo.split("###")[2];
-            email = nameCardInfo.split("###")[5];
+            name=nameCardInfo.split("###")[2];
+            email=nameCardInfo.split("###")[5];
             LogUtil.i(TAG, "nameCardInfo.decrypt=" + name);
             // 设备ID###公司###姓名###职位###电话###邮箱###QQ
         }
@@ -244,6 +222,8 @@ public class ScannerViewModel implements Camera.PreviewCallback {
     }
 
 
+
+
     /**
      * 原理：
      * 初始化相机，设置一些相机参数；
@@ -253,9 +233,7 @@ public class ScannerViewModel implements Camera.PreviewCallback {
      * 对灰度图像进行二维码解析，解析成功进入下一步，不成功回到第③步；
      * 返回解析结果并退出。
      */
-    public void startCamera() {
 
-    }
 
 
     private void initAudio() {
@@ -264,6 +242,7 @@ public class ScannerViewModel implements Camera.PreviewCallback {
         if (audioService.getRingerMode() != AudioManager.RINGER_MODE_NORMAL) {
             playBeep = false;
         }
+        LogUtil.i(TAG, "playBeep=" + playBeep);
         initBeepSound();
         vibrate = true;
     }
@@ -313,20 +292,35 @@ public class ScannerViewModel implements Camera.PreviewCallback {
         mListener = listener;
     }
 
+    @Override
+    public void onAutoFocus(boolean success, Camera camera) {
+        LogUtil.i(TAG, "onAutoFocus: " + success);
+        if (success) {
+            mCameraSetting.requestPreviewFrame();
+        } else {
+            mCameraSetting.requestAutoFocus();
+        }
+    }
+
     public interface OnScannedListener {
         void intentTo(Bundle data);
     }
 
     public void unSubscribe() {
-        mDisposables.clear();
-    }
-
-    public void onPause() {
-        mCameraSetting.stopPreview();
+        if(mDisposables!=null){
+            mDisposables.clear();
+        }
     }
 
     public void destroy() {
         mCameraSetting.closeCamera();
     }
+
+
+
+
+
+
+
 
 }

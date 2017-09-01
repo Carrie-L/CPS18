@@ -99,5 +99,23 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <!--二维码详情style-->
+   <style name="nc_dtl_iv_style">
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:layout_alignLeft">@id/iv_name</item>
+        <item name="android:layout_marginTop">8dp</item>
+    </style>
+
+    <style name="nc_dtl_tv_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:layout_alignLeft">@id/tv_name</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_marginTop">8dp</item>
+    </style>
+
+
+
 
 </resources>

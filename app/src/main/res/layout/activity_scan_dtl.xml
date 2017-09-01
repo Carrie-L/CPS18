@@ -1,9 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.adsale.ChinaPlas.ui.ScanDtlActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-</android.support.constraint.ConstraintLayout>
+    <data>
+        <variable
+            name="viewModel"
+            type="com.adsale.ChinaPlas.viewmodel.NCardViewModel"/>
+        <variable
+            name="view"
+            type="com.adsale.ChinaPlas.ui.ScanDtlActivity"/>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp"
+        android:background="@drawable/edittext_bg"
+        android:gravity="center_horizontal"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/iv_name"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/name" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_marginLeft="24dp"
+            android:layout_toRightOf="@id/iv_name"
+            android:gravity="center_vertical"
+            android:text="@{viewModel.name}" />
+
+        <!--company-->
+        <ImageView
+            style="@style/nc_dtl_iv_style"
+            android:layout_below="@id/tv_name"
+            android:background="@drawable/company" />
+
+        <TextView
+            android:id="@+id/tv_company"
+            style="@style/nc_dtl_tv_style"
+            android:layout_below="@id/tv_name"
+            android:text="@{viewModel.company}"
+            />
+
+        <!--title-->
+        <ImageView
+            style="@style/nc_dtl_iv_style"
+            android:layout_below="@id/tv_company"
+            android:background="@drawable/title_prefe" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/nc_dtl_tv_style"
+            android:layout_below="@id/tv_company"
+            android:text="@{viewModel.title}"
+            />
+
+        <!--tel-->
+        <ImageView
+            style="@style/nc_dtl_iv_style"
+            android:layout_below="@id/tv_title"
+            android:background="@drawable/telephone" />
+
+        <TextView
+            android:id="@+id/tv_tel"
+            style="@style/nc_dtl_tv_style"
+            android:layout_below="@id/tv_title"
+            android:text="@{viewModel.phone}"
+            android:onClick="@{() -> view.callPhone()}"
+            />
+
+        <!--email-->
+        <ImageView
+            style="@style/nc_dtl_iv_style"
+            android:layout_below="@id/tv_tel"
+            android:background="@drawable/mail" />
+
+        <TextView
+            android:id="@+id/tv_email"
+            style="@style/nc_dtl_tv_style"
+            android:layout_below="@id/tv_tel"
+            android:text="@{viewModel.email}"
+            android:onClick="@{() -> view.sendEmail()}"
+            />
+
+        <!--qq-->
+        <ImageView
+            style="@style/nc_dtl_iv_style"
+            android:layout_below="@id/tv_email"
+            android:background="@drawable/qq" />
+
+        <TextView
+            android:id="@+id/tv_qq"
+            style="@style/nc_dtl_tv_style"
+            android:layout_below="@id/tv_email"
+            android:text="@{viewModel.qq}"
+            />
+
+        <!--weChat-->
+        <ImageView
+            style="@style/nc_dtl_iv_style"
+            android:layout_below="@id/tv_qq"
+            android:background="@drawable/wechat" />
+
+        <TextView
+            android:id="@+id/tv_weChat"
+            style="@style/nc_dtl_tv_style"
+            android:layout_below="@id/tv_qq"
+            android:text="@{viewModel.weChat}"
+            />
+
+        <Button
+            android:id="@+id/btn_carddetail_save"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/iv_name"
+            android:layout_below="@+id/tv_weChat"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/btn_red3"
+            android:gravity="center"
+            android:text="@string/save_card_to_list"
+            android:textColor="@color/white"
+            android:onClick="@{() -> view.add()}"
+            />
+
+        <Button
+            android:id="@+id/btn_carddetail_back"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/btn_carddetail_save"
+            android:layout_alignTop="@+id/btn_carddetail_save"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_toRightOf="@id/btn_carddetail_save"
+            android:background="@drawable/btn_grey2"
+            android:gravity="center"
+            android:text="@string/card_back"
+            android:onClick="@{() -> view.back()}"
+            />
+    </RelativeLayout>
+
+</layout>

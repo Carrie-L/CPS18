@@ -26,41 +26,47 @@ public class CameraSetting {
     private PreviewCallback mPreviewCallback;
     private AutoFocusCallback mFocusCallback;
     private Context mContext;
-    private boolean previewing ;
+    private boolean previewing;
     private boolean initialized;
     private final CameraConfigurationManager mConfigurationManager;
     private Camera.Parameters parameter;
 
-    public static CameraSetting getInstance(Context context, @NonNull AutoFocusCallback focusCallback, @NonNull PreviewCallback callback) {
+    public static CameraSetting getInstance(Context context,@NonNull PreviewCallback callback,@NonNull AutoFocusCallback focusCallback) {
         if (INSTANCE == null) {
-            return new CameraSetting(context, focusCallback, callback);
+            return new CameraSetting(context, callback,focusCallback);
         }
         return INSTANCE;
     }
 
-    public CameraSetting(Context context, @NonNull AutoFocusCallback focusCallback, @NonNull PreviewCallback callback) {
-        mFocusCallback=focusCallback;
+    public CameraSetting(Context context,  @NonNull PreviewCallback callback,AutoFocusCallback focusCallback) {
         mPreviewCallback = callback;
+        mFocusCallback=focusCallback;
         mContext = context;
         mConfigurationManager = new CameraConfigurationManager(mContext);
     }
 
     public void openCamera(SurfaceHolder holder) {
-        mHolder=holder;
+        mHolder = holder;
         if (camera == null) {
-            LogUtil.i(TAG,"openCamera: camera == null");
+            previewing=false;
+            LogUtil.i(TAG, "openCamera: camera == null");
             camera = Camera.open();
+            setPreviewDisplay();
             initCameraParameters();
-            FlashlightManager.enableFlashlight();
+        } else {
+            setPreviewDisplay();
         }
+    }
+
+    private void setPreviewDisplay() {
         try {
-            camera.setPreviewDisplay(holder);
+            camera.setPreviewDisplay(mHolder);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void initCameraParameters(){
+    private void initCameraParameters() {
         if (!initialized) {
             initialized = true;
             mConfigurationManager.initFromCameraParameters(camera);
@@ -69,13 +75,13 @@ public class CameraSetting {
     }
 
     public void startPreview() {
-        LogUtil.i("CameraSetting","startPreview0: previewing="+previewing);
-        if(camera!=null){
-            LogUtil.i("CameraSetting","camera!=null");
+        LogUtil.i("CameraSetting", "startPreview0: previewing=" + previewing);
+        if (camera != null) {
+            LogUtil.i("CameraSetting", "camera!=null");
         }
 
         if (camera != null && !previewing) {
-            LogUtil.i("CameraSetting","startPreview1");
+            LogUtil.i("CameraSetting", "startPreview1");
             camera.startPreview();
             previewing = true;
         }
@@ -97,34 +103,11 @@ public class CameraSetting {
         return mConfigurationManager.getCameraResolution();
     }
 
-    public void openLight() {
-        if (camera != null) {
-            parameter = camera.getParameters();
-            parameter.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-            camera.setParameters(parameter);
-        }
-    }
-
-    public void offLight() {
-        if (parameter != null && camera != null) {
-            parameter.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-            camera.setParameters(parameter);
-        }
-    }
-
-    public void stopPreview() {
-        if (camera != null && previewing) {
-            camera.stopPreview();
-            previewing = false;
-        }
-    }
-
     public void closeCamera() {
         mHolder = null;
         mPreviewCallback = null;
 
         if (camera != null) {
-            FlashlightManager.disableFlashlight();
             camera.setOneShotPreviewCallback(null);
             camera.stopPreview();
             camera.release();
