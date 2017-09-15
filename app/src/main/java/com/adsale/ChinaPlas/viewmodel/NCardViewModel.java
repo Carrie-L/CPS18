@@ -270,7 +270,7 @@ public class NCardViewModel {
     }
 
     public void delete(){
-        mRepository.deleteItemData();
+//        mRepository.deleteItemData();
     }
 
 

@@ -12,6 +12,7 @@
     <uses-feature android:name="android.hardware.Camera"/>
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".App"
@@ -53,6 +54,7 @@
         <activity android:name=".ui.NCardListActivity" />
         <activity android:name=".ui.ScannerActivity" />
         <activity android:name=".ui.ScanDtlActivity"/>
+        <!--<receiver android:name=".helper.LoadingReceiver"/>-->
     </application>
 
 </manifest>

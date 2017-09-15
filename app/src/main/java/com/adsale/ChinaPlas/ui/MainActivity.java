@@ -42,8 +42,6 @@ public class MainActivity extends BaseActivity {
         String fileAbsDir = getFilesDir().getAbsolutePath();
         LogUtil.i(TAG, "fileAbsDir=" + fileAbsDir);
 
-        getScreenSize();
-
         if(mNavViewModel!=null){
             mNavViewModel.setMainActivity(this);
         }
@@ -58,14 +56,6 @@ public class MainActivity extends BaseActivity {
             LogUtil.i(TAG, "请求权限");
             PermissionUtil.requestPermission(this, PermissionUtil.PERMISSION_WRITE_EXTERNAL_STORAGE, PMS_CODE_WRITE_SD);
         }
-    }
-
-    private void getScreenSize() {
-        DisplayMetrics metrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        App.mScreenWidth = metrics.widthPixels;
-        App.mScreenHeight = metrics.heightPixels;
-        LogUtil.i(TAG,"设备的屏幕尺寸为，宽："+App.mScreenWidth+"，高："+App.mScreenHeight);
     }
 
     @Override

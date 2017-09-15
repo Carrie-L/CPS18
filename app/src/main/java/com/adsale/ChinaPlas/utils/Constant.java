@@ -82,5 +82,9 @@ public class Constant {
     public static final String BDTJ_INTERESTED_EXHIBITOR = "MyInterestedExhibitor";
     public static final String BDTJ_TRAVEL_INFO = "TravelInfo";
 
+    public static final String DB_UPGRADE = "dbUpgrade";
+
+    public static final String IS_AD_OPEN = "isADOpen";
+
 
 }

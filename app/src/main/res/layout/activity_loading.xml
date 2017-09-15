@@ -1,15 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.adsale.ChinaPlas.ui.LoadingActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <Button
-        android:id="@+id/btn"
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="loadingModel"
+            type="com.adsale.ChinaPlas.viewmodel.LoadingViewModel" />
+    </data>
+
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
+        android:layout_height="match_parent">
 
-</android.support.constraint.ConstraintLayout>
+        <!--语言按钮-->
+        <LinearLayout
+            android:id="@+id/lyLanguage"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal"
+            android:paddingBottom="10dp"
+            android:visibility="@{loadingModel.showLangBtn?View.VISIBLE:View.GONE}">
+
+            <Button
+                android:id="@+id/btnCN"
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:layout_weight="1"
+                android:background="@drawable/bttn_simp" />
+
+            <Button
+                android:id="@+id/btnTW"
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/bttn_trad" />
+
+            <Button
+                android:id="@+id/btnEN"
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:layout_weight="1"
+                android:background="@drawable/bttn_eng" />
+        </LinearLayout>
+
+        <!-- M1	广告 -->
+        <FrameLayout
+            android:id="@+id/framelayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="@{loadingModel.isShowM1?View.VISIBLE:View.GONE}"
+            >
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/autoVP"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+
+            <LinearLayout
+                android:id="@+id/vpindicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|bottom"
+                android:orientation="horizontal" />
+
+            <TextView
+                android:id="@+id/tv_skip"
+                android:layout_width="80dp"
+                android:layout_height="48dp"
+                android:layout_gravity="end|bottom"
+                android:layout_margin="16dp"
+                android:background="@color/skip_transparent"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:visibility="gone"
+                />
+
+
+        </FrameLayout>
+
+
+    </RelativeLayout>
+</layout>

@@ -5,10 +5,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.databinding.ObservableInt;
+import android.net.ConnectivityManager;
 import android.os.Environment;
 
 import com.adsale.ChinaPlas.dao.DBHelper;
@@ -45,8 +47,6 @@ public class App extends Application {
     public static SharedPreferences mSP_Login;
 
     public static SharedPreferences mSPConfig;
-    public static int mScreenWidth;
-    public static int mScreenHeight;
 
     public static final String DATABASE_NAME = "cps18.db";
 
@@ -59,8 +59,11 @@ public class App extends Application {
     public static DBHelper mDBHelper;
     public static String DB_PATH = "";// 在手机里存放数据库的位置
     private static Resources resources;
-    public static String rootDir;
-//    public static String memoryFileDir;
+    public static String rootDir,filesDir;
+    public static ConnectivityManager mConnectivityManager;
+    public static AssetManager mAssetManager;
+
+    //    public static String memoryFileDir;
 
     @Override
     public void onCreate() {
@@ -71,8 +74,14 @@ public class App extends Application {
         resources = getResources();
         DB_PATH = "/data" + Environment.getDataDirectory().getAbsolutePath() + "/" + getPackageName() + "/databases";
 
-        rootDir = getDir("cps18",MODE_PRIVATE).getAbsolutePath();
+        mConnectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        rootDir = getDir("cps18",MODE_PRIVATE).getAbsolutePath()+"/";
+        filesDir=getFilesDir().getAbsolutePath()+"/";// /data/user/0/com.adsale.ChinaPlas/files/
         LogUtil.i(TAG,"rootDir="+rootDir);
+        LogUtil.i(TAG,"filesDir="+filesDir);
+
+        mAssetManager=getAssets();
 
         getDbHelper();
     }
@@ -101,6 +110,8 @@ public class App extends Application {
             e.printStackTrace();
         }
     }
+
+
 
     private void getDbHelper() {
         mDBHelper = new DBHelper.Builder(getDaoSession(), db).build();

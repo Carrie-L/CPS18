@@ -8,6 +8,8 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.LocaleList;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
@@ -20,15 +22,20 @@ import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.viewmodel.NavViewModel;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
 import static android.content.Context.MODE_PRIVATE;
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
+import static com.adsale.ChinaPlas.R.array.urls;
 import static com.adsale.ChinaPlas.R.id.language;
+import static com.adsale.ChinaPlas.dao.MapFloorDao.Properties.Type;
 import static com.adsale.ChinaPlas.dao.SeminarSpeakerDao.Properties.Language;
 
 /**
@@ -58,6 +65,22 @@ public class AppUtil {
 
     public static String getUUID() {
         return App.mSP_Config.getString("UUID", "");
+    }
+
+    public static String getDeviceId() {
+        return App.mSP_Config.getString("deviceId", "");
+    }
+
+    public static int getScreenWidth() {
+        return App.mSP_Config.getInt("ScreenWidth", 0);
+    }
+
+    public static int getScreenHeight() {
+        return App.mSP_Config.getInt("ScreenHeight", 0);
+    }
+
+    public static boolean isTablet() {
+        return App.mSP_Config.getBoolean("isTablet", false);
     }
 
 //    public static boolean isLogin(Context context) {
@@ -122,11 +145,14 @@ public class AppUtil {
      */
     public static int getCurLanguage() {
         return App.mSP_Config.getInt("CUR_LANGUAGE", 0);
-//        return App.language.get();
     }
 
     public static void setCurLanguage(int language) {
         App.mSP_Config.edit().putInt("CUR_LANGUAGE", language).apply();
+    }
+
+    public static String getLanguageType() {
+        return getName("tc", "en", "sc");
     }
 
     /**
@@ -161,15 +187,16 @@ public class AppUtil {
 
     /**
      * 保存文件到data/data/com.adsale.ChinaPlas/files/目录下
+     *
      * @param context
      * @param fileName 如：reg.png
      * @param bytes
-     * @return  true,保存成功；
+     * @return true, 保存成功；
      */
-    public static boolean saveFileOutput(Context context,String fileName, byte[] bytes){
-        context=context.getApplicationContext();
+    public static boolean saveFileOutput(Context context, String fileName, byte[] bytes) {
+        context = context.getApplicationContext();
         try {
-            FileOutputStream fos=context.openFileOutput(fileName,MODE_PRIVATE);
+            FileOutputStream fos = context.openFileOutput(fileName, MODE_PRIVATE);
             fos.write(bytes);
             fos.close();
             return true;
@@ -235,6 +262,14 @@ public class AppUtil {
 
     public static String getCurrentTime() {
         SimpleDateFormat sFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        return sFormat.format(new Date());
+    }
+
+    /**
+     * @return dd/MM/yyyy
+     */
+    public static String getCurrentDate() {
+        SimpleDateFormat sFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         return sFormat.format(new Date());
     }
 
@@ -349,5 +384,16 @@ public class AppUtil {
         }
         return sb.toString();
     }
+
+    public static boolean isNetworkAvailable() {
+        NetworkInfo ni = App.mConnectivityManager.getActiveNetworkInfo();
+        return ni != null && ni.isConnectedOrConnecting();
+    }
+
+    public static <T> void logListString(ArrayList<T> list) {
+        LogUtil.i(TAG, "logListString -=- " + list.size() + "," + list.toString());
+    }
+
+//    public static void
 
 }

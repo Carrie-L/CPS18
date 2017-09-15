@@ -22,6 +22,7 @@ import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.dao.SideBar;
 import com.adsale.ChinaPlas.data.ExhibitorRepository;
 import com.adsale.ChinaPlas.databinding.ActivityExhibitorAllListBinding;
+import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.DisplayUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
@@ -108,7 +109,7 @@ public class ExhibitorAllListActivity extends BaseActivity {
         rvSideBar.setHasFixedSize(true);
         rvSideBar.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
-        int height = App.mScreenHeight;
+        int height = AppUtil.getScreenHeight();
         int searchEditHeight = DisplayUtil.dip2px(getApplicationContext(), 48);
         int bannerHeight = DisplayUtil.dip2px(getApplicationContext(), 56);
         int sideHeight = height - searchEditHeight - bannerHeight;

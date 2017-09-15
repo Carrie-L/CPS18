@@ -1,0 +1,52 @@
+package com.adsale.ChinaPlas.helper;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.databinding.ObservableField;
+
+import com.adsale.ChinaPlas.dao.Exhibitor;
+import com.adsale.ChinaPlas.ui.ExhibitorActivity;
+import com.adsale.ChinaPlas.ui.MainActivity;
+import com.adsale.ChinaPlas.utils.Constant;
+import com.adsale.ChinaPlas.utils.LogUtil;
+
+import io.reactivex.Observable;
+
+/**
+ * Created by Carrie on 2017/9/15.
+ */
+
+public class LoadingReceiver extends BroadcastReceiver {
+
+    private static final String TAG = "LoadingReceiver";
+    public static final String LOADING_ACTION = "com.adsale.ChinaPlas.LoadingReceiver";
+    private SharedPreferences sp;
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        sp = context.getSharedPreferences(Constant.SP_CONFIG, Context.MODE_PRIVATE);
+        boolean isM1ShowFinish = sp.getBoolean("M1ShowFinish", false);
+        boolean isTxtDownFinish = sp.getBoolean("txtDownFinish", false);
+        boolean isWebServicesDownFinish = sp.getBoolean("webServicesDownFinish", false);
+        LogUtil.i(TAG, "m1 = " + isM1ShowFinish + ", txt = " + isTxtDownFinish + ", wc =" + isWebServicesDownFinish);
+
+        if (isM1ShowFinish && isTxtDownFinish && isWebServicesDownFinish) {
+            String companyId = sp.getString("M1ClickId", "");
+            LogUtil.i(TAG, "companyId=" + companyId);
+            mListener.intent(companyId);
+        }
+    }
+
+    public interface OnLoadFinishListener {
+        void intent(String companyId);
+    }
+
+    private OnLoadFinishListener mListener;
+
+    public void setOnLoadFinishListener(OnLoadFinishListener listener) {
+        mListener = listener;
+    }
+
+}

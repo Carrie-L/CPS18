@@ -71,6 +71,7 @@ public class LoginViewModel {
 
     private Context mContext;
     private String vmid;
+    private boolean isSaveSuccess;
 
     public LoginViewModel(Context context) {
         mContext = context.getApplicationContext();
@@ -127,7 +128,7 @@ public class LoginViewModel {
                     public Observable<EmailVisitorData> apply(@NonNull String s) throws Exception {
                         App.mSP_Login.edit().putString(Constant.USER_EMAIL, loginName.get().trim()).putString(Constant.USER_PWD, loginPwd.get().trim()).putBoolean(Constant.IS_LOGIN, true).apply();
                         LogUtil.i(TAG, "NAME=" + loginName.get() + ",PWD=" + loginPwd.get());
-                        return client.regGetData(regRequestBody).subscribeOn(Schedulers.io());
+                        return client.regGetData(regRequestBody).subscribeOn(Schedulers.computation());
                     }
                 })
                 .flatMap(new Function<EmailVisitorData, Observable<Response<ResponseBody>>>() {//从EmailVisitorData 中得到 RegImageName ，根据名称下载图片
@@ -143,8 +144,12 @@ public class LoginViewModel {
                     @Override
                     public Observable<Boolean> apply(@NonNull Response<ResponseBody> responseBodyResponse) throws Exception {
                         //保存图片
-                        byte[] bytes = responseBodyResponse.body().bytes();
-                        final boolean isSaveSuccess = AppUtil.saveFileOutput(mContext, Constant.REG_PNG, bytes);
+                        ResponseBody body=responseBodyResponse.body();
+                        if(body!=null){
+                            byte[] bytes = body.bytes();
+                            isSaveSuccess = AppUtil.saveFileOutput(mContext, Constant.REG_PNG, bytes);
+                            body.close();
+                        }
                         return Observable.create(new ObservableOnSubscribe<Boolean>() {
                             @Override
                             public void subscribe(@NonNull ObservableEmitter<Boolean> subscriber) throws Exception {

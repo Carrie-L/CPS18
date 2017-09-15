@@ -184,5 +184,11 @@
     <string name="scanner_tips">將二維碼放入框內，即可自動掃描</string>
     <string name="no_camera_permission">沒有照相機權限，無法掃描</string>
 
+    <bool name="isTablet">false</bool>
+
+    <string name="skip">跳過&#160;&#160;<![CDATA[<font color=#FF0000>%1$ds</font>]]></string>
+
+
+
 
 </resources>
