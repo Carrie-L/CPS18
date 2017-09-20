@@ -1,4 +1,4 @@
-package com.adsale.ChinaPlas.dao;
+package com.adsale.ChinaPlas.data;
 
 import android.content.Context;
 import android.database.DatabaseErrorHandler;
@@ -13,7 +13,11 @@ import com.adsale.ChinaPlas.utils.LogUtil;
  */
 
 public class TempOpenHelper extends SQLiteOpenHelper {
-    private static final String TAG = "TempOpenHelper";
+    private static final String TAG ="TempOpenHelper" ;
+    public final String HISTORY_TABLE_TEMP="HISTORY_EXHIBITOR_TEMP";
+    public final String SCHEDULE_TABLE_TEMP="SCHEDULE_INFO_TEMP";
+    public final String EXHIBITOR_TABLE_TEMP="EXHIBITOR_TEMP";
+    public final String NAME_CARD_TABLE_TEMP="NAME_CARD_TEMP";
 
     public TempOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -25,7 +29,7 @@ public class TempOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        LogUtil.i(TAG, "onCreate创建临时表");
+        LogUtil.i(TAG,"onCreate创建临时表");
         createExhibitorTempTable(db);
         createHistoryTempTable(db);
         createScheduleTempTable(db);
@@ -37,12 +41,11 @@ public class TempOpenHelper extends SQLiteOpenHelper {
 
     }
 
-    private void createExhibitorTempTable(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE EXHIBITOR_TEMP (COMPANY_ID TEXT PRIMARY KEY,IS_FAVOURITE INTEGER,NOTE TEXT)");
+    private void createExhibitorTempTable(SQLiteDatabase db){
+        db.execSQL("CREATE TABLE EXHIBITOR_TEMP (COMPANY_ID TEXT PAIMARY KEY,IS_FAVOURITE INTEGER,NOTE TEXT)");
     }
-
-    private void createScheduleTempTable(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + "\"SCHEDULE_INFO_TEMP\" (" + //
+    private void createScheduleTempTable(SQLiteDatabase db){
+        db.execSQL("CREATE TABLE "  +"\"SCHEDULE_INFO_TEMP\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY ," + // 0: id
                 "\"TITLE\" TEXT," + // 1: Title
                 "\"NOTE\" TEXT," + // 2: Note
@@ -54,8 +57,8 @@ public class TempOpenHelper extends SQLiteOpenHelper {
                 "\"EVENT_CID\" TEXT);"); // 8: EVENT_CID
     }
 
-    private void createHistoryTempTable(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + "\"HISTORY_EXHIBITOR_TEMP\" (" + //
+    private  void createHistoryTempTable(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE "  + "\"HISTORY_EXHIBITOR_TEMP\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY ," + // 0: id
                 "\"COMPANY_ID\" TEXT," + // 1: CompanyID
                 "\"COMPANY_NAME_EN\" TEXT," + // 2: CompanyNameEN
@@ -65,8 +68,8 @@ public class TempOpenHelper extends SQLiteOpenHelper {
                 "\"TIME\" TEXT);"); // 6: Time
     }
 
-    private void createNameCardTempTable(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + "\"NAME_CARD_TEMP\" (" + //
+    private void createNameCardTempTable(SQLiteDatabase db){
+        db.execSQL("CREATE TABLE " +  "\"NAME_CARD_TEMP\" (" + //
                 "\"DEVICE_ID\" TEXT PRIMARY KEY NOT NULL ," + // 0: DeviceId
                 "\"COMPANY\" TEXT NOT NULL ," + // 1: Company
                 "\"NAME\" TEXT NOT NULL ," + // 2: Name
@@ -78,3 +81,4 @@ public class TempOpenHelper extends SQLiteOpenHelper {
                 "\"UPDATE_DATE_TIME\" TEXT);"); // 8: UpdateDateTime
     }
 }
+

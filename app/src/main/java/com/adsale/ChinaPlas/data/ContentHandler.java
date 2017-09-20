@@ -42,12 +42,8 @@ public class ContentHandler extends DefaultHandler {
     private  ArrayList<News> mNewsArrayLists;
 
     private News mNews;
-    private Industry mIndustry;
-    private Exhibitor mExhibitor;
-    private ExhibitorIndustryDtl mDtl;
     private MainIcon mMainIcon;
     private MapFloor mMapFloor;
-    private Floor mFloor;
     private NewsLink mNewsLink;
     private WebContent mWebContent;
 
@@ -356,8 +352,6 @@ public class ContentHandler extends DefaultHandler {
         mLoadRepository.insertWebContentAll(mWebContents);
         mLoadRepository.insertMapFloorAll(mMapFloors);
 
-//        downMainIconZip();
-//        downWebContentZip();
     }
 
     private <T> void logList(ArrayList<T> list,String tag){
@@ -366,55 +360,7 @@ public class ContentHandler extends DefaultHandler {
         }
     }
 
-    /**
-     * 根据MainIcon表的zip地址下载 webview页面
-     */
-//    private void downMainIconZip() {
-//        int size = mMainIcons.size();
-//        String url = "";
-//        String root = App.rootDir;
-//        if (!new File(root + "WebContent/").exists()) {
-//            new File(root + "WebContent/").mkdir();
-//        }
-//
-//        //FOR GET ICON PIC
-//        for (int i = 0; i < size; i++) {
-//            mMainIcon = mMainIcons.get(i);
-//            url = NetWorkHelper.DOWNLOAD_PATH + "WebContent/" + mMainIcon.getIcon();
-//            LogUtil.i(TAG,"url="+url);
-//            NetWorkHelper.(url,App.rootDir+"MainIcon/"+mMainIcon.getIcon());
-//        }
-//
-//        for (int i = 0; i < size; i++) {
-//            mMainIcon = mMainIcons.get(i);
-//            if (!TextUtils.isEmpty(mMainIcon.getCFile())) {
-//                url = Configure.DOWNLOAD_PATH + "WebContent/" + mMainIcon.getCFile();
-//                DownloadFileUtil.downZip(url, root + "WebContent/" + mMainIcon.getIconID() + "/");
-//            }
-//        }
-//        url = null;
-//        root = null;
-//    }
 
-    /**
-     * 根据webcontent表的zip地址下载，用户条款和私隐政策声明
-     */
-//    private void downWebContentZip() {
-//        int size = mWebContents.size();
-//        String url = "";
-//        String root = App.rootDir;
-//        if (!new File(root + "WebContent/").exists()) {
-//            new File(root + "WebContent/").mkdir();
-//        }
-//
-//        for (int i = 0; i < size; i++) {
-//            mWebContent = mWebContents.get(i);
-//            if (!TextUtils.isEmpty(mWebContent.getCFile())) {
-//                url = Configure.DOWNLOAD_PATH + "WebContent/" + mWebContent.getCFile();
-//                DownloadFileUtil.downZip(url, root + "WebContent/" + mWebContent.getPageId() + "/");
-//            }
-//        }
-//    }
 
 
 }

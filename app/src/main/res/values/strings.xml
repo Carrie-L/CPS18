@@ -188,7 +188,16 @@
 
     <string name="skip">跳過&#160;&#160;<![CDATA[<font color=#FF0000>%1$ds</font>]]></string>
 
-
+    <!--同期活动-->
+    <string name="event_btn_all">全部</string>
+    <string name="event_btn_24">24</string>
+    <string name="event_btn_25">25</string>
+    <string name="event_btn_26">26</string>
+    <string name="event_btn_27">27</string>
+    <string name="event_date_24">2018.04.24</string>
+    <string name="event_date_25">2018.04.25</string>
+    <string name="event_date_26">2018.04.26</string>
+    <string name="event_date_27">2018.04.27</string>
 
 
 </resources>

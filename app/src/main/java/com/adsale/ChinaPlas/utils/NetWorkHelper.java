@@ -16,7 +16,8 @@ import okhttp3.RequestBody;
 public class NetWorkHelper {
     private static final String TAG = "NetWorkHelper";
     private static final MediaType MEDIA_TYPE_XML = MediaType.parse("text/xml; charset=UTF-8");
-    private static final String PROJECT_CODE = "CPS17";//test: CPSTEST
+//    private static final String PROJECT_CODE = "CPS17";// scanFile : normal
+    private static final String PROJECT_CODE = "CPSTEST";// scanFile:  test
 
     // WEBSERVICE 17年
     public static final String DOWNLOAD_PATH = "https://eform.adsale.com.hk/AppCPS17Services/";
@@ -53,6 +54,7 @@ public class NetWorkHelper {
     public static final String DOWN_WEBCONTENT_URL = "WebContent/{fileName}";
 
 
+
     // |||-------------------------------------------------------------------|||
 
 
@@ -71,13 +73,13 @@ public class NetWorkHelper {
                 .append("    <getMasterV2 xmlns=\"http://tempuri.org/\">\n")
                 .append("      <pExhibitorUpdateDateTime>").append("").append("</pExhibitorUpdateDateTime>\n")
                 .append("      <pIndustryDtlUpdateDateTime>").append("").append("</pIndustryDtlUpdateDateTime>\n")
-                .append("      <pNewsUpdateDateTime>").append(sp.getString("NewsUT", "")).append("</pNewsUpdateDateTime>\n")
-                .append("      <pNewsLinkUpdateDateTime>").append(sp.getString("NewsLinkLUT", "")).append("</pNewsLinkUpdateDateTime>\n")
-                .append("      <pWebContentDateTime>").append(sp.getString("WebContentLUT", "")).append("</pWebContentDateTime>\n")
+                .append("      <pNewsUpdateDateTime>").append(sp.getString("NEWS", "")).append("</pNewsUpdateDateTime>\n")
+                .append("      <pNewsLinkUpdateDateTime>").append(sp.getString("NEWS_LINK", "")).append("</pNewsLinkUpdateDateTime>\n")
+                .append("      <pWebContentDateTime>").append(sp.getString("WEB_CONTENT", "")).append("</pWebContentDateTime>\n")
                 .append("      <pIndustryDateTime>").append("").append("</pIndustryDateTime>\n")
-                .append("      <pMainIconDateTime>").append(sp.getString("MainIconLUT", "")).append("</pMainIconDateTime>")
+                .append("      <pMainIconDateTime>").append(sp.getString("MAIN_ICON", "")).append("</pMainIconDateTime>")
                 .append("      <pFloorDateTime>").append("").append("</pFloorDateTime>\n")
-                .append("      <pMapFloorDateTime>").append(sp.getString("MapFloorLUT", "")).append("</pMapFloorDateTime>\n")
+                .append("      <pMapFloorDateTime>").append(sp.getString("MAP_FLOOR", "")).append("</pMapFloorDateTime>\n")
                 .append("    </getMasterV2>\n")
                 .append("  </soap:Body>\n")
                 .append("</soap:Envelope>").toString();

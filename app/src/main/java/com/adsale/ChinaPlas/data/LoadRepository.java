@@ -1,22 +1,28 @@
 package com.adsale.ChinaPlas.data;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.dao.Exhibitor;
+import com.adsale.ChinaPlas.dao.ExhibitorDao;
 import com.adsale.ChinaPlas.dao.ExhibitorIndustryDtl;
 import com.adsale.ChinaPlas.dao.Floor;
+import com.adsale.ChinaPlas.dao.HistoryExhibitorDao;
 import com.adsale.ChinaPlas.dao.Industry;
 import com.adsale.ChinaPlas.dao.MainIcon;
 import com.adsale.ChinaPlas.dao.MainIconDao;
 import com.adsale.ChinaPlas.dao.MapFloor;
 import com.adsale.ChinaPlas.dao.MapFloorDao;
+import com.adsale.ChinaPlas.dao.NameCardDao;
 import com.adsale.ChinaPlas.dao.News;
 import com.adsale.ChinaPlas.dao.NewsDao;
 import com.adsale.ChinaPlas.dao.NewsLink;
 import com.adsale.ChinaPlas.dao.NewsLinkDao;
+import com.adsale.ChinaPlas.dao.ScheduleInfoDao;
 import com.adsale.ChinaPlas.dao.UpdateCenter;
 import com.adsale.ChinaPlas.dao.UpdateCenterDao;
 import com.adsale.ChinaPlas.dao.WebContent;
@@ -25,6 +31,7 @@ import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
@@ -49,6 +56,7 @@ public class LoadRepository {
     private boolean isFirstGetMaster;
     private String TAG;
     private SharedPreferences mSP_lut;
+
 
     public static LoadRepository getInstance(Context context) {
         return new LoadRepository(context);
@@ -83,14 +91,16 @@ public class LoadRepository {
     }
 
     private <T> void insertAll(ArrayList<T> list, AbstractDao<T, String> dao, String maxUT) {
-        long startTime = System.currentTimeMillis();
-        if (deleteAll(list)) {
-            LogUtil.e(TAG, dao.getTablename() + " --->>> clear all data");
-            dao.deleteAll();
+        if (list.size() > 0) {
+            long startTime = System.currentTimeMillis();
+            if (deleteAll(list)) {
+                LogUtil.e(TAG, dao.getTablename() + " --->>> clear all data");
+                dao.deleteAll();
+            }
+            dao.insertOrReplaceInTx(list);
+            LogUtil.i(TAG, "insertMainIconAll：" + (System.currentTimeMillis() - startTime) + "ms");
+            mSP_lut.edit().putString(dao.getTablename(), maxUT).apply();
         }
-        dao.insertOrReplaceInTx(list);
-        LogUtil.i(TAG, "insertMainIconAll：" + (System.currentTimeMillis() - startTime) + "ms");
-        mSP_lut.edit().putString(dao.getTablename(), maxUT).apply();
     }
 
     void insertMainIconAll(ArrayList<MainIcon> list) {

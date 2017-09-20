@@ -9,6 +9,7 @@ import android.os.Looper;
 import android.util.Log;
 
 import com.adsale.ChinaPlas.App;
+import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.ReleaseHelper;
 
@@ -115,7 +116,7 @@ public class DaoMaster extends AbstractDaoMaster {
 //            dropAllTables(db, true);
             LogUtil.e(TAG,"greenDAO"+"Upgrading schema from version " + oldVersion + " to " + newVersion + " by dropping all tables");
 
-            mSP_Config.edit().putBoolean("DB_UPGRADE",true).apply();
+            App.mSP_Config.edit().putBoolean(Constant.DB_UPGRADE,true).apply();
 
 
             //更新时，要到这一方法也执行完，才会返回DBHelper

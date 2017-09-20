@@ -48,28 +48,22 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
 
         mConfigSP = getSharedPreferences(Constant.SP_CONFIG, MODE_PRIVATE);
         mConfigSP.edit().putBoolean("M1ShowFinish", false).putBoolean("txtDownFinish", false).putBoolean("webServicesDownFinish", false).putString("M1ClickId", "").apply();
-        isFirstRunning = mConfigSP.getBoolean("isFirstRunning", true);
+//        isFirstRunning = mConfigSP.getBoolean("isFirstRunning", true);
+        isFirstRunning = AppUtil.isFirstRunning();
         mConfigSP.edit().putBoolean("isFirstGetMaster", isFirstRunning).apply();
         LogUtil.i(TAG, "== isFirstRunning == " + isFirstRunning);
+
+        mLoadingModel.initM1(binding.vpindicator, binding.autoVP, binding.tvSkip, binding.framelayout);
+        registerBroadcastReceiver();
 
         if (isFirstRunning) {
             mLoadingModel.showLangBtn.set(true);
             setDeviceType();
             requestPermission();
             getDeviceInfo();
-        }
-
-        registerBroadcastReceiver();
-
-        if (AppUtil.isNetworkAvailable()) {
-            mLoadingModel.startDownload();
-            mLoadingModel.loadingData();
-            mLoadingModel.getUpdateInfo();
         } else {
-            mLoadingModel.showM1();
+            mLoadingModel.run();
         }
-
-        mLoadingModel.initM1(binding.vpindicator, binding.autoVP, binding.tvSkip, binding.framelayout);
 
     }
 

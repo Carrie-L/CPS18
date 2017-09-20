@@ -54,6 +54,7 @@
         <activity android:name=".ui.NCardListActivity" />
         <activity android:name=".ui.ScannerActivity" />
         <activity android:name=".ui.ScanDtlActivity"/>
+        <activity android:name=".ui.ConcurrentEventActivity"/>
         <!--<receiver android:name=".helper.LoadingReceiver"/>-->
     </application>
 

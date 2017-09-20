@@ -45,6 +45,14 @@ import static com.adsale.ChinaPlas.dao.SeminarSpeakerDao.Properties.Language;
 public class AppUtil {
     private static final String TAG = "AppUtil";
 
+    public static boolean isFirstRunning(){
+        return App.mSP_Config.getBoolean("isFirstRunning", true);
+    }
+
+    public static void setNotFirstRunning(){
+        App.mSP_Config.edit().putBoolean("isFirstRunning", false).apply();
+    }
+
     public static boolean isPadDevice(Context c) {
         return !App.mSP_Config.getBoolean("isPhone", false);
     }

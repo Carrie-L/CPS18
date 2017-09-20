@@ -111,10 +111,8 @@ public class App extends Application {
         }
     }
 
-
-
     private void getDbHelper() {
-        mDBHelper = new DBHelper.Builder(getDaoSession(), db).build();
+        mDBHelper = new DBHelper.Builder(getDaoSession(), daoMaster,db).build();
     }
 
     private void checkUpdateDB() {
@@ -179,6 +177,8 @@ public class App extends Application {
         daoMaster = new DaoMaster(db);
         return daoMaster;
     }
+
+
 
     public void finish(){
         finish();

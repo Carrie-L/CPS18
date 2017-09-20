@@ -3,6 +3,7 @@ package com.adsale.ChinaPlas.helper;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,6 +13,7 @@ import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.data.model.adAdvertisementObj;
 import com.adsale.ChinaPlas.utils.AppUtil;
+import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.DisplayUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.Parser;
@@ -23,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.adsale.ChinaPlas.App.mSP_Config;
+import static com.adsale.ChinaPlas.utils.AppUtil.getCurrentDate;
 
 /**
  * Created by Carrie on 2017/9/13.
@@ -58,6 +61,25 @@ public class ADHelper {
         return Parser.parseJsonFilesDirFile(adAdvertisementObj.class, AD_TXT);
     }
 
+    public boolean isAdOpen() {
+        String todayDate = getCurrentDate();
+        String adStartTime = adObj.Common.time.split("-")[0];
+        String adEndTime = adObj.Common.time.split("-")[1];
+        LogUtil.i(TAG, "todayDate=" + todayDate + ".adStartTime=" + adStartTime + ".adEndTime=" + adEndTime);
+        int c1 = todayDate.compareTo(adStartTime);
+        int c2 = todayDate.compareTo(adEndTime);
+        LogUtil.i(TAG, "c1=" + c1 + ".c2=" + c2);
+        if (todayDate.compareTo(adStartTime) > 0 && todayDate.compareTo(adEndTime) < 0) {
+            mSP_Config.edit().putBoolean(Constant.IS_AD_OPEN, true).apply();
+            LogUtil.e(TAG, "~~~ad opening~~");
+            return true;
+        }
+        LogUtil.e(TAG, "~~~ad closed~~");
+        return false;
+
+
+    }
+
     public boolean isM1Open() {
         int size = adObj.M1.version.length;
         for (int i = 0; i < size; i++) {
@@ -70,7 +92,6 @@ public class ADHelper {
 
     public List<View> generateM1View(LinearLayout viewIndicator) {
         String[] adPics;
-
         List<View> pagers = new ArrayList<>();
         int mLanguage = AppUtil.getCurLanguage();
 
@@ -88,8 +109,8 @@ public class ADHelper {
             StringBuffer fileLink = new StringBuffer();
 
             for (int i = 0; i < change; i++) {
-                fileLink.delete(0,fileLink.length());
-                LogUtil.i(TAG,i+",,fileLink="+fileLink.toString());
+                fileLink.delete(0, fileLink.length());
+                LogUtil.i(TAG, i + ",,fileLink=" + fileLink.toString());
                 fileLink.append(adObj.Common.baseUrl).append(adObj.M1.filepath).append(adCompanyIDs[i])
                         .append("/").append(AppUtil.isTablet() ? adObj.Common.tablet : adObj.Common.phone).append(languageType).append("_")
                         .append(adObj.M1.version[i]).append(adObj.M1.format);

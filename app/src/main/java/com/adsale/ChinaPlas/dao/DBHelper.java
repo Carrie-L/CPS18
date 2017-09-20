@@ -10,6 +10,7 @@ public class DBHelper {
     private static final String TAG = "DBHelper";
 
     private DaoSession mDaoSession;
+    private DaoMaster mDaoMaster;
     public SQLiteDatabase db;
 
     public MainIconDao mIconDao;
@@ -43,16 +44,19 @@ public class DBHelper {
 
     private DBHelper(Builder builder) {
         mDaoSession = builder.mDaoSession;
+        mDaoMaster = builder.mDaoMaster;
         db = builder.mDB;
         initDao();
     }
 
     public static final class Builder {
         private DaoSession mDaoSession;
+        private DaoMaster mDaoMaster;
         private SQLiteDatabase mDB;
 
-        public Builder(DaoSession daoSession, SQLiteDatabase db) {
+        public Builder(DaoSession daoSession, DaoMaster daoMaster, SQLiteDatabase db) {
             this.mDaoSession = daoSession;
+            this.mDaoMaster = daoMaster;
             this.mDB = db;
         }
 
@@ -61,7 +65,7 @@ public class DBHelper {
         }
     }
 
-    private void initDao() {
+    public void initDao() {
         mIconDao = mDaoSession.getMainIconDao();
         mAppIndustryDao = mDaoSession.getApplicationIndustryDao();
         mAppCompanyDao = mDaoSession.getApplicationCompanyDao();
@@ -86,5 +90,15 @@ public class DBHelper {
         mSeminarInfoDao = mDaoSession.getSeminarInfoDao();
         mSeminarSpeakerDao = mDaoSession.getSeminarSpeakerDao();
     }
+
+    /**
+     * 当有更新的时候，将oldDB的这些数据清空。不清空的话仍保存原来的数据，不是新的。
+     */
+    public void setToNull() {
+        mDaoMaster = null;
+        mDaoSession = null;
+        db = null;
+    }
+
 
 }

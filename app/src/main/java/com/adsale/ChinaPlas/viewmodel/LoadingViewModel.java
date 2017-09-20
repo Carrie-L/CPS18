@@ -3,8 +3,8 @@ package com.adsale.ChinaPlas.viewmodel;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.databinding.ObservableBoolean;
-import android.databinding.ObservableField;
 import android.support.v4.view.ViewPager;
 import android.text.Html;
 import android.view.View;
@@ -17,21 +17,21 @@ import android.widget.TextView;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.AdViewPagerAdapter;
 import com.adsale.ChinaPlas.dao.MainIcon;
+import com.adsale.ChinaPlas.dao.TempOpenHelper;
 import com.adsale.ChinaPlas.dao.UpdateCenter;
 import com.adsale.ChinaPlas.dao.WebContent;
 import com.adsale.ChinaPlas.data.ContentHandler;
 import com.adsale.ChinaPlas.data.LoadRepository;
+import com.adsale.ChinaPlas.data.LoadTransferTempDB;
 import com.adsale.ChinaPlas.data.LoadingClient;
 import com.adsale.ChinaPlas.data.model.LoadUrl;
 import com.adsale.ChinaPlas.data.model.adAdvertisementObj;
 import com.adsale.ChinaPlas.helper.ADHelper;
-import com.adsale.ChinaPlas.helper.LoadingReceiver;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.FileUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.NetWorkHelper;
-import com.adsale.ChinaPlas.utils.Parser;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -49,7 +49,6 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
@@ -63,12 +62,14 @@ import static android.content.Context.MODE_PRIVATE;
 import static com.adsale.ChinaPlas.App.mSP_Config;
 import static com.adsale.ChinaPlas.App.rootDir;
 import static com.adsale.ChinaPlas.helper.LoadingReceiver.LOADING_ACTION;
-import static com.adsale.ChinaPlas.utils.AppUtil.getCurrentDate;
+import static com.adsale.ChinaPlas.utils.AppUtil.isFirstRunning;
 import static com.adsale.ChinaPlas.utils.AppUtil.logListString;
+import static com.adsale.ChinaPlas.utils.AppUtil.setNotFirstRunning;
 import static com.adsale.ChinaPlas.utils.FileUtil.createFile;
 
 /**
  * Created by Carrie on 2017/9/8.
+ * Loading
  */
 
 public class LoadingViewModel implements ADHelper.OnM1ClickListener {
@@ -88,8 +89,8 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
     private ArrayList<WebContent> webContents;
     private ArrayList<MainIcon> mainIcons;
     private adAdvertisementObj adObj;
-    private ADHelper mAdHelper;
     private Disposable mTxtDisposable, mWCDisposable, mAdDisposable;
+    private SQLiteDatabase mTempDB;
 
     public LoadingViewModel(Context mContext) {
         this.mContext = mContext;
@@ -97,7 +98,29 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
         mLoadRepository = LoadRepository.getInstance(mContext);
     }
 
-    public void startDownload() {
+    public void chooseLang(int language) {
+        LogUtil.i(TAG, "language=" + language);
+        AppUtil.switchLanguage(mContext, language);
+        AppUtil.setCurLanguage(language);
+        run();
+    }
+
+    public void run() {
+        upgradeDB();
+
+        if (AppUtil.isNetworkAvailable()) {
+            setupDownload();
+            loadingData();
+            getUpdateInfo();
+            if (isFirstRunning()) {
+                setNotFirstRunning();
+            }
+        } else {
+            showM1();
+        }
+    }
+
+    private void setupDownload() {
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         Gson gson = new GsonBuilder().setLenient().create();
         Retrofit.Builder builder = new Retrofit.Builder()
@@ -109,7 +132,7 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
     }
 
     //第一次运行，则获取所有数据。然后将本地数据表的数据清空，插入新的数据。
-    public void loadingData() {
+    private void loadingData() {
         mWebContentDir = rootDir + "WebContent/";
         mMainIconDir = rootDir + "MainIcon/";
         createFile(mWebContentDir);
@@ -183,6 +206,11 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
                 });
     }
 
+    /**
+     * 将MainIcon \ WebContent 的 zip、icon 下载链接都整合到一起，便于用Retrofit+RxJava下载
+     *
+     * @return ArrayList
+     */
     private ArrayList<LoadUrl> processUrls() {
         int iconSize = mainIcons.size();
         int wcSize = webContents.size();
@@ -247,7 +275,7 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
     /**
      * 根据更新信息下载txt
      */
-    public void getUpdateInfo() {
+    private void getUpdateInfo() {
         mClient.getScanFile(NetWorkHelper.getScanRequestBody())
                 .flatMap(new Function<Response<ResponseBody>, Observable<UpdateCenter>>() {// getScanFilesJson
                     @Override
@@ -261,6 +289,14 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
                                 Type listType = new TypeToken<ArrayList<UpdateCenter>>() {
                                 }.getType();
                                 scanFiles = new Gson().fromJson(result, listType);
+
+
+                                //把ConcurrentEvent.txt手動加上去。。。
+                                UpdateCenter updateCenter = new UpdateCenter();
+                                updateCenter.setScanFile("CurrentEvents.txt");
+                                scanFiles.add(updateCenter);
+
+
                                 logListString(scanFiles);
                             }
                             result = null;
@@ -313,6 +349,7 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
         final String fileName = updateCenter.getScanFile().trim();
         //比较最后更新时间
         if (isOneOfFiveTxt(fileName)) {
+            LogUtil.i(TAG, "~~isOneOfFiveTxt~~");
             String localUT = mLoadRepository.getLocalTxtLUT(fileName);
             String txtUT = updateCenter.FPDate.compareTo(updateCenter.FUDate) > 0 ? updateCenter.FPDate : updateCenter.FUDate;
             int result = txtUT.compareTo(localUT);
@@ -324,9 +361,10 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
                 mLoadRepository.updateLocalLUT(updateCenter);
                 return getTxt(fileName);// has update, so download
             }
+            LogUtil.i(TAG, "~~isOneOfFiveTxt, but not network.~~");
             return Observable.just(fileName);// no update
         }
-        getTxt(AD_TXT);
+        LogUtil.i(TAG, "!!~~isOneOfFiveTxt~~!!");
         return getTxt(fileName);// has network, download others txt. always download
     }
 
@@ -342,6 +380,7 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
      * 下载单个txt，并写入内存data/.../files中
      */
     private Observable<String> getTxt(final String fileName) {
+        LogUtil.e(TAG, "getTxt:::fileName=" + fileName);
         return mClient.downTxt(fileName)
                 .subscribeOn(Schedulers.io())
                 .map(new Function<Response<ResponseBody>, String>() {
@@ -377,19 +416,19 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
         this.m1Frame = m1Frame;
     }
 
-    public void showM1() {
-        mAdHelper = ADHelper.getInstance(mContext);
-        adObj = mAdHelper.getAdObj();
-//        if (adObj == null) {
-//            LogUtil.e(TAG, "adObj == null ,so parse it");
-//            adObj = mAdHelper.getAdObj();
-//        }
+    private void showM1() {
+        ADHelper mAdHelper = ADHelper.getInstance(mContext);
+        if (adObj == null) {
+            LogUtil.e(TAG, "adObj == null ,so parse it");
+            adObj = mAdHelper.getAdObj();
+        }
         mAdHelper.setAdObj(adObj);
-        if (isAdOpen() && mAdHelper.isM1Open()) {
+        if (mAdHelper.isAdOpen() && mAdHelper.isM1Open()) {
             isShowM1.set(true);
             mAdHelper.setOnM1ClickListener(this);
             List<View> pagers = mAdHelper.generateM1View(viewIndicator);
             autoChangeViewPager.setAdapter(new AdViewPagerAdapter(pagers));
+            autoChangeViewPager.addOnPageChangeListener(new ViewPageChangeListener());
             tvSkip.setVisibility(View.VISIBLE);
             tvSkip.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -433,9 +472,7 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
 
                         @Override
                         public void onComplete() {
-//                            tvSkip.setText(Html.fromHtml(String.format(Locale.getDefault(), mContext.getString(R.string.skip), 0)));
                             LogUtil.i(TAG, "----------广告倒计时结束------------");
-
                             Intent intent = new Intent(LOADING_ACTION);
                             mSP_Config.edit().putBoolean("M1ShowFinish", true).apply();
                             mContext.sendBroadcast(intent);
@@ -446,38 +483,54 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
         }
     }
 
-    private boolean isAdOpen() {
-        String todayDate = getCurrentDate();
-        String adStartTime = adObj.Common.time.split("-")[0];
-        String adEndTime = adObj.Common.time.split("-")[1];
-        LogUtil.i(TAG, "todayDate=" + todayDate + ".adStartTime=" + adStartTime + ".adEndTime=" + adEndTime);
-        int c1 = todayDate.compareTo(adStartTime);
-        int c2 = todayDate.compareTo(adEndTime);
-        LogUtil.i(TAG, "c1=" + c1 + ".c2=" + c2);
-        if (todayDate.compareTo(adStartTime) > 0 && todayDate.compareTo(adEndTime) < 0) {
-            mSP_Config.edit().putBoolean(Constant.IS_AD_OPEN, true).apply();
-            LogUtil.e(TAG, "~~~ad opening~~");
-            return true;
+    private class ViewPageChangeListener implements ViewPager.OnPageChangeListener {
+
+        @Override
+        public void onPageScrollStateChanged(int arg0) {
         }
-        LogUtil.e(TAG, "~~~ad closed~~");
-        return false;
 
+        @Override
+        public void onPageScrolled(int arg0, float arg1, int arg2) {
+        }
 
+        // 监听页面改变事件来改变viewIndicator中的指示图片
+        @Override
+        public void onPageSelected(int arg0) {
+            int len = viewIndicator.getChildCount();
+            for (int i = 0; i < len; ++i)
+                viewIndicator.getChildAt(i).setBackgroundResource(R.drawable.dot_normal);
+            viewIndicator.getChildAt(arg0).setBackgroundResource(R.drawable.dot_focused);
+        }
     }
-
 
     /**
      * 当数据库版本增加时，升级数据库
      */
     private void upgradeDB() {
         boolean needUpdateDB = mConfigSP.getBoolean(Constant.DB_UPGRADE, false);
+        LogUtil.i(TAG, "needUpdateDB=" + needUpdateDB);
         if (needUpdateDB) {
-            LogUtil.i(TAG, "①将数据存入临时表");
-            LogUtil.i(TAG, "② 导入新数据库");
-            LogUtil.i(TAG, "③ 从临时表中取出数据，插入新数据库中:");
-            LogUtil.i(TAG, "④ 清空临时表");
-            mConfigSP.edit().putBoolean(Constant.DB_UPGRADE, false).apply();
+            createTempDB();
+            LogUtil.e(TAG, "① 将数据存入临时表");
+            LoadTransferTempDB transferTempDB = LoadTransferTempDB.getInstance(mContext, mTempDB);
+            transferTempDB.saveTempData();
+            transferTempDB.deleteOldDB();
+            LogUtil.e(TAG, "② 导入新数据库");
+            transferTempDB.importNewDB();
+            LogUtil.e(TAG, "③ 从临时表中取出数据，插入新数据库中:");
+            transferTempDB.insertNewTable();
+            LogUtil.e(TAG, "④ 清空临时表");
+            transferTempDB.clearTemp();
+            mTempDB.close();
+            mSP_Config.edit().putBoolean(Constant.DB_UPGRADE, false).apply();
         }
+    }
+
+    private void createTempDB() {
+        LogUtil.i(TAG, "createTempDB");
+        TempOpenHelper mTempOpenHelper = new TempOpenHelper(mContext, "temp.db", null, 1);
+        mTempOpenHelper.getReadableDatabase();
+        mTempDB = mTempOpenHelper.getWritableDatabase();
     }
 
     public void unSubscribe() {
@@ -495,17 +548,12 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
     @Override
     public void onClick(String companyId) {
         Intent intent = new Intent(LOADING_ACTION);
-//        intent.setAction(LOADING_ACTION);
         mSP_Config.edit().putBoolean("M1ShowFinish", true).putString("M1ClickId", companyId).apply();
         mContext.sendBroadcast(intent);
-
         LogUtil.i(TAG, "))))) onClick, send broadcast");
         if (mAdDisposable != null && !mAdDisposable.isDisposed()) {
             mAdDisposable.dispose();//停止倒计时
         }
     }
 
-    public void onM1Click(String companyId) {
-
-    }
 }
