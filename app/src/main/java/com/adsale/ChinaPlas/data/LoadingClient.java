@@ -22,6 +22,7 @@ import static com.baidu.mobstat.u.h;
 
 /**
  * Created by Carrie on 2017/9/8.
+ * Loading加载页的 Retrofit + RxJava
  */
 
 public interface LoadingClient {

@@ -20,7 +20,9 @@ import android.widget.Toast;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.DrawerAdapter;
 import com.adsale.ChinaPlas.dao.MainIcon;
+import com.adsale.ChinaPlas.dao.WebContent;
 import com.adsale.ChinaPlas.data.MainIconRepository;
+import com.adsale.ChinaPlas.ui.ConcurrentEventActivity;
 import com.adsale.ChinaPlas.ui.ExhibitorActivity;
 import com.adsale.ChinaPlas.ui.LoginActivity;
 import com.adsale.ChinaPlas.ui.MainActivity;
@@ -31,6 +33,7 @@ import com.adsale.ChinaPlas.ui.NewsActivity;
 import com.adsale.ChinaPlas.ui.RegisterActivity;
 import com.adsale.ChinaPlas.ui.ScannerActivity;
 import com.adsale.ChinaPlas.ui.ScheduleActivity;
+import com.adsale.ChinaPlas.ui.WebContentActivity;
 import com.adsale.ChinaPlas.ui.WebViewActivity;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
@@ -278,11 +281,11 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
 //                intent = new Intent(context, UpdateCenterActivity.class);
                 break;
             case Constant.BDTJ_MY_NAME_CARD://名片
-                SharedPreferences spNameCard=activity.getSharedPreferences("MyNameCard", Context.MODE_PRIVATE);
-                boolean isCreate=spNameCard.getBoolean("isCreate",true);
-                if(isCreate){
+                SharedPreferences spNameCard = activity.getSharedPreferences("MyNameCard", Context.MODE_PRIVATE);
+                boolean isCreate = spNameCard.getBoolean("isCreate", true);
+                if (isCreate) {
                     intent = new Intent(activity, NCardCreateEditActivity.class);
-                }else{
+                } else {
                     intent = new Intent(activity, NCardActivity.class);
                 }
                 break;
@@ -297,7 +300,8 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
                 intent = new Intent(activity, NewsActivity.class);
                 break;
             case Constant.BDTJ_EVENTS:
-//                intent = new Intent(context, EventActivity.class);
+            case Constant.BDTJ_EVENTS_TXT:
+                intent = new Intent(activity, ConcurrentEventActivity.class);
                 break;
             case Constant.BDTJ_TRAVEL_INFO:
 //                intent = new Intent(context, HotelInfoActivity.class);
@@ -320,8 +324,8 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
 //                intent.putExtra("TYPE", Constant.COM_MSG_CENTER);
                 break;
             default:
-                intent = new Intent(activity, WebViewActivity.class);
-                intent.putExtra(Constant.MAIN_ICON, mainIcon);
+                intent = new Intent(activity, WebContentActivity.class);
+                intent.putExtra("Url", "WebContent/".concat(mainIcon.getIconID()));
                 break;
         }
     }

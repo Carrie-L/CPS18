@@ -14,6 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.AdViewPagerAdapter;
 import com.adsale.ChinaPlas.dao.MainIcon;
@@ -32,6 +33,7 @@ import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.FileUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.NetWorkHelper;
+import com.adsale.ChinaPlas.utils.ReRxUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -66,6 +68,7 @@ import static com.adsale.ChinaPlas.utils.AppUtil.isFirstRunning;
 import static com.adsale.ChinaPlas.utils.AppUtil.logListString;
 import static com.adsale.ChinaPlas.utils.AppUtil.setNotFirstRunning;
 import static com.adsale.ChinaPlas.utils.FileUtil.createFile;
+import static com.baidu.mobstat.u.g;
 
 /**
  * Created by Carrie on 2017/9/8.
@@ -91,6 +94,7 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
     private adAdvertisementObj adObj;
     private Disposable mTxtDisposable, mWCDisposable, mAdDisposable;
     private SQLiteDatabase mTempDB;
+    private boolean isM1Showing = false;
 
     public LoadingViewModel(Context mContext) {
         this.mContext = mContext;
@@ -108,6 +112,9 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
     public void run() {
         upgradeDB();
 
+        boolean isNetwork = AppUtil.isNetworkAvailable();
+        LogUtil.e(TAG, "????? isNetworkAvailable=" + isNetwork);
+
         if (AppUtil.isNetworkAvailable()) {
             setupDownload();
             loadingData();
@@ -116,19 +123,24 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
                 setNotFirstRunning();
             }
         } else {
+            LogUtil.e(TAG, "~~ no network ~~");
+            Intent intent = new Intent(LOADING_ACTION);
+            mSP_Config.edit().putBoolean("webServicesDownFinish", true).putBoolean("txtDownFinish", true).apply();
+            mContext.sendBroadcast(intent);
             showM1();
         }
     }
 
     private void setupDownload() {
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-        Gson gson = new GsonBuilder().setLenient().create();
-        Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl(NetWorkHelper.DOWNLOAD_PATH)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create(gson));
-        Retrofit retrofit = builder.client(httpClient.build()).build();
-        mClient = retrofit.create(LoadingClient.class);
+//        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+//        Gson gson = new GsonBuilder().setLenient().create();
+//        Retrofit.Builder builder = new Retrofit.Builder()
+//                .baseUrl(NetWorkHelper.DOWNLOAD_PATH)
+//                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+//                .addConverterFactory(GsonConverterFactory.create(gson));
+//        Retrofit retrofit = builder.client(App.mOkHttpClient).build();
+//        mClient = retrofit.create(LoadingClient.class);
+        mClient = ReRxUtils.setupRxtrofit(LoadingClient.class, NetWorkHelper.DOWNLOAD_PATH);
     }
 
     //第一次运行，则获取所有数据。然后将本地数据表的数据清空，插入新的数据。
@@ -190,6 +202,11 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
 
                     @Override
                     public void onError(@NonNull Throwable e) {
+                        LogUtil.e(TAG,"getMaster -- onError="+e.getMessage());
+                        Intent intent = new Intent(LOADING_ACTION);
+                        mSP_Config.edit().putBoolean("webServicesDownFinish", true).apply();
+                        mContext.sendBroadcast(intent);
+                        LogUtil.e(TAG, "))))) down wc error, send broadcast");
                     }
 
                     @Override
@@ -321,6 +338,7 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
 
                     @Override
                     public void onNext(@NonNull String s) {
+                        LogUtil.i(TAG, "getScanFile: onNext = " + s);
                         if (s.toLowerCase().equals(AD_TXT) && adObj != null) {
                             LogUtil.i(TAG, "* 显示M1广告 * ");
                             showM1();
@@ -329,7 +347,14 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-
+                        LogUtil.e(TAG, "getScanFile: onError = " + e.getMessage());
+                        if (!isM1Showing) {
+                            showM1();
+                        }
+                        Intent intent = new Intent(LOADING_ACTION);
+                        mSP_Config.edit().putBoolean("txtDownFinish", true).apply();
+                        mContext.sendBroadcast(intent);
+                        LogUtil.i(TAG, "))))) down txt error, send broadcast");
                     }
 
                     @Override
@@ -361,11 +386,12 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
                 mLoadRepository.updateLocalLUT(updateCenter);
                 return getTxt(fileName);// has update, so download
             }
-            LogUtil.i(TAG, "~~isOneOfFiveTxt, but not network.~~");
+            LogUtil.i(TAG, "~~isOneOfFiveTxt, but no update.~~");
             return Observable.just(fileName);// no update
         }
         LogUtil.i(TAG, "!!~~isOneOfFiveTxt~~!!");
         return getTxt(fileName);// has network, download others txt. always download
+
     }
 
     /**
@@ -454,6 +480,7 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
                     .subscribe(new Observer<Long>() {
                         @Override
                         public void onSubscribe(@NonNull Disposable d) {
+                            isM1Showing = true;
                             mAdDisposable = d;
                             Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.bottom_to_top);
                             m1Frame.startAnimation(animation);

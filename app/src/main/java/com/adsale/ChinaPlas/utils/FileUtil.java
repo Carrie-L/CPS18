@@ -17,6 +17,9 @@ import java.io.InputStreamReader;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import okhttp3.ResponseBody;
+import retrofit2.Response;
+
 import static android.R.attr.path;
 
 /**
@@ -40,7 +43,6 @@ public class FileUtil {
     }
 
     public static String createFile(String absPath) {
-        LogUtil.i(TAG, "absPath0=" + absPath);
         if (!absPath.contains("/")) {
             absPath += "/";
         }
@@ -110,10 +112,23 @@ public class FileUtil {
         return false;
     }
 
+    public static boolean writeZipToMemory(Response<ResponseBody> response, String zipName, String zipPath) {
+        ResponseBody body = response.body();
+        if (body != null) {
+            LogUtil.i(TAG,"body != null");
+            FileUtil.unpackZip(zipName, body.byteStream(), zipPath);
+            body.close();
+            return true;
+        }
+        LogUtil.i(TAG,"body == null");
+        return false;
+    }
+
 
     /**
      * 从内存或asset目录下读取文件
-     *!!! Attention !!!  为 App.rootDir 目录下
+     * !!! Attention !!!  为 App.rootDir 目录下
+     *
      * @param filePath 如："Txt/advertisement.txt"
      */
     public static String readRootDirFile(String filePath) {
@@ -126,13 +141,14 @@ public class FileUtil {
 
     /**
      * !!! Attention !!!  文件位于 data/data/com.adsale.ChinaPlas/files/ 目录下 或 assets的 files/ 目录下
+     *
      * @param fileName "xxx.txt"
      */
-    public static String readFilesDirFile(String fileName){
+    public static String readFilesDirFile(String fileName) {
         if (new File(App.filesDir + fileName).exists()) {
             return readMemoryFile(App.filesDir + fileName);
         } else {
-            return readAssetFile("files/"+fileName);
+            return readAssetFile("files/" + fileName);
         }
     }
 

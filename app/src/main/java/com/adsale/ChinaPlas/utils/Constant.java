@@ -77,6 +77,7 @@ public class Constant {
     public static final String BDTJ_QR_SCANNER = "QRCodeScanner";
     public static final String BDTJ_NOTIFICATION_CENTER = "NotificationCenter";
     public static final String BDTJ_EVENTS = "CurrentEvents";
+    public static final String BDTJ_EVENTS_TXT = "CurrentEventsTxt";
     public static final String BDTJ_HALL_MAP_TEXT = "HallMapText";
     public static final String BDTJ_HALL_MAP = "HallMap";
     public static final String BDTJ_INTERESTED_EXHIBITOR = "MyInterestedExhibitor";
@@ -85,6 +86,8 @@ public class Constant {
     public static final String DB_UPGRADE = "dbUpgrade";
 
     public static final String IS_AD_OPEN = "isADOpen";
+
+    public static final String TXT_CONCURRENT_EVENT = "CurrentEvents.txt";
 
 
 }

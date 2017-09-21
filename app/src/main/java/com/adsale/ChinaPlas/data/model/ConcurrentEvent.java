@@ -3,7 +3,10 @@ package com.adsale.ChinaPlas.data.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.adsale.ChinaPlas.utils.AppUtil;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -18,7 +21,12 @@ public class ConcurrentEvent implements Parcelable {
 
     public ArrayList<Pages> pages;
 
-    static class Pages {
+    public static class Pages {
+        public String title;
+        public String getTitle(){
+            return AppUtil.getName(title_tc,title_en,title_cn);
+        }
+
         /* 同期活动标题 */
         public String title_en;
         public String title_cn;
@@ -47,6 +55,31 @@ public class ConcurrentEvent implements Parcelable {
 
         /* 同期活动ID */
         public String pageID;
+
+        @Override
+        public String toString() {
+            return "Pages{" +
+                    "title_en='" + title_en + '\'' +
+                    ", title_cn='" + title_cn + '\'' +
+                    ", title_tc='" + title_tc + '\'' +
+                    ", pre_reg='" + pre_reg + '\'' +
+                    ", entrance_fee='" + entrance_fee + '\'' +
+                    ", date='" + date + '\'' +
+                    ", applications=" + Arrays.toString(applications) +
+                    ", location='" + location + '\'' +
+                    ", duration='" + duration + '\'' +
+                    ", sort='" + sort + '\'' +
+                    ", pageID='" + pageID + '\'' +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "ConcurrentEvent{" +
+                "htmlFilePath='" + htmlFilePath + '\'' +
+                ", pages=" + pages +
+                '}';
     }
 
     @Override

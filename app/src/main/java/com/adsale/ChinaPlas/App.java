@@ -27,8 +27,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.TimeUnit;
 
 import io.fabric.sdk.android.Fabric;
+import okhttp3.OkHttpClient;
 
 /**
  * Created by Carrie on 2017/8/8.
@@ -63,6 +65,8 @@ public class App extends Application {
     public static ConnectivityManager mConnectivityManager;
     public static AssetManager mAssetManager;
 
+    public static OkHttpClient mOkHttpClient;
+
     //    public static String memoryFileDir;
 
     @Override
@@ -82,6 +86,8 @@ public class App extends Application {
         LogUtil.i(TAG,"filesDir="+filesDir);
 
         mAssetManager=getAssets();
+
+        mOkHttpClient = new OkHttpClient.Builder().connectTimeout(5, TimeUnit.SECONDS).build();
 
         getDbHelper();
     }

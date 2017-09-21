@@ -62,6 +62,8 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
             requestPermission();
             getDeviceInfo();
         } else {
+            getDeviceInfo2();
+
             mLoadingModel.run();
         }
 
@@ -120,23 +122,8 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
         }
     }
 
-    private void getDeviceId() {
+    private void getDeviceInfo2() {
         TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        String deviceId = tm.getDeviceId();
-        LogUtil.i(TAG, "deviceId=" + deviceId);
-        if (TextUtils.isEmpty(deviceId)) {
-            deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-            LogUtil.i(TAG, "deviceId  =" + deviceId);
-        }
-
-        if (TextUtils.isEmpty(deviceId)) {
-            deviceId = UUID.randomUUID().toString();
-        }
-
-        App.mSP_Config.edit().putString("deviceId", deviceId).apply();
-
-        String uniqueID = UUID.randomUUID().toString();
-        LogUtil.i(TAG, "uniqueID=" + uniqueID);
 
         int phoneType = tm.getPhoneType();
         LogUtil.i(TAG, "phoneType=" + phoneType);
@@ -149,8 +136,24 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
 
         String NetworkOperatorName = tm.getNetworkOperatorName();
         LogUtil.i(TAG, "NetworkOperatorName=" + NetworkOperatorName);//Android
+    }
 
-        App.mSP_Config.edit().putString("UUID", uniqueID).apply();
+    private void getDeviceId() {
+        TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        String deviceId = tm.getDeviceId();
+        LogUtil.i(TAG, "deviceId=" + deviceId);
+        if (TextUtils.isEmpty(deviceId)) {
+            deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+            LogUtil.i(TAG, "deviceId  =" + deviceId);
+        }
+        if (TextUtils.isEmpty(deviceId)) {
+            deviceId = UUID.randomUUID().toString();
+        }
+        App.mSP_Config.edit().putString("deviceId", deviceId).apply();
+
+//        App.mSP_Config.edit().putString("UUID", uniqueID).apply();
+
+        LogUtil.i(TAG, "deviceId=" + deviceId);
     }
 
 

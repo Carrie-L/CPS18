@@ -28,6 +28,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 
@@ -45,11 +47,11 @@ import static com.adsale.ChinaPlas.dao.SeminarSpeakerDao.Properties.Language;
 public class AppUtil {
     private static final String TAG = "AppUtil";
 
-    public static boolean isFirstRunning(){
+    public static boolean isFirstRunning() {
         return App.mSP_Config.getBoolean("isFirstRunning", true);
     }
 
-    public static void setNotFirstRunning(){
+    public static void setNotFirstRunning() {
         App.mSP_Config.edit().putBoolean("isFirstRunning", false).apply();
     }
 
@@ -402,6 +404,8 @@ public class AppUtil {
         LogUtil.i(TAG, "logListString -=- " + list.size() + "," + list.toString());
     }
 
-//    public static void
+    public static <T> void sort(ArrayList<T> list, Comparator<T> comparator) {
+        Collections.sort(list, comparator);
+    }
 
 }
