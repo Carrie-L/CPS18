@@ -47,6 +47,7 @@ import static com.adsale.ChinaPlas.R.id.language;
 
 /**
  * Created by Carrie on 2017/8/8.
+ * 侧边栏
  */
 
 public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {

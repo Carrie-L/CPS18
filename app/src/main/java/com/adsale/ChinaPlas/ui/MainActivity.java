@@ -35,16 +35,13 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initData() {
         permissionSD();
-
-        String filedir = "/data" + Environment.getDataDirectory().getAbsolutePath() + "/" + getPackageName() + "/files";
-        LogUtil.i(TAG, "filedir=" + filedir);
-
-        String fileAbsDir = getFilesDir().getAbsolutePath();
-        LogUtil.i(TAG, "fileAbsDir=" + fileAbsDir);
-
         if(mNavViewModel!=null){
             mNavViewModel.setMainActivity(this);
         }
+
+
+
+
 
     }
 
