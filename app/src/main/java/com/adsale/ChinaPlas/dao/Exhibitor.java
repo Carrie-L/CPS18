@@ -65,6 +65,7 @@ public class Exhibitor implements Parcelable {
     public String Sort;
 
     public ObservableBoolean isPhotoEmpty = new ObservableBoolean(true);
+    public final ObservableBoolean isCollected = new ObservableBoolean(false);
 
     // KEEP FIELDS END
 
@@ -617,6 +618,9 @@ public class Exhibitor implements Parcelable {
                 + PhotoFileName + ", SeqEN=" + SeqEN + ", SeqTC=" + SeqTC + ", SeqSC=" + SeqSC + ", HallNo=" + HallNo
                 + ", IsFavourite=" + IsFavourite + ", percent=" + percent + "]";
     }
+
+
+
     // KEEP METHODS END
 
     @Override

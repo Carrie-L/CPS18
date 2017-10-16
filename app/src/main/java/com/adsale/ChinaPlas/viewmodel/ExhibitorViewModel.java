@@ -1,6 +1,7 @@
 package com.adsale.ChinaPlas.viewmodel;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
@@ -10,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.data.ExhibitorRepository;
 import com.adsale.ChinaPlas.data.model.SideLetter;
+import com.adsale.ChinaPlas.ui.ExhibitorFilterActivity;
 import com.adsale.ChinaPlas.utils.LogUtil;
 
 import java.util.ArrayList;
@@ -23,12 +25,15 @@ import static android.content.ContentValues.TAG;
  */
 
 public class ExhibitorViewModel {
-    /* ------------------------------- Exhibitor All list -------------------------------------- */
     public final ObservableBoolean noData = new ObservableBoolean(true);
     public final ObservableField<String> etFilter = new ObservableField<>();
     public final ObservableField<String> indexText = new ObservableField<>();
     public final ObservableArrayList<Exhibitor> exhibitors = new ObservableArrayList<>();
     public final ObservableArrayList<SideLetter> letters = new ObservableArrayList<>();
+    /**
+     * 当前是否以拼音字母排序，true是；false hall排序。
+     */
+    public final ObservableBoolean isSortAZ = new ObservableBoolean(true);
 
     private ArrayList<Exhibitor> mExhibitorCaches = new ArrayList<>();
     private ArrayList<SideLetter> mSideCaches = new ArrayList<>();
@@ -40,7 +45,7 @@ public class ExhibitorViewModel {
     public LinearLayoutManager mLayoutManager;
     private RecyclerView recyclerView;
     private boolean isSmothScroller = false;
-    private ArrayList<Exhibitor> searchTemps=new ArrayList<>();
+    private ArrayList<Exhibitor> searchTemps = new ArrayList<>();
 
     public ExhibitorViewModel(Context mContext, ExhibitorRepository repository) {
         this.mContext = mContext;
@@ -49,14 +54,14 @@ public class ExhibitorViewModel {
 
     public ArrayList<Exhibitor> getAllExhibitors() {
         exhibitors.clear();
-        LogUtil.i("---> getAllExhibitors before ","mExhibitorCaches="+mExhibitorCaches.size()+",exhibitors=" +exhibitors.size());
+        LogUtil.i("---> getAllExhibitors before ", "mExhibitorCaches=" + mExhibitorCaches.size() + ",exhibitors=" + exhibitors.size());
         if (mExhibitorCaches.isEmpty()) {
             exhibitors.addAll(mExhibitorRepo.getData());
             mExhibitorCaches.addAll(exhibitors);
-        }else{
+        } else {
             exhibitors.addAll(mExhibitorCaches);
         }
-        LogUtil.i("getAllExhibitors after <---- ","mExhibitorCaches="+mExhibitorCaches.size()+",exhibitors=" +exhibitors.size());
+        LogUtil.i("getAllExhibitors after <---- ", "mExhibitorCaches=" + mExhibitorCaches.size() + ",exhibitors=" + exhibitors.size());
 
         noData.set(exhibitors.isEmpty());
 
@@ -71,13 +76,13 @@ public class ExhibitorViewModel {
         letters.addAll(mSideCaches);
     }
 
-    public void search(String text){
+    public void search(String text) {
         exhibitors.clear();
         letters.clear();
         searchTemps.clear();
 
         searchTemps.addAll(mExhibitorCaches);
-        exhibitors.addAll(mExhibitorRepo.getExhibitorSearchResults(searchTemps,text));
+        exhibitors.addAll(mExhibitorRepo.getExhibitorSearchResults(searchTemps, text));
         letters.addAll(mExhibitorRepo.getSearchedLetters(text));
     }
 
@@ -86,18 +91,18 @@ public class ExhibitorViewModel {
         this.recyclerView = recyclerView;
     }
 
-    public void getAllLetters(){
+    public void getAllLetters() {
         letters.clear();
-        if(mSideCaches.size()>0){
+        if (mSideCaches.size() > 0) {
             letters.addAll(mSideCaches);
-        }else{
+        } else {
             letters.addAll(mExhibitorRepo.getAllExhiLetters());
             mSideCaches.addAll(letters);
         }
-        LogUtil.i(TAG,"letters="+letters.size()+",letters="+letters.toString());
+        LogUtil.i(TAG, "letters=" + letters.size() + ",letters=" + letters.toString());
     }
 
-    public void scrollTo(String letter){
+    public void scrollTo(String letter) {
         int size = exhibitors.size();
         for (int j = 0; j < size; j++) {
             if (exhibitors.get(j).getSort().equals(letter)) {
@@ -187,8 +192,19 @@ public class ExhibitorViewModel {
         });
     }
 
-    public void onImgFilter(){
+    public void onImgFilter() {
+        Intent intent =new Intent(mContext, ExhibitorFilterActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mContext.startActivity(intent);
+    }
 
+
+    public void onSortAZ() {
+        isSortAZ.set(true);
+    }
+
+    public void onSortHall() {
+        isSortAZ.set(false);
     }
 
 

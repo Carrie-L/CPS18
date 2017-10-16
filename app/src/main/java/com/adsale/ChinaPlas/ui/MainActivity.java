@@ -1,10 +1,5 @@
 package com.adsale.ChinaPlas.ui;
 
-import android.content.SharedPreferences;
-import android.os.Environment;
-import android.util.DisplayMetrics;
-
-import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.databinding.ActivityMainBinding;

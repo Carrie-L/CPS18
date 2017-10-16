@@ -128,7 +128,7 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
 
     @Override
     public void updateItemData(Exhibitor entity) {
-
+        mExhibitorDao.update(entity);
     }
 
     @Override

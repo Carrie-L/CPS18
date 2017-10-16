@@ -1,13 +1,9 @@
 package com.adsale.ChinaPlas.ui;
 
-import android.content.Intent;
-import android.databinding.BindingAdapter;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.NewsAdapter;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.dao.News;

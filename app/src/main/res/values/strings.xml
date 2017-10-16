@@ -127,6 +127,9 @@
     <string name="toast_floor_download">為了更好的體驗平面圖功能，請您更新展館平面圖對應數據。</string>
     <string name="toast_floor_update">請您更新平面圖數據，以便獲取更准確的資料。</string>
 
+    <string name="sort_by_az">Pingyin</string>
+    <string name="sort_by_hall">Hall</string>
+
     <!--Name Card-->
     <!-- cardlist_item -->
     <string name="card_phone">電話:</string>

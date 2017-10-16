@@ -58,7 +58,9 @@
         <activity android:name=".ui.ScanDtlActivity" />
         <activity android:name=".ui.ConcurrentEventActivity" />
         <!-- <receiver android:name=".helper.LoadingReceiver"/> -->
-        <activity android:name=".ui.WebContentActivity"></activity>
+        <activity android:name=".ui.WebContentActivity" />
+        <activity android:name=".ui.DownloadCenterActivity" />
+        <activity android:name=".ui.ExhibitorFilterActivity"></activity>
     </application>
 
 </manifest>

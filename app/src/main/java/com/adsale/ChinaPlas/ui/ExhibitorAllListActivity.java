@@ -3,6 +3,7 @@ package com.adsale.ChinaPlas.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -10,6 +11,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -21,6 +23,7 @@ import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.dao.SideBar;
 import com.adsale.ChinaPlas.data.ExhibitorRepository;
+import com.adsale.ChinaPlas.data.OnItemClickCallback;
 import com.adsale.ChinaPlas.databinding.ActivityExhibitorAllListBinding;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
@@ -34,8 +37,9 @@ import java.util.ArrayList;
 
 /**
  * 全部参展商列表
+ * todo  ①、sideBar.  ②、search cache  ③、
  */
-public class ExhibitorAllListActivity extends BaseActivity {
+public class ExhibitorAllListActivity extends BaseActivity implements OnItemClickCallback {
     private ExhibitorViewModel mExhibitorModel;
     private ActivityExhibitorAllListBinding binding;
     private ExhibitorRepository mRepository;
@@ -58,7 +62,6 @@ public class ExhibitorAllListActivity extends BaseActivity {
 
         setExhibitorList();
         setSideList();
-
 
         EditText etFilter = binding.editFilter;
         etFilter.addTextChangedListener(new TextWatcher() {
@@ -92,8 +95,9 @@ public class ExhibitorAllListActivity extends BaseActivity {
         rvExhibitors.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         rvExhibitors.setLayoutManager(layoutManager);
+        rvExhibitors.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayout.VERTICAL));
 
-        ExhibitorAdapter adapter = new ExhibitorAdapter(this, new ArrayList<Exhibitor>(0));
+        ExhibitorAdapter adapter = new ExhibitorAdapter(this, new ArrayList<Exhibitor>(0), mRepository, this);
         rvExhibitors.setAdapter(adapter);
 
         mExhibitorModel.getAllExhibitors();
@@ -127,24 +131,6 @@ public class ExhibitorAllListActivity extends BaseActivity {
     }
 
     private void onItemClick() {
-        rvExhibitors.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), rvExhibitors, new RecyclerItemClickListener.OnItemClickListener() {
-
-            @Override
-            public void onItemLongClick(View view, int position) {
-            }
-
-            @Override
-            public void onItemClick(View view, int position) {
-                if (dateIndex!=-1) {
-                    Intent intent = new Intent(ExhibitorAllListActivity.this,ScheduleEditActivity.class);
-                    intent.putExtra(Constant.EXHIBITOR, mExhibitorModel.exhibitors.get(position));
-                    intent.putExtra("dateIndex",dateIndex);
-                    startActivity(intent);
-                    finish();
-                }
-
-            }
-        }));
     }
 
     public void onLetterClick(String letter) {
@@ -154,4 +140,14 @@ public class ExhibitorAllListActivity extends BaseActivity {
 
     }
 
+    @Override
+    public <T> void onItemClick(T entity) {
+        if (dateIndex != -1) {
+            Intent intent = new Intent(ExhibitorAllListActivity.this, ScheduleEditActivity.class);
+            intent.putExtra(Constant.EXHIBITOR,(Exhibitor)entity);
+            intent.putExtra("dateIndex", dateIndex);
+            startActivity(intent);
+            finish();
+        }
+    }
 }

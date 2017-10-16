@@ -1,22 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/txtGroupName"
-        android:layout_width="fill_parent"
-        android:layout_height="38dp"
-        android:paddingLeft="16dp"
-        android:paddingStart="16dp"
-        android:gravity="center_vertical"
-        android:background="@color/white_smoke"
-        android:text="A"
-        android:textColor="@color/home"
-        android:textSize="18sp" />
+    <data>
+        <variable
+            name="adapter"
+            type="com.adsale.ChinaPlas.adapter.ExhibitorAdapter"/>
+        <variable
+            name="obj"
+            type="com.adsale.ChinaPlas.dao.Exhibitor" />
+    </data>
 
-    <include layout="@layout/item_exhi_detail_child" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="38dp"
+            android:background="@color/white_smoke"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:paddingStart="16dp"
+            android:text="@{obj.getSort()}"
+            android:textColor="@color/home"
+            android:textSize="18sp" />
 
-</LinearLayout>
+        <include
+            layout="@layout/item_exhi_detail_child"
+            app:obj="@{obj}"
+            app:adapter="@{adapter}"
+            />
+
+    </LinearLayout>
+
+</layout>
