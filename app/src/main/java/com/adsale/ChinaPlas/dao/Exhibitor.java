@@ -4,6 +4,7 @@ package com.adsale.ChinaPlas.dao;
 
 // KEEP INCLUDES - put your custom includes here
 
+import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
@@ -371,7 +372,7 @@ public class Exhibitor implements Parcelable {
 
     public void setPhotoFileName(String PhotoFileName) {
         this.PhotoFileName = PhotoFileName;
-        if(!TextUtils.isEmpty(PhotoFileName)){
+        if (!TextUtils.isEmpty(PhotoFileName)) {
             isPhotoEmpty.set(false);
         }
     }
@@ -518,7 +519,15 @@ public class Exhibitor implements Parcelable {
     }
 
     public String getSort() {
-        Sort = AppUtil.getName(StrokeTrad + Constant.TRAD_STROKE, StrokeEng, PYSimp);
+        int language = AppUtil.getCurLanguage();
+        if (language == 1 && StrokeEng.contains("#")) {
+            StrokeEng = "#";
+        } else if (language == 2 && PYSimp.contains("#")) {
+            PYSimp = "#";
+        } else if (language == 0 && StrokeTrad.contains("#")) {
+            StrokeTrad = "#";
+        }
+        Sort = AppUtil.getName(language, StrokeTrad + Constant.TRAD_STROKE, StrokeEng, PYSimp);
         return Sort;
     }
 
@@ -618,7 +627,6 @@ public class Exhibitor implements Parcelable {
                 + PhotoFileName + ", SeqEN=" + SeqEN + ", SeqTC=" + SeqTC + ", SeqSC=" + SeqSC + ", HallNo=" + HallNo
                 + ", IsFavourite=" + IsFavourite + ", percent=" + percent + "]";
     }
-
 
 
     // KEEP METHODS END

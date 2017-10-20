@@ -138,6 +138,8 @@ public class AppUtil {
     }
 
 
+
+
     public static boolean isLogin() {
         return App.mSP_Login.getBoolean(Constant.IS_LOGIN, false);
     }

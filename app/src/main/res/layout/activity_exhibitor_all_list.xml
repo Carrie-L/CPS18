@@ -81,17 +81,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/tv_sort_by"
-            app:exhibitors="@{exhibitorModel.exhibitors}" />
+            />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_side_bar"
-            android:layout_width="32dp"
-            android:layout_height="match_parent"
+        <com.adsale.ChinaPlas.ui.view.SideLetter
+            android:id="@+id/side_letter"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_below="@id/editFilter"
-            android:background="@drawable/scrollbar_bg"
-            app:items="@{exhibitorModel.letters}" />
+            />
+
+
 
         <TextView
             android:id="@+id/DialogText"
@@ -100,7 +101,7 @@
             android:layout_centerInParent="true"
             android:layout_gravity="center"
             android:background="@drawable/show_head_toast_bg"
-            android:text="@{exhibitorModel.indexText}"
+            android:text="@{exhibitorModel.dialogLetter}"
             android:textColor="@android:color/white"
             android:textSize="20sp" />
 

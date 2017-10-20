@@ -28,5 +28,6 @@
     <color name="deep_gray">#505050</color>
     <color name="light_gray">#CCCCCC</color>
     <color name="dark_gray">#5d5657</color>
+    <color name="grey3">#E8E8E8</color>
 
 </resources>

@@ -7,8 +7,11 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.adsale.ChinaPlas.dao.ScheduleInfo;
+import com.adsale.ChinaPlas.utils.LogUtil;
 
 import java.util.ArrayList;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Carrie on 2017/8/3.
@@ -39,7 +42,7 @@ public abstract class CpsBaseAdapter<T> extends RecyclerView.Adapter<CpsBaseView
     protected abstract int getLayoutIdForPosition(int position);
 
     protected void bindVariable(ViewDataBinding binding){
-
+        binding.executePendingBindings();
     }
 
     public void setList(ArrayList<T> list){

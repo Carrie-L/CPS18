@@ -10,8 +10,11 @@ import com.adsale.ChinaPlas.adapter.ScheduleAdapter;
 import com.adsale.ChinaPlas.base.CpsBaseAdapter;
 import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.dao.ScheduleInfo;
+import com.adsale.ChinaPlas.utils.LogUtil;
 
 import java.util.ArrayList;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Carrie on 2017/8/11.
@@ -25,11 +28,23 @@ import java.util.ArrayList;
 public class ListBindings {
 
 //    @BindingAdapter("app:items")
+
+    /**
+     * 由于死循环，取消此方法
+     * @param recyclerView
+     * @param list
+     * @param <T>
+     */
     @BindingAdapter({"items"})
     public static <T> void setItems(RecyclerView recyclerView, ArrayList<T> list) {
         CpsBaseAdapter<T> adapter = (CpsBaseAdapter<T>) recyclerView.getAdapter();
         if (adapter != null) {
             adapter.setList(list);
+            if(adapter.getItemCount()==list.size()){
+                LogUtil.i("ListBindings_setItems","adapter.getItemCount()==list.size()");
+                return;
+            }
+            LogUtil.i("ListBindings_setItems","setList");
         }
     }
 

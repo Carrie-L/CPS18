@@ -4,10 +4,17 @@ package com.adsale.ChinaPlas.dao;
 
 // KEEP INCLUDES - put your custom includes here
 // KEEP INCLUDES END
+
+import android.databinding.ObservableBoolean;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.adsale.ChinaPlas.utils.AppUtil;
+
 /**
  * Entity mapped to table "APPLICATION_INDUSTRY".
  */
-public class ApplicationIndustry implements java.io.Serializable {
+public class ApplicationIndustry implements Parcelable {
 
     private String IndustryID;
     /** Not-null value. */
@@ -20,6 +27,7 @@ public class ApplicationIndustry implements java.io.Serializable {
     private String SCPY;
 
     // KEEP FIELDS - put your custom fields here
+    public final ObservableBoolean isSelected=new ObservableBoolean(false);
     // KEEP FIELDS END
 
     public ApplicationIndustry() {
@@ -102,17 +110,42 @@ public class ApplicationIndustry implements java.io.Serializable {
 		this.SCPY=inputStream[5];
 	}
     
-    public String getApplicationName(int language){
-		String name="";
-		if(language==0){
-			name=ApplicationTC;
-		}else if(language==1){
-			name=ApplicationEng;
-		}else{
-			name=ApplicationSC;
-		}
-		return name;
+    public String getApplicationName(){
+		return AppUtil.getName(ApplicationTC,ApplicationEng,ApplicationSC);
 	}
     // KEEP METHODS END
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.IndustryID);
+        dest.writeString(this.ApplicationEng);
+        dest.writeString(this.ApplicationTC);
+        dest.writeString(this.ApplicationSC);
+        dest.writeString(this.TCStroke);
+        dest.writeString(this.SCPY);
+    }
+
+    protected ApplicationIndustry(Parcel in) {
+        this.IndustryID = in.readString();
+        this.ApplicationEng = in.readString();
+        this.ApplicationTC = in.readString();
+        this.ApplicationSC = in.readString();
+        this.TCStroke = in.readString();
+        this.SCPY = in.readString();
+    }
+
+    public static final Parcelable.Creator<ApplicationIndustry> CREATOR = new Parcelable.Creator<ApplicationIndustry>() {
+        public ApplicationIndustry createFromParcel(Parcel source) {
+            return new ApplicationIndustry(source);
+        }
+
+        public ApplicationIndustry[] newArray(int size) {
+            return new ApplicationIndustry[size];
+        }
+    };
 }

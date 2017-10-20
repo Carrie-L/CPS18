@@ -1,16 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
-    <data>
 
+    <data>
+        <variable
+            name="ui"
+            type="com.adsale.ChinaPlas.ui.ExhibitorFilterActivity" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white_smoke">
 
-        <android.support.v7.widget.RecyclerView
+        <!--底部-->
+        <ImageView
+            android:id="@+id/iv_ad"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true" />
+
+        <LinearLayout
+            android:id="@+id/ll_btn"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_above="@id/iv_ad"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/btn_grey_style"
+                android:text="@string/filter_clear_all"
+                android:onClick="@{()->ui.onClear()}"
+                />
+
+            <TextView
+                style="@style/btn_red_style"
+                android:text="@string/filter_ok"
+                android:onClick="@{()->ui.onFilter()}"
+                />
+        </LinearLayout>
+
+        <!--篩選列表-->
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/ll_btn">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <!--产品类别-->
+                <com.adsale.ChinaPlas.ui.view.FilterView
+                    android:id="@+id/industry_filter_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <!--应用分类-->
+                <com.adsale.ChinaPlas.ui.view.FilterView
+                    android:id="@+id/application_filter_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <!--国家-->
+                <com.adsale.ChinaPlas.ui.view.FilterView
+                    android:id="@+id/country_filter_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <!--展馆-->
+                <com.adsale.ChinaPlas.ui.view.FilterView
+                    android:id="@+id/hall_filter_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <!--展区-->
+                <com.adsale.ChinaPlas.ui.view.FilterView
+                    android:id="@+id/booth_filter_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <!--新技术-->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/white">
+
+                    <TextView
+                        android:id="@+id/tv_new_tec"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:drawableLeft="@drawable/ic_fiter_new_tec"
+                        android:drawablePadding="8dp"
+                        android:drawableStart="@drawable/ic_fiter_new_tec"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:text="@string/filter_new_tec"
+                        android:textSize="16sp" />
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/switch_new_tec"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="8dp"
+                        android:checked="true" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+
     </RelativeLayout>
 
 </layout>

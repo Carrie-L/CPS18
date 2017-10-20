@@ -4,10 +4,19 @@ package com.adsale.ChinaPlas.dao;
 
 // KEEP INCLUDES - put your custom includes here
 // KEEP INCLUDES END
+
+import android.databinding.ObservableBoolean;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.adsale.ChinaPlas.utils.AppUtil;
+
+import static com.adsale.ChinaPlas.R.id.language;
+
 /**
  * Entity mapped to table "COUNTRY".
  */
-public class Country {
+public class Country implements Parcelable {
 
     private String CountryID;
     /** Not-null value. */
@@ -24,6 +33,8 @@ public class Country {
     private String SortCN;
 
     // KEEP FIELDS - put your custom fields here
+    public final ObservableBoolean isTypeLabel = new ObservableBoolean();
+    public final ObservableBoolean selected = new ObservableBoolean(false);
     // KEEP FIELDS END
 
     public Country() {
@@ -112,25 +123,48 @@ public class Country {
     }
 
     // KEEP METHODS - put your custom methods here
-    public String getSort(int language){
-    	if(language==0){
-    		return SortTW;
-    	}else if(language==1){
-    		return SortEN;
-    	}else{
-    		return SortCN;
-    	}
+    public String getSort(){
+    	return AppUtil.getName(SortTW,SortEN,SortCN);
     }
     
-    public String getCountryName(int language){
-    	if(language==0){
-    		return CountryNameTW;
-    	}else if(language==1){
-    		return CountryNameEN;
-    	}else{
-    		return CountryNameCN;
-    	}
+    public String getCountryName(){
+        return AppUtil.getName(CountryNameTW,CountryNameEN,CountryNameCN);
     }
     // KEEP METHODS END
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.CountryID);
+        dest.writeString(this.CountryNameTW);
+        dest.writeString(this.CountryNameCN);
+        dest.writeString(this.CountryNameEN);
+        dest.writeString(this.SortTW);
+        dest.writeString(this.SortEN);
+        dest.writeString(this.SortCN);
+    }
+
+    protected Country(Parcel in) {
+        this.CountryID = in.readString();
+        this.CountryNameTW = in.readString();
+        this.CountryNameCN = in.readString();
+        this.CountryNameEN = in.readString();
+        this.SortTW = in.readString();
+        this.SortEN = in.readString();
+        this.SortCN = in.readString();
+    }
+
+    public static final Parcelable.Creator<Country> CREATOR = new Parcelable.Creator<Country>() {
+        public Country createFromParcel(Parcel source) {
+            return new Country(source);
+        }
+
+        public Country[] newArray(int size) {
+            return new Country[size];
+        }
+    };
 }

@@ -58,7 +58,6 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
         mBaseBinding.setVariable(BR.activity, this);
 
         mDBHelper = App.mDBHelper;
-        TAG = getClass().getSimpleName();
 
         mNavViewModel = new NavViewModel(getApplicationContext());
 
@@ -78,6 +77,12 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
         initData();
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TAG = getClass().getSimpleName();
     }
 
     private void initDrawer() {

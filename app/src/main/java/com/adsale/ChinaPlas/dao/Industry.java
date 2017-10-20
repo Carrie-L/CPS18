@@ -4,10 +4,18 @@ package com.adsale.ChinaPlas.dao;
 
 // KEEP INCLUDES - put your custom includes here
 // KEEP INCLUDES END
+
+import android.databinding.ObservableBoolean;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.adsale.ChinaPlas.utils.AppUtil;
+import com.adsale.ChinaPlas.utils.Constant;
+
 /**
  * Entity mapped to table "INDUSTRY".
  */
-public class Industry {
+public class Industry implements Parcelable {
 
     private String CatalogProductSubID;
     private String CatEng;
@@ -19,6 +27,8 @@ public class Industry {
     private String EN_SORT;
 
     // KEEP FIELDS - put your custom fields here
+    public final ObservableBoolean isTypeLabel = new ObservableBoolean();
+    public final ObservableBoolean selected = new ObservableBoolean(false);
     // KEEP FIELDS END
 
     public Industry() {
@@ -28,7 +38,7 @@ public class Industry {
         this.CatalogProductSubID = CatalogProductSubID;
     }
 
-    public Industry(String CatalogProductSubID, String CatEng, String CatTC, String CatSC, Integer TCStroke, String SCPY, Boolean IsSelected,String enSort) {
+    public Industry(String CatalogProductSubID, String CatEng, String CatTC, String CatSC, Integer TCStroke, String SCPY, Boolean IsSelected, String enSort) {
         this.CatalogProductSubID = CatalogProductSubID;
         this.CatEng = CatEng;
         this.CatTC = CatTC;
@@ -36,7 +46,7 @@ public class Industry {
         this.TCStroke = TCStroke;
         this.SCPY = SCPY;
         this.IsSelected = IsSelected;
-        this.EN_SORT=enSort;
+        this.EN_SORT = enSort;
     }
 
     public String getCatalogProductSubID() {
@@ -104,73 +114,89 @@ public class Industry {
     }
 
     // KEEP METHODS - put your custom methods here
-    public String getIndustryName(int language){
-    	if(language==0){
-    		return CatTC;
-    	}else if(language==1){
-    		return CatEng;
-    	}else{
-    		return CatSC;
-    	}
+    public String getIndustryName() {
+        return AppUtil.getName(CatTC, CatEng, CatSC);
     }
-    
-    public String getSort(int language){
-//    	if(language==0){
-//    		return TCStroke+Constant.TRAD_STROKE;
-//    	}else if(language==1){
-//    		return EN_SORT;
-//    	}else{
-//    		return SCPY;
-//    	}
-        return "Sort_TODO";
-    }
-    
-    public void setIndustryName(int language,String industryName){
-    	if(language==0){
-    		this.CatTC=industryName;
-    	}else if(language==1){
-    		this.CatEng=industryName;
-    	}else{
-    		this.CatSC=industryName;
-    	}
-    }
-    
-    
-//    public Boolean getIsSelected() {
-//    	if(IsSelected==null){
-//    		IsSelected=false;
-//    	}
-//        return IsSelected;
-//    }
-    
-    public void parser(String[] inputStream){
-		this.CatalogProductSubID=inputStream[0];
-		this.CatEng=inputStream[1];
-		this.CatTC=inputStream[2];
-		this.CatSC=inputStream[3];
-        if(inputStream[4].equals("#")){
-            this.TCStroke=999;
-        }else
-		    this.TCStroke=Integer.valueOf(inputStream[4]);
 
-        if(inputStream[5].equals("#")){
-            inputStream[5]="ZZ";
+    public String getSort() {
+        if (EN_SORT.contains("#")) {
+            EN_SORT = "#";
         }
-		this.SCPY=inputStream[5];
-	}
-    
-    public boolean isSelected=false;
-    
+        return AppUtil.getName(TCStroke + Constant.TRAD_STROKE, EN_SORT, SCPY);
+    }
+
+    public void setIndustryName(int language, String industryName) {
+        if (language == 0) {
+            this.CatTC = industryName;
+        } else if (language == 1) {
+            this.CatEng = industryName;
+        } else {
+            this.CatSC = industryName;
+        }
+    }
+
+    public void parser(String[] inputStream) {
+        this.CatalogProductSubID = inputStream[0];
+        this.CatEng = inputStream[1];
+        this.CatTC = inputStream[2];
+        this.CatSC = inputStream[3];
+        if (inputStream[4].equals("#")) {
+            this.TCStroke = 999;
+        } else
+            this.TCStroke = Integer.valueOf(inputStream[4]);
+
+        if (inputStream[5].equals("#")) {
+            inputStream[5] = "ZZ";
+        }
+        this.SCPY = inputStream[5];
+    }
+
     public int count;
     public String IndustryIDParent;
-    private static final String TAG = "Industry";
 
-	@Override
-	public String toString() {
-		return "Industry [CatalogProductSubID=" + CatalogProductSubID + ", CatEng=" + CatEng + ", CatTC=" + CatTC
-				+ ", CatSC=" + CatSC + ", IsSelected=" + IsSelected + ", isSelected=" + isSelected + ", count=" + count
-				+ "]";
-	}
+
+
     // KEEP METHODS END
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.CatalogProductSubID);
+        dest.writeString(this.CatEng);
+        dest.writeString(this.CatTC);
+        dest.writeString(this.CatSC);
+        dest.writeValue(this.TCStroke);
+        dest.writeString(this.SCPY);
+        dest.writeValue(this.IsSelected);
+        dest.writeString(this.EN_SORT);
+        dest.writeInt(this.count);
+        dest.writeString(this.IndustryIDParent);
+    }
+
+    protected Industry(Parcel in) {
+        this.CatalogProductSubID = in.readString();
+        this.CatEng = in.readString();
+        this.CatTC = in.readString();
+        this.CatSC = in.readString();
+        this.TCStroke = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.SCPY = in.readString();
+        this.IsSelected = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.EN_SORT = in.readString();
+        this.count = in.readInt();
+        this.IndustryIDParent = in.readString();
+    }
+
+    public static final Parcelable.Creator<Industry> CREATOR = new Parcelable.Creator<Industry>() {
+        public Industry createFromParcel(Parcel source) {
+            return new Industry(source);
+        }
+
+        public Industry[] newArray(int size) {
+            return new Industry[size];
+        }
+    };
 }
