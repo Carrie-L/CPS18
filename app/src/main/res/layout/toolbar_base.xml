@@ -4,7 +4,7 @@
     android:id="@+id/toolbar"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
     android:layout_width="match_parent"
-    android:layout_height="56dp"
-    android:background="@drawable/inner_banner"
+    android:layout_height="wrap_content"
+    android:background="@drawable/inner_header"
     android:minHeight="56dp"
     android:theme="@style/MyToolBar" />

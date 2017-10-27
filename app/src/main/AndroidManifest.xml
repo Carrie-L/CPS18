@@ -60,12 +60,15 @@
         <!-- <receiver android:name=".helper.LoadingReceiver"/> -->
         <activity android:name=".ui.WebContentActivity" />
         <activity android:name=".ui.DownloadCenterActivity" />
-        <activity android:name=".ui.ExhibitorFilterActivity"/>
-        <activity android:name=".ui.FilterIndustryListActivity"/>
-        <activity android:name=".ui.FilterApplicationListActivity"/>
-        <activity android:name=".ui.FilterCountryListActivity"/>
-        <activity android:name=".ui.FilterHallListActivity"/>
-        <activity android:name=".ui.FilterBoothListActivity"/>
+        <activity android:name=".ui.ExhibitorFilterActivity" />
+        <activity android:name=".ui.FilterIndustryListActivity" />
+        <activity android:name=".ui.FilterApplicationListActivity" />
+        <activity android:name=".ui.FilterCountryListActivity" />
+        <activity android:name=".ui.FilterHallListActivity" />
+        <activity android:name=".ui.FilterBoothListActivity" />
+        <activity android:name=".ui.TechnicalListActivity" />
+        <activity android:name=".ui.TechSeminarDtlActivity" />
+        <activity android:name=".ui.UpdateCenterActivity"></activity>
     </application>
 
 </manifest>

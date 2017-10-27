@@ -1,0 +1,4 @@
+{
+  "csvlink":"https://o97tbiy1f.qnssl.com/FloorPlan/FloorPlan_0420.csv",
+  "imagePath":"https://o97tbiy1f.qnssl.com/FloorPlan/"
+}

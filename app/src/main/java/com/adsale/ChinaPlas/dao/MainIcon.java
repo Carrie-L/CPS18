@@ -8,6 +8,7 @@ package com.adsale.ChinaPlas.dao;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.view.View;
 
 import com.adsale.ChinaPlas.utils.AppUtil;
 
@@ -44,6 +45,7 @@ public class MainIcon implements Parcelable {
     private String BaiDu_TJ;
     private String Google_TJ;
 
+
     // KEEP FIELDS - put your custom fields here
     /**默认全部展开，则设为true；默认全部折叠，则设为false*/
     public  boolean isExpanded=false;
@@ -58,6 +60,13 @@ public class MainIcon implements Parcelable {
 
     public int color;
 
+    /** 新增列 */
+    public String DrawerList;
+    public String MenuList;
+    public String DrawerIcon;
+    public String IconTextColor;
+
+    public View innerView;
 
     // KEEP FIELDS END
 
@@ -68,7 +77,8 @@ public class MainIcon implements Parcelable {
         this.IconID = IconID;
     }
 
-    public MainIcon(String IconID, String TitleTW, String TitleCN, String TitleEN, String Icon, int CType, String CFile, String ZipDateTime, int IsHidden, int SEQ, String CreateDateTime, String UpdateDateTime, String RecordTimeStamp, int IsDown, String BaiDu_TJ, String Google_TJ) {
+    public MainIcon(String IconID, String TitleTW, String TitleCN, String TitleEN, String Icon, int CType, String CFile, String ZipDateTime, int IsHidden, int SEQ, String CreateDateTime, String UpdateDateTime, String RecordTimeStamp, int IsDown, String BaiDu_TJ, String Google_TJ
+            ,String DrawerList,String MenuList,String DrawerIcon,String IconTextColor) {
         this.IconID = IconID;
         this.TitleTW = TitleTW;
         this.TitleCN = TitleCN;
@@ -85,6 +95,10 @@ public class MainIcon implements Parcelable {
         this.IsDown = IsDown;
         this.BaiDu_TJ = BaiDu_TJ;
         this.Google_TJ = Google_TJ;
+        this.DrawerList=DrawerList;
+        this.MenuList=MenuList;
+        this.DrawerIcon=DrawerIcon;
+        this.IconTextColor=IconTextColor;
     }
 
     public String getIconID() {
@@ -269,6 +283,38 @@ public class MainIcon implements Parcelable {
         this.TitleCN=titleSC;
     }
 
+    public String getDrawerList() {
+        return DrawerList;
+    }
+
+    public String getMenuList() {
+        return MenuList;
+    }
+
+    public String getDrawerIcon() {
+        return DrawerIcon;
+    }
+
+    public String getIconTextColor() {
+        return IconTextColor;
+    }
+
+    public void setDrawerList(String drawerList) {
+        DrawerList = drawerList;
+    }
+
+    public void setMenuList(String menuList) {
+        MenuList = menuList;
+    }
+
+    public void setDrawerIcon(String drawerIcon) {
+        DrawerIcon = drawerIcon;
+    }
+
+    public void setIconTextColor(String iconTextColor) {
+        IconTextColor = iconTextColor;
+    }
+
     @Override
     public String toString() {
         return "MainIcon{" +
@@ -288,6 +334,10 @@ public class MainIcon implements Parcelable {
                 ", IsDown=" + IsDown +
                 ", BaiDu_TJ='" + BaiDu_TJ + '\'' +
                 ", Google_TJ='" + Google_TJ + '\'' +
+                ", DrawerList='" + DrawerList + '\'' +
+                ", MenuList='" + MenuList + '\'' +
+                ", DrawerIcon='" + DrawerIcon + '\'' +
+                ", IconTextColor='" + IconTextColor + '\'' +
                 ", isExpanded=" + isExpanded +
                 ", hasChild=" + hasChild +
                 ", isMenuHasChild=" + isMenuHasChild +
@@ -329,6 +379,10 @@ public class MainIcon implements Parcelable {
         dest.writeInt(this.IsDown);
         dest.writeString(this.BaiDu_TJ);
         dest.writeString(this.Google_TJ);
+        dest.writeString(this.DrawerList);
+        dest.writeString(this.MenuList);
+        dest.writeString(this.DrawerIcon);
+        dest.writeString(this.IconTextColor);
         dest.writeByte(isExpanded ? (byte) 1 : (byte) 0);
         dest.writeByte(hasChild ? (byte) 1 : (byte) 0);
         dest.writeByte(isMenuHasChild ? (byte) 1 : (byte) 0);
@@ -356,6 +410,10 @@ public class MainIcon implements Parcelable {
         this.IsDown = in.readInt();
         this.BaiDu_TJ = in.readString();
         this.Google_TJ = in.readString();
+        this.DrawerList = in.readString();
+        this.MenuList = in.readString();
+        this.DrawerIcon = in.readString();
+        this.IconTextColor = in.readString();
         this.isExpanded = in.readByte() != 0;
         this.hasChild = in.readByte() != 0;
         this.isMenuHasChild = in.readByte() != 0;

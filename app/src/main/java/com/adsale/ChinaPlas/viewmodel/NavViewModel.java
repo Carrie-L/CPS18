@@ -33,6 +33,7 @@ import com.adsale.ChinaPlas.ui.NewsActivity;
 import com.adsale.ChinaPlas.ui.RegisterActivity;
 import com.adsale.ChinaPlas.ui.ScannerActivity;
 import com.adsale.ChinaPlas.ui.ScheduleActivity;
+import com.adsale.ChinaPlas.ui.UpdateCenterActivity;
 import com.adsale.ChinaPlas.ui.WebContentActivity;
 import com.adsale.ChinaPlas.ui.WebViewActivity;
 import com.adsale.ChinaPlas.utils.AppUtil;
@@ -258,7 +259,7 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
 
     }
 
-    private void newIntent(Activity activity, MainIcon mainIcon) {
+    public Intent newIntent(Activity activity, MainIcon mainIcon) {
         switch (mainIcon.getBaiDu_TJ()) {
             case Constant.BDTJ_VISITOR_REG://预登记
             case Constant.BDTJ_VISITOR_REG_TEXT://预登记
@@ -279,7 +280,7 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
                 intent = new Intent(activity, ScheduleActivity.class);
                 break;
             case Constant.BDTJ_CONTENT_UPDATE:
-//                intent = new Intent(context, UpdateCenterActivity.class);
+                intent = new Intent(activity, UpdateCenterActivity.class);
                 break;
             case Constant.BDTJ_MY_NAME_CARD://名片
                 SharedPreferences spNameCard = activity.getSharedPreferences("MyNameCard", Context.MODE_PRIVATE);
@@ -329,6 +330,7 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
                 intent.putExtra("Url", "WebContent/".concat(mainIcon.getIconID()));
                 break;
         }
+        return intent;
     }
 
     public interface OnDrawerClickListener {

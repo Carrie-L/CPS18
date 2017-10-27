@@ -7,7 +7,7 @@ import com.adsale.ChinaPlas.dao.News;
 import com.adsale.ChinaPlas.dao.NewsDao;
 import com.adsale.ChinaPlas.dao.NewsLink;
 import com.adsale.ChinaPlas.dao.NewsLinkDao;
-import com.adsale.ChinaPlas.data.OtherReposity;
+import com.adsale.ChinaPlas.data.OtherRepository;
 
 import java.util.ArrayList;
 
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class NewsModel {
     public final ObservableArrayList<News> newsList = new ObservableArrayList<>();
 
-    private OtherReposity mOtherReposity;
+    private OtherRepository mOtherReposity;
     private NewsDao mNewsDao;
     private NewsLinkDao mLinkDao;
 

@@ -20,8 +20,8 @@ public class NetWorkHelper {
     private static final String PROJECT_CODE = "CPSTEST";// scanFile:  test
 
     // WEBSERVICE 17年
-    public static final String DOWNLOAD_PATH = "https://eform.adsale.com.hk/AppCPS17Services/";
-    public static final String WEBSERVICEURL = "https://eform.adsale.com.hk/AppCPS17Services/wsCLE15.asmx";
+    public static final String DOWNLOAD_PATH = "https://eform.adsale.com.hk/AppCPS18Services/";
+    public static final String WEBSERVICEURL = "https://eform.adsale.com.hk/AppCPS18Services/wsCLE15.asmx";
 
     //POST  BASE_URL IS DOWNLOAD_PATH
     public static final String GetFolderScanFilesJson = "wsCLE15.asmx?op=getFolderScanFilesJson";
@@ -53,8 +53,8 @@ public class NetWorkHelper {
     public static final String DOWN_TXT_URL = "https://eform.adsale.com.hk/AppCPS17/AppFiles/{fileName}";
     public static final String DOWN_WEBCONTENT_URL = "WebContent/{fileName}";
 
-
-
+    /*  内容更新中心baseUrl */
+    public static final String UC_BASE_URL="https://o97tbiy1f.qnssl.com/";
     // |||-------------------------------------------------------------------|||
 
 

@@ -30,6 +30,7 @@ import com.adsale.ChinaPlas.viewmodel.LoadingViewModel;
 import java.util.UUID;
 
 import static com.adsale.ChinaPlas.helper.LoadingReceiver.LOADING_ACTION;
+import static com.adsale.ChinaPlas.utils.Constant.SCREEN_HEIGHT;
 import static com.adsale.ChinaPlas.utils.PermissionUtil.PMS_CODE_READ_PHONE_STATE;
 
 public class LoadingActivity extends AppCompatActivity implements LoadingReceiver.OnLoadFinishListener {
@@ -67,6 +68,7 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
             mLoadingModel.run();
         }
 
+
     }
 
     private void registerBroadcastReceiver() {
@@ -89,6 +91,7 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
 
     private void getDeviceInfo() {
         Display display = getWindowManager().getDefaultDisplay();
+        int displayHeight=display.getHeight();
         Point point = new Point();
         if (Build.VERSION.SDK_INT >= 17) {
             display.getRealSize(point);
@@ -97,8 +100,8 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
         }
         int width = point.x;
         int height = point.y;
-        LogUtil.i(TAG, "device 的宽高为：width=" + width + ",height=" + height);
-        mConfigSP.edit().putInt("ScreenWidth", width).putInt("ScreenHeight", height).apply();
+        LogUtil.i(TAG, "device 的宽高为：width=" + width + ",height=" + height + ",displayHeight=" + displayHeight);
+        mConfigSP.edit().putInt(Constant.SCREEN_WIDTH, width).putInt(SCREEN_HEIGHT, height).putInt(Constant.DISPLAY_HEIGHT,displayHeight).apply();
     }
 
     private void requestPermission() {

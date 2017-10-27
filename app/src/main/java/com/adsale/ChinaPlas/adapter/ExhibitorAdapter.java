@@ -1,21 +1,12 @@
 package com.adsale.ChinaPlas.adapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import android.content.Context;
-import android.databinding.ObservableInt;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.data.ExhibitorRepository;
 import com.adsale.ChinaPlas.data.OnItemClickCallback;
@@ -23,27 +14,21 @@ import com.adsale.ChinaPlas.databinding.ItemExhiDetailChildBinding;
 import com.adsale.ChinaPlas.databinding.ItemExhiDetailHeaderBinding;
 import com.adsale.ChinaPlas.utils.LogUtil;
 
-import static com.adsale.ChinaPlas.R.id.sdv_logo;
-
 public class ExhibitorAdapter extends RecyclerView.Adapter<ViewHolder> {
     private static final String TAG = "ExhibitorAdapter";
     private Context mContext;
     private ArrayList<Exhibitor> exhibitors;
-    private int currLang;
     private LayoutInflater inflater;
 
     private final int TYPE_HEADER = 0;
     private final int TYPE_ITEM = 1;
 
-    boolean showCategory = false;
     private Exhibitor exhibitor;
     private HeaderViewHolder headerViewHolder;
     private ExhibitorItemViewHolder itemViewHolder;
 
-
     private ExhibitorRepository mRepository;
     private OnItemClickCallback mCallback;
-    public int mPos;
 
     public ExhibitorAdapter(Context context, ArrayList<Exhibitor> lists, ExhibitorRepository repository, OnItemClickCallback callback) {
         this.mContext = context;
@@ -65,11 +50,9 @@ public class ExhibitorAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup container, int viewType) {
         if (viewType == TYPE_HEADER) {
-//            View headerView=inflater.inflate(R.layout.item_exhi_detail_header, container,false);
             ItemExhiDetailHeaderBinding headerBinding = ItemExhiDetailHeaderBinding.inflate(inflater, container, false);
             return new HeaderViewHolder(headerBinding);
         } else {
-//            View itemView=inflater.inflate(R.layout.item_exhi_detail_child, container,false);
             ItemExhiDetailChildBinding childBinding = ItemExhiDetailChildBinding.inflate(inflater, container, false);
             return new ExhibitorItemViewHolder(childBinding);
         }
@@ -88,8 +71,6 @@ public class ExhibitorAdapter extends RecyclerView.Adapter<ViewHolder> {
             itemViewHolder.bind(exhibitor);
             itemViewHolder.childBinding.setAdapter(this);
         }
-
-
     }
 
     @Override
@@ -102,7 +83,6 @@ public class ExhibitorAdapter extends RecyclerView.Adapter<ViewHolder> {
             return TYPE_HEADER;
         }
     }
-
 
     private class HeaderViewHolder extends RecyclerView.ViewHolder {
         private ItemExhiDetailHeaderBinding headerBinding;

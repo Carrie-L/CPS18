@@ -5,6 +5,7 @@ package com.adsale.ChinaPlas.dao;
 // KEEP INCLUDES - put your custom includes here
 // KEEP INCLUDES END
 
+import android.databinding.ObservableBoolean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -42,7 +43,12 @@ public class SeminarInfo implements Parcelable {
 
     public String timeStatus;
 
-    public boolean isADer;//广告商
+    public boolean isADer = false;//广告商
+    public String adLogoUrl;
+    public String adBannerUrl;
+
+    public final ObservableBoolean isTypeLabel = new ObservableBoolean();
+
     // KEEP FIELDS END
 
     public SeminarInfo() {
@@ -67,7 +73,6 @@ public class SeminarInfo implements Parcelable {
         setTime();
         setTimeStatus();
     }
-
 
 
     public Integer getID() {
@@ -261,8 +266,8 @@ public class SeminarInfo implements Parcelable {
         this.PresentCompany = strings[8];
         this.Topic = strings[9];
         this.Speaker = strings[10];
-        this.langID =Integer.valueOf( strings[11]);
-        this.OrderFull =Integer.valueOf( strings[12]);
+        this.langID = Integer.valueOf(strings[11]);
+        this.OrderFull = Integer.valueOf(strings[12]);
         this.OrderMob = Integer.valueOf(strings[13]);
     }
     // KEEP METHODS END

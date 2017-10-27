@@ -11,6 +11,7 @@ import com.adsale.ChinaPlas.adapter.EventAdapter;
 import com.adsale.ChinaPlas.adapter.ScheduleAdapter;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.dao.ScheduleInfo;
+import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.data.model.ConcurrentEvent;
 import com.adsale.ChinaPlas.databinding.ActivityEventBinding;
 import com.adsale.ChinaPlas.helper.OnCpsItemClickListener;
@@ -24,9 +25,10 @@ import java.util.ArrayList;
 
 /**
  * Created by Carrie on 2017/9/19.
+ * 同期活动
  */
 
-public class ConcurrentEventActivity extends BaseActivity implements OnCpsItemClickListener{
+public class ConcurrentEventActivity extends BaseActivity implements OnCpsItemClickListener,OnIntentListener{
 
     private RecyclerView recyclerView;
     private EventModel mEventModel;
@@ -48,12 +50,12 @@ public class ConcurrentEventActivity extends BaseActivity implements OnCpsItemCl
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
 
-        EventAdapter adapter = new EventAdapter(new ArrayList<ConcurrentEvent.Pages>(0),mEventModel);
+        mEventModel.getList();
+        EventAdapter adapter = new EventAdapter(mEventModel.events,mEventModel);
         recyclerView.setAdapter(adapter);
+        mEventModel.onStart(this,adapter);
 
-        mEventModel.onStart(adapter);
     }
 
     @Override
@@ -62,6 +64,12 @@ public class ConcurrentEventActivity extends BaseActivity implements OnCpsItemCl
         Intent intent=new Intent(this,WebContentActivity.class);
         intent.putExtra("Url", "ConcurrentEvent/".concat(id));
 //        intent.putExtra(Constant.TITLE, mainIcon.getTitle());
+        startActivity(intent);
+    }
+
+    @Override
+    public <T> void onIntent(T entity, Class toCls) {
+        Intent intent = new Intent(this,toCls);
         startActivity(intent);
     }
 }

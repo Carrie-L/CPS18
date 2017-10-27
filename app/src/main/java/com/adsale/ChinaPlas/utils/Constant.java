@@ -23,6 +23,15 @@ public class Constant {
     public static final String SP_LUT = "LastUpdateTime";
     public static final String SP_LOGIN = "Login";
 
+    /* property */
+    public static final String SCREEN_WIDTH = "ScreenWidth";
+    public static final String SCREEN_HEIGHT = "ScreenHeight";
+    public static final String DISPLAY_HEIGHT = "DisplayHeight";//不包括状态栏的高度
+    public static final String TOOLBAR_HEIGHT = "ActionBarHeight";
+
+
+
+
     //-------------------MainIcon的最后更新时间----------------
     public static final String mainIconLUT = "MainIconLUT";
     public static final String newsLUT = "NewsUT";
@@ -88,6 +97,13 @@ public class Constant {
     public static final String IS_AD_OPEN = "isADOpen";
 
     public static final String TXT_CONCURRENT_EVENT = "CurrentEvents.txt";
+    public static final String TXT_MAIN_PIC_INFO = "MainMenuInfo.txt";
+
+    public static final String UC_TXT_EXHIBITOR="ExhibitorInfo.txt";
+    public static final String UC_TXT_FLOOR_PLAN="FloorPlan.txt";
+    public static final String UC_TXT_SEMINAR="SeminarInfo.txt";
+    public static final String UC_TXT_TRAVEL="Travelnfo.txt";
+    public static final String UC_TXT_APP_CONTENTS="appContents.txt";
 
 
 }

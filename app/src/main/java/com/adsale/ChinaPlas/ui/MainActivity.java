@@ -1,8 +1,10 @@
 package com.adsale.ChinaPlas.ui;
 
+import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.databinding.ActivityMainBinding;
+import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.PermissionUtil;
 
@@ -15,7 +17,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void preView() {
         super.preView();
-        mToolbarLayoutId = R.layout.toolbar_main;
+        mToolbarBackgroundRes=R.drawable.main_header;
         isShowTitleBar.set(false);
     }
 
@@ -33,7 +35,6 @@ public class MainActivity extends BaseActivity {
         if(mNavViewModel!=null){
             mNavViewModel.setMainActivity(this);
         }
-
 
 
 

@@ -1,0 +1,5 @@
+
+/**
+* 缩略词
+*/
+JST: JUST FOR TEST

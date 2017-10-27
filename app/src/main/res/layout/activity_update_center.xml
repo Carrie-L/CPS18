@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="view"
+            type="com.adsale.ChinaPlas.ui.UpdateCenterActivity"/>
+
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/btn_update_all"
+            style="@style/update_all_style"
+            android:onClick="@{()->view.onUpdateAll()}" />
+
+        <com.adsale.ChinaPlas.ui.view.UpdateCenterView
+            android:id="@+id/uc1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_update_all" />
+
+        <com.adsale.ChinaPlas.ui.view.UpdateCenterView
+            android:id="@+id/uc2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/uc1" />
+
+        <com.adsale.ChinaPlas.ui.view.UpdateCenterView
+            android:id="@+id/uc3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/uc2" />
+
+        <com.adsale.ChinaPlas.ui.view.UpdateCenterView
+            android:id="@+id/uc4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/uc3" />
+
+        <com.adsale.ChinaPlas.ui.view.UpdateCenterView
+            android:id="@+id/uc5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/uc4" />
+
+        <ImageView
+            android:id="@+id/iv_transparent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/uc_transparent"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/rl_pb"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_centerInParent="true"
+            android:visibility="gone">
+
+            <ProgressBar
+                android:id="@+id/download_progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="300dp"
+                android:layout_height="5dp"
+                android:layout_centerInParent="true"
+                android:progress="0"
+                android:progressDrawable="@drawable/pb_horizontal_style" />
+
+            <TextView
+                android:id="@+id/tv_pb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerInParent="true"
+                android:gravity="center_horizontal"
+                android:textColor="@color/white" />
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+</layout>

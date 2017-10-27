@@ -54,7 +54,7 @@ public class ExhibitorAllListActivity extends BaseActivity implements OnItemClic
         mExhibitorModel = new ExhibitorViewModel(getApplicationContext(), mRepository, this);
         binding.setExhibitorModel(mExhibitorModel);
 
-        dateIndex = getIntent().getIntExtra("dateIndex", 0);
+        dateIndex = getIntent().getIntExtra("dateIndex", -1);
 
         setExhibitorList();
         setupSideLetter();
@@ -88,6 +88,7 @@ public class ExhibitorAllListActivity extends BaseActivity implements OnItemClic
 
     private void setExhibitorList() {
         rvExhibitors = binding.rvKs;
+        sideLetter = binding.sideLetter;
         rvExhibitors.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         rvExhibitors.setLayoutManager(layoutManager);
@@ -98,15 +99,13 @@ public class ExhibitorAllListActivity extends BaseActivity implements OnItemClic
         adapter = new ExhibitorAdapter(this, mExhibitorModel.exhibitors, mRepository, this);
         rvExhibitors.setAdapter(adapter);
 
-        mExhibitorModel.setLayoutManager(mRVScrollTo, adapter);
+        mExhibitorModel.setLayoutManager(mRVScrollTo, adapter,sideLetter);
 
         onItemClick();
 
     }
 
     public void setupSideLetter() {
-        mExhibitorModel.getAllLetters();
-        sideLetter = binding.sideLetter;
         sideLetter.setList(mExhibitorModel.letters);
         sideLetter.setOnLetterClickListener(this);
     }
@@ -127,6 +126,9 @@ public class ExhibitorAllListActivity extends BaseActivity implements OnItemClic
             intent.putExtra("dateIndex", dateIndex);
             startActivity(intent);
             finish();
+        }else{
+            Exhibitor exhibitor= (Exhibitor) entity;
+            Toast.makeText(getApplicationContext(),"pos: "+exhibitor.getCompanyName(),Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -147,12 +149,12 @@ public class ExhibitorAllListActivity extends BaseActivity implements OnItemClic
 
         mExhibitorModel.exhibitors.clear();
         mExhibitorModel.letters.clear();
-        mExhibitorModel.exhibitors.addAll( mRepository.queryFilterExhibitor(filters,mExhibitorModel.letters));
+        mExhibitorModel.exhibitors.addAll( mRepository.queryFilterExhibitor(filters,mExhibitorModel.letters,true));
+        mExhibitorModel.resetCache();
         adapter.setList(mExhibitorModel.exhibitors);
 
         LogUtil.i(TAG, "mExhibitorModel.letters= " + mExhibitorModel.letters.size() + "," + mExhibitorModel.letters.toString());
-        sideLetter.setList(mExhibitorModel.letters);
-        sideLetter.refresh();
+        mExhibitorModel.refreshSideLetter();
     }
 
     @Override

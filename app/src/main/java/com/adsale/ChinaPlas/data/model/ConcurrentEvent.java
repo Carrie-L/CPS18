@@ -1,5 +1,6 @@
 package com.adsale.ChinaPlas.data.model;
 
+import android.databinding.ObservableBoolean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -55,6 +56,9 @@ public class ConcurrentEvent implements Parcelable {
 
         /* 同期活动ID */
         public String pageID;
+
+        /* 头部Bar */
+        public final ObservableBoolean isTypeLabel = new ObservableBoolean();
 
         @Override
         public String toString() {

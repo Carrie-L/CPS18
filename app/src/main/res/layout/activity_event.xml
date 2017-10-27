@@ -12,57 +12,74 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
         <LinearLayout
             android:id="@+id/ll_left_btn"
-            android:layout_width="56dp"
+            android:layout_width="88dp"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:background="#fff"
+            android:orientation="vertical"
+            >
 
             <TextView
                 style="@style/event_btn_style"
+                android:background="@{eventModel.mClickPos==0?@drawable/dot_focused:@drawable/dot_grey}"
                 android:onClick="@{()->eventModel.chooseDate(0)}"
+                android:textColor="@{eventModel.mClickPos==0?@color/white:@color/home}"
                 android:text="@string/event_btn_all" />
 
             <TextView
                 style="@style/event_btn_style"
                 android:onClick="@{()->eventModel.chooseDate(1)}"
+                android:textColor="@{eventModel.mClickPos==1?@color/white:@color/home}"
+                android:background="@{eventModel.mClickPos==1?@drawable/dot_focused:@drawable/dot_grey}"
                 android:text="@string/event_btn_24" />
 
             <TextView
                 style="@style/event_btn_style"
                 android:onClick="@{()->eventModel.chooseDate(2)}"
+                android:textColor="@{eventModel.mClickPos==2?@color/white:@color/home}"
+                android:background="@{eventModel.mClickPos==2?@drawable/dot_focused:@drawable/dot_grey}"
                 android:text="@string/event_btn_25" />
 
             <TextView
                 style="@style/event_btn_style"
                 android:onClick="@{()->eventModel.chooseDate(3)}"
+                android:textColor="@{eventModel.mClickPos==3?@color/white:@color/home}"
+                android:background="@{eventModel.mClickPos==3?@drawable/dot_focused:@drawable/dot_grey}"
                 android:text="@string/event_btn_26" />
 
             <TextView
                 style="@style/event_btn_style"
                 android:onClick="@{()->eventModel.chooseDate(4)}"
+                android:textColor="@{eventModel.mClickPos==4?@color/white:@color/home}"
+                android:background="@{eventModel.mClickPos==4?@drawable/dot_focused:@drawable/dot_grey}"
                 android:text="@string/event_btn_27" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/grey"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:text="技术交流会"
+                android:gravity="center"
+                android:onClick="@{()->eventModel.chooseDate(5)}"
+                />
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/iv_line"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
-            android:layout_toRightOf="@id/ll_left_btn"
-            android:background="@color/grey21" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_event"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toRightOf="@id/iv_line"
-            app:items="@{eventModel.events}"
-            />
+            android:layout_toRightOf="@id/ll_left_btn"
+            android:background="@color/white_smoke"
+           />
 
 
     </RelativeLayout>

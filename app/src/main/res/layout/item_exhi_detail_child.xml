@@ -19,7 +19,7 @@
 
         <ImageView
             android:id="@+id/iv_collect"
-            android:layout_width="32dp"
+            android:layout_width="24dp"
             android:layout_height="72dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
@@ -84,7 +84,7 @@
                 android:paddingBottom="5dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:text="@{obj.countryID}"
+                android:text="@{obj.CountryName}"
                 android:textColor="@color/dark_gray"
                 android:textSize="13sp" />
 

@@ -215,6 +215,29 @@
     <string name="event_date_25">2018.04.25</string>
     <string name="event_date_26">2018.04.26</string>
     <string name="event_date_27">2018.04.27</string>
+    <string name="event_date_base">2018.04.%s</string>
+    <string name="tech_zone">A</string>
 
+    <!--技术交流会-->
+    <string name="title_technical_seminar">技術交流會</string>
+    <string name="seminar_information">技術交流會概要</string>
+    <string name="seminar_speaker">演講者資料</string>
+    <string name="seminar_contact">如有查詢，請聯絡：</string>
+    <string name="seminar_email">演講者郵箱</string>
+    <string name="seminar_tel">演講者電話</string>
+    <string name="seminar_date">日期：%s</string>
+    <string name="seminar_time">時間：%s</string>
+    <string name="seminar_section">展館：</string>
+    <string name="seminar_zone">區：%s</string>
+    <string name="seminar_roomNO">會議室房號：%s</string>
+    <string name="seminar_booth">展台號：%s</string>
+
+
+    <!--内容更新中心-->
+    <string name="uc_last_update_time">最後更新時間：%s</string>
+    <string name="uc_file_size">文件大小：</string>
+    <string name="uc_update">更新</string>
+    <string name="uc_updated">已更新</string>
+    <string name="uc_update_all">更新全部</string>
 
 </resources>

@@ -104,11 +104,8 @@ public class MainIconRepository implements DataSource<MainIcon> {
     /**
      * 获取主界面数据
      */
-    public ArrayList<MainIcon> getMenus(ArrayList<MainIcon> icons) {
-        icons = (ArrayList<MainIcon>) mIconDao.queryRaw(" where IS_HIDDEN NOT LIKE 1 and  GOOGLE__TJ LIKE ? AND GOOGLE__TJ not like ? ",
-                new String[]{"%|%", "%|NULL%"});
-        // Log.i(TAG, "icons=" + icons.size() + "," + icons.toString());
-        return icons;
+    public ArrayList<MainIcon> getMenus() {
+        return (ArrayList<MainIcon>) mIconDao.queryBuilder().where(MainIconDao.Properties.MenuList.like("%M%")).orderAsc(MainIconDao.Properties.MenuList).list();
     }
 
     /**
@@ -169,5 +166,6 @@ public class MainIconRepository implements DataSource<MainIcon> {
     private <T, String> T getMaxUT(Property property, AbstractDao<T, String> dao) {
         return dao.queryBuilder().orderDesc(property).limit(1).list().get(0);
     }
+
 
 }

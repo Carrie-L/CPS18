@@ -1,13 +1,16 @@
 package com.adsale.ChinaPlas.viewmodel;
 
+import android.content.Intent;
 import android.databinding.ObservableArrayList;
+import android.databinding.ObservableInt;
 
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.adapter.EventAdapter;
 import com.adsale.ChinaPlas.data.DownloadClient;
-import com.adsale.ChinaPlas.data.ListBindings;
+import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.data.model.ConcurrentEvent;
 import com.adsale.ChinaPlas.helper.OnCpsItemClickListener;
+import com.adsale.ChinaPlas.ui.TechnicalListActivity;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.FileUtil;
@@ -15,24 +18,18 @@ import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.Parser;
 import com.adsale.ChinaPlas.utils.ReRxUtils;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
-
-import static android.text.TextUtils.concat;
-import static com.adsale.ChinaPlas.utils.Parser.parseJsonFilesDirFile;
 
 
 /**
@@ -42,6 +39,7 @@ import static com.adsale.ChinaPlas.utils.Parser.parseJsonFilesDirFile;
 public class EventModel {
     private static final String TAG = "EventModel";
     public final ObservableArrayList<ConcurrentEvent.Pages> events = new ObservableArrayList<>();
+    public final ObservableInt mClickPos = new ObservableInt(0);
     private ConcurrentEvent event;
     private DownloadClient mDownClient;
     private EventAdapter adapter;
@@ -50,6 +48,7 @@ public class EventModel {
     private ArrayList<ConcurrentEvent.Pages> mCacheList2;
     private ArrayList<ConcurrentEvent.Pages> mCacheList3;
     private ArrayList<ConcurrentEvent.Pages> mCacheList4;
+    private OnIntentListener mListener;
 
     public EventModel() {
         mCacheList1 = new ArrayList<>();
@@ -58,18 +57,27 @@ public class EventModel {
         mCacheList4 = new ArrayList<>();
     }
 
-    public void onStart(EventAdapter adapter) {
+    public void onStart(OnIntentListener listener,EventAdapter adapter) {
         this.adapter = adapter;
-        parseEvents();
+        mListener=listener;
+
 //        mCacheList = new ArrayList<>();
 //        mCacheList.addAll(events);
 //        AppUtil.logListString(mCacheList);
     }
 
+    public void getList(){
+        parseEvents();
+    }
+
     public void chooseDate(int dateIndex) {
-        if (dateIndex == 0) {
+        mClickPos.set(dateIndex);
+        if (dateIndex == 0) { /* 全部 */
             adapter.setList(events);
-        } else {
+        } if (dateIndex == 5) { /* 技术交流会 */
+            mListener.onIntent(null, TechnicalListActivity.class);
+        }
+        else {
             if (!setDateList(dateIndex)) {
                 LogUtil.e(TAG, " !! CACHE: " + dateIndex);
                 filterList();
@@ -180,16 +188,17 @@ public class EventModel {
 
     }
 
-    public void onItemClick(String pageId){
-        LogUtil.i(TAG,"onItemClick: pageId= "+pageId);
-        if(mListener!=null){
-            mListener.onItemClick(pageId);
+    public void onItemClick(String pageId) {
+        LogUtil.i(TAG, "onItemClick: pageId= " + pageId);
+        if (mItemListener != null) {
+            mItemListener.onItemClick(pageId);
         }
     }
 
-    private OnCpsItemClickListener mListener;
-    public void setOnCpsItemClickListener(OnCpsItemClickListener listener){
-        mListener=listener;
+    private OnCpsItemClickListener mItemListener;
+
+    public void setOnCpsItemClickListener(OnCpsItemClickListener listener) {
+        mItemListener = listener;
     }
 
 }

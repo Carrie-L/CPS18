@@ -10,18 +10,22 @@ import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.data.ExhibitorRepository;
 import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.ui.ExhibitorFilterActivity;
+import com.adsale.ChinaPlas.ui.view.SideLetter;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.RecyclerViewScrollTo;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 
 /**
  * Created by Carrie on 2017/8/12.
+ * Exhibitor All List ViewModel
  */
 
 public class ExhibitorViewModel {
-    private final String TAG="ExhibitorViewModel";
+    private final String TAG = "ExhibitorViewModel";
     public final ObservableBoolean noData = new ObservableBoolean(true);
     public final ObservableField<String> etFilter = new ObservableField<>();
     public final ObservableField<String> dialogLetter = new ObservableField<>();
@@ -31,16 +35,24 @@ public class ExhibitorViewModel {
      */
     public final ObservableBoolean isSortAZ = new ObservableBoolean(true);
 
-    private ArrayList<Exhibitor> mExhibitorCaches = new ArrayList<>();
     public ArrayList<String> letters = new ArrayList<>();
+    private ArrayList<Exhibitor> mExhibitorCaches = new ArrayList<>();
     private ArrayList<String> mSideCaches = new ArrayList<>();
+    /**
+     * 以Hall排序列表缓存
+     */
+    private ArrayList<Exhibitor> mExhibitorHallCaches = new ArrayList<>();
+    /**
+     * 以Hall排序SideLetter缓存
+     */
+    private ArrayList<String> mSideHallCaches = new ArrayList<>();
 
     private Context mContext;
     private ExhibitorRepository mExhibitorRepo;
 
-    public boolean move = false;
     private RecyclerViewScrollTo mRVScrollTo;
     private ExhibitorAdapter adapter;
+    private SideLetter sideLetter;
     private ArrayList<Exhibitor> searchTemps = new ArrayList<>();
     private OnIntentListener mListener;
 
@@ -52,12 +64,15 @@ public class ExhibitorViewModel {
 
     public ArrayList<Exhibitor> getAllExhibitors() {
         exhibitors.clear();
+        letters.clear();
         LogUtil.i("---> getAllExhibitors before ", "mExhibitorCaches=" + mExhibitorCaches.size() + ",exhibitors=" + exhibitors.size());
         if (mExhibitorCaches.isEmpty()) {
-            exhibitors.addAll(mExhibitorRepo.getDataTest());
+            exhibitors.addAll(mExhibitorRepo.getAllExhibitors(letters));
             mExhibitorCaches.addAll(exhibitors);
+            mSideCaches.addAll(letters);
         } else {
             exhibitors.addAll(mExhibitorCaches);
+            letters.addAll(mSideCaches);
         }
         LogUtil.i("getAllExhibitors after <---- ", "mExhibitorCaches=" + mExhibitorCaches.size() + ",exhibitors=" + exhibitors.size());
 
@@ -80,41 +95,57 @@ public class ExhibitorViewModel {
         searchTemps.clear();
 
         searchTemps.addAll(mExhibitorCaches);
-        exhibitors.addAll(mExhibitorRepo.getExhibitorSearchResults(searchTemps, text));
-        letters.addAll(mExhibitorRepo.getSearchedLetters(text));
+        exhibitors.addAll(mExhibitorRepo.getExhibitorSearchResults(searchTemps, letters, text));
         adapter.setList(exhibitors);
     }
 
-    public void setLayoutManager(RecyclerViewScrollTo scrollTo, ExhibitorAdapter adapter) {
+    public void setLayoutManager(RecyclerViewScrollTo scrollTo, ExhibitorAdapter adapter, SideLetter sideLetter) {
         mRVScrollTo = scrollTo;
-        this.adapter=adapter;
+        this.adapter = adapter;
+        this.sideLetter=sideLetter;
     }
 
-    public void getAllLetters() {
-        letters.clear();
-        if (mSideCaches.size() > 0) {
-            letters.addAll(mSideCaches);
-        } else {
-            letters.addAll(mExhibitorRepo.getSideList(mExhibitorRepo.getAllSideSQL()));
-            mSideCaches.addAll(letters);
-        }
-        LogUtil.i(TAG, "letters=" + letters.size() + ",letters=" + letters.toString());
+    public void refreshSideLetter(){
+        sideLetter.setList(letters);
+        sideLetter.refresh();
     }
-
-
-
 
     public void onImgFilter() {
-        mListener.onIntent(null,ExhibitorFilterActivity.class);
+        mListener.onIntent(null, ExhibitorFilterActivity.class);
     }
 
+    public void resetCache() {
+        mExhibitorCaches.clear();
+        mExhibitorCaches.addAll(exhibitors);
+        mSideCaches.clear();
+        mSideCaches.addAll(letters);
+    }
 
     public void onSortAZ() {
         isSortAZ.set(true);
+        exhibitors.clear();
+        letters.clear();
+        exhibitors.addAll(mExhibitorCaches);
+        letters.addAll(mSideCaches);
+        adapter.setList(exhibitors);
+        refreshSideLetter();
     }
 
+    /**
+     * todo 还剩返回的筛选列表的 Hall排序
+     */
     public void onSortHall() {
         isSortAZ.set(false);
+        exhibitors.clear();
+        letters.clear();
+        if (mExhibitorHallCaches.isEmpty()) {
+            mExhibitorHallCaches.addAll(mExhibitorRepo.sortByHallList(mSideHallCaches));
+        }
+        LogUtil.i(TAG, "mExhibitorHallCaches= " + mExhibitorHallCaches.size());
+        exhibitors.addAll(mExhibitorHallCaches);
+        letters.addAll(mSideHallCaches);
+        adapter.setList(exhibitors);
+        refreshSideLetter();
     }
 
     public void scrollTo(String letter) {

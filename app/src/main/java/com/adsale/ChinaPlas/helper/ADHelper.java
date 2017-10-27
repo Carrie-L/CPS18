@@ -26,23 +26,19 @@ import java.util.List;
 
 import static com.adsale.ChinaPlas.App.mSP_Config;
 import static com.adsale.ChinaPlas.utils.AppUtil.getCurrentDate;
+import static io.fabric.sdk.android.services.network.HttpRequest.append;
 
 /**
  * Created by Carrie on 2017/9/13.
  */
 
 public class ADHelper {
-    public static final String TAG = "ADHelper";
+    public final String TAG = "ADHelper";
     private Context mContext;
     private static ADHelper INSTANCE;
     private final String AD_TXT = "advertisement_test.txt";
 
-    public static ADHelper getInstance(Context context) {
-        if (INSTANCE == null) {
-            return new ADHelper(context);
-        }
-        return INSTANCE;
-    }
+
 
     public ADHelper(Context context) {
         mContext = context;
@@ -58,10 +54,14 @@ public class ADHelper {
         if (adObj != null) {
             return adObj;
         }
-        return Parser.parseJsonFilesDirFile(adAdvertisementObj.class, AD_TXT);
+        adObj = Parser.parseJsonFilesDirFile(adAdvertisementObj.class, AD_TXT);
+        return adObj;
     }
 
     public boolean isAdOpen() {
+        if (adObj == null) {
+            throw new NullPointerException("adObj cannot be null, please #getAdObj() first.");
+        }
         String todayDate = getCurrentDate();
         String adStartTime = adObj.Common.time.split("-")[0];
         String adEndTime = adObj.Common.time.split("-")[1];
@@ -184,6 +184,50 @@ public class ADHelper {
 
     public void setOnM1ClickListener(OnM1ClickListener listener) {
         mListener = listener;
+    }
+
+
+    public void showM2(ImageView adM2) {
+        if (isAdOpen()) {
+            LogUtil.i(TAG, "adObj.M2.version=" + adObj.M2.version);
+            if (Integer.valueOf(adObj.M2.version) > 0) {
+                int language = AppUtil.getCurLanguage();
+                StringBuilder m2Url = new StringBuilder();
+                m2Url.append(adObj.Common.baseUrl).append(adObj.M2.filepath).append(AppUtil.isTablet() ? adObj.Common.tablet : adObj.Common.phone).append(AppUtil.getLanguageType(language)).append("_")
+                        .append(adObj.M2.version).append(adObj.M2.format);
+                LogUtil.i(TAG, "m2Url.toString()=" + m2Url.toString());
+                adM2.setVisibility(View.VISIBLE);
+                Glide.with(mContext).load(Uri.parse(m2Url.toString())).into(adM2);
+
+//                SystemMethod.trackViewLog(context, 202, "Ad", "M2", adObj.M2.getCompanyID(language));
+//                SystemMethod.setStatEvent(context, "ViewM2", "Ad_M2_" + adObj.M2.getCompanyID(language), language);
+
+
+            }
+        }
+    }
+
+
+    /**
+     * @param index start from 0
+     */
+    public String getM6LogoUrl(int index) {
+        StringBuilder sbUrl = new StringBuilder();
+        sbUrl.append(adObj.Common.baseUrl).append(adObj.M6B.filepath).append(adObj.M6B.companyID[index]).append("/")
+                .append(AppUtil.isTablet() ? adObj.Common.tablet : adObj.Common.phone).append(adObj.M6B.logo).append("_").append(adObj.M6B.version[index])
+                .append(adObj.M6B.format);
+        LogUtil.i(TAG, "getM6LogoUrl= " + sbUrl.toString());
+        return sbUrl.toString();
+    }
+
+    public String getM6BannerUrl(int index){
+        StringBuilder sbUrl = new StringBuilder();
+        sbUrl.append(adObj.Common.baseUrl).append(adObj.M6B.filepath).append(adObj.M6B.companyID[index]).append("/")
+        .append(AppUtil.isTablet() ? adObj.Common.tablet : adObj.Common.phone).append(adObj.M6B.header).append("_").append(adObj.M6B.version[index])
+                .append(adObj.M6B.format);
+
+        LogUtil.e(TAG, "getM6BannerUrl=" + sbUrl.toString());
+        return sbUrl.toString();
     }
 
 

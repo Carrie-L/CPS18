@@ -443,7 +443,7 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
     }
 
     private void showM1() {
-        ADHelper mAdHelper = ADHelper.getInstance(mContext);
+        ADHelper mAdHelper =new ADHelper(mContext);;
         if (adObj == null) {
             LogUtil.e(TAG, "adObj == null ,so parse it");
             adObj = mAdHelper.getAdObj();

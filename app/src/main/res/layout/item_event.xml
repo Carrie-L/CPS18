@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -15,58 +16,101 @@
             type="com.adsale.ChinaPlas.viewmodel.EventModel" />
     </data>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:onClick="@{() -> eventModel.onItemClick(obj.pageID)}"
-        >
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tv_event_title"
+            android:id="@+id/tv_event_header"
+           style="@style/event_header_style"
+            android:text="@{String.format(@string/event_date_base,obj.date)}"
+            android:visibility="@{obj.isTypeLabel?View.VISIBLE:View.GONE}" />
+
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="6dp"
-            android:gravity="center_vertical"
-           android:text="@{obj.getTitle()}"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="5dp">
 
-        <ImageView
-            android:id="@+id/iv_event_time"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/ic_event_time"
-            android:layout_below="@id/tv_event_title"
-            />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> eventModel.onItemClick(obj.pageID)}"
+                android:padding="16dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="24dp"
-            android:layout_alignTop="@id/iv_event_time"
-            android:layout_marginLeft="16dp"
-            android:layout_toRightOf="@id/iv_event_time"
-            android:gravity="center_vertical"
-            android:text="@{obj.duration}" />
+                <TextView
+                    android:id="@+id/tv_event_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="6dp"
+                    android:text="@{obj.getTitle()}"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <ImageView
-            android:id="@+id/iv_event_location"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_below="@id/iv_event_time"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/ic_event_location" />
+                <ImageView
+                    android:id="@+id/iv_event_time"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_below="@id/tv_event_title"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/ic_event_date" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="24dp"
-            android:layout_alignTop="@id/iv_event_location"
-            android:layout_marginLeft="16dp"
-            android:layout_toRightOf="@id/iv_event_location"
-            android:gravity="center_vertical"
-            android:text="@{obj.location}" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:layout_alignTop="@id/iv_event_time"
+                    android:layout_marginLeft="16dp"
+                    android:layout_toRightOf="@id/iv_event_time"
+                    android:gravity="center_vertical"
+                    android:text="@{obj.duration}" />
 
+                <ImageView
+                    android:id="@+id/iv_event_location"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_below="@id/iv_event_time"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/ic_event_location" />
 
-    </RelativeLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:layout_alignTop="@id/iv_event_location"
+                    android:layout_marginLeft="16dp"
+                    android:layout_toRightOf="@id/iv_event_location"
+                    android:gravity="center_vertical"
+                    android:text="@{obj.location}" />
 
+                <ImageView
+                    android:id="@+id/iv_event_pay"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@id/iv_event_location"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="12dp"
+                    android:background="@drawable/ic_event_pay"
+                    android:visibility="@{obj.entrance_fee!=null&amp;&amp;Integer.valueOf(obj.entrance_fee)==1?View.VISIBLE:View.GONE}"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_event_prereg"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_below="@id/iv_event_location"
+                    android:layout_marginTop="8dp"
+                    android:layout_toLeftOf="@id/iv_event_pay"
+                    android:layout_toStartOf="@id/iv_event_pay"
+                    android:background="@drawable/ic_event_prereg"
+                    android:visibility="@{obj.pre_reg!=null&amp;&amp;Integer.valueOf(obj.pre_reg)==1?View.VISIBLE:View.GONE}" />
+
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
 </layout>

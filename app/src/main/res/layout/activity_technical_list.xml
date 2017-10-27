@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="techModel"
+            type="com.adsale.ChinaPlas.viewmodel.TechViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:id="@+id/scroll_left_tech"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="#fff"
+            android:padding="16dp"
+            >
+
+            <LinearLayout
+                android:id="@+id/ll_left_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/event_btn_style"
+                    android:background="@{techModel.mClickPos==0?@drawable/dot_focused:@drawable/dot_grey}"
+                    android:onClick="@{()->techModel.onDateClick(0,false)}"
+                    android:text="@string/event_btn_all"
+                    android:textColor="#fff" />
+
+                <!-- day 1 -->
+                <TextView
+                    style="@style/tech_date_style"
+                    android:text="24" />
+
+                <ImageView style="@style/tech_line_style" />
+
+                <TextView
+                    style="@style/tech_rect_text_style"
+                    android:background="@{techModel.mClickPos==1&amp;&amp;techModel.isAm?@color/home:@color/grey}"
+                    android:onClick="@{()->techModel.onDateClick(1,true)}"
+                    android:text="上午" />
+
+                <TextView
+                    style="@style/tech_rect_text_style"
+                    android:background="@{techModel.mClickPos==1&amp;&amp;!techModel.isAm?@color/home:@color/grey}"
+                    android:onClick="@{()->techModel.onDateClick(1,false)}"
+                    android:text="下午" />
+
+                <!-- day 2 -->
+                <TextView
+                    style="@style/tech_date_style"
+                    android:text="25" />
+
+                <ImageView style="@style/tech_line_style" />
+
+                <TextView
+                    style="@style/tech_rect_text_style"
+                    android:background="@{techModel.mClickPos==2&amp;&amp;techModel.isAm?@color/home:@color/grey}"
+                    android:onClick="@{()->techModel.onDateClick(2,true)}"
+                    android:text="上午" />
+
+                <TextView
+                    style="@style/tech_rect_text_style"
+                    android:onClick="@{()->techModel.onDateClick(2,false)}"
+                    android:background="@{techModel.mClickPos==2&amp;&amp;!techModel.isAm?@color/home:@color/grey}"
+                    android:text="下午" />
+
+                <!-- day 3 -->
+                <TextView
+                    style="@style/tech_date_style"
+                    android:text="26" />
+
+                <ImageView style="@style/tech_line_style" />
+
+                <TextView
+                    style="@style/tech_rect_text_style"
+                    android:onClick="@{()->techModel.onDateClick(3,true)}"
+                    android:background="@{techModel.mClickPos==3&amp;&amp;techModel.isAm?@color/home:@color/grey}"
+                    android:text="上午" />
+
+                <TextView
+                    style="@style/tech_rect_text_style"
+                    android:onClick="@{()->techModel.onDateClick(3,false)}"
+                    android:background="@{techModel.mClickPos==3&amp;&amp;!techModel.isAm?@color/home:@color/grey}"
+                    android:text="下午" />
+
+                <!-- day 4 -->
+                <TextView
+                    style="@style/tech_date_style"
+                    android:text="27" />
+
+                <ImageView style="@style/tech_line_style" />
+
+                <TextView
+                    style="@style/tech_rect_text_style"
+                    android:onClick="@{()->techModel.onDateClick(4,true)}"
+                    android:background="@{techModel.mClickPos==4&amp;&amp;techModel.isAm?@color/home:@color/grey}"
+                    android:text="上午" />
+
+                <TextView
+                    style="@style/tech_rect_text_style"
+                    android:onClick="@{()->techModel.onDateClick(4,false)}"
+                    android:background="@{techModel.mClickPos==4&amp;&amp;!techModel.isAm?@color/home:@color/grey}"
+                    android:text="下午" />
+
+            </LinearLayout>
+        </ScrollView>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_seminar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/scroll_left_tech"
+            android:background="@color/white_smoke" />
+
+
+    </RelativeLayout>
+
+
+</layout>

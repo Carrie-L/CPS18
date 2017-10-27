@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -284,6 +285,24 @@ public class AppUtil {
         SimpleDateFormat sFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         return sFormat.format(new Date());
     }
+    /**
+     * 将GMT格式的时间转换为系统时间
+     * @param time 2016-09-09T09:31:00.00+08:00
+     * @return <font color="#f97798">yyyy-MM-dd HH:mm:ss</font>
+     */
+    public static String GMT2UTC(String time){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSZ",Locale.getDefault());
+        SimpleDateFormat sformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.getDefault());
+        try {
+            Date date = format.parse(time);
+			/*System.out.println("time="+time+",,,time2="+sformat.format(date));*/
+            return sformat.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
 
     /**
      * 截取符号前面的字符串 如：E6_20160219.jpg ，c='_'  ——》 E6
@@ -409,5 +428,17 @@ public class AppUtil {
     public static <T> void sort(ArrayList<T> list, Comparator<T> comparator) {
         Collections.sort(list, comparator);
     }
+
+    public static String getLanguageType(int language) {
+        if (language == 0) {
+            return "tc";
+        } else if (language == 1) {
+            return "en";
+        } else {
+            return "sc";
+        }
+    }
+
+
 
 }

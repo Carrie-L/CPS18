@@ -192,6 +192,21 @@ public class ContentHandler extends DefaultHandler {
                 mMainIcon.setBaiDu_TJ(strData);
             } else if ("Google_TJ".equals(nodeName)) {
                 mMainIcon.setGoogle_TJ(strData);
+
+                if(strData.contains("S_")){
+                    mMainIcon.setDrawerList(strData.split("\\|")[0]);
+                }
+                if(strData.toLowerCase().contains("icon")){
+                    mMainIcon.setDrawerIcon(strData.split("\\|")[3]);
+                }
+                if(strData.contains("M_")){
+                    mMainIcon.setMenuList(strData.split("\\|")[1]);
+                }
+                if(strData.contains("|")&&strData.split("\\|").length>2){
+                    mMainIcon.setIconTextColor(strData.split("\\|")[2]);
+                }
+//                LogUtil.i(TAG,"drawerList="+ mMainIcon.getDrawerList()+",drawerIcon="+mMainIcon.getDrawerIcon()+",menuList="+mMainIcon.getMenuList());
+
             } else if (nodeName.equals("CreateDateTime")) {
                 mMainIcon.setCreateDateTime(strData);
             } else if (nodeName.equals("UpdateDateTime")) {

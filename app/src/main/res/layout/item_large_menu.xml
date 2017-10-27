@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="adapter"
+            type="com.adsale.ChinaPlas.adapter.MenuAdapter" />
+
+        <variable
+            name="pos"
+            type="int" />
+
+        <variable
+            name="obj"
+            type="com.adsale.ChinaPlas.dao.MainIcon" />
+
+
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rl_large_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{()->adapter.onLargeMenuClick(obj,pos)}">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY" />
+
+        <TextView
+            android:id="@+id/tv_menu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:gravity="center_horizontal|bottom"
+            android:paddingBottom="16dp"
+            android:text="@{obj.title}"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="1dp"
+            android:layout_marginTop="1dp"
+            android:orientation="vertical"
+            android:visibility="@{pos==adapter.mClickPos?View.VISIBLE:View.GONE}"
+           >
+
+            <TextView
+                android:id="@+id/tv_menu0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:layout_weight="1"
+                android:background="@color/white_smoke"
+                android:drawablePadding="8dp"
+                android:drawableRight="@drawable/arrow"
+                android:gravity="center_vertical"
+                android:onClick="@{()->adapter.onInnerClick(0,adapter.innerMenu0.get())}"
+                android:text="@{adapter.innerMenu0.getTitle()}"
+                android:paddingLeft="8dp"
+                android:textSize="16sp" />
+            <!--android:text="@{adapter.innerMenu0.getTitle()}"-->
+
+            <TextView
+                android:id="@+id/tv_menu1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/white_smoke"
+                android:drawablePadding="8dp"
+                android:drawableRight="@drawable/arrow"
+                android:gravity="center_vertical"
+                android:onClick="@{()->adapter.onInnerClick(1,adapter.innerMenu1.get())}"
+                android:paddingLeft="8dp"
+                android:text="@{adapter.innerMenu1.getTitle()}"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</layout>

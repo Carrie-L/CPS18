@@ -1,0 +1,25 @@
+﻿{
+  "registration": "2017/05/09 17:00:00",
+  "openLink":"0",
+  "regiterLink": {
+    "tc": "http://www.chinaplasonline.com/CPS17/Mobile/lang-trad/Home.aspx",
+    "sc": "http://www.chinaplasonline.com/CPS17/Mobile/lang-simp/Home.aspx",
+    "en": "http://www.chinaplasonline.com/CPS17/Mobile/lang-eng/Home.aspx"
+  },
+  "regEndMessage": {
+    "tc": "觀眾預先登記已結束，请攜同公司名片前往展會現場辦理登記手續。謝謝！",
+    "sc": "观众预先登记已结束，请携同公司名片前往展会现场办理登记手续。谢谢！",
+    "en": "Visitor pre-registration is closed. Please bring your business cards to register at our onsite registration counters. Thank you! "
+  },
+  "showClosedDate": "2017/05/19 17:00:00",
+  "showClosedMessage": {
+    "tc": "CHINAPLAS國際橡塑展2017已經圓滿結束，請繼續關注我們的網站和社交平台獲取更多信息。謝謝!",
+    "sc": "CHINAPLAS国际橡塑展2017已经圆满结束，请继续关注我们的网站和社交平台获取更多信息。谢谢!",
+    "en": "CHINAPLAS 2017 has been successfully completed, please visit our website and follow our social media for more information. Thank you! "
+  },
+  "showClosedLink": {
+    "tc": "http://www.chinaplasonline.com/CPS17/Mobile/lang-trad/Home.aspx",
+    "sc": "http://www.chinaplasonline.com/CPS17/Mobile/lang-simp/Home.aspx",
+    "en": "http://www.chinaplasonline.com/CPS17/Mobile/lang-eng/Home.aspx"
+  }
+}

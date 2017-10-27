@@ -1,0 +1,7 @@
+{
+  "CurrentEvents":"0.5M",
+  "TechnicalSeminar":"20K",
+  "TravelInfo":"10K",
+  "ExhibitorInfo":"0.6M",
+  "FloorPlan":"0.8M"
+}

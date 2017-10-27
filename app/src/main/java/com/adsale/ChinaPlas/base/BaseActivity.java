@@ -47,8 +47,9 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
     protected NavViewModel mNavViewModel;
     private boolean isInitedDrawer;
 
-    protected int mToolbarLayoutId = R.layout.toolbar_base;
+    protected int mToolbarBackgroundRes = R.drawable.inner_header;
     protected ActionBar actionBar;
+    protected int mScreenWidth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,7 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
 
         mNavViewModel = new NavViewModel(getApplicationContext());
 
+        mScreenWidth = App.mSP_Config.getInt(Constant.SCREEN_WIDTH, 0);
 
 
         preView();
@@ -69,7 +71,7 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
 
         initView();
 
-        if(TextUtils.isEmpty(barTitle.get())){
+        if (TextUtils.isEmpty(barTitle.get())) {
             barTitle.set(getIntent().getStringExtra(Constant.TITLE));
         }
 
@@ -127,8 +129,15 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
 
     private void setupToolBar() {
         FrameLayout toolbarFrame = mBaseBinding.toolbarFrame;
-        View toolbarView = getLayoutInflater().inflate(mToolbarLayoutId, toolbarFrame);
-        setSupportActionBar((Toolbar) toolbarView.findViewById(R.id.toolbar));
+        View toolbarView = getLayoutInflater().inflate(R.layout.toolbar_base, toolbarFrame);
+        Toolbar toolbar = (Toolbar) toolbarView.findViewById(R.id.toolbar);
+        toolbar.setBackgroundResource(mToolbarBackgroundRes);
+        int height = (mScreenWidth * 68) / 320; /* Toolbar图片尺寸：320*68 */
+        App.mSP_Config.edit().putInt(Constant.TOOLBAR_HEIGHT, height).apply();
+        LogUtil.i(TAG, "height=" + height);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(mScreenWidth, height);
+        toolbar.setLayoutParams(params);
+        setSupportActionBar(toolbar);
 
         actionBar = getSupportActionBar();
         if (actionBar != null) {

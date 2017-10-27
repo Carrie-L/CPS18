@@ -14,6 +14,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
+import static android.text.TextUtils.concat;
 import static com.adsale.ChinaPlas.R.id.language;
 // KEEP INCLUDES END
 
@@ -64,6 +65,7 @@ public class Exhibitor implements Parcelable {
     // KEEP FIELDS - put your custom fields here
     public String CompanyName;
     public String Sort;
+    public String CountryName;
 
     public ObservableBoolean isPhotoEmpty = new ObservableBoolean(true);
     public final ObservableBoolean isCollected = new ObservableBoolean(false);
@@ -451,13 +453,13 @@ public class Exhibitor implements Parcelable {
         }
     }
 
-    public void setSort(int language, int sort) {
+    public void setStroke(int language, String sort) {
         if (language == 0) {
-            this.SeqTC = sort;
+            this.StrokeTrad = sort;
         } else if (language == 1) {
-            this.SeqEN = sort;
+            this.StrokeEng = sort;
         } else {
-            this.SeqSC = sort;
+            this.PYSimp = sort;
         }
     }
 
@@ -475,59 +477,38 @@ public class Exhibitor implements Parcelable {
         return columnName;
     }
 
-    public String getAddress(int language) {
 
-
-//    	if(language==0){
-//    		address=AddressT;
-//    		if(TextUtils.isEmpty(address)){
-//    			if(!TextUtils.isEmpty(AddressE)){
-//    				address=AddressE;
-//        		}else if(!TextUtils.isEmpty(AddressS)){
-//    				address=AddressS;
-//        		}
-//    		}
-//    	}else if(language==0){
-//    		address=AddressE;
-//    		if(TextUtils.isEmpty(address)){
-//    			if(!TextUtils.isEmpty(AddressE)){
-//    				address=AddressE;
-//        		}else if(!TextUtils.isEmpty(AddressS)){
-//    				address=AddressS;
-//        		}
-//    		}
-//    	}else{
-//    		address=AddressS;
-//    		if(TextUtils.isEmpty(address)){
-//    			if(!TextUtils.isEmpty(AddressE)){
-//    				address=AddressE;
-//        		}else if(!TextUtils.isEmpty(AddressS)){
-//    				address=AddressS;
-//        		}
-//    		}
-//    	}
-//    	
-//    	String address=SystemMethod.getName(language, AddressT, AddressE, AddressS);
-//    	if(TextUtils.isEmpty(address)){
-//    		if(TextUtils.isEmpty(add)){
-//    			
-//    		}
-//    	}
-
-
-        return "Address_TODO";
-    }
-
+    /**
+     * 在初始化数据时，把最后的 # 或 TBC 或 N/A 前面加上 999 或 ZZZ ，目的是为了排序的时候让它们在最后，省却还需另外排序的麻烦。
+     * 因此在这一 getSort() 步骤，要将 999# 还原成 #.
+     *
+     * @return sort or hall_no
+     */
     public String getSort() {
         int language = AppUtil.getCurLanguage();
+        /* AZ */
         if (language == 1 && StrokeEng.contains("#")) {
             StrokeEng = "#";
         } else if (language == 2 && PYSimp.contains("#")) {
             PYSimp = "#";
         } else if (language == 0 && StrokeTrad.contains("#")) {
-            StrokeTrad = "#";
+            StrokeTrad = "#".concat(Constant.TRAD_STROKE);
         }
-        Sort = AppUtil.getName(language, StrokeTrad + Constant.TRAD_STROKE, StrokeEng, PYSimp);
+        /* HALL : 999TBC || 999N/A */
+        else if (language == 1 && StrokeEng.contains("TBC")) {
+            StrokeEng = "TBC";
+        } else if (language == 2 && PYSimp.contains("TBC")) {
+            PYSimp = "TBC";
+        } else if (language == 0 && StrokeTrad.contains("TBC")) {
+            StrokeTrad = "TBC";
+        } else if (language == 1 && StrokeEng.contains("N/A")) {
+            StrokeEng = "N/A";
+        } else if (language == 2 && PYSimp.contains("N/A")) {
+            PYSimp = "N/A";
+        } else if (language == 0 && StrokeTrad.contains("N/A")) {
+            StrokeTrad = "N/A";
+        }
+        Sort = AppUtil.getName(StrokeTrad, StrokeEng, PYSimp);
         return Sort;
     }
 
