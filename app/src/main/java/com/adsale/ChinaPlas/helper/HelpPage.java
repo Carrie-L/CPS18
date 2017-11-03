@@ -20,6 +20,7 @@ import com.adsale.ChinaPlas.utils.LogUtil;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,8 +100,9 @@ public class HelpPage {
         for (int i = 0; i < length; i++) {
             view = inflater.inflate(R.layout.imageview, null);
             sdvHelp = (ImageView) view.findViewById(R.id.image_view);
+            Glide.with(mContext).load(imageIds[i]).into(sdvHelp);
 //            sdvHelp.setImageURI(Uri.parse("res:///" + imageIds[i]));
-            setDraweeView(sdvHelp, i);
+//            setDraweeView(sdvHelp, i);
 
             //replace with glide
 //            Glide.with(mContext).load(imageIds[i]).centerCrop().crossFade().into(sdvHelp);
@@ -118,31 +120,25 @@ public class HelpPage {
         helpPages = new ArrayList<>();
         int length = imageIds.length;
         inflater = LayoutInflater.from(mContext);
+        /* 设置缓存策略为 不缓存，因为根据语言切换的不同，图片也不同，如果缓存了，切换语言后仍然会使用上一语言的图片 */
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.diskCacheStrategy(DiskCacheStrategy.NONE);
+        requestOptions.skipMemoryCache(true);
 
         for (int i = 0; i < length; i++) {
             view = inflater.inflate(R.layout.imageview, null);
             sdvHelp = (ImageView) view.findViewById(R.id.image_view);
-//            sdvHelp.setImageURI(Uri.parse("res:///" + imageIds[i]));
-            GlideApp.with(mContext).load(imageIds[i]).fitCenter().diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(sdvHelp);
-            setDraweeView(sdvHelp, i);
+            Glide.with(mContext).load(imageIds[i]).apply(requestOptions).into(sdvHelp);
             helpPages.add(sdvHelp);
         }
-
         setPoint(length);
-
         mPagerAdapter = new AdViewPagerAdapter(helpPages);
         viewPagerHelp.setAdapter(mPagerAdapter);
         viewPagerHelp.addOnPageChangeListener(new HelpPageChangeListener());
     }
 
     private void setDraweeView(ImageView sdvHelp, int i) {
-        //still oom
-
         if (AppUtil.isPadDevice(mContext)) {
-//            mImageRequest = ImageRequestBuilder.newBuilderWithSource(Uri.parse("res:///" + imageIds[i]))
-//                    .setResizeOptions(new ResizeOptions(943, 800))
-//                    .build();
-//             .load(Uri.parse("res:///" + imageIds[i]))
             GlideApp
                     .with(mContext)
                     .load(Uri.parse("res:///" + imageIds[i]))
@@ -150,25 +146,14 @@ public class HelpPage {
                     .fitCenter() // The image will be displayed completely, but might not fill the entire ImageView.
                     .into(sdvHelp);
         } else {
-//            mImageRequest = ImageRequestBuilder.newBuilderWithSource(Uri.parse("res:///" + imageIds[i]))
-//                    .setResizeOptions(new ResizeOptions(500, 888))
-//                    .build();
-
             GlideApp
                     .with(mContext)
-                    .load(Uri.parse("res:///" + imageIds[i]))
+                    .load(imageIds[i])
                     .override(500, 888)
                     .fitCenter() // The image will be displayed completely, but might not fill the entire ImageView.
                     .into(sdvHelp);
 
         }
-
-//        mDraweeController = Fresco.newDraweeControllerBuilder()
-//                .setOldController(sdvHelp.getController())
-//                .setImageRequest(mImageRequest)
-//                .build();
-//        sdvHelp.setController(mDraweeController);
-
     }
 
     private void setPoint(int length) {
@@ -223,7 +208,7 @@ public class HelpPage {
 
     public void showPageMenu(Context context, boolean check, View.OnClickListener listener) {
         mContext = context;
-        language = AppUtil.getCurLanguage();
+        language = App.mLanguage.get();
         imageIds = getMenuImages(language);
 
         if (check) {
@@ -236,13 +221,14 @@ public class HelpPage {
     }
 
     public Integer[] getMenuImages(int language) {
-        if (language == 0) {
-            return imageIds = new Integer[]{R.drawable.help_1_tc, R.drawable.help_2_tc, R.drawable.help_3_tc, R.drawable.help_4_tc, R.drawable.help_5_tc, R.drawable.help_6_tc};
-        } else if (language == 1) {
-            return imageIds = new Integer[]{R.drawable.help_1_en, R.drawable.help_2_en, R.drawable.help_3_en, R.drawable.help_4_en, R.drawable.help_5_en, R.drawable.help_6_en};
-        } else {
-            return imageIds = new Integer[]{R.drawable.help_1_sc, R.drawable.help_2_sc, R.drawable.help_3_sc, R.drawable.help_4_sc, R.drawable.help_5_sc, R.drawable.help_6_sc};
-        }
+//        if (language == 0) {
+//            return imageIds = new Integer[]{R.drawable.help_1_tc, R.drawable.help_2_tc, R.drawable.help_3_tc, R.drawable.help_4_tc, R.drawable.help_5_tc, R.drawable.help_6_tc};
+//        } else if (language == 1) {
+//            return imageIds = new Integer[]{R.drawable.help_1_en, R.drawable.help_2_en, R.drawable.help_3_en, R.drawable.help_4_en, R.drawable.help_5_en, R.drawable.help_6_en};
+//        } else {
+//            return imageIds = new Integer[]{R.drawable.help_1_sc, R.drawable.help_2_sc, R.drawable.help_3_sc, R.drawable.help_4_sc, R.drawable.help_5_sc, R.drawable.help_6_sc};
+//        }
+        return imageIds = new Integer[]{R.drawable.help_1, R.drawable.help_2, R.drawable.help_3, R.drawable.help_4, R.drawable.help_5, R.drawable.help_6};
     }
 
     /**
@@ -251,7 +237,7 @@ public class HelpPage {
      */
     public void showPageMyExhibitor(Context context, boolean check, View.OnClickListener listener) {
         mContext = context;
-        language = AppUtil.getCurLanguage();
+        language = App.mLanguage.get();
         if (language == 0) {
             imageIds = new Integer[]{R.drawable.help_myexhibitor_tc_0};
         } else if (language == 1) {
@@ -272,7 +258,7 @@ public class HelpPage {
 
     public void showPageExhibitorDtl(Context context, boolean check, View.OnClickListener listener) {
         mContext = context;
-        language = AppUtil.getCurLanguage();
+        language = App.mLanguage.get();
         if (language == 0) {
             imageIds = new Integer[]{R.drawable.help_exhibitordtl_tc_0};
         } else if (language == 1) {
@@ -292,7 +278,7 @@ public class HelpPage {
 
     public void showPageMapFloor(Context context, boolean check) {
         mContext = context;
-        language = AppUtil.getCurLanguage();
+        language = App.mLanguage.get();
         if (language == 0) {
             imageIds = new Integer[]{R.drawable.help_mapfloor_tc_0};
         } else if (language == 1) {
@@ -311,7 +297,7 @@ public class HelpPage {
     public void showPageFloorDtl(Context context, boolean check) {
         mContext = context;
 //        imageIds = new Integer[]{R.drawable.help_floordtl_0};
-        language = AppUtil.getCurLanguage();
+        language = App.mLanguage.get();
         if (language == 0) {
             imageIds = new Integer[]{R.drawable.help_floordtl_tc_0};
         } else if (language == 1) {
@@ -328,7 +314,7 @@ public class HelpPage {
     public void showPageSchedule(Context context, boolean check, final FloatingActionButton fab) {
         mContext = context;
 //        imageIds = new Integer[]{R.drawable.help_schedule_0};
-        language = AppUtil.getCurLanguage();
+        language = App.mLanguage.get();
         if (language == 0) {
             imageIds = new Integer[]{R.drawable.help_schedule_tc_0};
         } else if (language == 1) {
@@ -355,7 +341,7 @@ public class HelpPage {
 
     public void showPageScheduleEdit(Context context, boolean check) {
         mContext = context;
-        language = AppUtil.getCurLanguage();
+        language = App.mLanguage.get();
         if (language == 0) {
             imageIds = new Integer[]{R.drawable.help_schedule_edit_tc_0};
         } else if (language == 1) {
@@ -372,7 +358,7 @@ public class HelpPage {
     public void showPageEvent(Context context, boolean check, final FloatingActionButton fab) {
         mContext = context;
 //        imageIds = new Integer[]{R.drawable.help_event_0};
-        language = AppUtil.getCurLanguage();
+        language = App.mLanguage.get();
         if (language == 0) {
             imageIds = new Integer[]{R.drawable.help_event_tc_0};
         } else if (language == 1) {
@@ -399,7 +385,7 @@ public class HelpPage {
 
     public void showPageScanner(Context context, boolean check) {
         mContext = context;
-        language = AppUtil.getCurLanguage();
+        language = App.mLanguage.get();
         if (language == 0) {
             imageIds = new Integer[]{R.drawable.help_scanner_tc_0};
         } else if (language == 1) {

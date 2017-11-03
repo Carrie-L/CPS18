@@ -240,4 +240,11 @@
     <string name="uc_updated">已更新</string>
     <string name="uc_update_all">更新全部</string>
 
+
+    <!--文档下载中心-->
+    <string name="dc_download">Download</string>
+    <string name="dc_open">Open</string>
+
+
+
 </resources>

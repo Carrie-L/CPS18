@@ -93,7 +93,7 @@ public class LoginViewModel {
     }
 
     private String getLangStr() {
-        int language = AppUtil.getCurLanguage();
+        int language = App.mLanguage.get();
         return AppUtil.getName(language, "lang-trad", "lang-eng", "lang-simp");
     }
 

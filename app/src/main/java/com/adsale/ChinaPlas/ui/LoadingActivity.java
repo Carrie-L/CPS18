@@ -33,6 +33,7 @@ import static com.adsale.ChinaPlas.helper.LoadingReceiver.LOADING_ACTION;
 import static com.adsale.ChinaPlas.utils.Constant.SCREEN_HEIGHT;
 import static com.adsale.ChinaPlas.utils.PermissionUtil.PMS_CODE_READ_PHONE_STATE;
 
+// TODO: 2017/10/30 down txt error, send broadcast 
 public class LoadingActivity extends AppCompatActivity implements LoadingReceiver.OnLoadFinishListener {
     private static final String TAG = "LoadingActivity";
     private SharedPreferences mConfigSP;
@@ -57,6 +58,10 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
         mLoadingModel.initM1(binding.vpindicator, binding.autoVP, binding.tvSkip, binding.framelayout);
         registerBroadcastReceiver();
 
+        int language = AppUtil.getCurLanguage();
+        AppUtil.switchLanguage(getApplicationContext(), language);
+        App.mLanguage.set(language);
+
         if (isFirstRunning) {
             mLoadingModel.showLangBtn.set(true);
             setDeviceType();
@@ -64,11 +69,8 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
             getDeviceInfo();
         } else {
             getDeviceInfo2();
-
             mLoadingModel.run();
         }
-
-
     }
 
     private void registerBroadcastReceiver() {
@@ -91,7 +93,7 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
 
     private void getDeviceInfo() {
         Display display = getWindowManager().getDefaultDisplay();
-        int displayHeight=display.getHeight();
+        int displayHeight = display.getHeight();
         Point point = new Point();
         if (Build.VERSION.SDK_INT >= 17) {
             display.getRealSize(point);
@@ -101,7 +103,7 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
         int width = point.x;
         int height = point.y;
         LogUtil.i(TAG, "device 的宽高为：width=" + width + ",height=" + height + ",displayHeight=" + displayHeight);
-        mConfigSP.edit().putInt(Constant.SCREEN_WIDTH, width).putInt(SCREEN_HEIGHT, height).putInt(Constant.DISPLAY_HEIGHT,displayHeight).apply();
+        mConfigSP.edit().putInt(Constant.SCREEN_WIDTH, width).putInt(SCREEN_HEIGHT, height).putInt(Constant.DISPLAY_HEIGHT, displayHeight).apply();
     }
 
     private void requestPermission() {

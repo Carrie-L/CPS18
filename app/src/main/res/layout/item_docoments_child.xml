@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="adapter"
+            type="com.adsale.ChinaPlas.adapter.DocumentsItemTestAdapter" />
+
+        <variable
+            name="pos"
+            type="int" />
+
+        <variable
+            name="obj"
+            type="com.adsale.ChinaPlas.data.model.DocumentsCenter.Child"/>
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@drawable/item_tech_bg"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp">
+
+        <ImageView
+            android:id="@+id/iv_dc_cover"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            />
+
+        <TextView
+            android:id="@+id/tv_dc_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/iv_dc_cover"
+            android:text="@{obj.fileName}" />
+
+        <RelativeLayout
+            android:id="@+id/rl_down_work"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_alignLeft="@id/tv_dc_name"
+            android:layout_alignParentBottom="true"
+            android:visibility="@{obj.downloadStatus==-1||obj.downloadStatus==2?View.GONE:View.VISIBLE}"
+            >
+            <!--android:visibility="@{adapter.downloadStatus==-1||adapter.downloadStatus==2?View.GONE:View.VISIBLE}"-->
+
+            <ImageView
+                android:id="@+id/iv_delete"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_alignParentRight="true"
+                android:onClick="@{()->adapter.onDelete(pos)}"
+                android:scaleType="center"
+                android:src="@drawable/ic_dc_delete" />
+
+            <ImageView
+                android:id="@+id/iv_restart"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_toLeftOf="@id/iv_delete"
+                android:scaleType="center"
+                android:onClick="@{()->adapter.onRestart(pos)}"
+                android:src="@{obj.downloadStatus==0?@drawable/ic_dc_pause:@drawable/ic_dc_refresh}"
+               />
+
+
+            <ProgressBar
+                android:id="@+id/dc_progress_bar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:layout_alignBaseline="@id/iv_restart"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="8dp"
+                android:layout_toLeftOf="@id/iv_restart"
+                android:progressDrawable="@drawable/pb_horizontal_style_red" />
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/tv_dc_download"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginRight="17dp"
+            android:background="@drawable/oval_red_bg"
+
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+
+            android:textColor="#fff"
+            android:textStyle="bold"
+            android:drawableLeft="@{obj.downloadStatus==2?@drawable/ic_dc_dir:@drawable/ic_dc_down}"
+            android:onClick="@{()->adapter.onDownload(obj)}"
+            android:text="@{obj.downloadStatus==2?@string/dc_open:@string/dc_download}"
+
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="17dp" />
+
+
+
+        <TextView
+            android:id="@+id/tv_dc_size"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignLeft="@id/tv_dc_name"
+            android:layout_alignTop="@id/tv_dc_download"
+            android:layout_below="@id/tv_dc_name"
+            android:layout_marginRight="16dp"
+            android:layout_toLeftOf="@id/tv_dc_download"
+            android:gravity="center_vertical"
+            android:text="@{obj.fileSize}"
+            android:textColor="@color/home" />
+
+
+    </RelativeLayout>
+
+</layout>

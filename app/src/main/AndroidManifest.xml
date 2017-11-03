@@ -68,7 +68,8 @@
         <activity android:name=".ui.FilterBoothListActivity" />
         <activity android:name=".ui.TechnicalListActivity" />
         <activity android:name=".ui.TechSeminarDtlActivity" />
-        <activity android:name=".ui.UpdateCenterActivity"></activity>
+        <activity android:name=".ui.UpdateCenterActivity" />
+        <activity android:name=".ui.DocumentsDownCenterActivity"></activity>
     </application>
 
 </manifest>

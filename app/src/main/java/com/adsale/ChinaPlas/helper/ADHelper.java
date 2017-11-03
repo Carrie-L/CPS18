@@ -74,6 +74,7 @@ public class ADHelper {
             LogUtil.e(TAG, "~~~ad opening~~");
             return true;
         }
+        mSP_Config.edit().putBoolean("M1ShowFinish", true).apply();
         LogUtil.e(TAG, "~~~ad closed~~");
         return false;
 
@@ -93,7 +94,7 @@ public class ADHelper {
     public List<View> generateM1View(LinearLayout viewIndicator) {
         String[] adPics;
         List<View> pagers = new ArrayList<>();
-        int mLanguage = AppUtil.getCurLanguage();
+        int mLanguage = App.mLanguage.get();
 
         if (adObj == null || adObj.M1 == null) {
             return pagers;
@@ -191,7 +192,7 @@ public class ADHelper {
         if (isAdOpen()) {
             LogUtil.i(TAG, "adObj.M2.version=" + adObj.M2.version);
             if (Integer.valueOf(adObj.M2.version) > 0) {
-                int language = AppUtil.getCurLanguage();
+                int language = App.mLanguage.get();
                 StringBuilder m2Url = new StringBuilder();
                 m2Url.append(adObj.Common.baseUrl).append(adObj.M2.filepath).append(AppUtil.isTablet() ? adObj.Common.tablet : adObj.Common.phone).append(AppUtil.getLanguageType(language)).append("_")
                         .append(adObj.M2.version).append(adObj.M2.format);

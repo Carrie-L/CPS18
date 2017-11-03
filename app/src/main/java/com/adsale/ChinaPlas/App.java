@@ -61,11 +61,13 @@ public class App extends Application {
     public static DBHelper mDBHelper;
     public static String DB_PATH = "";// 在手机里存放数据库的位置
     private static Resources resources;
-    public static String rootDir,filesDir;
+    public static String rootDir, filesDir;
     public static ConnectivityManager mConnectivityManager;
     public static AssetManager mAssetManager;
 
     public static OkHttpClient mOkHttpClient;
+
+    public static final ObservableInt mLanguage = new ObservableInt();
 
     //    public static String memoryFileDir;
 
@@ -80,12 +82,12 @@ public class App extends Application {
 
         mConnectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        rootDir = getDir("cps18",MODE_PRIVATE).getAbsolutePath()+"/";
-        filesDir=getFilesDir().getAbsolutePath()+"/";// /data/user/0/com.adsale.ChinaPlas/files/
-        LogUtil.i(TAG,"rootDir="+rootDir);
-        LogUtil.i(TAG,"filesDir="+filesDir);
+        rootDir = getDir("cps18", MODE_PRIVATE).getAbsolutePath() + "/";
+        filesDir = getFilesDir().getAbsolutePath() + "/";// /data/user/0/com.adsale.ChinaPlas/files/
+        LogUtil.i(TAG, "rootDir=" + rootDir);
+        LogUtil.i(TAG, "filesDir=" + filesDir);
 
-        mAssetManager=getAssets();
+        mAssetManager = getAssets();
 
         mOkHttpClient = new OkHttpClient.Builder().connectTimeout(5, TimeUnit.SECONDS).build();
 
@@ -118,7 +120,7 @@ public class App extends Application {
     }
 
     private void getDbHelper() {
-        mDBHelper = new DBHelper.Builder(getDaoSession(), daoMaster,db).build();
+        mDBHelper = new DBHelper.Builder(getDaoSession(), daoMaster, db).build();
     }
 
     private void checkUpdateDB() {
@@ -185,8 +187,7 @@ public class App extends Application {
     }
 
 
-
-    public void finish(){
+    public void finish() {
         finish();
     }
 

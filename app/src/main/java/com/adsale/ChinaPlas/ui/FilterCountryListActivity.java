@@ -5,6 +5,7 @@ import android.databinding.ObservableField;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.adapter.CountryAdapter;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.dao.Country;
@@ -58,7 +59,7 @@ public class FilterCountryListActivity extends BaseActivity implements SideLette
     protected void initData() {
         mRepository = FilterRepository.getInstance();
         mRepository.initCountryDao();
-        mList = mRepository.getCountries(AppUtil.getCurLanguage());
+        mList = mRepository.getCountries(App.mLanguage.get());
 
         filters = new ArrayList<>();
         CountryAdapter adapter = new CountryAdapter(mList, filters);

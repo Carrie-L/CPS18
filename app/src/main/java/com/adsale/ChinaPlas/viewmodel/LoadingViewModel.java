@@ -105,7 +105,6 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
     public void chooseLang(int language) {
         LogUtil.i(TAG, "language=" + language);
         AppUtil.switchLanguage(mContext, language);
-        AppUtil.setCurLanguage(language);
         run();
     }
 
@@ -307,12 +306,10 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
                                 }.getType();
                                 scanFiles = new Gson().fromJson(result, listType);
 
-
                                 //把ConcurrentEvent.txt手動加上去。。。
                                 UpdateCenter updateCenter = new UpdateCenter();
                                 updateCenter.setScanFile("CurrentEvents.txt");
                                 scanFiles.add(updateCenter);
-
 
                                 logListString(scanFiles);
                             }
@@ -379,14 +376,14 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
             String txtUT = updateCenter.FPDate.compareTo(updateCenter.FUDate) > 0 ? updateCenter.FPDate : updateCenter.FUDate;
             int result = txtUT.compareTo(localUT);
             if (result > 0) {// txtUT > localUT, update
-                LogUtil.e(TAG, fileName + " has update!! " + " @@@ compare update time: result= " + result + ", localUT=" + localUT + ", txtUT=" + txtUT);
+                LogUtil.e(TAG, fileName + " has update!! " + " @@@ compare update time: result= " + result + ", localUT=" + localUT + ", txtUT=" + AppUtil.GMT2UTC(txtUT));
                 updateCenter.setUCId();
                 updateCenter.setStatus(0);
-                updateCenter.setLUT(txtUT);
+                updateCenter.setLUT( AppUtil.GMT2UTC(txtUT));
                 mLoadRepository.updateLocalLUT(updateCenter);
                 return getTxt(fileName);// has update, so download
             }
-            LogUtil.i(TAG, "~~isOneOfFiveTxt, but no update.~~");
+            LogUtil.i(TAG, "~~isOneOfFiveTxt, but no update.~~"+AppUtil.GMT2UTC(txtUT));
             return Observable.just(fileName);// no update
         }
         LogUtil.i(TAG, "!!~~isOneOfFiveTxt~~!!");

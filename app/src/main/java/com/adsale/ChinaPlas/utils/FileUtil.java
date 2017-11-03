@@ -43,7 +43,7 @@ public class FileUtil {
     }
 
     public static String createFile(String absPath) {
-        if (!absPath.contains("/")) {
+        if (!absPath.endsWith("/")) {
             absPath += "/";
         }
         LogUtil.i(TAG, "absPath1=" + absPath);
@@ -214,5 +214,7 @@ public class FileUtil {
         }
         return "";
     }
+
+
 
 }

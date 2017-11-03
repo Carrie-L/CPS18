@@ -131,6 +131,10 @@ public class MainIconRepository implements DataSource<MainIcon> {
                 entity.setBaiDu_TJ(cursor.getString(cursor.getColumnIndex("BAI_DU__TJ")));
                 google_tj = cursor.getString(cursor.getColumnIndex("GOOGLE__TJ")).split("\\|")[0].replace("S_", "");
                 entity.setGoogle_TJ(google_tj);//11,1_1  //SystemMethod.subStringFront(google_tj,'|')
+                entity.setDrawerList(cursor.getString(cursor.getColumnIndex("DRAWER_LIST")));
+                entity.setMenuList(cursor.getString(cursor.getColumnIndex("MENU_LIST")));
+                entity.setDrawerIcon(cursor.getString(cursor.getColumnIndex("DRAWER_ICON")));
+                entity.setIconTextColor(cursor.getString(cursor.getColumnIndex("ICON_TEXT_COLOR")));
 
                 if (!entity.getGoogle_TJ().contains("_")) {
                     parentList.add(entity);

@@ -1,5 +1,6 @@
 package com.adsale.ChinaPlas.data;
 
+import com.adsale.ChinaPlas.dao.UpdateCenter;
 import com.adsale.ChinaPlas.utils.NetWorkHelper;
 
 import io.reactivex.Observable;
@@ -27,5 +28,11 @@ public interface DownloadClient {
     /*  ``````````````````````````````  内容更新中心  `````````````````````````````````````  */
     @GET
     Observable<Response<ResponseBody>> downExhibitorCSVs(@Url String url);
+
+    @GET
+    Observable<Response<ResponseBody>> downUrls(@Url String url);
+
+
+
 
 }

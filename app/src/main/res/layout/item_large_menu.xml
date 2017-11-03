@@ -17,6 +17,10 @@
             name="obj"
             type="com.adsale.ChinaPlas.dao.MainIcon" />
 
+        <variable
+            name="navModel"
+            type="com.adsale.ChinaPlas.viewmodel.NavViewModel"/>
+
 
     </data>
 
@@ -26,12 +30,14 @@
         android:layout_height="wrap_content"
         android:onClick="@{()->adapter.onLargeMenuClick(obj,pos)}">
 
+        <!--大Menu图片-->
         <ImageView
             android:id="@+id/icon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scaleType="fitXY" />
+            android:scaleType="centerInside" />
 
+        <!--大Menu文字-->
         <TextView
             android:id="@+id/tv_menu"
             android:layout_width="match_parent"
@@ -39,9 +45,10 @@
             android:layout_alignParentBottom="true"
             android:gravity="center_horizontal|bottom"
             android:paddingBottom="16dp"
-            android:text="@{obj.title}"
+            android:text="@{obj.getTitle(navModel.mCurrLang.get())}"
             android:textSize="16sp" />
 
+        <!--两个子menu-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -62,7 +69,7 @@
                 android:drawableRight="@drawable/arrow"
                 android:gravity="center_vertical"
                 android:onClick="@{()->adapter.onInnerClick(0,adapter.innerMenu0.get())}"
-                android:text="@{adapter.innerMenu0.getTitle()}"
+                android:text="@{adapter.innerMenu0.getTitle(navModel.mCurrLang.get())}"
                 android:paddingLeft="8dp"
                 android:textSize="16sp" />
             <!--android:text="@{adapter.innerMenu0.getTitle()}"-->
@@ -78,7 +85,7 @@
                 android:gravity="center_vertical"
                 android:onClick="@{()->adapter.onInnerClick(1,adapter.innerMenu1.get())}"
                 android:paddingLeft="8dp"
-                android:text="@{adapter.innerMenu1.getTitle()}"
+                android:text="@{adapter.innerMenu1.getTitle(navModel.mCurrLang.get())}"
                 android:textSize="16sp" />
         </LinearLayout>
     </RelativeLayout>

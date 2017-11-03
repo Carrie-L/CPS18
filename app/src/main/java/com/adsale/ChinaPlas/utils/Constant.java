@@ -98,12 +98,20 @@ public class Constant {
 
     public static final String TXT_CONCURRENT_EVENT = "CurrentEvents.txt";
     public static final String TXT_MAIN_PIC_INFO = "MainMenuInfo.txt";
+    public static final String TXT_PDF_CENTER_INFO = "PDFCenterInfos.txt";
 
     public static final String UC_TXT_EXHIBITOR="ExhibitorInfo.txt";
     public static final String UC_TXT_FLOOR_PLAN="FloorPlan.txt";
     public static final String UC_TXT_SEMINAR="SeminarInfo.txt";
     public static final String UC_TXT_TRAVEL="Travelnfo.txt";
     public static final String UC_TXT_APP_CONTENTS="appContents.txt";
+
+    /* asset目录下文件夹名称 */
+    public static final String DIR_EXHIBITOR="ExhibitorData";
+    public static final String DIR_FLOOR_PLAN="FloorPlan";
+    public static final String DIR_SEMINAR="TechnicalSeminar";
+    public static final String DIR_TRAVEL="TravelInfo";
+    public static final String DIR_EVENT="ConcurrentEvent";
 
 
 }

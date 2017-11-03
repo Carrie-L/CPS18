@@ -75,7 +75,7 @@ public class FilterRepository {
     }
 
     public ArrayList<String> getIndustryLetters() {
-        int language = AppUtil.getCurLanguage();
+        int language = App.mLanguage.get();
         ArrayList<String> list = new ArrayList<>();
         String sql;
         if (language == 0) {
@@ -123,7 +123,7 @@ public class FilterRepository {
         checkAppIndustryDaoNull();
         ArrayList<ApplicationIndustry> list;
         ArrayList<ApplicationIndustry> temps;
-        if (AppUtil.getCurLanguage() == 0) {
+        if (App.mLanguage.get() == 0) {
             list = (ArrayList<ApplicationIndustry>) mAppIndustryDao.queryBuilder().where(new WhereCondition.StringCondition(" TCSTROKE=\"#\" order by cast(TCSTROKE as int)")).list();
             temps = (ArrayList<ApplicationIndustry>) mAppIndustryDao.queryBuilder().where(new WhereCondition.StringCondition(" TCSTROKE!=\"#\" order by cast(TCSTROKE as int)")).list();
         } else {
@@ -163,7 +163,7 @@ public class FilterRepository {
      * @return ArrayList<String>
      */
     public ArrayList<String> getCountryLetters() {
-        int language = AppUtil.getCurLanguage();
+        int language = App.mLanguage.get();
         ArrayList<String> list = new ArrayList<>();
         String sql;
         if (language == 0) {

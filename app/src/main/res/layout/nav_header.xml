@@ -1,21 +1,18 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <!--<variable-->
-            <!--name="viewmodel"-->
-            <!--type="com.adsale.ChinaPlas.viewmodel.LoginViewModel"/>-->
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="navModel"
-            type="com.adsale.ChinaPlas.viewmodel.NavViewModel"/>
+            type="com.adsale.ChinaPlas.viewmodel.NavViewModel" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
-        >
+        android:background="@android:color/white">
 
         <RelativeLayout
             android:id="@+id/iv_header"
@@ -41,7 +38,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_toRightOf="@id/iv_user"
                 android:gravity="center_vertical"
-                android:text="@{navModel.isLoginSuccess?navModel.drawerLoginTitle:@string/login_title_1}"
+                android:text="@{navModel.drawerLoginTitle}"
                 android:textSize="14sp" />
 
             <Button
@@ -52,7 +49,7 @@
                 android:layout_below="@id/tv_user_login"
                 android:background="@drawable/bttn_red"
                 android:onClick="@{navModel.isLoginSuccess?navModel::sync:navModel::login}"
-                android:text="@{navModel.isLoginSuccess?@string/left_menu_sync:@string/left_menu_login}"
+                android:text="@{navModel.drawerLoginOrSync}"
                 android:textColor="@color/white" />
 
             <Button
@@ -63,8 +60,8 @@
                 android:layout_marginLeft="16dp"
                 android:layout_toRightOf="@id/btn_login"
                 android:background="@drawable/bttn_grey"
-                android:text="@string/left_menu_logout"
                 android:onClick="logout"
+                android:text="@{navModel.drawerLogout}"
                 android:visibility="@{navModel.isLoginSuccess?View.VISIBLE:View.INVISIBLE}" />
 
             <ImageView
@@ -92,8 +89,7 @@
                 android:layout_marginRight="3dp"
                 android:layout_weight="1"
                 android:background="@drawable/bttn_eng"
-                android:onClick="@{() -> navModel.clickEN()}"
-                />
+                android:onClick="@{() -> navModel.onLangClick(1)}" />
 
             <Button
                 android:id="@+id/btn_sc"
@@ -102,8 +98,7 @@
                 android:layout_marginRight="3dp"
                 android:layout_weight="1"
                 android:background="@drawable/bttn_simp"
-                android:onClick="@{() -> navModel.clickCN()}"
-                />
+                android:onClick="@{() -> navModel.onLangClick(2)}" />
 
             <Button
                 android:id="@+id/btn_tc"
@@ -112,8 +107,7 @@
                 android:layout_marginRight="3dp"
                 android:layout_weight="1"
                 android:background="@drawable/bttn_trad"
-                android:onClick="@{() -> navModel.clickTW()}"
-                />
+                android:onClick="@{() -> navModel.onLangClick(0)}" />
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
@@ -121,8 +115,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/language"
-            android:layout_below="@id/iv_header"
-            />
+            android:layout_below="@id/iv_header" />
 
     </RelativeLayout>
 

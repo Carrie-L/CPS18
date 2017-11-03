@@ -69,7 +69,7 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
     }
 
     private String getExhibitorSql() {
-        int language = AppUtil.getCurLanguage();
+        int language = App.mLanguage.get();
         if (language == 0) {
             return "select E.COMPANY_ID,E.COMPANY_NAME_EN,E.COMPANY_NAME_TW,E.COMPANY_NAME_CN,E.COUNTRY_ID,E.BOOTH_NO,E.STROKE_TRAD,E.SEQ_TC,E.HALL_NO,E.IS_FAVOURITE\n" +
                     ",C.COUNTRY_NAME_TW AS COUNTRY_NAME from EXHIBITOR E,COUNTRY C WHERE E.COUNTRY_ID=C.COUNTRY_ID ";
@@ -84,7 +84,7 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
 
     public ArrayList<Exhibitor> cursorList(String sql, ArrayList<String> letters, boolean orderByAZ) {
         long startTime = System.currentTimeMillis();
-        int language = AppUtil.getCurLanguage();
+        int language = App.mLanguage.get();
         Cursor cursor = App.mDBHelper.db.rawQuery(sql, null);
         ArrayList<Exhibitor> exhibitors = new ArrayList<>();
         if (cursor != null) {

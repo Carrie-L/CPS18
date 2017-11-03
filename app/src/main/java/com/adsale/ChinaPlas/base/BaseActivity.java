@@ -29,6 +29,7 @@ import com.adsale.ChinaPlas.ui.MainActivity;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
+import com.adsale.ChinaPlas.viewmodel.MainViewModel;
 import com.adsale.ChinaPlas.viewmodel.NavViewModel;
 import com.adsale.ChinaPlas.viewmodel.SyncViewModel;
 

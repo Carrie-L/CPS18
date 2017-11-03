@@ -46,18 +46,18 @@ public class InnerMenuView extends RelativeLayout {
         menum1 = binding.tvMenu1;
     }
 
-    public void setData(MainIcon mainIcon, OnIntentListener listener) {
-        menuText.set(mainIcon.getTitle());
-        this.mainIcon = mainIcon;
-        mListener = listener;
-        menum0.setText(mainIcon.getTitle());
-    }
-
-    public void setData(MainIcon icon0,MainIcon icon1, OnIntentListener listener){
-        mListener = listener;
-        menum0.setText(icon0.getTitle());
-        menum1.setText(icon1.getTitle());
-    }
+//    public void setData(MainIcon mainIcon, OnIntentListener listener) {
+//        menuText.set(mainIcon.getTitle());
+//        this.mainIcon = mainIcon;
+//        mListener = listener;
+//        menum0.setText(mainIcon.getTitle());
+//    }
+//
+//    public void setData(MainIcon icon0,MainIcon icon1, OnIntentListener listener){
+//        mListener = listener;
+//        menum0.setText(icon0.getTitle());
+//        menum1.setText(icon1.getTitle());
+//    }
 
     public void destroyView() {
 

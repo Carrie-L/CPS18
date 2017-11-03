@@ -76,7 +76,7 @@ public class TechViewModel {
     }
 
     private void init() {
-        currLang = AppUtil.getCurLanguage();
+        currLang = App.mLanguage.get();
         mRepository = OtherRepository.getInstance();
         mRepository.initTechSeminarDao();
         allSeminarCaches = mRepository.getAllSeminars(getCurrLangId());

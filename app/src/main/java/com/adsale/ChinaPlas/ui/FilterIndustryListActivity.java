@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 
+import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.adapter.IndustryAdapter;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.dao.Industry;
@@ -74,7 +75,7 @@ public class FilterIndustryListActivity extends BaseActivity implements SideLett
         industries.clear();
         if (industryCaches.isEmpty()) {
             LogUtil.i(TAG, "getIndustries:industryCaches.isEmpty()");
-            industryCaches = mRepository.getIndustries(AppUtil.getCurLanguage());
+            industryCaches = mRepository.getIndustries(App.mLanguage.get());
         } else {
             LogUtil.i(TAG, "getIndustries:industryCaches.is not Empty()");
         }

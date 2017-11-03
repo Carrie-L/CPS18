@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -128,7 +129,7 @@ public class AppUtil {
     }
 
     public static String getName(String tc, String en, String sc) {
-        int language = getCurLanguage();
+        int language = App.mLanguage.get();
         if (language == 0) {
             return tc;
         } else if (language == 1) {
@@ -137,8 +138,6 @@ public class AppUtil {
             return sc;
         }
     }
-
-
 
 
     public static boolean isLogin() {
@@ -174,12 +173,12 @@ public class AppUtil {
      */
     public static void switchLanguage(Context mContext, int language) {
         setCurLanguage(language);
-
         Resources resources = mContext.getResources();
         Configuration config = resources.getConfiguration();
         DisplayMetrics dm = resources.getDisplayMetrics();
         config.locale = getLocale(language);
         resources.updateConfiguration(config, dm);
+        App.mLanguage.set(language);
     }
 
     private static Locale getLocale(int language) {
@@ -217,6 +216,29 @@ public class AppUtil {
             e.printStackTrace();
             return false;
         }
+    }
+
+    /**
+     * @param dir  文件夹名称，如ConcurrentEvent
+     * @param name 文件夹中的文件名
+     * @return
+     */
+    public static boolean isFileInAsset(String dir, String name) {
+        AssetManager am = App.mAssetManager;
+        try {
+            String[] names = am.list(dir);
+            for (String str : names) {
+                LogUtil.i(TAG, "names=" + str);
+                if (str.equals(name)) {
+                    LogUtil.i(TAG, name + "文件存在！！！！");
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        LogUtil.e(TAG, name + "不存在啦！！！！");
+        return false;
     }
 
 
@@ -285,17 +307,19 @@ public class AppUtil {
         SimpleDateFormat sFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         return sFormat.format(new Date());
     }
+
     /**
      * 将GMT格式的时间转换为系统时间
+     *
      * @param time 2016-09-09T09:31:00.00+08:00
      * @return <font color="#f97798">yyyy-MM-dd HH:mm:ss</font>
      */
-    public static String GMT2UTC(String time){
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSZ",Locale.getDefault());
-        SimpleDateFormat sformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.getDefault());
+    public static String GMT2UTC(String time) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSZ", Locale.getDefault());
+        SimpleDateFormat sformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         try {
             Date date = format.parse(time);
-			/*System.out.println("time="+time+",,,time2="+sformat.format(date));*/
+            /*System.out.println("time="+time+",,,time2="+sformat.format(date));*/
             return sformat.format(date);
         } catch (ParseException e) {
             e.printStackTrace();
@@ -384,6 +408,36 @@ public class AppUtil {
     /**
      * 获取中间部分
      *
+     * @param str 要截取的完整字符串，如：https://o97tbiy1f.qnssl.com/ExhibtorInfo/ExhibitorInfo.zip
+     * @param c0  截取分隔符0，如： ".com/",经过这一步 str.substring(str.indexOf(".com/")+5); ——>  ExhibitorInfo/20170614.zip
+     * @param c1  截取分隔符1，在c0的基础上分割 "ExhibitorInfo/20170614.zip".split("/")[0];  ——>  ExhibitorInfo
+     * @return "ExhibitorInfo"
+     */
+    public static String subStringMiddle(String str, String c0, String c1) {
+        String result = str.substring(str.indexOf(c0) + c0.length());//   ExhibitorInfo/20170614.zip
+        LogUtil.i(TAG, "result0=" + result);
+        result = result.split(c1)[0];
+        LogUtil.i(TAG, "result1=" + result);
+        return result;
+    }
+
+    /**
+     * 获取中间部分
+     *
+     * @param str https://o97tbiy1f.qnssl.com/ExhibtorInfo/ExhibitorInfo.zip
+     * @param c1  '/' 先截取最后部分 ——> ExhibitorInfo.zip
+     * @param c2  '.' 再获取前面部分 ——> ExhibitorInfo
+     * @return String <font color="#f97798">ExhibitorInfo</font>
+     * @version 创建时间：2016年9月6日 下午2:03:29
+     */
+    public static String subStringLastFront(String str, String c1, char c2) {
+        String str1 = subStringLast(str, c1);
+        return subStringFront(str1, c2);
+    }
+
+    /**
+     * 获取中间部分
+     *
      * @param str https://o97tbiy1f.qnssl.com/ExhibtorInfo/ExhibitorInfo.zip
      * @param c1  '/' 先截取最后部分 ——> ExhibitorInfo.zip
      * @param c2  '.' 再获取前面部分 ——> ExhibitorInfo.   (截取包括c2的部分)
@@ -438,7 +492,6 @@ public class AppUtil {
             return "sc";
         }
     }
-
 
 
 }

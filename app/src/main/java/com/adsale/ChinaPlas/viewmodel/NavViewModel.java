@@ -2,7 +2,6 @@ package com.adsale.ChinaPlas.viewmodel;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.ObservableBoolean;
@@ -13,16 +12,15 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.DrawerAdapter;
 import com.adsale.ChinaPlas.dao.MainIcon;
-import com.adsale.ChinaPlas.dao.WebContent;
 import com.adsale.ChinaPlas.data.MainIconRepository;
-import com.adsale.ChinaPlas.ui.ConcurrentEventActivity;
+import com.adsale.ChinaPlas.ui.DocumentsDownCenterActivity;
 import com.adsale.ChinaPlas.ui.ExhibitorActivity;
 import com.adsale.ChinaPlas.ui.LoginActivity;
 import com.adsale.ChinaPlas.ui.MainActivity;
@@ -35,7 +33,6 @@ import com.adsale.ChinaPlas.ui.ScannerActivity;
 import com.adsale.ChinaPlas.ui.ScheduleActivity;
 import com.adsale.ChinaPlas.ui.UpdateCenterActivity;
 import com.adsale.ChinaPlas.ui.WebContentActivity;
-import com.adsale.ChinaPlas.ui.WebViewActivity;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
@@ -43,8 +40,6 @@ import com.adsale.ChinaPlas.utils.LogUtil;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
-import static com.adsale.ChinaPlas.R.id.language;
 
 /**
  * Created by Carrie on 2017/8/8.
@@ -54,6 +49,8 @@ import static com.adsale.ChinaPlas.R.id.language;
 public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
     //drawer
     public final ObservableField<String> drawerLoginTitle = new ObservableField<>();
+    public final ObservableField<String> drawerLoginOrSync = new ObservableField<>();
+    public final ObservableField<String> drawerLogout = new ObservableField<>();
     public final ObservableBoolean isLoginSuccess = new ObservableBoolean(false);
 
     private static final String TAG = "NavViewModel";
@@ -62,36 +59,28 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
     private ArrayList<MainIcon> mLeftMenus;
     private ArrayList<MainIcon> mParents;
     private ArrayList<ArrayList<MainIcon>> children;
-    private int mLanguage;
     private DrawerLayout mDrawerLayout;
     private Intent intent;
 
     public final ObservableInt language = new ObservableInt(0);
     private DrawerAdapter drawerAdapter;
 
+    public final ObservableInt mCurrLang = new ObservableInt(App.mLanguage.get());
+
 
     public NavViewModel(Context context) {
         mContext = context.getApplicationContext();
-
-        LogUtil.i(TAG, "NavViewModel");
-
     }
 
     public void onStart(RecyclerView recyclerView, DrawerLayout drawerLayout) {
         long startTime = System.currentTimeMillis();
-
         mDrawerLayout = drawerLayout;
-
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
 
         mainIconRepository = MainIconRepository.getInstance();
-        mLanguage = AppUtil.getCurLanguage();
-
         initPadList();
-
         processDrawerList();
-
         setAdapter(recyclerView);
 
         long endTime = System.currentTimeMillis();
@@ -138,7 +127,7 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
     private void setAdapter(RecyclerView recyclerView) {
         long startTime = System.currentTimeMillis();
 
-        drawerAdapter = new DrawerAdapter(mLeftMenus, mParents, children, this);
+        drawerAdapter = new DrawerAdapter(mLeftMenus, mParents, this);
         recyclerView.setAdapter(drawerAdapter);
         recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
@@ -166,8 +155,17 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
 
     public void setUpHeader() {
         isLoginSuccess.set(AppUtil.isLogin());
+        setHeaderText();
+    }
+
+    private void setHeaderText() {
         if (isLoginSuccess.get()) {
             drawerLoginTitle.set(AppUtil.getUserEmail());
+            drawerLoginOrSync.set(mContext.getString(R.string.left_menu_sync));
+            drawerLogout.set(mContext.getString(R.string.left_menu_logout));
+        } else {
+            drawerLoginTitle.set(mContext.getString(R.string.left_menu_user_login));
+            drawerLoginOrSync.set(mContext.getString(R.string.left_menu_login));
         }
     }
 
@@ -188,40 +186,25 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
         }
     }
 
-    public void clickTW() {
-        changeLanguage(0);
-    }
-
-    public void clickEN() {
-        changeLanguage(1);
-    }
-
-    public void clickCN() {
-        changeLanguage(2);
-    }
-
-    private void changeLanguage(int lang) {
-//        language.set(lang);
-        AppUtil.switchLanguage(mContext, lang);
-
+    public void onLangClick(int language) {
+        AppUtil.switchLanguage(mContext, language);
+        App.mLanguage.set(language);
+        mCurrLang.set(language);
+        setHeaderText();
         String className = mContext.getClass().getSimpleName();
         LogUtil.i(TAG, "className=" + className);
-
-
         if (mainActivity != null) {
             LogUtil.i(TAG, "in MainActivity");
             drawerAdapter.notifyDataSetChanged();
-
         } else {
             LogUtil.i(TAG, "changeLanguage: other aty");
-
         }
-        setLanguageListener(lang, mainActivity != null);
-
+        setLanguageListener(language, mainActivity != null);
     }
 
     private void setLanguageListener(int lang, boolean isInMain) {
         if (mDrawerListener != null) {
+            LogUtil.i(TAG, "setLanguageListener:" + lang);
             mDrawerListener.languageChanged(lang, isInMain);
         }
     }
@@ -252,7 +235,7 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
         }
         newIntent(activity, mainIcon);
         if (intent != null) {
-            intent.putExtra(Constant.TITLE, mainIcon.getTitle());
+            intent.putExtra(Constant.TITLE, mainIcon.getTitle(mCurrLang.get()));
             activity.startActivity(intent);
         }
 
@@ -303,7 +286,12 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
                 break;
             case Constant.BDTJ_EVENTS:
             case Constant.BDTJ_EVENTS_TXT:
-                intent = new Intent(activity, ConcurrentEventActivity.class);
+//                intent = new Intent(activity, ConcurrentEventActivity.class);
+
+                // TODO: 2017/10/31
+                intent = new Intent(activity, DocumentsDownCenterActivity.class);
+
+
                 break;
             case Constant.BDTJ_TRAVEL_INFO:
 //                intent = new Intent(context, HotelInfoActivity.class);

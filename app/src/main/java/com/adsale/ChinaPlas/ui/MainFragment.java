@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.adsale.ChinaPlas.App;
+import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.MenuAdapter;
 import com.adsale.ChinaPlas.dao.MainIcon;
 import com.adsale.ChinaPlas.data.OnIntentListener;
@@ -43,14 +44,12 @@ public class MainFragment extends Fragment implements OnIntentListener {
 
     private int language;
 
-
     private NavViewModel navViewModel;
     private MainViewModel mainViewModel;
     private MainPic mainPic;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentMainBinding.inflate(inflater, container, false);
         initView();
         return binding.getRoot();
@@ -59,6 +58,7 @@ public class MainFragment extends Fragment implements OnIntentListener {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        LogUtil.i(TAG, "onActivityCreated");
         initViewModel();
         initData();
     }
@@ -67,33 +67,29 @@ public class MainFragment extends Fragment implements OnIntentListener {
         return new MainFragment();
     }
 
-    private void initView() {
-        recyclerView = binding.menuRecyclerView;
-        leftPic = binding.ivLeftPic;
-        rightPic = binding.ivRightPic;
-    }
-
-    private void initRecyclerView() {
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
-        recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.setHasFixedSize(true);
+    public void setNavViewModel(NavViewModel model) {
+        navViewModel = model;
+        LogUtil.i(TAG, "setNavViewModel");
     }
 
     private void initData() {
-        language = AppUtil.getCurLanguage();
+        language = navViewModel.mCurrLang.get();
         initRecyclerView();
         mainPic = mainViewModel.parseMainInfo();
         mainViewModel.setTopPics();
         mainViewModel.setM2AD();
         setBottomPics();
         setGridMenus();
+
+
+
     }
 
     private void setGridMenus() {
         ArrayList<MainIcon> largeIcons = new ArrayList<>();
         ArrayList<MainIcon> littleIcons = new ArrayList<>();
         mainViewModel.getMainIcons(largeIcons, littleIcons);
-        MenuAdapter adapter = new MenuAdapter(getActivity(), largeIcons, littleIcons, this);
+        MenuAdapter adapter = new MenuAdapter(getActivity(), largeIcons, littleIcons, this, navViewModel);
         recyclerView.setAdapter(adapter);
     }
 
@@ -129,7 +125,6 @@ public class MainFragment extends Fragment implements OnIntentListener {
         return statusBarHeight;
     }
 
-
     @Override
     public <T> void onIntent(T entity, Class toCls) {
         Intent intent = navViewModel.newIntent(getActivity(), (MainIcon) entity);
@@ -141,8 +136,19 @@ public class MainFragment extends Fragment implements OnIntentListener {
 
     private void initViewModel() {
         mainViewModel = new MainViewModel(getActivity(), this);
-        navViewModel = new NavViewModel(getActivity());
         binding.setModel(mainViewModel);
         mainViewModel.init(binding.mainTopViewPager, binding.vpindicator, binding.ivAd);
+    }
+
+    private void initView() {
+        recyclerView = binding.menuRecyclerView;
+        leftPic = binding.ivLeftPic;
+        rightPic = binding.ivRightPic;
+    }
+
+    private void initRecyclerView() {
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setHasFixedSize(true);
     }
 }

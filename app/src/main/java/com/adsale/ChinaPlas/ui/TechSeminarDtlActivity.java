@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.dao.SeminarInfo;
@@ -56,7 +57,7 @@ public class TechSeminarDtlActivity extends BaseActivity {
     }
 
     private int getCurrLangId() {
-        int currLang = AppUtil.getCurLanguage();
+        int currLang = App.mLanguage.get();
         return currLang == 0 ? 950 : currLang == 1 ? 1252 : 936;
     }
 }

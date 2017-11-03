@@ -14,7 +14,6 @@ import android.widget.Toast;
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.AdViewPagerAdapter;
-import com.adsale.ChinaPlas.adapter.MenuAdapter;
 import com.adsale.ChinaPlas.dao.MainIcon;
 import com.adsale.ChinaPlas.data.MainIconRepository;
 import com.adsale.ChinaPlas.data.OnIntentListener;
@@ -67,7 +66,7 @@ public class MainViewModel {
         this.mContext = mContext;
         this.mIntentListener=listener;
         mRepository = MainIconRepository.getInstance();
-        language= AppUtil.getCurLanguage();
+        language= App.mLanguage.get();
     }
 
     public void init(ViewPager viewPager,LinearLayout vpindicator,ImageView adPic) {
@@ -79,6 +78,10 @@ public class MainViewModel {
     public MainPic parseMainInfo() {
         mainPic = Parser.parseJsonFilesDirFile(MainPic.class, Constant.TXT_MAIN_PIC_INFO);
         return mainPic;
+    }
+
+    public void setMainInfo(MainPic mainInfo){
+        mainPic=mainInfo;
     }
 
     public void setTopPics() {

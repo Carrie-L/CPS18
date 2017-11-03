@@ -485,7 +485,7 @@ public class Exhibitor implements Parcelable {
      * @return sort or hall_no
      */
     public String getSort() {
-        int language = AppUtil.getCurLanguage();
+        int language = App.mLanguage.get();
         /* AZ */
         if (language == 1 && StrokeEng.contains("#")) {
             StrokeEng = "#";

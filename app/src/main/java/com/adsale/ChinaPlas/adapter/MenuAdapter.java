@@ -24,6 +24,7 @@ import com.adsale.ChinaPlas.ui.view.InnerMenuView;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.NetWorkHelper;
+import com.adsale.ChinaPlas.viewmodel.NavViewModel;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -32,9 +33,11 @@ import static android.content.ContentValues.TAG;
 
 /**
  * Created by Carrie on 2017/10/23.
+ * 主界面中间的2行Menus
  */
 
 public class MenuAdapter extends CpsBaseAdapter<MainIcon> {
+    private final String TAG = "MenuAdapter";
     /**
      * 所有的大按钮
      */
@@ -57,8 +60,8 @@ public class MenuAdapter extends CpsBaseAdapter<MainIcon> {
      * 这个判断在xml里。
      */
     public final ObservableInt mClickPos = new ObservableInt(-1);
-    public final ObservableField<MainIcon> innerMenu0=new ObservableField<>();
-    public final ObservableField<MainIcon> innerMenu1=new ObservableField<>();
+    public final ObservableField<MainIcon> innerMenu0 = new ObservableField<>();
+    public final ObservableField<MainIcon> innerMenu1 = new ObservableField<>();
 
     private ItemLargeMenuBinding menuBinding;
     private Context mContext;
@@ -66,18 +69,25 @@ public class MenuAdapter extends CpsBaseAdapter<MainIcon> {
     private final RelativeLayout.LayoutParams largeParams;
     private OnIntentListener mListener;
     private MainIcon littleIcon;
+    private NavViewModel navViewModel;
 
-    public MenuAdapter(Context context, ArrayList<MainIcon> largeMenus, ArrayList<MainIcon> littleMenus, OnIntentListener listener) {
+    public MenuAdapter(Context context, ArrayList<MainIcon> largeMenus, ArrayList<MainIcon> littleMenus, OnIntentListener listener, NavViewModel navViewModel) {
         this.mContext = context;
         this.largeMenus = largeMenus;
         this.littleMenus = littleMenus;
         this.mListener = listener;
+        this.navViewModel = navViewModel;
+
         mBaseUrl = NetWorkHelper.DOWNLOAD_PATH.concat("WebContent/");
         int mScreenWidth = App.mSP_Config.getInt(Constant.SCREEN_WIDTH, 0);
-        int height = (mScreenWidth*90)/100;
-        LogUtil.i(TAG,"menu: width="+mScreenWidth / 3+",height="+height/3);
-        largeParams = new RelativeLayout.LayoutParams(mScreenWidth / 3, height/3);
+        int height = (mScreenWidth * 90) / 100;
+        LogUtil.i(TAG, "menu: width=" + mScreenWidth / 3 + ",height=" + height / 3);
+        largeParams = new RelativeLayout.LayoutParams(mScreenWidth / 3, height / 3);
         generate();
+
+
+        LogUtil.i(TAG, " navViewModel.mCurrLang=" + navViewModel.mCurrLang.get());
+
     }
 
     /**
@@ -106,6 +116,7 @@ public class MenuAdapter extends CpsBaseAdapter<MainIcon> {
     @Override
     protected void bindVariable(ViewDataBinding binding) {
         binding.setVariable(BR.adapter, this);
+        binding.setVariable(BR.navModel, navViewModel);
         super.bindVariable(binding);
         menuBinding = (ItemLargeMenuBinding) binding;
     }
@@ -125,8 +136,8 @@ public class MenuAdapter extends CpsBaseAdapter<MainIcon> {
     /**
      * 如果inner icon是图片，则使用这个方法。ImageView
      */
-    private void setInnerIcon(int pos){
-        if(menus.get(pos).size()>0){
+    private void setInnerIcon(int pos) {
+        if (menus.get(pos).size() > 0) {
 //            Glide.with(mContext).load(Uri.parse(mBaseUrl.concat(menus.get(pos).get(0).getIcon()))).into(menuBinding.tvMenu0);
         }
     }
@@ -155,18 +166,19 @@ public class MenuAdapter extends CpsBaseAdapter<MainIcon> {
             innerMenu0.set(menus.get(pos).get(0));
             innerMenu1.set(menus.get(pos).get(1));
 
-            LogUtil.i(TAG,"------");
-            LogUtil.i(TAG,"menu0="+menus.get(pos).get(0).getTitle());
-            LogUtil.i(TAG,"menu1="+menus.get(pos).get(1).getTitle());
-        }else{
-            mListener.onIntent(entity,null);
+            LogUtil.i(TAG, "------");
+            LogUtil.i(TAG, "menu0=" + menus.get(pos).get(0).getTitle(navViewModel.mCurrLang.get()));
+            LogUtil.i(TAG, "menu1=" + menus.get(pos).get(1).getTitle(navViewModel.mCurrLang.get()));
+        } else {
+            mListener.onIntent(entity, null);
         }
 
     }
 
-    public void onInnerClick(int index,MainIcon entity){
-        LogUtil.i(TAG,"---onInnerClick: "+index+", entity="+entity.getTitle());
-        mListener.onIntent(entity,null);
+    public void onInnerClick(int index, MainIcon entity) {
+        LogUtil.i(TAG, "---onInnerClick: " + index + ", entity=" + entity.getTitle(navViewModel.mCurrLang.get()));
+        mListener.onIntent(entity, null);
     }
+
 
 }

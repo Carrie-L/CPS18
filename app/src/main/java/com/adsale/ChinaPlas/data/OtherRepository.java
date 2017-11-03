@@ -61,7 +61,7 @@ public class OtherRepository {
     }
 
 
-    /* ```````````````[Technical Seminar]`````````````````````````````` */
+    /* ```````````````[Update Center]`````````````````````````````` */
     public void initUpdateCenterDao() {
         mUpdateCenterDao = App.mDBHelper.mUpdateCenterDao;
     }
@@ -72,4 +72,22 @@ public class OtherRepository {
         }
         return (ArrayList<UpdateCenter>) mUpdateCenterDao.queryBuilder().orderAsc(UpdateCenterDao.Properties.Id).list();
     }
+
+    public void updateCenterItem(UpdateCenter entity){
+        mUpdateCenterDao.update(entity);
+    }
+
+    public void updateCenterAll(ArrayList<UpdateCenter> list){
+        mUpdateCenterDao.updateInTx(list);
+    }
+
+
+
+
+
+
+
+
+
+
  }
