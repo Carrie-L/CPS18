@@ -3,11 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="java.util.ArrayList"/>
         <import type="android.view.View" />
 
         <variable
             name="exhibitorModel"
-            type="com.adsale.ChinaPlas.viewmodel.ExhibitorViewModel" />
+            type="com.adsale.ChinaPlas.viewmodel.ExhibitorListViewModel" />
     </data>
 
     <RelativeLayout
@@ -80,8 +81,7 @@
             android:id="@+id/rv_ks"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/tv_sort_by"
-            />
+            android:layout_below="@id/tv_sort_by" />
 
         <com.adsale.ChinaPlas.ui.view.SideLetter
             android:id="@+id/side_letter"
@@ -89,9 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@id/editFilter"
-            />
-
+            android:layout_below="@id/editFilter" />
 
 
         <TextView
@@ -107,7 +105,7 @@
 
         <TextView
             style="@style/no_data_style"
-            android:visibility="@{exhibitorModel.noData?View.VISIBLE:View.INVISIBLE}" />
+            android:visibility="@{exhibitorModel.mExhibitors.isEmpty()?View.VISIBLE:View.INVISIBLE}" />
 
     </RelativeLayout>
 

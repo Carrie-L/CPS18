@@ -11,6 +11,7 @@ import android.text.TextWatcher;
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.adapter.IndustryAdapter;
 import com.adsale.ChinaPlas.base.BaseActivity;
+import com.adsale.ChinaPlas.dao.ApplicationIndustry;
 import com.adsale.ChinaPlas.dao.Industry;
 import com.adsale.ChinaPlas.data.FilterRepository;
 import com.adsale.ChinaPlas.data.model.ExhibitorFilter;
@@ -105,6 +106,14 @@ public class FilterIndustryListActivity extends BaseActivity implements SideLett
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        int size = industries.size();
+        Industry entity;
+        for (int i = 0; i < size; i++) {
+            entity = industries.get(i);
+            entity.selected.set(false);
+            industries.set(i, entity);
+        }
+        entity = null;
         industries.clear();
         industryCaches.clear();
         finish();

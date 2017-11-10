@@ -82,6 +82,40 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
+                <!--关键字-->
+               <RelativeLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="48dp"
+                   android:layout_marginBottom="2dp"
+                   android:layout_marginTop="1dp"
+                   android:background="@color/white">
+
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="48dp"
+                       android:drawableLeft="@drawable/ic_fiter_keyword"
+                       android:drawablePadding="8dp"
+                       android:drawableStart="@drawable/ic_fiter_keyword"
+                       android:gravity="center_vertical"
+                       android:paddingLeft="8dp"
+                       android:paddingRight="8dp"
+                       android:text="@string/filter_keyword"
+                       android:textSize="16sp" />
+
+                   <EditText
+                       android:layout_width="150dp"
+                       android:layout_height="match_parent"
+                       android:layout_alignParentRight="true"
+                       android:layout_marginRight="16dp"
+                       android:drawableLeft="@drawable/search_bar_icon_normal"
+                       android:drawablePadding="3dp"
+                       android:hint="@string/filter_keyword_hint"
+                       android:textSize="14sp"
+                       android:text="@={ui.etKeyword}"
+                       />
+
+               </RelativeLayout>
+
                 <!--新技术-->
                 <RelativeLayout
                     android:layout_width="match_parent"

@@ -23,7 +23,7 @@ import com.adsale.ChinaPlas.ui.view.SideLetter;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.RecyclerViewScrollTo;
-import com.adsale.ChinaPlas.viewmodel.ExhibitorViewModel;
+import com.adsale.ChinaPlas.viewmodel.ExhibitorListViewModel;
 
 import java.util.ArrayList;
 
@@ -32,13 +32,13 @@ import java.util.ArrayList;
  * 全部参展商列表
  * todo  ①、sideBar.  ②、search cache  ③、
  */
-public class ExhibitorAllListActivity extends BaseActivity implements OnItemClickCallback, OnIntentListener,SideLetter.OnLetterClickListener {
+public class ExhibitorAllListActivity extends BaseActivity implements OnItemClickCallback, OnIntentListener, SideLetter.OnLetterClickListener {
     private final String TAG = "ExhibitorAllListActivity";
-    private ExhibitorViewModel mExhibitorModel;
+    private ExhibitorListViewModel mExhibitorModel;
     private ActivityExhibitorAllListBinding binding;
     private ExhibitorRepository mRepository;
     private RecyclerView rvExhibitors;
-    private int dateIndex = -1;
+    private String date;
     private RecyclerViewScrollTo mRVScrollTo;
     private SideLetter sideLetter;
     private ExhibitorAdapter adapter;
@@ -51,10 +51,10 @@ public class ExhibitorAllListActivity extends BaseActivity implements OnItemClic
     @Override
     protected void initData() {
         mRepository = ExhibitorRepository.getInstance();
-        mExhibitorModel = new ExhibitorViewModel(getApplicationContext(), mRepository, this);
+        mExhibitorModel = new ExhibitorListViewModel(mRepository, this);
         binding.setExhibitorModel(mExhibitorModel);
 
-        dateIndex = getIntent().getIntExtra("dateIndex", -1);
+        date = getIntent().getStringExtra("date");
 
         setExhibitorList();
         setupSideLetter();
@@ -64,18 +64,14 @@ public class ExhibitorAllListActivity extends BaseActivity implements OnItemClic
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                LogUtil.i(TAG, "onTextChanged: s=" + s.toString() + ",start=" + start + ",before=" + before + ",count=" + count);
             }
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                LogUtil.i(TAG, "beforeTextChanged: s=" + s.toString() + ",start=" + start + ",after=" + after + ",count=" + count);
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                LogUtil.i(TAG, "afterTextChanged: s=" + s.toString());
-
                 if (TextUtils.isEmpty(s.toString())) {
                     mExhibitorModel.resetList();
                 } else {
@@ -94,41 +90,34 @@ public class ExhibitorAllListActivity extends BaseActivity implements OnItemClic
         rvExhibitors.setLayoutManager(layoutManager);
         rvExhibitors.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayout.VERTICAL));
         mRVScrollTo = new RecyclerViewScrollTo(layoutManager, rvExhibitors);
-
-        mExhibitorModel.getAllExhibitors();
-        adapter = new ExhibitorAdapter(this, mExhibitorModel.exhibitors, mRepository, this);
+        mExhibitorModel.setLayoutManager(mRVScrollTo, sideLetter);
+        mExhibitorModel.getAllExhibitorsAZ();
+        adapter = new ExhibitorAdapter(this, mExhibitorModel.mExhibitors, mRepository, this);
         rvExhibitors.setAdapter(adapter);
-
-        mExhibitorModel.setLayoutManager(mRVScrollTo, adapter,sideLetter);
+        mExhibitorModel.setAdapter(adapter);
 
         onItemClick();
-
     }
 
     public void setupSideLetter() {
-        sideLetter.setList(mExhibitorModel.letters);
+        sideLetter.setList(mExhibitorModel.mLetters);
         sideLetter.setOnLetterClickListener(this);
     }
 
     private void onItemClick() {
     }
 
-    public void onLetterClick(String letter) {
-        Toast.makeText(this, letter, Toast.LENGTH_SHORT).show();
-        mExhibitorModel.scrollTo(letter);
-    }
-
     @Override
     public <T> void onItemClick(T entity) {
-        if (dateIndex != -1) {
+        if (!TextUtils.isEmpty(date)) {
             Intent intent = new Intent(ExhibitorAllListActivity.this, ScheduleEditActivity.class);
-            intent.putExtra(Constant.EXHIBITOR, (Exhibitor) entity);
-            intent.putExtra("dateIndex", dateIndex);
+            intent.putExtra(Constant.INTENT_EXHIBITOR, (Exhibitor) entity);
+            intent.putExtra("date", date);
             startActivity(intent);
             finish();
-        }else{
-            Exhibitor exhibitor= (Exhibitor) entity;
-            Toast.makeText(getApplicationContext(),"pos: "+exhibitor.getCompanyName(),Toast.LENGTH_SHORT).show();
+        } else {
+            Exhibitor exhibitor = (Exhibitor) entity;
+            Toast.makeText(getApplicationContext(), "pos: " + exhibitor.getCompanyName(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -146,15 +135,11 @@ public class ExhibitorAllListActivity extends BaseActivity implements OnItemClic
         }
         ArrayList<ExhibitorFilter> filters = data.getParcelableArrayListExtra("data");
         LogUtil.i(TAG, "onActivityResult::filters=" + filters.size() + "," + filters.toString());
-
-        mExhibitorModel.exhibitors.clear();
-        mExhibitorModel.letters.clear();
-        mExhibitorModel.exhibitors.addAll( mRepository.queryFilterExhibitor(filters,mExhibitorModel.letters,true));
-        mExhibitorModel.resetCache();
-        adapter.setList(mExhibitorModel.exhibitors);
-
-        LogUtil.i(TAG, "mExhibitorModel.letters= " + mExhibitorModel.letters.size() + "," + mExhibitorModel.letters.toString());
-        mExhibitorModel.refreshSideLetter();
+        mExhibitorModel.clearCache();
+        mExhibitorModel.isFiltering = true;
+        mExhibitorModel.setFilters(filters);
+        mExhibitorModel.getFilterExhibitorsAZ();
+        LogUtil.i(TAG, "mExhibitorModel.letters= " + mExhibitorModel.mLetters.size() + "," + mExhibitorModel.mLetters.toString());
     }
 
     @Override
@@ -163,5 +148,17 @@ public class ExhibitorAllListActivity extends BaseActivity implements OnItemClic
         mExhibitorModel.scrollTo(letter);
     }
 
+    @Override
+    public void onBackPressed() {
+        LogUtil.e(TAG,"onBackPressed 0");
+        super.onBackPressed();
+        LogUtil.e(TAG,"onBackPressed 1");
+        finish();
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LogUtil.e(TAG,"onDestroy");
+    }
 }

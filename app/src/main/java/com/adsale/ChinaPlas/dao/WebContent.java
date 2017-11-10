@@ -26,11 +26,17 @@ public class WebContent {
     private String ContentEN;
     private String ContentSC;
     private int IsDown;
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     private String CreateDateTime;
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     private String UpdateDateTime;
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     private String RecordTimeStamp;
 
     // KEEP FIELDS - put your custom fields here
@@ -148,55 +154,77 @@ public class WebContent {
         this.IsDown = IsDown;
     }
 
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     public String getCreateDateTime() {
         return CreateDateTime;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
+    /**
+     * Not-null value; ensure this value is available before it is saved to the database.
+     */
     public void setCreateDateTime(String CreateDateTime) {
         this.CreateDateTime = CreateDateTime;
     }
 
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     public String getUpdateDateTime() {
         return UpdateDateTime;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
+    /**
+     * Not-null value; ensure this value is available before it is saved to the database.
+     */
     public void setUpdateDateTime(String UpdateDateTime) {
         this.UpdateDateTime = UpdateDateTime;
     }
 
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     public String getRecordTimeStamp() {
         return RecordTimeStamp;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
+    /**
+     * Not-null value; ensure this value is available before it is saved to the database.
+     */
     public void setRecordTimeStamp(String RecordTimeStamp) {
         this.RecordTimeStamp = RecordTimeStamp;
     }
 
     // KEEP METHODS - put your custom methods here
 
-    public String getContent(int language){
-        return AppUtil.getName(language,ContentTC,ContentEN,ContentSC);
+    public String getContent(int language) {
+        return AppUtil.getName(language, ContentTC, ContentEN, ContentSC);
     }
 
-    public boolean getPreInfo(String pre,WebContent entity){
-        if(check().equals(pre)){
+    public boolean getPreInfo(String pre, WebContent entity) {
+        if (check().equals(pre)) {
             return true;
         }
-        return  false;
+        return false;
     }
 
-    private String check(){
-        if(!TextUtils.isEmpty(TitleCN)){
+    private String check() {
+        if (!TextUtils.isEmpty(TitleCN)) {
             return TitleCN;
-        }else if(!TextUtils.isEmpty(TitleEN)){
+        } else if (!TextUtils.isEmpty(TitleEN)) {
             return TitleEN;
-        }else{
+        } else {
+            return TitleTW;
+        }
+    }
+
+    public String getTitle(int language) {
+        if (language == 2) {
+            return TitleCN;
+        } else if (language == 1) {
+            return TitleEN;
+        } else {
             return TitleTW;
         }
     }

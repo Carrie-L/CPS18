@@ -209,7 +209,7 @@ public class HelpPage {
     public void showPageMenu(Context context, boolean check, View.OnClickListener listener) {
         mContext = context;
         language = App.mLanguage.get();
-        imageIds = getMenuImages(language);
+        imageIds = getMenuImages();
 
         if (check) {
             findView("IsFirstHelpPageShowed", imageIds, false);
@@ -220,14 +220,7 @@ public class HelpPage {
         App.mSP_Config.edit().putBoolean("ShowMenuHelpPage", false).apply();
     }
 
-    public Integer[] getMenuImages(int language) {
-//        if (language == 0) {
-//            return imageIds = new Integer[]{R.drawable.help_1_tc, R.drawable.help_2_tc, R.drawable.help_3_tc, R.drawable.help_4_tc, R.drawable.help_5_tc, R.drawable.help_6_tc};
-//        } else if (language == 1) {
-//            return imageIds = new Integer[]{R.drawable.help_1_en, R.drawable.help_2_en, R.drawable.help_3_en, R.drawable.help_4_en, R.drawable.help_5_en, R.drawable.help_6_en};
-//        } else {
-//            return imageIds = new Integer[]{R.drawable.help_1_sc, R.drawable.help_2_sc, R.drawable.help_3_sc, R.drawable.help_4_sc, R.drawable.help_5_sc, R.drawable.help_6_sc};
-//        }
+    public Integer[] getMenuImages() {
         return imageIds = new Integer[]{R.drawable.help_1, R.drawable.help_2, R.drawable.help_3, R.drawable.help_4, R.drawable.help_5, R.drawable.help_6};
     }
 

@@ -3,6 +3,7 @@
     package="com.adsale.ChinaPlas">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -69,7 +70,50 @@
         <activity android:name=".ui.TechnicalListActivity" />
         <activity android:name=".ui.TechSeminarDtlActivity" />
         <activity android:name=".ui.UpdateCenterActivity" />
-        <activity android:name=".ui.DocumentsDownCenterActivity"></activity>
+        <activity android:name=".ui.DocumentsDownCenterActivity" />
+        <activity android:name=".ui.SubscribeActivity" />
+        <activity android:name=".ui.SettingActivity" />
+        <activity android:name=".ui.TravelInfoActivity" />
+        <activity android:name=".ui.TravelDetailActivity" />
+        //Ping++
+        ---------------------------------------------------------------------------------------
+        <!-- Ping++ SDK -->
+        <activity
+            android:name="com.pingplusplus.android.PaymentActivity"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- 微信支付 -->
+        <activity-alias
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:targetActivity="com.pingplusplus.android.PaymentActivity" />
+
+        <!-- 支付宝 -->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" />
+        <activity
+            android:name="com.alipay.sdk.auth.AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" />
+
+        <!-- 银联支付 -->
+        <activity android:name="com.unionpay.uppay.PayActivity" />
+        //--------------------------------------- Ping++ End
+        -------------------------------------------------------
+        <activity android:name=".ui.ExhibitorDetailActivity"></activity>
     </application>
 
 </manifest>

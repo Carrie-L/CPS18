@@ -18,18 +18,14 @@ import com.adsale.ChinaPlas.dao.DaoMaster;
 import com.adsale.ChinaPlas.dao.DaoSession;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.CrashHandler;
-import com.adsale.ChinaPlas.utils.FileUtils;
 import com.adsale.ChinaPlas.utils.LogUtil;
-import com.crashlytics.android.Crashlytics;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
-import io.fabric.sdk.android.Fabric;
 import okhttp3.OkHttpClient;
 
 /**
@@ -47,8 +43,6 @@ public class App extends Application {
     public static SharedPreferences mSP_LastModified;
     public static SharedPreferences mSP_UpdateTime;
     public static SharedPreferences mSP_Login;
-
-    public static SharedPreferences mSPConfig;
 
     public static final String DATABASE_NAME = "cps18.db";
 
@@ -74,7 +68,6 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
         initCrashHandle();
         initSP();
         resources = getResources();
@@ -124,11 +117,11 @@ public class App extends Application {
     }
 
     private void checkUpdateDB() {
-        boolean hasUpdate = mSPConfig.getBoolean("DB_UPDATE", false);
+        boolean hasUpdate = mSP_Config.getBoolean("DB_UPDATE", false);
         if (hasUpdate) {
 //            updateDB();
             if (mDiaryId > 0) {//因为id从1开始自增，所以如果插入成功，返回的id一定是大于0的
-                mSPConfig.edit().putBoolean("DB_UPDATE", false).apply();
+                mSP_Config.edit().putBoolean("DB_UPDATE", false).apply();
             }
         }
     }

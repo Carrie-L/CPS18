@@ -1,46 +1,51 @@
 package com.adsale.ChinaPlas.utils;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.LocaleList;
+import android.net.Uri;
 import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
-import com.adsale.ChinaPlas.viewmodel.NavViewModel;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 
 import static android.content.Context.MODE_PRIVATE;
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
-import static com.adsale.ChinaPlas.R.array.urls;
-import static com.adsale.ChinaPlas.R.id.language;
-import static com.adsale.ChinaPlas.dao.MapFloorDao.Properties.Type;
-import static com.adsale.ChinaPlas.dao.SeminarSpeakerDao.Properties.Language;
+import static com.adsale.ChinaPlas.utils.PermissionUtil.PMS_CODE_CALL_PHONE;
 
 /**
  * Created by Carrie on 2017/8/8.
@@ -48,6 +53,13 @@ import static com.adsale.ChinaPlas.dao.SeminarSpeakerDao.Properties.Language;
 
 public class AppUtil {
     private static final String TAG = "AppUtil";
+    private static final String isTesting = ReleaseHelper.TRACK_IS_TEST;//上线版本则改为false
+    private static final String TRACKING_OS = "Android_CPS";
+
+    private static final String ACCOUNT_NAME = "ChinaPlas@gmail.com";
+    private static final String CALENDAR_DISPLAY_NAME = "ChinaPlas18";
+    private static final int YEAR = 2018;
+    private static String LOG_APP_NAME = "CPS18v";
 
     public static boolean isFirstRunning() {
         return App.mSP_Config.getBoolean("isFirstRunning", true);
@@ -241,8 +253,109 @@ public class AppUtil {
         return false;
     }
 
+    /**
+     * 读取Asset文件
+     *
+     * @param fileName
+     * @return InputStream||null
+     * @version 创建时间：2016年4月12日 下午7:24:56
+     */
+    public static InputStream getAssetInputStream(String fileName) {
+        try {
+            return App.mAssetManager.open(fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
-    // \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\  工具  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+    /**
+     * @param fileName rootDir/  e.g:"FloorPlan/FloorPlan.csv" 确保SD下的文件夹、文件名 和 Asset目录下一样
+     * @return InputStream
+     */
+    public static InputStream getInputStream(String fileName) {
+        if (new File(App.rootDir.concat(fileName)).exists()) {
+            try {
+                LogUtil.i(TAG, "sd卡中getInputStream:" + fileName);
+                return new FileInputStream(new File(App.rootDir.concat(fileName)));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                LogUtil.i(TAG, "asset中getInputStream:" + fileName);
+                return getAssetInputStream(fileName);
+            }
+        } else {
+            LogUtil.i(TAG, "asset中getInputStream:" + fileName);
+            return getAssetInputStream(fileName);
+        }
+    }
+
+    public static String getUrlLangType(int language) {
+        return language == 0 ? "lang-trad" : language == 1 ? "lang-eng" : "lang-simp";
+    }
+
+    /**
+     * 發送郵件
+     *
+     * @param context
+     * @param url
+     */
+    public static void sendEmailIntent(Context context, String url) {
+        Uri uri = null;
+        try {
+            Intent i = new Intent(Intent.ACTION_SEND);
+            if (url.contains("mailto")) {
+                uri = Uri.parse("mailto:" + url);
+            } else {
+                uri = Uri.parse(url);
+            }
+            i.setData(uri);
+            i.setType("plain/text");
+            i.putExtra(Intent.EXTRA_EMAIL, new String[]{url.trim()});
+            i.putExtra(Intent.EXTRA_SUBJECT, "");
+            i.putExtra(Intent.EXTRA_TEXT, "CHINAPLAS 2017");
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(i);
+            if (isTablet()) {
+                ((Activity) context).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                ((Activity) context).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            }
+        } catch (ActivityNotFoundException ex) {
+            Toast.makeText(context, context.getString(R.string.exception_toast_email), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * 撥打電話
+     *
+     * @param context
+     * @param url
+     */
+    public static void callPhoneIntent(Context context, String url) {
+        LogUtil.i(TAG, "撥打電話:url=" + url);
+        Uri uri;
+        try {
+            if (url.contains("tel")) {
+                uri = Uri.parse(url);
+            } else {
+                uri = Uri.parse("tel:" + url);
+            }
+            Intent intent = new Intent(Intent.ACTION_CALL, uri);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.CALL_PHONE}, PMS_CODE_CALL_PHONE);
+                return;
+            } else {
+                context.startActivity(intent);
+                if (isTablet()) {
+                    ((Activity) context).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                }
+            }
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(context, context.getString(R.string.exception_toast_phone), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /* \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\  工具  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ */
 
     public static <T> T checkNotNull(T reference) {
         if (reference == null) {
@@ -264,6 +377,42 @@ public class AppUtil {
     public static void showAlertDialog(Context context, String msg, DialogInterface.OnClickListener posListener, DialogInterface.OnClickListener negListener) {
         new AlertDialog.Builder(context).setMessage(msg).setPositiveButton(context.getString(R.string.confirm), posListener).setNegativeButton(context.getString(R.string.cancel), negListener).show();
     }
+
+    /**
+     * 圓形progress bar dialog
+     */
+    public static ProgressDialog createProgressDialog(Context pContext, int ResourceID) {
+        ProgressDialog oProgressDialog;
+        oProgressDialog = new ProgressDialog(pContext);
+        oProgressDialog.setCancelable(false);
+        oProgressDialog.setCanceledOnTouchOutside(false);
+        oProgressDialog.setMessage(pContext.getString(ResourceID));
+        return oProgressDialog;
+    }
+
+    /**
+     * 只有一個“確定/OK”按鈕
+     */
+    public static void showConfirmAlertDialog(Context context, String msg) {
+        new AlertDialog.Builder(context).setMessage(msg).setPositiveButton(context.getString(R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).show();
+    }
+
+    public static void showAlertDialog(Context context, int messageResID, int positiveResID, int negativeResID, DialogInterface.OnClickListener positiveClickListener,
+                                       DialogInterface.OnClickListener negativeClickListener) {
+        AlertDialog.Builder ad = new AlertDialog.Builder(context);
+        ad.setMessage(messageResID);
+        ad.setPositiveButton(positiveResID, positiveClickListener);
+        if (negativeResID > 0) {
+            ad.setNegativeButton(negativeResID, negativeClickListener);
+        }
+        ad.create().show();
+    }
+
 
     /**
      * 给TextView设置下划线和蓝色字体
@@ -309,6 +458,16 @@ public class AppUtil {
     }
 
     /**
+     * 获取今天的日期
+     *
+     * @return String yyyy-MM-dd
+     */
+    public static String getTodayDate() {
+        SimpleDateFormat sformat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        return sformat.format(Calendar.getInstance().getTime());
+    }
+
+    /**
      * 将GMT格式的时间转换为系统时间
      *
      * @param time 2016-09-09T09:31:00.00+08:00
@@ -325,6 +484,48 @@ public class AppUtil {
             e.printStackTrace();
         }
         return "";
+    }
+
+    /**
+     * 24小时制 转化成 上午下午制 [yyyy-MM-dd HH:mm -> yyyy-MM-dd hh:mm a]
+     */
+    public static String formatStartTime(String time) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm a", Locale.getDefault());
+        try {
+            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+            Date date = sdf1.parse(time);
+            time = sdf.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        LogUtil.i(TAG, "formatStartTime::time==" + time);
+        return time;
+    }
+
+    /**
+     * 上午下午制 转化成 24小时制 [yyyy-MM-dd hh:mm a -> yyyy-MM-dd HH:mm ]
+     */
+    public static String reformatStartTime(String time) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+        try {
+            SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd hh:mm a", Locale.getDefault());
+            Date date = sdf1.parse(time);
+            time = sdf.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        LogUtil.i(TAG, "reformatStartTime::time==" + time);
+        return time;
+    }
+
+    public static Date stringToDate(String time) {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        try {
+            return sdf.parse(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return new Date();
     }
 
 

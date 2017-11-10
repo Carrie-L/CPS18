@@ -15,7 +15,7 @@ public class MenuViewModel {
     private SharedPreferences mSPConfig;
 
     public void init() {
-        mSPConfig = App.mSPConfig;
+        mSPConfig = App.mSP_Config;
     }
 
     public void showHelpPage() {

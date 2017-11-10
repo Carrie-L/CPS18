@@ -3,7 +3,7 @@ package com.adsale.ChinaPlas.ui.view;
 import android.content.Context;
 import android.databinding.ObservableField;
 import android.databinding.ObservableFloat;
-import android.databinding.ObservableInt;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.ProgressBar;
@@ -15,9 +15,7 @@ import com.adsale.ChinaPlas.dao.MapFloor;
 import com.adsale.ChinaPlas.dao.UpdateCenter;
 import com.adsale.ChinaPlas.data.DownloadClient;
 import com.adsale.ChinaPlas.data.FloorRepository;
-import com.adsale.ChinaPlas.data.LoadingClient;
 import com.adsale.ChinaPlas.data.model.AppContent;
-import com.adsale.ChinaPlas.data.model.LoadUrl;
 import com.adsale.ChinaPlas.data.model.UpdateCenterUrl;
 import com.adsale.ChinaPlas.databinding.ItemUpdateCenterBinding;
 import com.adsale.ChinaPlas.utils.AppUtil;
@@ -33,23 +31,16 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 
-import static android.content.ContentValues.TAG;
-import static android.media.CamcorderProfile.get;
-import static android.text.TextUtils.concat;
 import static com.adsale.ChinaPlas.App.rootDir;
 import static com.adsale.ChinaPlas.R.array.urls;
-import static com.adsale.ChinaPlas.R.string.create;
-import static com.adsale.ChinaPlas.utils.Constant.mapFloorLUT;
 import static com.adsale.ChinaPlas.utils.FileUtil.createFile;
 
 public class UpdateCenterView extends RelativeLayout {

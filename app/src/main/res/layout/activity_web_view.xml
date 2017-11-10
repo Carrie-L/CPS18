@@ -1,17 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.adsale.ChinaPlas.ui.WebViewActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:id="@+id/tv_html_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        />
+    <data>
 
-</RelativeLayout>
+        <variable
+            name="view"
+            type="com.adsale.ChinaPlas.ui.WebViewActivity" />
+
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rl_webcontent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/progressBar1"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_alignParentTop="true"
+            android:progressDrawable="@drawable/progressbar_selector" />
+
+        <LinearLayout
+            android:id="@+id/ll_bar"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white_smoke"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:onClick="@{()->view.onBack()}"
+                android:src="@drawable/back" />
+
+            <ImageView
+                android:id="@+id/go"
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:onClick="@{()->view.onGo()}"
+                android:src="@drawable/go" />
+
+            <ImageView
+                android:id="@+id/out"
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:layout_weight="1"
+                android:onClick="@{()->view.onOut()}"
+                android:src="@drawable/out" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@id/iv_help"
+            style="@style/help_btn_style"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+</layout>
+

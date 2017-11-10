@@ -40,6 +40,7 @@
     <string name="reg_reset">重置</string>
     <string name="reg_again">重來</string>
     <string name="reg_calendar">添加到日曆</string>
+    <string name="reg_invoice">獲取發票</string>
 
     <string name="confirm">確定</string>
     <string name="cancel">取消</string>
@@ -135,8 +136,10 @@
     <string name="filter_application">應用分類</string>
     <string name="filter_country">國家</string>
     <string name="filter_hall">展館</string>
-    <string name="filter_booth">展區</string>
-    <string name="filter_new_tec">新技術</string>
+    <string name="filter_booth">專區</string>
+    <string name="filter_keyword">關鍵字</string>
+    <string name="filter_new_tec">首發技術</string>
+    <string name="filter_keyword_hint">輸入關鍵字</string>
 
     <string name="filter_clear_all">清空篩選條件</string>
     <string name="filter_ok">篩選</string>
@@ -245,6 +248,40 @@
     <string name="dc_download">Download</string>
     <string name="dc_open">Open</string>
 
+    <!-- subscribe -->
+    <string name="subscribe_str001">訂閱資料</string>
+    <string name="subscribe_str002">公司名稱</string>
+    <string name="subscribe_str003">姓名</string>
+    <string name="subscribe_str005">私隱政策聲明</string>
+    <string name="register_str004">電郵</string>
+    <string name="reg_submit">遞交</string>
+    <string name="thx_dy">感謝您的訂閱</string>
+    <string name="Registering_MSg">正在提交數據，請稍候！</string>
+    <string name="register_msg001">請輸入"觀眾姓名"</string>
+    <string name="register_msg002">輸入觀眾姓名時，請不要輸入數位或符號！</string>
+    <string name="register_msg003">請輸入"電郵"</string>
+    <string name="register_msg004">請輸入有效的"電郵"</string>
+    <string name="register_msg013">請輸入公司名稱！</string>
+
+
+    <!-- setting -->
+    <string name="ask_clear">你想重置所有資料為預設值嗎？</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+
+    <!-- 酒店资料 -->
+    <string name="title_travel_info">旅遊信息</string>
+    <string name="official_travel_agency">接待服務單位</string>
+    <string name="official_travel_agency2">大會指定接待服務單位</string>
+    <string name="hotel_info">住宿資料</string>
+    <string name="title_activity_travel_detail">TravelDetailActivity</string>
+    <string name="travel_detail_address">地址</string>
+    <string name="travel_detail_tel">電話</string>
+    <string name="travel_detail_fax">傳真</string>
+    <string name="travel_detail_email">電郵</string>
+    <string name="travel_detail_website">網址</string>
+    <string name="travel_detail_contact">聯繫人</string>
+    <string name="travel_detail_remark">備註</string>
 
 
 </resources>

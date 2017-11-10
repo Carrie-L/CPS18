@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="scheduleModel"
-            type="com.adsale.ChinaPlas.viewmodel.ScheduleViewModel" />
+            type="com.adsale.ChinaPlas.viewmodel.ScheduleEditViewModel" />
     </data>
 
     <RelativeLayout
@@ -35,7 +35,8 @@
             android:id="@+id/iv_help"
             style="@style/help_btn_style"
             android:layout_height="@dimen/schedule_edit_item_height"
-            android:layout_alignParentRight="true" />
+            android:layout_alignParentRight="true"
+            android:onClick="@{scheduleModel::onHelpPage}" />
 
         <ImageView
             android:id="@+id/imgExhibitor"
@@ -43,10 +44,9 @@
             android:layout_height="@dimen/schedule_edit_item_height"
             android:layout_marginLeft="12dp"
             android:layout_toLeftOf="@id/iv_help"
+            android:onClick="@{() -> scheduleModel.onClickExhibitor()}"
             android:scaleType="centerInside"
-            android:src="@drawable/sche_exhibitor"
-            android:onClick="@{() -> scheduleModel.clickExhibitor()}"
-            />
+            android:src="@drawable/sche_exhibitor" />
 
         <EditText
             android:layout_width="match_parent"
@@ -57,8 +57,7 @@
             android:layout_marginTop="12dp"
             android:layout_toLeftOf="@id/imgExhibitor"
             android:background="@drawable/edittext_bg"
-            android:text="@={scheduleModel.etTitle}"
-            />
+            android:text="@={scheduleModel.etTitle}" />
 
         <ImageView
             android:layout_width="24dp"
@@ -79,8 +78,7 @@
             android:layout_width="match_parent"
             android:layout_below="@id/sche_title"
             android:layout_toRightOf="@id/sche_location"
-            android:text="@={scheduleModel.etLocation}"
-            />
+            android:text="@={scheduleModel.etLocation}" />
 
         <ImageView
             android:layout_width="24dp"
@@ -101,19 +99,19 @@
             android:layout_height="30dp"
             android:layout_alignBaseline="@id/sche_date"
             android:layout_alignLeft="@id/et_location"
-            android:onClick="@{scheduleModel::datePicker}"
-            android:text="@={scheduleModel.etStartDate}"/>
+            android:onClick="@{scheduleModel::onDateClick}"
+            android:text="@={scheduleModel.etStartDate}" />
 
         <TextView
             android:id="@+id/tv_start_time"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_alignBaseline="@id/sche_date"
+            android:layout_toRightOf="@id/tv_start_date"
+            android:onClick="@{scheduleModel::onTimeClick}"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:layout_toRightOf="@id/tv_start_date"
-            android:onClick="@{scheduleModel::timePicker}"
-            android:text="@={scheduleModel.etStartTime}"/>
+            android:text="@={scheduleModel.etStartTime}" />
 
 
         <ImageView
@@ -135,10 +133,9 @@
             android:layout_width="50dp"
             android:layout_alignLeft="@id/et_location"
             android:layout_below="@id/sche_date"
-            android:inputType="number"
             android:gravity="center"
-            android:text="@={scheduleModel.etHour}"
-            />
+            android:inputType="number"
+            android:text="@={scheduleModel.etHour}" />
 
         <TextView
             android:id="@+id/lblHour"
@@ -157,8 +154,7 @@
             android:layout_below="@id/sche_date"
             android:layout_toRightOf="@id/lblHour"
             android:inputType="number"
-            android:text="@={scheduleModel.etMinute}"
-            />
+            android:text="@={scheduleModel.etMinute}" />
 
         <TextView
             android:id="@+id/lblMinute"
@@ -187,23 +183,21 @@
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
-            android:visibility="@{scheduleModel.isEdit?View.VISIBLE:View.GONE}"
-            />
+            android:visibility="@{scheduleModel.isEdit?View.VISIBLE:View.GONE}" />
 
         <Button
             android:id="@+id/btnSave"
             android:layout_width="80dp"
             android:layout_height="32dp"
             android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginBottom="16dp"
             android:layout_marginRight="15dp"
             android:layout_toLeftOf="@id/vertical_line"
             android:background="@drawable/bttn_red"
+            android:onClick="@{() -> scheduleModel.onSave()}"
             android:text="@string/btnSave"
-            android:layout_centerHorizontal="true"
-            android:textColor="#fff"
-            android:onClick="@{() -> scheduleModel.save()}"
-            />
+            android:textColor="#fff" />
 
         <Button
             android:id="@+id/btnDel"
@@ -213,11 +207,10 @@
             android:layout_marginLeft="15dp"
             android:layout_toRightOf="@id/vertical_line"
             android:background="@drawable/bttn_grey"
+            android:onClick="@{() -> scheduleModel.onDelete()}"
             android:text="@string/btnDel"
             android:textColor="#fff"
-            android:onClick="@{() -> scheduleModel.delete()}"
-            android:visibility="@{scheduleModel.isEdit?View.VISIBLE:View.GONE}"
-            />
+            android:visibility="@{scheduleModel.isEdit?View.VISIBLE:View.GONE}" />
 
         <EditText
             android:layout_width="match_parent"
@@ -230,9 +223,8 @@
             android:background="@drawable/edittext_bg"
             android:gravity="top|left"
             android:padding="3dp"
-            android:textSize="14sp"
             android:text="@={scheduleModel.etNote}"
-            />
+            android:textSize="14sp" />
 
 
     </RelativeLayout>

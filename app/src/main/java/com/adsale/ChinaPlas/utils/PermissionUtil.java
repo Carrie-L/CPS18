@@ -19,6 +19,7 @@ public class PermissionUtil {
     public static final String PERMISSION_READ_CALENDAR= Manifest.permission.READ_CALENDAR;
     public static final String PERMISSION_READ_PHONE_STATE= Manifest.permission.READ_PHONE_STATE;
     public static final String PERMISSION_CAMERA= Manifest.permission.CAMERA;
+    public static final String PERMISSION_CALL_PHONE= Manifest.permission.CALL_PHONE;
 
     //请求码
     public static final Integer PMS_CODE_SEND_SMS=101;//发送短信
@@ -26,7 +27,8 @@ public class PermissionUtil {
     public static final Integer PMS_CODE_READ_SD=103;//读取SD
     public static final Integer PMS_CODE_READ_CALENDAR=104;//读取日历
     public static final Integer PMS_CODE_READ_PHONE_STATE=105;//读取手机状态
-    public static final Integer PMS_CODE_CAMERA=106;//读取手机状态
+    public static final Integer PMS_CODE_CAMERA=106; //读取手机状态
+    public static final Integer PMS_CODE_CALL_PHONE=107; //拨打电话
 
     /**
      * 检查是否有该权限

@@ -3,6 +3,7 @@ package com.adsale.ChinaPlas.viewmodel;
 import android.content.Intent;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableInt;
+import android.support.annotation.NonNull;
 
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.adapter.EventAdapter;
@@ -24,7 +25,6 @@ import java.util.Comparator;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
@@ -57,16 +57,12 @@ public class EventModel {
         mCacheList4 = new ArrayList<>();
     }
 
-    public void onStart(OnIntentListener listener,EventAdapter adapter) {
+    public void onStart(OnIntentListener listener, EventAdapter adapter) {
         this.adapter = adapter;
-        mListener=listener;
-
-//        mCacheList = new ArrayList<>();
-//        mCacheList.addAll(events);
-//        AppUtil.logListString(mCacheList);
+        mListener = listener;
     }
 
-    public void getList(){
+    public void getList() {
         parseEvents();
     }
 
@@ -74,10 +70,10 @@ public class EventModel {
         mClickPos.set(dateIndex);
         if (dateIndex == 0) { /* 全部 */
             adapter.setList(events);
-        } if (dateIndex == 5) { /* 技术交流会 */
-            mListener.onIntent(null, TechnicalListActivity.class);
         }
-        else {
+        if (dateIndex == 5) { /* 技术交流会 */
+            mListener.onIntent(null, TechnicalListActivity.class);
+        } else {
             if (!setDateList(dateIndex)) {
                 LogUtil.e(TAG, " !! CACHE: " + dateIndex);
                 filterList();
@@ -87,6 +83,10 @@ public class EventModel {
     }
 
     private void filterList() {
+        mCacheList1.clear();
+        mCacheList2.clear();
+        mCacheList3.clear();
+        mCacheList4.clear();
         ConcurrentEvent.Pages eventItem;
         int size = events.size();
         for (int i = 0; i < size; i++) {
@@ -130,11 +130,17 @@ public class EventModel {
         AppUtil.sort(events, new Comparator<ConcurrentEvent.Pages>() {
             @Override
             public int compare(ConcurrentEvent.Pages o1, ConcurrentEvent.Pages o2) {
-                return Integer.valueOf(o1.sort).compareTo(Integer.valueOf(o2.sort));
+                if (o1.date.compareTo(o2.date) == 0) {
+                    return Integer.valueOf(o1.sort).compareTo(Integer.valueOf(o2.sort));
+                } else {
+                    return o1.date.compareTo(o2.date);
+                }
             }
         });
 
         LogUtil.i(TAG, "events2=" + events.size() + "," + events.toString());
+
+
     }
 
 

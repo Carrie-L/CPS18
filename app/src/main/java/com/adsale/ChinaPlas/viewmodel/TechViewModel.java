@@ -1,46 +1,20 @@
 package com.adsale.ChinaPlas.viewmodel;
 
 import android.content.Context;
-import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableInt;
 
 import com.adsale.ChinaPlas.App;
-import com.adsale.ChinaPlas.adapter.EventAdapter;
 import com.adsale.ChinaPlas.adapter.TechAdapter;
 import com.adsale.ChinaPlas.dao.SeminarInfo;
-import com.adsale.ChinaPlas.data.DownloadClient;
 import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.data.OtherRepository;
-import com.adsale.ChinaPlas.data.model.ConcurrentEvent;
-import com.adsale.ChinaPlas.data.model.M6B;
 import com.adsale.ChinaPlas.data.model.adAdvertisementObj;
 import com.adsale.ChinaPlas.helper.ADHelper;
-import com.adsale.ChinaPlas.helper.OnCpsItemClickListener;
-import com.adsale.ChinaPlas.ui.TechnicalListActivity;
-import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
-import com.adsale.ChinaPlas.utils.FileUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
-import com.adsale.ChinaPlas.utils.Parser;
-import com.adsale.ChinaPlas.utils.ReRxUtils;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
-import okhttp3.ResponseBody;
-import retrofit2.Response;
-
-import static android.R.attr.end;
-import static android.R.attr.version;
-import static io.fabric.sdk.android.services.network.HttpRequest.append;
 
 
 /**

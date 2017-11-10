@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="android.text.TextUtils" />
+
+        <variable
+            name="info"
+            type="com.adsale.ChinaPlas.data.model.AgentInfo" />
+
+        <variable
+            name="view"
+            type="com.adsale.ChinaPlas.ui.TravelDetailActivity" />
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:gravity="center"-->
+        <!--android:text="@string/nodata"-->
+        <!--android:textColor="#000000" />-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@{info.remarks}"
+                android:textColor="#000000"
+                android:visibility="@{info.titleENG.contains(&quot;Official Travel Agency&quot;)?View.VISIBLE:View.GONE}" />
+
+            <ImageView
+                android:id="@+id/hotel_logo"
+                android:layout_width="300dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"
+                android:scaleType="fitCenter" />
+
+            <!--Address-->
+            <TextView
+                style="@style/travel_dtl_bar_style"
+                android:text="@string/travel_detail_address"
+                android:visibility="@{TextUtils.isEmpty(info.address)?View.GONE:View.VISIBLE}" />
+
+            <TextView
+                style="@style/travel_dtl_text_style"
+                android:text="@{info.address}"
+                android:visibility="@{TextUtils.isEmpty(info.address)?View.GONE:View.VISIBLE}" />
+
+            <!--Tel-->
+            <TextView
+                style="@style/travel_dtl_bar_style"
+                android:text="@string/travel_detail_tel"
+                android:visibility="@{TextUtils.isEmpty(info.getTel())?View.GONE:View.VISIBLE}" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/travel_tel"
+                style="@style/travel_dtl_tel_style"
+                android:text="@{info.getTel()}"
+                android:textColor="@color/link"
+                android:visibility="@{TextUtils.isEmpty(info.getTel())?View.GONE:View.VISIBLE}" />
+
+            <!--Email-->
+            <TextView
+                style="@style/travel_dtl_bar_style"
+                android:text="@string/travel_detail_email"
+                android:visibility="@{TextUtils.isEmpty(info.getEmail())?View.GONE:View.VISIBLE}" />
+
+            <TextView
+                style="@style/travel_dtl_text_style"
+                android:onClick="@{()->view.onEmail(info.getEmail())}"
+                android:text="@{info.getEmail()}"
+                android:textColor="@color/link"
+                android:visibility="@{TextUtils.isEmpty(info.getEmail())?View.GONE:View.VISIBLE}" />
+
+            <!--website-->
+            <TextView
+                style="@style/travel_dtl_bar_style"
+                android:text="@string/travel_detail_website"
+                android:visibility="@{TextUtils.isEmpty(info.getWebsite())?View.GONE:View.VISIBLE}" />
+
+            <TextView
+                android:id="@+id/textView"
+                style="@style/travel_dtl_text_style"
+                android:onClick="@{()->view.onWebsite(info.getWebsite())}"
+               android:text="@{info.getWebsite}"
+                android:textColor="@color/link"
+                android:visibility="@{TextUtils.isEmpty(info.getWebsite())?View.GONE:View.VISIBLE}" />
+
+            <!-- contact -->
+            <TextView
+                style="@style/travel_dtl_bar_style"
+                android:text="@string/travel_detail_contact"
+                android:visibility="@{TextUtils.isEmpty(info.contactName)?View.GONE:View.VISIBLE}" />
+
+            <TextView
+                style="@style/travel_dtl_text_style"
+                android:text="@{info.contactName}"
+                android:visibility="@{TextUtils.isEmpty(info.contactName)?View.GONE:View.VISIBLE}" />
+
+            <!-- remark more -->
+            <TextView
+                style="@style/travel_dtl_bar_style"
+                android:text="@string/travel_detail_remark"
+                android:visibility="@{TextUtils.isEmpty(info.remarksMore)?View.GONE:View.VISIBLE}" />
+
+            <TextView
+                style="@style/travel_dtl_text_style"
+                android:text="@{info.remarksMore}"
+                android:visibility="@{TextUtils.isEmpty(info.remarksMore)?View.GONE:View.VISIBLE}" />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</layout>

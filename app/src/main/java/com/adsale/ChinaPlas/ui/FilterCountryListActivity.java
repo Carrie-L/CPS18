@@ -9,6 +9,7 @@ import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.adapter.CountryAdapter;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.dao.Country;
+import com.adsale.ChinaPlas.dao.Industry;
 import com.adsale.ChinaPlas.data.FilterRepository;
 import com.adsale.ChinaPlas.data.model.ExhibitorFilter;
 import com.adsale.ChinaPlas.databinding.ActivityFilterCountryBinding;
@@ -40,6 +41,14 @@ public class FilterCountryListActivity extends BaseActivity implements SideLette
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        int size = mList.size();
+        Country entity;
+        for (int i = 0; i < size; i++) {
+            entity = mList.get(i);
+            entity.selected.set(false);
+            mList.set(i, entity);
+        }
+        entity = null;
         mList.clear();
         finish();
     }
@@ -109,6 +118,8 @@ public class FilterCountryListActivity extends BaseActivity implements SideLette
         setResultData();
         super.back();
     }
+
+
 
 
 }

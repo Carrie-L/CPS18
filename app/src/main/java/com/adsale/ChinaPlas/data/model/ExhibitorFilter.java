@@ -3,6 +3,8 @@ package com.adsale.ChinaPlas.data.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.adsale.ChinaPlas.dao.Exhibitor;
+
 /**
  * Created by Carrie on 2017/10/17.
  */
@@ -11,6 +13,10 @@ public class ExhibitorFilter implements Parcelable {
     public int index;
     public String id;
     public String filter;
+
+    public ExhibitorFilter() {
+
+    }
 
     public ExhibitorFilter(int index, String id, String filter) {
         this.index = index;

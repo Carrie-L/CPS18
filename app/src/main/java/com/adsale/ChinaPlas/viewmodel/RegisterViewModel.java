@@ -1,81 +1,75 @@
 package com.adsale.ChinaPlas.viewmodel;
 
-import android.content.Context;
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.databinding.ObservableBoolean;
-import android.graphics.Bitmap;
+import android.databinding.ObservableField;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
+import android.support.annotation.NonNull;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
-import android.webkit.JavascriptInterface;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.adsale.ChinaPlas.App;
-import com.adsale.ChinaPlas.data.LoginClient;
+import com.adsale.ChinaPlas.data.DownloadClient;
+import com.adsale.ChinaPlas.data.OtherRepository;
+import com.adsale.ChinaPlas.glide.GlideApp;
 import com.adsale.ChinaPlas.utils.AppUtil;
+import com.adsale.ChinaPlas.utils.CalendarUtil;
 import com.adsale.ChinaPlas.utils.Constant;
-import com.adsale.ChinaPlas.utils.FileUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.NetWorkHelper;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.adsale.ChinaPlas.utils.ReRxUtils;
+import com.bumptech.glide.Glide;
+import com.pingplusplus.android.Pingpp;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.google.zxing.qrcode.decoder.ErrorCorrectionLevel.H;
+import static android.content.Context.MODE_PRIVATE;
+import static com.adsale.ChinaPlas.App.mSP_Login;
 
 
 /**
- * todo webView无法点击
  * <p>
  * Created by Carrie on 2017/8/10.
  */
 
 public class RegisterViewModel {
     private static final String TAG = "RegisterViewModel";
-    private Context mContext;
+    private Activity activity;
     private WebView mWebView;
     private ImageView mImageView;
     private ProgressBar mProgressBar;
 
     public final ObservableBoolean isLoginOrReged = new ObservableBoolean(false);
-    private final int mLanguage;
+    private DownloadClient mClient;
+    private SharedPreferences sp_reg;
+    private Disposable mDisposable0;
+    private Disposable mDisposable1;
+    private CalendarUtil calendarUtil;
 
-
-    public RegisterViewModel(Context mContext) {
-        this.mContext = mContext;
-        mLanguage = App.mLanguage.get();
+    public RegisterViewModel(Activity activity) {
+        this.activity = activity;
     }
 
     public void start(WebView wv, ImageView iv, ProgressBar pb) {
@@ -83,108 +77,22 @@ public class RegisterViewModel {
         mImageView = iv;
         mProgressBar = pb;
         isLoginOrReged.set(AppUtil.isLogin());
+        LogUtil.i(TAG, "isLoginOrReged=" + isLoginOrReged.get());
+        sp_reg = activity.getSharedPreferences("Prereg", MODE_PRIVATE);
         if (isLoginOrReged.get()) {
             showPicView();
         } else {
             showWebView();
         }
+        setProgressClient();
     }
 
     private void showWebView() {
-        String registerUrl = AppUtil.getName(mLanguage, NetWorkHelper.Register_TW_URL, NetWorkHelper.Register_EN_URL, NetWorkHelper.Register_CN_URL);
-
-        mWebView.loadUrl(registerUrl);
         mWebView.setWebViewClient(new MyWebClient());
+        mWebView.loadUrl(String.format(NetWorkHelper.Register_URL, AppUtil.getUrlLangType(App.mLanguage.get())));
+    }
 
-//        new WebViewClient() {
-//            @Override
-//            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-//                super.onPageStarted(view, url, favicon);
-//                mProgressBar.setVisibility(View.VISIBLE);
-//            }
-//
-//            @Override
-//            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//                /* https://www.chinaplasonline.com/CPS18/Mobile/Home/lang-simp/QuickPreRegPay.aspx?guid=94BA407AFE4B465AA5F67FF962501897&device=mobileapp&RegSource=MOB */
-//                LogUtil.i(TAG, "shouldOverrideUrlLoading: URL=" + url);
-//                if (url.contains("https://epayment.adsale-marketing.com.cn/vreg/PayMent/PayAPPjump")) {
-//                    LogUtil.i(TAG, "shouldOverrideUrlLoading: PayAPPjump");
-//                }
-//
-//                if (url.contains("QuickPreRegPay")) {
-//                    LogUtil.i(TAG, "shouldOverrideUrlLoading: QuickPreRegPay");
-//
-//                }
-//
-////                document.getElementById('p_payMethod').value;//取出支付方式的js代码
-////                document.getElementById('g_guid').value;取出guid的代码
-////                document.getElementById('p_lang').value;语言
-////                document.getElementById('p_image').value;确认信图片的名称
-//
-//                if (!url.contains("PayAPPjump")) {
-//                    view.loadUrl(url);
-//                }
-//
-//
-//                return true;
-//            }
-//
-//            @Override
-//            public void onLoadResource(WebView view, String url) {
-//                super.onLoadResource(view, url);
-//                LogUtil.i(TAG, "onLoadResource:" + url);
-//                if (url.contains("PayAPPjump")) {
-//                    return;
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onPageFinished(WebView view, String url) {
-//                super.onPageFinished(view, url);
-//                LogUtil.i(TAG, "onPageFinished:" + url);
-//                mProgressBar.setVisibility(View.GONE);
-//
-//                if (url.contains("https://epayment.adsale-marketing.com.cn/vreg/PayMent/PayAPPjump")) {
-//                    view.addJavascriptInterface(new RegJSInterface(mContext), "Reg");
-//                    view.loadUrl("javascript:function() { " +
-//                            "var method = document.getElementById('p_payMethod').value; " +
-//                            "var guid = document.getElementById('g_guid').value; " +
-//                            "var lang = document.getElementById('p_lang').value; " +
-//                            "var image = document.getElementById('p_image').value; " +
-//                            "Reg.sendData(method,guid,lang,image); } function();");
-//
-//                    if (Build.VERSION.SDK_INT >= 19) {
-//
-////                        view.loadUrl("javascript: (function() {return document.getElementById('g_guid').value;}) ();" );
-//                        view.evaluateJavascript("document.getElementById('g_guid').value;", new ValueCallback<String>() {
-//                            @Override
-//                            public void onReceiveValue(String value) {
-//                                LogUtil.i(TAG, "onReceiveValue:" + value);
-//                            }
-//                        });
-//                    }
-//
-//
-////                    try {
-////                        new Thread(){
-////
-////                        }.start();
-////                        Document document = Jsoup.connect("https://www.chinaplasonline.com/CPS18/Mobile/Home/lang-simp/QuickPreRegPay.aspx?guid=CD63302175E84185A7AE81E9565354B2&device=mobileapp&RegSource=MOB").get();
-////                        Element oElement = document.getElementById("'p_payMethod'");
-////                        String data = oElement.data();
-////                        LogUtil.i(TAG, "data=" + data);
-////
-////                    } catch (IOException e) {
-////                        e.printStackTrace();
-////                    }
-//                }
-//
-//
-//            }
-//        };
-
-
+    private void setProgressClient() {
         mWebView.setWebChromeClient(new WebChromeClient() {
 
             @Override
@@ -200,89 +108,143 @@ public class RegisterViewModel {
                 super.onProgressChanged(view, newProgress);
             }
         });
-
-
     }
 
-    class MyWebClient extends WebViewClient {
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-            return super.shouldOverrideUrlLoading(view, request);
-        }
+    private class MyWebClient extends WebViewClient {
 
         @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+        public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
             super.shouldOverrideUrlLoading(view, url);
             LogUtil.i(TAG, "shouldOverrideUrlLoading:" + url);
+
+            if (url.contains("PayAPPjump")) {
+                getJSValue(view);
+            } else if (url.contains("QuickPreRegResult")) {
+                view.evaluateJavascript("document.getElementById('QuickPreRegResult').src;", new ValueCallback<String>() {
+                    @Override
+                    public void onReceiveValue(String s) {
+                        LogUtil.i(TAG, "shouldOverrideUrlLoading_QuickPreRegResult: " + s);
+                        view.loadUrl(TextUtils.isEmpty(s) ? url : s);
+                    }
+                });
+            } else {
+                view.loadUrl(url);
+            }
+
             return true;
         }
 
-        @Override
-        public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
-            LogUtil.i(TAG, "shouldInterceptRequest:" + url);
 
-            if (url.equals("https://epayment.adsale-marketing.com.cn/vreg/PayMent/PayAPPjump")) {
-                LogUtil.i(TAG, "shouldInterceptRequest: PayAPPjump " );
-                if (Build.VERSION.SDK_INT >= 19) {
-
-//                        view.loadUrl("javascript: (function() {return document.getElementById('g_guid').value;}) ();" );
-                    view.evaluateJavascript("document.getElementById('p_payMethod').value;", new ValueCallback<String>() {
-                        @Override
-                        public void onReceiveValue(String value) {
-                            LogUtil.i(TAG, "onReceiveValue:" + value);
-                        }
-                    });
-                }
-            }
-
-            if (url.equals("https://epayment.adsale-marketing.com.cn/vreg/PayMent/PayAPPjump")) {
-
-            }
-
-
-            return super.shouldInterceptRequest(view, url);
-        }
     }
 
-    public class RegJSInterface {
-        Context mContext;
-        String data;
-
-        RegJSInterface(Context ctx) {
-            this.mContext = ctx;
-        }
-
-        @JavascriptInterface
-        public void sendData(String method, String guid, String lang, String image) {
-            //Get the string value to process
-            this.data = method;
-
-            LogUtil.e(TAG, "method=" + method);
-            LogUtil.e(TAG, "guid=" + guid);
-            LogUtil.e(TAG, "lang=" + lang);
-            LogUtil.e(TAG, "image=" + image);
-
-        }
+    private void getJSValue(final WebView view) {
+        view.evaluateJavascript("document.getElementById('p_payMethod').value+','+document.getElementById('g_guid').value+','+document.getElementById('p_lang').value+','+document.getElementById('p_image').value;", new ValueCallback<String>() {
+            @Override
+            public void onReceiveValue(String value) {
+                Log.e(TAG, "shouldOverrideUrlLoading_onReceiveValue:value=" + value);
+                value = value.replaceAll("\"", "");
+                sp_reg.edit().putString("p_payMethod", value.split(",")[0])
+                        .putString("g_guid", value.split(",")[1])
+                        .putString("p_lang", value.split(",")[2])
+                        .putString("p_image", value.split(",")[3]).apply();
+                LogUtil.i(TAG, "p_payMethod=" + sp_reg.getString("p_payMethod", ""));
+                LogUtil.i(TAG, "g_guid=" + sp_reg.getString("g_guid", ""));
+                LogUtil.i(TAG, "p_lang=" + sp_reg.getString("p_lang", ""));
+                LogUtil.i(TAG, "p_image=" + sp_reg.getString("p_image", ""));
+                createPay(view);
+            }
+        });
     }
 
-    private void downPic(String url) {
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-        Gson gson = new GsonBuilder().setLenient().create();
-        Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl(NetWorkHelper.BASE_URL_CPS)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create(gson));
-        Retrofit retrofit = builder.client(httpClient.build()).build();
-        final LoginClient client = retrofit.create(LoginClient.class);
-        client.downImg(url)
-                .map(new Function<Response<ResponseBody>, Boolean>() {
+    private String getRequestJson() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("payMethod", sp_reg.getString("p_payMethod", ""))
+                    .put("guid", sp_reg.getString("g_guid", ""))
+                    .put("lang", sp_reg.getString("p_lang", ""));
+            return jsonObject.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    private void createPay(final WebView view) {
+        String json = getRequestJson();
+        if (TextUtils.isEmpty(json)) {
+            return;
+        }
+        LogUtil.e(TAG, "json=" + json);
+        initClient();
+        RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json);
+        mClient.getRegCharge(requestBody)
+                .map(new Function<ResponseBody, String>() {
                     @Override
-                    public Boolean apply(@NonNull Response<ResponseBody> responseBodyResponse) throws Exception {
-                        //保存图片
-                        byte[] bytes = responseBodyResponse.body().bytes();
-                        final boolean isSaveSuccess = AppUtil.saveFileOutput(mContext, Constant.REG_PNG, bytes);
-                        LogUtil.i(TAG, "isSaveSuccess=" + isSaveSuccess);
-                        return isSaveSuccess;
+                    public String apply(@NonNull ResponseBody responseBody) throws Exception {
+                        return responseBody.string();
+                    }
+                })
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<String>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+                        mDisposable0 = d;
+                        //加载确认信
+                        view.loadUrl(String.format(NetWorkHelper.REGISTER_CONFIRM_URL, AppUtil.getUrlLangType(App.mLanguage.get()), sp_reg.getString("p_image", "")));
+                    }
+
+                    @Override
+                    public void onNext(@NonNull String response) {
+                        Log.i(TAG, "onNext:" + response);
+                        sp_reg.edit().putString("charge", response).apply();
+                            /* 调起支付 */
+                        createPayment();
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Log.i(TAG, "onError:" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.i(TAG, "onComplete");
+                        mDisposable0.dispose();
+                    }
+                });
+
+
+    }
+
+    private void initClient() {
+        if (mClient == null) {
+            mClient = ReRxUtils.setupRxtrofit(DownloadClient.class, NetWorkHelper.REGISTER_BASE_URL);
+        }
+    }
+
+    public void createPayment() {
+        Pingpp.createPayment(activity, sp_reg.getString("charge", ""));
+    }
+
+    public void paySuccess() {
+        mWebView.loadUrl(String.format(NetWorkHelper.REGISTER_CONFIRM_URL, AppUtil.getUrlLangType(App.mLanguage.get()), sp_reg.getString("p_image", "")));
+        mSP_Login.edit().putBoolean(Constant.IS_LOGIN, true).apply();
+        downConfirmImage();
+    }
+
+    private void downConfirmImage() {
+        initClient();
+        mClient.downConfirmImg(NetWorkHelper.REGISTER_CONFIRM_IMG_URL.concat(sp_reg.getString("p_image", "")))
+                .map(new Function<ResponseBody, Boolean>() {
+                    @Override
+                    public Boolean apply(@NonNull ResponseBody responseBody) throws Exception {
+                        File imgFile = new File(App.filesDir.concat(Constant.REG_PNG));
+                        if (imgFile.exists()) {
+                            boolean deleteImg = imgFile.delete();
+                            LogUtil.e(TAG, "reg img is exists, so delete it." + deleteImg + ", path=" + App.filesDir.concat(Constant.REG_PNG));
+                        }
+                        return AppUtil.saveFileOutput(activity, Constant.REG_PNG, responseBody.bytes());
                     }
                 })
                 .subscribeOn(Schedulers.io())
@@ -290,14 +252,12 @@ public class RegisterViewModel {
                 .subscribe(new Observer<Boolean>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
-
+                        mDisposable1 = d;
                     }
 
                     @Override
                     public void onNext(@NonNull Boolean aBoolean) {
-                        if (aBoolean) {
-                            showPicView();
-                        }
+                        sp_reg.edit().putBoolean("RegImg", aBoolean).apply();
                     }
 
                     @Override
@@ -307,32 +267,62 @@ public class RegisterViewModel {
 
                     @Override
                     public void onComplete() {
-
+                        mDisposable1.dispose();
                     }
                 });
-
-
     }
 
     private void showPicView() {
-        try {
-            FileInputStream fis = mContext.openFileInput(Constant.REG_PNG);
-            mImageView.setImageBitmap(BitmapFactory.decodeStream(fis));
-            fis.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            //如果图片不存在，下载 [登录时保存的regImageName]
-        }
+//        try {
+////            FileInputStream fis = activity.openFileInput(Constant.REG_PNG);
+////            mImageView.setImageBitmap(BitmapFactory.decodeStream(fis));
+////            fis.close();
+//
+//
+////            mImageView.setImageURI(Uri.parse("file:///" + activity.openFileInput(Constant.REG_PNG)));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            //如果图片不存在，下载 [登录时保存的regImageName]
+//            downConfirmImage();
+//        }
+
+        Glide.with(activity).load(Uri.parse("file:///".concat(App.filesDir).concat(Constant.REG_PNG))).into(mImageView);
+        showRegText();
+    }
+
+    public final ObservableField<String> tvHeader = new ObservableField<>();
+    public final ObservableField<String> tvFooter = new ObservableField<>();
+
+    private void showRegText() {
+        OtherRepository repository = OtherRepository.getInstance();
+        repository.initWebContentDao();
+        tvHeader.set(repository.getPreHeader(App.mLanguage.get()));
+        tvFooter.set(repository.getPreFooter(App.mLanguage.get()));
     }
 
     public void reset() {
         AppUtil.putLogout();
         isLoginOrReged.set(false);
+        App.mSP_Login.edit().putBoolean("IsPreUser", false).apply();
+//        SystemMethod.trackViewLog(mContext, 420, "PR", "", "");
+//        SystemMethod.setStatEvent(mContext, "PreregReset", "PR", SystemMethod.getCurLanguage(mContext));
         showWebView();
     }
 
     public void addToCalendar() {
         LogUtil.i(TAG, "addToCalendar");
+        addCalendar();
+    }
+
+    public void addCalendar() {
+        if (calendarUtil == null) {
+            calendarUtil = new CalendarUtil(activity);
+        }
+        calendarUtil.addToCalendar();
+    }
+
+    public void onGetInvoice() {
+        mWebView.loadUrl(String.format(NetWorkHelper.REGISTER_INVOICE_URL, AppUtil.getUrlLangType(App.mLanguage.get()), sp_reg.getString("p_image", "")));
     }
 
 

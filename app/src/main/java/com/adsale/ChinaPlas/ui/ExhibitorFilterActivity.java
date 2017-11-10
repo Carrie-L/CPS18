@@ -1,6 +1,7 @@
 package com.adsale.ChinaPlas.ui;
 
 import android.content.Intent;
+import android.databinding.ObservableField;
 import android.support.v7.widget.SwitchCompat;
 
 import com.adsale.ChinaPlas.R;
@@ -16,13 +17,12 @@ import com.adsale.ChinaPlas.utils.LogUtil;
 import java.util.ArrayList;
 
 public class ExhibitorFilterActivity extends BaseActivity implements OnIntentListener {
-
+    public final ObservableField<String> etKeyword = new ObservableField<>("");
     private FilterView industryFilterView;
     private FilterView applicationFilterView;
     private FilterView countryFilterView;
     private FilterView hallFilterView;
     private FilterView boothFilterView;
-    private ArrayList<FilterView> filterViews = new ArrayList<>();
     private ArrayList<ExhibitorFilter> results;
     private ArrayList<ExhibitorFilter> allFilters = new ArrayList<>();
     private SwitchCompat switchNewTec;
@@ -80,10 +80,14 @@ public class ExhibitorFilterActivity extends BaseActivity implements OnIntentLis
     }
 
     public void onFilter() {
+        ExhibitorFilter newTecFilter = new ExhibitorFilter(5, "", etKeyword.get().trim());
+        allFilters.add(newTecFilter);
+
         if (switchNewTec.isChecked()) {
-            ExhibitorFilter newTecFilter = new ExhibitorFilter(5, "NewTec", "NewTec");
+            newTecFilter = new ExhibitorFilter(6, "NewTec", "NewTec");
             allFilters.add(newTecFilter);
         }
+
         Intent intent = new Intent();
         intent.putExtra("data", allFilters);
         setResult(RESULT_OK, intent);

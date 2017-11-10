@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_hotel_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:textColor="@color/home"
+        android:paddingLeft="16dp"
+        android:paddingStart="16dp"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:background="@color/white_smoke"
+        />
+
+    <include layout="@layout/item_hotel_child"/>
+
+</LinearLayout>

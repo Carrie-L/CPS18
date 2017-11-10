@@ -1,17 +1,10 @@
 package com.adsale.ChinaPlas.viewmodel;
 
-import android.content.Context;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
-import android.databinding.ObservableFloat;
-import android.databinding.ObservableInt;
-import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-
-import com.adsale.ChinaPlas.App;
-import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.dao.MapFloor;
 import com.adsale.ChinaPlas.dao.UpdateCenter;
 import com.adsale.ChinaPlas.data.DownloadClient;
@@ -19,7 +12,6 @@ import com.adsale.ChinaPlas.data.FloorRepository;
 import com.adsale.ChinaPlas.data.OtherRepository;
 import com.adsale.ChinaPlas.data.model.AppContent;
 import com.adsale.ChinaPlas.data.model.UpdateCenterUrl;
-import com.adsale.ChinaPlas.databinding.ItemUpdateCenterBinding;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.FileUtil;
@@ -36,18 +28,13 @@ import java.util.ArrayList;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 
-import static android.R.id.list;
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
 import static com.adsale.ChinaPlas.App.rootDir;
-import static com.adsale.ChinaPlas.R.array.urls;
 import static com.adsale.ChinaPlas.utils.FileUtil.createFile;
 
 /**

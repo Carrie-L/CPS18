@@ -40,8 +40,8 @@ public class ExhibitorActivity extends BaseActivity {
         ivClassify.clickListener.set(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent=new Intent(ExhibitorActivity.this,ExhibitorAllListActivity.class);
-//                startActivity(intent);
+                Intent intent=new Intent(ExhibitorActivity.this,ExhibitorAllListActivity.class);
+                startActivity(intent);
             }
         });
         ivKeyword.clickListener.set(new View.OnClickListener() {

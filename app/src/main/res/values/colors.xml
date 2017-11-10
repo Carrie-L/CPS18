@@ -32,5 +32,6 @@
     <color name="gray_white">#f0f0f0</color>
     <color name="blue">#00BCD4</color>
     <color name="uc_transparent">#B21C1C1C</color>
+    <color name="link">#FF7256</color>
 
 </resources>

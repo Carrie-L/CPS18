@@ -9,10 +9,14 @@ package com.adsale.ChinaPlas.dao;
 //把 ALLDAY 当成 小时；
 
 // KEEP INCLUDES END
+
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Entity mapped to table "SCHEDULE_INFO".
  */
-public class ScheduleInfo implements java.io.Serializable {
+public class ScheduleInfo implements Parcelable {
 
     private Long id;
     private String Title;
@@ -150,4 +154,45 @@ public class ScheduleInfo implements java.io.Serializable {
 
     // KEEP METHODS END
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(this.id);
+        dest.writeString(this.Title);
+        dest.writeString(this.Note);
+        dest.writeString(this.Location);
+        dest.writeString(this.CompanyID);
+        dest.writeString(this.StartDate);
+        dest.writeString(this.StartTime);
+        dest.writeValue(this.Hour);
+        dest.writeValue(this.Minute);
+        dest.writeString(this.Event_CId);
+    }
+
+    protected ScheduleInfo(Parcel in) {
+        this.id = (Long) in.readValue(Long.class.getClassLoader());
+        this.Title = in.readString();
+        this.Note = in.readString();
+        this.Location = in.readString();
+        this.CompanyID = in.readString();
+        this.StartDate = in.readString();
+        this.StartTime = in.readString();
+        this.Hour = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.Minute = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.Event_CId = in.readString();
+    }
+
+    public static final Parcelable.Creator<ScheduleInfo> CREATOR = new Parcelable.Creator<ScheduleInfo>() {
+        public ScheduleInfo createFromParcel(Parcel source) {
+            return new ScheduleInfo(source);
+        }
+
+        public ScheduleInfo[] newArray(int size) {
+            return new ScheduleInfo[size];
+        }
+    };
 }

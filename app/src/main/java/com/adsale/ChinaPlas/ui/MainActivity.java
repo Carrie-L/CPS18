@@ -117,7 +117,7 @@ public class MainActivity extends BaseActivity {
             ivCloseHelpPage = (ImageView) mHelpView.findViewById(R.id.btn_help_page_close);
         }
         Integer[] imageIds;
-        imageIds = helpPage.getMenuImages(App.mLanguage.get());
+        imageIds = helpPage.getMenuImages();
 
         helpPage.init(this, imageIds);
         mHelpView.setVisibility(View.VISIBLE);

@@ -32,20 +32,14 @@ public class NewsActivity extends BaseActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
-        NewsAdapter adapter = new NewsAdapter(this,new ArrayList<News>(0));
+        NewsAdapter adapter = new NewsAdapter(this,newsModel.getNewsList());
         recyclerView.setAdapter(adapter);
-
-        newsModel.getNewsList();
-
 
     }
 
     //String newsID, String title
     public void onItemClick(News news) {
         LogUtil.i(TAG,"news="+news.getTitle());
-
-//        Intent intent=new Intent(this,NewsDtlActivity.class);
-//        intent.putExtra("News",news);
 
         Bundle bundle = new Bundle();
         bundle.putParcelable("News",news);

@@ -33,7 +33,6 @@ import com.adsale.ChinaPlas.viewmodel.MainViewModel;
 import com.adsale.ChinaPlas.viewmodel.NavViewModel;
 import com.adsale.ChinaPlas.viewmodel.SyncViewModel;
 
-
 public abstract class BaseActivity extends AppCompatActivity implements NavViewModel.OnDrawerClickListener {
     //title bar
     public final ObservableField<String> barTitle = new ObservableField<>();
@@ -51,6 +50,7 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
     protected int mToolbarBackgroundRes = R.drawable.inner_header;
     protected ActionBar actionBar;
     protected int mScreenWidth;
+    protected boolean isTablet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +60,7 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
         mBaseBinding.setVariable(BR.activity, this);
 
         mDBHelper = App.mDBHelper;
-
+        isTablet = AppUtil.isTablet();
         mNavViewModel = new NavViewModel(getApplicationContext());
 
         mScreenWidth = App.mSP_Config.getInt(Constant.SCREEN_WIDTH, 0);
@@ -212,12 +212,19 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
 
     public void back() {
         finish();
+        overridePendingTransPad();
     }
 
     public void home() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    public void overridePendingTransPad(){
+        if(isTablet){
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        }
     }
 
 }

@@ -1,11 +1,5 @@
 package com.adsale.ChinaPlas.utils;
 
-import android.content.Intent;
-
-import com.adsale.ChinaPlas.ui.LoginActivity;
-import com.adsale.ChinaPlas.ui.MyAccountActivity;
-import com.adsale.ChinaPlas.ui.RegisterActivity;
-import com.adsale.ChinaPlas.ui.WebViewActivity;
 
 /**
  * Created by Carrie on 2017/8/8.
@@ -48,15 +42,24 @@ public class Constant {
 
     public static final String REG_PNG = "reg.png";
 
+    /*  Schedule */
     public static final String SCHEDULE_DAY01 = "2017-05-16";
     public static final String SCHEDULE_DAY02 = "2017-05-17";
     public static final String SCHEDULE_DAY03 = "2017-05-18";
-    public static final String SCHEDULE_DAY04 = "2017-05-19";
+    public static final String SCHEDULE_DAY_END = "2017-05-19";
 
+    public static final String INTENT_SCHEDULE = "Schedule";
+    public static final String INTENT_EXHIBITOR = "Exhibitor";
     public static final String COMPANY_ID = "CompanyID";
-    public static final String EXHIBITOR = "Exhibitor";
+
+    /* intent value */
+    public static final String INTENT_BAIDU_TJ = "BaiDuTJ";
+    public static final String INTENT_COMMON_TYPE = "TYPE";
+    public static final String PUSH_INTENT="PUSH_INTENT";
+    public static final String LEFT_INTENT="LEFT_INTENT";
 
     public static final int REQUEST_CODE_ADD_SCHEDULE = 5;
+
 
     //同步 2017.1.6
     public static final String SYNC_DATA = "SyncData";
@@ -67,6 +70,7 @@ public class Constant {
     public static final String BAIDU_TJ = "BD_TJ";
     public static final String MAIN_ICON = "MainIcon";
     public static final String TITLE = "title";
+
 
     /*百度统计ID*/
     public static final String BDTJ_VISITOR_REG = "VisitorPreRegistration";
@@ -99,6 +103,7 @@ public class Constant {
     public static final String TXT_CONCURRENT_EVENT = "CurrentEvents.txt";
     public static final String TXT_MAIN_PIC_INFO = "MainMenuInfo.txt";
     public static final String TXT_PDF_CENTER_INFO = "PDFCenterInfos.txt";
+    public static final String TXT_NOTIFICATION = "notification.txt";
 
     public static final String UC_TXT_EXHIBITOR="ExhibitorInfo.txt";
     public static final String UC_TXT_FLOOR_PLAN="FloorPlan.txt";
@@ -113,5 +118,20 @@ public class Constant {
     public static final String DIR_TRAVEL="TravelInfo";
     public static final String DIR_EVENT="ConcurrentEvent";
 
+    public static final String ASSET_APPLICATION_CSV="Application/Application.csv";
+    public static final String ASSET_COMPANY_APPLICATION_CSV="Application/CompanyApplication.csv";
+    public static final String ASSET_TECHNICAL_SEMINAR_INFO="TechnicalSeminar/SeminarInfo.csv";
+    public static final String ASSET_TECHNICAL_SEMINAR_SPEAK="TechnicalSeminar/SeminarSpeaker.csv";
+    public static final String ASSET_HOTEL_DETAIL="TravelInfo/HotelDetail.csv";
+    public static final String ASSET_HR_HOTEL_DETAIL="TravelInfo/hrHotelDetail.csv";
+
+
+    /*  WebView */
+    public static final String WEB_URL="Url";
+
+
+    /*  CommonList */
+    public static final String COM_MSG_CENTER="MessageCenter";
+    public static final String COM_HISTORY_EXHI="HistoryExhibitor";
 
 }

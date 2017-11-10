@@ -51,6 +51,14 @@ public class FilterApplicationListActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        int size = mList.size();
+        ApplicationIndustry entity;
+        for (int i = 0; i < size; i++) {
+            entity = mList.get(i);
+            entity.isSelected.set(false);
+            mList.set(i, entity);
+        }
+        entity = null;
         mList.clear();
         finish();
     }

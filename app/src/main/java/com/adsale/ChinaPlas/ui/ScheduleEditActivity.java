@@ -1,57 +1,60 @@
 package com.adsale.ChinaPlas.ui;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 
+import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.dao.Exhibitor;
+import com.adsale.ChinaPlas.dao.ScheduleInfo;
 import com.adsale.ChinaPlas.databinding.ActivityScheduleItemBinding;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
-import com.adsale.ChinaPlas.utils.LogUtil;
-import com.adsale.ChinaPlas.viewmodel.ScheduleViewModel;
+import com.adsale.ChinaPlas.viewmodel.ScheduleEditViewModel;
 
-import static android.R.attr.data;
+import static com.adsale.ChinaPlas.R.id.language;
 
 /**
  * 日程表 add or edit
  */
-public class ScheduleEditActivity extends BaseActivity implements ScheduleViewModel.ScheduleEditListenr {
+public class ScheduleEditActivity extends BaseActivity implements ScheduleEditViewModel.ScheduleEditListener {
 
-    private ScheduleViewModel mScheduleModel;
+    private ScheduleEditViewModel mEditModel;
 
     @Override
     protected void initView() {
         ActivityScheduleItemBinding binding = ActivityScheduleItemBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
-
-        Bundle bundle = getIntent().getExtras();
-        long id = bundle.getLong("id");
-        int dateIndex = bundle.getInt("dateIndex");
-
-        if (id == 0) {
-            mScheduleModel = new ScheduleViewModel(getApplicationContext(), dateIndex);
-        } else {
-            mScheduleModel = new ScheduleViewModel(getApplicationContext(), id);
-        }
-        binding.setScheduleModel(mScheduleModel);
+        mEditModel = new ScheduleEditViewModel(getApplicationContext());
+        binding.setScheduleModel(mEditModel);
+        mEditModel.setScheduleEditListener(this);
     }
 
     @Override
     protected void initData() {
-        mScheduleModel.setScheduleEditListener(this);
-
-        Intent data=getIntent();
-        Exhibitor exhibitor = data.getParcelableExtra(Constant.EXHIBITOR);
-        if(exhibitor!=null){
-            mScheduleModel.dateIndex.set(data.getIntExtra("dateIndex",0));
-            mScheduleModel.setCompanyId(exhibitor.getCompanyID());
-            mScheduleModel.etTitle.set(exhibitor.getCompanyName());
-            mScheduleModel.etLocation.set(exhibitor.getBoothNo());
-            mScheduleModel.etNote.set(exhibitor.getNote());
+        Exhibitor exhibitor = getIntent().getParcelableExtra(Constant.INTENT_EXHIBITOR);
+        if (exhibitor != null) {
+            mEditModel.isEdit.set(false);
+            mEditModel.setCompanyId(exhibitor.getCompanyID());
+            mEditModel.etStartDate.set(getIntent().getStringExtra("date"));
+            mEditModel.etTitle.set(exhibitor.getCompanyName(language));
+            mEditModel.etLocation.set(exhibitor.getBoothNo());
+            mEditModel.etNote.set(exhibitor.getNote());
         }
 
+        ScheduleInfo scheduleInfo = getIntent().getParcelableExtra(Constant.INTENT_SCHEDULE);
+        if (scheduleInfo != null) {
+            mEditModel.isEdit.set(true);
+            mEditModel.setId(scheduleInfo.getId());
+            mEditModel.setCompanyId(scheduleInfo.getCompanyID());
+            mEditModel.etTitle.set(scheduleInfo.getTitle());
+            mEditModel.etLocation.set(scheduleInfo.getLocation());
+            mEditModel.etNote.set(scheduleInfo.getNote());
+            mEditModel.etHour.set(String.valueOf(scheduleInfo.getHour()));
+            mEditModel.etMinute.set(String.valueOf(scheduleInfo.getMinute()));
+            mEditModel.etStartDate.set(scheduleInfo.getStartDate());
+            mEditModel.etStartTime.set(scheduleInfo.getStartTime());
+        }
     }
 
     @Override
@@ -59,7 +62,7 @@ public class ScheduleEditActivity extends BaseActivity implements ScheduleViewMo
         AppUtil.showAlertDialog(this, getString(R.string.ask_schedule), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mScheduleModel.insert();
+                mEditModel.insertOrReplace();
             }
         });
     }
@@ -71,15 +74,16 @@ public class ScheduleEditActivity extends BaseActivity implements ScheduleViewMo
         intent(ExhibitorDtlActivity.class, bundle);
     }
 
-
     @Override
-    public void onFinish() {
+    public void onFinish(boolean change) {
+        App.mSP_Config.edit().putBoolean("ScheduleListUpdate", change).apply();
         finish();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mScheduleModel.onActivityDestroyed();
+        mEditModel.onActivityDestroyed();
     }
+
 }

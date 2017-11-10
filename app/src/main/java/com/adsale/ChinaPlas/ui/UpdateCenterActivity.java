@@ -10,6 +10,8 @@ import com.adsale.ChinaPlas.viewmodel.UpdateCenterViewModel;
  * 表 UPDATE_CENTER
  * 如果 STATUS == 1，说明没有更新；否则，有更新。
  * 全部没有更新时，btnUpdateAll,btnUpdate 按钮为灰色，不可点击。
+ * // TODO: 2017/11/10 下载csv后，解析，保存到数据库
+ *
  */
 public class UpdateCenterActivity extends BaseActivity {
     private ActivityUpdateCenterBinding binding;

@@ -1,25 +1,37 @@
 package com.adsale.ChinaPlas.ui;
 
+import android.content.Intent;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.dao.News;
 import com.adsale.ChinaPlas.dao.NewsLink;
 import com.adsale.ChinaPlas.databinding.ActivityNewsDtlBinding;
+import com.adsale.ChinaPlas.glide.GlideApp;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.DisplayUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
+import com.adsale.ChinaPlas.utils.NetWorkHelper;
 import com.adsale.ChinaPlas.viewmodel.NewsModel;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
+import net.sourceforge.zbar.Image;
 
 import java.util.ArrayList;
+
+import static com.adsale.ChinaPlas.utils.Constant.WEB_URL;
 
 /**
  * todo track photo显示和点击
@@ -32,11 +44,13 @@ public class NewsDtlActivity extends BaseActivity implements View.OnClickListene
 
     private News news;
     private ActivityNewsDtlBinding binding;
+    private ImageView ivPhoto;
 
     @Override
     protected void initView() {
         binding = ActivityNewsDtlBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         binding.setView(this);
+        ivPhoto = binding.ivPhoto;
 
         Bundle bundle = getIntent().getExtras();
         news = bundle.getParcelable("News");
@@ -48,9 +62,6 @@ public class NewsDtlActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initData() {
-
-
-
         newsTitle.set(news.getTitle());
         content.set(news.getDescription());
 
@@ -62,13 +73,12 @@ public class NewsDtlActivity extends BaseActivity implements View.OnClickListene
         LayoutInflater inflater = getLayoutInflater();
         if (!links.isEmpty()) {
             for (NewsLink oNewsLink : links) {
-//                strPhoto = oNewsLink.getPhoto();
-//                if (!TextUtils.isEmpty(strPhoto)) {
-//                    photoUrl = mDownLoadURL + strPhoto;
-//                    LogUtil.i(TAG, "photoUrl=" + photoUrl);
-//                    imgPath = App.rootDir + "News/" + strPhoto;
-//                    LogUtil.i(TAG, "strPhoto=" + strPhoto);
-//                }
+                if (oNewsLink.getPhoto() != null && !oNewsLink.getPhoto().equals("")) {
+                    String photoUrl = NetWorkHelper.DOWNLOAD_PATH.concat("News/").concat(oNewsLink.getPhoto());
+                    LogUtil.i(TAG, "photoUrl=" + photoUrl);
+//                    Glide.with(this).load(Uri.parse(photoUrl)).into(ivPhoto);
+                    GlideApp.with(this).load(Uri.parse(photoUrl)).diskCacheStrategy(DiskCacheStrategy.DATA).into(ivPhoto); // 缓存原始图片
+                }
 
                 String strLink = oNewsLink.getLink();
                 if (!TextUtils.isEmpty(strLink)) {
@@ -91,7 +101,6 @@ public class NewsDtlActivity extends BaseActivity implements View.OnClickListene
     }
 
 
-
     public void share() {
 
     }
@@ -99,10 +108,17 @@ public class NewsDtlActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         String url = v.getTag().toString();
+        LogUtil.i(TAG, "url=" + url);
 //        SystemMethod.trackViewLog(mContext, 190, "Page", newsID, "NewsLink");
+        Intent intent = new Intent(this, WebViewActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("title", newsTitle);
+        intent.putExtra(WEB_URL, url);
+        startActivity(intent);
+        overridePendingTransPad();
+    }
 
+    public void onPhotoClick() {
 
-
-        LogUtil.i(TAG,"url="+url);
     }
 }

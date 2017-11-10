@@ -19,20 +19,25 @@ public class ScheduleRepository implements DataSource<ScheduleInfo> {
     private ScheduleInfoDao mScheduleInfoDao = mDBHelper.mScheduleInfoDao;
     private static ScheduleRepository INSTANCE;
 
-    public static ScheduleRepository getInstance(){
-        if(INSTANCE==null){
+    public static ScheduleRepository getInstance() {
+        if (INSTANCE == null) {
             return new ScheduleRepository();
         }
         return INSTANCE;
     }
 
-    public ArrayList<ScheduleInfo> getDateSchedules(String date){
-        return (ArrayList<ScheduleInfo>) mScheduleInfoDao.queryBuilder().where(ScheduleInfoDao.Properties.StartDate.eq(date)).list();
+    public ArrayList<ScheduleInfo> getDateSchedules(String date) {
+        return (ArrayList<ScheduleInfo>) mScheduleInfoDao.queryBuilder().where(ScheduleInfoDao.Properties.StartDate.eq(date))
+                .orderAsc(ScheduleInfoDao.Properties.StartDate).orderAsc(ScheduleInfoDao.Properties.StartTime).list();
     }
 
     @Override
     public void insertItemData(ScheduleInfo entity) {
         mScheduleInfoDao.insert(entity);
+    }
+
+    public void insertOrReplaceItemData(ScheduleInfo entity) {
+        mScheduleInfoDao.insertOrReplace(entity);
     }
 
     @Override
@@ -50,7 +55,7 @@ public class ScheduleRepository implements DataSource<ScheduleInfo> {
         return mScheduleInfoDao.load((Long) id);
     }
 
-    public ScheduleInfo getItemData(long id){
+    public ScheduleInfo getItemData(long id) {
         return mScheduleInfoDao.load(id);
     }
 
@@ -59,8 +64,8 @@ public class ScheduleRepository implements DataSource<ScheduleInfo> {
         mScheduleInfoDao.update(entity);
     }
 
-    public boolean isSameTimeSchedule(String date,String time){
-       return !mScheduleInfoDao.queryBuilder().where(ScheduleInfoDao.Properties.StartDate.eq(date),ScheduleInfoDao.Properties.StartTime.like("%"+time+"%")).limit(1).list().isEmpty();
+    public boolean isSameTimeSchedule(String date, String time) {
+        return !mScheduleInfoDao.queryBuilder().where(ScheduleInfoDao.Properties.StartDate.eq(date), ScheduleInfoDao.Properties.StartTime.like("%" + time + "%")).limit(1).list().isEmpty();
     }
 
 

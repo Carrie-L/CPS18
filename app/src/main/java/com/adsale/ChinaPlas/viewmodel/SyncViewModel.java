@@ -1,10 +1,8 @@
 package com.adsale.ChinaPlas.viewmodel;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Handler;
-import android.os.Message;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
@@ -20,28 +18,17 @@ import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.NetWorkHelper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.mob.tools.network.NetworkHelper;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-
-import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
-import okhttp3.Response;
 import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -150,27 +137,30 @@ public class SyncViewModel {
     }
 
     private boolean processSyncData(String data){
-        Document oDocument = Jsoup.parse(data);
-        Element oElement = oDocument.getElementById("KVal");
-        LogUtil.i(TAG, "oElement=" + oElement);
 
-        if (oElement != null) {
-            String responseSyncData = oElement.text().trim();
-            Log.i(TAG, "responseSyncData=" + responseSyncData);
-            if (!responseSyncData.equals("")) {
-                saveDeleteData();
-                saveUpdateData(responseSyncData);
-                responseSyncData = "|" + responseSyncData;
-                Matcher matcher = Pattern.compile("\\|(.*?),").matcher(responseSyncData);
-                LogUtil.e(TAG, "匹配参展商");
-                while (matcher.find()) {
-                    LogUtil.i(TAG, "find=" + matcher.group(1));
-                    ExhibitorRepository repo=ExhibitorRepository.getInstance();
-                    repo.updateIsFavourite(matcher.group(1));
-                }
-            }
-            return true;
-        }
+        LogUtil.e(TAG,"processSyncData::data="+data);
+
+//        Document oDocument = Jsoup.parse(data);
+//        Element oElement = oDocument.getElementById("KVal");
+//        LogUtil.i(TAG, "oElement=" + oElement);
+
+//        if (oElement != null) {
+//            String responseSyncData = oElement.text().trim();
+//            Log.i(TAG, "responseSyncData=" + responseSyncData);
+//            if (!responseSyncData.equals("")) {
+//                saveDeleteData();
+//                saveUpdateData(responseSyncData);
+//                responseSyncData = "|" + responseSyncData;
+//                Matcher matcher = Pattern.compile("\\|(.*?),").matcher(responseSyncData);
+//                LogUtil.e(TAG, "匹配参展商");
+//                while (matcher.find()) {
+//                    LogUtil.i(TAG, "find=" + matcher.group(1));
+//                    ExhibitorRepository repo=ExhibitorRepository.getInstance();
+//                    repo.updateIsFavourite(matcher.group(1));
+//                }
+//            }
+//            return true;
+//        }
         return false;
     }
 

@@ -42,13 +42,16 @@ public class NetWorkHelper {
     public static final String GET_VISITOR_DATA_URL = "http://eform.adsale.com.hk/GeniusAnalyst/api/appapi/GetVisitorDataByEmail";
 
     /*预登记*/
-    public static final String Register_EN_URL = "https://www.chinaplasonline.com/CPS18/Mobile/Home/lang-eng/QuickPreReg.aspx?device=mobileapp";
-    public static final String Register_TW_URL = "https://www.chinaplasonline.com/CPS18/Mobile/Home/lang-trad/QuickPreReg.aspx?device=mobileapp";
-    public static final String Register_CN_URL = "https://www.chinaplasonline.com/CPS18/Mobile/Home/lang-simp/QuickPreReg.aspx?device=mobileapp";
+    public static final String Register_URL = "https://www.chinaplasonline.com/CPS18/Mobile/Home/%s/QuickPreReg.aspx?device=mobileapp";
+    public static final String REGISTER_CHARGE="https://epayment.adsale-marketing.com.cn/vreg/PayMent/PayAPPjump";/* 获取charge数据 */
+    public static final String REGISTER_BASE_URL="https://epayment.adsale-marketing.com.cn/vreg/PayMent/";
+    public static final String REGISTER_CONFIRM_URL="https://www.chinaplasonline.com/CPS18/Mobile/Home/%1s/QuickPreRegResult.aspx?image=%2s";  /*  确认信链接 */
+    public static final String REGISTER_CONFIRM_IMG_URL="https://eform.adsale.com.hk/vreg/Files/Mobile/PreReg/479/";  /*  确认信图片链接 */
+    public static final String REGISTER_INVOICE_URL="https://www.chinaplasonline.com/CPS18/Mobile/Home/%1s/PreRegInvoice.aspx?image=%2s";  /*  发票链接 */
 
-
-    //test
-//    public static final String Register_TW_URL = "https://www.printingsouthchina.com/PRT18/Mobile/Home/lang-trad/QuickPreReg.aspx";
+     /*订阅电子快讯*/
+    public static final String Subscribe_BASE_URL = "https://eform.adsale.com.hk/FormR/ContactUs/";
+    public static final String Subscribe_LAST_URL = "EnewsSub.aspx?showid=430&device=app&WAct=9105";//&lang={langType}
 
     /* loading页的下载地址 */
     public static final String DOWN_TXT_URL = "https://eform.adsale.com.hk/AppCPS17/AppFiles/{fileName}";
@@ -56,8 +59,9 @@ public class NetWorkHelper {
 
     /*  内容更新中心baseUrl */
     public static final String UC_BASE_URL="https://o97tbiy1f.qnssl.com/";
-    // |||-------------------------------------------------------------------|||
 
+
+    /** |||-------------------------------------------------------------------||| */
 
     public static RequestBody getMasterRequestBody() {
         return RequestBody.create(MEDIA_TYPE_XML, getMasterSoapBody());

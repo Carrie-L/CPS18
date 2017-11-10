@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.widget.Toast;
 
@@ -22,20 +23,12 @@ import com.adsale.ChinaPlas.utils.NetWorkHelper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
@@ -218,15 +211,17 @@ public class LoginViewModel {
         if (TextUtils.isEmpty(result)) {
             return "";
         }
-        Document doc = Jsoup.parse(result);
-        Elements element = doc.getElementsByTag("td");
-        for (Element subelement : element) {
-            if (subelement.attr("vmid") != null && !subelement.attr("vmid").equals("")
-                    && Integer.parseInt(subelement.attr("vmid")) > 0) {
-                link = subelement.attr("vmid");
-                break;
-            }
-        }
+        LogUtil.e(TAG,"findLoginLink::result="+result);
+
+//        Document doc = Jsoup.parse(result);
+//        Elements element = doc.getElementsByTag("td");
+//        for (Element subelement : element) {
+//            if (subelement.attr("vmid") != null && !subelement.attr("vmid").equals("")
+//                    && Integer.parseInt(subelement.attr("vmid")) > 0) {
+//                link = subelement.attr("vmid");
+//                break;
+//            }
+//        }
         return link;
     }
 

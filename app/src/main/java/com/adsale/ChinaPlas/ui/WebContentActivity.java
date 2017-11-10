@@ -33,6 +33,7 @@ public class WebContentActivity extends BaseActivity {
     protected void initView() {
         getLayoutInflater().inflate(R.layout.activity_web_content, mBaseFrameLayout, true);
         webView = (WebView) findViewById(R.id.web_content_view);
+        TAG="WebContentActivity";
     }
 
     @Override
@@ -41,7 +42,7 @@ public class WebContentActivity extends BaseActivity {
         webUrl = intent.getStringExtra("Url");
         LogUtil.i(TAG, "webUrl=" + webUrl);
 
-        if (webUrl.toLowerCase().startsWith("http") || webUrl.toLowerCase().startsWith("web")) {
+        if (webUrl.toLowerCase().startsWith("http") || webUrl.toLowerCase().startsWith("web:")) {
             loadWebUrl();
         } else {
             loadLocalHtml();
@@ -53,7 +54,6 @@ public class WebContentActivity extends BaseActivity {
 
     private void loadLocalHtml() {
         webUrl = webUrl.concat("/").concat(getHtmName());
-        LogUtil.i(TAG, "webUrl=" + webUrl);
         if (new File(App.rootDir.concat(webUrl)).exists()) {
             loadDataHtml();
         } else {
@@ -62,10 +62,12 @@ public class WebContentActivity extends BaseActivity {
     }
 
     private void loadDataHtml() {
+        LogUtil.i(TAG, "loadDataHtml=" + "file://".concat(App.rootDir).concat(webUrl));
         webView.loadUrl("file://".concat(App.rootDir).concat(webUrl));
     }
 
     private void loadAssetHtml() {
+        LogUtil.i(TAG, "loadAssetHtml= " + "/android_asset/".concat(webUrl));
         webView.loadUrl("/android_asset/".concat(webUrl));
     }
 
@@ -158,9 +160,6 @@ public class WebContentActivity extends BaseActivity {
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         }
     }
-
-
-
 
 
 }

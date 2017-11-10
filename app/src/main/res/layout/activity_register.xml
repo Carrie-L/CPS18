@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-   >
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -20,53 +19,63 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="3dp"
-            android:progressDrawable="@drawable/progressbar_selector"
-            />
+            android:progressDrawable="@drawable/progressbar_selector" />
 
         <WebView
             android:id="@+id/reg_web"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="@{regModel.isLoginOrReged?View.GONE:View.VISIBLE}"
             android:layout_below="@id/progress_bar"
-            />
+            android:visibility="@{regModel.isLoginOrReged?View.GONE:View.VISIBLE}" />
 
         <ScrollView
             android:id="@+id/scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="@{regModel.isLoginOrReged?View.VISIBLE:View.GONE}"
-            >
+            android:visibility="@{regModel.isLoginOrReged?View.VISIBLE:View.GONE}">
 
             <RelativeLayout
                 android:id="@+id/rl_registed"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/tv_register_info1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
-                    android:lineSpacingExtra="1.3dp" />
+                    android:lineSpacingExtra="1.3dp"
+                    android:text="@{regModel.tvHeader}" />
 
                 <ImageView
                     android:id="@+id/iv_registed"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="300dp"
+                    android:layout_height="620dp"
                     android:layout_below="@id/tv_register_info1"
                     android:layout_centerHorizontal="true"
-                    android:paddingLeft="50dp"
-                    android:paddingRight="50dp" />
+                    android:scaleType="fitXY"
+                    />
+
+                <Button
+                    android:id="@+id/btn_invoice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_below="@id/iv_registed"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/btn_bg"
+                    android:onClick="@{()->regModel.onGetInvoice()}"
+                    android:text="@string/reg_invoice"
+                    android:textColor="#fff" />
 
                 <TextView
                     android:id="@+id/tv_register_info2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/iv_registed"
+                    android:layout_below="@id/btn_invoice"
                     android:layout_margin="16dp"
-                    android:lineSpacingExtra="1.3dp" />
+                    android:lineSpacingExtra="1.3dp"
+                    android:text="@{regModel.tvFooter}" />
 
                 <ImageView
                     android:id="@+id/iv_center_line"
@@ -77,7 +86,7 @@
                 <Button
                     android:id="@+id/btn_add_calendar"
                     android:layout_width="150dp"
-                    android:layout_height="32dp"
+                    android:layout_height="40dp"
                     android:layout_below="@id/tv_register_info2"
                     android:layout_marginBottom="16dp"
                     android:layout_marginLeft="16dp"
@@ -92,7 +101,7 @@
                 <Button
                     android:id="@+id/btn_reRegister"
                     android:layout_width="150dp"
-                    android:layout_height="32dp"
+                    android:layout_height="40dp"
                     android:layout_below="@id/tv_register_info2"
                     android:layout_marginBottom="16dp"
                     android:layout_marginLeft="16dp"
@@ -102,6 +111,8 @@
                     android:background="@drawable/bttn_grey"
                     android:onClick="@{() -> regModel.reset()}"
                     android:text="@string/reg_again" />
+
+
             </RelativeLayout>
 
         </ScrollView>

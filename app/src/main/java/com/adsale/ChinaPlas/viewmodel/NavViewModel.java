@@ -20,8 +20,10 @@ import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.DrawerAdapter;
 import com.adsale.ChinaPlas.dao.MainIcon;
 import com.adsale.ChinaPlas.data.MainIconRepository;
+import com.adsale.ChinaPlas.ui.ConcurrentEventActivity;
 import com.adsale.ChinaPlas.ui.DocumentsDownCenterActivity;
 import com.adsale.ChinaPlas.ui.ExhibitorActivity;
+import com.adsale.ChinaPlas.ui.ExhibitorAllListActivity;
 import com.adsale.ChinaPlas.ui.LoginActivity;
 import com.adsale.ChinaPlas.ui.MainActivity;
 import com.adsale.ChinaPlas.ui.MyAccountActivity;
@@ -31,6 +33,9 @@ import com.adsale.ChinaPlas.ui.NewsActivity;
 import com.adsale.ChinaPlas.ui.RegisterActivity;
 import com.adsale.ChinaPlas.ui.ScannerActivity;
 import com.adsale.ChinaPlas.ui.ScheduleActivity;
+import com.adsale.ChinaPlas.ui.SettingActivity;
+import com.adsale.ChinaPlas.ui.SubscribeActivity;
+import com.adsale.ChinaPlas.ui.TravelInfoActivity;
 import com.adsale.ChinaPlas.ui.UpdateCenterActivity;
 import com.adsale.ChinaPlas.ui.WebContentActivity;
 import com.adsale.ChinaPlas.utils.AppUtil;
@@ -257,7 +262,7 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
                 break;
             case Constant.BDTJ_EXHIBITOR_LIST://展商名单
                 LogUtil.i(TAG, "BDTJ_EXHIBITOR_LIST");
-                intent = new Intent(activity, ExhibitorActivity.class);
+                intent = new Intent(activity, ExhibitorAllListActivity.class);
                 break;
             case Constant.BDTJ_SCHEDULE://我的日程
                 intent = new Intent(activity, ScheduleActivity.class);
@@ -286,30 +291,26 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
                 break;
             case Constant.BDTJ_EVENTS:
             case Constant.BDTJ_EVENTS_TXT:
-//                intent = new Intent(activity, ConcurrentEventActivity.class);
-
-                // TODO: 2017/10/31
-                intent = new Intent(activity, DocumentsDownCenterActivity.class);
-
-
+                intent = new Intent(activity, ConcurrentEventActivity.class);
                 break;
             case Constant.BDTJ_TRAVEL_INFO:
-//                intent = new Intent(context, HotelInfoActivity.class);
+                intent = new Intent(activity, TravelInfoActivity.class);
                 break;
-            case Constant.BDTJ_SETTING:
-//                intent = new Intent(context, SettingActivity.class);
-//                intent.putExtra("title", context.getString(R.string.title_setting));// oclsMainIcon.getTitle(SystemMethod.getCurLanguage(context)
+            case Constant.BDTJ_SETTING:/* 设置 */
+                intent = new Intent(activity, SettingActivity.class);
+                intent.putExtra("title", activity.getString(R.string.title_setting));// oclsMainIcon.getTitle(SystemMethod.getCurLanguage(context)
                 break;
             case Constant.BDTJ_MY_EXHIBITOR:
 //                intent = new Intent(context, MyExhibitorListActivity.class);
                 break;
-            case Constant.BDTJ_SUBSRIBEE_NEWSLETTER:
-//                intent = new Intent(activity,SubscribeActivity.class);
+            case Constant.BDTJ_SUBSRIBEE_NEWSLETTER:/* 订阅电子快讯 */
+                LogUtil.i(TAG,"跳转。。。SubscribeActivity");
+                intent = new Intent(activity,SubscribeActivity.class);
                 break;
-            case Constant.BDTJ_QR_SCANNER:
+            case Constant.BDTJ_QR_SCANNER:/* 二维码扫描器 */
                 intent = new Intent(activity, ScannerActivity.class);
                 break;
-            case Constant.BDTJ_NOTIFICATION_CENTER:
+            case Constant.BDTJ_NOTIFICATION_CENTER: /* 通知中心 */
 //                intent = new Intent(context, CommonListActivity.class);
 //                intent.putExtra("TYPE", Constant.COM_MSG_CENTER);
                 break;

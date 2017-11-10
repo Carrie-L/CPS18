@@ -4,6 +4,7 @@
 
     <data>
         <import type="android.view.View"/>
+        <import type="com.adsale.ChinaPlas.utils.Constant"/>
         <variable
             name="scheduleModel"
             type="com.adsale.ChinaPlas.viewmodel.ScheduleViewModel"/>
@@ -29,7 +30,9 @@
             android:textSize="20sp" />
 
         <ImageView
-            style="@style/help_btn_style" />
+            style="@style/help_btn_style"
+            android:onClick="@{()->view.onHelpPage()}"
+            />
 
         <ImageView
             android:id="@+id/line1"
@@ -63,7 +66,7 @@
                 style="@style/schedule_date_style"
                 android:checked="true"
                 android:text="16"
-                android:onClick="@{() -> scheduleModel.onDateClick(0)}"
+                android:onClick="@{() -> scheduleModel.onDateClick(Constant.SCHEDULE_DAY01)}"
                 />
 
             <ImageView
@@ -75,7 +78,7 @@
                 android:id="@+id/btnDate2"
                 style="@style/schedule_date_style"
                 android:text="17"
-                android:onClick="@{() -> scheduleModel.onDateClick(1)}"
+                android:onClick="@{() -> scheduleModel.onDateClick(Constant.SCHEDULE_DAY02)}"
                 />
 
             <ImageView
@@ -87,7 +90,7 @@
                 android:id="@+id/btnDate3"
                 style="@style/schedule_date_style"
                 android:text="18"
-                android:onClick="@{() -> scheduleModel.onDateClick(2)}"
+                android:onClick="@{() -> scheduleModel.onDateClick(Constant.SCHEDULE_DAY03)}"
                 />
 
             <ImageView
@@ -99,7 +102,7 @@
                 android:id="@+id/btnDate4"
                 style="@style/schedule_date_style"
                 android:text="19"
-                android:onClick="@{() -> scheduleModel.onDateClick(3)}"
+                android:onClick="@{() -> scheduleModel.onDateClick(Constant.SCHEDULE_DAY_END)}"
                 />
 
             <ImageView
@@ -135,7 +138,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_add_white"
-            app:backgroundTint="@color/colorPrimary"
+            app:backgroundTint="@color/home"
             app:fabSize="normal"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"

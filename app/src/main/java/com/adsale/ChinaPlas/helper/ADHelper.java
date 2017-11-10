@@ -1,9 +1,7 @@
 package com.adsale.ChinaPlas.helper;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,15 +16,12 @@ import com.adsale.ChinaPlas.utils.DisplayUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.Parser;
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.adsale.ChinaPlas.App.mSP_Config;
 import static com.adsale.ChinaPlas.utils.AppUtil.getCurrentDate;
-import static io.fabric.sdk.android.services.network.HttpRequest.append;
 
 /**
  * Created by Carrie on 2017/9/13.
