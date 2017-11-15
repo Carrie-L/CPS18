@@ -113,7 +113,8 @@
         <activity android:name="com.unionpay.uppay.PayActivity" />
         //--------------------------------------- Ping++ End
         -------------------------------------------------------
-        <activity android:name=".ui.ExhibitorDetailActivity"></activity>
+        <activity android:name=".ui.ExhibitorDetailActivity" />
+        <activity android:name=".ui.MyExhibitorActivity"></activity>
     </application>
 
 </manifest>

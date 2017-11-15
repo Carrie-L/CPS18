@@ -332,6 +332,10 @@ public class AppUtil {
      */
     public static void callPhoneIntent(Context context, String url) {
         LogUtil.i(TAG, "撥打電話:url=" + url);
+        if(context instanceof App){
+            throw new ClassCastException("Application cannot be cast to Activity");
+        }
+
         Uri uri;
         try {
             if (url.contains("tel")) {

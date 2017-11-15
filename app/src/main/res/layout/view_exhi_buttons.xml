@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.adsale.ChinaPlas.viewmodel.ExhibitorDtlViewModel" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_company_info"
+            style="@style/exhibitor_bottom_bar_style"
+            android:background="@drawable/ic_exhi_info_chosen"
+            android:onClick="@{()->model.onInfo()}" />
+
+        <ImageView
+            android:id="@+id/iv_collect"
+            style="@style/exhibitor_bottom_bar_style"
+            android:background="@drawable/ic_exhi_collect"
+            android:onClick="@{()->model.onCollect()}" />
+
+        <ImageView
+            android:id="@+id/iv_note"
+            style="@style/exhibitor_bottom_bar_style"
+            android:background="@drawable/ic_exhi_note"
+            android:onClick="@{()->model.onNote()}" />
+
+        <ImageView
+            android:id="@+id/iv_schedule"
+            style="@style/exhibitor_bottom_bar_style"
+            android:background="@drawable/ic_exhi_schedule"
+            android:onClick="@{()->model.onSchedule()}" />
+
+        <ImageView
+            android:id="@+id/iv_share"
+            style="@style/exhibitor_bottom_bar_style"
+            android:background="@drawable/ic_exhi_share"
+            android:onClick="@{()->model.onShare()}" />
+
+
+    </LinearLayout>
+
+</layout>

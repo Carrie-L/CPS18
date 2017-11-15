@@ -8,6 +8,7 @@ import com.adsale.ChinaPlas.dao.ApplicationIndustryDao;
 import com.adsale.ChinaPlas.dao.Country;
 import com.adsale.ChinaPlas.dao.CountryDao;
 import com.adsale.ChinaPlas.dao.ExhibitorDao;
+import com.adsale.ChinaPlas.dao.ExhibitorIndustryDtlDao;
 import com.adsale.ChinaPlas.dao.Floor;
 import com.adsale.ChinaPlas.dao.FloorDao;
 import com.adsale.ChinaPlas.dao.HallDao;
@@ -18,6 +19,7 @@ import com.adsale.ChinaPlas.utils.LogUtil;
 
 import java.util.ArrayList;
 
+import de.greenrobot.dao.query.Query;
 import de.greenrobot.dao.query.WhereCondition;
 
 import static android.content.ContentValues.TAG;
@@ -103,6 +105,17 @@ public class FilterRepository {
     private String orderBy() {
         return AppUtil.getName("TCSTROKE ASC", "EN_SORT ASC", "SCPY ASC");
     }
+
+    // Exhibitor Dtl
+    public ArrayList<Industry> getIndustries(String companyID, ArrayList<Industry> list) {
+        Query<Industry> query = mIndustryDao.queryRawCreate("," + ExhibitorIndustryDtlDao.TABLENAME + " E where T."
+                + IndustryDao.Properties.CatalogProductSubID.columnName + "=E."
+                + ExhibitorIndustryDtlDao.Properties.CatalogProductSubID.columnName + " AND E."
+                + ExhibitorIndustryDtlDao.Properties.CompanyID.columnName + "=? ", companyID);
+        list = (ArrayList<Industry>) query.list();
+        return list;
+    }
+
 
 
     /* ------------------- ApplicationIndustry -------------------------- */

@@ -7,15 +7,12 @@ package com.adsale.ChinaPlas.dao;
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
-import com.adsale.ChinaPlas.utils.LogUtil;
 
 import android.databinding.ObservableBoolean;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
-import static android.text.TextUtils.concat;
-import static com.adsale.ChinaPlas.R.id.language;
 // KEEP INCLUDES END
 
 /**
@@ -453,6 +450,17 @@ public class Exhibitor implements Parcelable {
         }
     }
 
+    public String getAddress() {
+        if (App.mLanguage.get() == 0 && !TextUtils.isEmpty(AddressT)) {
+            return AddressT;
+        } else if (App.mLanguage.get() == 1 && !TextUtils.isEmpty(AddressT)) {
+            return AddressE;
+        } else if (App.mLanguage.get() == 2 && !TextUtils.isEmpty(AddressS)) {
+            return AddressS;
+        }
+        return "";
+    }
+
     public void setStroke(int language, String sort) {
         if (language == 0) {
             this.StrokeTrad = sort;
@@ -522,27 +530,19 @@ public class Exhibitor implements Parcelable {
         }
     }
 
-    /**
-     * 获取描述，如果当前语言的描述为空，则显示其它语言的，其它语言也没有，则返回空
-     *
-     * @param language
-     * @return
-     */
-    public String getDescription(int language) {
-        if (TextUtils.isEmpty(getDesc(language).trim())) {
-            if (!TextUtils.isEmpty(DescE)) {
-                return DescE;
-            } else if (!TextUtils.isEmpty(DescS)) {
-                return DescS;
-            } else if (!TextUtils.isEmpty(DescT)) {
-                return DescT;
-            } else {
-                return "";
-            }
-        } else {
-            return getDesc(language);
+    public String getDescription() {
+        if (App.mLanguage.get() == 0 && !TextUtils.isEmpty(DescT)) {
+            return DescT;
+        } else if (App.mLanguage.get() == 1 && !TextUtils.isEmpty(DescE)) {
+            return DescE;
+        } else if (App.mLanguage.get() == 2 && !TextUtils.isEmpty(DescS)) {
+            return DescS;
         }
+        return "";
     }
+
+
+
 
     public int percent;
 
@@ -659,6 +659,7 @@ public class Exhibitor implements Parcelable {
         dest.writeString(this.Note);
         dest.writeString(this.CompanyName);
         dest.writeString(this.Sort);
+        dest.writeString(this.CountryName);
         dest.writeParcelable(this.isPhotoEmpty, 0);
         dest.writeInt(this.percent);
     }
@@ -704,11 +705,12 @@ public class Exhibitor implements Parcelable {
         this.Note = in.readString();
         this.CompanyName = in.readString();
         this.Sort = in.readString();
+        this.CountryName = in.readString();
         this.isPhotoEmpty = in.readParcelable(ObservableBoolean.class.getClassLoader());
         this.percent = in.readInt();
     }
 
-    public static final Parcelable.Creator<Exhibitor> CREATOR = new Parcelable.Creator<Exhibitor>() {
+    public static final Creator<Exhibitor> CREATOR = new Creator<Exhibitor>() {
         public Exhibitor createFromParcel(Parcel source) {
             return new Exhibitor(source);
         }

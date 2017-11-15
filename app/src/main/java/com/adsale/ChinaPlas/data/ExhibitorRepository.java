@@ -380,4 +380,16 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
 
         return list;
     }
+
+    public Exhibitor getExhibitor(String id){
+        return mExhibitorDao.load(id);
+    }
+
+
+
+
+
+
+
+
 }

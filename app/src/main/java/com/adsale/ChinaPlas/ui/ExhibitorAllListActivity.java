@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.adsale.ChinaPlas.adapter.ExhibitorAdapter;
@@ -109,16 +110,22 @@ public class ExhibitorAllListActivity extends BaseActivity implements OnItemClic
 
     @Override
     public <T> void onItemClick(T entity) {
+        Intent intent;
         if (!TextUtils.isEmpty(date)) {
-            Intent intent = new Intent(ExhibitorAllListActivity.this, ScheduleEditActivity.class);
-            intent.putExtra(Constant.INTENT_EXHIBITOR, (Exhibitor) entity);
+            intent = new Intent(ExhibitorAllListActivity.this, ScheduleEditActivity.class);
             intent.putExtra("date", date);
+            intent.putExtra(Constant.INTENT_EXHIBITOR, (Exhibitor) entity);
             startActivity(intent);
             finish();
+            overridePendingTransPad();
         } else {
-            Exhibitor exhibitor = (Exhibitor) entity;
-            Toast.makeText(getApplicationContext(), "pos: " + exhibitor.getCompanyName(), Toast.LENGTH_SHORT).show();
+            intent = new Intent(ExhibitorAllListActivity.this, ExhibitorDetailActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra(Constant.COMPANY_ID, ((Exhibitor) entity).getCompanyID());
+            startActivity(intent);
+            overridePendingTransPad();
         }
+
     }
 
     @Override
@@ -150,15 +157,15 @@ public class ExhibitorAllListActivity extends BaseActivity implements OnItemClic
 
     @Override
     public void onBackPressed() {
-        LogUtil.e(TAG,"onBackPressed 0");
+        LogUtil.e(TAG, "onBackPressed 0");
         super.onBackPressed();
-        LogUtil.e(TAG,"onBackPressed 1");
+        LogUtil.e(TAG, "onBackPressed 1");
         finish();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LogUtil.e(TAG,"onDestroy");
+        LogUtil.e(TAG, "onDestroy");
     }
 }
