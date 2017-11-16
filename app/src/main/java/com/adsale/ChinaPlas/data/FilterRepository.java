@@ -14,10 +14,12 @@ import com.adsale.ChinaPlas.dao.FloorDao;
 import com.adsale.ChinaPlas.dao.HallDao;
 import com.adsale.ChinaPlas.dao.Industry;
 import com.adsale.ChinaPlas.dao.IndustryDao;
+import com.adsale.ChinaPlas.data.model.Text2;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import de.greenrobot.dao.query.Query;
 import de.greenrobot.dao.query.WhereCondition;
@@ -106,16 +108,25 @@ public class FilterRepository {
         return AppUtil.getName("TCSTROKE ASC", "EN_SORT ASC", "SCPY ASC");
     }
 
-    // Exhibitor Dtl
-    public ArrayList<Industry> getIndustries(String companyID, ArrayList<Industry> list) {
-        Query<Industry> query = mIndustryDao.queryRawCreate("," + ExhibitorIndustryDtlDao.TABLENAME + " E where T."
+    /**
+     * Exhibitor Dtl
+     * @return ArrayList<Text2>
+     */
+    public ArrayList<Text2> getIndustries(String companyID) {
+        List<Industry> industries = mIndustryDao.queryRawCreate("," + ExhibitorIndustryDtlDao.TABLENAME + " E where T."
                 + IndustryDao.Properties.CatalogProductSubID.columnName + "=E."
                 + ExhibitorIndustryDtlDao.Properties.CatalogProductSubID.columnName + " AND E."
-                + ExhibitorIndustryDtlDao.Properties.CompanyID.columnName + "=? ", companyID);
-        list = (ArrayList<Industry>) query.list();
-        return list;
-    }
+                + ExhibitorIndustryDtlDao.Properties.CompanyID.columnName + "=? ", companyID).list();
 
+        int size = industries.size();
+        ArrayList<Text2> texts = new ArrayList<>();
+        Industry industry;
+        for (int i = 0; i < size; i++) {
+            industry = industries.get(i);
+            texts.add(new Text2(industry.getCatalogProductSubID(), industry.getIndustryName()));
+        }
+        return texts;
+    }
 
 
     /* ------------------- ApplicationIndustry -------------------------- */
@@ -145,6 +156,26 @@ public class FilterRepository {
         }
         list.addAll(temps);
         return list;
+    }
+
+    /**
+     * Exhibitor Dtl
+     * 与AppCompany表连接查询
+     * @return ArrayList<Text2>
+     */
+    public ArrayList<Text2> queryAppIndustryLists(String companyID) {
+        List<ApplicationIndustry> entities = mAppIndustryDao.queryRawCreate(
+                ",APPLICATION_COMPANY AS A where T.INDUSTRY_ID=A.INDUSTRY_ID and A.COMPANY_ID=?",
+                new Object[]{companyID}).list();
+
+        int size = entities.size();
+        ArrayList<Text2> texts = new ArrayList<>();
+        ApplicationIndustry entity;
+        for (int i = 0; i < size; i++) {
+            entity = entities.get(i);
+            texts.add(new Text2(entity.getIndustryID(), entity.getApplicationName()));
+        }
+        return texts;
     }
 
 

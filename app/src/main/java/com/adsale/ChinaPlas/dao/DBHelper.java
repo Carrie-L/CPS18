@@ -40,6 +40,11 @@ public class DBHelper {
     public HISTORY_EXHIBITOR_TEMPDao mHistoryTempDao;
     public NAME_CARD_TEMPDao mNameCardTempDao;
     public SCHEDULE_INFO_TEMPDao mScheduleTempDao;
+    public NewProductInfoDao mNewProductInfoDao;
+    public NewProductAndCategoryDao mNewProductAndCategoryDao;
+    public NewProductsAndApplicationDao mNewProductsAndApplicationDao;
+    public ProductApplicationDao mProductApplicationDao;
+    public ProductImageDao mProductImageDao;
 
 
     private DBHelper(Builder builder) {
@@ -89,6 +94,11 @@ public class DBHelper {
         mFloorPlanCdntDao = mDaoSession.getFloorPlanCoordinateDao();
         mSeminarInfoDao = mDaoSession.getSeminarInfoDao();
         mSeminarSpeakerDao = mDaoSession.getSeminarSpeakerDao();
+        mNewProductInfoDao=mDaoSession.getNewProductInfoDao();
+        mNewProductAndCategoryDao=mDaoSession.getNewProductAndCategoryDao();
+        mNewProductsAndApplicationDao=mDaoSession.getNewProductsAndApplicationDao();
+        mProductImageDao=mDaoSession.getProductImageDao();
+        mProductApplicationDao=mDaoSession.getProductApplicationDao();
     }
 
     /**

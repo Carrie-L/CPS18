@@ -57,6 +57,7 @@ public class Constant {
     public static final String INTENT_COMMON_TYPE = "TYPE";
     public static final String PUSH_INTENT="PUSH_INTENT";
     public static final String LEFT_INTENT="LEFT_INTENT";
+    public static final String INTENT_NEW_TEC="NewTecInfo";
 
     public static final int REQUEST_CODE_ADD_SCHEDULE = 5;
 
@@ -104,6 +105,7 @@ public class Constant {
     public static final String TXT_MAIN_PIC_INFO = "MainMenuInfo.txt";
     public static final String TXT_PDF_CENTER_INFO = "PDFCenterInfos.txt";
     public static final String TXT_NOTIFICATION = "notification.txt";
+    public static final String TXT_NEW_TEC = "NewTechInfo.txt";
 
     public static final String UC_TXT_EXHIBITOR="ExhibitorInfo.txt";
     public static final String UC_TXT_FLOOR_PLAN="FloorPlan.txt";
@@ -117,6 +119,7 @@ public class Constant {
     public static final String DIR_SEMINAR="TechnicalSeminar";
     public static final String DIR_TRAVEL="TravelInfo";
     public static final String DIR_EVENT="ConcurrentEvent";
+    public static final String DIR_NEW_TEC="NewTec/";
 
     public static final String ASSET_APPLICATION_CSV="Application/Application.csv";
     public static final String ASSET_COMPANY_APPLICATION_CSV="Application/CompanyApplication.csv";
@@ -124,6 +127,13 @@ public class Constant {
     public static final String ASSET_TECHNICAL_SEMINAR_SPEAK="TechnicalSeminar/SeminarSpeaker.csv";
     public static final String ASSET_HOTEL_DETAIL="TravelInfo/HotelDetail.csv";
     public static final String ASSET_HR_HOTEL_DETAIL="TravelInfo/hrHotelDetail.csv";
+
+    /*  new tec 的 csv 名称 */
+    public static final String CSV_NEWTEC_PRODUCT_INFO=DIR_NEW_TEC.concat("NewProductInfo.csv");
+    public static final String CSV_NEWTEC_PRODUCT_CATEGORY=DIR_NEW_TEC.concat("NewProductAndCategory.csv");
+    public static final String CSV_NEWTEC_PRODUCTS_AND_APPLICATION=DIR_NEW_TEC.concat("NewProductsAndApplication.csv");
+    public static final String CSV_NEWTEC_PRODUCT_APPLICATION=DIR_NEW_TEC.concat("ProductApplication.csv");
+    public static final String CSV_NEWTEC_PRODUCT_IMG=DIR_NEW_TEC.concat("ProductImage.csv");
 
 
     /*  WebView */

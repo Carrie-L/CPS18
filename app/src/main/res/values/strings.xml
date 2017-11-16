@@ -147,6 +147,8 @@
 
     <string name="filter_search">搜尋</string>
 
+    <string name="new_tec_booth">展臺號：%s</string>
+
 
     <!--Name Card-->
     <!-- cardlist_item -->

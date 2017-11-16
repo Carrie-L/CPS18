@@ -52,6 +52,11 @@ public class DaoMaster extends AbstractDaoMaster {
         SeminarInfoDao.createTable(db, ifNotExists);
         SeminarSpeakerDao.createTable(db, ifNotExists);
         FloorPlanCoordinateDao.createTable(db, ifNotExists);
+        NewProductAndCategoryDao.createTable(db, ifNotExists);
+        NewProductInfoDao.createTable(db, ifNotExists);
+        NewProductsAndApplicationDao.createTable(db, ifNotExists);
+        ProductApplicationDao.createTable(db, ifNotExists);
+        ProductImageDao.createTable(db, ifNotExists);
     }
     
     /** Drops underlying database table using DAOs. */
@@ -79,6 +84,11 @@ public class DaoMaster extends AbstractDaoMaster {
         SeminarInfoDao.dropTable(db, ifExists);
         SeminarSpeakerDao.dropTable(db, ifExists);
         FloorPlanCoordinateDao.dropTable(db, ifExists);
+        NewProductAndCategoryDao.dropTable(db, ifExists);
+        NewProductInfoDao.dropTable(db, ifExists);
+        NewProductsAndApplicationDao.dropTable(db, ifExists);
+        ProductApplicationDao.dropTable(db, ifExists);
+        ProductImageDao.dropTable(db, ifExists);
     }
     
     public static abstract class OpenHelper extends SQLiteOpenHelper {
@@ -149,6 +159,11 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(SeminarInfoDao.class);
         registerDaoClass(SeminarSpeakerDao.class);
         registerDaoClass(FloorPlanCoordinateDao.class);
+        registerDaoClass(NewProductAndCategoryDao.class);
+        registerDaoClass(NewProductInfoDao.class);
+        registerDaoClass(NewProductsAndApplicationDao.class);
+        registerDaoClass(ProductApplicationDao.class);
+        registerDaoClass(ProductImageDao.class);
     }
     
     public DaoSession newSession() {

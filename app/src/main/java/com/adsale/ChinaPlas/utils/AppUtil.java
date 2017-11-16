@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
+import com.github.promeg.pinyinhelper.Pinyin;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -332,7 +333,7 @@ public class AppUtil {
      */
     public static void callPhoneIntent(Context context, String url) {
         LogUtil.i(TAG, "撥打電話:url=" + url);
-        if(context instanceof App){
+        if (context instanceof App) {
             throw new ClassCastException("Application cannot be cast to Activity");
         }
 
@@ -697,6 +698,18 @@ public class AppUtil {
             return "sc";
         }
     }
+
+    public static String getFirstChar(String str) {
+        char c = Pinyin.toPinyin(str, "").charAt(0);
+        return (c + "").toUpperCase();
+    }
+
+    public static void getDuringTime(String tag, String str, long startTime) {
+        long endTime = System.currentTimeMillis();
+        LogUtil.i(tag, str + " * 所花費的時間為:" + (endTime - startTime) + "ms");
+    }
+
+
 
 
 }

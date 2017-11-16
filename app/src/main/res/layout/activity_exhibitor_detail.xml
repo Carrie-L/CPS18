@@ -87,19 +87,25 @@
                 android:id="@+id/tv_product"
                 style="@style/exhi_label_style"
                 android:onClick="@{()->model.onCatalog()}"
-                android:text="@string/category_exhi" />
+                android:text="@string/category_exhi"
+                android:visibility="@{model.isIndustryEmpty?View.GONE:View.VISIBLE}"
+                />
 
             <RadioButton
                 android:id="@+id/tv_application"
                 style="@style/exhi_label_style"
                 android:onClick="@{()->model.onAppIndustry()}"
-                android:text="@string/application_exhi" />
+                android:text="@string/application_exhi"
+                android:visibility="@{model.isAppIndEmpty?View.GONE:View.VISIBLE}"
+                />
 
             <RadioButton
                 android:id="@+id/tv_new_tec"
                 style="@style/exhi_label_style"
                 android:onClick="@{()->model.onNewTec()}"
-                android:text="@string/new_tec_exhi" />
+                android:text="@string/new_tec_exhi"
+                android:visibility="@{model.isNewTecEmpty?View.GONE:View.VISIBLE}"
+                />
         </RadioGroup>
 
 

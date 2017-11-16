@@ -27,13 +27,16 @@ import com.adsale.ChinaPlas.data.LoadRepository;
 import com.adsale.ChinaPlas.data.LoadTransferTempDB;
 import com.adsale.ChinaPlas.data.LoadingClient;
 import com.adsale.ChinaPlas.data.model.LoadUrl;
+import com.adsale.ChinaPlas.data.model.NewTec;
 import com.adsale.ChinaPlas.data.model.adAdvertisementObj;
 import com.adsale.ChinaPlas.helper.ADHelper;
+import com.adsale.ChinaPlas.helper.NewTecHelper;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.FileUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.NetWorkHelper;
+import com.adsale.ChinaPlas.utils.Parser;
 import com.adsale.ChinaPlas.utils.ReRxUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -48,9 +51,11 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
@@ -131,15 +136,14 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
     }
 
     private void setupDownload() {
-//        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-//        Gson gson = new GsonBuilder().setLenient().create();
-//        Retrofit.Builder builder = new Retrofit.Builder()
-//                .baseUrl(NetWorkHelper.DOWNLOAD_PATH)
-//                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-//                .addConverterFactory(GsonConverterFactory.create(gson));
-//        Retrofit retrofit = builder.client(App.mOkHttpClient).build();
-//        mClient = retrofit.create(LoadingClient.class);
         mClient = ReRxUtils.setupRxtrofit(LoadingClient.class, NetWorkHelper.DOWNLOAD_PATH);
+        downNewTecZip();
+    }
+
+    private void downNewTecZip() {
+        NewTecHelper newTecHelper=new NewTecHelper();
+        newTecHelper.init();
+        newTecHelper.downNewTecZip(mClient);
     }
 
     //第一次运行，则获取所有数据。然后将本地数据表的数据清空，插入新的数据。
@@ -201,7 +205,7 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-                        LogUtil.e(TAG,"getMaster -- onError="+e.getMessage());
+                        LogUtil.e(TAG, "getMaster -- onError=" + e.getMessage());/* todo SSL handshake timed out */
                         Intent intent = new Intent(LOADING_ACTION);
                         mSP_Config.edit().putBoolean("webServicesDownFinish", true).apply();
                         mContext.sendBroadcast(intent);
@@ -369,6 +373,8 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
      */
     private Observable<String> downTxt(UpdateCenter updateCenter) {
         final String fileName = updateCenter.getScanFile().trim();
+        LogUtil.i(TAG,"downTxt: fileName="+fileName);
+
         //比较最后更新时间
         if (isOneOfFiveTxt(fileName)) {
             LogUtil.i(TAG, "~~isOneOfFiveTxt~~");
@@ -379,11 +385,11 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
                 LogUtil.e(TAG, fileName + " has update!! " + " @@@ compare update time: result= " + result + ", localUT=" + localUT + ", txtUT=" + AppUtil.GMT2UTC(txtUT));
                 updateCenter.setUCId();
                 updateCenter.setStatus(0);
-                updateCenter.setLUT( AppUtil.GMT2UTC(txtUT));
+                updateCenter.setLUT(AppUtil.GMT2UTC(txtUT));
                 mLoadRepository.updateLocalLUT(updateCenter);
                 return getTxt(fileName);// has update, so download
             }
-            LogUtil.i(TAG, "~~isOneOfFiveTxt, but no update.~~"+AppUtil.GMT2UTC(txtUT));
+            LogUtil.i(TAG, "~~isOneOfFiveTxt, but no update.~~" + AppUtil.GMT2UTC(txtUT));
             return Observable.just(fileName);// no update
         }
         LogUtil.i(TAG, "!!~~isOneOfFiveTxt~~!!");
@@ -440,7 +446,8 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
     }
 
     private void showM1() {
-        ADHelper mAdHelper =new ADHelper(mContext);;
+        ADHelper mAdHelper = new ADHelper(mContext);
+        ;
         if (adObj == null) {
             LogUtil.e(TAG, "adObj == null ,so parse it");
             adObj = mAdHelper.getAdObj();

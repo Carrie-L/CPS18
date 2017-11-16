@@ -114,7 +114,8 @@
         //--------------------------------------- Ping++ End
         -------------------------------------------------------
         <activity android:name=".ui.ExhibitorDetailActivity" />
-        <activity android:name=".ui.MyExhibitorActivity"></activity>
+        <activity android:name=".ui.MyExhibitorActivity" />
+        <activity android:name=".ui.NewTecDtlActivity"></activity>
     </application>
 
 </manifest>

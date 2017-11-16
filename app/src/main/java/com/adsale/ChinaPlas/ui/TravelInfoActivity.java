@@ -33,7 +33,7 @@ public class TravelInfoActivity extends BaseActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
-        CSVHelper csvHelper = new CSVHelper(getApplicationContext());
+        CSVHelper csvHelper = new CSVHelper();
         final ArrayList<AgentInfo> list = csvHelper.getHotelDetailsCsv();
         HotelAdapter adapter = new HotelAdapter(list, this);
         recyclerView.setAdapter(adapter);

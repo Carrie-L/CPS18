@@ -2,12 +2,25 @@ package com.adsale.ChinaPlas.data;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 
 import com.adsale.ChinaPlas.App;
+import com.adsale.ChinaPlas.dao.ApplicationCompany;
+import com.adsale.ChinaPlas.dao.ApplicationCompanyDao;
+import com.adsale.ChinaPlas.dao.ApplicationIndustry;
+import com.adsale.ChinaPlas.dao.ApplicationIndustryDao;
+import com.adsale.ChinaPlas.dao.BussinessMapping;
+import com.adsale.ChinaPlas.dao.BussinessMappingDao;
 import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.dao.ExhibitorDao;
+import com.adsale.ChinaPlas.dao.ExhibitorIndustryDtl;
+import com.adsale.ChinaPlas.dao.ExhibitorIndustryDtlDao;
+import com.adsale.ChinaPlas.dao.Floor;
+import com.adsale.ChinaPlas.dao.FloorDao;
 import com.adsale.ChinaPlas.dao.HistoryExhibitor;
 import com.adsale.ChinaPlas.dao.HistoryExhibitorDao;
+import com.adsale.ChinaPlas.dao.Industry;
+import com.adsale.ChinaPlas.dao.IndustryDao;
 import com.adsale.ChinaPlas.data.model.ExhibitorFilter;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
@@ -32,6 +45,13 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
     private ExhibitorDao mExhibitorDao = mDBHelper.mExhibitorDao;
     private HistoryExhibitorDao mHistoryExhibitorDao;
 
+    private ApplicationCompanyDao mAppCompanyDao;
+    private ApplicationIndustryDao mAppIndustryDao;
+    private IndustryDao mIndustryDao;
+    private ExhibitorIndustryDtlDao mIndustryDtlDao;
+    private BussinessMappingDao mBsnsMappingDao;
+    private FloorDao mFloorDao;
+
     public static ExhibitorRepository getInstance() {
         if (INSTANCE == null) {
             return new ExhibitorRepository();
@@ -41,6 +61,7 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
 
     /**
      * <font color="#f97798">根据广告id查找该公司是否在Exhibitor表中存在</font>
+     *
      * @param companyID
      * @return boolean
      * @version 创建时间：2016年6月22日 下午3:54:44
@@ -381,14 +402,105 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
         return list;
     }
 
-    public Exhibitor getExhibitor(String id){
+    public Exhibitor getExhibitor(String id) {
         return mExhibitorDao.load(id);
     }
 
 
+    /*  *********************************   从csv中插入数据库           **********************************       */
+    public void initCsvDao() {
+        mAppCompanyDao = mDBHelper.mAppCompanyDao;
+        mAppIndustryDao = mDBHelper.mAppIndustryDao;
+        mIndustryDao = mDBHelper.mIndustryDao;
+        mIndustryDtlDao = mDBHelper.mIndustryDtlDao;
+        mBsnsMappingDao = mDBHelper.mBsnsMappingDao;
+        mFloorDao = mDBHelper.mFloorDao;
+    }
 
+    public void insertExhibitorAll(ArrayList<Exhibitor> list) {
+        mExhibitorDao.insertOrReplaceInTx(list);
+    }
 
+    public void deleteAllAppCompany() {
+        mAppCompanyDao.deleteAll();
+    }
 
+    public void insertApplicationCompaniesAll(ArrayList<ApplicationCompany> entities) {
+        if (entities == null || entities.isEmpty()) {
+            return;
+        }
+        mAppCompanyDao.insertInTx(entities);
+    }
+
+    public void insertAppIndustryAll(final ArrayList<ApplicationIndustry> entities) {
+        final long startTime = System.currentTimeMillis();
+        if (entities == null || entities.isEmpty()) {
+            return;
+        }
+        mAppIndustryDao.insertOrReplaceInTx(entities);
+        LogUtil.i(TAG, "插入ApplicationIndustry成功：" + (System.currentTimeMillis() - startTime) + "ms");
+    }
+
+    public void insertIndustryAll(final ArrayList<Industry> entities) {
+        final long startTime = System.currentTimeMillis();
+        if (entities == null || entities.isEmpty()) {
+            return;
+        }
+        mIndustryDao.insertOrReplaceInTx(entities);
+        LogUtil.i(TAG, "插入Industry成功：" + (System.currentTimeMillis() - startTime) + "ms");
+    }
+
+    public void deleteExhibitorIndustryDtlAll() {
+        mIndustryDtlDao.deleteAll();
+    }
+
+    public void insertExhibitorDtlAll(final ArrayList<ExhibitorIndustryDtl> entities) {
+        final long startTime = System.currentTimeMillis();
+        if (entities == null || entities.isEmpty()) {
+            return;
+        }
+        mIndustryDtlDao.insertOrReplaceInTx(entities);
+        LogUtil.i(TAG, "插入 insertExhibitorDtlAll 成功：" + (System.currentTimeMillis() - startTime) + "ms");
+    }
+
+    public void insertBsnsMappingAll(ArrayList<BussinessMapping> lists) {
+        mBsnsMappingDao.insertInTx(lists);
+    }
+
+    public void deleteBsnsMappingAll() {
+        mBsnsMappingDao.deleteAll();
+    }
+
+    public void clearAppIndustry() {
+        mAppIndustryDao.deleteAll();
+    }
+
+    public void clearIndustry() {
+        mIndustryDao.deleteAll();
+    }
+
+    public void clearExhibitorAll(){
+        mExhibitorDao.deleteAll();
+    }
+
+    public void clearFloor() {
+        mFloorDao.deleteAll();
+    }
+
+    public void insertFloorAll(final ArrayList<Floor> entities) {
+        if (entities == null || entities.isEmpty()) {
+            return;
+        }
+        mFloorDao.insertOrReplaceInTx(entities);
+    }
+
+    public void setCsvDaoNull() {
+        mAppCompanyDao = null;
+        mAppIndustryDao = null;
+        mIndustryDao = null;
+        mIndustryDtlDao = null;
+        mBsnsMappingDao = null;
+    }
 
 
 

@@ -90,6 +90,12 @@ public class DaoSession extends AbstractDaoSession {
     private final DaoConfig seminarSpeakerDaoConfig;
     private final DaoConfig floorPlanCoordinateDaoConfig;
 
+    private final DaoConfig newProductAndCategoryDaoConfig;
+    private final DaoConfig newProductInfoDaoConfig;
+    private final DaoConfig newProductsAndApplicationDaoConfig;
+    private final DaoConfig productApplicationDaoConfig;
+    private final DaoConfig productImageDaoConfig;
+
     private final MainIconDao mainIconDao;
     private final ApplicationIndustryDao applicationIndustryDao;
     private final ApplicationCompanyDao applicationCompanyDao;
@@ -113,6 +119,12 @@ public class DaoSession extends AbstractDaoSession {
     private final SeminarInfoDao seminarInfoDao;
     private final SeminarSpeakerDao seminarSpeakerDao;
     private final FloorPlanCoordinateDao floorPlanCoordinateDao;
+
+    private final NewProductAndCategoryDao newProductAndCategoryDao;
+    private final NewProductInfoDao newProductInfoDao;
+    private final NewProductsAndApplicationDao newProductsAndApplicationDao;
+    private final ProductApplicationDao productApplicationDao;
+    private final ProductImageDao productImageDao;
 
     public DaoSession(SQLiteDatabase db, IdentityScopeType type, Map<Class<? extends AbstractDao<?, ?>>, DaoConfig>
             daoConfigMap) {
@@ -187,6 +199,23 @@ public class DaoSession extends AbstractDaoSession {
         floorPlanCoordinateDaoConfig = daoConfigMap.get(FloorPlanCoordinateDao.class).clone();
         floorPlanCoordinateDaoConfig.initIdentityScope(type);
 
+
+        newProductAndCategoryDaoConfig = daoConfigMap.get(NewProductAndCategoryDao.class).clone();
+        newProductAndCategoryDaoConfig.initIdentityScope(type);
+
+        newProductInfoDaoConfig = daoConfigMap.get(NewProductInfoDao.class).clone();
+        newProductInfoDaoConfig.initIdentityScope(type);
+
+        newProductsAndApplicationDaoConfig = daoConfigMap.get(NewProductsAndApplicationDao.class).clone();
+        newProductsAndApplicationDaoConfig.initIdentityScope(type);
+
+        productApplicationDaoConfig = daoConfigMap.get(ProductApplicationDao.class).clone();
+        productApplicationDaoConfig.initIdentityScope(type);
+
+        productImageDaoConfig = daoConfigMap.get(ProductImageDao.class).clone();
+        productImageDaoConfig.initIdentityScope(type);
+
+
         mainIconDao = new MainIconDao(mainIconDaoConfig, this);
         applicationIndustryDao = new ApplicationIndustryDao(applicationIndustryDaoConfig, this);
         applicationCompanyDao = new ApplicationCompanyDao(applicationCompanyDaoConfig, this);
@@ -211,6 +240,13 @@ public class DaoSession extends AbstractDaoSession {
         seminarSpeakerDao = new SeminarSpeakerDao(seminarSpeakerDaoConfig, this);
         floorPlanCoordinateDao = new FloorPlanCoordinateDao(floorPlanCoordinateDaoConfig, this);
 
+        newProductAndCategoryDao = new NewProductAndCategoryDao(newProductAndCategoryDaoConfig, this);
+        newProductInfoDao = new NewProductInfoDao(newProductInfoDaoConfig, this);
+        newProductsAndApplicationDao = new NewProductsAndApplicationDao(newProductsAndApplicationDaoConfig, this);
+        productApplicationDao = new ProductApplicationDao(productApplicationDaoConfig, this);
+        productImageDao = new ProductImageDao(productImageDaoConfig, this);
+
+
         registerDao(MainIcon.class, mainIconDao);
         registerDao(ApplicationIndustry.class, applicationIndustryDao);
         registerDao(ApplicationCompany.class, applicationCompanyDao);
@@ -234,6 +270,11 @@ public class DaoSession extends AbstractDaoSession {
         registerDao(SeminarInfo.class, seminarInfoDao);
         registerDao(SeminarSpeaker.class, seminarSpeakerDao);
         registerDao(FloorPlanCoordinate.class, floorPlanCoordinateDao);
+        registerDao(NewProductAndCategory.class, newProductAndCategoryDao);
+        registerDao(NewProductInfo.class, newProductInfoDao);
+        registerDao(NewProductsAndApplication.class, newProductsAndApplicationDao);
+        registerDao(ProductApplication.class, productApplicationDao);
+        registerDao(ProductImage.class, productImageDao);
     }
     
     public void clear() {
@@ -260,6 +301,11 @@ public class DaoSession extends AbstractDaoSession {
         seminarInfoDaoConfig.getIdentityScope().clear();
         seminarSpeakerDaoConfig.getIdentityScope().clear();
         floorPlanCoordinateDaoConfig.getIdentityScope().clear();
+        newProductAndCategoryDaoConfig.getIdentityScope().clear();
+        newProductInfoDaoConfig.getIdentityScope().clear();
+        newProductsAndApplicationDaoConfig.getIdentityScope().clear();
+        productApplicationDaoConfig.getIdentityScope().clear();
+        productImageDaoConfig.getIdentityScope().clear();
     }
 
     public MainIconDao getMainIconDao() {
@@ -354,4 +400,23 @@ public class DaoSession extends AbstractDaoSession {
         return floorPlanCoordinateDao;
     }
 
+    public NewProductAndCategoryDao getNewProductAndCategoryDao() {
+        return newProductAndCategoryDao;
+    }
+
+    public NewProductInfoDao getNewProductInfoDao() {
+        return newProductInfoDao;
+    }
+
+    public NewProductsAndApplicationDao getNewProductsAndApplicationDao() {
+        return newProductsAndApplicationDao;
+    }
+
+    public ProductApplicationDao getProductApplicationDao() {
+        return productApplicationDao;
+    }
+
+    public ProductImageDao getProductImageDao() {
+        return productImageDao;
+    }
 }

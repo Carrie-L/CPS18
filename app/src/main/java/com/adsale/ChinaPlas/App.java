@@ -82,7 +82,7 @@ public class App extends Application {
 
         mAssetManager = getAssets();
 
-        mOkHttpClient = new OkHttpClient.Builder().connectTimeout(5, TimeUnit.SECONDS).build();
+        mOkHttpClient = new OkHttpClient.Builder().connectTimeout(15, TimeUnit.SECONDS).build();
 
         getDbHelper();
     }

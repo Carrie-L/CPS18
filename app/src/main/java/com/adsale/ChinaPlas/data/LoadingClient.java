@@ -17,6 +17,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Url;
 
 import static com.baidu.mobstat.u.h;
 
@@ -42,7 +43,8 @@ public interface LoadingClient {
     @GET(NetWorkHelper.DOWN_WEBCONTENT_URL)
     Observable<Response<ResponseBody>> downWebContent(@Path("fileName") String fileName);
 
-
+    @GET
+    Observable<ResponseBody> download(@Url String url);
 
 
 }

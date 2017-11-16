@@ -16,8 +16,8 @@ import okhttp3.RequestBody;
 public class NetWorkHelper {
     private static final String TAG = "NetWorkHelper";
     private static final MediaType MEDIA_TYPE_XML = MediaType.parse("text/xml; charset=UTF-8");
-//    private static final String PROJECT_CODE = "CPS17";// scanFile : normal
-    private static final String PROJECT_CODE = "CPSTEST";// scanFile:  test
+    private static final String PROJECT_CODE = "CPS17";// scanFile : normal
+//    private static final String PROJECT_CODE = "CPSTEST";// scanFile:  test
 
     // WEBSERVICE 17年
     public static final String DOWNLOAD_PATH = "https://eform.adsale.com.hk/AppCPS18Services/";
@@ -54,7 +54,7 @@ public class NetWorkHelper {
     public static final String Subscribe_LAST_URL = "EnewsSub.aspx?showid=430&device=app&WAct=9105";//&lang={langType}
 
     /* loading页的下载地址 */
-    public static final String DOWN_TXT_URL = "https://eform.adsale.com.hk/AppCPS17/AppFiles/{fileName}";
+    public static final String DOWN_TXT_URL = "https://forms.adsale.com.hk/VirtualDirectory/AppCPS18CMS/AppFiles/{fileName}";
     public static final String DOWN_WEBCONTENT_URL = "WebContent/{fileName}";
 
     /*  内容更新中心baseUrl */
