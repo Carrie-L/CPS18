@@ -44,7 +44,7 @@ public class ScheduleActivity extends BaseActivity {
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
 
         mScheduleModel.onStart();
-        ScheduleAdapter adapter = new ScheduleAdapter(mScheduleModel.scheduleInfos, this);
+        ScheduleAdapter adapter = new ScheduleAdapter(mScheduleModel.scheduleInfos, getApplicationContext());
         recyclerView.setAdapter(adapter);
     }
 

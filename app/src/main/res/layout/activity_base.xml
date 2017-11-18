@@ -7,9 +7,6 @@
         <variable
             name="viewmodel"
             type="com.adsale.ChinaPlas.viewmodel.NavViewModel"/>
-        <variable
-            name="activity"
-            type="com.adsale.ChinaPlas.base.BaseActivity" />
     </data>
 
     <android.support.v4.widget.DrawerLayout
@@ -28,10 +25,6 @@
                 android:id="@+id/toolbarFrame"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                />
-
-            <include layout="@layout/view_title_bar"
-                app:activity="@{activity}"
                 />
 
             <FrameLayout

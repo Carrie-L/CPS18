@@ -21,31 +21,31 @@
         <ImageView
             android:id="@+id/iv_company_info"
             style="@style/exhibitor_bottom_bar_style"
-            android:background="@drawable/ic_exhi_info_chosen"
+            android:background="@{model.isInfoView?@drawable/ic_exhi_info_chosen:@drawable/ic_exhi_info}"
             android:onClick="@{()->model.onInfo()}" />
 
         <ImageView
             android:id="@+id/iv_collect"
             style="@style/exhibitor_bottom_bar_style"
-            android:background="@drawable/ic_exhi_collect"
+            android:background="@{model.isCollected?@drawable/ic_exhi_collect_chosen:@drawable/ic_exhi_collect}"
             android:onClick="@{()->model.onCollect()}" />
 
         <ImageView
             android:id="@+id/iv_note"
             style="@style/exhibitor_bottom_bar_style"
-            android:background="@drawable/ic_exhi_note"
+            android:background="@{model.isNoteView?@drawable/ic_exhi_note_chosen:@drawable/ic_exhi_note}"
             android:onClick="@{()->model.onNote()}" />
 
         <ImageView
             android:id="@+id/iv_schedule"
             style="@style/exhibitor_bottom_bar_style"
-            android:background="@drawable/ic_exhi_schedule"
+            android:background="@{model.isScheduleView?@drawable/ic_exhi_schedule_chosen:@drawable/ic_exhi_schedule}"
             android:onClick="@{()->model.onSchedule()}" />
 
         <ImageView
             android:id="@+id/iv_share"
             style="@style/exhibitor_bottom_bar_style"
-            android:background="@drawable/ic_exhi_share"
+            android:background="@{model.isShareView?@drawable/ic_exhi_share_chosen:@drawable/ic_exhi_share}"
             android:onClick="@{()->model.onShare()}" />
 
 

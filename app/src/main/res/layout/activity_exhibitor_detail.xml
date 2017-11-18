@@ -15,142 +15,154 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerHorizontal="true">
-
-
-        <RelativeLayout
-            android:id="@+id/rl_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true">
-
-            <ImageView
-                android:id="@+id/m5Logo"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="16dp"
-                android:background="@color/blue"
-                android:visibility="visible" />
-
-            <ImageView
-                android:id="@id/iv_help"
-                style="@style/help_btn_style" />
-
-            <TextView
-                android:id="@+id/txtCompanyName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="12dp"
-                android:layout_toEndOf="@id/m5Logo"
-                android:layout_toLeftOf="@id/iv_help"
-                android:layout_toRightOf="@id/m5Logo"
-                android:layout_toStartOf="@id/iv_help"
-                android:text="阿博格机械伤害有限公司"
-                android:textSize="17sp" />
-
-        </RelativeLayout>
-
-        <RadioGroup
-            android:id="@+id/rg_btn"
-            android:layout_width="match_parent"
-            android:layout_height="32dp"
-            android:layout_below="@id/rl_header"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal">
-
-
-            <RadioButton
-                android:id="@+id/tv_about"
-                style="@style/exhi_label_style"
-                android:checked="@{model.isAder}"
-                android:onClick="@{()->model.onAbout()}"
-                android:text="@string/about_exhi"
-                android:visibility="@{model.isAder?View.VISIBLE:View.GONE}" />
-
-            <RadioButton
-                android:id="@+id/tv_information"
-                style="@style/exhi_label_style"
-                android:layout_height="wrap_content"
-                android:checked="@{!model.isAder}"
-                android:onClick="@{()->model.onInfo()}"
-                android:text="@string/info_exhi" />
-
-            <RadioButton
-                android:id="@+id/tv_product"
-                style="@style/exhi_label_style"
-                android:onClick="@{()->model.onCatalog()}"
-                android:text="@string/category_exhi"
-                android:visibility="@{model.isIndustryEmpty?View.GONE:View.VISIBLE}"
-                />
-
-            <RadioButton
-                android:id="@+id/tv_application"
-                style="@style/exhi_label_style"
-                android:onClick="@{()->model.onAppIndustry()}"
-                android:text="@string/application_exhi"
-                android:visibility="@{model.isAppIndEmpty?View.GONE:View.VISIBLE}"
-                />
-
-            <RadioButton
-                android:id="@+id/tv_new_tec"
-                style="@style/exhi_label_style"
-                android:onClick="@{()->model.onNewTec()}"
-                android:text="@string/new_tec_exhi"
-                android:visibility="@{model.isNewTecEmpty?View.GONE:View.VISIBLE}"
-                />
-        </RadioGroup>
-
+        android:layout_height="match_parent">
 
         <include
             android:id="@+id/ll_button"
-            app:model="@{model}"
-            layout="@layout/view_exhi_buttons" />
+            layout="@layout/view_exhi_buttons"
+            app:model="@{model}" />
 
-        <!--左边界线-->
-        <ImageView
-            android:id="@+id/line1"
-            android:layout_width="0.5dp"
-            android:layout_height="match_parent"
-            android:layout_above="@id/ll_button"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_below="@id/rg_btn"
-            android:layout_marginLeft="16.1dp"
-            android:layout_marginStart="16.1dp"
-            android:background="@color/grey_font" />
-
-        <!--右边界线-->
-        <ImageView
-            android:id="@+id/line2"
-            android:layout_width="0.5dp"
-            android:layout_height="match_parent"
-            android:layout_above="@id/ll_button"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/rg_btn"
-            android:layout_marginEnd="16.1dp"
-            android:layout_marginRight="16.1dp"
-            android:background="@color/grey_font" />
-
-
-        <FrameLayout
-            android:id="@+id/fl_dtl_content"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/ll_button"
-            android:layout_below="@id/rg_btn"
-            android:layout_toLeftOf="@id/line2"
-            android:layout_toRightOf="@id/line1"
-            android:padding="16dp" />
+            android:layout_centerHorizontal="true"
+            android:visibility="@{model.isInfoView.get()?View.VISIBLE:View.GONE}"
+            >
 
+            <RelativeLayout
+                android:id="@+id/rl_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true">
+
+                <ImageView
+                    android:id="@+id/m5Logo"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:background="@color/blue"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@id/iv_help"
+                    style="@style/help_btn_style"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/txtCompanyName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_toEndOf="@id/m5Logo"
+                    android:layout_toLeftOf="@id/iv_help"
+                    android:layout_toRightOf="@id/m5Logo"
+                    android:layout_toStartOf="@id/iv_help"
+                    android:text="@{model.companyName}"
+                    android:textSize="17sp" />
+
+            </RelativeLayout>
+
+            <RadioGroup
+                android:id="@+id/rg_btn"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_below="@id/rl_header"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+
+                <RadioButton
+                    android:id="@+id/tv_about"
+                    style="@style/exhi_label_style"
+                    android:checked="@{model.isAder}"
+                    android:onClick="@{()->model.onAbout()}"
+                    android:text="@string/about_exhi"
+                    android:visibility="@{model.isAder?View.VISIBLE:View.GONE}" />
+
+                <RadioButton
+                    android:id="@+id/tv_information"
+                    style="@style/exhi_label_style"
+                    android:layout_height="wrap_content"
+                    android:checked="@{!model.isAder}"
+                    android:onClick="@{()->model.onInfo()}"
+                    android:text="@string/info_exhi" />
+
+                <RadioButton
+                    android:id="@+id/tv_product"
+                    style="@style/exhi_label_style"
+                    android:onClick="@{()->model.onCatalog()}"
+                    android:text="@string/category_exhi"
+                    android:visibility="@{model.isIndustryEmpty?View.GONE:View.VISIBLE}" />
+
+                <RadioButton
+                    android:id="@+id/tv_application"
+                    style="@style/exhi_label_style"
+                    android:onClick="@{()->model.onAppIndustry()}"
+                    android:text="@string/application_exhi"
+                    android:visibility="@{model.isAppIndEmpty?View.GONE:View.VISIBLE}" />
+
+                <RadioButton
+                    android:id="@+id/tv_new_tec"
+                    style="@style/exhi_label_style"
+                    android:onClick="@{()->model.onNewTec()}"
+                    android:text="@string/new_tec_exhi"
+                    android:visibility="@{model.isNewTecEmpty?View.GONE:View.VISIBLE}" />
+            </RadioGroup>
+
+
+            <!--左边界线-->
+            <ImageView
+                android:id="@+id/line1"
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@id/rg_btn"
+                android:layout_marginLeft="16.1dp"
+                android:layout_marginStart="16.1dp"
+                android:background="@color/grey_font" />
+
+            <!--右边界线-->
+            <ImageView
+                android:id="@+id/line2"
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/rg_btn"
+                android:layout_marginEnd="16.1dp"
+                android:layout_marginRight="16.1dp"
+                android:background="@color/grey_font" />
+
+
+            <FrameLayout
+                android:id="@+id/fl_dtl_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:layout_below="@id/rg_btn"
+                android:layout_toLeftOf="@id/line2"
+                android:layout_toRightOf="@id/line1"
+                android:padding="16dp" />
+        </RelativeLayout>
+
+        <ViewStub
+            android:id="@+id/viewstub_dtl_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/ll_button"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout="@layout/frame_content"
+            />
 
     </RelativeLayout>
 

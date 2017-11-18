@@ -34,7 +34,6 @@ public class ADHelper {
     private final String AD_TXT = "advertisement_test.txt";
 
 
-
     public ADHelper(Context context) {
         mContext = context;
     }
@@ -72,8 +71,6 @@ public class ADHelper {
         mSP_Config.edit().putBoolean("M1ShowFinish", true).apply();
         LogUtil.e(TAG, "~~~ad closed~~");
         return false;
-
-
     }
 
     public boolean isM1Open() {
@@ -184,22 +181,20 @@ public class ADHelper {
 
 
     public void showM2(ImageView adM2) {
-        if (isAdOpen()) {
-            LogUtil.i(TAG, "adObj.M2.version=" + adObj.M2.version);
-            if (Integer.valueOf(adObj.M2.version) > 0) {
-                int language = App.mLanguage.get();
-                StringBuilder m2Url = new StringBuilder();
-                m2Url.append(adObj.Common.baseUrl).append(adObj.M2.filepath).append(AppUtil.isTablet() ? adObj.Common.tablet : adObj.Common.phone).append(AppUtil.getLanguageType(language)).append("_")
-                        .append(adObj.M2.version).append(adObj.M2.format);
-                LogUtil.i(TAG, "m2Url.toString()=" + m2Url.toString());
-                adM2.setVisibility(View.VISIBLE);
-                Glide.with(mContext).load(Uri.parse(m2Url.toString())).into(adM2);
+        LogUtil.i(TAG, "adObj.M2.version=" + adObj.M2.version);
+        if (Integer.valueOf(adObj.M2.version) > 0) {
+            int language = App.mLanguage.get();
+            StringBuilder m2Url = new StringBuilder();
+            m2Url.append(adObj.Common.baseUrl).append(adObj.M2.filepath).append(AppUtil.isTablet() ? adObj.Common.tablet : adObj.Common.phone).append(AppUtil.getLanguageType(language)).append("_")
+                    .append(adObj.M2.version).append(adObj.M2.format);
+            LogUtil.i(TAG, "m2Url.toString()=" + m2Url.toString());
+            adM2.setVisibility(View.VISIBLE);
+            Glide.with(mContext).load(Uri.parse(m2Url.toString())).into(adM2);
 
 //                SystemMethod.trackViewLog(context, 202, "Ad", "M2", adObj.M2.getCompanyID(language));
 //                SystemMethod.setStatEvent(context, "ViewM2", "Ad_M2_" + adObj.M2.getCompanyID(language), language);
 
 
-            }
         }
     }
 
@@ -216,10 +211,10 @@ public class ADHelper {
         return sbUrl.toString();
     }
 
-    public String getM6BannerUrl(int index){
+    public String getM6BannerUrl(int index) {
         StringBuilder sbUrl = new StringBuilder();
         sbUrl.append(adObj.Common.baseUrl).append(adObj.M6B.filepath).append(adObj.M6B.companyID[index]).append("/")
-        .append(AppUtil.isTablet() ? adObj.Common.tablet : adObj.Common.phone).append(adObj.M6B.header).append("_").append(adObj.M6B.version[index])
+                .append(AppUtil.isTablet() ? adObj.Common.tablet : adObj.Common.phone).append(adObj.M6B.header).append("_").append(adObj.M6B.version[index])
                 .append(adObj.M6B.format);
 
         LogUtil.e(TAG, "getM6BannerUrl=" + sbUrl.toString());

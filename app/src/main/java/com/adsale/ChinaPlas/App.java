@@ -10,8 +10,13 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.databinding.ObservableInt;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Environment;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.adsale.ChinaPlas.dao.DBHelper;
 import com.adsale.ChinaPlas.dao.DaoMaster;
@@ -85,6 +90,8 @@ public class App extends Application {
         mOkHttpClient = new OkHttpClient.Builder().connectTimeout(15, TimeUnit.SECONDS).build();
 
         getDbHelper();
+
+
     }
 
     private void initSP() {

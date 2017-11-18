@@ -3,6 +3,7 @@ package com.adsale.ChinaPlas.ui;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
@@ -23,6 +25,7 @@ import com.adsale.ChinaPlas.data.model.MainPic;
 import com.adsale.ChinaPlas.databinding.FragmentMainBinding;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
+import com.adsale.ChinaPlas.utils.DisplayUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.viewmodel.MainViewModel;
 import com.adsale.ChinaPlas.viewmodel.NavViewModel;
@@ -47,6 +50,7 @@ public class MainFragment extends Fragment implements OnIntentListener {
     private NavViewModel navViewModel;
     private MainViewModel mainViewModel;
     private MainPic mainPic;
+    private int menuHeight;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -78,9 +82,8 @@ public class MainFragment extends Fragment implements OnIntentListener {
         mainPic = mainViewModel.parseMainInfo();
         mainViewModel.setTopPics();
         mainViewModel.setM2AD();
-        setBottomPics();
         setGridMenus();
-
+        setBottomPics();
 
 
     }
@@ -96,19 +99,26 @@ public class MainFragment extends Fragment implements OnIntentListener {
     private void setBottomPics() {
         // main_header 的高度
         int actionBarHeight = App.mSP_Config.getInt(Constant.TOOLBAR_HEIGHT, 0);
-        int displayHeight = App.mSP_Config.getInt(Constant.DISPLAY_HEIGHT, 0);
-        int menuHeight = (mainViewModel.screenWidth * 90 * 2) / (100 * 3);// menu图片尺寸：100*90. 这里计算的是两行menu的高度
-        int aboveFixedHeight = actionBarHeight + mainViewModel.topHeight + menuHeight + getStatusBarHeight();// 不知道为什么加个getStatusBarHeight正合适
+        int displayHeight = App.mSP_Config.getInt(Constant.DISPLAY_HEIGHT, 0);// 用 displayHeight 刚好
+        menuHeight = (mainViewModel.screenWidth * 90 * 2) / (100 * 3);
+        int aboveFixedHeight = actionBarHeight + mainViewModel.topHeight + menuHeight;
         int bottomHeight = displayHeight - aboveFixedHeight - mainViewModel.adHeight;/* 如果有广告，再减去广告高度 */
+        LogUtil.i(TAG, "displayHeight=" + displayHeight);
+        LogUtil.i(TAG, "statusBarHeight=" + getStatusBarHeight());
         LogUtil.i(TAG, "actionBarHeight=" + actionBarHeight);
-        LogUtil.i(TAG, "menuHeight=" + (mainViewModel.screenWidth / 3));
         LogUtil.i(TAG, "topHeight=" + mainViewModel.topHeight);
+        LogUtil.i(TAG, "menuHeight=" + menuHeight);
+        LogUtil.i(TAG, "adHeight=" + mainViewModel.adHeight);
+        LogUtil.i(TAG, "aboveFixedHeight=" + aboveFixedHeight);
         LogUtil.i(TAG, "screenWidth=" + mainViewModel.screenWidth);
         LogUtil.i(TAG, "bottomHeight=" + bottomHeight);
-        LogUtil.i(TAG, "aboveFixedHeight=" + aboveFixedHeight);
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mainViewModel.screenWidth, bottomHeight);
-        binding.llBottom.setLayoutParams(params);
+        int bottomPx2Dp=DisplayUtil.px2dip(getActivity(),bottomHeight);
+        LogUtil.i(TAG, "--- bottomPx2Dp=" + bottomPx2Dp);
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mainViewModel.screenWidth/2, bottomHeight);
+        binding.ivLeftPic.setLayoutParams(params);
+        binding.ivRightPic.setLayoutParams(params);
         Glide.with(getActivity()).load(Uri.parse(language == 0 ? mainPic.LeftBottomBanner.TC.BannerImage : language == 1 ? mainPic.LeftBottomBanner.EN.BannerImage : mainPic.LeftBottomBanner.SC.BannerImage)).into(leftPic);
         Glide.with(getActivity()).load(Uri.parse(language == 0 ? mainPic.RightBottomBanner.TC.BannerImage : language == 1 ? mainPic.RightBottomBanner.EN.BannerImage : mainPic.RightBottomBanner.SC.BannerImage)).into(rightPic);
     }

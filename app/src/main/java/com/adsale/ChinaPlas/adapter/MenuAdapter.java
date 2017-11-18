@@ -1,16 +1,11 @@
 package com.adsale.ChinaPlas.adapter;
 
 import android.content.Context;
-import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 import android.databinding.ViewDataBinding;
-import android.databinding.ViewStubProxy;
 import android.net.Uri;
-import android.view.View;
-import android.view.ViewStub;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.FrameLayout;
 
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.BR;
@@ -20,7 +15,6 @@ import com.adsale.ChinaPlas.base.CpsBaseViewHolder;
 import com.adsale.ChinaPlas.dao.MainIcon;
 import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.databinding.ItemLargeMenuBinding;
-import com.adsale.ChinaPlas.ui.view.InnerMenuView;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.NetWorkHelper;
@@ -29,7 +23,6 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by Carrie on 2017/10/23.
@@ -66,7 +59,7 @@ public class MenuAdapter extends CpsBaseAdapter<MainIcon> {
     private ItemLargeMenuBinding menuBinding;
     private Context mContext;
     private final String mBaseUrl;
-    private final RelativeLayout.LayoutParams largeParams;
+    private final FrameLayout.LayoutParams largeParams;
     private OnIntentListener mListener;
     private MainIcon littleIcon;
     private NavViewModel navViewModel;
@@ -82,12 +75,8 @@ public class MenuAdapter extends CpsBaseAdapter<MainIcon> {
         int mScreenWidth = App.mSP_Config.getInt(Constant.SCREEN_WIDTH, 0);
         int height = (mScreenWidth * 90) / 100;
         LogUtil.i(TAG, "menu: width=" + mScreenWidth / 3 + ",height=" + height / 3);
-        largeParams = new RelativeLayout.LayoutParams(mScreenWidth / 3, height / 3);
+        largeParams = new FrameLayout.LayoutParams(mScreenWidth / 3, height / 3);
         generate();
-
-
-        LogUtil.i(TAG, " navViewModel.mCurrLang=" + navViewModel.mCurrLang.get());
-
     }
 
     /**
@@ -130,7 +119,6 @@ public class MenuAdapter extends CpsBaseAdapter<MainIcon> {
 
     private void resizeLargeMenu() {
         menuBinding.rlLargeMenu.setLayoutParams(largeParams);
-        menuBinding.icon.setLayoutParams(largeParams);
     }
 
     /**

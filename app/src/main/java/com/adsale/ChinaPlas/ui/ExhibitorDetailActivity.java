@@ -2,6 +2,7 @@ package com.adsale.ChinaPlas.ui;
 
 import android.content.Intent;
 
+import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.dao.NewProductInfo;
 import com.adsale.ChinaPlas.data.OnIntentListener;
@@ -19,11 +20,12 @@ public class ExhibitorDetailActivity extends BaseActivity implements OnIntentLis
         ActivityExhibitorDetailBinding binding = ActivityExhibitorDetailBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         mViewModel = new ExhibitorDtlViewModel(getApplicationContext(), binding.flDtlContent);
         binding.setModel(mViewModel);
+        mViewModel.start(getIntent().getStringExtra(Constant.COMPANY_ID), this,binding.viewstubDtlView.getViewStub());
     }
 
     @Override
     protected void initData() {
-        mViewModel.start(getIntent().getStringExtra(Constant.COMPANY_ID), this);
+
     }
 
     @Override
@@ -38,5 +40,17 @@ public class ExhibitorDetailActivity extends BaseActivity implements OnIntentLis
 //
 //        }
 
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        boolean updated = App.mSP_Config.getBoolean("ScheduleListUpdate", false);
+        LogUtil.i(TAG, "onResume::updated=" + updated);
+        if (updated) {
+            mViewModel.updateSchedule();
+            App.mSP_Config.edit().putBoolean("ScheduleListUpdate", false).apply();// must.
+        }
     }
 }

@@ -1,10 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/toolbar"
-    app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/inner_header"
-    android:minHeight="56dp"
-    android:theme="@style/MyToolBar" />
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="activity"
+            type="com.adsale.ChinaPlas.base.BaseActivity" />
+    </data>
+
+    <android.support.v7.widget.Toolbar xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/inner_header"
+        android:minHeight="56dp"
+        android:theme="@style/MyToolBar"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp">
+
+
+        <include
+            layout="@layout/view_title_bar"
+            app:activity="@{activity}" />
+
+    </android.support.v7.widget.Toolbar>
+
+    <!--app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"-->
+
+</layout>

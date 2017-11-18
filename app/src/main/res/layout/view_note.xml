@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.adsale.ChinaPlas.viewmodel.ExhibitorDtlViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--展商评论-->
+        <TextView
+            android:id="@+id/tv_comment"
+            style="@style/exhi_dtl_note_tv_style"
+            android:text="@string/exhi_dtl_note_comment" />
+
+        <EditText
+            android:id="@+id/et_comment"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_below="@id/tv_comment"
+            android:background="@drawable/edittext_bg"
+            android:gravity="start|top"
+            android:lineSpacingExtra="1.5dp"
+            android:padding="8dp" />
+
+        <!--展商评分-->
+        <TextView
+            android:id="@+id/tv_rate"
+            style="@style/exhi_dtl_note_tv_style"
+            android:layout_below="@id/et_comment"
+            android:layout_marginTop="12dp"
+            android:text="@string/exhi_dtl_note_rate" />
+
+        <LinearLayout
+            android:id="@+id/ll_rate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_rate"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@{model.mRate>=1?@drawable/btn_star:@drawable/btn_unstar}"
+                android:onClick="@{()->model.onRate(1)}" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@{model.mRate>=2?@drawable/btn_star:@drawable/btn_unstar}"
+                android:onClick="@{()->model.onRate(2)}" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@{model.mRate>=3?@drawable/btn_star:@drawable/btn_unstar}"
+                android:onClick="@{()->model.onRate(3)}" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@{model.mRate>=4?@drawable/btn_star:@drawable/btn_unstar}"
+                android:onClick="@{()->model.onRate(4)}" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@{model.mRate==5?@drawable/btn_star:@drawable/btn_unstar}"
+                android:onClick="@{()->model.onRate(5)}" />
+
+        </LinearLayout>
+
+        <!--照片-->
+        <TextView
+            android:id="@+id/tv_photo"
+            style="@style/exhi_dtl_note_tv_style"
+            android:layout_below="@id/ll_rate"
+            android:layout_marginTop="12dp"
+            android:text="@string/exhi_dtl_note_photo" />
+
+        <TextView
+            android:id="@+id/btn_photo"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/tv_photo"
+            android:background="@color/blue"
+            android:gravity="center"
+            android:text="拍照"
+            android:onClick="@{()->model.onTakePhoto()}"
+            android:textColor="#fff" />
+
+        <!--<android.support.v7.widget.RecyclerView-->
+            <!--android:id="@+id/photo_recycler_view"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="120dp"-->
+            <!--android:layout_toLeftOf="@id/tv_photo" />-->
+
+
+    </RelativeLayout>
+
+</layout>

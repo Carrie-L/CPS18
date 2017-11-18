@@ -286,5 +286,19 @@
     <string name="travel_detail_contact">聯繫人</string>
     <string name="travel_detail_remark">備註</string>
 
+    <!--展商详情-->
+    <string name="title_exhibitor_deti">公司資料</string>
+    <string name="title_add_note">添加筆記</string>
+    <string name="title_add_schedule">添加議程</string>
+    <string name="exhi_dtl_note_comment">展商評論</string>
+    <string name="exhi_dtl_note_rate">展商評分</string>
+    <string name="exhi_dtl_note_photo">照片</string>
+
+    <string name="no_news">沒有最新消息</string>
+    <string name="no_exhibitor">沒有展商資料</string>
+    <string name="no_scheduleInfo">暫無議程</string>
+    <string name="no_my_exhibitor">沒有收藏的參展商。 \n請到\"參展商名單\"添加參展商。</string>
+
+    <string name="home">主目錄</string>
 
 </resources>

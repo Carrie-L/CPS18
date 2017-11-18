@@ -4,6 +4,7 @@
     <data>
 
         <import type="android.view.View" />
+
         <variable
             name="activity"
             type="com.adsale.ChinaPlas.base.BaseActivity" />
@@ -12,20 +13,32 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:background="@drawable/inner_bar"
+        android:layout_height="match_parent"
         android:visibility="@{activity.isShowTitleBar?View.VISIBLE:View.GONE}">
 
         <ImageView
-            android:id="@+id/txtBarBack"
+            android:id="@+id/ivLeft"
             android:layout_width="44dp"
             android:layout_height="44dp"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:gravity="center"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
+            android:onClick="@{() -> activity.onMenu()}"
+            android:scaleType="center"
+            android:src="@drawable/ic_menu"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_alignTop="@id/ivLeft"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@id/ivLeft"
             android:onClick="@{() -> activity.back()}"
-            android:scaleType="centerInside"
+            android:scaleType="fitStart"
             android:src="@drawable/bttn_back"
             android:textSize="12sp" />
 
@@ -35,25 +48,26 @@
             android:layout_height="44dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/ivLeft"
             android:gravity="center"
-            android:scaleType="centerInside"
-            android:src="@drawable/bttn_home"
             android:onClick="@{() -> activity.home()}"
-            />
+            android:scaleType="centerInside"
+            android:src="@drawable/bttn_home" />
 
         <TextView
             android:id="@+id/txtBarTitle"
             android:layout_width="match_parent"
             android:layout_height="44dp"
-            android:layout_centerInParent="true"
+            android:layout_alignTop="@id/ivLeft"
+            android:layout_centerHorizontal="true"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_toLeftOf="@id/txtBarHome"
-            android:layout_toRightOf="@id/txtBarBack"
+            android:layout_toRightOf="@id/ivBack"
             android:ellipsize="end"
             android:gravity="center"
             android:singleLine="true"
-            android:text="@={activity.barTitle}"
+            android:text="@{activity.barTitle}"
             android:textSize="16sp" />
     </RelativeLayout>
 

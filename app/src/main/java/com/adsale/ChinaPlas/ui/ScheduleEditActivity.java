@@ -34,6 +34,7 @@ public class ScheduleEditActivity extends BaseActivity implements ScheduleEditVi
     protected void initData() {
         Exhibitor exhibitor = getIntent().getParcelableExtra(Constant.INTENT_EXHIBITOR);
         if (exhibitor != null) {
+            barTitle.set(getString(R.string.title_add_schedule));
             mEditModel.isEdit.set(false);
             mEditModel.setCompanyId(exhibitor.getCompanyID());
             mEditModel.etStartDate.set(getIntent().getStringExtra("date"));

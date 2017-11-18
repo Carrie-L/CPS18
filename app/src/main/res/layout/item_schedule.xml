@@ -8,14 +8,14 @@
             type="com.adsale.ChinaPlas.dao.ScheduleInfo" />
 
         <variable
-            name="activity"
-            type="com.adsale.ChinaPlas.ui.ScheduleActivity" />
+            name="adapter"
+            type="com.adsale.ChinaPlas.adapter.ScheduleAdapter" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:onClick="@{() -> activity.onItemClick(obj)}">
+        android:onClick="@{() -> adapter.onItemClick(obj)}">
 
         <ImageView
             android:id="@+id/imageView1"

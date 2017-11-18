@@ -64,15 +64,15 @@ public class MainViewModel {
 
     public MainViewModel(Context mContext, OnIntentListener listener) {
         this.mContext = mContext;
-        this.mIntentListener=listener;
+        this.mIntentListener = listener;
         mRepository = MainIconRepository.getInstance();
-        language= App.mLanguage.get();
+        language = App.mLanguage.get();
     }
 
-    public void init(ViewPager viewPager,LinearLayout vpindicator,ImageView adPic) {
-        this.viewPager=viewPager;
-        this.vpindicator=vpindicator;
-        this.adPic=adPic;
+    public void init(ViewPager viewPager, LinearLayout vpindicator, ImageView adPic) {
+        this.viewPager = viewPager;
+        this.vpindicator = vpindicator;
+        this.adPic = adPic;
     }
 
     public MainPic parseMainInfo() {
@@ -80,8 +80,8 @@ public class MainViewModel {
         return mainPic;
     }
 
-    public void setMainInfo(MainPic mainInfo){
-        mainPic=mainInfo;
+    public void setMainInfo(MainPic mainInfo) {
+        mainPic = mainInfo;
     }
 
     public void setTopPics() {
@@ -137,7 +137,7 @@ public class MainViewModel {
         viewPager.addOnPageChangeListener(mPageChangeListener);
     }
 
-    public void getMainIcons(ArrayList<MainIcon> largeIcons,ArrayList<MainIcon> littleIcons) {
+    public void getMainIcons(ArrayList<MainIcon> largeIcons, ArrayList<MainIcon> littleIcons) {
         ArrayList<MainIcon> icons = mRepository.getMenus();
         LogUtil.i(TAG, "icons=" + icons.size() + "," + icons.toString());
         int size = icons.size();
@@ -153,23 +153,25 @@ public class MainViewModel {
     }
 
     public void setM2AD() {
-        /* M2广告图片尺寸：640*100 */
-        adHeight = (screenWidth * 100) / 640;
-        LogUtil.i(TAG, "adHeight=" + adHeight);
-        LinearLayout.LayoutParams adParams = new LinearLayout.LayoutParams(screenWidth, adHeight);
-        adPic.setLayoutParams(adParams);
-
         ADHelper adHelper = new ADHelper(mContext);
         adObj = adHelper.getAdObj();
-        adHelper.showM2(adPic);
+        if(adHelper.isAdOpen()){
+             /* M2广告图片尺寸：640*100 */
+            adHeight = (screenWidth * 100) / 640;
+            LogUtil.i(TAG, "adHeight=" + adHeight);
+            LinearLayout.LayoutParams adParams = new LinearLayout.LayoutParams(screenWidth, adHeight);
+            adPic.setLayoutParams(adParams);
+            adHelper.showM2(adPic);
+        }
+
     }
 
-    public void onM2Click(){
+    public void onM2Click() {
         Toast.makeText(mContext, adObj.M2.getCompanyID(language), Toast.LENGTH_SHORT).show();
 //        mIntentListener.onIntent(adObj,null);
     }
 
-    public void onTopPicClick(int index){
+    public void onTopPicClick(int index) {
         LogUtil.i(TAG, "onTopPicClick: pos=" + index + ", companyID= " + mainPic.TopBanners.get(index).SC.companyID_sc);
 //        mIntentListener.onIntent(mainPic.TopBanners.get(index),null);
     }

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="model"
+            type="com.adsale.ChinaPlas.viewmodel.ExhibitorDtlViewModel"/>
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rl_note"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/schedule_companyInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:gravity="center_vertical"
+            android:text="@string/title_exhibitor_deti"
+            android:onClick="@{()->model.onBackToInfo()}"
+            />
+
+        <TextView
+            android:id="@+id/schedule_to"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_toRightOf="@id/schedule_companyInfo"
+            android:gravity="center_vertical"
+            android:text=" > " />
+
+        <TextView
+            android:id="@+id/schedule"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_toRightOf="@id/schedule_to"
+            android:gravity="center_vertical"
+            android:text="@string/title_schedule"
+            android:textColor="@color/home" />
+
+        <RelativeLayout
+            android:id="@+id/rl_schedule"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/schedule_companyInfo"
+            android:background="@drawable/edittext_bg"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
+
+            <TextView
+                android:id="@+id/tv_schedule"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="@string/title_schedule"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/line"
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:layout_below="@id/tv_schedule"
+                android:background="@color/gray_qrcode_tips" />
+
+            <TextView
+                android:id="@+id/tv_nodata"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/btn_add_schedule"
+                android:layout_below="@id/line"
+                android:gravity="center"
+                android:text="@string/no_scheduleInfo"
+                android:visibility="@{model.isScheduleNoData?View.VISIBLE:View.GONE}"
+                />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_schedule"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/btn_add_schedule"
+                android:layout_below="@id/line" />
+
+            <Button
+                android:id="@+id/btn_add_schedule"
+                android:layout_width="120dp"
+                android:layout_height="38dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/btn_red2"
+                android:text="@string/title_add_schedule"
+                android:textColor="@color/white"
+                android:onClick="@{()->model.onAddSchedule()}"
+                />
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</layout>

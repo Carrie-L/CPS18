@@ -1,14 +1,11 @@
 package com.adsale.ChinaPlas.data;
 
-import com.adsale.ChinaPlas.dao.DBHelper;
 import com.adsale.ChinaPlas.dao.ScheduleInfo;
 import com.adsale.ChinaPlas.dao.ScheduleInfoDao;
 import com.adsale.ChinaPlas.utils.LogUtil;
 
 import java.util.ArrayList;
 
-import static android.R.id.list;
-import static android.content.ContentValues.TAG;
 import static com.adsale.ChinaPlas.App.mDBHelper;
 
 /**
@@ -21,13 +18,24 @@ public class ScheduleRepository implements DataSource<ScheduleInfo> {
 
     public static ScheduleRepository getInstance() {
         if (INSTANCE == null) {
-            return new ScheduleRepository();
+            INSTANCE = new ScheduleRepository();
         }
         return INSTANCE;
     }
 
     public ArrayList<ScheduleInfo> getDateSchedules(String date) {
         return (ArrayList<ScheduleInfo>) mScheduleInfoDao.queryBuilder().where(ScheduleInfoDao.Properties.StartDate.eq(date))
+                .orderAsc(ScheduleInfoDao.Properties.StartDate).orderAsc(ScheduleInfoDao.Properties.StartTime).list();
+    }
+
+    /**
+     * 展商详情：获取某一展商的所有日程
+     *
+     * @param companyId
+     * @return ArrayList<ScheduleInfo>
+     */
+    public ArrayList<ScheduleInfo> getExhibitorSchedules(String companyId) {
+        return (ArrayList<ScheduleInfo>) mScheduleInfoDao.queryBuilder().where(ScheduleInfoDao.Properties.CompanyID.eq(companyId))
                 .orderAsc(ScheduleInfoDao.Properties.StartDate).orderAsc(ScheduleInfoDao.Properties.StartTime).list();
     }
 

@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
+import android.graphics.Color;
+import android.os.Build;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,9 +16,13 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.BR;
@@ -24,6 +30,7 @@ import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.dao.DBHelper;
 import com.adsale.ChinaPlas.databinding.ActivityBaseBinding;
 import com.adsale.ChinaPlas.databinding.NavHeaderBinding;
+import com.adsale.ChinaPlas.databinding.ToolbarBaseBinding;
 import com.adsale.ChinaPlas.ui.LoginActivity;
 import com.adsale.ChinaPlas.ui.MainActivity;
 import com.adsale.ChinaPlas.utils.AppUtil;
@@ -57,7 +64,6 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
         super.onCreate(savedInstanceState);
         mBaseBinding = DataBindingUtil.setContentView(this, R.layout.activity_base);
         mBaseFrameLayout = mBaseBinding.contentFrame;
-        mBaseBinding.setVariable(BR.activity, this);
 
         mDBHelper = App.mDBHelper;
         isTablet = AppUtil.isTablet();
@@ -115,35 +121,45 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            if (!isInitedDrawer) {
-                initDrawer();
-                setupDrawer();
-                isInitedDrawer = true;
-            } else {
-                LogUtil.i(TAG, "已经 isInitedDrawer=" + isInitedDrawer);
-            }
-            mNavViewModel.openDrawer();
-            mDrawerLayout.openDrawer(GravityCompat.START);
+            menu();
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void setupToolBar() {
         FrameLayout toolbarFrame = mBaseBinding.toolbarFrame;
-        View toolbarView = getLayoutInflater().inflate(R.layout.toolbar_base, toolbarFrame);
-        Toolbar toolbar = (Toolbar) toolbarView.findViewById(R.id.toolbar);
+        ToolbarBaseBinding toolbarBinding = ToolbarBaseBinding.inflate(getLayoutInflater(), toolbarFrame, true);
+        toolbarBinding.setVariable(BR.activity, this);
+        toolbarBinding.executePendingBindings();
+        Toolbar toolbar = toolbarBinding.toolbar;
         toolbar.setBackgroundResource(mToolbarBackgroundRes);
+
+        barTitle.set("哈哈哈哈哈哈哈记啊水果筐的刚好");
+
         int height = (mScreenWidth * 68) / 320; /* Toolbar图片尺寸：320*68 */
         App.mSP_Config.edit().putInt(Constant.TOOLBAR_HEIGHT, height).apply();
-        LogUtil.i(TAG, "height=" + height);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(mScreenWidth, height);
         toolbar.setLayoutParams(params);
         setSupportActionBar(toolbar);
 
         actionBar = getSupportActionBar();
-        if (actionBar != null) {
+        if (actionBar != null && !isShowTitleBar.get()) { // Main Activity
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+            actionBar.setDisplayShowTitleEnabled(false);
+        }
+
+        setStatusBar();
+    }
+
+    private void setStatusBar() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
         }
     }
 
@@ -210,6 +226,22 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
         syncViewModel.syncMyExhibitor();
     }
 
+    private void menu() {
+        if (!isInitedDrawer) {
+            initDrawer();
+            setupDrawer();
+            isInitedDrawer = true;
+        } else {
+            LogUtil.i(TAG, "已经 isInitedDrawer=" + isInitedDrawer);
+        }
+        mNavViewModel.openDrawer();
+        mDrawerLayout.openDrawer(GravityCompat.START);
+    }
+
+    public void onMenu() {
+        menu();
+    }
+
     public void back() {
         finish();
         overridePendingTransPad();
@@ -221,8 +253,8 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
         finish();
     }
 
-    public void overridePendingTransPad(){
-        if(isTablet){
+    public void overridePendingTransPad() {
+        if (isTablet) {
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         }
     }
