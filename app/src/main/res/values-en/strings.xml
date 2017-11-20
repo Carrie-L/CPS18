@@ -1,0 +1,689 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="register_msg0014">Select Country</string>
+    <string name="register_msg0015">Select Province</string>
+
+    <string name="app_label"> </string>
+
+    <!-- exb_search_text_hint -->
+    <string name="exb_search_text_hint">Exhibitor Name/Booth Number</string>
+    <string name="app_name">CHINAPLAS</string>
+    <string name="namecard">Name Card</string>
+    <string name="namecard_create_success">NameCard Create Success!</string>
+    <string name="yn_create">Create NameCard?</string>
+    <string name="namecard_create_failed">NameCard Create Failed!</string>
+    <string name="chinaZjsYwgjblzx">SHANGHAI NEW INTERNATIONAL EXPO CENTRE,PR CHINA</string> <!-- Shanghai New International Expo Centre,PR China -->
+    <string name="msg_default_status">Please put the screen intermediate two-dimensional code (if light press add key volume).</string>
+    <string name="prereg_end">Visitor pre-registration is closed.Please bring your business cards to register at our onsite registration counters,Thank you!</string>
+    <string name="qrcode_create_success">create success!</string>
+
+    <string name="title_my_name_card">My Name Card</string>
+
+    <!--  UpdateCenter更新中心-->
+    <string-array name="update_center_arr">
+        <item>Exhibitor Data</item>
+        <item>Floor Plan</item>
+        <item>Technical Seminar</item>
+        <item>Concurrent Events</item>
+        <item>Travel Information</item>
+    </string-array>
+
+
+    <!--  -->
+    <string-array name="main_nav">
+        <item>Visitor Pre-registration</item>
+        <item>Exhibitor List</item>
+        <item>Show Information</item>
+        <item>Floor Plan</item>
+        <item>Concurrent Event</item>
+        <item>Co-located Expo</item>
+        <item>Transportation</item>
+        <item>News</item>
+        <item>Contact Us</item>
+        <item>Subscribe eNewsletter</item>
+        <item>My Exhibitor</item>
+        <item>Schedule</item>
+        <item>Settings</item>
+    </string-array>
+
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="finish">Finish</string>
+    <string name="sharing">Sharing operation is working in the background…</string>
+    <string name="share_to">Share to </string>
+    <string name="share">Share</string>
+    <string name="multi_share">Photo Sharing</string>
+    <string name="share_completed">Operation succeeded</string>
+    <string name="share_canceled">Operation canceled</string>
+    <string name="select_one_plat_at_least">Please select a target platform</string>
+    <string name="list_friends">Friends on %s</string>
+    <string name="share_failed">Operation failed</string>
+    <string name="pull_to_refresh">Pull down to refresh</string>
+    <string name="release_to_refresh">Release to refresh</string>
+    <string name="refreshing">Refreshing…</string>
+    <string name="shake2share">Shake your phone!</string>
+    <string name="select_a_friend">Please select a friend</string>
+
+
+    <string name="as_product">Search by Product Category</string>
+    <string name="as_application">Search by Application</string>
+    <string name="as_hall">Search by Hall</string>
+    <string name="as_region">Search by Country / Region</string>
+    <string name="as_search">Search</string>
+    <string name="as_reset">Reset</string>
+
+    <!--  -->
+    <string-array name="exhibitor_nav">
+        <item>All Exhibitors</item>
+        <item>Search by Criteria</item>
+        <item>Keyword Search</item>
+
+    </string-array>
+
+    <string name="item_all_exhibitor">All Exhibitors</string>
+    <string name="item_criteria_search">Search by Criteria</string>
+    <string name="item_keyword_search">Keyword Search</string>
+
+    <string name="title_product_category">Product Category</string>
+    <string name="title_application">Application</string>
+    <string name="title_hall">Hall</string>
+    <string name="title_region">Country / Region</string>
+
+
+    <!--    <item>My Exhibitor</item>
+         <item>My Favourite Product</item>
+         <item>My History</item> -->
+
+    <string-array name="advanced_search">
+        <item>Search by Product Category </item>
+        <item>Search by Application</item>
+        <item>Search by Hall</item>
+        <item>Search by Country / Region</item>
+    </string-array>
+
+    <!--
+     <item>code scanning</item>
+     <item>Interested Product</item>
+    -->
+    <string-array name="setting_nav">
+        <item>Language</item>
+        <item>Link to websites</item>
+        <item>Add to calendar</item>
+        <item>Information Synchronization</item>
+        <item>Logout</item>
+        <item>Reset All Data</item>
+        <item>Privacy Policy Statement</item>
+        <item>Terms of Use</item>
+    </string-array>
+
+    <string name="title_all_name_card">All Name Card</string>
+
+    <!--
+        <item>My Name Card</item>
+        <item>All Name Card</item>
+        <item>QRCode Scanner</item>
+        <item>Share APP</item>
+    -->
+
+
+    <!--  -->
+    <string-array name="pad_setting_nav">
+        <item>Language</item>
+        <item>Link to websites</item>
+        <item>Add to calendar</item>
+        <item>Reset All Data</item>
+        <item>Privacy Policy Statement</item>
+        <item>Terms of Use</item>
+        <item>QRCode</item>
+    </string-array>
+
+    <!--  -->
+    <string name="back">Back</string>
+    <string name="home">Home</string>
+
+    <!--  -->
+    <string name="no_news">No News</string>
+    <string name="no_exhibitor">No related information</string>
+    <string name="no_scheduleInfo">No Schedule</string>
+    <string name="no_my_exhibitor">No Bookmarked Exhibitor. \nPlease go to \"Exhibitor list\" to add exhibitors. </string>
+    <string name="nodata">No related information</string>
+    <string name="no_keyword_result">If you want to get the full exhibitor list, please visit Update Center to update the exhibitor data</string>
+
+
+    <!--  -->
+    <string name="title_news">News</string>
+    <string name="title_exhibitor">Exhibitor List</string>
+    <string name="title_exhibitor_nav">Exhibitor List</string>
+    <string name="title_exhibitor_deti">Company Info</string>
+    <string name="title_agenda">My Schedule</string>
+    <string name="title_schedule">My Schedule</string>
+    <string name="title_register">Visitor Pre-registration</string>
+    <string name="title_summary">Show Information</string>
+    <string name="title_plan">Floor Plan</string>
+    <string name="title_event">Concurrent Event</string>
+    <string name="title_expo">Co-located Expo</string>
+    <string name="title_transportation">Transportation</string>
+    <string name="title_contact_us">Contact Us</string>
+    <string name="title_my_exhibitor">My Exhibitor</string>
+    <string name="title_setting">Setting</string>
+    <string name="title_subscribe">Subscribe eNewsletter</string>
+    <string name="edit_schedule">Edit Schedule</string>
+    <string name="title_exhibitor_advanced_search">Advanced Search</string>
+    <string name="title_exhibitor_keyword_search">Keyword Search</string>
+    <string name="title_login">Login</string>
+
+    <string name="title_add_note">Add Note</string>
+    <string name="title_add_schedule">Add Schedule</string>
+
+    <string name="dialog_update_event">The content of the event has been updated. Please update the information in the "Update Centre".</string>
+
+    <!--  -->
+    <string name="editFilter_hint">Exhibitor Name/Booth Number</string>
+    <string name="editFilter_hint_category">Category Name</string>
+
+    <!--  -->
+    <string name="txtAddCollection">Add My Exhibitor</string>
+    <string name="txtAddCollection2">Added To My Exhibitor</string>
+    <string name="tab1">Info</string>
+    <string name="tab0">About</string>
+    <string name="tab2">Agenda</string>
+    <string name="tab3">Notes</string>
+
+    <string name="added_exhibitor">This company has been added to My Exhibitor.</string>
+    <string name="removed_exhibitor">This company has been removed from My Exhibitor.</string>
+
+    <!--  -->
+    <string name="booth">Booth：</string>
+    <string name="address">Address：</string>
+    <string name="email">Email：</string>
+    <string name="tel">Telephone：</string>
+    <string name="fax">Fax：</string>
+    <string name="Website">Website：</string>
+    <string name="description">Description</string>
+    <string name="category">Product Category</string>
+    <string name="category_exhi">Product</string>
+    <string name="application_cata">Application Category</string>
+    <string name="application_exhi">Application</string>
+    <string name="new_tec_exhi">新技術產品</string>
+    <string name="info_exhi">Info</string>
+    <string name="about_exhi">About</string>
+    <string name="about_website">Website：</string>
+
+    <string name="toast_floor_not_shown">The exhibition floorplan will be announced later.</string>
+    <string name="toast_floor_download">Please update the floorplan data in order to use floorplan function.</string>
+    <string name="toast_floor_update">Please update the floorplan data in order to obtain more accurate data.</string>
+
+    <string name="sort_by_az">Pingyin</string>
+    <string name="sort_by_hall">Hall</string>
+
+    <string name="filter_industry">產品類別</string>
+    <string name="filter_application">應用分類</string>
+    <string name="filter_country">國家</string>
+    <string name="filter_hall">展館</string>
+    <string name="filter_booth">專區</string>
+    <string name="filter_keyword">關鍵字</string>
+    <string name="filter_new_tec">新技術</string>
+    <string name="filter_keyword_hint">输入关键字</string>
+
+    <string name="filter_clear_all">清空篩選條件</string>
+    <string name="filter_ok">篩選</string>
+
+    <string name="filter_search">搜尋</string>
+
+    <string name="new_tec_booth">Booth: %s</string>
+
+    <!--  -->
+    <string name="addScheduleInfo">Add Schedule</string>
+    <string name="btnSave">Save</string>
+    <string name="btnClear">Clear All</string>
+    <string name="btnDel">Delete</string>
+
+    <!--  -->
+    <string name="note_successful">Notes saved successfully</string>
+    <string name="ask_clear_note">Do you want to clear all notes?</string>
+    <string name="ask_schedule">Another meeting is saved at the same time. Continue to save?</string>
+    <string name="not_title">Title cannot be empty</string>
+
+    <!--  -->
+    <string name="ScheduleInfo_lable">Agenda %1$s:</string>
+    <string name="ScheduleInfo_startTime">Date:%1$s</string>
+    <string name="schedule_title">Title</string>
+    <string name="schedule_location">Location</string>
+    <string name="schedule_startTime">Date</string>
+    <string name="schedule_length">Duration</string>
+    <string name="schedule_note">Note</string>
+    <string name="schedule_hour">hour</string>
+    <string name="schedule_minute">minutes</string>
+    <string name="schedule_save">Save</string>
+    <string name="schedule_del">Delete</string>
+    <string name="schedule_date"> May 2017</string>
+
+    <string name="schedule_exhibitor">Exhibitor</string>
+    <string name="schedule_event">Event</string>
+
+    <!--  -->
+    <string name="register_str001">To enjoy free admission and other fabulous benefits offered to pre-registered visitors. Please register here.</string>
+    <string name="register_str002">Registration information</string>
+    <string name="register_str003">Name of Visitor (Please input one name only)</string>
+    <string name="register_str004">Email</string>
+    <string name="register_strTel">Cell No</string>
+    <string name="register_strLanguage">Language</string>
+    <string name="register_str005">Cell number</string>
+    <string name="register_str006">(Country code) - (Number)</string>
+    <string name="register_msg001">Please fill in "Name"</string>
+    <string name="register_msg002">Please don\'t key in number or symbols when entering "Name"</string>
+    <string name="register_msg003">Please fill in "Email"</string>
+    <string name="register_msg004">Please fill in valid "Email"</string>
+    <string name="register_msg005">Please fill in "Country code"</string>
+    <string name="register_msg006">Please fill in valid "Country code"</string>
+    <string name="register_msg007">Please fill in "Number"</string>
+    <string name="register_msg008">Please fill in valid "Number"</string>
+    <string name="register_msg009">Registered successfully</string>
+    <string name="register_msg010">Failed to Register</string>
+    <string name="register_msg011">Your visitor registration for The 28th International Exhibition on Plastics and Rubber Industries is successful.Please click and save this registration image on your mobile and present it with your business card to redeem visitor badge at the registration counter during the exhibition.</string>
+    <string name="register_msg012">* If you cannot present this message and name card at the fairground. Please kindly re-register at the on-site visitor registration counter.</string>
+    <string name="register_msg013">Please enter a company name!</string>
+    <string name="reg_submit">Submit</string>
+    <string name="reg_reset">Reset</string>
+    <string name="reg_again">Reset</string>
+    <string name="reg_invoice">Get Invoice</string>
+    <string name="reg_calendar">Add to Calendar</string>
+    <string name="Input_Outlimit_Msg">Content too long</string>
+    <string name="NoNetwok_Msg">Sorry! Can not connect to the Internet. Please try again later!</string>
+    <string name="register_str007">Your visitor registration for The 28th International Exhibition on Plastics and Rubber Industries is successful.Please click and save this registration image on your mobile and present it with your business card to redeem visitor badge at the registration counter during the exhibition.</string>
+    <string name="register_str008">* If you cannot present this message and name card at the fairground. Please kindly re-register at the on-site visitor registration counter.</string>
+    <string name="Registering_MSg">Submitting data. Please wait!</string>
+    <string name="thx_dy">Thank your for subscription！</string>
+
+    <!--  -->
+    <string name="subscribe_str001">Subscribe</string>
+    <string name="subscribe_str002">Company</string>
+    <string name="subscribe_str003">Name</string>
+    <string name="subscribe_str005">Privacy Policy Statement</string>
+
+    <!--  -->
+    <string name="ask_clear">Would you like to reset all data settings to default value?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <!--  -->
+    <string name="notes">Welcome to CHINAPLAS 2017</string>
+    <string name="ask_addToCalendar">Add the show date of CHINAPLAS 2017 to your device\'s calendar?</string>
+    <string name="ok">OK</string>
+    <string name="addToCalendar_success">The show date of CHINAPLAS 2017 is added to your device\'s calendar.</string>
+    <string name="addToCalendar_fail">Save to calendar fail!</string>
+    <string name="calendar_description">Accompanying the growth of China\'s plastics and rubber industries for over 30 years, CHINAPLAS has become a distinguished meeting and business platform for these industries and has also largely contributed to their prosperous development. At present, CHINAPLAS is not only the largest plastics and rubber trade fair in Asia, it is also widely recognized by the industry as the 2nd most influential exhibition in the world. Its significance is surpassed only by K Fair in Germany, the world\'s premier plastics and rubber trade fair. </string>
+    <string name="calendar_location">China Import &amp; Export Fair Complex, Pazhou, Guangzhou, PR China \n(382 Yuejiang Zhong Road, Pazhou, Guangzhou, PR China (Postal Code : 510335))</string>
+
+
+    <!--  -->
+    <string name="select_url">Please select a website version</string>
+    <string name="sharetitle">CHINAPLAS 2017</string>
+
+    <string-array name="url_ver">
+        <item>Full version</item>
+        <item>Mobile version</item>
+    </string-array>
+
+    <!--  -->
+    <string-array name="urls">
+        <item>http://yiwutex.com/YIWUTEX15/Home/lang-eng/Information.aspx</item>
+        <item>http://yiwutex.com/YIWUTEX15/Mobile/lang-eng/Home.aspx</item>
+    </string-array>
+
+    <!--  -->
+    <string name="more">More</string>
+
+    <!--  -->
+    <string name="EXIT">Exit</string>
+    <string name="EXIT_MSG">Exit CHINAPLAS 2017?</string>
+
+    <!--  -->
+    <string-array name="sharing_platform">
+        <item>Facebook</item>
+        <item>Twitter</item>
+        <item>WeChat Friends</item>
+        <item>WeChat Circle of Friends</item>
+        <item>WeiBo</item>
+        <item>QQ</item>
+        <item>LinkeIn</item>
+    </string-array>
+
+    <string name="selcet_sharing_platform">Please select a Shared platform</string>
+    <string name="Share_success">Share success </string>
+    <string name="Share_failed">Share failed</string>
+    <string name="Share_cancel">Share cancel</string>
+
+    <!-- shareSDK -->
+    <string name="sm_item_demo">API</string>
+    <string name="sm_item_auth">Authorize</string>
+    <string name="sm_item_wechat">Wechat</string>
+    <string name="sm_item_customer">Custom API</string>
+    <string name="sm_item_custom_fields">Custom share fields</string>
+    <string name="sm_item_fl_weibo">Follow Sina Weibo</string>
+    <string name="sm_item_fl_tc">Follow Tencent Weibo</string>
+    <string name="sm_item_share_view">Shake to share</string>
+    <string name="sm_item_visit_website">Visit the official site</string>
+    <string name="sm_item_about">Demo  Ver. %s</string>
+    <string name="plz_choose_wechat">Please select Wechat client to complete the operation</string>
+    <string name="get_token_format">Get %s AccessToken</string>
+    <string name="get_user_info_format">Get %s Authorized user info</string>
+    <string name="get_other_info_format">Get %s other user info</string>
+    <string name="share_to_format">Share to %s</string>
+    <string name="demo_share_all_gui">Share all (Popup Edit Page)</string>
+    <string name="demo_share_all">Share all (Silent Share)</string>
+    <string name="demo_get_access_token">Get AccessToken</string>
+    <string name="demo_get_my_info">Get Authorized User Info</string>
+    <string name="demo_get_other_info">Get other user info</string>
+    <string name="get_tencent_friends_list">Get Tencent Weibo followers</string>
+    <string name="customer_douban">Search for users</string>
+    <string name="customer_facebook">Get notification list</string>
+    <string name="customer_nemb">Get Recommended Topics</string>
+    <string name="customer_renren">Upload photos to the user\'s photo albums</string>
+    <string name="customer_sina">Get weibo home list</string>
+    <string name="customer_qzone">Publish to QZone</string>
+    <string name="customer_tencent">Get followers</string>
+    <string name="customer_twitter">Get home list</string>
+    <string name="customer_kaixin">People You May Know</string>
+    <string name="customer_sohu">Get friends</string>
+    <string name="customer_youdao">Get notebook list</string>
+    <string name="customer_suishenkan">Get the Sohu Kan bookmark list</string>
+    <string name="customer_tumblr">Get Post list of Tumblr users</string>
+    <string name="not_yet_authorized">Not Authorized</string>
+    <string name="share_content">ShareSDK for Android not only integration social platforms, like Facebook, Twitter, Google+. But also Our strong professional backend support can easy to know the Users,Information Flow,Backflow, Backflow rate, Share Rate,etc. See more detail on website http://mob.com @ShareSDK</string>
+    <string name="share_content_short">ShareSDK for Android not only integration social platforms, like Facebook, Twitter, Google+. But also Our strong professional backend support can easy to know the Users,Information Flow,Backflow, Backflow rate, Share Rate,etc. See more detail on website http://mob.com @ShareSDK</string>
+    <string name="evenote_title">ShareSDK is a magical SDK</string>
+    <string name="update">Share Text</string>
+    <string name="image_upload">Share Image (Local)</string>
+    <string name="image_upload_bitmap">Share Image (Bitmap Object)</string>
+    <string name="image_upload_url">Share Image (Internet Image)</string>
+    <string name="emoji_upload">Share Emoticon (Local Image)</string>
+    <string name="emoji_upload_url">Share Emoticon (Internet Image)</string>
+    <string name="emoji_upload_bm">Share Emoticon (Bitmap Object)</string>
+    <string name="music_upload">Share Music</string>
+    <string name="webpage_upload">Share Web (Local Image)</string>
+    <string name="webpage_upload_bitmap">Share Web (Bitmap Ojbect)</string>
+    <string name="webpage_upload_url">Share Web (Internet Image)</string>
+    <string name="app_upload">Share App (With File)</string>
+    <string name="app_upload_extinfo">Share App (With Script)</string>
+    <string name="file_upload">Share File</string>
+    <string name="share_to_wechat">Wechat Friends</string>
+    <string name="share_to_moment">Wechat Moments</string>
+    <string name="share_to_favorite">Wechat Favorite</string>
+    <string name="wechat_demo_title">Wechat share demo title</string>
+    <string name="qzone_add_blog_sample"><h1>QQ Connect</h1></string>
+    <string name="wechat_client_is_not_installed_correctly">Wechat client is not installed, or the version is too old</string>
+    <string name="wechat_client_not_support_following_operation">Wechat client does not support third-party applications to follow</string>
+    <string name="share_to_yixin">Yixin Friends</string>
+    <string name="share_to_yixin_moment">Yixin Moments</string>
+    <string name="share_to_yixin_favorite">Yixin Favorite</string>
+    <string name="yixin_demo_title">Yixin share demo title</string>
+    <string name="receive_rewards">Congratulations, you get %s gold!</string>
+    <string name="buy_success">Buy Success</string>
+    <string name="buy_failed">Buy Failed</string>
+    <string name="laiwangcustomize">Customize-Laiwang</string>
+    <string name="qzone_customer_share_style">custom QZone share style</string>
+    <string name="qq_share_way">Please Select Share way</string>
+    <string name="qq_share_from_qqlogin">QQ/QZone login to post Weibo</string>
+    <string name="qq_share_from_tlogin">Tencent Weibo login to post Weibo</string>
+    <string name="get_sina_friends_list">Get Sina Weibo followers</string>
+    <string name="sm_item_yixin">Yixin</string>
+    <string name="video_upload">Share Video</string>
+
+    <!-- 同步我的參展商 -->
+    <!-- sync_msg -->
+    <string name="sync_msg">The records in this APP\'s \"My Exhibitor\" will be updated with the \"My Exhibitor\" records in CHINAPLASONLINE.com. Please confirm to proceed.</string>
+
+    <!-- sync_msg -->
+    <string name="sync_title">Information Synchronization</string>
+
+    <!-- 技術交流會詳情頁 -->
+    <string name="title_technical_seminar">Technical Seminar</string>
+    <string name="seminar_information">Technical Seminar Information</string>
+    <string name="seminar_speaker">Speaker</string>
+    <string name="seminar_contact">For enquiry, please contact:</string>
+    <string name="seminar_email">Email</string>
+    <string name="seminar_tel">Tel</string>
+    <string name="seminar_date">Date：%s</string>
+    <string name="seminar_time">Time：%s</string>
+    <string name="seminar_section">Hall：</string>
+    <string name="seminar_zone">Zone：%s</string>
+    <string name="seminar_roomNO">RoomNO：%s</string>
+    <string name="seminar_booth">Booth：%s</string>
+    <string name="title_activity_travel_info">TravelInfoActivity</string>
+
+    <!-- 酒店资料 -->
+    <string name="title_travel_info">Travel Info</string>
+    <string name="official_travel_agency">Travel Agency</string>
+    <string name="official_travel_agency2">Offical Travel Agency</string>
+    <string name="hotel_info">Travel Agency</string>
+    <string name="title_activity_travel_detail">TravelDetailActivity</string>
+    <string name="travel_detail_address">Address</string>
+    <string name="travel_detail_tel">Tel</string>
+    <string name="travel_detail_fax">Fax</string>
+    <string name="travel_detail_email">Reservation Email</string>
+    <string name="travel_detail_website">Hotel Reservation Website</string>
+    <string name="travel_detail_contact">Contact Person</string>
+    <string name="travel_detail_remark">Remark</string>
+
+    <!-- 分享该应用 -->
+    <string name="share_app">Share</string>
+    <string name="share_exhibitor_booth">Booth：</string>
+
+    <!-- 設置 -->
+    <string name="setting_language">Language</string>
+    <string name="setting_website">Link to websites</string>
+    <string name="setting_add_to_calendar">Add to Calendar</string>
+    <string name="setting_preregistered_login">Pre-registered Visitor Login</string>
+    <string name="setting_reset_all">Reset All Data</string>
+    <string name="setting_privacy_policy">Privacy Policy Statement</string>
+    <string name="setting_use_terms">Terms of Use</string>
+    <string name="setting_sync">Information Synchronization</string>
+    <string name="setting_logout">Logout</string>
+    <string name="setting_show_help">Help</string>
+
+
+    <!-- 二维码 -->
+    <string name="create_qrcode">Create QRCode</string>
+    <string name="create">Create</string>
+    <string name="my_qrcode">My QRCode</string>
+    <string name="qrcode_scanner">QR Code Scanner</string>
+    <string name="edit_qrcode">Edit</string>
+    <string name="qrcode_all">All Name Card</string>
+    <string name="qrcode_edit_save">Save &amp; Update QR Code</string>
+    <string name="reg_reset_title">Reset Pre-registration information?</string>
+    <string name="reg_reset_confirm">Reset</string>
+    <string name="reg_reset_cancel">Cancel</string>
+    <string name="register_str009">Country</string>
+    <string name="prompt">Select</string>
+
+
+
+    <!-- 登录 -->
+    <string name="login_title">Visitor Login</string>
+    <string name="login_text1">Please input your visitors pre-registration login information</string>
+    <string name="login_text2">Login Name:</string>
+    <string name="login_text3">Password:</string>
+    <string name="login_text4">Login</string>
+    <string name="login_text5">Forgot Password</string>
+    <string name="login_text6">You have not got a login? Register Now!</string>
+    <string name="login_error_msg_1">Please fill in \"Login Name\"</string>
+    <string name="login_error_msg_2">Please fill in \"Password\"</string>
+    <string name="login_error_msg_3">Incorrect Login Name or Password. Please try again.</string>
+    <string name="loading">loading</string>
+    <string name="loading...">loading…</string>
+    <string name="network_error">No network available</string>
+    <string name="check_account_pw_title">Please check the login account and password from the registration email:</string>
+    <string name="check_account_pw_msg">Account registered</string>
+
+
+    <string name="login_first_add_exhibitor">You must be logged in to add exhibitor</string>
+    <string name="login_first_add_schedule">You must be logged in to add schedule</string>
+    <string name="login_first_save_note">You must be logged in to save notes</string>
+
+
+    <!-- logout -->
+    <string name="logout">Logout</string>
+    <string name="logout_message">Confirm logout?</string>
+    <string name="syncMessage">The records in this APP\'s "My Exhibitor" will be updated with the "My Exhibitor" records in CHINAPLASONLINE.com. Please confirm to proceed.</string>
+    <string name="syncSuccess">Sync success</string>
+    <string name="syncFailure">Sync failed</string>
+    <string name="update_map">Update</string>
+
+    <!-- 技术交流会 -->
+    <string name="n_zone">North Wing</string>
+    <string name="w_zone">West Wing</string>
+    <string name="e_zone">East Wing</string>
+    <string name="a_zone">Zone A</string>
+    <string name="b_zone">Zone B</string>
+    <string name="green">Green:</string>
+    <string name="blue">Blue:</string>
+    <string name="red">Red: </string>
+    <string name="technical_seminar">Technical Seminar</string>
+    <string name="ts_date">May, 2017</string>
+    <string name="siminar_time_am">AM Session&#160;(10:00&#8211;12:00)</string>
+    <string name="siminar_time_pm">PM Session&#160;(14:00&#8211;16:00)</string>
+    <string name="exception_toast_email">No email client installed.</string>
+    <string name="exception_toast_phone">Sorry, your device cannot make a call.</string>
+
+    <!-- qrcode -->
+    <string name="scanner_tips">Align the QR Code within the frame to scan</string>
+    <string name="card_phone">Phone:</string>
+    <string name="card_email">Email:</string>
+    <string name="card_qq">QQ:</string>
+    <string name="card_wechat">WeChat:</string>
+    <string name="card_title">Title:</string>
+    <string name="card_save">Save to contact list</string>
+    <string name="save_card_to_list">Save to name card list</string>
+    <string name="card_delete">Delete</string>
+    <string name="card_back">Back</string>
+    <string name="dialog_toast_delete">Confirm to delete?</string>
+    <string name="dialog_confirm">Confirm</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="toast_save_success">Success</string>
+    <string name="toast_start_export">Start to export data</string>
+    <string name="toast_export_success">Export completed</string>
+    <string name="toast_export_no_data">No related information</string>
+    <string name="toast_map_no_data">No FloorPlan</string>
+
+    <string name="dialog_go">Go</string>
+    <string name="dialog_view">View</string>
+    <string name="dialog_close">Close</string>
+
+    <!-- name card -->
+    <string name="update_card">Save &amp; Update QR Code</string>
+    <string name="create_card">Create</string>
+    <string name="btn_edit_card">Edit</string>
+    <string name="btn_scanner_card">QRcode Scanner</string>
+    <string name="btn_all_card">All Name Card</string>
+    <string name="btn_delete_card">Delete</string>
+    <string name="btn_save_to_contact">Save to Contact list</string>
+    <string name="title_activity_event">EventActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="btn_export_name_card">Export Name Card</string>
+    <string name="search_name_card">Search</string>
+    <string name="title_edit_name_card">Edit Name Card</string>
+    <string name="card_name">Name:</string>
+    <string name="card_company">Company:</string>
+    <string name="dialog_toast_update_namecard">This name card already exists. Do you want to update it?</string>
+
+    <!-- 分享 -->
+    <string name="share_setting_text">CHINAPLAS APP is now ready for download!</string>
+    <string name="share_setting_url">http://www.chinaplasonline.com/CPS17/Mobile/Home/lang-eng/MobileApp.aspx</string>
+    <string name="share_news_link">http://www.chinaplasonline.com/CPS17/Mobile/Home/lang-eng/WhatsNew.aspx</string>
+    <string name="share_sinna_weibo">Sina Weibo</string>
+    <string name="share_qq">QQ</string>
+    <string name="share_qq_zone">QZone</string>
+    <string name="share_wechat_friends">Wechat</string>
+    <string name="share_wechat_moments">Wechat Moments</string>
+    <string name="share_email">Email</string>
+    <string name="share_title">CHINAPLAS 2017</string>
+
+    <string name="toast_export_namecard_nodata">Please add friends to your name card list</string>
+    <string name="map_dtl_tip">Please select a Booth</string>
+    <string name="my_exhibt_on_map">Distribution</string>
+    <string name="my_favourite_product">Favorite Product</string>
+    <string name="my_favourite_product_on_map">Hall Distribution</string>
+    <string name="add_favourite_product">Add Favorite Product</string>
+
+    <string name="title_my_favourite_product">My Favorite Product</string>
+    <string name="title_history_exhibitor">My Exhibitor History</string>
+    <string name="title_use_item">Terms of User</string>
+    <string name="title_message_center">Message Center</string>
+
+    <!-- 二维码 提示 -->
+    <string name="toast_input_name">Please fill in "Name"</string>
+    <string name="toast_input_title">Please fill in "Title"</string>
+    <string name="toast_input_company">Please fill in "Company"</string>
+    <string name="toast_input_phone">Please fill in "Phone"</string>
+    <string name="toast_input_phone_2">Please fill in "Phone Number"</string>
+    <string name="toast_input_country">Please fill in "Country code"</string>
+    <string name="toast_input_email">Please fill in "Email"</string>
+    <string name="toast_input_phone_1">Please enter number only in "Phone Number" field. </string>
+    <string name="toast_input_country_1">Please enter number only in "Country code" field. </string>
+    <string name="toast_input_email_1">Please fill in valid "Email"</string>
+    <string name="toast_input_name_1">Please don\'t key in number or symbols when entering "Name"</string>
+    <string name="scan_qrcode_text">Scan the QR code above to add me friend</string>
+    <string name="loading_check_update">Data need to be updated</string>
+    <string name="download_map_update">Floorplan need to be updated. Please download under wifi environment.</string>
+    <string name="title_search_by_application">Search by Application</string>
+    <string name="favinfo_url">http://www.chinaplasonline.com/apps/2017/HTML/favinfo/EN.htm</string>
+    <string name="downloading_apk">Continue to Download</string>
+    <string name="check_new_version">CHINAPLAS Automatic Updater</string>
+    <string name="update_now">Upgrade now</string>
+    <string name="update_later">Later</string>
+    <string name="download_in_background">Download in background。。。</string>
+    <string name="download_data_toast">Downloading on 4G/3G/2G will use a lot of data.Will you continue?</string>
+
+    <string name="dialog_prompt">Alert</string>
+    <string name="dialog_sync_prompt_message">Please login your account and synchronize your data.</string>
+    <string name="dialog_sync_prompt">Synchronization</string>
+    <string name="dialog_sync_message">Do you want to synchronize your data?</string>
+
+    <string name="dialog_login_prompt">Please login first</string>
+
+    <!--历史记录-->
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="past_records">Past</string>
+
+    <string name="title_update_center">Update Center</string>
+    <string name="uc_exhibitor">Exhibitor Data</string>
+    <string name="uc_floorplan">Floor Plan</string>
+    <string name="uc_seminar">Technical Seminar</string>
+    <string name="uc_event">Concurrent Events</string>
+    <string name="uc_travel">Travel Information</string>
+
+    <string name="uc_last_update_time">Last Update Time：%s</string>
+    <string name="uc_file_size">File Size：</string>
+    <string name="uc_update">Update</string>
+    <string name="uc_updated">Updated</string>
+    <string name="uc_update_all">Update All</string>
+
+    <string name="left_menu_user_login">VisitorPreRegistration</string>
+    <string name="left_menu_login">Login</string>
+    <string name="left_menu_logout">Logout</string>
+    <string name="left_menu_sync">Sync</string>
+
+    <string name="loading_skip">Skip</string>
+    <string name="hall_exhibitor_count">&#160;exhibitors</string>
+
+    <string name="skip">Skip&#160;&#160;<![CDATA[<font color=#FF0000>%1$ds</font>]]></string>
+
+
+    <!--文档下载中心-->
+    <string name="dc_download">Download</string>
+    <string name="dc_open">Open</string>
+
+    <!--exhibitor dtl-->
+    <string name="exhi_dtl_note_comment">展商評論</string>
+    <string name="exhi_dtl_note_rate">展商評分</string>
+    <string name="exhi_dtl_note_photo">照片</string>
+
+    <!--同期活动-->
+    <string name="event_btn_all">All</string>
+    <string name="tech_am">AM</string>
+    <string name="tech_pm">PM</string>
+
+</resources>

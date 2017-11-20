@@ -1,0 +1,869 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_label"> </string>
+
+    <!-- exb_search_text_hint -->
+    <string name="exb_search_text_hint">参展商名字/展览摊位</string>
+    <string name="app_name">国际橡塑展</string>
+    <string name="namecard_create_success">名片创建成功</string>
+    <string name="yn_create">是否创建?</string>
+    <string name="namecard">名片</string>
+    <string name="namecard_create_failed">名片创建失败</string>
+    <string name="chinaZjsYwgjblzx">中国‧上海新国际博览中心</string>
+    <string name="prereg_end">观众预先登记已经结束，请携带公司名片前往展会现场办理登记手续。谢谢！</string>
+    <string name="qrcode_create_success">创建成功!</string>
+
+    <string name="title_my_name_card">我的名片</string>
+    <string name="title_all_name_card">名片列表</string>
+    <!-- 扫描二维码 -->
+    <string name="from_gallery">相册选择</string>
+    <string name="confirm">确定</string>
+    <string name="msg_camera_framework_bug">抱歉，Android相机出现问题。您可能需要重启设备。</string>
+    <string name="msg_default_status">请将二维码置于屏幕中间(若光线暗请按音量的增加键)。  </string>
+    <string name="memo">提示</string>
+    <string name="barcode_msg_fail">扫描失败！  </string>
+    <string name="barcode_tow_dimen_success">"已检测到地址:%1$s是否打开?"</string>
+    <string name="barcode_one_dimen_success">"已检测到文本内容:%1$s是否复制?"</string>
+    <string name="action_settings">设置</string>
+    <string name="reg_reset_title">确定重置预登记信息?</string>
+     <!--  UpdateCenter更新中心-->
+    <string-array name="update_center_arr">
+        <item>展商资料</item>
+        <item>展馆平面图</item>
+        <item>技术交流会</item>
+        <item>同期活动</item>
+        <item>旅游资料</item>
+    </string-array>
+    
+    <!--  -->
+    <string-array name="main_nav">
+        <item>观众预先登记</item>
+        <item>参展商名单</item>
+        <item>展会概述</item>
+        <item>展馆平面图</item>
+        <item>同期活动</item>
+        <item>同期展览</item>
+        <item>交通</item>
+        <item>最新消息</item>
+        <item>联系我们</item>
+        <item>订阅电子快讯</item>
+        <item>我的参展商</item>
+        <item>议程</item>
+        <item>设置</item>
+    </string-array>
+    
+     <string name="as_product">按产品类别搜索</string>
+    <string name="as_application">按应用行业搜索</string>
+    <string name="as_hall">按展馆搜索</string>
+    <string name="as_region">按国家/地区搜索</string>
+     <string name="as_search">搜索</string>
+    <string name="as_reset">重置</string>
+
+    <!--  -->
+    <string-array name="exhibitor_nav">
+        <item>全部参展商</item>
+        <item>分类搜索</item>
+        <item>关键字搜索</item>
+    </string-array>
+
+    <string name="item_all_exhibitor">全部参展商</string>
+    <string name="item_criteria_search">分类搜索</string>
+    <string name="item_keyword_search">关键字搜索</string>
+
+    <string name="title_product_category">产品类别</string>
+    <string name="title_application">应用行业</string>
+    <string name="title_hall">展馆</string>
+    <string name="title_region">国家/地区</string>
+
+    <!-- <item>我的参展商</item>
+        <item>我的兴趣产品</item>
+        <item>我的历史记录</item> -->
+    
+     <string-array name="advanced_search">
+         <item>按产品类别搜索</item>
+        <item>按应用行业搜索</item>
+        <item>按展馆搜索</item>
+        <item>按国家/地区搜索</item>
+    </string-array>
+
+    <!--
+    <item>二维码扫描</item> 
+    
+    <item>兴趣产品</item>
+    -->
+    <string-array name="setting_nav">
+        <item>语言</item>
+        <item>网站连结</item>
+        <item>添加到日历</item>
+        <item>资料同步</item>
+        <item>注销</item>
+        <item>重置所有设定</item>
+        <item>私隐政策声明</item>
+        <item>使用条款</item>
+    </string-array>
+
+    <!--
+         <item>我的名片</item>
+        <item>名片列表</item>
+        <item>扫描二维码</item>
+        <item>分享该应用</item>
+    -->
+
+
+    <!--  -->
+    <string-array name="pad_setting_nav">
+        <item>语言</item>
+        <item>网站连结</item>
+        <item>添加到日历</item>
+        <item>重置所有设定</item>
+        <item>私隐政策声明</item>
+        <item>使用条款</item>
+        <item>二维码</item>
+    </string-array>
+
+    <!--  -->
+    <string name="back">返回</string>
+    <string name="home">主目录</string>
+
+    <!--  -->
+    <string name="no_news">暂无最新消息</string>
+    <string name="no_exhibitor">暂无展商资料</string>
+    <string name="no_scheduleInfo">暂无议程</string>
+    <string name="no_my_exhibitor">没有收藏的参展商。 \n请到\"参展商名单\"增添参展商。</string>
+
+    <!--  -->
+    <string name="title_news">最新消息</string>
+    <string name="title_exhibitor">参展商名单</string>
+     <string name="title_exhibitor_nav">展商资料库</string>
+    <string name="title_exhibitor_deti">公司资料</string>
+    <string name="title_agenda">我的日程表</string>
+    <string name="title_schedule">我的日程表</string>
+    <string name="title_register">观众预先登记</string>
+    <string name="title_summary">展会概述</string>
+    <string name="title_plan">展馆平面图</string>
+    <string name="title_event">同期活动</string>
+    <string name="title_expo">同期展览</string>
+    <string name="title_transportation">交通</string>
+    <string name="title_contact_us">联系我们</string>
+    <string name="title_my_exhibitor">我的参展商</string>
+    <string name="title_setting">设置</string>
+    <string name="title_subscribe">订阅电子快讯</string>
+    <string name="edit_schedule">编辑议程</string>
+    <string name="title_exhibitor_advanced_search">进阶搜索</string>
+    <string name="title_exhibitor_keyword_search">关键字搜索</string>
+    <string name="title_login">登录</string>
+    
+    <string name="title_add_note">添加笔记</string>
+    <string name="title_add_schedule">添加议程</string>
+
+    <string name="dialog_update_event">同期活动内容已更新，请于“内容更新中心”更新最新资料。</string>
+
+    <!--  -->
+    <string name="title_sort">划</string>
+    <string name="editFilter_hint">参展商名称/展览摊位</string>
+    <string name="editFilter_hint_category">產品名稱</string>
+
+    <!--  -->
+    <string name="txtAddCollection">加入我的参展商</string>
+    <string name="txtAddCollection2">已经加到我的参展商</string>
+    <string name="tab1">公司资料</string>
+    <string name="tab0">关于</string>
+    <string name="tab2">议程</string>
+    <string name="tab3">笔记选项</string>
+
+    <string name="added_exhibitor">已添加进我的参展商。</string>
+    <string name="removed_exhibitor">已从我的参展商中移除。</string>
+
+    <!--  -->
+    <string name="booth">展览摊位：</string>
+    <string name="address">地址：</string>
+    <string name="email">电邮：</string>
+    <string name="tel">电话：</string>
+    <string name="fax">传真：</string>
+    <string name="Website">网址：</string>
+    <string name="description">描述</string>
+    <string name="category">产品</string>
+    <string name="application_cata">应用行业类别</string>
+    <string name="application_exhi">应用行业</string>
+    <string name="new_tec_exhi">新技术产品</string>
+    <string name="category_exhi">产品</string>
+    <string name="info_exhi">公司资料</string>
+    <string name="about_exhi">关于</string>
+    <string name="about_website">网址：</string>
+
+    <string name="toast_floor_not_shown">详细展馆平面图稍后公布。</string>
+    <string name="toast_floor_download">为了更好的体验平面图功能，请您更新展馆平面图对应数据。</string>
+    <string name="toast_floor_update">请您更新平面图数据，以便获取更准确的资料。</string>
+
+    <string name="sort_by_az">Pingyin</string>
+    <string name="sort_by_hall">Hall</string>
+
+    <string name="filter_industry">产品类别</string>
+    <string name="filter_application">应用分类</string>
+    <string name="filter_country">国家</string>
+    <string name="filter_hall">展馆</string>
+    <string name="filter_booth">专区</string>
+    <string name="filter_keyword">关键字</string>
+    <string name="filter_new_tec">首发技术</string>
+    <string name="filter_keyword_hint">输入关键字</string>
+
+    <string name="filter_clear_all">清空篩選條件</string>
+    <string name="filter_ok">篩選</string>
+    <string name="filter_search">搜尋</string>
+
+    <string name="new_tec_booth">展台号：%s</string>
+
+    <!--  -->
+    <string name="addScheduleInfo">新增议程</string>
+    <string name="btnSave">储存</string>
+    <string name="btnClear">清除所有</string>
+    <string name="btnDel">删除</string>
+
+    <!--  -->
+    <string name="note_successful">成功储存笔记</string>
+    <string name="ask_clear_note">确定要清除笔记吗?</string>
+    <string name="ask_schedule">相同时间已储存了另一个议程，继续储存?</string>
+    <string name="not_title">标题不能为空</string>
+
+    <!--  -->
+    <string name="ScheduleInfo_lable">议程%1$s:</string>
+    <string name="ScheduleInfo_startTime">时间:%1$s</string>
+
+    <!--  -->
+    <string name="schedule_title">标题</string>
+    <string name="schedule_location">位置</string>
+    <string name="schedule_startTime">时间</string>
+    <string name="schedule_length">为时</string>
+    <string name="schedule_note">笔记</string>
+    <string name="schedule_hour">小时</string>
+    <string name="schedule_minute">分钟</string>
+    <string name="schedule_save">储存</string>
+    <string name="schedule_del">删除</string>
+    <string name="schedule_date">2017年5月</string>
+
+    <string name="schedule_exhibitor">参展商</string>
+    <string name="schedule_event">同期活动</string>
+    
+    <string name="nodata">暂无相关信息</string>
+    <string name="no_schedule">暂无议程</string>
+    <string name="no_keyword_result">如需获取所有展商列表，请前往內容更新中心更新展商资料库。</string>
+
+    <!--  -->
+    <string name="register_str001">如要豁免入场费及尽享预先登记观众之优惠，请于以下登记。</string>
+    <string name="register_str002">登记资料</string>
+    <string name="register_str003">观众姓名（请输入一个名字）</string>
+    <string name="register_str004">电邮</string>
+    <string name="register_strTel">手机号码</string>
+    <string name="register_strLanguage">语言</string>
+    <string name="register_str005">手机</string>
+    <string name="register_str006">(国家编码)-(电话号码)</string>
+    <string name="register_msg001">请输入观众姓名！</string>
+    <string name="register_msg002">输入观众姓名时，请不要输入数位或符号！</string>
+    <string name="register_msg003">请输入电邮！</string>
+    <string name="register_msg004">请输入有效的电邮！</string>
+    <string name="register_msg005">请输入手机:-国家编码！</string>
+    <string name="register_msg006">请输入有效的手机:-国家编码！</string>
+    <string name="register_msg007">请输入手机:-电话号码！</string>
+    <string name="register_msg008">请输入有效的手机:-电话号码！</string>
+    <string name="register_msg009">登记成功！</string>
+    <string name="register_msg010">登记失败！</string>
+    <string name="register_msg011">你已成功登记为「国际橡塑展」的专业观众。请保留手机中的登记资料图档幷带同阁下的名片两张，于展会现场的「网上预先登记」登记柜台换取阁下的观众胸卡进场。</string>
+    <string name="register_msg012">* 如您于展会未能出示以上讯息及名片，请于现场重新办理登记手续。</string>
+    <string name="register_msg013">请输入公司名称！</string>
+    <string name="reg_submit">递交</string>
+    <string name="reg_reset">重置</string>
+    <string name="reg_again">重来</string>
+    <string name="reg_invoice">获取发票</string>
+     <string name="reg_calendar">添加到日历</string>
+    <string name="Input_Outlimit_Msg">内容长度超过系统限制</string>
+    <string name="NoNetwok_Msg">对不起!不能连接网络,请稍后再试！</string>
+    <string name="register_str007">你已成功登记为「国际橡塑展」的专业观众。请保留手机中的登记资料图档并带同阁下的名片两张，于展会现场的「网上预先登记」登记柜台换取阁下的观众胸卡进场。</string>
+    <string name="register_str008">* 如您于展会未能出示以上信息及名片，请于现场重新办理登记手续。</string>
+    <string name="Registering_MSg">正在提交数据，请稍后！</string>
+    <string name="thx_dy">感谢您的订阅</string>
+
+    <!--  -->
+    <string name="subscribe_str001">订阅资料</string>
+    <string name="subscribe_str002">公司名称</string>
+    <string name="subscribe_str003">姓名</string>
+    <string name="subscribe_str005">私隐政策声明</string>
+
+    <!--  -->
+    <string name="ask_clear">是否重置所有设定？</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+
+    <!--  -->
+    <string name="notes">欢迎来临国际橡塑展2017</string>
+    <string name="ask_addToCalendar">确定要将展览日期存入日历表吗？</string>
+    <string name="ok">确定</string>
+    <string name="cancel">取消</string>
+    <string name="addToCalendar_success">已成功汇入行事历！</string>
+    <string name="addToCalendar_fail">汇入行事历失败！</string>
+     <string name="calendar_description">「CHINAPLAS 国际橡塑展」伴随着中国塑料及橡胶行业成长逾30年，至今已发展成为亚洲最具规模之橡塑业展会，并对中国橡塑业的发展产生了积极的推动作用。目前，「CHINAPLAS 国际橡塑展」不单是亚洲最大型的塑料及橡胶业展览会，业内人士更公认其影响力仅次于全球第一大橡塑展的德国「K展」, 成为橡塑业的世界第二大展会。</string>
+	<string name="calendar_location">中国广州．琶洲．中国进出口商品交易会展馆 \n(中国广州市琶洲阅江中路382号(邮编：510335))</string>
+     
+    <!--  -->
+    <string name="select_url">请选择网站版本</string>
+    <string name="sharetitle">国际橡塑展2017</string>
+
+    <string-array name="url_ver">
+        <item>完整版</item>
+        <item>移动版</item>
+    </string-array>
+
+    <!--  -->
+    <string-array name="urls">
+        <item>http://www.chinaplasonline.com/CPS17/Home/lang-simp/Information.aspx</item>
+        <item>http://www.chinaplasonline.com/CPS17/Mobile/lang-eng/Home.aspx</item>
+    </string-array>
+
+    <!--  -->
+    <string name="more">更多</string>
+
+    <!--  -->
+    <string name="EXIT">退出</string>
+    <string name="EXIT_MSG">离开国际橡塑展？</string>
+
+    <!--  -->
+    <string-array name="sharing_platform">
+        <item>Facebook</item>
+        <item>Twitter</item>
+        <item>微信好友</item>
+        <item>微信朋友圈</item>
+        <item>微博</item>
+        <item>QQ</item>
+        <item>LinkeIn</item>
+    </string-array>
+
+    <string name="selcet_sharing_platform">请选择分享平台</string>
+    <string name="share">分享</string>
+    <string name="Share_success">分享成功 </string>
+    <string name="Share_failed">分享失败</string>
+    <string name="Share_cancel">取消分享</string>
+    <string name="register_str009">国家</string>
+    <string name="prompt">请选择</string>
+    <string name="title_technical_seminar">技术交流会</string>
+
+    <!-- 分享该应用 -->
+    <string name="share_app">分享</string>
+    <string name="share_exhibitor_booth">展台号：</string>
+    
+    <!-- 設置 -->
+    <string name="setting_language">语言</string>
+    <string name="setting_website">网站连结</string>
+    <string name="setting_add_to_calendar">添加到日历</string>
+    <string name="setting_preregistered_login">预先登记观众登入</string>
+    <string name="setting_reset_all">重置所有设定</string>
+    <string name="setting_privacy_policy">私隐政策声明</string>
+    <string name="setting_use_terms">使用条款</string>
+      <string name="setting_sync">资料同步</string>
+    <string name="setting_logout">注销</string>
+    <string name="setting_show_help">帮助</string>
+
+    <!-- 二维码 -->
+    <string name="create_qrcode">创建二维码</string>
+    <string name="create">创建</string>
+    <string name="my_qrcode">我的二维码</string>
+    <string name="qrcode_scanner">二维码扫描</string>
+    <string name="edit_qrcode">编辑</string>
+    <string name="qrcode_all">名片列表</string>
+    <string name="qrcode_edit_save">保存&amp;更新二维码</string>
+
+    <string-array name="CountryNames">
+        <item>---请选择---</item>
+        <item>中国</item>
+        <item>香港特别行政区</item>
+        <item>澳门特别行政区</item>
+        <item>中国台湾省</item>
+        <item>阿尔巴尼亚</item>
+        <item>阿尔及利亚</item>
+        <item>阿富汗</item>
+        <item>阿根廷</item>
+        <item>阿拉伯联合酋长国</item>
+        <item>阿路巴</item>
+        <item>阿曼</item>
+        <item>埃及(中东)</item>
+        <item>爱尔兰</item>
+        <item>爱沙尼亚</item>
+        <item>安道尔</item>
+        <item>安地卡及巴布达</item>
+        <item>安哥拉</item>
+        <item>安圭拉</item>
+        <item>奥地利</item>
+        <item>澳大利亚</item>
+        <item>巴贝多</item>
+        <item>巴布亚纽几内亚</item>
+        <item>巴哈马</item>
+        <item>巴基斯坦</item>
+        <item>巴拉圭</item>
+        <item>巴列斯坦</item>
+        <item>巴林(中东)</item>
+        <item>巴拿马</item>
+        <item>巴西</item>
+        <item>白俄罗斯</item>
+        <item>百慕达</item>
+        <item>保加利亚</item>
+        <item>北马里安纳</item>
+        <item>贝里斯</item>
+        <item>贝南</item>
+        <item>比利时</item>
+        <item>比索</item>
+        <item>冰岛</item>
+        <item>波多黎各</item>
+        <item>波兰</item>
+        <item>波士尼亚赫塞哥维纳</item>
+        <item>波札那</item>
+        <item>玻利维亚</item>
+        <item>帛琉群岛</item>
+        <item>不丹</item>
+        <item>布吉纳法索</item>
+        <item>布威岛</item>
+        <item>查德</item>
+        <item>朝鲜</item>
+        <item>赤道几内亚</item>
+        <item>丹麦</item>
+        <item>德国</item>
+        <item>东帝汶</item>
+        <item>东加</item>
+        <item>多哥</item>
+        <item>多米尼克</item>
+        <item>多明尼加</item>
+        <item>俄罗斯</item>
+        <item>厄瓜多</item>
+        <item>厄利垂亚</item>
+        <item>法国</item>
+        <item>法国南方领地</item>
+        <item>法罗群岛</item>
+        <item>法属玻里尼西亚</item>
+        <item>法属圭亚那</item>
+        <item>法属美特罗波利坦</item>
+        <item>梵帝岗</item>
+        <item>菲律宾</item>
+        <item>斐济</item>
+        <item>芬兰</item>
+        <item>福克兰群岛</item>
+        <item>盖亚纳</item>
+        <item>甘比亚</item>
+        <item>刚果</item>
+        <item>哥德普洛</item>
+        <item>哥伦比亚</item>
+        <item>哥斯大黎加</item>
+        <item>格陵兰</item>
+        <item>格瑞那达</item>
+        <item>葛摩</item>
+        <item>古巴</item>
+        <item>瓜地马拉</item>
+        <item>关岛</item>
+        <item>哈萨克</item>
+        <item>海地</item>
+        <item>韩国</item>
+        <item>荷兰</item>
+        <item>荷属安替列斯</item>
+        <item>赫德岛</item>
+        <item>宏都拉斯</item>
+        <item>吉布地</item>
+        <item>吉尔吉斯</item>
+        <item>吉里巴斯</item>
+        <item>几内亚</item>
+        <item>加拿大</item>
+        <item>加彭</item>
+        <item>迦纳</item>
+        <item>柬埔寨</item>
+        <item>捷克共和国</item>
+        <item>喀麦隆</item>
+        <item>卡塔尔(中东)</item>
+        <item>开曼群岛</item>
+        <item>柯克群岛</item>
+        <item>科威特(中东)</item>
+        <item>可可斯群岛</item>
+        <item>克罗埃西亚</item>
+        <item>肯亚</item>
+        <item>拉脱维亚</item>
+        <item>赖比瑞亚</item>
+        <item>赖索托</item>
+        <item>冷岸及央麦恩群岛</item>
+        <item>黎巴嫩(中东)</item>
+        <item>立陶宛</item>
+        <item>利比亚</item>
+        <item>寮国</item>
+        <item>列支敦斯登</item>
+        <item>留尼旺</item>
+        <item>卢安达</item>
+        <item>卢森堡</item>
+        <item>罗马尼亚</item>
+        <item>马达加斯加</item>
+        <item>马丁尼克岛</item>
+        <item>马尔地夫</item>
+        <item>马耳他(欧州)</item>
+        <item>马拉威</item>
+        <item>马来西亚</item>
+        <item>马利</item>
+        <item>马其顿</item>
+        <item>马绍尔群岛</item>
+        <item>马约特岛</item>
+        <item>茅利塔尼亚</item>
+        <item>美国</item>
+        <item>美属萨摩亚</item>
+        <item>美属维尔京群岛</item>
+        <item>蒙古</item>
+        <item>蒙特色拉特岛</item>
+        <item>孟加拉</item>
+        <item>秘鲁</item>
+        <item>密克罗尼西亚联邦</item>
+        <item>缅甸</item>
+        <item>模里西斯</item>
+        <item>摩尔多瓦</item>
+        <item>摩洛哥</item>
+        <item>摩纳哥</item>
+        <item>莫三比克</item>
+        <item>墨西哥</item>
+        <item>纳米比亚</item>
+        <item>奈及利亚</item>
+        <item>南非</item>
+        <item>南极大陆</item>
+        <item>南乔治亚</item>
+        <item>尼泊尔</item>
+        <item>尼加拉瓜</item>
+        <item>尼日</item>
+        <item>纽威岛</item>
+        <item>纽西兰</item>
+        <item>挪威</item>
+        <item>诺福克岛</item>
+        <item>诺鲁</item>
+        <item>皮特康</item>
+        <item>葡萄牙</item>
+        <item>浦隆地</item>
+        <item>千里达及托巴哥</item>
+        <item>乔治亚</item>
+        <item>日本</item>
+        <item>瑞典</item>
+        <item>瑞士</item>
+        <item>萨尔瓦多</item>
+        <item>萨摩亚</item>
+        <item>萨伊</item>
+        <item>塞尔维亚</item>
+        <item>塞尔维亚和黑山</item>
+        <item>塞内加尔</item>
+        <item>塞浦路斯(中东)</item>
+        <item>塞席尔</item>
+        <item>沙特阿拉伯</item>
+        <item>尚比亚</item>
+        <item>圣诞岛</item>
+        <item>圣多美普林西比</item>
+        <item>圣赫勒拿岛</item>
+        <item>圣克里斯多福及尼维斯</item>
+        <item>圣露西亚</item>
+        <item>圣马利诺</item>
+        <item>圣匹岛</item>
+        <item>圣文森及格瑞那丁</item>
+        <item>狮子山</item>
+        <item>史瓦济兰</item>
+        <item>斯里兰卡</item>
+        <item>斯洛伐克</item>
+        <item>斯洛维尼亚</item>
+        <item>苏丹</item>
+        <item>苏利南</item>
+        <item>索罗门群岛</item>
+        <item>索马利亚</item>
+        <item>塔吉克</item>
+        <item>泰国</item>
+        <item>坦尚尼亚</item>
+        <item>突尼西亚</item>
+        <item>土耳其(中东)</item>
+        <item>土克斯及开科斯群岛</item>
+        <item>土库曼</item>
+        <item>吐瓦鲁</item>
+        <item>托克劳群岛</item>
+        <item>瓦利斯和福杜纳群岛</item>
+        <item>万那杜</item>
+        <item>维德角</item>
+        <item>委内瑞拉</item>
+        <item>汶莱</item>
+        <item>乌干达</item>
+        <item>乌克兰</item>
+        <item>乌拉圭</item>
+        <item>乌兹别克斯坦</item>
+        <item>西班牙</item>
+        <item>西撒哈拉</item>
+        <item>希腊</item>
+        <item>象牙海岸</item>
+        <item>辛巴威</item>
+        <item>新加坡</item>
+        <item>新喀里多尼亚群岛</item>
+        <item>匈牙利</item>
+        <item>叙利亚(中东)</item>
+        <item>牙买加</item>
+        <item>亚美尼亚</item>
+        <item>亚塞拜然</item>
+        <item>亚洲地区</item>
+        <item>亚洲以外地区</item>
+        <item>也门(中东)</item>
+        <item>伊拉克(中东)</item>
+        <item>伊朗(中东)</item>
+        <item>衣索比亚</item>
+        <item>以色列(中东)</item>
+        <item>义大利</item>
+        <item>印度</item>
+        <item>印尼</item>
+        <item>英国</item>
+        <item>英属维尔京群岛</item>
+        <item>英属印度</item>
+        <item>约旦(中东)</item>
+        <item>越南</item>
+        <item>直布罗陀</item>
+        <item>智利</item>
+        <item>中东地区</item>
+        <item>中非</item>
+    </string-array>
+    <string-array name="provinces">
+        <item>---请选择---</item>
+        <item>北京</item>
+        <item>天津</item>
+        <item>上海</item>
+        <item>重庆</item>
+        <item>河北</item>
+        <item>山西</item>
+        <item>山东</item>
+        <item>辽宁</item>
+        <item>吉林</item>
+        <item>黑龙江</item>
+        <item>江苏</item>
+        <item>浙江</item>
+        <item>安徽</item>
+        <item>福建</item>
+        <item>江西</item>
+        <item>河南</item>
+        <item>湖北</item>
+        <item>湖南</item>
+        <item>广东</item>
+        <item>海南</item>
+        <item>四川</item>
+        <item>贵州</item>
+        <item>云南</item>
+        <item>陕西</item>
+        <item>甘肃</item>
+        <item>青海</item>
+        <item>内蒙古</item>
+        <item>广西</item>
+        <item>西藏</item>
+        <item>宁夏</item>
+        <item>新疆</item>
+        <item>香港特别行政区</item>
+    </string-array>
+
+    <!-- 登录 -->
+    <string name="login_title_1">预先登记观众登入</string>
+    <string name="login_title">观众登入</string>
+    <string name="login_title_2">登出</string>
+    <string name="login_text1">请输入预先登记的登入电邮及密码</string>
+    <string name="login_text2">登入名称:</string>
+    <string name="login_text3">密码:</string>
+    <string name="login_text4">登入</string>
+    <string name="login_text5">忘记密码</string>
+    <string name="login_text6">如还未有观众登入账号？请即登记！</string>
+    <string name="login_error_msg_1">请输入\"登入名称\"</string>
+    <string name="login_error_msg_2">请输入\"密码\"</string>
+    <string name="login_error_msg_3">登入名称或密码不正确，请重新输入。</string>
+    <string name="loading">载入中</string>
+    <string name="loading...">载入中…</string>
+    <string name="network_error">没有网络</string>
+    <string name="check_account_pw_title">请到已登记的电子邮件检查登入帐号及密码:</string>
+    <string name="check_account_pw_msg">帐号已申请</string>
+
+
+    <string name="login_first_add_exhibitor">需要登录后才能添加參展商，是否登录？</string>
+    <string name="login_first_add_schedule">需要登录后才能添加议程，是否登录？</string>
+    <string name="login_first_save_note">需要登录后才能添加保存笔记，是否登录？</string>
+    
+    
+    <!-- logout -->
+    <string name="logout">登出</string>
+    <string name="logout_message">确认登出?</string>
+    <string name="syncMessage">在应用内的[我的参展商] 资料，将会跟CHINAPLASONLILNE.com的[我的参展商] 同步，请确认继续。</string>
+    <string name="syncSuccess">同步成功</string>
+    <string name="syncFailure">同步失败</string>
+
+    <!-- 酒店资料 -->
+    <string name="title_travel_info">旅游信息</string>
+    <string name="official_travel_agency">接待服务单位</string>
+    <string name="official_travel_agency2">大会指定接待服务单位</string>
+    <string name="hotel_info">旅行社资料</string>
+    <string name="title_activity_travel_detail">TravelDetailActivity</string>
+    <string name="travel_detail_address">地址</string>
+    <string name="travel_detail_tel">电话</string>
+    <string name="travel_detail_fax">传真</string>
+    <string name="travel_detail_email">电邮</string>
+    <string name="travel_detail_website">网址</string>
+    <string name="travel_detail_contact">联系人</string>
+    <string name="travel_detail_remark">备注</string>
+    <string name="update_map">更新</string>
+    <string name="exception_toast_email">No email client installed.</string>
+    <string name="exception_toast_phone">抱歉，您的设备不支持打电话。</string>
+
+    <!--技術交流會-->
+    <string name="n_zone">北翼</string>
+    <string name="w_zone">西翼</string>
+    <string name="e_zone">东翼</string>
+    <string name="green">绿色:</string>
+    <string name="blue">蓝色:</string>
+    <string name="red">红色: </string>
+    <string name="a_zone">A区</string>
+    <string name="b_zone">B区</string>
+    <string name="technical_seminar">技术交流会</string>
+    <string name="siminar_time_am">上午时段&#160;(10:00&#8211;12:00)</string>
+    <string name="siminar_time_pm">下午时段&#160;(14:00&#8211;16:00)</string>
+    <string name="ts_date">2017年5月</string>
+
+    <!-- 技術交流會詳情頁 -->
+    <string name="seminar_information">技术交流会概要</string>
+    <string name="seminar_speaker">演讲者资料</string>
+    <string name="seminar_contact">如有查询，请联络：</string>
+    <string name="seminar_email">演讲者邮箱</string>
+    <string name="seminar_tel">演讲者电话</string>
+    <string name="seminar_date">日期：%s</string>
+    <string name="seminar_time">时间：%s</string>
+    <string name="seminar_section">展馆：</string>
+    <string name="seminar_zone">区：%s</string>
+    <string name="seminar_roomNO">会议室房号：%s</string>
+    <string name="seminar_booth">展馆号：%s</string>
+    <string name="title_activity_travel_info">TravelInfoActivity</string>
+
+    <!-- 二維碼 -->
+    <string name="scanner_tips">将二维码放入框内,即可自动扫描</string>
+    <string name="card_name">姓名:</string>
+    <string name="card_company">单位:</string>
+    <string name="card_phone">电话:</string>
+    <string name="card_email">电子邮件:</string>
+    <string name="card_qq">QQ:</string>
+    <string name="card_wechat">微信:</string>
+    <string name="card_title">职位:</string>
+    <string name="card_save">存储至通讯录</string>
+    <string name="save_card_to_list">存储至名片列表</string>
+    <string name="card_delete">删除</string>
+    
+    <string name="dialog_toast_delete">确认删除？</string>
+    <string name="dialog_confirm">确定</string>
+    <string name="dialog_cancel">取消</string>
+    <string name="toast_start_export">开始导出</string>
+    <string name="toast_export_success">导出完成</string>
+    
+    <string name="dialog_go">前往</string>
+    <string name="dialog_view">前往</string>
+    <string name="dialog_close">关闭</string>
+
+    <!-- name card -->
+    <string name="update_card">存储及更新 二维码</string>
+    <string name="create_card">创建名片</string>
+    <string name="btn_edit_card">编辑</string>
+    <string name="btn_scanner_card">二维码扫描器</string>
+    <string name="btn_all_card">全部名片列表</string>
+    <string name="btn_delete_card">删除</string>
+    <string name="btn_save_to_contact">存储至通讯录</string>
+    <string name="btn_export_name_card">导出名片</string>
+    <string name="search_name_card">搜索</string>
+    <string name="title_edit_name_card">编辑名片</string>
+    <string name="dialog_toast_update_namecard">名片列表中已经存在此名片，是否更新此名片资料？</string>
+    
+    <!-- 分享 -->
+    <string name="share_setting_text">国际橡塑展手机应用程式已经开放下载！</string>
+    <string name="share_setting_url">http://www.chinaplasonline.com/CPS17/Mobile/Home/lang-simp/MobileApp.aspx</string>
+    <string name="share_news_link">http://www.chinaplasonline.com/CPS17/Mobile/Home/lang-simp/WhatsNew.aspx</string>
+    <string name="share_sinna_weibo">新浪微博</string>
+    <string name="share_qq">QQ</string>
+    <string name="share_qq_zone">QQ空间</string>
+    <string name="share_wechat_friends">微信好友</string>
+    <string name="share_wechat_moments">朋友圈</string>
+    <string name="share_email">邮件</string>
+    <string name="share_title">2017 国际橡塑展</string>
+    
+     <string name="toast_export_namecard_nodata">请先添加名片好友</string>
+     
+     <string name="map_dtl_tip">请选择展台</string>
+     
+     <string name="my_exhibt_on_map">展商分布</string>
+     <string name="title_my_favourite_product">我的兴趣展品</string>
+    <string name="my_favourite_product">兴趣展品</string>
+    <string name="my_favourite_product_on_map">兴趣展品分布</string>
+    <string name="add_favourite_product">添加兴趣产品</string>
+     <string name="title_history_exhibitor">我的历史记录</string>
+      <string name="title_use_item">使用条款</string>
+       <string name="title_message_center">通知中心</string>
+    
+    <!-- 二维码 提示 -->
+    <string name="toast_input_name">请输入"姓名"</string>
+    <string name="toast_input_title">请输入"职位"</string>
+    <string name="toast_input_company">请输入"单位"</string>
+    <string name="toast_input_phone">请输入"电话"</string>
+    <string name="toast_input_country">请输入"国家编码"</string>
+    <string name="toast_input_email">请输入"电子邮件"</string>
+    
+    <string name="toast_input_phone_1">电话只允许输入数字。</string>
+     <string name="toast_input_country_1">国家编码只允许输入数字。</string>
+    <string name="toast_input_email_1">请输入有效的"电子邮件"</string>
+    <string name="toast_input_name_1">输入姓名时，请不要输入数位或符号！</string>
+    
+    <string name="scan_qrcode_text">扫一扫上面的二维码图案，加我好友</string>
+    
+    <string name="loading_check_update">检测到资料需要更新</string>
+    <string name="download_map_update">检测到展馆平面图有更新，请在wifi环境下更新展馆平面图。</string>
+    
+    <string name="title_search_by_application">按应用行业搜索</string>
+    
+    <string name="favinfo_url">http://www.chinaplasonline.com/apps/2017/HTML/favinfo/SC.htm</string>
+    
+    <string name="downloading_apk">继续下载</string>
+    <string name="check_new_version">CHINAPLAS自动更新</string>
+    <string name="update_now">立即更新</string>
+    <string name="update_later">稍后再说</string>
+    <string name="download_in_background">正在后台下载…</string>
+    <string name="download_data_toast">您正处于2G/3G/4G网络中，下载将会产生较大流量。</string>
+    
+    <string name="dialog_prompt">提示</string>
+    <string name="dialog_sync_prompt_message">请登录你的账户吗，进行参展商同步</string>
+    <string name="dialog_sync_prompt">同步提示</string>
+    <string name="dialog_sync_message">是否同步我的参展商</string>
+
+    <string name="dialog_login_prompt">请先登录</string>
+    
+     <string name="today">今日</string>
+      <string name="yesterday">昨天</string>
+    <string name="past_records">过去</string>
+    
+    <string name="title_update_center">更新中心</string>
+    <string name="uc_exhibitor">展商资料</string>
+    <string name="uc_floorplan">展馆平面图</string>
+    <string name="uc_seminar">技术交流会</string>
+    <string name="uc_event">同期活动</string>
+    <string name="uc_travel">旅游资料</string>
+
+    <string name="uc_last_update_time">最后更新时间：%s</string>
+    <string name="uc_file_size">文件大小：</string>
+    <string name="uc_update">更新</string>
+    <string name="uc_updated">已更新</string>
+    <string name="uc_update_all">更新全部</string>
+
+    <string name="left_menu_user_login">预先登记观众登入</string>
+    <string name="left_menu_login">登录</string>
+    <string name="left_menu_logout">登出</string>
+    <string name="left_menu_sync">同步</string>
+
+    <string name="loading_skip">跳过</string>
+    <string name="hall_exhibitor_count">家展商</string>
+
+    <string name="skip">跳过&#160;&#160;<![CDATA[<font color=#FF0000>%1$ds</font>]]></string>
+
+    <!--文档下载中心-->
+    <string name="dc_download">Download</string>
+    <string name="dc_open">Open</string>
+
+    <!--exhi dtl-->
+    <string name="exhi_dtl_note_comment">展商评论</string>
+    <string name="exhi_dtl_note_rate">展商评分</string>
+    <string name="exhi_dtl_note_photo">照片</string>
+
+    <string name="event_btn_all">全部</string>
+    <string name="tech_am">上午</string>
+    <string name="tech_pm">下午</string>
+</resources>
