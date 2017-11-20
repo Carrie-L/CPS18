@@ -7,22 +7,20 @@ import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.BR;
@@ -36,7 +34,6 @@ import com.adsale.ChinaPlas.ui.MainActivity;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
-import com.adsale.ChinaPlas.viewmodel.MainViewModel;
 import com.adsale.ChinaPlas.viewmodel.NavViewModel;
 import com.adsale.ChinaPlas.viewmodel.SyncViewModel;
 
@@ -134,8 +131,6 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
         Toolbar toolbar = toolbarBinding.toolbar;
         toolbar.setBackgroundResource(mToolbarBackgroundRes);
 
-        barTitle.set("哈哈哈哈哈哈哈记啊水果筐的刚好");
-
         int height = (mScreenWidth * 68) / 320; /* Toolbar图片尺寸：320*68 */
         App.mSP_Config.edit().putInt(Constant.TOOLBAR_HEIGHT, height).apply();
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(mScreenWidth, height);
@@ -164,14 +159,7 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
     }
 
     public void logout(View view) {
-        AppUtil.showAlertDialog(this, getString(R.string.logout_message), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                AppUtil.putLogout();
-                dialog.dismiss();
-                mNavViewModel.isLoginSuccess.set(false);
-            }
-        });
+        logout();
     }
 
     protected void preView() {
@@ -184,7 +172,9 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
 
     protected <T> void intent(Class<T> cls) {
         Intent intent = new Intent(this, cls);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        overridePendingTransPad();
     }
 
     protected <T> void intent(Class<T> cls, Bundle bundle) {
@@ -199,9 +189,21 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
         startActivity(intent);
     }
 
-    @Override
-    public void logout() {
+    protected void logout() {
+        AppUtil.showAlertDialog(this, getString(R.string.logout_message), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                processLogout();
+            }
+        });
+    }
 
+    protected void processLogout(){
+        AppUtil.putLogout();
+        mNavViewModel.isLoginSuccess.set(false);
+        mNavViewModel.setUpHeader();
+        mNavViewModel.updateDrawerListLogin();
     }
 
     @Override

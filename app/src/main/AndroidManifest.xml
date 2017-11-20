@@ -75,6 +75,7 @@
         <activity android:name=".ui.SettingActivity" />
         <activity android:name=".ui.TravelInfoActivity" />
         <activity android:name=".ui.TravelDetailActivity" />
+        <activity android:name=".ui.CommonListActivity" />
         //Ping++
         ---------------------------------------------------------------------------------------
         <!-- Ping++ SDK -->
@@ -115,7 +116,9 @@
         -------------------------------------------------------
         <activity android:name=".ui.ExhibitorDetailActivity" />
         <activity android:name=".ui.MyExhibitorActivity" />
-        <activity android:name=".ui.NewTecDtlActivity"></activity>
+        <activity android:name=".ui.NewTecDtlActivity" />
+        <activity android:name=".ui.UserInfoActivity" />
+        <activity android:name=".ui.FloorDistributeActivity"></activity>
     </application>
 
 </manifest>

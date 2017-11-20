@@ -4,14 +4,14 @@ package com.adsale.ChinaPlas.dao;
 
 // KEEP INCLUDES - put your custom includes here
 
-import com.adsale.ChinaPlas.App;
-import com.adsale.ChinaPlas.utils.AppUtil;
-import com.adsale.ChinaPlas.utils.Constant;
-
 import android.databinding.ObservableBoolean;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
+
+import com.adsale.ChinaPlas.App;
+import com.adsale.ChinaPlas.utils.AppUtil;
+import com.adsale.ChinaPlas.utils.Constant;
 
 // KEEP INCLUDES END
 
@@ -66,6 +66,8 @@ public class Exhibitor implements Parcelable {
 
     public ObservableBoolean isPhotoEmpty = new ObservableBoolean(true);
     public final ObservableBoolean isCollected = new ObservableBoolean(false);
+
+    public ObservableBoolean isTypeLabel = new ObservableBoolean();
 
     // KEEP FIELDS END
 

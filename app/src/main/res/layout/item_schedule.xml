@@ -35,6 +35,7 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:text="@{obj.startTime}"
+            android:textColor="@color/grey11"
             android:textSize="12sp" />
 
         <TextView
@@ -47,6 +48,7 @@
             android:layout_toLeftOf="@+id/imageView1"
             android:layout_toRightOf="@id/txtStartTime"
             android:singleLine="true"
+            android:textColor="@color/grey11"
             android:text="@{obj.title}" />
 
     </RelativeLayout>

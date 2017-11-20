@@ -1,7 +1,6 @@
 package com.adsale.ChinaPlas.viewmodel;
 
 import android.content.Context;
-import android.content.Intent;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
@@ -17,6 +16,7 @@ import com.adsale.ChinaPlas.adapter.NewTecAdapter;
 import com.adsale.ChinaPlas.adapter.ScheduleAdapter;
 import com.adsale.ChinaPlas.adapter.TextAdapter2;
 import com.adsale.ChinaPlas.dao.Exhibitor;
+import com.adsale.ChinaPlas.dao.HistoryExhibitor;
 import com.adsale.ChinaPlas.dao.NewProductInfo;
 import com.adsale.ChinaPlas.dao.ScheduleInfo;
 import com.adsale.ChinaPlas.data.ExhibitorRepository;
@@ -29,12 +29,13 @@ import com.adsale.ChinaPlas.databinding.LayoutExhibitorAddScheduleBinding;
 import com.adsale.ChinaPlas.databinding.ViewNoteBinding;
 import com.adsale.ChinaPlas.ui.ScheduleEditActivity;
 import com.adsale.ChinaPlas.ui.view.ExhiDtlInfoView;
-import com.adsale.ChinaPlas.utils.Constant;
+import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 
 import java.util.ArrayList;
 
-import static com.adsale.ChinaPlas.utils.Constant.SCHEDULE_DAY01;
+import static com.adsale.ChinaPlas.viewmodel.ExhibitorListViewModel.TYPE_APP_INDUSTRY;
+import static com.adsale.ChinaPlas.viewmodel.ExhibitorListViewModel.TYPE_INDUSTRY;
 
 
 /**
@@ -101,6 +102,12 @@ public class ExhibitorDtlViewModel {
         getNewTecList();
     }
 
+    public void addToHistory(){
+        HistoryExhibitor historyExhibitor = new HistoryExhibitor(null,exhibitor.getCompanyID(),exhibitor.getCompanyNameEN(),exhibitor.getCompanyNameCN(),exhibitor.getCompanyNameTW(),exhibitor.getBoothNo(), AppUtil.getCurrentTime());
+        mRepository.initHistoryDao();
+        mRepository.insertHistoryExhiItem(historyExhibitor);
+    }
+
     private void showInfo() {
         mViewStub.setVisibility(View.GONE);
         mInfoFrameLayout.removeAllViews();
@@ -128,6 +135,7 @@ public class ExhibitorDtlViewModel {
     private void getNewTecList() {
         NewTecRepository repository = new NewTecRepository();
         repository.initDao();
+        newProductInfos.clear();
         newProductInfos = repository.getProductInfoList(exhibitor.getCompanyID());
         isNewTecEmpty.set(newProductInfos.isEmpty());
     }
@@ -154,7 +162,7 @@ public class ExhibitorDtlViewModel {
         if (mCatalogRV == null) {
             mCatalogRV = new RecyclerView(mContext);
             setRecyclerView(mCatalogRV);
-            mIndustryAdapter = new TextAdapter2(industries, mListener);
+            mIndustryAdapter = new TextAdapter2(industries, mContext, TYPE_INDUSTRY);
             mCatalogRV.setAdapter(mIndustryAdapter);
         }
         mInfoFrameLayout.removeAllViews();
@@ -168,7 +176,7 @@ public class ExhibitorDtlViewModel {
         if (mAppIndustryRV == null) {
             mAppIndustryRV = new RecyclerView(mContext);
             setRecyclerView(mAppIndustryRV);
-            mAppIndAdapter = new TextAdapter2(appIndustries, mListener);
+            mAppIndAdapter = new TextAdapter2(appIndustries, mContext, TYPE_APP_INDUSTRY);
             mAppIndustryRV.setAdapter(mAppIndAdapter);
         }
         mInfoFrameLayout.removeAllViews();
@@ -266,11 +274,10 @@ public class ExhibitorDtlViewModel {
     }
 
     public void onAddSchedule() {
-        Intent intent = new Intent(mContext, ScheduleEditActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra(Constant.INTENT_EXHIBITOR, exhibitor);
-        intent.putExtra("date", SCHEDULE_DAY01);
-        mContext.startActivity(intent);
+
+
+        mListener.onIntent(exhibitor, ScheduleEditActivity.class);
+
     }
 /*   [ ------------------------ Schedule End  --------------------------- ]           */
 

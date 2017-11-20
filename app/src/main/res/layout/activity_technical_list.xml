@@ -19,6 +19,7 @@
             android:layout_height="match_parent"
             android:background="#fff"
             android:padding="16dp"
+            android:scrollbars="none"
             >
 
             <LinearLayout
@@ -37,7 +38,7 @@
                 <!-- day 1 -->
                 <TextView
                     style="@style/tech_date_style"
-                    android:text="24" />
+                    android:text="@string/event_btn_24" />
 
                 <ImageView style="@style/tech_line_style" />
 
@@ -45,18 +46,18 @@
                     style="@style/tech_rect_text_style"
                     android:background="@{techModel.mClickPos==1&amp;&amp;techModel.isAm?@color/home:@color/grey}"
                     android:onClick="@{()->techModel.onDateClick(1,true)}"
-                    android:text="上午" />
+                    android:text="@string/tech_am" />
 
                 <TextView
                     style="@style/tech_rect_text_style"
                     android:background="@{techModel.mClickPos==1&amp;&amp;!techModel.isAm?@color/home:@color/grey}"
                     android:onClick="@{()->techModel.onDateClick(1,false)}"
-                    android:text="下午" />
+                    android:text="@string/tech_pm" />
 
                 <!-- day 2 -->
                 <TextView
                     style="@style/tech_date_style"
-                    android:text="25" />
+                    android:text="@string/event_btn_25" />
 
                 <ImageView style="@style/tech_line_style" />
 
@@ -64,18 +65,18 @@
                     style="@style/tech_rect_text_style"
                     android:background="@{techModel.mClickPos==2&amp;&amp;techModel.isAm?@color/home:@color/grey}"
                     android:onClick="@{()->techModel.onDateClick(2,true)}"
-                    android:text="上午" />
+                    android:text="@string/tech_am" />
 
                 <TextView
                     style="@style/tech_rect_text_style"
                     android:onClick="@{()->techModel.onDateClick(2,false)}"
                     android:background="@{techModel.mClickPos==2&amp;&amp;!techModel.isAm?@color/home:@color/grey}"
-                    android:text="下午" />
+                    android:text="@string/tech_pm" />
 
                 <!-- day 3 -->
                 <TextView
                     style="@style/tech_date_style"
-                    android:text="26" />
+                    android:text="@string/event_btn_26" />
 
                 <ImageView style="@style/tech_line_style" />
 
@@ -83,18 +84,18 @@
                     style="@style/tech_rect_text_style"
                     android:onClick="@{()->techModel.onDateClick(3,true)}"
                     android:background="@{techModel.mClickPos==3&amp;&amp;techModel.isAm?@color/home:@color/grey}"
-                    android:text="上午" />
+                    android:text="@string/tech_am" />
 
                 <TextView
                     style="@style/tech_rect_text_style"
                     android:onClick="@{()->techModel.onDateClick(3,false)}"
                     android:background="@{techModel.mClickPos==3&amp;&amp;!techModel.isAm?@color/home:@color/grey}"
-                    android:text="下午" />
+                    android:text="@string/tech_pm" />
 
                 <!-- day 4 -->
                 <TextView
                     style="@style/tech_date_style"
-                    android:text="27" />
+                    android:text="@string/event_btn_27" />
 
                 <ImageView style="@style/tech_line_style" />
 
@@ -102,13 +103,13 @@
                     style="@style/tech_rect_text_style"
                     android:onClick="@{()->techModel.onDateClick(4,true)}"
                     android:background="@{techModel.mClickPos==4&amp;&amp;techModel.isAm?@color/home:@color/grey}"
-                    android:text="上午" />
+                    android:text="@string/tech_am" />
 
                 <TextView
                     style="@style/tech_rect_text_style"
                     android:onClick="@{()->techModel.onDateClick(4,false)}"
                     android:background="@{techModel.mClickPos==4&amp;&amp;!techModel.isAm?@color/home:@color/grey}"
-                    android:text="下午" />
+                    android:text="@string/tech_pm" />
 
             </LinearLayout>
         </ScrollView>

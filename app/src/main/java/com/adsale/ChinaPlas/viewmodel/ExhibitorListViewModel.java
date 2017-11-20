@@ -46,6 +46,14 @@ public class ExhibitorListViewModel {
     public final ObservableBoolean isSortAZ = new ObservableBoolean(true);
     private ExhibitorRepository mExhibitorRepo;
 
+    /**
+     * 从Exhibitor Dtl 的 Industry or App Industry 跳转过来的
+     */
+    public static final int TYPE_INDUSTRY = 1;
+    public static final int TYPE_APP_INDUSTRY = 2;
+    private int mType = 0;
+    private String mId;
+
     private RecyclerViewScrollTo mRVScrollTo;
     private ExhibitorAdapter adapter;
     private SideLetter sideLetter;
@@ -83,11 +91,22 @@ public class ExhibitorListViewModel {
         this.adapter = adapter;
     }
 
+    public void setPartList(int type, String id) {
+        mType = type;
+        mId = id;
+    }
+
     public void getAllExhibitorsAZ() {
         mExhibitors.clear();
         mLetters.clear();
         if (mAllExhibitorAZCaches.isEmpty()) {
-            mAllExhibitorAZCaches.addAll(mExhibitorRepo.getAllExhibitors(mAllSideAZCaches));
+            if (mType == TYPE_INDUSTRY) {
+                mAllExhibitorAZCaches.addAll(mExhibitorRepo.getIndustryExhibitors(mAllSideAZCaches, mId));
+            } else if (mType == TYPE_APP_INDUSTRY) {
+                mAllExhibitorAZCaches.addAll(mExhibitorRepo.getAppIndustryExhibitors(mAllSideAZCaches, mId));
+            } else {
+                mAllExhibitorAZCaches.addAll(mExhibitorRepo.getAllExhibitors(mAllSideAZCaches));
+            }
         }
         mExhibitors.addAll(mAllExhibitorAZCaches);
         mLetters.addAll(mAllSideAZCaches);
@@ -205,7 +224,7 @@ public class ExhibitorListViewModel {
     }
 
     public void resetList() {
-        LogUtil.e(TAG,"resetList");
+        LogUtil.e(TAG, "resetList");
         isSearching = false;
         clearList();
         clearSearchList();
@@ -223,7 +242,7 @@ public class ExhibitorListViewModel {
         mListener.onIntent(null, ExhibitorFilterActivity.class);
     }
 
-    private void refreshUI(){
+    private void refreshUI() {
         adapter.setList(mExhibitors);
         refreshSideLetter();
     }

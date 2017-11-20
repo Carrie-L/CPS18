@@ -7,20 +7,15 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.databinding.ObservableInt;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
-import android.os.Build;
 import android.os.Environment;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 
 import com.adsale.ChinaPlas.dao.DBHelper;
 import com.adsale.ChinaPlas.dao.DaoMaster;
 import com.adsale.ChinaPlas.dao.DaoSession;
+import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.CrashHandler;
 import com.adsale.ChinaPlas.utils.LogUtil;
@@ -91,7 +86,8 @@ public class App extends Application {
 
         getDbHelper();
 
-
+        // TODO: 2017/11/19  just for test
+        AppUtil.putLoginTest();
     }
 
     private void initSP() {

@@ -6,9 +6,7 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Toast;
 
-import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.ExhibitorHistoryAdapter;
 import com.adsale.ChinaPlas.adapter.MessageCenterAdapter;
@@ -23,7 +21,6 @@ import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.Parser;
 import com.adsale.ChinaPlas.utils.RecyclerItemClickListener;
-import com.adsale.ChinaPlas.viewmodel.NavViewModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,7 +31,7 @@ import java.util.Comparator;
  * <p>title|baiduTJ</p>
  */
 public class CommonListActivity extends BaseActivity {
-    private static final String TAG = "CommomListFragment";
+    private static final String TAG = "CommonListActivity";
 
     private ArrayList<HistoryExhibitor> histories = new ArrayList<>();
     private ArrayList<MessageCenter.Message> messages = new ArrayList<>();
@@ -49,7 +46,7 @@ public class CommonListActivity extends BaseActivity {
 
     public void initView() {
         gIntent = getIntent();
-        setTitle(gIntent.getStringExtra("title"));
+        barTitle.set(gIntent.getStringExtra("title"));
         mBaiduTJ = gIntent.getStringExtra("baiduTJ");
         getLayoutInflater().inflate(R.layout.activity_common_list, mBaseFrameLayout);
 

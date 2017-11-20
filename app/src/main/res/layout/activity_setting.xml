@@ -1,7 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     >
 
-</android.support.constraint.ConstraintLayout>
+    <data>
+        <variable
+            name="aty"
+            type="com.adsale.ChinaPlas.ui.SettingActivity"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <!--<TextView-->
+            <!--style="@style/user_info_tv_style"-->
+            <!--android:text="@string/share"-->
+            <!--android:drawableLeft="@drawable/btn_share"-->
+            <!--android:onClick="@{()->aty.onShare()}"-->
+            <!--/>-->
+
+        <TextView
+            style="@style/user_info_tv_style"
+            android:text="@string/setting_website"
+            android:drawableLeft="@drawable/ic_website"
+            android:onClick="@{()->aty.onLinkWebsite()}"
+            />
+
+        <TextView
+            style="@style/user_info_tv_style"
+            android:text="@string/setting_add_to_calendar"
+            android:drawableLeft="@drawable/ic_website"
+            android:onClick="@{()->aty.onAddToCalendar()}"
+            />
+
+        <TextView
+            style="@style/user_info_tv_style"
+            android:text="@string/setting_reset_all"
+            android:drawableLeft="@drawable/ic_website"
+            android:onClick="@{()->aty.onResetAll()}"
+            />
+
+        <TextView
+            style="@style/user_info_tv_style"
+            android:text="@string/setting_privacy_policy"
+            android:drawableLeft="@drawable/ic_website"
+            android:onClick="@{()->aty.onPrivacy()}"
+            />
+
+        <TextView
+            style="@style/user_info_tv_style"
+            android:text="@string/setting_use_terms"
+            android:drawableLeft="@drawable/ic_website"
+            android:onClick="@{()->aty.onUseItems()}"
+            />
+
+        <!--<TextView-->
+            <!--style="@style/user_info_tv_style"-->
+            <!--android:text="@string/setting_show_help"-->
+            <!--android:drawableLeft="@drawable/ic_website"-->
+            <!--android:onClick="@{()->aty.onHelpPage()}"-->
+            <!--/>-->
+
+    </LinearLayout>
+
+</layout>

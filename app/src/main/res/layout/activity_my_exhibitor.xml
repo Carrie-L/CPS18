@@ -2,13 +2,75 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="android.text.TextUtils" />
+
+        <variable
+            name="model"
+            type="com.adsale.ChinaPlas.viewmodel.MyExhibitorViewModel" />
+
+        <variable
+            name="aty"
+            type="com.adsale.ChinaPlas.ui.MyExhibitorActivity" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/my_exhibitor_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/iv_help"
+            style="@style/help_btn_style"
+            android:onClick="@{()->aty.onHelpPage()}" />
+
+        <com.adsale.ChinaPlas.ui.view.SideLetter
+            android:id="@+id/side_letter"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/iv_help" />
+
+        <TextView
+            style="@style/letter_toast_bg_style"
+            android:text="@{model.dialogLetter}"
+            android:visibility="@{TextUtils.isEmpty(model.dialogLetter.get())?View.GONE:View.VISIBLE}" />
+
+        <TextView
+            style="@style/no_data_style"
+            android:text="@string/no_my_exhibitor"
+            android:visibility="@{model.isNoData?View.VISIBLE:View.GONE}" />
+
+        <ImageView
+            android:id="@+id/iv_hall"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="16dp"
+            android:background="@color/black"
+            android:onClick="@{()->aty.onHallMap()}" />
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_above="@id/iv_hall"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16dp"
+            android:background="@color/home"
+            android:onClick="@{()->aty.onSync()}" />
 
 
-</RelativeLayout>
-
+    </RelativeLayout>
 
 
 </layout>

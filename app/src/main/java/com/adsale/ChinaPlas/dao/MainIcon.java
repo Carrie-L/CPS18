@@ -5,15 +5,11 @@ package com.adsale.ChinaPlas.dao;
 // KEEP INCLUDES - put your custom includes here
 // KEEP INCLUDES END
 
-import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.View;
 
-import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.utils.AppUtil;
-
-import static com.adsale.ChinaPlas.R.id.language;
 
 
 /**
@@ -22,46 +18,70 @@ import static com.adsale.ChinaPlas.R.id.language;
 public class MainIcon implements Parcelable {
 
     private String IconID;
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     private String TitleTW;
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     private String TitleCN;
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     private String TitleEN;
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     private String Icon;
     private int CType;
     private String CFile;
     private String ZipDateTime;
     private int IsHidden;
     private int SEQ;
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     private String CreateDateTime;
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     private String UpdateDateTime;
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     private String RecordTimeStamp;
     private int IsDown;
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     private String BaiDu_TJ;
     private String Google_TJ;
 
 
     // KEEP FIELDS - put your custom fields here
-    /**默认全部展开，则设为true；默认全部折叠，则设为false*/
-    public  boolean isExpanded=false;
+    /**
+     * 默认全部展开，则设为true；默认全部折叠，则设为false
+     */
+    public boolean isExpanded = false;
 
-    /**侧边栏是否有子项*/
-    public boolean hasChild=false;
+    /**
+     * 侧边栏是否有子项
+     */
+    public boolean hasChild = false;
 
-    /**Menu按钮是否有子按钮*/
-    public boolean isMenuHasChild=false;
+    /**
+     * Menu按钮是否有子按钮
+     */
+    public boolean isMenuHasChild = false;
 
-    public boolean isChecked=false;
+    public boolean isChecked = false;
 
     public int color;
 
-    /** 新增列 */
+    /**
+     * 新增列
+     */
     public String DrawerList;
     public String MenuList;
     public String DrawerIcon;
@@ -79,7 +99,7 @@ public class MainIcon implements Parcelable {
     }
 
     public MainIcon(String IconID, String TitleTW, String TitleCN, String TitleEN, String Icon, int CType, String CFile, String ZipDateTime, int IsHidden, int SEQ, String CreateDateTime, String UpdateDateTime, String RecordTimeStamp, int IsDown, String BaiDu_TJ, String Google_TJ
-            ,String DrawerList,String MenuList,String DrawerIcon,String IconTextColor) {
+            , String DrawerList, String MenuList, String DrawerIcon, String IconTextColor) {
         this.IconID = IconID;
         this.TitleTW = TitleTW;
         this.TitleCN = TitleCN;
@@ -96,10 +116,10 @@ public class MainIcon implements Parcelable {
         this.IsDown = IsDown;
         this.BaiDu_TJ = BaiDu_TJ;
         this.Google_TJ = Google_TJ;
-        this.DrawerList=DrawerList;
-        this.MenuList=MenuList;
-        this.DrawerIcon=DrawerIcon;
-        this.IconTextColor=IconTextColor;
+        this.DrawerList = DrawerList;
+        this.MenuList = MenuList;
+        this.DrawerIcon = DrawerIcon;
+        this.IconTextColor = IconTextColor;
     }
 
     public String getIconID() {
@@ -110,42 +130,58 @@ public class MainIcon implements Parcelable {
         this.IconID = IconID;
     }
 
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     public String getTitleTW() {
         return TitleTW;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
+    /**
+     * Not-null value; ensure this value is available before it is saved to the database.
+     */
     public void setTitleTW(String TitleTW) {
         this.TitleTW = TitleTW;
     }
 
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     public String getTitleCN() {
         return TitleCN;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
+    /**
+     * Not-null value; ensure this value is available before it is saved to the database.
+     */
     public void setTitleCN(String TitleCN) {
         this.TitleCN = TitleCN;
     }
 
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     public String getTitleEN() {
         return TitleEN;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
+    /**
+     * Not-null value; ensure this value is available before it is saved to the database.
+     */
     public void setTitleEN(String TitleEN) {
         this.TitleEN = TitleEN;
     }
 
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     public String getIcon() {
         return Icon;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
+    /**
+     * Not-null value; ensure this value is available before it is saved to the database.
+     */
     public void setIcon(String Icon) {
         this.Icon = Icon;
     }
@@ -190,32 +226,44 @@ public class MainIcon implements Parcelable {
         this.SEQ = SEQ;
     }
 
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     public String getCreateDateTime() {
         return CreateDateTime;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
+    /**
+     * Not-null value; ensure this value is available before it is saved to the database.
+     */
     public void setCreateDateTime(String CreateDateTime) {
         this.CreateDateTime = CreateDateTime;
     }
 
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     public String getUpdateDateTime() {
         return UpdateDateTime;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
+    /**
+     * Not-null value; ensure this value is available before it is saved to the database.
+     */
     public void setUpdateDateTime(String UpdateDateTime) {
         this.UpdateDateTime = UpdateDateTime;
     }
 
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     public String getRecordTimeStamp() {
         return RecordTimeStamp;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
+    /**
+     * Not-null value; ensure this value is available before it is saved to the database.
+     */
     public void setRecordTimeStamp(String RecordTimeStamp) {
         this.RecordTimeStamp = RecordTimeStamp;
     }
@@ -228,12 +276,16 @@ public class MainIcon implements Parcelable {
         this.IsDown = IsDown;
     }
 
-    /** Not-null value. */
+    /**
+     * Not-null value.
+     */
     public String getBaiDu_TJ() {
         return BaiDu_TJ;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
+    /**
+     * Not-null value; ensure this value is available before it is saved to the database.
+     */
     public void setBaiDu_TJ(String BaiDu_TJ) {
         this.BaiDu_TJ = BaiDu_TJ;
     }
@@ -247,41 +299,52 @@ public class MainIcon implements Parcelable {
     }
 
     // KEEP METHODS - put your custom methods here
-    public String getTitle(int language){
+    public String getTitle(int language) {
 //        int language = App.mLanguage.get();
-        if((TitleCN.contains("|")||TitleEN.contains("|")||TitleTW.contains("|"))&& AppUtil.isLogin()){
+        if ((TitleCN.contains("|") || TitleEN.contains("|") || TitleTW.contains("|")) && AppUtil.isLogin()) {
             return title(language).split("\\|")[1];
-        }else if((TitleCN.contains("|")||TitleEN.contains("|")||TitleTW.contains("|"))&&!AppUtil.isLogin()){
+        } else if ((TitleCN.contains("|") || TitleEN.contains("|") || TitleTW.contains("|")) && !AppUtil.isLogin()) {
             return title(language).split("\\|")[0];
-        }else{
+        } else {
             return title(language);
         }
     }
 
-    private String title(int language){
-        if(language==0){
+    public String getTitle(int language, boolean isLogined) {
+        if ((TitleCN.contains("|") || TitleEN.contains("|") || TitleTW.contains("|")) && isLogined) {
+            return title(language).split("\\|")[1];
+        } else if ((TitleCN.contains("|") || TitleEN.contains("|") || TitleTW.contains("|")) && !isLogined) {
+            return title(language).split("\\|")[0];
+        } else {
+            return title(language);
+        }
+
+    }
+
+    private String title(int language) {
+        if (language == 0) {
             return TitleTW;
-        }else if(language==1){
+        } else if (language == 1) {
             return TitleEN;
-        }else{
+        } else {
             return TitleCN;
         }
     }
 
-    public void setTitle(int language,String title){
-        if(language==0){
-            this.TitleTW=title;
-        }else if(language==1){
-            this.TitleEN=title;
-        }else{
-            this.TitleCN=title;
+    public void setTitle(int language, String title) {
+        if (language == 0) {
+            this.TitleTW = title;
+        } else if (language == 1) {
+            this.TitleEN = title;
+        } else {
+            this.TitleCN = title;
         }
     }
 
-    public void setTitle(String titleTC,String titleSC,String titleEN){
-        this.TitleTW=titleTC;
-        this.TitleEN=titleEN;
-        this.TitleCN=titleSC;
+    public void setTitle(String titleTC, String titleSC, String titleEN) {
+        this.TitleTW = titleTC;
+        this.TitleEN = titleEN;
+        this.TitleCN = titleSC;
     }
 
     public String getDrawerList() {
@@ -347,14 +410,15 @@ public class MainIcon implements Parcelable {
                 '}';
     }
 
-    /**封面图是否已经消失，true：消失；false：没消失；默认false*/
-    public boolean isCoverGone=false;
+    /**
+     * 封面图是否已经消失，true：消失；false：没消失；默认false
+     */
+    public boolean isCoverGone = false;
 
-    public boolean isClicked=false;
+    public boolean isClicked = false;
 
 
-
-    public int lastPos=0;
+    public int lastPos = 0;
     // KEEP METHODS END
 
     @Override

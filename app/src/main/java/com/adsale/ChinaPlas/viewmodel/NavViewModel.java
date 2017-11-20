@@ -20,13 +20,11 @@ import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.DrawerAdapter;
 import com.adsale.ChinaPlas.dao.MainIcon;
 import com.adsale.ChinaPlas.data.MainIconRepository;
+import com.adsale.ChinaPlas.ui.CommonListActivity;
 import com.adsale.ChinaPlas.ui.ConcurrentEventActivity;
-import com.adsale.ChinaPlas.ui.DocumentsDownCenterActivity;
-import com.adsale.ChinaPlas.ui.ExhibitorActivity;
 import com.adsale.ChinaPlas.ui.ExhibitorAllListActivity;
 import com.adsale.ChinaPlas.ui.LoginActivity;
 import com.adsale.ChinaPlas.ui.MainActivity;
-import com.adsale.ChinaPlas.ui.MyAccountActivity;
 import com.adsale.ChinaPlas.ui.NCardActivity;
 import com.adsale.ChinaPlas.ui.NCardCreateEditActivity;
 import com.adsale.ChinaPlas.ui.NewsActivity;
@@ -37,6 +35,7 @@ import com.adsale.ChinaPlas.ui.SettingActivity;
 import com.adsale.ChinaPlas.ui.SubscribeActivity;
 import com.adsale.ChinaPlas.ui.TravelInfoActivity;
 import com.adsale.ChinaPlas.ui.UpdateCenterActivity;
+import com.adsale.ChinaPlas.ui.UserInfoActivity;
 import com.adsale.ChinaPlas.ui.WebContentActivity;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
@@ -45,6 +44,8 @@ import com.adsale.ChinaPlas.utils.LogUtil;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+
+import static com.adsale.ChinaPlas.utils.Constant.INTENT_COMMON_TYPE;
 
 /**
  * Created by Carrie on 2017/8/8.
@@ -56,7 +57,7 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
     public final ObservableField<String> drawerLoginTitle = new ObservableField<>();
     public final ObservableField<String> drawerLoginOrSync = new ObservableField<>();
     public final ObservableField<String> drawerLogout = new ObservableField<>();
-    public final ObservableBoolean isLoginSuccess = new ObservableBoolean(false);
+    public final ObservableBoolean isLoginSuccess = new ObservableBoolean();
 
     private static final String TAG = "NavViewModel";
     private Context mContext;
@@ -72,9 +73,9 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
 
     public final ObservableInt mCurrLang = new ObservableInt(App.mLanguage.get());
 
-
     public NavViewModel(Context context) {
         mContext = context.getApplicationContext();
+        isLoginSuccess.set(AppUtil.isLogin());
     }
 
     public void onStart(RecyclerView recyclerView, DrawerLayout drawerLayout) {
@@ -191,6 +192,12 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
         }
     }
 
+    public void updateDrawerListLogin() {
+        if (drawerAdapter != null) {
+            drawerAdapter.setLoginChanged();
+        }
+    }
+
     public void onLangClick(int language) {
         AppUtil.switchLanguage(mContext, language);
         App.mLanguage.set(language);
@@ -255,7 +262,7 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
                 break;
             case Constant.BDTJ_MY_ACCOUNT://用户资料
                 if (AppUtil.isLogin()) {
-                    intent = new Intent(activity, MyAccountActivity.class);
+                    intent = new Intent(activity, UserInfoActivity.class);
                 } else {
                     intent = new Intent(activity, LoginActivity.class);
                 }
@@ -289,7 +296,7 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
             case Constant.BDTJ_NEWS:
                 intent = new Intent(activity, NewsActivity.class);
                 break;
-            case Constant.BDTJ_EVENTS:
+            case Constant.BDTJ_EVENTS:  // 同期活动
             case Constant.BDTJ_EVENTS_TXT:
                 intent = new Intent(activity, ConcurrentEventActivity.class);
                 break;
@@ -304,28 +311,27 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
 //                intent = new Intent(context, MyExhibitorListActivity.class);
                 break;
             case Constant.BDTJ_SUBSRIBEE_NEWSLETTER:/* 订阅电子快讯 */
-                LogUtil.i(TAG,"跳转。。。SubscribeActivity");
-                intent = new Intent(activity,SubscribeActivity.class);
+                LogUtil.i(TAG, "跳转。。。SubscribeActivity");
+                intent = new Intent(activity, SubscribeActivity.class);
                 break;
             case Constant.BDTJ_QR_SCANNER:/* 二维码扫描器 */
                 intent = new Intent(activity, ScannerActivity.class);
                 break;
             case Constant.BDTJ_NOTIFICATION_CENTER: /* 通知中心 */
-//                intent = new Intent(context, CommonListActivity.class);
-//                intent.putExtra("TYPE", Constant.COM_MSG_CENTER);
+                intent = new Intent(activity, CommonListActivity.class);
+                intent.putExtra(INTENT_COMMON_TYPE, Constant.COM_MSG_CENTER);
                 break;
             default:
                 intent = new Intent(activity, WebContentActivity.class);
                 intent.putExtra("Url", "WebContent/".concat(mainIcon.getIconID()));
                 break;
         }
+        intent.putExtra("title",mainIcon.getTitle(App.mLanguage.get()));
         return intent;
     }
 
     public interface OnDrawerClickListener {
         void login();
-
-        void logout();
 
         void sync();
 

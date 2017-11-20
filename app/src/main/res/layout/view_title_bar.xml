@@ -35,7 +35,6 @@
             android:layout_width="44dp"
             android:layout_height="44dp"
             android:layout_alignTop="@id/ivLeft"
-            android:layout_marginLeft="8dp"
             android:layout_toRightOf="@id/ivLeft"
             android:onClick="@{() -> activity.back()}"
             android:scaleType="fitStart"
@@ -63,11 +62,12 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_toLeftOf="@id/txtBarHome"
-            android:layout_toRightOf="@id/ivBack"
+            android:layout_toRightOf="@id/ivLeft"
             android:ellipsize="end"
             android:gravity="center"
             android:singleLine="true"
             android:text="@{activity.barTitle}"
+            android:textColor="#fff"
             android:textSize="16sp" />
     </RelativeLayout>
 

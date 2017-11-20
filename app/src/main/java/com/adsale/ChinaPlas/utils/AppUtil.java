@@ -152,6 +152,10 @@ public class AppUtil {
         }
     }
 
+    public static void putLoginTest(){
+        App.mSP_Login.edit().putBoolean(Constant.IS_LOGIN, true).putString(Constant.USER_EMAIL,"894750Test@qq.com").apply();
+    }
+
 
     public static boolean isLogin() {
         return App.mSP_Login.getBoolean(Constant.IS_LOGIN, false);
@@ -678,7 +682,9 @@ public class AppUtil {
 
     public static boolean isNetworkAvailable() {
         NetworkInfo ni = App.mConnectivityManager.getActiveNetworkInfo();
-        return ni != null && ni.isConnectedOrConnecting();
+//        return ni != null && ni.isConnected();
+        // TODO: 2017/11/19
+        return false;
     }
 
     public static <T> void logListString(ArrayList<T> list) {

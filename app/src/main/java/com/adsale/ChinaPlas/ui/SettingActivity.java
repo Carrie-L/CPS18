@@ -1,26 +1,55 @@
 package com.adsale.ChinaPlas.ui;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
-import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
+import com.adsale.ChinaPlas.databinding.ActivitySettingBinding;
+import com.adsale.ChinaPlas.utils.AppUtil;
+import com.adsale.ChinaPlas.utils.CalendarUtil;
 
 public class SettingActivity extends BaseActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting);
-    }
-
-    @Override
     protected void initView() {
-
+        ActivitySettingBinding binding =ActivitySettingBinding.inflate(getLayoutInflater(),mBaseFrameLayout,true);
+        binding.setAty(this);
+        binding.executePendingBindings();
     }
 
     @Override
     protected void initData() {
 
     }
+
+//    public void onShare(){
+//
+//    }
+
+    public void onLinkWebsite(){
+
+    }
+
+    public void onAddToCalendar(){
+        CalendarUtil calendarUtil = new CalendarUtil(this);
+        calendarUtil.addToCalendar();
+    }
+
+    public void onResetAll(){
+        AppUtil.putLogout();
+
+
+    }
+
+    public void onPrivacy(){
+
+    }
+
+    public void onUseItems(){
+
+    }
+
+    public void onHelpPage(){
+
+    }
+
+
+
 }

@@ -1,15 +1,19 @@
 package com.adsale.ChinaPlas.ui;
 
 import android.content.Intent;
+import android.widget.LinearLayout;
 
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.base.BaseActivity;
-import com.adsale.ChinaPlas.dao.NewProductInfo;
+import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.databinding.ActivityExhibitorDetailBinding;
 import com.adsale.ChinaPlas.utils.Constant;
+import com.adsale.ChinaPlas.utils.DisplayUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.viewmodel.ExhibitorDtlViewModel;
+
+import static com.adsale.ChinaPlas.utils.Constant.SCHEDULE_DAY01;
 
 public class ExhibitorDetailActivity extends BaseActivity implements OnIntentListener {
 
@@ -20,25 +24,49 @@ public class ExhibitorDetailActivity extends BaseActivity implements OnIntentLis
         ActivityExhibitorDetailBinding binding = ActivityExhibitorDetailBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         mViewModel = new ExhibitorDtlViewModel(getApplicationContext(), binding.flDtlContent);
         binding.setModel(mViewModel);
-        mViewModel.start(getIntent().getStringExtra(Constant.COMPANY_ID), this,binding.viewstubDtlView.getViewStub());
+        mViewModel.start(getIntent().getStringExtra(Constant.COMPANY_ID), this, binding.viewstubDtlView.getViewStub());
+
+        int screenWidth = App.mSP_Config.getInt(Constant.SCREEN_WIDTH, 0);
+        int width = (screenWidth - DisplayUtil.dip2px(getApplicationContext(), 32));
+        int height = (width * 77) / (349 * 5);
+        LogUtil.i(TAG, "WIDTH=" + width);
+        LogUtil.i(TAG, "height=" + height);
+
+        LinearLayout.LayoutParams bottomParams = new LinearLayout.LayoutParams(width / 5, height);
+        binding.llButton.ivCompanyInfo.setLayoutParams(bottomParams);
+        binding.llButton.ivCollect.setLayoutParams(bottomParams);
+        binding.llButton.ivNote.setLayoutParams(bottomParams);
+        binding.llButton.ivSchedule.setLayoutParams(bottomParams);
+        binding.llButton.ivShare.setLayoutParams(bottomParams);
+
+
     }
 
     @Override
     protected void initData() {
-
+        mViewModel.addToHistory();
     }
 
     @Override
     public <T> void onIntent(T entity, Class toCls) {
         LogUtil.i(TAG, "entity=" + entity.toString());
 
+
 //        Intent intent = new Intent(this,ExhibitorAllListActivity.class);
 //        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //        startActivity(intent);
 
-//        if (toCls.getSimpleName().contains("NewTecDtlActivity")) {
-//
-//        }
+        if (toCls != null) {
+            LogUtil.i(TAG, "toCls.getSimpleName()=" + toCls.getSimpleName());
+            if (toCls.getSimpleName().contains("ScheduleEditActivity")) {
+                Intent intent = new Intent(this, toCls);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra(Constant.INTENT_EXHIBITOR, (Exhibitor) entity);
+                intent.putExtra("date", SCHEDULE_DAY01);
+                startActivity(intent);
+            }
+        }
+
 
     }
 

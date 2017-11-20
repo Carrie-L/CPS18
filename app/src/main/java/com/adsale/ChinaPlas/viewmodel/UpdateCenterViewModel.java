@@ -5,6 +5,8 @@ import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 import android.widget.ProgressBar;
+import android.widget.Toast;
+
 import com.adsale.ChinaPlas.dao.MapFloor;
 import com.adsale.ChinaPlas.dao.UpdateCenter;
 import com.adsale.ChinaPlas.data.DownloadClient;
@@ -191,8 +193,10 @@ public class UpdateCenterViewModel {
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-                        LogUtil.i(TAG, "onNext:" + e.getMessage());
+                        LogUtil.i(TAG, "onError:" + e.getMessage());
                         canBack = true;
+                        isUpdating.set(false);
+                        Toast.makeText(downloadProgress.getContext(),e.getMessage(),Toast.LENGTH_LONG).show();
                     }
 
                     @Override

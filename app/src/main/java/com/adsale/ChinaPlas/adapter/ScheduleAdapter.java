@@ -8,9 +8,7 @@ import com.adsale.ChinaPlas.BR;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.CpsBaseAdapter;
 import com.adsale.ChinaPlas.dao.ScheduleInfo;
-import com.adsale.ChinaPlas.ui.ScheduleActivity;
 import com.adsale.ChinaPlas.ui.ScheduleEditActivity;
-import com.adsale.ChinaPlas.utils.Constant;
 
 import java.util.ArrayList;
 
@@ -38,6 +36,7 @@ public class ScheduleAdapter extends CpsBaseAdapter<ScheduleInfo> {
     public void onItemClick(ScheduleInfo entity) {
         Intent intent = new Intent(mContext, ScheduleEditActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(INTENT_SCHEDULE, entity);
         mContext.startActivity(intent);
     }

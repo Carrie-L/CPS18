@@ -19,6 +19,7 @@
             android:layout_height="48dp"
             android:gravity="center_vertical"
             android:text="@string/title_exhibitor_deti"
+            android:textColor="@color/grey11"
             android:onClick="@{()->model.onBackToInfo()}"
             />
 
@@ -55,6 +56,7 @@
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
                 android:text="@string/title_schedule"
+                android:textColor="@color/grey11"
                 android:textSize="18sp" />
 
             <ImageView
@@ -70,6 +72,7 @@
                 android:layout_height="match_parent"
                 android:layout_above="@+id/btn_add_schedule"
                 android:layout_below="@id/line"
+                android:textColor="@color/grey11"
                 android:gravity="center"
                 android:text="@string/no_scheduleInfo"
                 android:visibility="@{model.isScheduleNoData?View.VISIBLE:View.GONE}"

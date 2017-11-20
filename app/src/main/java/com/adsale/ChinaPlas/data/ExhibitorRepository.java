@@ -2,7 +2,6 @@ package com.adsale.ChinaPlas.data;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteConstraintException;
 
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.dao.ApplicationCompany;
@@ -30,7 +29,6 @@ import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.Locale;
 
-import static android.text.TextUtils.concat;
 import static com.adsale.ChinaPlas.App.mDBHelper;
 import static com.adsale.ChinaPlas.utils.AppUtil.getName;
 
@@ -51,10 +49,11 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
     private ExhibitorIndustryDtlDao mIndustryDtlDao;
     private BussinessMappingDao mBsnsMappingDao;
     private FloorDao mFloorDao;
+    private Exhibitor exhibitor;
 
     public static ExhibitorRepository getInstance() {
         if (INSTANCE == null) {
-            return new ExhibitorRepository();
+            INSTANCE = new ExhibitorRepository();
         }
         return INSTANCE;
     }
@@ -160,28 +159,11 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
         Cursor cursor = mDBHelper.db.rawQuery(sql, null);
         ArrayList<Exhibitor> exhibitors = new ArrayList<>();
         if (cursor != null) {
-            Exhibitor exhibitor;
             while (cursor.moveToNext()) {
-                exhibitor = new Exhibitor();
-                exhibitor.setCompanyID(cursor.getString(cursor.getColumnIndex("COMPANY_ID")));
-                exhibitor.setCompanyNameEN(cursor.getString(cursor.getColumnIndex("COMPANY_NAME_EN")));
-                exhibitor.setCompanyNameCN(cursor.getString(cursor.getColumnIndex("COMPANY_NAME_CN")));
-                exhibitor.setCompanyNameTW(cursor.getString(cursor.getColumnIndex("COMPANY_NAME_TW")));
-                exhibitor.setBoothNo(cursor.getString(cursor.getColumnIndex("BOOTH_NO")));
+                cursor(cursor, language);
                 exhibitor.setHallNo(cursor.getString(cursor.getColumnIndex("HALL_NO")).replace("999", ""));
-                exhibitor.setIsFavourite(cursor.getInt(cursor.getColumnIndex("IS_FAVOURITE")));
                 exhibitor.CountryName = cursor.getString(cursor.getColumnIndex("COUNTRY_NAME"));
                 exhibitor.isCollected.set(exhibitor.getIsFavourite() == 1);
-                if (language == 0) {
-                    exhibitor.setStrokeTrad(cursor.getString(cursor.getColumnIndex("STROKE_TRAD")));
-                    exhibitor.setSeqTC(cursor.getInt(cursor.getColumnIndex("SEQ_TC")));
-                } else if (language == 1) {
-                    exhibitor.setStrokeEng(cursor.getString(cursor.getColumnIndex("STROKE_ENG")));
-                    exhibitor.setSeqEN(cursor.getInt(cursor.getColumnIndex("SEQ_EN")));
-                } else {
-                    exhibitor.setPYSimp(cursor.getString(cursor.getColumnIndex("PYSIMP")));
-                    exhibitor.setSeqSC(cursor.getInt(cursor.getColumnIndex("SEQ_SC")));
-                }
                 if (orderByAZ) {
                     letters.add(exhibitor.getSort());
                 } else {
@@ -479,7 +461,7 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
         mIndustryDao.deleteAll();
     }
 
-    public void clearExhibitorAll(){
+    public void clearExhibitorAll() {
         mExhibitorDao.deleteAll();
     }
 
@@ -502,6 +484,110 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
         mBsnsMappingDao = null;
     }
 
+
+    /*  ---------------------------------  Exhibitor Dtl Industry or App Industry  ------------------------------------------ */
+    private String getExhibitorDtlSql() {
+        int language = App.mLanguage.get();
+        if (language == 0) {
+            return "select E.COMPANY_ID,E.COMPANY_NAME_EN,E.COMPANY_NAME_TW,E.COMPANY_NAME_CN,E.COUNTRY_ID,E.BOOTH_NO,E.STROKE_TRAD,E.SEQ_TC,E.HALL_NO,E.IS_FAVOURITE,E.DESC_E,E.DESC_S,E.DESC_T\n" +
+                    ",C.COUNTRY_NAME_TW AS COUNTRY_NAME from EXHIBITOR E,COUNTRY C,%1$s I WHERE E.COUNTRY_ID=C.COUNTRY_ID AND E.COMPANY_ID=I.COMPANY_ID AND %2$s";
+        } else if (language == 1) {
+            return "select E.COMPANY_ID,E.COMPANY_NAME_EN,E.COMPANY_NAME_TW,E.COMPANY_NAME_CN,E.BOOTH_NO,E.STROKE_ENG,E.SEQ_EN,E.HALL_NO,E.IS_FAVOURITE,E.DESC_E,E.DESC_S,E.DESC_T\n" +
+                    ",C.COUNTRY_NAME_EN AS COUNTRY_NAME from EXHIBITOR E,COUNTRY C,%1$s I WHERE E.COUNTRY_ID=C.COUNTRY_ID AND E.COMPANY_ID=I.COMPANY_ID AND %2$s";
+        } else {
+            return "select E.COMPANY_ID,E.COMPANY_NAME_EN,E.COMPANY_NAME_TW,E.COMPANY_NAME_CN,E.BOOTH_NO,E.PYSIMP,E.SEQ_SC,E.HALL_NO,E.IS_FAVOURITE,E.DESC_E,E.DESC_S,E.DESC_T\n" +
+                    ",C.COUNTRY_NAME_CN AS COUNTRY_NAME from EXHIBITOR E,COUNTRY C,%1$s I WHERE E.COUNTRY_ID=C.COUNTRY_ID AND E.COMPANY_ID=I.COMPANY_ID AND %2$s";
+        }
+    }
+
+    /**
+     * 包含产品id的展商
+     *
+     * @param id 产品id
+     *           SELECT * FRom EXHIBITOR E, EXHIBITOR_INDUSTRY_DTL I,COUNTRY C WHERE E.COUNTRY_ID=C.COUNTRY_ID and I.CATALOG_PRODUCT_SUB_ID="31" AND E.COMPANY_ID=I.COMPANY_ID
+     */
+    public ArrayList<Exhibitor> getIndustryExhibitors(ArrayList<String> letters, String id) {
+        String sql = String.format(getExhibitorDtlSql(), "EXHIBITOR_INDUSTRY_DTL", "I.CATALOG_PRODUCT_SUB_ID=" + id) + orderByStroke();
+        return cursorList(sql, letters, true);
+    }
+
+    /**
+     * 包含应用行业的展示
+     *
+     * @param id 应用行业id
+     *           SELECT E.* FRom EXHIBITOR E, APPLICATION_COMPANY I WHERE I.INDUSTRY_ID="10" AND E.COMPANY_ID=I.COMPANY_ID;
+     */
+    public ArrayList<Exhibitor> getAppIndustryExhibitors(ArrayList<String> letters, String id) {
+        String sql = String.format(getExhibitorDtlSql(), "APPLICATION_COMPANY", "I.INDUSTRY_ID=" + id) + orderByStroke();
+        return cursorList(sql, letters, true);
+    }
+
+    /*  ---------------------------------  My Exhibitor ------------------------------------------ */
+    public ArrayList<Exhibitor> getMyExhibitors(ArrayList<String> letters) {
+        return myExhibitorCursorList(getMyExhibitorSql().concat(orderByStroke()), letters);
+    }
+
+    private ArrayList<Exhibitor> myExhibitorCursorList(String sql, ArrayList<String> letters) {
+        long startTime = System.currentTimeMillis();
+        int language = App.mLanguage.get();
+        Cursor cursor = mDBHelper.db.rawQuery(sql, null);
+        ArrayList<Exhibitor> exhibitors = new ArrayList<>();
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                cursor(cursor, language);
+                letters.add(exhibitor.getSort());
+                exhibitors.add(exhibitor);
+            }
+            cursor.close();
+        }
+        long endTime = System.currentTimeMillis();
+        LogUtil.e(TAG, "查询所有展商列表所花费的时间为：" + (endTime - startTime) + "ms");
+
+        long startTime1 = System.currentTimeMillis();
+        ArrayList<String> temps = new ArrayList<>(new LinkedHashSet<>(letters));
+        letters.clear();
+        letters.addAll(temps);
+        LogUtil.i(TAG, "letters= " + letters.size() + "," + letters.toString());
+        long endTime1 = System.currentTimeMillis();
+        LogUtil.e(TAG, "去重letters所花费的时间为：" + (endTime1 - startTime1) + "ms");
+
+        return exhibitors;
+    }
+
+    private String getMyExhibitorSql() {
+        int language = App.mLanguage.get();
+        if (language == 0) {
+            return "select E.COMPANY_ID,E.COMPANY_NAME_EN,E.COMPANY_NAME_TW,E.COMPANY_NAME_CN,E.BOOTH_NO,E.STROKE_TRAD,E.SEQ_TC,E.IS_FAVOURITE\n" +
+                    " from EXHIBITOR E WHERE E.IS_FAVOURITE=1";
+        } else if (language == 1) {
+            return "select E.COMPANY_ID,E.COMPANY_NAME_EN,E.COMPANY_NAME_TW,E.COMPANY_NAME_CN,E.BOOTH_NO,E.STROKE_ENG,E.SEQ_EN,E.IS_FAVOURITE\n" +
+                    " from EXHIBITOR E WHERE E.IS_FAVOURITE=1";
+        } else {
+            return "select E.COMPANY_ID,E.COMPANY_NAME_EN,E.COMPANY_NAME_TW,E.COMPANY_NAME_CN,E.BOOTH_NO,E.PYSIMP,E.SEQ_SC,E.IS_FAVOURITE\n" +
+                    " from EXHIBITOR E WHERE E.IS_FAVOURITE=1";
+        }
+    }
+
+// -----------------------------------------------------------------------------------------------------------------------
+    private void cursor(Cursor cursor, int language) {
+        exhibitor = new Exhibitor();
+        exhibitor.setCompanyID(cursor.getString(cursor.getColumnIndex("COMPANY_ID")));
+        exhibitor.setCompanyNameEN(cursor.getString(cursor.getColumnIndex("COMPANY_NAME_EN")));
+        exhibitor.setCompanyNameCN(cursor.getString(cursor.getColumnIndex("COMPANY_NAME_CN")));
+        exhibitor.setCompanyNameTW(cursor.getString(cursor.getColumnIndex("COMPANY_NAME_TW")));
+        exhibitor.setBoothNo(cursor.getString(cursor.getColumnIndex("BOOTH_NO")));
+        exhibitor.setIsFavourite(cursor.getInt(cursor.getColumnIndex("IS_FAVOURITE")));
+        if (language == 0) {
+            exhibitor.setStrokeTrad(cursor.getString(cursor.getColumnIndex("STROKE_TRAD")));
+            exhibitor.setSeqTC(cursor.getInt(cursor.getColumnIndex("SEQ_TC")));
+        } else if (language == 1) {
+            exhibitor.setStrokeEng(cursor.getString(cursor.getColumnIndex("STROKE_ENG")));
+            exhibitor.setSeqEN(cursor.getInt(cursor.getColumnIndex("SEQ_EN")));
+        } else {
+            exhibitor.setPYSimp(cursor.getString(cursor.getColumnIndex("PYSIMP")));
+            exhibitor.setSeqSC(cursor.getInt(cursor.getColumnIndex("SEQ_SC")));
+        }
+    }
 
 
 }

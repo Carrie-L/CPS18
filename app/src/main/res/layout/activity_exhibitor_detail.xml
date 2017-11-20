@@ -20,7 +20,8 @@
         <include
             android:id="@+id/ll_button"
             layout="@layout/view_exhi_buttons"
-            app:model="@{model}" />
+            app:model="@{model}"
+            />
 
         <RelativeLayout
             android:layout_width="match_parent"

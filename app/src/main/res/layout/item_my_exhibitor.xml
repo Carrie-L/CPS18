@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="adapter"
+            type="com.adsale.ChinaPlas.adapter.MyExhibitorAdapter"/>
+        <variable
+            name="obj"
+            type="com.adsale.ChinaPlas.dao.Exhibitor" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:onClick="@{()->adapter.onItemClick(obj)}"
+        >
+
+        <TextView
+            android:id="@+id/tv_event_header"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/white_smoke"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:text="@{obj.sort}"
+            android:textColor="@color/home"
+            android:textSize="16sp"
+            android:visibility="@{obj.isTypeLabel?View.VISIBLE:View.GONE}" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:layout_marginTop="12dp"
+            android:text="@{obj.getCompanyName()}"
+            android:textColor="@color/grey11"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="16dp"
+            android:layout_marginBottom="12dp"
+            android:text="@{obj.boothNo}"
+            android:textColor="@color/grey21"
+            />
+
+    </LinearLayout>
+
+</layout>

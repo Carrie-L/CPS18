@@ -4,13 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.dao.DBHelper;
-import com.adsale.ChinaPlas.data.ExhibitorRepository;
 import com.adsale.ChinaPlas.data.LoginClient;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
@@ -59,7 +57,8 @@ public class SyncViewModel {
 
     private String mCompanyId;
     private Matcher matcher;
-//    public ProgressDialog pb;
+    private boolean isSyncSuccess;
+    //    public ProgressDialog pb;
 
     public SyncViewModel(Context context) {
         this.mContext = context;
@@ -100,7 +99,8 @@ public class SyncViewModel {
         return requestBody;
     }
 
-    public void syncMyExhibitor(){
+    public boolean syncMyExhibitor(){
+        isSyncSuccess = false;
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         Gson gson = new GsonBuilder().setLenient().create();
         Retrofit.Builder builder = new Retrofit.Builder()
@@ -130,10 +130,10 @@ public class SyncViewModel {
                         }else{
                             Toast.makeText(mContext, mContext.getString(R.string.syncFailure), Toast.LENGTH_SHORT).show();
                         }
-
-
+                        isSyncSuccess =aBoolean;
                     }
                 });
+        return isSyncSuccess;
     }
 
     private boolean processSyncData(String data){

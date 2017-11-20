@@ -113,6 +113,7 @@ public class MenuAdapter extends CpsBaseAdapter<MainIcon> {
     @Override
     public void onBindViewHolder(CpsBaseViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
+        LogUtil.i(TAG,"ICON="+largeMenus.get(position).getIcon());
         Glide.with(mContext).load(Uri.parse(mBaseUrl.concat(largeMenus.get(position).getIcon()))).into(menuBinding.icon);
         resizeLargeMenu();
     }
@@ -153,10 +154,6 @@ public class MenuAdapter extends CpsBaseAdapter<MainIcon> {
             mClickPos.set(pos);
             innerMenu0.set(menus.get(pos).get(0));
             innerMenu1.set(menus.get(pos).get(1));
-
-            LogUtil.i(TAG, "------");
-            LogUtil.i(TAG, "menu0=" + menus.get(pos).get(0).getTitle(navViewModel.mCurrLang.get()));
-            LogUtil.i(TAG, "menu1=" + menus.get(pos).get(1).getTitle(navViewModel.mCurrLang.get()));
         } else {
             mListener.onIntent(entity, null);
         }

@@ -223,6 +223,8 @@
     <string name="event_date_27">2018.04.27</string>
     <string name="event_date_base">2018.04.%s</string>
     <string name="tech_zone">A</string>
+    <string name="tech_am">上午</string>
+    <string name="tech_pm">下午</string>
 
     <!--技术交流会-->
     <string name="title_technical_seminar">技術交流會</string>
@@ -300,5 +302,6 @@
     <string name="no_my_exhibitor">沒有收藏的參展商。 \n請到\"參展商名單\"添加參展商。</string>
 
     <string name="home">主目錄</string>
+    <string name="my_exhibt_on_map">Distribution</string>
 
 </resources>

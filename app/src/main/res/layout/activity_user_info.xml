@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.adsale.ChinaPlas.ui.UserInfoActivity">
+
+    <data>
+
+        <variable
+            name="aty"
+            type="com.adsale.ChinaPlas.ui.UserInfoActivity" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <TextView
+            style="@style/user_info_tv_style"
+            android:drawableLeft="@drawable/ic_my_exhibitor"
+            android:onClick="@{()->aty.onMyExhibitor()}"
+            android:text="@string/title_my_exhibitor" />
+
+        <TextView
+            style="@style/user_info_tv_style"
+            android:drawableLeft="@drawable/ic_my_exhibitor"
+            android:onClick="@{()->aty.onMySchedule()}"
+            android:text="@string/title_schedule" />
+
+        <TextView
+            style="@style/user_info_tv_style"
+            android:drawableLeft="@drawable/ic_my_exhibitor"
+            android:onClick="@{()->aty.onMyNameCard()}"
+            android:text="@string/title_my_name_card" />
+
+        <TextView
+            style="@style/user_info_tv_style"
+            android:drawableLeft="@drawable/ic_my_exhibitor"
+            android:onClick="@{()->aty.onMyHistoryExhibitor()}"
+            android:text="@string/title_history_exhibitor" />
+
+        <TextView
+            style="@style/user_info_tv_style"
+            android:drawableLeft="@drawable/ic_my_exhibitor"
+            android:onClick="@{()->aty.onLogout()}"
+            android:text="@string/logout" />
+
+
+    </LinearLayout>
+
+</layout>

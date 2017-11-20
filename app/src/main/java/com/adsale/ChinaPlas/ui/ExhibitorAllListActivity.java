@@ -9,8 +9,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.adsale.ChinaPlas.adapter.ExhibitorAdapter;
 import com.adsale.ChinaPlas.base.BaseActivity;
@@ -44,6 +42,8 @@ public class ExhibitorAllListActivity extends BaseActivity implements OnItemClic
     private SideLetter sideLetter;
     private ExhibitorAdapter adapter;
 
+
+
     @Override
     protected void initView() {
         binding = ActivityExhibitorAllListBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
@@ -55,7 +55,14 @@ public class ExhibitorAllListActivity extends BaseActivity implements OnItemClic
         mExhibitorModel = new ExhibitorListViewModel(mRepository, this);
         binding.setExhibitorModel(mExhibitorModel);
 
+        /*  来自日程 */
         date = getIntent().getStringExtra("date");
+
+        /* 来自展示详情 */
+        String id=getIntent().getStringExtra("id");
+        if(!TextUtils.isEmpty(id)){
+           mExhibitorModel.setPartList(getIntent().getIntExtra("type",-1),id);
+        }
 
         setExhibitorList();
         setupSideLetter();

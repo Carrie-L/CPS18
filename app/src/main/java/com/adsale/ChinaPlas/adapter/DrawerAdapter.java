@@ -1,7 +1,5 @@
 package com.adsale.ChinaPlas.adapter;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -18,19 +16,22 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.dao.MainIcon;
 import com.adsale.ChinaPlas.data.model.MainPic;
 import com.adsale.ChinaPlas.ui.MainActivity;
+import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
-import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Parser;
 import com.adsale.ChinaPlas.viewmodel.NavViewModel;
 import com.bumptech.glide.Glide;
+
+import java.util.ArrayList;
+
+import static com.adsale.ChinaPlas.utils.Constant.BDTJ_MY_ACCOUNT;
 
 public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
     private static final String TAG = "DrawerAdapter";
@@ -49,8 +50,6 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private Context mContext;
 
-    private MainIcon mainIcon;
-
     boolean isMatch = false;
 
     private int language;
@@ -66,6 +65,10 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
     private boolean isPadDevice;
     private NavViewModel mNavViewModel;
     private String mBaseIconUrl;
+    private MainIcon mRegisterEntity;
+    private MainIcon mLoginEntity;
+    private int mRegOrLoginIndex;
+    private MainIcon mainIcon;
 
     public DrawerAdapter(ArrayList<MainIcon> icons, ArrayList<MainIcon> parentList, NavViewModel baseViewModel) {
         super();
@@ -73,7 +76,9 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
         this.mParents = parentList;
         this.mNavViewModel = baseViewModel;
 
-        LogUtil.e(TAG, "_________LeftMenuAdapter_____________parentList= " + parentList.size()  + ",icons=" + icons.size());
+        isLogin = mNavViewModel.isLoginSuccess.get();
+
+        LogUtil.e(TAG, "_________LeftMenuAdapter_____________parentList= " + parentList.size() + ",icons=" + icons.size());
 
         lists = new ArrayList<>();
         lists = mParents;
@@ -82,12 +87,16 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
         mBaseIconUrl = mainPic.IconPath;
     }
 
-    public void refresh() {
-        notifyDataSetChanged();
-    }
-
-    public void setIsLogin(boolean isLogin) {
-        this.isLogin = isLogin;
+    public void setLoginChanged() {
+        int size = lists.size();
+        for (int i = 0; i < size; i++) {
+            if (lists.get(i).getBaiDu_TJ().equals(BDTJ_MY_ACCOUNT)) {
+                LogUtil.i(TAG, "找到了：" + lists.get(i).getBaiDu_TJ());
+                isLogin = AppUtil.isLogin();
+                notifyItemChanged(i);
+                break;
+            }
+        }
     }
 
     @Override
@@ -118,24 +127,25 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         language = App.mLanguage.get();
+        mainIcon = lists.get(position);
 
         if (holder.getItemViewType() == TYPE_PARENT) {
             parentHolder = (ParentViewHolder) holder;
-            parentHolder.tv_parent_name.setText(lists.get(position).getTitle(mNavViewModel.mCurrLang.get()));
-            if (lists.get(position).getDrawerIcon() != null) {
-                Glide.with(mContext).load(mBaseIconUrl.concat(lists.get(position).getDrawerIcon())).into(parentHolder.ivIcon);
+            parentHolder.tv_parent_name.setText(mainIcon.getTitle(mNavViewModel.mCurrLang.get()));
+            if (mainIcon.getDrawerIcon() != null) {
+                Glide.with(mContext).load(mBaseIconUrl.concat(mainIcon.getDrawerIcon())).into(parentHolder.ivIcon);
             }
 
-            if (lists.get(position).hasChild) {
-                if (lists.get(position).getBaiDu_TJ().trim().equals("Visitor") && !isLogin) {
+            if (mainIcon.hasChild) {
+                if (mainIcon.getBaiDu_TJ().trim().equals("Visitor") && !isLogin) {
                     parentHolder.ib_arrow.setVisibility(View.GONE);
-                    if (lists.get(position).isExpanded) {
+                    if (mainIcon.isExpanded) {
                         LogUtil.e(TAG, "当前预登记正在展开啊，赶紧关闭了");
                         parentHolder.collapseChildItemsNotRefresh(position);
                     }
                 } else {
                     parentHolder.ib_arrow.setVisibility(View.VISIBLE);
-                    if (lists.get(position).isExpanded) {
+                    if (mainIcon.isExpanded) {
                         parentHolder.ib_arrow.setBackgroundResource(R.drawable.ic_down_arrow);
                     } else {
                         parentHolder.ib_arrow.setBackgroundResource(R.drawable.ic_right_arrow);
@@ -145,7 +155,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
                 parentHolder.ib_arrow.setVisibility(View.GONE);
             }
 
-            if (lists.get(position).getBaiDu_TJ().trim().equals("ContentUpdate")) {
+            if (mainIcon.getBaiDu_TJ().trim().equals("ContentUpdate")) {
                 /*当UpdateCenter更新，需刷新数量*/
                 if (uc_count > 0) {
                     parentHolder.tv_uc_count.setText(String.valueOf(uc_count));
@@ -162,8 +172,8 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
             childHolder.tv_child_name.setText(lists.get(position).getTitle(mNavViewModel.mCurrLang.get()));
             childHolder.tv_child_name.setTextColor(mContext.getResources().getColor(R.color.gray_qrcode_tips));
             childHolder.item_child_rl.setBackgroundColor(mContext.getResources().getColor(R.color.white_smoke));
-            if (lists.get(position).getDrawerIcon() != null) {
-                Glide.with(mContext).load(mBaseIconUrl.concat(lists.get(position).getDrawerIcon())).into(childHolder.ivItemIcon);
+            if (mainIcon.getDrawerIcon() != null) {
+                Glide.with(mContext).load(mBaseIconUrl.concat(mainIcon.getDrawerIcon())).into(childHolder.ivItemIcon);
             }
 
         }
@@ -400,7 +410,6 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         }
         mCloseListener.close();
-        Toast.makeText(mContext, "click: " + mainIcon.getBaiDu_TJ(), Toast.LENGTH_SHORT).show();
         mNavViewModel.intent((Activity) mContext, mainIcon);
         if (!(mContext instanceof MainActivity)) {
             ((Activity) mContext).finish();

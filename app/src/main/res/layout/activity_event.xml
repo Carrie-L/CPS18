@@ -65,7 +65,7 @@
                 android:background="@color/grey"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:text="技术交流会"
+                android:text="@string/title_technical_seminar"
                 android:gravity="center"
                 android:onClick="@{()->eventModel.chooseDate(5)}"
                 />

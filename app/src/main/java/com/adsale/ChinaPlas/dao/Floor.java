@@ -6,12 +6,11 @@ package com.adsale.ChinaPlas.dao;
 // KEEP INCLUDES END
 
 import android.databinding.ObservableBoolean;
+import android.databinding.ObservableInt;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.adsale.ChinaPlas.utils.AppUtil;
-
-import static com.adsale.ChinaPlas.R.id.language;
 
 /**
  * Entity mapped to table "FLOOR".
@@ -26,7 +25,8 @@ public class Floor implements Parcelable {
 
     // KEEP FIELDS - put your custom fields here
     public int exhibitorCount;
-    public final ObservableBoolean isSelected=new ObservableBoolean(false);
+    public final ObservableBoolean isSelected = new ObservableBoolean(false);
+    public final ObservableInt count = new ObservableInt(0);
     // KEEP FIELDS END
 
     public Floor() {
@@ -85,8 +85,8 @@ public class Floor implements Parcelable {
     }
 
     // KEEP METHODS - put your custom methods here
-    public String getFloorName(){
-    	return AppUtil.getName(FloorNameTW,FloorNameEN,FloorNameCN);
+    public String getFloorName() {
+        return AppUtil.getName(FloorNameTW, FloorNameEN, FloorNameCN);
     }
 
     public void parser(String[] strings) {
@@ -94,7 +94,7 @@ public class Floor implements Parcelable {
         this.FloorNameEN = strings[1];
         this.FloorNameTW = strings[2];
         this.FloorNameCN = strings[3];
-        this.SEQ =Integer.valueOf(strings[4]);
+        this.SEQ = Integer.valueOf(strings[4]);
     }
 
 

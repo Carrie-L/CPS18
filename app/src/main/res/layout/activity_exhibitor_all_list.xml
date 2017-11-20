@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <import type="java.util.ArrayList"/>
+
+        <import type="java.util.ArrayList" />
+
         <import type="android.view.View" />
 
         <variable
@@ -94,14 +96,8 @@
 
         <TextView
             android:id="@+id/DialogText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center"
-            android:background="@drawable/show_head_toast_bg"
-            android:text="@{exhibitorModel.dialogLetter}"
-            android:textColor="@android:color/white"
-            android:textSize="20sp" />
+            style="@style/letter_toast_bg_style"
+            android:text="@{exhibitorModel.dialogLetter}" />
 
         <TextView
             style="@style/no_data_style"

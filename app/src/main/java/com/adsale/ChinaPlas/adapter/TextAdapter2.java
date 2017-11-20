@@ -4,17 +4,15 @@ package com.adsale.ChinaPlas.adapter;
  * Created by Carrie on 2017/11/16.
  */
 
-import com.adsale.ChinaPlas.BR;
-
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
 
+import com.adsale.ChinaPlas.BR;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.CpsBaseAdapter;
-import com.adsale.ChinaPlas.dao.Floor;
-import com.adsale.ChinaPlas.data.OnIntentListener;
-import com.adsale.ChinaPlas.data.model.ExhibitorFilter;
 import com.adsale.ChinaPlas.data.model.Text2;
+import com.adsale.ChinaPlas.ui.ExhibitorAllListActivity;
 import com.adsale.ChinaPlas.utils.LogUtil;
 
 import java.util.ArrayList;
@@ -29,11 +27,13 @@ import java.util.ArrayList;
 public class TextAdapter2 extends CpsBaseAdapter<Text2> {
     private final String TAG = "TextAdapter2";
     private ArrayList<Text2> list;
-    private OnIntentListener mListener;
+    private Context mContext;
+    private int mType;
 
-    public TextAdapter2(ArrayList<Text2> list,OnIntentListener listener) {
+    public TextAdapter2(ArrayList<Text2> list,Context context,int type) {
         this.list = list;
-        this.mListener=listener;
+        this.mType=type;
+        this.mContext=context;
     }
 
     @Override
@@ -49,7 +49,15 @@ public class TextAdapter2 extends CpsBaseAdapter<Text2> {
     }
 
     public void onItemClick(String id){
-       mListener.onIntent(id,null);
+        LogUtil.i(TAG,"ID="+id);
+
+        Intent intent = new Intent(mContext, ExhibitorAllListActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("type", mType);
+        intent.putExtra("id", id);
+        mContext.startActivity(intent);
+
     }
 
     @Override
