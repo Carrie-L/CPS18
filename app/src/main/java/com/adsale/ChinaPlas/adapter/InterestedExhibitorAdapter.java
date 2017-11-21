@@ -4,8 +4,8 @@ import android.databinding.ViewDataBinding;
 
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.CpsBaseAdapter;
-import com.adsale.ChinaPlas.dao.Floor;
 import com.adsale.ChinaPlas.data.OnIntentListener;
+import com.adsale.ChinaPlas.data.model.InterestedExhibitor;
 import com.android.databinding.library.baseAdapters.BR;
 
 import java.util.ArrayList;
@@ -14,16 +14,16 @@ import java.util.ArrayList;
  * Created by Carrie on 2017/11/19.
  */
 
-public class FloorDistributeAdapter extends CpsBaseAdapter<Floor>{
-    private ArrayList<Floor> list;
+public class InterestedExhibitorAdapter extends CpsBaseAdapter<InterestedExhibitor>{
+    private ArrayList<InterestedExhibitor> list;
     private OnIntentListener mListener;
 
-    public FloorDistributeAdapter(ArrayList<Floor> list, OnIntentListener mListener) {
+    public InterestedExhibitorAdapter(ArrayList<InterestedExhibitor> list, OnIntentListener mListener) {
         this.list = list;
         this.mListener = mListener;
     }
 
-    public void onItemClick(Floor entity){
+    public void onItemClick(InterestedExhibitor entity){
 //        mListener.onIntent(entity,);
     }
 

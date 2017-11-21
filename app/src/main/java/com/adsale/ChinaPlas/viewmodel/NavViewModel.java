@@ -58,6 +58,7 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
     public final ObservableField<String> drawerLoginOrSync = new ObservableField<>();
     public final ObservableField<String> drawerLogout = new ObservableField<>();
     public final ObservableBoolean isLoginSuccess = new ObservableBoolean();
+    public final ObservableBoolean isLoginStatusChanged = new ObservableBoolean();
 
     private static final String TAG = "NavViewModel";
     private Context mContext;
@@ -68,12 +69,15 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
     private DrawerLayout mDrawerLayout;
     private Intent intent;
 
+    private static NavViewModel INSTANCE;
+
     public final ObservableInt language = new ObservableInt(0);
     private DrawerAdapter drawerAdapter;
 
     public final ObservableInt mCurrLang = new ObservableInt(App.mLanguage.get());
 
     public NavViewModel(Context context) {
+        LogUtil.i(TAG, "-- NavViewModel Construct--");
         mContext = context.getApplicationContext();
         isLoginSuccess.set(AppUtil.isLogin());
     }
@@ -161,6 +165,7 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
 
     public void setUpHeader() {
         isLoginSuccess.set(AppUtil.isLogin());
+        isLoginStatusChanged.set(true);
         setHeaderText();
     }
 
@@ -187,6 +192,7 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
     }
 
     public void login(View view) {
+        close();
         if (mDrawerListener != null) {
             mDrawerListener.login();
         }
@@ -194,7 +200,10 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
 
     public void updateDrawerListLogin() {
         if (drawerAdapter != null) {
+            LogUtil.i(TAG,"updateDrawerListLogin drawerAdapter != null");
             drawerAdapter.setLoginChanged();
+        }else{
+            LogUtil.i(TAG,"updateDrawerListLogin drawerAdapter == null");
         }
     }
 
@@ -326,7 +335,7 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
                 intent.putExtra("Url", "WebContent/".concat(mainIcon.getIconID()));
                 break;
         }
-        intent.putExtra("title",mainIcon.getTitle(App.mLanguage.get()));
+        intent.putExtra("title", mainIcon.getTitle(App.mLanguage.get()));
         return intent;
     }
 

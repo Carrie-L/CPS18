@@ -67,7 +67,7 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
         mNavViewModel = new NavViewModel(getApplicationContext());
 
         mScreenWidth = App.mSP_Config.getInt(Constant.SCREEN_WIDTH, 0);
-
+        TAG = getClass().getSimpleName();
 
         preView();
 
@@ -83,12 +83,6 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
         initData();
 
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        TAG = getClass().getSimpleName();
     }
 
     private void initDrawer() {
@@ -170,9 +164,10 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
 
     protected abstract void initData();
 
-    protected <T> void intent(Class<T> cls) {
+    protected <T> void intent(Class<T> cls,String title) {
         Intent intent = new Intent(this, cls);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("title",title);
         startActivity(intent);
         overridePendingTransPad();
     }
@@ -185,6 +180,7 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
 
     @Override
     public void login() {
+        mNavViewModel.isLoginSuccess.set(false);
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(intent);
     }
@@ -195,6 +191,12 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 processLogout();
+                if(!TAG.equals("MainActivity")){
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                    overridePendingTransPad();
+                }
             }
         });
     }
@@ -202,6 +204,14 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
     protected void processLogout(){
         AppUtil.putLogout();
         mNavViewModel.isLoginSuccess.set(false);
+        mNavViewModel.isLoginStatusChanged.set(true);
+        mNavViewModel.setUpHeader();
+        mNavViewModel.updateDrawerListLogin();
+    }
+
+    protected void processLogin(){
+        AppUtil.putLogin();
+        mNavViewModel.isLoginSuccess.set(true);
         mNavViewModel.setUpHeader();
         mNavViewModel.updateDrawerListLogin();
     }

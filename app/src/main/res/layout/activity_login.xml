@@ -111,7 +111,7 @@
             android:layout_marginTop="16dp"
             android:clickable="true"
             android:gravity="center_vertical"
-            android:onClick="@{activity::toRegister}"
+            android:onClick="@{()->activity.toRegister()}"
             android:text="@string/login_text6"
             android:textColor="#fe4b10"
             android:textSize="14sp"

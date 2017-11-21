@@ -31,6 +31,14 @@ import static android.content.ContentValues.TAG;
 /**
  * Created by Carrie on 2017/11/7.
  * 自定义Help Page Dialog
+ * <p>
+ * use:
+ * <p>1. first enter show
+ * <br>HelpView  helpView = new HelpView(this, HelpView.HELP_PAGE_MY_EXHIBITOR);
+ * <br>helpView.showPage();
+ *
+ * <p>2. click show
+ * <br>helpView.show();
  */
 
 public class HelpView extends Dialog implements View.OnClickListener {
@@ -49,6 +57,11 @@ public class HelpView extends Dialog implements View.OnClickListener {
     public final static int HELP_PAGE_SCANNER = 6;
     public final static int HELP_PAGE_SCHEDULE = 7;
     public final static int HELP_PAGE_SCHEDULE_DTL = 8;
+    public final static String HELP_PAGE = "HELP_PAGE_";
+    /**
+     * 是哪个HelpPage
+     */
+    private int mPageType;
 
     /**
      * @param context activity
@@ -113,34 +126,35 @@ public class HelpView extends Dialog implements View.OnClickListener {
     }
 
     private void getImageIds(int page) {
+        mPageType = page;
         LogUtil.i(TAG, "page=" + page);
         switch (page) {
             case HELP_PAGE_MAIN:
                 getMenuImages();
                 break;
             case HELP_PAGE_EXHIBITOR_DTL:
-
+                imageIds = new Integer[]{R.drawable.help_exhibitordtl_0};
                 break;
             case HELP_PAGE_EVENT_DTL:
-
+                imageIds = new Integer[]{R.drawable.help_event_0};
                 break;
             case HELP_PAGE_FLOOR_OVERALL:
-
+                imageIds = new Integer[]{R.drawable.help_mapfloor_0};
                 break;
             case HELP_PAGE_FLOOR_DTL:
-
+                imageIds = new Integer[]{R.drawable.help_floordtl_0};
                 break;
             case HELP_PAGE_MY_EXHIBITOR:
-
+                imageIds = new Integer[]{R.drawable.help_myexhibitor_0};
                 break;
             case HELP_PAGE_SCANNER:
-
+                imageIds = new Integer[]{R.drawable.help_scanner_0};
                 break;
             case HELP_PAGE_SCHEDULE:
-                getImageIdsSchedule();
+                imageIds = new Integer[]{R.drawable.help_schedule_0};
                 break;
             case HELP_PAGE_SCHEDULE_DTL:
-                getImageIdsScheduleDtl();
+                imageIds = new Integer[]{R.drawable.help_schedule_edit_0};
                 break;
 
         }
@@ -150,16 +164,25 @@ public class HelpView extends Dialog implements View.OnClickListener {
         imageIds = new Integer[]{R.drawable.help_1, R.drawable.help_2, R.drawable.help_3, R.drawable.help_4, R.drawable.help_5, R.drawable.help_6};
     }
 
-    private void getImageIdsMyExhibitor() {
-        imageIds = new Integer[]{R.drawable.help_myexhibitor_tc_0};
+    /**
+     * 初次进入页面时，如果帮助页面没有显示过，则自动显示，否则要按？按钮才显示。
+     * 这里判断是否是初次进入这个页面，如果显示过了，mSP_Config中保存pageType，肯定不等于-1.   true，则显示，false不显示
+     *
+     * @return
+     */
+    public boolean isFirstShow() {
+        return App.mSP_Config.getInt(HELP_PAGE + mPageType, -1) != mPageType;
     }
 
-    private void getImageIdsSchedule() {
-        imageIds = new Integer[]{R.drawable.help_schedule_0};
+    private void setHelpPageShowed() {
+        App.mSP_Config.edit().putInt(HELP_PAGE + mPageType, mPageType).apply();
     }
 
-    private void getImageIdsScheduleDtl() {
-        imageIds = new Integer[]{R.drawable.help_schedule_edit_0};
+    public void showPage() {
+        if (isFirstShow()) {
+            show();
+            setHelpPageShowed();
+        }
     }
 
     @Override
@@ -167,7 +190,7 @@ public class HelpView extends Dialog implements View.OnClickListener {
         cancel();
     }
 
-    public class HelpPageChangeListener implements ViewPager.OnPageChangeListener {
+    private class HelpPageChangeListener implements ViewPager.OnPageChangeListener {
         @Override
         public void onPageScrollStateChanged(int pos) {
         }
@@ -203,4 +226,5 @@ public class HelpView extends Dialog implements View.OnClickListener {
         wl.gravity = Gravity.TOP;
         window.setAttributes(wl);
     }
+
 }

@@ -46,4 +46,8 @@ public class NameCardRepository implements DataSource<NameCard> {
     public boolean isNameCardExisits(String deviceId){
         return  !nameCardDao.queryBuilder().where(NameCardDao.Properties.DeviceId.eq(deviceId)).list().isEmpty();
     }
+
+    public void clearNameCard() {
+        nameCardDao.deleteAll();
+    }
 }

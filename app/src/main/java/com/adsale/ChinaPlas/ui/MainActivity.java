@@ -2,8 +2,6 @@ package com.adsale.ChinaPlas.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.ImageView;
@@ -12,13 +10,10 @@ import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.dao.UpdateCenterDao;
-import com.adsale.ChinaPlas.data.model.MainPic;
 import com.adsale.ChinaPlas.databinding.ActivityMainBinding;
 import com.adsale.ChinaPlas.helper.HelpPage;
 import com.adsale.ChinaPlas.utils.AppUtil;
-import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
-import com.adsale.ChinaPlas.utils.Parser;
 import com.adsale.ChinaPlas.utils.PermissionUtil;
 
 import static com.adsale.ChinaPlas.utils.PermissionUtil.PMS_CODE_WRITE_SD;
@@ -40,12 +35,13 @@ public class MainActivity extends BaseActivity {
      * 是否显示完第一次帮助页面，true，显示完，下次进入不再显示；false，还未显示，显示
      */
     private boolean isFirstHelpPageShowed;
-
+    private boolean isLogin = false;
     private boolean isPadDevice;
 
     @Override
     protected void preView() {
         super.preView();
+        TAG="MainActivity";
         mToolbarBackgroundRes = R.drawable.main_header;
         isShowTitleBar.set(false);
     }
@@ -62,6 +58,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initData() {
         permissionSD();
+        isLogin = AppUtil.isLogin();
         mNavViewModel.setMainActivity(this);
         setFragment();
 
@@ -88,6 +85,16 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        LogUtil.i(TAG,"=== onResume === isLogin=" +isLogin);
+        LogUtil.i(TAG,"=== onResume ===  mNavViewModel.isLoginSuccess=" + mNavViewModel.isLoginSuccess.get());
+        LogUtil.i(TAG,"=== onResume ===  AppUtil.isLogin()=" + AppUtil.isLogin());
+
+        if (mNavViewModel.isLoginSuccess.get() != AppUtil.isLogin()) { // 做一个登陆状态的判断，只有在登陆状态改变时才执行以下操作
+//            isLogin=AppUtil.isLogin();
+            mNavViewModel.isLoginSuccess.set(AppUtil.isLogin()); /* 改变Menu的文字 */
+            mNavViewModel.updateDrawerListLogin();
+        }
 //        firstHelpPage();
     }
 
@@ -102,7 +109,7 @@ public class MainActivity extends BaseActivity {
             } else {
                 helpPage();
             }
-        }else{
+        } else {
 
         }
     }

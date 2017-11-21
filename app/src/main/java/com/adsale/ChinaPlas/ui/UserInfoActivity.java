@@ -9,9 +9,7 @@ import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.databinding.ActivityUserInfoBinding;
 import com.adsale.ChinaPlas.utils.AppUtil;
-import com.adsale.ChinaPlas.utils.Constant;
 
-import static com.adsale.ChinaPlas.utils.Constant.COM_HISTORY_EXHI;
 
 public class UserInfoActivity extends BaseActivity {
 
@@ -24,34 +22,43 @@ public class UserInfoActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        syncToast();
+    }
 
+    /**
+     * 登录成功后，同步提示，只在登录页面返回时才有
+     */
+    private void syncToast() {
+        if (getIntent().getBooleanExtra("LoginSync", false)) {
+            AppUtil.showAlertDialog(this, R.string.syncMessage, R.string.ok, R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    sync();
+                }
+            }, null);
+        }
     }
 
     public void onMyExhibitor() {
-        intent(MyExhibitorActivity.class);
+        intent(MyExhibitorActivity.class,getString(R.string.title_my_exhibitor));
     }
 
     public void onMySchedule() {
-        intent(ScheduleActivity.class);
+        intent(ScheduleActivity.class,getString(R.string.title_schedule));
     }
 
     public void onMyNameCard() {
         SharedPreferences spNameCard = getSharedPreferences("MyNameCard", Context.MODE_PRIVATE);
         boolean isCreate = spNameCard.getBoolean("isCreate", true);
         if (isCreate) {
-            intent(NCardCreateEditActivity.class);
+            intent(NCardCreateEditActivity.class,getString(R.string.create_card));
         } else {
-            intent(NCardActivity.class);
+            intent(NCardActivity.class,getString(R.string.title_my_name_card));
         }
     }
 
     public void onMyHistoryExhibitor() {
-        Intent intent = new Intent(this, CommonListActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("title", getString(R.string.title_history_exhibitor));
-        intent.putExtra(Constant.INTENT_COMMON_TYPE, COM_HISTORY_EXHI);
-        startActivity(intent);
-        overridePendingTransPad();
+        intent(ExhibitorHistoryActivity.class,"");
     }
 
     public void onLogout() {

@@ -36,7 +36,9 @@
             android:name=".ui.RegisterActivity"
             android:label="@string/title_activity_register"
             android:theme="@style/AppTheme" />
-        <activity android:name=".ui.MainActivity" />
+        <activity android:name=".ui.MainActivity"
+            android:launchMode="singleTask"
+            />
 
         <meta-data
             android:name="io.fabric.ApiKey"
@@ -76,6 +78,7 @@
         <activity android:name=".ui.TravelInfoActivity" />
         <activity android:name=".ui.TravelDetailActivity" />
         <activity android:name=".ui.CommonListActivity" />
+        <activity android:name=".ui.ExhibitorHistoryActivity" />
         //Ping++
         ---------------------------------------------------------------------------------------
         <!-- Ping++ SDK -->

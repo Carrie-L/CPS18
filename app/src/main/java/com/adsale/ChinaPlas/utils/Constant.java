@@ -120,6 +120,7 @@ public class Constant {
     public static final String DIR_TRAVEL="TravelInfo";
     public static final String DIR_EVENT="ConcurrentEvent";
     public static final String DIR_NEW_TEC="NewTec/";
+    public static final String DIR_WEB_CONTENT="WebContent/";
 
     public static final String ASSET_APPLICATION_CSV="Application/Application.csv";
     public static final String ASSET_COMPANY_APPLICATION_CSV="Application/CompanyApplication.csv";
@@ -142,6 +143,5 @@ public class Constant {
 
     /*  CommonList */
     public static final String COM_MSG_CENTER="MessageCenter";
-    public static final String COM_HISTORY_EXHI="HistoryExhibitor";
 
 }

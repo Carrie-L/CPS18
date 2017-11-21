@@ -304,4 +304,42 @@
     <string name="home">主目錄</string>
     <string name="my_exhibt_on_map">Distribution</string>
 
+    <string name="dialog_prompt">提示</string>
+    <string name="dialog_sync_prompt_message">請登錄你的賬戶，進行參展商同步</string>
+    <string name="dialog_sync_prompt">同步提示</string>
+    <string name="dialog_sync_message">是否同步我的參展商</string>
+
+    <string name="dialog_login_prompt">請先登錄</string>
+
+    <string name="today">今日</string>
+    <string name="yesterday">昨日</string>
+    <string name="past_records">過去</string>
+
+    <string name="ok">確定</string>
+
+    <!-- Setting -->
+    <string name="select_url">請選擇網站版本</string>
+    <string name="sharetitle">國際橡塑展2018</string>
+
+    <string-array name="url_ver">
+        <item>完整版</item>
+        <item>手機版</item>
+    </string-array>
+
+    <string name="EXIT">退出</string>
+    <string name="EXIT_MSG">離開國際橡塑展？</string>
+
+    <string name="setting_language">语言</string>
+    <string name="setting_website">网站连结</string>
+    <string name="setting_add_to_calendar">添加到日历</string>
+    <string name="setting_preregistered_login">预先登记观众登入</string>
+    <string name="setting_reset_all">重置所有设定</string>
+    <string name="setting_privacy_policy">私隐政策声明</string>
+    <string name="setting_use_terms">使用条款</string>
+    <string name="setting_sync">资料同步</string>
+    <string name="setting_logout">注销</string>
+    <string name="setting_show_help">帮助</string>
+    <string name="share">分享</string>
+
+
 </resources>

@@ -165,6 +165,10 @@ public class AppUtil {
         App.mSP_Login.edit().putBoolean(Constant.IS_LOGIN, false).apply();
     }
 
+    public static void putLogin() {
+        App.mSP_Login.edit().putBoolean(Constant.IS_LOGIN, true).apply();
+    }
+
     public static String getUserEmail() {
         return App.mSP_Login.getString(Constant.USER_EMAIL, "");
     }
@@ -474,6 +478,17 @@ public class AppUtil {
     public static String getTodayDate() {
         SimpleDateFormat sformat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         return sformat.format(Calendar.getInstance().getTime());
+    }
+
+    /**
+     * 获取昨天的日期
+     *
+     * @return String yyyy-MM-dd
+     */
+    public static String getYesterdayDate() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -1);
+        return new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.getTime());
     }
 
     /**

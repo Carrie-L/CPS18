@@ -9,28 +9,26 @@ import android.widget.Toast;
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.dao.DBHelper;
+import com.adsale.ChinaPlas.data.ExhibitorRepository;
 import com.adsale.ChinaPlas.data.LoginClient;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
+import com.adsale.ChinaPlas.utils.FileUtils;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.NetWorkHelper;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.adsale.ChinaPlas.utils.ReRxUtils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
 /**
@@ -57,8 +55,7 @@ public class SyncViewModel {
 
     private String mCompanyId;
     private Matcher matcher;
-    private boolean isSyncSuccess;
-    //    public ProgressDialog pb;
+    private Disposable mDisposable;
 
     public SyncViewModel(Context context) {
         this.mContext = context;
@@ -77,7 +74,7 @@ public class SyncViewModel {
 //                mContext.getString(R.string.loading));
 
         String sync_date = AppUtil.getCurrentTime();
-        LogUtil.i(TAG, "同步我的参展商syncMyExhibitor: sync_date="+sync_date);
+        LogUtil.i(TAG, "同步我的参展商syncMyExhibitor: sync_date=" + sync_date);
 
         SharedPreferences.Editor editor = mSpLogin.edit();
         editor.putString("sync_date", sync_date).apply();
@@ -99,69 +96,81 @@ public class SyncViewModel {
         return requestBody;
     }
 
-    public boolean syncMyExhibitor(){
-        isSyncSuccess = false;
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-        Gson gson = new GsonBuilder().setLenient().create();
-        Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl(NetWorkHelper.BASE_URL_CPS)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create(gson));
-        Retrofit retrofit = builder.client(httpClient.build()).build();
-        final LoginClient client = retrofit.create(LoginClient.class);
-
+    public void syncMyExhibitor() {
+        final LoginClient client = ReRxUtils.setupRxtrofit(LoginClient.class, NetWorkHelper.BASE_URL_CPS);
         client.sync(getRequestBody())
                 .map(new Function<retrofit2.Response<ResponseBody>, Boolean>() {
                     @Override
                     public Boolean apply(@NonNull retrofit2.Response<ResponseBody> responseBodyResponse) throws Exception {
-                        if(responseBodyResponse.isSuccessful()){
-                           return processSyncData(responseBodyResponse.body().string());
+                        if (responseBodyResponse.isSuccessful()) {
+                            return processSyncData(responseBodyResponse.body().string());
                         }
                         return false;
                     }
                 }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Boolean>() {
+                .subscribe(new Observer<Boolean>() {
                     @Override
-                    public void accept(Boolean aBoolean) throws Exception {
-                        LogUtil.i(TAG,"aBoolean="+aBoolean);
-                        if(aBoolean){
+                    public void onSubscribe(Disposable d) {
+                        mDisposable=d;
+                    }
+
+                    @Override
+                    public void onNext(Boolean aBoolean) {
+                        LogUtil.i(TAG, "sync: aBoolean=" + aBoolean);
+                        if (aBoolean) {
                             Toast.makeText(mContext, mContext.getString(R.string.syncSuccess), Toast.LENGTH_SHORT).show();
-                        }else{
+                        } else {
                             Toast.makeText(mContext, mContext.getString(R.string.syncFailure), Toast.LENGTH_SHORT).show();
                         }
-                        isSyncSuccess =aBoolean;
+                        if (mSyncCallback != null) {
+                            mSyncCallback.sync(aBoolean);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtil.i(TAG,"SYNC ON ERROR: "+e.getMessage());
+                        mDisposable.dispose();
+                        Toast.makeText(mContext, mContext.getString(R.string.syncFailure), Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        LogUtil.i(TAG,"SYNC onComplete");
+                        mDisposable.dispose();
                     }
                 });
-        return isSyncSuccess;
     }
 
-    private boolean processSyncData(String data){
+    private boolean processSyncData(String data) {
+        /*  获取中间的值 <label id="KVal">   </label>   */
+        Matcher matcher = Pattern.compile("KVal\">(.*?)</label>").matcher(data);
+        String responseSyncData = "";
+        while (matcher.find()) {
+            responseSyncData = matcher.group(1);
+            LogUtil.e(TAG, "matcher : " + responseSyncData);
+        }
+        if (TextUtils.isEmpty(responseSyncData)) {
+            return false;
+        }
+        saveDeleteData();
+        saveUpdateData(responseSyncData);
+        responseSyncData = "|" + responseSyncData;
+        Matcher matcher1 = Pattern.compile("\\|(.*?),").matcher(responseSyncData);
+        LogUtil.e(TAG, "匹配参展商");
+        boolean hasMatcher = false;
+        ExhibitorRepository repo = ExhibitorRepository.getInstance();
+        while (matcher1.find()) {
+            LogUtil.i(TAG, "find=" + matcher1.group(1));
+            repo.updateIsFavourite(matcher1.group(1));
+            hasMatcher = true;
+        }
+        return hasMatcher;
+    }
 
-        LogUtil.e(TAG,"processSyncData::data="+data);
-
-//        Document oDocument = Jsoup.parse(data);
-//        Element oElement = oDocument.getElementById("KVal");
-//        LogUtil.i(TAG, "oElement=" + oElement);
-
-//        if (oElement != null) {
-//            String responseSyncData = oElement.text().trim();
-//            Log.i(TAG, "responseSyncData=" + responseSyncData);
-//            if (!responseSyncData.equals("")) {
-//                saveDeleteData();
-//                saveUpdateData(responseSyncData);
-//                responseSyncData = "|" + responseSyncData;
-//                Matcher matcher = Pattern.compile("\\|(.*?),").matcher(responseSyncData);
-//                LogUtil.e(TAG, "匹配参展商");
-//                while (matcher.find()) {
-//                    LogUtil.i(TAG, "find=" + matcher.group(1));
-//                    ExhibitorRepository repo=ExhibitorRepository.getInstance();
-//                    repo.updateIsFavourite(matcher.group(1));
-//                }
-//            }
-//            return true;
-//        }
-        return false;
+    private void writeDataTo(String data) {
+        FileUtils.writeFileTo(data, mContext.getFilesDir().getAbsolutePath().concat("/sync.html"));
     }
 
     //-----------------------------------------Newer 2017.1.6------------------------------------------------------------------
@@ -177,10 +186,6 @@ public class SyncViewModel {
         editor.putString(Constant.SYNC_UPDATE, update);
         editor.putString(Constant.SYNC_DELETE, delete);
         editor.apply();
-    }
-
-    public void saveUpdateData() {
-        editor.putString(Constant.SYNC_UPDATE, mAddBuilder.toString()).apply();
     }
 
     public void saveUpdateData(String data) {
@@ -243,8 +248,14 @@ public class SyncViewModel {
         return data;
     }
 
-    public void post() {
+    public interface SyncCallback {
+        void sync(boolean success);
+    }
 
+    private SyncCallback mSyncCallback;
+
+    public void setSyncCallback(SyncCallback callback) {
+        mSyncCallback = callback;
     }
 
 

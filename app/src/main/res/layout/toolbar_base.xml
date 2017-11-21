@@ -25,6 +25,5 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <!--app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"-->
 
 </layout>

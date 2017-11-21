@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import com.adsale.ChinaPlas.App;
 
 import okhttp3.MediaType;
-import okhttp3.Request;
 import okhttp3.RequestBody;
 
 /**
@@ -22,6 +21,9 @@ public class NetWorkHelper {
     // WEBSERVICE 17年
     public static final String DOWNLOAD_PATH = "https://eform.adsale.com.hk/AppCPS18Services/";
     public static final String WEBSERVICEURL = "https://eform.adsale.com.hk/AppCPS18Services/wsCLE15.asmx";
+
+    public static final String FULL_WEBSITE="http://www.chinaplasonline.com/CPS18/Home/%s/Information.aspx";
+    public static final String MOBILE_WEBSITE="http://www.chinaplasonline.com/CPS18/Mobile/%s/Home.aspx";
 
     //POST  BASE_URL IS DOWNLOAD_PATH
     public static final String GetFolderScanFilesJson = "wsCLE15.asmx?op=getFolderScanFilesJson";
@@ -49,7 +51,7 @@ public class NetWorkHelper {
     public static final String REGISTER_CONFIRM_IMG_URL="https://eform.adsale.com.hk/vreg/Files/Mobile/PreReg/479/";  /*  确认信图片链接 */
     public static final String REGISTER_INVOICE_URL="https://www.chinaplasonline.com/CPS18/Mobile/Home/%1s/PreRegInvoice.aspx?image=%2s";  /*  发票链接 */
 
-     /*订阅电子快讯*/
+    /*订阅电子快讯*/
     public static final String Subscribe_BASE_URL = "https://eform.adsale.com.hk/FormR/ContactUs/";
     public static final String Subscribe_LAST_URL = "EnewsSub.aspx?showid=430&device=app&WAct=9105";//&lang={langType}
 

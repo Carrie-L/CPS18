@@ -16,9 +16,9 @@ import java.util.ArrayList;
  * Created by Carrie on 2017/11/19.
  */
 
-public class MyExhibitorViewModel implements SideLetter.OnLetterClickListener {
+public class MyExhibitorViewModel implements SideLetter.OnLetterClickListener, SyncViewModel.SyncCallback {
     public final ObservableField<String> dialogLetter = new ObservableField<>();
-    public final ObservableBoolean isNoData=new ObservableBoolean();
+    public final ObservableBoolean isNoData = new ObservableBoolean();
     public ArrayList<Exhibitor> mExhibitors = new ArrayList<>();
     public ArrayList<String> mLetters = new ArrayList<>();
 
@@ -27,6 +27,7 @@ public class MyExhibitorViewModel implements SideLetter.OnLetterClickListener {
     private RecyclerViewScrollTo mScrollTo;
     private ExhibitorRepository mRepository;
     private MyExhibitorAdapter mAdapter;
+    private SyncViewModel syncViewModel;
 
     public MyExhibitorViewModel(Context context) {
         this.mContext = context;
@@ -59,7 +60,6 @@ public class MyExhibitorViewModel implements SideLetter.OnLetterClickListener {
         mSideLetter.setOnLetterClickListener(this);
     }
 
-
     private void refreshUI() {
         mAdapter.setList(mExhibitors);
         mSideLetter.setList(mLetters);
@@ -67,15 +67,11 @@ public class MyExhibitorViewModel implements SideLetter.OnLetterClickListener {
     }
 
     public void sync() {
-        SyncViewModel syncViewModel = new SyncViewModel(mContext);
-        if (syncViewModel.syncMyExhibitor()) {
-            getMyExhibitors();
-            refreshUI();
+        if (syncViewModel == null) {
+            syncViewModel = new SyncViewModel(mContext);
+            syncViewModel.setSyncCallback(this);
         }
-    }
-
-    public void onHelpPage() {
-
+        syncViewModel.syncMyExhibitor();
     }
 
     @Override
@@ -94,4 +90,11 @@ public class MyExhibitorViewModel implements SideLetter.OnLetterClickListener {
         }
     }
 
+    @Override
+    public void sync(boolean success) {
+        if (success) {
+            getMyExhibitors();
+            refreshUI();
+        }
+    }
 }

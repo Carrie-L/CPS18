@@ -51,7 +51,7 @@ public class MyAccountActivity extends BaseActivity {
         ivSchedule.clickListener.set(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent(ScheduleActivity.class);
+                intent(ScheduleActivity.class,getString(R.string.title_schedule));
             }
         });
         ivNameCard.clickListener.set(new View.OnClickListener() {

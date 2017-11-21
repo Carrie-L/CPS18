@@ -4,24 +4,26 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.MyExhibitorAdapter;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.databinding.ActivityMyExhibitorBinding;
+import com.adsale.ChinaPlas.ui.view.HelpView;
 import com.adsale.ChinaPlas.utils.Constant;
-import com.adsale.ChinaPlas.utils.DividerItemDecoration;
+import com.adsale.ChinaPlas.utils.RecyclerItemDecoration;
 import com.adsale.ChinaPlas.utils.RecyclerViewScrollTo;
 import com.adsale.ChinaPlas.viewmodel.MyExhibitorViewModel;
 
-public class MyExhibitorActivity extends BaseActivity implements OnIntentListener{
-
+public class MyExhibitorActivity extends BaseActivity implements OnIntentListener {
 
     private MyExhibitorViewModel viewModel;
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private ActivityMyExhibitorBinding binding;
     private MyExhibitorAdapter adapter;
+    private HelpView helpView;
 
     @Override
     protected void initView() {
@@ -36,7 +38,7 @@ public class MyExhibitorActivity extends BaseActivity implements OnIntentListene
         layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), DividerItemDecoration.VERTICAL));
+        recyclerView.addItemDecoration(new RecyclerItemDecoration(getApplicationContext(), LinearLayoutManager.HORIZONTAL));
     }
 
     @Override
@@ -46,8 +48,15 @@ public class MyExhibitorActivity extends BaseActivity implements OnIntentListene
         RecyclerViewScrollTo mRVScrollTo = new RecyclerViewScrollTo(layoutManager, recyclerView);
         viewModel.start(binding.sideLetter, mRVScrollTo);
 
-        adapter = new MyExhibitorAdapter(viewModel.mExhibitors,this);
+        adapter = new MyExhibitorAdapter(viewModel.mExhibitors, this);
         recyclerView.setAdapter(adapter);
+
+        showHelpPage();
+    }
+
+    private void showHelpPage() {
+        helpView = new HelpView(this, HelpView.HELP_PAGE_MY_EXHIBITOR);
+        helpView.showPage();
     }
 
     public void onSync() {
@@ -56,16 +65,16 @@ public class MyExhibitorActivity extends BaseActivity implements OnIntentListene
     }
 
     public void onHelpPage() {
-
+        helpView.show();
     }
 
     public void onHallMap() {
-        intent(FloorDistributeActivity.class);
+        intent(FloorDistributeActivity.class, getString(R.string.my_exhibt_on_map));
     }
 
     @Override
     public <T> void onIntent(T entity, Class toCls) {
-       Intent intent = new Intent(this, ExhibitorDetailActivity.class);
+        Intent intent = new Intent(this, ExhibitorDetailActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(Constant.COMPANY_ID, ((Exhibitor) entity).getCompanyID());
         startActivity(intent);

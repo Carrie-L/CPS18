@@ -2,7 +2,6 @@ package com.adsale.ChinaPlas.helper;
 
 import android.content.Context;
 import android.net.Uri;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,6 @@ import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.DisplayUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
@@ -224,181 +222,6 @@ public class HelpPage {
         return imageIds = new Integer[]{R.drawable.help_1, R.drawable.help_2, R.drawable.help_3, R.drawable.help_4, R.drawable.help_5, R.drawable.help_6};
     }
 
-    /**
-     * @param context
-     * @param check   是否审核，判断是否已经启动过，第一次进入时显示，之后进入要点击？按钮才显示。true，判断；false，不判断，直接显示
-     */
-    public void showPageMyExhibitor(Context context, boolean check, View.OnClickListener listener) {
-        mContext = context;
-        language = App.mLanguage.get();
-        if (language == 0) {
-            imageIds = new Integer[]{R.drawable.help_myexhibitor_tc_0};
-        } else if (language == 1) {
-            imageIds = new Integer[]{R.drawable.help_myexhibitor_en_0};
-        } else {
-            imageIds = new Integer[]{R.drawable.help_myexhibitor_sc_0};
-        }
-
-        if (check) {
-            findView("Help_MyExhibitor", imageIds, false);
-        } else
-            showHelpPage("Help_MyExhibitor", imageIds, false);
-
-        if (btn_close != null) {
-            btn_close.setOnClickListener(listener);
-        }
-    }
-
-    public void showPageExhibitorDtl(Context context, boolean check, View.OnClickListener listener) {
-        mContext = context;
-        language = App.mLanguage.get();
-        if (language == 0) {
-            imageIds = new Integer[]{R.drawable.help_exhibitordtl_tc_0};
-        } else if (language == 1) {
-            imageIds = new Integer[]{R.drawable.help_exhibitordtl_en_0};
-        } else {
-            imageIds = new Integer[]{R.drawable.help_exhibitordtl_sc_0};
-        }
-        if (check)
-            findView("Help_ExhibitorDtl", imageIds, false);
-        else
-            showHelpPage("Help_ExhibitorDtl", imageIds, false);
-
-        if (btn_close != null) {
-            btn_close.setOnClickListener(listener);
-        }
-    }
-
-    public void showPageMapFloor(Context context, boolean check) {
-        mContext = context;
-        language = App.mLanguage.get();
-        if (language == 0) {
-            imageIds = new Integer[]{R.drawable.help_mapfloor_tc_0};
-        } else if (language == 1) {
-            imageIds = new Integer[]{R.drawable.help_mapfloor_en_0};
-        } else {
-            imageIds = new Integer[]{R.drawable.help_mapfloor_sc_0};
-        }
-
-//        imageIds = new Integer[]{R.drawable.help_mapfloor_0};
-        if (check)
-            findView("Help_MapFloor", imageIds, true);
-        else
-            showHelpPage("Help_MapFloor", imageIds, true);
-    }
-
-    public void showPageFloorDtl(Context context, boolean check) {
-        mContext = context;
-//        imageIds = new Integer[]{R.drawable.help_floordtl_0};
-        language = App.mLanguage.get();
-        if (language == 0) {
-            imageIds = new Integer[]{R.drawable.help_floordtl_tc_0};
-        } else if (language == 1) {
-            imageIds = new Integer[]{R.drawable.help_floordtl_en_0};
-        } else {
-            imageIds = new Integer[]{R.drawable.help_floordtl_sc_0};
-        }
-        if (check)
-            findView("Help_FloorDtl", imageIds, true);
-        else
-            showHelpPage("Help_FloorDtl", imageIds, true);
-    }
-
-    public void showPageSchedule(Context context, boolean check, final FloatingActionButton fab) {
-        mContext = context;
-//        imageIds = new Integer[]{R.drawable.help_schedule_0};
-        language = App.mLanguage.get();
-        if (language == 0) {
-            imageIds = new Integer[]{R.drawable.help_schedule_tc_0};
-        } else if (language == 1) {
-            imageIds = new Integer[]{R.drawable.help_schedule_en_0};
-        } else {
-            imageIds = new Integer[]{R.drawable.help_schedule_sc_0};
-        }
-        if (check)
-            findView("Help_Schedule", imageIds, false);
-        else
-            showHelpPage("Help_Schedule", imageIds, false);
-
-        if (btn_close != null) {
-            btn_close.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    fab.setVisibility(View.VISIBLE);
-                    mFrameLayout.setVisibility(View.GONE);
-                    App.mSP_Config.edit().putBoolean("Help_Schedule", true).apply();
-                }
-            });
-        }
-    }
-
-    public void showPageScheduleEdit(Context context, boolean check) {
-        mContext = context;
-        language = App.mLanguage.get();
-        if (language == 0) {
-            imageIds = new Integer[]{R.drawable.help_schedule_edit_tc_0};
-        } else if (language == 1) {
-            imageIds = new Integer[]{R.drawable.help_schedule_edit_en_0};
-        } else {
-            imageIds = new Integer[]{R.drawable.help_schedule_edit_sc_0};
-        }
-        if (check)
-            findView("Help_ScheduleEdit", imageIds, true);
-        else
-            showHelpPage("Help_ScheduleEdit", imageIds, true);
-    }
-
-    public void showPageEvent(Context context, boolean check, final FloatingActionButton fab) {
-        mContext = context;
-//        imageIds = new Integer[]{R.drawable.help_event_0};
-        language = App.mLanguage.get();
-        if (language == 0) {
-            imageIds = new Integer[]{R.drawable.help_event_tc_0};
-        } else if (language == 1) {
-            imageIds = new Integer[]{R.drawable.help_event_en_0};
-        } else {
-            imageIds = new Integer[]{R.drawable.help_event_sc_0};
-        }
-        if (check)
-            findView("Help_Event", imageIds, false);
-        else
-            showHelpPage("Help_Event", imageIds, false);
-
-        if (btn_close != null) {
-            btn_close.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    fab.setVisibility(View.VISIBLE);
-                    mFrameLayout.setVisibility(View.GONE);
-                    App.mSP_Config.edit().putBoolean("Help_Event", true).apply();
-                }
-            });
-        }
-    }
-
-    public void showPageScanner(Context context, boolean check) {
-        mContext = context;
-        language = App.mLanguage.get();
-        if (language == 0) {
-            imageIds = new Integer[]{R.drawable.help_scanner_tc_0};
-        } else if (language == 1) {
-            imageIds = new Integer[]{R.drawable.help_scanner_en_0};
-        } else {
-            imageIds = new Integer[]{R.drawable.help_scanner_sc_0};
-        }
-        if (check)
-            findView("Help_QrCodeScanner", imageIds, true);
-        else
-            showHelpPage("Help_QrCodeScanner", imageIds, true);
-    }
-
-    ////newer method
-    public void init2(FrameLayout frameLayout, ViewPager viewPager, LinearLayout llPoint, ImageView btn) {
-        mFrameLayout = frameLayout;
-        viewPagerHelp = viewPager;
-        mLlPoint = llPoint;
-        btn_close = btn;
-    }
 
 
 }

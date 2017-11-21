@@ -4,41 +4,45 @@
     tools:context="com.adsale.ChinaPlas.ui.FloorDistributeActivity">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="obj"
-            type="com.adsale.ChinaPlas.dao.Floor"/>
+            type="com.adsale.ChinaPlas.data.model.InterestedExhibitor" />
+
         <variable
             name="adapter"
-            type="com.adsale.ChinaPlas.adapter.FloorDistributeAdapter"/>
+            type="com.adsale.ChinaPlas.adapter.InterestedExhibitorAdapter" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:onClick="@{()->adapter.onItemClick(obj)}"
-        >
+        android:onClick="@{()->adapter.onItemClick(obj)}">
 
         <TextView
             android:id="@+id/floor"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="@{obj.floorID}"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:gravity="center_vertical"
-            />
+            android:text="@{obj.floorID}" />
 
         <TextView
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:background="@drawable/circle_number"
-            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:text="@{obj.count}"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/circle_number"
             android:gravity="center"
+            android:text="@{String.valueOf(obj.count)}"
             android:textColor="#fff"
             android:textSize="13sp"
-            android:visibility="@{obj.count>0?View.VISIBLE:View.GONE}"
-            />
+            android:visibility="@{obj.count>0?View.VISIBLE:View.GONE}" />
 
 
     </RelativeLayout>

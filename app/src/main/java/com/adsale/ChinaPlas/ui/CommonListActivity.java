@@ -8,11 +8,9 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.adsale.ChinaPlas.R;
-import com.adsale.ChinaPlas.adapter.ExhibitorHistoryAdapter;
 import com.adsale.ChinaPlas.adapter.MessageCenterAdapter;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.dao.HistoryExhibitor;
-import com.adsale.ChinaPlas.data.ExhibitorRepository;
 import com.adsale.ChinaPlas.data.model.MessageCenter;
 import com.adsale.ChinaPlas.helper.IntentHelper;
 import com.adsale.ChinaPlas.ui.view.CpsRecyclerView;
@@ -62,14 +60,6 @@ public class CommonListActivity extends BaseActivity {
 
     private void setAdapter(String type) {
         switch (type) {
-            case Constant.COM_HISTORY_EXHI:// 历史记录
-                histories.clear();
-                ExhibitorRepository repository = ExhibitorRepository.getInstance();
-                repository.initHistoryDao();
-                histories = repository.getAllHistoryExhibitors(0);
-                recyclerView.setCpsAdapter(new ExhibitorHistoryAdapter(mContext, histories));
-                break;
-
             case Constant.COM_MSG_CENTER:// 通知中心
                 messages.clear();
                 MessageCenter msgCenter = Parser.parseJsonFilesDirFile(MessageCenter.class, Constant.TXT_NOTIFICATION);
@@ -115,10 +105,6 @@ public class CommonListActivity extends BaseActivity {
         @Override
         public void onItemClick(View view, int position) {
             switch (type) {
-                case Constant.COM_HISTORY_EXHI:// 历史记录
-                    historyExhibitor(position);
-                    break;
-
                 case Constant.COM_MSG_CENTER:// 通知中心
                     messageCenter(position);
                     break;

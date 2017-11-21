@@ -1,9 +1,13 @@
 package com.adsale.ChinaPlas.data;
 
+import android.database.Cursor;
+
 import com.adsale.ChinaPlas.App;
+import com.adsale.ChinaPlas.dao.ExhibitorDao;
 import com.adsale.ChinaPlas.dao.FloorDao;
 import com.adsale.ChinaPlas.dao.MapFloor;
 import com.adsale.ChinaPlas.dao.MapFloorDao;
+import com.adsale.ChinaPlas.data.model.InterestedExhibitor;
 import com.adsale.ChinaPlas.utils.LogUtil;
 
 import java.util.ArrayList;
@@ -52,14 +56,76 @@ public class FloorRepository {
 
 
     //展商分布
-    public void initFloorDao(){
-        mFloorDao=App.mDBHelper.mFloorDao;
+    public void initFloorDao() {
+        mFloorDao = App.mDBHelper.mFloorDao;
     }
 
-//    public ArrayList<Floor> getFloorDistributes(){
-//        checkFloorDaoNull();
-////        mFloorDao.
-//    }
+    /**
+     * 查询Floor数据库所哟数据
+     *
+     * @return
+     */
+    public ArrayList<InterestedExhibitor> getFloorIDLists() {
+        ArrayList<InterestedExhibitor> floors = new ArrayList<InterestedExhibitor>();
+        Cursor cursor = App.mDBHelper.db.query("FLOOR", new String[]{"FLOOR_ID"}, null, null, null, null, "SEQ");
+        if (cursor != null) {
+            String floorID;
+            InterestedExhibitor floor;
+            while (cursor.moveToNext()) {
+                floorID = cursor.getString(cursor.getColumnIndex("FLOOR_ID"));
+                if (!floorID.startsWith("A") && !floorID.equals("TBC")) {
+                    floor = new InterestedExhibitor();
+                    floor.floorID = floorID;
+                    floors.add(floor);
+                }
+            }
+            cursor.close();
+        }
+        return floors;
+    }
+
+    /**
+     * 展商分布：每个展馆的兴趣展商（我的参展商）的数量
+     * @param floors
+     * @return
+     */
+    public ArrayList<InterestedExhibitor> getMyExhibitorFloor(ArrayList<InterestedExhibitor> floors) {
+        ArrayList<InterestedExhibitor> lists = new ArrayList<InterestedExhibitor>();
+        String floorId = "";
+        int count = 0;
+        InterestedExhibitor entity = null;
+
+        try {
+            Cursor cursor = App.mDBHelper.db.rawQuery(
+                    "select count(COMPANY_ID) as Count," + ExhibitorDao.Properties.HallNo.columnName + " from EXHIBITOR where IS_FAVOURITE=? group by " + ExhibitorDao.Properties.HallNo.columnName,
+                    new String[]{"1"});
+            if (cursor != null) {
+                int size= floors.size();
+                while (cursor.moveToNext()) {
+                    count = cursor.getInt(0);//cursor.getColumnIndex("Count")
+                    floorId = cursor.getString(1);// floorID_ cursor.getColumnIndex(ExhibitorDao.Properties.HallNo.columnName)
+                    LogUtil.i(TAG, "floorID:" + floorId + ":" + count);
+                    entity = new InterestedExhibitor();
+                    entity.floorID = floorId;
+                    entity.count = count;
+                    lists.add(entity);
+
+                    for (int i = 0; i < size; i++) {
+                        if (floors.get(i).floorID.equals(floorId)) {
+                            floors.set(i, entity);
+                            break;
+                        }
+                    }
+
+                }
+                cursor.close();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return floors;
+    }
 
 
 }

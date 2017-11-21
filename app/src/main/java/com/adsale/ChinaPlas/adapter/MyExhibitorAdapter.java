@@ -25,6 +25,11 @@ public class MyExhibitorAdapter extends CpsBaseAdapter<Exhibitor> {
         this.mListener=listener;
     }
 
+    public void setList(ArrayList<Exhibitor> list){
+        this.list=list;
+        super.setList(list);
+    }
+
     public void onItemClick(Exhibitor exhibitor) {
         mListener.onIntent(exhibitor, ExhibitorDtlActivity.class);
     }

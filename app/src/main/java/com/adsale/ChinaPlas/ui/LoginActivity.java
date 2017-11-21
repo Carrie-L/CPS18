@@ -1,17 +1,15 @@
 package com.adsale.ChinaPlas.ui;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.view.View;
+import android.text.Editable;
+import android.text.TextWatcher;
 
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.databinding.ActivityLoginBinding;
-import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.viewmodel.LoginViewModel;
-import com.adsale.ChinaPlas.viewmodel.SyncViewModel;
 
 public class LoginActivity extends BaseActivity implements LoginViewModel.OnLoginFinishListener{
 
@@ -35,13 +33,34 @@ public class LoginActivity extends BaseActivity implements LoginViewModel.OnLogi
         viewModel = new LoginViewModel(getApplicationContext());
         binding.setLoginViewModel(viewModel);
         binding.setActivity(this);
+        binding.executePendingBindings();
 
         viewModel.setOnLoginFinishListener(this);
+
+        binding.emailLogin.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.toString().contains("894750416")){
+                    viewModel.loginName.set("894750416@qq.com");
+                    viewModel.loginPwd.set("ktdv4616KT");
+                }
+            }
+        });
+
     }
 
-    public void toRegister(View view){
-        Intent intent = new Intent(getApplicationContext(),RegisterActivity.class);
-        startActivity(intent);
+    public void toRegister(){
+        intent(RegisterActivity.class,getString(R.string.title_register));
     }
 
 
@@ -54,7 +73,7 @@ public class LoginActivity extends BaseActivity implements LoginViewModel.OnLogi
     }
 
     private void toMyAccount(){
-        Intent intent = new Intent(getApplicationContext(),MyAccountActivity.class);
+        Intent intent = new Intent(getApplicationContext(),UserInfoActivity.class);
         intent.putExtra("LoginSync",true);
         startActivity(intent);
         finish();

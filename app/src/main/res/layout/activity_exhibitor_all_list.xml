@@ -8,6 +8,8 @@
 
         <import type="android.view.View" />
 
+        <import type="android.text.TextUtils"/>
+
         <variable
             name="exhibitorModel"
             type="com.adsale.ChinaPlas.viewmodel.ExhibitorListViewModel" />
@@ -97,7 +99,9 @@
         <TextView
             android:id="@+id/DialogText"
             style="@style/letter_toast_bg_style"
-            android:text="@{exhibitorModel.dialogLetter}" />
+            android:text="@{exhibitorModel.dialogLetter}"
+            android:visibility="@{TextUtils.isEmpty(exhibitorModel.dialogLetter)?View.GONE:View.VISIBLE}"
+            />
 
         <TextView
             style="@style/no_data_style"

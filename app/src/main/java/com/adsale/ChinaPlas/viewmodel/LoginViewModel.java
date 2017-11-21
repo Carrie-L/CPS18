@@ -1,11 +1,8 @@
 package com.adsale.ChinaPlas.viewmodel;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.widget.Toast;
@@ -14,36 +11,24 @@ import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.data.LoginClient;
 import com.adsale.ChinaPlas.data.model.EmailVisitorData;
-import com.adsale.ChinaPlas.ui.RegisterActivity;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
-import com.adsale.ChinaPlas.utils.FileUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.NetWorkHelper;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
+import com.adsale.ChinaPlas.utils.ReRxUtils;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
-
-import static android.content.Context.MODE_PRIVATE;
-
 
 /**
  * 登录
@@ -60,7 +45,7 @@ public class LoginViewModel {
     public final ObservableField<String> loginName = new ObservableField<>();
     public final ObservableField<String> loginPwd = new ObservableField<>();
 
-    private CompositeDisposable mDisposable = new CompositeDisposable();
+    private Disposable mDisposable;
 
     private Context mContext;
     private String vmid;
@@ -80,48 +65,46 @@ public class LoginViewModel {
         }
         isDialogShow.set(true);
 
-        testRetrofit();
-
-        // TODO: 2017/8/10 同步
+        loginRetrofit();
     }
 
     private String getLangStr() {
-        int language = App.mLanguage.get();
-        return AppUtil.getName(language, "lang-trad", "lang-eng", "lang-simp");
+        return AppUtil.getName(App.mLanguage.get(), "lang-trad", "lang-eng", "lang-simp");
     }
 
-    public void testRetrofit() {
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-        Gson gson = new GsonBuilder().setLenient().create();
-        Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl(NetWorkHelper.BASE_URL_CPS)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create(gson));
-        Retrofit retrofit = builder.client(httpClient.build()).build();
-        final LoginClient client = retrofit.create(LoginClient.class);
-
-        final RequestBody requestBody = new FormBody.Builder().add("globalSaveLogin", "1").add("hd_LoginType", "1")
+    private RequestBody getLoginRequestBody() {
+        return new FormBody.Builder().add("globalSaveLogin", "1").add("hd_LoginType", "1")
                 .add("globalLogin", loginName.get())
                 .add("globalPassword", loginPwd.get()).build();
-        final RequestBody regRequestBody = new FormBody.Builder().add("showid", "453").add("email", loginName.get()).build();
+    }
 
-        client.loginRx(getLangStr(), requestBody)
+    private RequestBody getRegRequestBody() {
+        return new FormBody.Builder().add("showid", "453").add("email", loginName.get()).build();
+    }
+
+    private void loginRetrofit() {
+        final LoginClient client = ReRxUtils.setupRxtrofit(LoginClient.class, NetWorkHelper.BASE_URL_CPS);
+        client.loginRx(getLangStr(), getLoginRequestBody())
                 .map(new Function<Response<ResponseBody>, String>() {
 
                     @Override
                     public String apply(@NonNull Response<ResponseBody> responseBodyResponse) throws Exception {
-                        String res = responseBodyResponse.body().string();
-                        vmid = findLoginLink(res);
-                        LogUtil.i(TAG, "vmidString ----" + vmid);
+                        ResponseBody responseBody = responseBodyResponse.body();
+                        if (responseBody != null) {
+                            vmid = getVmid(responseBody.string());
+                            LogUtil.i(TAG, "vm id String ----" + vmid);
+                            responseBody.close();
+                        }
                         return vmid;
                     }
                 })
                 .flatMap(new Function<String, Observable<EmailVisitorData>>() {//根据email得到 EmailVisitorData
                     @Override
                     public Observable<EmailVisitorData> apply(@NonNull String s) throws Exception {
-                        App.mSP_Login.edit().putString(Constant.USER_EMAIL, loginName.get().trim()).putString(Constant.USER_PWD, loginPwd.get().trim()).putBoolean(Constant.IS_LOGIN, true).apply();
-                        LogUtil.i(TAG, "NAME=" + loginName.get() + ",PWD=" + loginPwd.get());
-                        return client.regGetData(regRequestBody).subscribeOn(Schedulers.computation());
+                        if (!TextUtils.isEmpty(vmid)) {
+                            saveLoginData();
+                        }
+                        return client.regGetData(getRegRequestBody()).subscribeOn(Schedulers.computation());
                     }
                 })
                 .flatMap(new Function<EmailVisitorData, Observable<Response<ResponseBody>>>() {//从EmailVisitorData 中得到 RegImageName ，根据名称下载图片
@@ -137,8 +120,8 @@ public class LoginViewModel {
                     @Override
                     public Observable<Boolean> apply(@NonNull Response<ResponseBody> responseBodyResponse) throws Exception {
                         //保存图片
-                        ResponseBody body=responseBodyResponse.body();
-                        if(body!=null){
+                        ResponseBody body = responseBodyResponse.body();
+                        if (body != null) {
                             byte[] bytes = body.bytes();
                             isSaveSuccess = AppUtil.saveFileOutput(mContext, Constant.REG_PNG, bytes);
                             body.close();
@@ -158,42 +141,49 @@ public class LoginViewModel {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
                         LogUtil.i(TAG, "onSubscribe");
+                        mDisposable = d;
                     }
 
                     @Override
                     public void onNext(@NonNull Boolean bool) {
                         LogUtil.i(TAG, "onNext:  " + bool);
-
-                        if (bool) {
-                            Toast.makeText(mContext, "登录成功:" + vmid, Toast.LENGTH_SHORT).show();
-                        }
-
+                        App.mSP_Login.edit().putBoolean("LoginRegPicDownSuccess", bool).apply(); // 預登記圖片下載成功
                     }
 
                     @Override
                     public void onError(@NonNull Throwable e) {
                         LogUtil.i(TAG, "onError: vmid= " + vmid + ",,," + e.getMessage());
                         isDialogShow.set(false);
+                        mDisposable.dispose();
+
                         if (vmid == null) {
                             Toast.makeText(mContext, mContext.getString(R.string.login_error_msg_3), Toast.LENGTH_LONG).show();
                             return;
                         }
 
-                        if (mLoginListener != null) {
-                            mLoginListener.login(false);
+                        /*  有幾率是登錄成功，但圖片沒下載成功，這樣的情況依然按照登錄成功來處理，圖片在預登記里下載 */
+                        if (mLoginListener != null && !TextUtils.isEmpty(vmid)) {
+                            App.mSP_Login.edit().putBoolean("LoginRegPicDownSuccess", false).apply();
+                            mLoginListener.login(true);
                         }
+
                     }
 
                     @Override
                     public void onComplete() {
                         LogUtil.i(TAG, "onComplete");
                         isDialogShow.set(false);
-                        if (mLoginListener != null) {
+                        if (mLoginListener != null && !TextUtils.isEmpty(vmid)) {
                             mLoginListener.login(true);
                         }
-
+                        mDisposable.dispose();
                     }
                 });
+    }
+
+    private void saveLoginData() {
+        App.mSP_Login.edit().putString(Constant.USER_EMAIL, loginName.get().trim()).putString(Constant.USER_PWD, loginPwd.get().trim()).putString(Constant.VMID, vmid.trim()).putBoolean(Constant.IS_LOGIN, true).apply();
+        LogUtil.i(TAG, "NAME=" + loginName.get() + ",PWD=" + loginPwd.get());
     }
 
     public interface OnLoginFinishListener {
@@ -206,23 +196,17 @@ public class LoginViewModel {
 
     private OnLoginFinishListener mLoginListener;
 
-    private String findLoginLink(String result) {
-        String link = null;
+    private String getVmid(String result) {
         if (TextUtils.isEmpty(result)) {
-            return "";
+            return null;
         }
-        LogUtil.e(TAG,"findLoginLink::result="+result);
 
-//        Document doc = Jsoup.parse(result);
-//        Elements element = doc.getElementsByTag("td");
-//        for (Element subelement : element) {
-//            if (subelement.attr("vmid") != null && !subelement.attr("vmid").equals("")
-//                    && Integer.parseInt(subelement.attr("vmid")) > 0) {
-//                link = subelement.attr("vmid");
-//                break;
-//            }
-//        }
-        return link;
+        int vmidIndex = result.indexOf("vmid=");
+        LogUtil.e(TAG, "getVmid::vmidIndex=" + vmidIndex);
+        if (vmidIndex == -1) { // cannot find vmid
+            return null;
+        }
+        return result.substring(vmidIndex + 6, vmidIndex + 12);
     }
 
 

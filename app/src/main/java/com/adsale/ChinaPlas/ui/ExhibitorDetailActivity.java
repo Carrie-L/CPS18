@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.widget.LinearLayout;
 
 import com.adsale.ChinaPlas.App;
+import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.data.OnIntentListener;
@@ -20,6 +21,12 @@ public class ExhibitorDetailActivity extends BaseActivity implements OnIntentLis
     private ExhibitorDtlViewModel mViewModel;
 
     @Override
+    protected void preView() {
+        super.preView();
+        barTitle.set(getString(R.string.title_exhibitor_deti));
+    }
+
+    @Override
     protected void initView() {
         ActivityExhibitorDetailBinding binding = ActivityExhibitorDetailBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         mViewModel = new ExhibitorDtlViewModel(getApplicationContext(), binding.flDtlContent);
@@ -27,12 +34,10 @@ public class ExhibitorDetailActivity extends BaseActivity implements OnIntentLis
         mViewModel.start(getIntent().getStringExtra(Constant.COMPANY_ID), this, binding.viewstubDtlView.getViewStub());
 
         int screenWidth = App.mSP_Config.getInt(Constant.SCREEN_WIDTH, 0);
-        int width = (screenWidth - DisplayUtil.dip2px(getApplicationContext(), 32));
-        int height = (width * 77) / (349 * 5);
-        LogUtil.i(TAG, "WIDTH=" + width);
-        LogUtil.i(TAG, "height=" + height);
+        int width = (screenWidth - DisplayUtil.dip2px(getApplicationContext(), 32)) / 5;
+        int height = (width * 184) / 209;
 
-        LinearLayout.LayoutParams bottomParams = new LinearLayout.LayoutParams(width / 5, height);
+        LinearLayout.LayoutParams bottomParams = new LinearLayout.LayoutParams(width, height);
         binding.llButton.ivCompanyInfo.setLayoutParams(bottomParams);
         binding.llButton.ivCollect.setLayoutParams(bottomParams);
         binding.llButton.ivNote.setLayoutParams(bottomParams);

@@ -343,13 +343,6 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
         checkHistoryDao();
         ArrayList<HistoryExhibitor> list = (ArrayList<HistoryExhibitor>) mHistoryExhibitorDao.queryBuilder()
                 .orderDesc(HistoryExhibitorDao.Properties.Time).offset(offset).limit(10).list();
-        HistoryExhibitor entity;
-        int size = list.size();
-        LogUtil.i(TAG, "HistoryExhibitor=" + size);
-        for (int i = 0; i < size; i++) {
-            entity = list.get(i);
-            list.set(i, entity);
-        }
         return list;
     }
 
@@ -568,7 +561,7 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
         }
     }
 
-// -----------------------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------------
     private void cursor(Cursor cursor, int language) {
         exhibitor = new Exhibitor();
         exhibitor.setCompanyID(cursor.getString(cursor.getColumnIndex("COMPANY_ID")));
@@ -587,6 +580,24 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
             exhibitor.setPYSimp(cursor.getString(cursor.getColumnIndex("PYSIMP")));
             exhibitor.setSeqSC(cursor.getInt(cursor.getColumnIndex("SEQ_SC")));
         }
+    }
+
+    /**
+     * 設置：重置所有設定 —— 清空我的參展商
+     */
+    public void cancelMyExhibitor() {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("IS_FAVOURITE", 0);
+        App.mDBHelper.db.update(mExhibitorDao.getTablename(), contentValues, "IS_FAVOURITE=?", new String[]{"1"});
+    }
+
+    /**
+     * 設置：重置所有設定 —— 清空興趣參展商
+     */
+    public void clearInterestedExhibitor() {
+        ContentValues values = new ContentValues();
+        values.put("IS_SELECTED", 0);
+        App.mDBHelper.db.update(BussinessMappingDao.TABLENAME, values, null, null);
     }
 
 
