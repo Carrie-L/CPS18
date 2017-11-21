@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="obj"
+            type="com.adsale.ChinaPlas.dao.Country" />
+        <variable
+            name="adapter"
+            type="com.adsale.ChinaPlas.adapter.CountryAdapter"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_sort_label"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:background="@color/grey3"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:text="@{obj.getSort()}"
+            android:textColor="#000"
+            android:visibility="@{obj.isTypeLabel?View.VISIBLE:View.GONE}"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:drawableEnd="@{obj.selected?@drawable/ic_choosed:null}"
+            android:drawableRight="@{obj.selected?@drawable/ic_choosed:null}"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="8dp"
+            android:onClick="@{()->adapter.onSelect(obj)}"
+            android:text="@{obj.getCountryName()}" />
+    </LinearLayout>
+
+</layout>

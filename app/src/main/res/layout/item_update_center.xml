@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="view"
+            type="com.adsale.ChinaPlas.ui.view.UpdateCenterView" />
+
+        <variable
+            name="obj"
+            type="com.adsale.ChinaPlas.dao.UpdateCenter" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp">
+
+        <TextView
+            android:id="@+id/tv_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@{obj.status==0?@drawable/bttn_red:@drawable/bttn_grey}"
+            android:clickable="@{obj.status==0?true:false}"
+            android:gravity="center"
+            android:onClick="@{()->view.onUpdate(obj.id)}"
+            android:text="@{obj.status==0?@string/uc_update:@string/uc_updated}"
+            android:textColor="@{obj.status==0?@color/white:@color/deep_gray}" />
+
+        <TextView
+            android:id="@+id/tv_update_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_toLeftOf="@id/tv_update"
+            android:layout_toStartOf="@id/tv_update"
+            android:text="@{obj.id==1?@string/uc_exhibitor:obj.id==2?@string/uc_floorplan:obj.id==3?@string/uc_seminar:obj.id==4?@string/uc_event:@string/uc_travel}"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_last_update_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_update_name"
+            android:layout_marginTop="8dp"
+            android:text="@{view.lastUpdateTime}"
+            android:textColor="@color/gray_qrcode_tips"
+            android:textSize="12sp" />
+
+
+        <ImageView
+            android:id="@+id/line1"
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_below="@id/tv_last_update_time"
+            android:layout_marginTop="8dp"
+            android:background="@color/grey" />
+
+
+        <ProgressBar
+            android:id="@+id/download_progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="300dp"
+            android:layout_height="5dp"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            android:progressDrawable="@drawable/pb_horizontal_style" />
+
+    </RelativeLayout>
+</layout>
