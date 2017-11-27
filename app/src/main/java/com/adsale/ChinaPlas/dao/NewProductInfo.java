@@ -181,6 +181,16 @@ public class NewProductInfo implements Parcelable {
         }
     }
 
+    public String getDescription() {
+        if (App.mLanguage.get() == 0) {
+            return Rroduct_Description_TC;
+        } else if (App.mLanguage.get() == 1) {
+            return Rroduct_Description_EN;
+        } else {
+            return Rroduct_Description_SC;
+        }
+    }
+
 
     // KEEP METHODS END
 

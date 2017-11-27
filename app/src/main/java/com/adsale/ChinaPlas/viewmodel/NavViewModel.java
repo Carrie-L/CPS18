@@ -25,6 +25,7 @@ import com.adsale.ChinaPlas.ui.ConcurrentEventActivity;
 import com.adsale.ChinaPlas.ui.ExhibitorAllListActivity;
 import com.adsale.ChinaPlas.ui.LoginActivity;
 import com.adsale.ChinaPlas.ui.MainActivity;
+import com.adsale.ChinaPlas.ui.MyExhibitorActivity;
 import com.adsale.ChinaPlas.ui.NCardActivity;
 import com.adsale.ChinaPlas.ui.NCardCreateEditActivity;
 import com.adsale.ChinaPlas.ui.NewsActivity;
@@ -46,6 +47,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import static com.adsale.ChinaPlas.utils.Constant.INTENT_COMMON_TYPE;
+import static com.adsale.ChinaPlas.utils.Constant.WEB_URL;
 
 /**
  * Created by Carrie on 2017/8/8.
@@ -297,7 +299,8 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
                 break;
             case Constant.BDTJ_HALL_MAP_TEXT:
             case Constant.BDTJ_HALL_MAP:
-//                intent = new Intent(activity,. class);
+                intent = new Intent(activity,WebContentActivity.class);
+                intent.putExtra(WEB_URL,Constant.DIR_WEB_CONTENT.concat(mainIcon.getIconID()));
                 break;
             case Constant.BDTJ_INTERESTED_EXHIBITOR:
 //                 intent = new Intent(context, FavouriteProductActivity.class);
@@ -317,7 +320,7 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
                 intent.putExtra("title", activity.getString(R.string.title_setting));// oclsMainIcon.getTitle(SystemMethod.getCurLanguage(context)
                 break;
             case Constant.BDTJ_MY_EXHIBITOR:
-//                intent = new Intent(context, MyExhibitorListActivity.class);
+                intent = new Intent(activity, MyExhibitorActivity.class);
                 break;
             case Constant.BDTJ_SUBSRIBEE_NEWSLETTER:/* 订阅电子快讯 */
                 LogUtil.i(TAG, "跳转。。。SubscribeActivity");

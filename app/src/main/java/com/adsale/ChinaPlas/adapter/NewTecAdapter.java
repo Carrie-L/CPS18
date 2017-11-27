@@ -1,7 +1,6 @@
 package com.adsale.ChinaPlas.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.net.Uri;
 
@@ -13,8 +12,6 @@ import com.adsale.ChinaPlas.dao.NewProductInfo;
 import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.data.model.NewTec;
 import com.adsale.ChinaPlas.databinding.ItemNewTecBinding;
-import com.adsale.ChinaPlas.ui.NewTecDtlActivity;
-import com.adsale.ChinaPlas.utils.Constant;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -40,11 +37,11 @@ public class NewTecAdapter extends CpsBaseAdapter<NewTec> {
 
     public void onItemClick(NewProductInfo entity) {
 //        mListener.onIntent(entity,NewTecDtlActivity.class);
-        Intent intent = new Intent(mContext, NewTecDtlActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(Constant.INTENT_NEW_TEC,  entity);
-        mContext.startActivity(intent);
+//        Intent intent = new Intent(mContext, NewTecDtlActivity.class);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        intent.putExtra(Constant.INTENT_NEW_TEC,  entity);
+//        mContext.startActivity(intent);
     }
 
     @Override

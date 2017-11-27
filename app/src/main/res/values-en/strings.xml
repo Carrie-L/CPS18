@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="register_msg0014">Select Country</string>
-    <string name="register_msg0015">Select Province</string>
-
     <string name="app_label"> </string>
 
     <!-- exb_search_text_hint -->
@@ -13,39 +10,12 @@
     <string name="namecard_create_success">NameCard Create Success!</string>
     <string name="yn_create">Create NameCard?</string>
     <string name="namecard_create_failed">NameCard Create Failed!</string>
-    <string name="chinaZjsYwgjblzx">SHANGHAI NEW INTERNATIONAL EXPO CENTRE,PR CHINA</string> <!-- Shanghai New International Expo Centre,PR China -->
-    <string name="msg_default_status">Please put the screen intermediate two-dimensional code (if light press add key volume).</string>
-    <string name="prereg_end">Visitor pre-registration is closed.Please bring your business cards to register at our onsite registration counters,Thank you!</string>
+
     <string name="qrcode_create_success">create success!</string>
 
     <string name="title_my_name_card">My Name Card</string>
 
-    <!--  UpdateCenter更新中心-->
-    <string-array name="update_center_arr">
-        <item>Exhibitor Data</item>
-        <item>Floor Plan</item>
-        <item>Technical Seminar</item>
-        <item>Concurrent Events</item>
-        <item>Travel Information</item>
-    </string-array>
 
-
-    <!--  -->
-    <string-array name="main_nav">
-        <item>Visitor Pre-registration</item>
-        <item>Exhibitor List</item>
-        <item>Show Information</item>
-        <item>Floor Plan</item>
-        <item>Concurrent Event</item>
-        <item>Co-located Expo</item>
-        <item>Transportation</item>
-        <item>News</item>
-        <item>Contact Us</item>
-        <item>Subscribe eNewsletter</item>
-        <item>My Exhibitor</item>
-        <item>Schedule</item>
-        <item>Settings</item>
-    </string-array>
 
     <string name="cancel">Cancel</string>
     <string name="confirm">Confirm</string>
@@ -166,6 +136,7 @@
     <string name="title_transportation">Transportation</string>
     <string name="title_contact_us">Contact Us</string>
     <string name="title_my_exhibitor">My Exhibitor</string>
+    <string name="title_my_account">My Exhibitor</string>
     <string name="title_setting">Setting</string>
     <string name="title_subscribe">Subscribe eNewsletter</string>
     <string name="edit_schedule">Edit Schedule</string>
@@ -216,6 +187,7 @@
 
     <string name="sort_by_az">Pingyin</string>
     <string name="sort_by_hall">Hall</string>
+    <string name="title_sort"></string>
 
     <string name="filter_industry">產品類別</string>
     <string name="filter_application">應用分類</string>
@@ -529,6 +501,7 @@
     <string name="syncMessage">The records in this APP\'s "My Exhibitor" will be updated with the "My Exhibitor" records in CHINAPLASONLINE.com. Please confirm to proceed.</string>
     <string name="syncSuccess">Sync success</string>
     <string name="syncFailure">Sync failed</string>
+    <string name="syncStart">Start..</string>
     <string name="update_map">Update</string>
 
     <!-- 技术交流会 -->
@@ -561,15 +534,6 @@
     <string name="dialog_toast_delete">Confirm to delete?</string>
     <string name="dialog_confirm">Confirm</string>
     <string name="dialog_cancel">Cancel</string>
-    <string name="toast_save_success">Success</string>
-    <string name="toast_start_export">Start to export data</string>
-    <string name="toast_export_success">Export completed</string>
-    <string name="toast_export_no_data">No related information</string>
-    <string name="toast_map_no_data">No FloorPlan</string>
-
-    <string name="dialog_go">Go</string>
-    <string name="dialog_view">View</string>
-    <string name="dialog_close">Close</string>
 
     <!-- name card -->
     <string name="update_card">Save &amp; Update QR Code</string>
@@ -579,8 +543,6 @@
     <string name="btn_all_card">All Name Card</string>
     <string name="btn_delete_card">Delete</string>
     <string name="btn_save_to_contact">Save to Contact list</string>
-    <string name="title_activity_event">EventActivity</string>
-    <string name="hello_world">Hello world!</string>
     <string name="btn_export_name_card">Export Name Card</string>
     <string name="search_name_card">Search</string>
     <string name="title_edit_name_card">Edit Name Card</string>
@@ -598,7 +560,7 @@
     <string name="share_wechat_friends">Wechat</string>
     <string name="share_wechat_moments">Wechat Moments</string>
     <string name="share_email">Email</string>
-    <string name="share_title">CHINAPLAS 2017</string>
+    <string name="share_title">CHINAPLAS 2018</string>
 
     <string name="toast_export_namecard_nodata">Please add friends to your name card list</string>
     <string name="map_dtl_tip">Please select a Booth</string>
@@ -617,7 +579,6 @@
     <string name="toast_input_title">Please fill in "Title"</string>
     <string name="toast_input_company">Please fill in "Company"</string>
     <string name="toast_input_phone">Please fill in "Phone"</string>
-    <string name="toast_input_phone_2">Please fill in "Phone Number"</string>
     <string name="toast_input_country">Please fill in "Country code"</string>
     <string name="toast_input_email">Please fill in "Email"</string>
     <string name="toast_input_phone_1">Please enter number only in "Phone Number" field. </string>
@@ -685,5 +646,16 @@
     <string name="event_btn_all">All</string>
     <string name="tech_am">AM</string>
     <string name="tech_pm">PM</string>
+    <string name="event_btn_24">24</string>
+    <string name="event_btn_25">25</string>
+    <string name="event_btn_26">26</string>
+    <string name="event_btn_27">27</string>
+    <string name="event_date_24">2018.04.24</string>
+    <string name="event_date_25">2018.04.25</string>
+    <string name="event_date_26">2018.04.26</string>
+    <string name="event_date_27">2018.04.27</string>
+    <string name="event_date_base">2018.04.%s</string>
+
+    <string name="no_camera_permission">No camera permission, can\'t scan.</string>
 
 </resources>

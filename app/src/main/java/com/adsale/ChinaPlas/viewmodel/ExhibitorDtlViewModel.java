@@ -92,6 +92,7 @@ public class ExhibitorDtlViewModel {
         mListener = listener;
         mViewStub = viewStub;
         mRepository = ExhibitorRepository.getInstance();
+        LogUtil.i(TAG,"start:companyID="+companyID);
         exhibitor = mRepository.getExhibitor(companyID);
         companyName.set(exhibitor.getCompanyName());
         isCollected.set(exhibitor.getIsFavourite() == 1);
@@ -100,6 +101,8 @@ public class ExhibitorDtlViewModel {
         getProductList();
         getAppIndList();
         getNewTecList();
+
+
     }
 
     public void addToHistory(){
@@ -316,5 +319,6 @@ public class ExhibitorDtlViewModel {
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL));
     }
+
 
 }

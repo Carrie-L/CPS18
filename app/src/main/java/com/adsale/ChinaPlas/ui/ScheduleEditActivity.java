@@ -72,7 +72,7 @@ public class ScheduleEditActivity extends BaseActivity implements ScheduleEditVi
     public void toExhibitorDtl(String companyId) {
         Bundle bundle = new Bundle();
         bundle.putString(Constant.COMPANY_ID, companyId);
-        intent(ExhibitorDtlActivity.class, bundle);
+        intent(ExhibitorDetailActivity.class, bundle);
     }
 
     @Override

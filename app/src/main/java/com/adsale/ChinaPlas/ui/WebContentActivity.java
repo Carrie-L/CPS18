@@ -3,8 +3,6 @@ package com.adsale.ChinaPlas.ui;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -16,8 +14,6 @@ import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 
 import java.io.File;
-
-import static android.text.TextUtils.concat;
 
 /**
  * must intent data:
@@ -68,7 +64,7 @@ public class WebContentActivity extends BaseActivity {
 
     private void loadAssetHtml() {
         LogUtil.i(TAG, "loadAssetHtml= " + "/android_asset/".concat(webUrl));
-        webView.loadUrl("/android_asset/".concat(webUrl));
+        webView.loadUrl("file:///android_asset/".concat(webUrl));
     }
 
     private void loadWebUrl() {

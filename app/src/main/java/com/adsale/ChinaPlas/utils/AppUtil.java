@@ -44,6 +44,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.adsale.ChinaPlas.utils.PermissionUtil.PMS_CODE_CALL_PHONE;
@@ -152,8 +153,8 @@ public class AppUtil {
         }
     }
 
-    public static void putLoginTest(){
-        App.mSP_Login.edit().putBoolean(Constant.IS_LOGIN, true).putString(Constant.USER_EMAIL,"894750Test@qq.com").apply();
+    public static void putLoginTest() {
+        App.mSP_Login.edit().putBoolean(Constant.IS_LOGIN, true).putString(Constant.USER_EMAIL, "894750Test@qq.com").apply();
     }
 
 
@@ -498,17 +499,29 @@ public class AppUtil {
      * @return <font color="#f97798">yyyy-MM-dd HH:mm:ss</font>
      */
     public static String GMT2UTC(String time) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSZ", Locale.getDefault());
-        SimpleDateFormat sformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSZ", Locale.CHINA);
+        SimpleDateFormat sformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
         try {
             Date date = format.parse(time);
-            /*System.out.println("time="+time+",,,time2="+sformat.format(date));*/
+            /* System.out.println("time="+time+",,,time2="+sformat.format(date)); */
             return sformat.format(date);
         } catch (ParseException e) {
             e.printStackTrace();
         }
         return "";
     }
+
+    public static String GMTTOUTC(){
+        SimpleDateFormat dateFormatGmt = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss",Locale.CHINA);
+        dateFormatGmt.setTimeZone(TimeZone.getTimeZone("GMT"));
+
+//Local time zone
+        SimpleDateFormat dateFormatLocal = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss",Locale.getDefault());
+
+//Time in GMT
+        return dateFormatLocal.format( dateFormatGmt.format(new Date()) );
+    }
+
 
     /**
      * 24小时制 转化成 上午下午制 [yyyy-MM-dd HH:mm -> yyyy-MM-dd hh:mm a]
@@ -697,9 +710,7 @@ public class AppUtil {
 
     public static boolean isNetworkAvailable() {
         NetworkInfo ni = App.mConnectivityManager.getActiveNetworkInfo();
-//        return ni != null && ni.isConnected();
-        // TODO: 2017/11/19
-        return false;
+        return ni != null && ni.isAvailable()&&ni.isConnected();
     }
 
     public static <T> void logListString(ArrayList<T> list) {
@@ -729,8 +740,6 @@ public class AppUtil {
         long endTime = System.currentTimeMillis();
         LogUtil.i(tag, str + " * 所花費的時間為:" + (endTime - startTime) + "ms");
     }
-
-
 
 
 }

@@ -1,11 +1,7 @@
 package com.adsale.ChinaPlas.ui;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.text.InputFilter;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.adsale.ChinaPlas.R;
@@ -17,8 +13,6 @@ import com.adsale.ChinaPlas.viewmodel.NCardViewModel;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static android.R.attr.name;
 
 /**
  * 名片创建和编辑
@@ -95,7 +89,7 @@ public class NCardCreateEditActivity extends BaseActivity implements NCardViewMo
 
         // 电话
         if (TextUtils.isEmpty(viewModel.phone2.get())) {
-            Toast.makeText(getApplicationContext(), getString(R.string.toast_input_phone_2), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), getString(R.string.toast_input_phone), Toast.LENGTH_SHORT).show();
             binding.etPhone2.requestFocus();
             return false;
         }

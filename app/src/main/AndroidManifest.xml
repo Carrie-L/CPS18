@@ -34,7 +34,6 @@
         </activity>
         <activity
             android:name=".ui.RegisterActivity"
-            android:label="@string/title_activity_register"
             android:theme="@style/AppTheme" />
         <activity android:name=".ui.MainActivity"
             android:launchMode="singleTask"
@@ -49,7 +48,6 @@
         <activity android:name=".ui.ScheduleActivity" />
         <activity android:name=".ui.ScheduleEditActivity" />
         <activity android:name=".ui.ExhibitorAllListActivity" />
-        <activity android:name=".ui.ExhibitorDtlActivity" />
         <activity android:name=".ui.ExhibitorActivity" />
         <activity android:name=".ui.NewsActivity" />
         <activity android:name=".ui.NewsDtlActivity" />

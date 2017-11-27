@@ -97,10 +97,11 @@ public class UpdateCenterViewModel {
         int j = 0;
         for (int i = 0; i < size; i++) {
             entity = list.get(i);
-            entity.setStatus(0);/* JFT */
+            entity.setLUT(AppUtil.GMT2UTC(entity.getLUT()));
             if (entity.getStatus() == 0) {
                 updateCount++;
             }
+            LogUtil.i(TAG,"TIME= "+AppUtil.GMT2UTC(entity.getLUT()));
         }
         LogUtil.i(TAG, "updateCount=" + updateCount);
         statusAll.set(updateCount <= 5);

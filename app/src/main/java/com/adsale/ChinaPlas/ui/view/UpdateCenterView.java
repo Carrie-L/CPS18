@@ -111,7 +111,7 @@ public class UpdateCenterView extends RelativeLayout {
         updateCenter.set(entity);
         binding.setObj(updateCenter.get());
         binding.executePendingBindings();
-        lastUpdateTime.set(String.format(mContext.getString(R.string.uc_last_update_time), AppUtil.GMT2UTC(updateCenter.get().getLUT())));
+        lastUpdateTime.set(String.format(mContext.getString(R.string.uc_last_update_time), updateCenter.get().getLUT()));
     }
 
     public void onUpdate(long index) {

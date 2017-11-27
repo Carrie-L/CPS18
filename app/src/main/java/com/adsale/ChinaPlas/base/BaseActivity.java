@@ -67,7 +67,6 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
         mNavViewModel = new NavViewModel(getApplicationContext());
 
         mScreenWidth = App.mSP_Config.getInt(Constant.SCREEN_WIDTH, 0);
-        TAG = getClass().getSimpleName();
 
         preView();
 
@@ -157,7 +156,7 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
     }
 
     protected void preView() {
-
+        TAG = getClass().getSimpleName();
     }
 
     protected abstract void initView();
@@ -186,12 +185,16 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
     }
 
     protected void logout() {
+        final String className=getClass().getSimpleName();
+        LogUtil.i(TAG,"className="+className);
+
         AppUtil.showAlertDialog(this, getString(R.string.logout_message), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 processLogout();
-                if(!TAG.equals("MainActivity")){
+                LogUtil.i(TAG,"TAG="+TAG);
+                if(!className.equals("MainActivity")){
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                     finish();

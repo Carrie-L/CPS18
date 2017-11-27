@@ -4,9 +4,10 @@ import android.databinding.ViewDataBinding;
 
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.CpsBaseAdapter;
+import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.data.model.ConcurrentEvent;
 import com.adsale.ChinaPlas.databinding.ItemEventBinding;
-import com.adsale.ChinaPlas.viewmodel.EventModel;
+import com.adsale.ChinaPlas.ui.WebContentActivity;
 import com.android.databinding.library.baseAdapters.BR;
 
 import java.util.ArrayList;
@@ -17,19 +18,23 @@ import java.util.ArrayList;
 
 public class EventAdapter extends CpsBaseAdapter<ConcurrentEvent.Pages> {
     private ArrayList<ConcurrentEvent.Pages> list;
-    private EventModel mModel;
     private ConcurrentEvent.Pages entity;
     private ItemEventBinding mEventBinding;
+    private OnIntentListener mListener;
 
-    public EventAdapter(ArrayList<ConcurrentEvent.Pages> list, EventModel model) {
+    public EventAdapter(ArrayList<ConcurrentEvent.Pages> list, OnIntentListener listener) {
         this.list = list;
-        mModel = model;
+        mListener = listener;
     }
 
     @Override
     public void setList(ArrayList<ConcurrentEvent.Pages> list) {
         this.list=list;
         super.setList(list);
+    }
+
+    public void onItemClick(ConcurrentEvent.Pages entity){
+        mListener.onIntent(entity, WebContentActivity.class);
     }
 
     @Override
@@ -58,7 +63,7 @@ public class EventAdapter extends CpsBaseAdapter<ConcurrentEvent.Pages> {
 
     @Override
     protected void bindVariable(ViewDataBinding binding) {
-        binding.setVariable(BR.eventModel,mModel);
+        binding.setVariable(BR.adapter,this);
         super.bindVariable(binding);
         mEventBinding = (ItemEventBinding) binding;
     }

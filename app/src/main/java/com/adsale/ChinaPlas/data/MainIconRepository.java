@@ -105,7 +105,7 @@ public class MainIconRepository implements DataSource<MainIcon> {
      * 获取主界面数据
      */
     public ArrayList<MainIcon> getMenus() {
-        return (ArrayList<MainIcon>) mIconDao.queryBuilder().where(MainIconDao.Properties.MenuList.like("%M%")).orderAsc(MainIconDao.Properties.MenuList).list();
+        return (ArrayList<MainIcon>) mIconDao.queryBuilder().where(MainIconDao.Properties.MenuList.like("%M%"),MainIconDao.Properties.IsHidden.notEq(1)).orderAsc(MainIconDao.Properties.MenuList).list();
     }
 
     /**

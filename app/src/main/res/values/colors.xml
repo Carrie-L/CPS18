@@ -35,4 +35,7 @@
     <color name="uc_transparent">#B21C1C1C</color>
     <color name="link">#FF7256</color>
 
+    <!-- new tec -->
+    <color name="blue1">#63B8FF</color>
+
 </resources>

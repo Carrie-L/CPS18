@@ -1,6 +1,5 @@
 package com.adsale.ChinaPlas.viewmodel;
 
-import android.content.Intent;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableInt;
 import android.support.annotation.NonNull;
@@ -10,7 +9,6 @@ import com.adsale.ChinaPlas.adapter.EventAdapter;
 import com.adsale.ChinaPlas.data.DownloadClient;
 import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.data.model.ConcurrentEvent;
-import com.adsale.ChinaPlas.helper.OnCpsItemClickListener;
 import com.adsale.ChinaPlas.ui.TechnicalListActivity;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
@@ -194,17 +192,5 @@ public class EventModel {
 
     }
 
-    public void onItemClick(String pageId) {
-        LogUtil.i(TAG, "onItemClick: pageId= " + pageId);
-        if (mItemListener != null) {
-            mItemListener.onItemClick(pageId);
-        }
-    }
-
-    private OnCpsItemClickListener mItemListener;
-
-    public void setOnCpsItemClickListener(OnCpsItemClickListener listener) {
-        mItemListener = listener;
-    }
 
 }

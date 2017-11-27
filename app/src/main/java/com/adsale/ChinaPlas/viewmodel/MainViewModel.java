@@ -3,13 +3,11 @@ package com.adsale.ChinaPlas.viewmodel;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
@@ -19,10 +17,9 @@ import com.adsale.ChinaPlas.data.MainIconRepository;
 import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.data.model.MainPic;
 import com.adsale.ChinaPlas.data.model.adAdvertisementObj;
-import com.adsale.ChinaPlas.databinding.FragmentMainBinding;
 import com.adsale.ChinaPlas.databinding.ImageViewBinding;
 import com.adsale.ChinaPlas.helper.ADHelper;
-import com.adsale.ChinaPlas.utils.AppUtil;
+import com.adsale.ChinaPlas.ui.ExhibitorDetailActivity;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.DisplayUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
@@ -167,8 +164,7 @@ public class MainViewModel {
     }
 
     public void onM2Click() {
-        Toast.makeText(mContext, adObj.M2.getCompanyID(language), Toast.LENGTH_SHORT).show();
-//        mIntentListener.onIntent(adObj,null);
+        mIntentListener.onIntent(adObj, ExhibitorDetailActivity.class);
     }
 
     public void onTopPicClick(int index) {

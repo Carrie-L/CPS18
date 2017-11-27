@@ -6,7 +6,7 @@ import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.CpsBaseAdapter;
 import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.data.OnIntentListener;
-import com.adsale.ChinaPlas.ui.ExhibitorDtlActivity;
+import com.adsale.ChinaPlas.ui.ExhibitorDetailActivity;
 import com.android.databinding.library.baseAdapters.BR;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public class MyExhibitorAdapter extends CpsBaseAdapter<Exhibitor> {
     }
 
     public void onItemClick(Exhibitor exhibitor) {
-        mListener.onIntent(exhibitor, ExhibitorDtlActivity.class);
+        mListener.onIntent(exhibitor, ExhibitorDetailActivity.class);
     }
 
     @Override

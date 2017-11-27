@@ -15,6 +15,7 @@ public class UserInfoActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        barTitle.set(getString(R.string.title_my_account));
         ActivityUserInfoBinding binding = ActivityUserInfoBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         binding.setAty(this);
         binding.executePendingBindings();

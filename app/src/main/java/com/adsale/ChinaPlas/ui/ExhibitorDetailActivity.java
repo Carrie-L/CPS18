@@ -9,6 +9,7 @@ import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.databinding.ActivityExhibitorDetailBinding;
+import com.adsale.ChinaPlas.ui.view.HelpView;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.DisplayUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
@@ -16,9 +17,13 @@ import com.adsale.ChinaPlas.viewmodel.ExhibitorDtlViewModel;
 
 import static com.adsale.ChinaPlas.utils.Constant.SCHEDULE_DAY01;
 
+/**
+ * [Constant.COMPANY_ID]
+ */
 public class ExhibitorDetailActivity extends BaseActivity implements OnIntentListener {
 
     private ExhibitorDtlViewModel mViewModel;
+    private HelpView helpView;
 
     @Override
     protected void preView() {
@@ -31,6 +36,9 @@ public class ExhibitorDetailActivity extends BaseActivity implements OnIntentLis
         ActivityExhibitorDetailBinding binding = ActivityExhibitorDetailBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         mViewModel = new ExhibitorDtlViewModel(getApplicationContext(), binding.flDtlContent);
         binding.setModel(mViewModel);
+        binding.setAty(this);
+        binding.executePendingBindings();
+
         mViewModel.start(getIntent().getStringExtra(Constant.COMPANY_ID), this, binding.viewstubDtlView.getViewStub());
 
         int screenWidth = App.mSP_Config.getInt(Constant.SCREEN_WIDTH, 0);
@@ -43,13 +51,17 @@ public class ExhibitorDetailActivity extends BaseActivity implements OnIntentLis
         binding.llButton.ivNote.setLayoutParams(bottomParams);
         binding.llButton.ivSchedule.setLayoutParams(bottomParams);
         binding.llButton.ivShare.setLayoutParams(bottomParams);
-
-
     }
 
     @Override
     protected void initData() {
+        helpView = new HelpView(this, HelpView.HELP_PAGE_EXHIBITOR_DTL);
+        helpView.showPage();
         mViewModel.addToHistory();
+    }
+
+    public void onHelpPage(){
+        helpView.show();
     }
 
     @Override
