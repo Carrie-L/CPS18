@@ -19,32 +19,41 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/iv_filter"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignParentRight="true"
-            android:onClick="@{() -> exhibitorModel.onImgFilter()}"
-            android:scaleType="center"
-            android:src="@drawable/icon_filter2" />
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:background="#ccc"
+           android:id="@+id/rl_search"
+           >
 
-        <EditText
-            android:id="@+id/editFilter"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@id/iv_filter"
-            android:background="@drawable/filter_bg"
-            android:hint="@string/editFilter_hint"
-            android:padding="10dp"
-            android:singleLine="true"
-            android:text="@{exhibitorModel.etFilter}" />
+           <ImageView
+               android:id="@+id/iv_filter"
+               android:layout_width="48dp"
+               android:layout_height="48dp"
+               android:layout_alignParentRight="true"
+               android:onClick="@{() -> exhibitorModel.onImgFilter()}"
+               android:scaleType="center"
+               android:src="@drawable/icon_filter2" />
+
+           <EditText
+               android:id="@+id/editFilter"
+               android:layout_width="match_parent"
+               android:layout_height="48dp"
+               android:layout_alignParentTop="true"
+               android:layout_toLeftOf="@id/iv_filter"
+               android:hint="@string/editFilter_hint"
+               android:background="@drawable/filter_bg"
+               android:padding="10dp"
+               android:singleLine="true"
+               android:layout_marginLeft="10dp"
+               android:text="@{exhibitorModel.etFilter}" />
+       </RelativeLayout>
 
         <TextView
             android:id="@+id/tv_sort_by"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_below="@id/editFilter"
+            android:layout_below="@id/rl_search"
             android:layout_marginLeft="16dp"
             android:gravity="center_vertical"
             android:text="Sort By:"
@@ -93,7 +102,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@id/editFilter" />
+            android:layout_below="@id/rl_search" />
 
 
         <TextView
@@ -105,6 +114,8 @@
 
         <TextView
             style="@style/no_data_style"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:visibility="@{exhibitorModel.mExhibitors.isEmpty()?View.VISIBLE:View.INVISIBLE}" />
 
     </RelativeLayout>

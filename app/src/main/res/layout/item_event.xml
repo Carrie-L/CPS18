@@ -12,8 +12,8 @@
             type="com.adsale.ChinaPlas.data.model.ConcurrentEvent.Pages" />
 
         <variable
-            name="eventModel"
-            type="com.adsale.ChinaPlas.viewmodel.EventModel" />
+            name="adapter"
+            type="com.adsale.ChinaPlas.adapter.EventAdapter" />
     </data>
 
     <LinearLayout
@@ -39,7 +39,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="@{() -> eventModel.onItemClick(obj.pageID)}"
+                android:onClick="@{() -> adapter.onItemClick(obj)}"
                 android:padding="16dp">
 
                 <TextView

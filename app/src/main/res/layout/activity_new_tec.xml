@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+  >
+
+    <data>
+        <variable
+            name="view"
+            type="com.adsale.ChinaPlas.ui.NewTecActivity"/>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ccc"
+            android:id="@+id/rl_search"
+            >
+
+            <ImageView
+                android:id="@+id/iv_filter"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentRight="true"
+                android:onClick="@{() -> view.onFilter()}"
+                android:scaleType="center"
+                android:src="@drawable/icon_filter2" />
+
+            <EditText
+                android:id="@+id/editFilter"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@id/iv_filter"
+                android:hint="@string/editFilter_hint"
+                android:background="@drawable/filter_bg"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:layout_marginLeft="10dp"
+                android:text="@{view.etFilter}" />
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/new_tec_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/rl_search"
+            />
+
+      <com.adsale.ChinaPlas.ui.view.SideDataView
+          android:id="@+id/view_side_data"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_below="@id/rl_search"
+          />
+
+
+
+
+
+    </RelativeLayout>
+
+</layout>

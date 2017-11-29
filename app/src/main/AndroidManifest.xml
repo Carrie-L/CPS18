@@ -35,9 +35,9 @@
         <activity
             android:name=".ui.RegisterActivity"
             android:theme="@style/AppTheme" />
-        <activity android:name=".ui.MainActivity"
-            android:launchMode="singleTask"
-            />
+        <activity
+            android:name=".ui.MainActivity"
+            android:launchMode="singleTask" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
@@ -91,9 +91,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>
-
-        <!-- 微信支付 -->
+        </activity> <!-- 微信支付 -->
         <activity-alias
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
@@ -119,7 +117,8 @@
         <activity android:name=".ui.MyExhibitorActivity" />
         <activity android:name=".ui.NewTecDtlActivity" />
         <activity android:name=".ui.UserInfoActivity" />
-        <activity android:name=".ui.FloorDistributeActivity"></activity>
+        <activity android:name=".ui.FloorDistributeActivity" />
+        <activity android:name=".ui.NewTecActivity"></activity>
     </application>
 
 </manifest>

@@ -15,7 +15,6 @@ import android.os.Environment;
 import com.adsale.ChinaPlas.dao.DBHelper;
 import com.adsale.ChinaPlas.dao.DaoMaster;
 import com.adsale.ChinaPlas.dao.DaoSession;
-import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.CrashHandler;
 import com.adsale.ChinaPlas.utils.LogUtil;
@@ -85,9 +84,6 @@ public class App extends Application {
         mOkHttpClient = new OkHttpClient.Builder().connectTimeout(15, TimeUnit.SECONDS).build();
 
         getDbHelper();
-
-        // TODO: 2017/11/19  just for test
-        AppUtil.putLoginTest();
     }
 
     private void initSP() {

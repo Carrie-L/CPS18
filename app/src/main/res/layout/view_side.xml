@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="view"
+            type="com.adsale.ChinaPlas.ui.view.SideDataView"/>
+    </data>
+
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+
+       <com.adsale.ChinaPlas.ui.view.SideLetter
+           android:id="@+id/side_letter"
+           android:layout_width="25dp"
+           android:layout_height="wrap_content"
+           android:layout_alignParentEnd="true"
+           android:layout_alignParentRight="true"
+           android:layout_below="@id/rl_search" />
+
+
+       <TextView
+           android:id="@+id/DialogText"
+           style="@style/letter_toast_bg_style"
+           android:text="@{view.dialogLetter}"
+           android:visibility="@{TextUtils.isEmpty(view.dialogLetter)?View.GONE:View.VISIBLE}"
+           />
+
+       <TextView
+           style="@style/no_data_style"
+           android:layout_alignParentStart="true"
+           android:layout_alignParentTop="true"
+           android:visibility="@{view.isNoData?View.GONE:View.VISIBLE}" />
+
+   </RelativeLayout>
+
+</layout>

@@ -103,7 +103,6 @@ public class ExhibitorAllListActivity extends BaseActivity implements OnItemClic
         adapter = new ExhibitorAdapter(this, mExhibitorModel.mExhibitors, mRepository, this);
         rvExhibitors.setAdapter(adapter);
         mExhibitorModel.setAdapter(adapter);
-
         onItemClick();
     }
 

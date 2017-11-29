@@ -16,42 +16,12 @@
 
     <string name="title_my_name_card">我的名片</string>
     <string name="title_all_name_card">名片列表</string>
-    <!-- 扫描二维码 -->
-    <string name="from_gallery">相册选择</string>
-    <string name="confirm">确定</string>
-    <string name="msg_camera_framework_bug">抱歉，Android相机出现问题。您可能需要重启设备。</string>
-    <string name="msg_default_status">请将二维码置于屏幕中间(若光线暗请按音量的增加键)。  </string>
-    <string name="memo">提示</string>
-    <string name="barcode_msg_fail">扫描失败！  </string>
-    <string name="barcode_tow_dimen_success">"已检测到地址:%1$s是否打开?"</string>
-    <string name="barcode_one_dimen_success">"已检测到文本内容:%1$s是否复制?"</string>
-    <string name="action_settings">设置</string>
+
     <string name="reg_reset_title">确定重置预登记信息?</string>
      <!--  UpdateCenter更新中心-->
-    <string-array name="update_center_arr">
-        <item>展商资料</item>
-        <item>展馆平面图</item>
-        <item>技术交流会</item>
-        <item>同期活动</item>
-        <item>旅游资料</item>
-    </string-array>
+
     
-    <!--  -->
-    <string-array name="main_nav">
-        <item>观众预先登记</item>
-        <item>参展商名单</item>
-        <item>展会概述</item>
-        <item>展馆平面图</item>
-        <item>同期活动</item>
-        <item>同期展览</item>
-        <item>交通</item>
-        <item>最新消息</item>
-        <item>联系我们</item>
-        <item>订阅电子快讯</item>
-        <item>我的参展商</item>
-        <item>议程</item>
-        <item>设置</item>
-    </string-array>
+
     
      <string name="as_product">按产品类别搜索</string>
     <string name="as_application">按应用行业搜索</string>
@@ -147,6 +117,7 @@
     <string name="title_transportation">交通</string>
     <string name="title_contact_us">联系我们</string>
     <string name="title_my_exhibitor">我的参展商</string>
+    <string name="title_my_account">用户资料</string>
     <string name="title_setting">设置</string>
     <string name="title_subscribe">订阅电子快讯</string>
     <string name="edit_schedule">编辑议程</string>
@@ -371,288 +342,6 @@
     <string name="qrcode_all">名片列表</string>
     <string name="qrcode_edit_save">保存&amp;更新二维码</string>
 
-    <string-array name="CountryNames">
-        <item>---请选择---</item>
-        <item>中国</item>
-        <item>香港特别行政区</item>
-        <item>澳门特别行政区</item>
-        <item>中国台湾省</item>
-        <item>阿尔巴尼亚</item>
-        <item>阿尔及利亚</item>
-        <item>阿富汗</item>
-        <item>阿根廷</item>
-        <item>阿拉伯联合酋长国</item>
-        <item>阿路巴</item>
-        <item>阿曼</item>
-        <item>埃及(中东)</item>
-        <item>爱尔兰</item>
-        <item>爱沙尼亚</item>
-        <item>安道尔</item>
-        <item>安地卡及巴布达</item>
-        <item>安哥拉</item>
-        <item>安圭拉</item>
-        <item>奥地利</item>
-        <item>澳大利亚</item>
-        <item>巴贝多</item>
-        <item>巴布亚纽几内亚</item>
-        <item>巴哈马</item>
-        <item>巴基斯坦</item>
-        <item>巴拉圭</item>
-        <item>巴列斯坦</item>
-        <item>巴林(中东)</item>
-        <item>巴拿马</item>
-        <item>巴西</item>
-        <item>白俄罗斯</item>
-        <item>百慕达</item>
-        <item>保加利亚</item>
-        <item>北马里安纳</item>
-        <item>贝里斯</item>
-        <item>贝南</item>
-        <item>比利时</item>
-        <item>比索</item>
-        <item>冰岛</item>
-        <item>波多黎各</item>
-        <item>波兰</item>
-        <item>波士尼亚赫塞哥维纳</item>
-        <item>波札那</item>
-        <item>玻利维亚</item>
-        <item>帛琉群岛</item>
-        <item>不丹</item>
-        <item>布吉纳法索</item>
-        <item>布威岛</item>
-        <item>查德</item>
-        <item>朝鲜</item>
-        <item>赤道几内亚</item>
-        <item>丹麦</item>
-        <item>德国</item>
-        <item>东帝汶</item>
-        <item>东加</item>
-        <item>多哥</item>
-        <item>多米尼克</item>
-        <item>多明尼加</item>
-        <item>俄罗斯</item>
-        <item>厄瓜多</item>
-        <item>厄利垂亚</item>
-        <item>法国</item>
-        <item>法国南方领地</item>
-        <item>法罗群岛</item>
-        <item>法属玻里尼西亚</item>
-        <item>法属圭亚那</item>
-        <item>法属美特罗波利坦</item>
-        <item>梵帝岗</item>
-        <item>菲律宾</item>
-        <item>斐济</item>
-        <item>芬兰</item>
-        <item>福克兰群岛</item>
-        <item>盖亚纳</item>
-        <item>甘比亚</item>
-        <item>刚果</item>
-        <item>哥德普洛</item>
-        <item>哥伦比亚</item>
-        <item>哥斯大黎加</item>
-        <item>格陵兰</item>
-        <item>格瑞那达</item>
-        <item>葛摩</item>
-        <item>古巴</item>
-        <item>瓜地马拉</item>
-        <item>关岛</item>
-        <item>哈萨克</item>
-        <item>海地</item>
-        <item>韩国</item>
-        <item>荷兰</item>
-        <item>荷属安替列斯</item>
-        <item>赫德岛</item>
-        <item>宏都拉斯</item>
-        <item>吉布地</item>
-        <item>吉尔吉斯</item>
-        <item>吉里巴斯</item>
-        <item>几内亚</item>
-        <item>加拿大</item>
-        <item>加彭</item>
-        <item>迦纳</item>
-        <item>柬埔寨</item>
-        <item>捷克共和国</item>
-        <item>喀麦隆</item>
-        <item>卡塔尔(中东)</item>
-        <item>开曼群岛</item>
-        <item>柯克群岛</item>
-        <item>科威特(中东)</item>
-        <item>可可斯群岛</item>
-        <item>克罗埃西亚</item>
-        <item>肯亚</item>
-        <item>拉脱维亚</item>
-        <item>赖比瑞亚</item>
-        <item>赖索托</item>
-        <item>冷岸及央麦恩群岛</item>
-        <item>黎巴嫩(中东)</item>
-        <item>立陶宛</item>
-        <item>利比亚</item>
-        <item>寮国</item>
-        <item>列支敦斯登</item>
-        <item>留尼旺</item>
-        <item>卢安达</item>
-        <item>卢森堡</item>
-        <item>罗马尼亚</item>
-        <item>马达加斯加</item>
-        <item>马丁尼克岛</item>
-        <item>马尔地夫</item>
-        <item>马耳他(欧州)</item>
-        <item>马拉威</item>
-        <item>马来西亚</item>
-        <item>马利</item>
-        <item>马其顿</item>
-        <item>马绍尔群岛</item>
-        <item>马约特岛</item>
-        <item>茅利塔尼亚</item>
-        <item>美国</item>
-        <item>美属萨摩亚</item>
-        <item>美属维尔京群岛</item>
-        <item>蒙古</item>
-        <item>蒙特色拉特岛</item>
-        <item>孟加拉</item>
-        <item>秘鲁</item>
-        <item>密克罗尼西亚联邦</item>
-        <item>缅甸</item>
-        <item>模里西斯</item>
-        <item>摩尔多瓦</item>
-        <item>摩洛哥</item>
-        <item>摩纳哥</item>
-        <item>莫三比克</item>
-        <item>墨西哥</item>
-        <item>纳米比亚</item>
-        <item>奈及利亚</item>
-        <item>南非</item>
-        <item>南极大陆</item>
-        <item>南乔治亚</item>
-        <item>尼泊尔</item>
-        <item>尼加拉瓜</item>
-        <item>尼日</item>
-        <item>纽威岛</item>
-        <item>纽西兰</item>
-        <item>挪威</item>
-        <item>诺福克岛</item>
-        <item>诺鲁</item>
-        <item>皮特康</item>
-        <item>葡萄牙</item>
-        <item>浦隆地</item>
-        <item>千里达及托巴哥</item>
-        <item>乔治亚</item>
-        <item>日本</item>
-        <item>瑞典</item>
-        <item>瑞士</item>
-        <item>萨尔瓦多</item>
-        <item>萨摩亚</item>
-        <item>萨伊</item>
-        <item>塞尔维亚</item>
-        <item>塞尔维亚和黑山</item>
-        <item>塞内加尔</item>
-        <item>塞浦路斯(中东)</item>
-        <item>塞席尔</item>
-        <item>沙特阿拉伯</item>
-        <item>尚比亚</item>
-        <item>圣诞岛</item>
-        <item>圣多美普林西比</item>
-        <item>圣赫勒拿岛</item>
-        <item>圣克里斯多福及尼维斯</item>
-        <item>圣露西亚</item>
-        <item>圣马利诺</item>
-        <item>圣匹岛</item>
-        <item>圣文森及格瑞那丁</item>
-        <item>狮子山</item>
-        <item>史瓦济兰</item>
-        <item>斯里兰卡</item>
-        <item>斯洛伐克</item>
-        <item>斯洛维尼亚</item>
-        <item>苏丹</item>
-        <item>苏利南</item>
-        <item>索罗门群岛</item>
-        <item>索马利亚</item>
-        <item>塔吉克</item>
-        <item>泰国</item>
-        <item>坦尚尼亚</item>
-        <item>突尼西亚</item>
-        <item>土耳其(中东)</item>
-        <item>土克斯及开科斯群岛</item>
-        <item>土库曼</item>
-        <item>吐瓦鲁</item>
-        <item>托克劳群岛</item>
-        <item>瓦利斯和福杜纳群岛</item>
-        <item>万那杜</item>
-        <item>维德角</item>
-        <item>委内瑞拉</item>
-        <item>汶莱</item>
-        <item>乌干达</item>
-        <item>乌克兰</item>
-        <item>乌拉圭</item>
-        <item>乌兹别克斯坦</item>
-        <item>西班牙</item>
-        <item>西撒哈拉</item>
-        <item>希腊</item>
-        <item>象牙海岸</item>
-        <item>辛巴威</item>
-        <item>新加坡</item>
-        <item>新喀里多尼亚群岛</item>
-        <item>匈牙利</item>
-        <item>叙利亚(中东)</item>
-        <item>牙买加</item>
-        <item>亚美尼亚</item>
-        <item>亚塞拜然</item>
-        <item>亚洲地区</item>
-        <item>亚洲以外地区</item>
-        <item>也门(中东)</item>
-        <item>伊拉克(中东)</item>
-        <item>伊朗(中东)</item>
-        <item>衣索比亚</item>
-        <item>以色列(中东)</item>
-        <item>义大利</item>
-        <item>印度</item>
-        <item>印尼</item>
-        <item>英国</item>
-        <item>英属维尔京群岛</item>
-        <item>英属印度</item>
-        <item>约旦(中东)</item>
-        <item>越南</item>
-        <item>直布罗陀</item>
-        <item>智利</item>
-        <item>中东地区</item>
-        <item>中非</item>
-    </string-array>
-    <string-array name="provinces">
-        <item>---请选择---</item>
-        <item>北京</item>
-        <item>天津</item>
-        <item>上海</item>
-        <item>重庆</item>
-        <item>河北</item>
-        <item>山西</item>
-        <item>山东</item>
-        <item>辽宁</item>
-        <item>吉林</item>
-        <item>黑龙江</item>
-        <item>江苏</item>
-        <item>浙江</item>
-        <item>安徽</item>
-        <item>福建</item>
-        <item>江西</item>
-        <item>河南</item>
-        <item>湖北</item>
-        <item>湖南</item>
-        <item>广东</item>
-        <item>海南</item>
-        <item>四川</item>
-        <item>贵州</item>
-        <item>云南</item>
-        <item>陕西</item>
-        <item>甘肃</item>
-        <item>青海</item>
-        <item>内蒙古</item>
-        <item>广西</item>
-        <item>西藏</item>
-        <item>宁夏</item>
-        <item>新疆</item>
-        <item>香港特别行政区</item>
-    </string-array>
-
     <!-- 登录 -->
     <string name="login_title_1">预先登记观众登入</string>
     <string name="login_title">观众登入</string>
@@ -684,6 +373,7 @@
     <string name="syncMessage">在应用内的[我的参展商] 资料，将会跟CHINAPLASONLILNE.com的[我的参展商] 同步，请确认继续。</string>
     <string name="syncSuccess">同步成功</string>
     <string name="syncFailure">同步失败</string>
+    <string name="syncStart">开始同步</string>
 
     <!-- 酒店资料 -->
     <string name="title_travel_info">旅游信息</string>
@@ -866,4 +556,19 @@
     <string name="event_btn_all">全部</string>
     <string name="tech_am">上午</string>
     <string name="tech_pm">下午</string>
+    <string name="event_btn_24">24</string>
+    <string name="event_btn_25">25</string>
+    <string name="event_btn_26">26</string>
+    <string name="event_btn_27">27</string>
+    <string name="event_date_24">2018.04.24</string>
+    <string name="event_date_25">2018.04.25</string>
+    <string name="event_date_26">2018.04.26</string>
+    <string name="event_date_27">2018.04.27</string>
+    <string name="event_date_base">2018.04.%s</string>
+
+    <string name="card_back">返回</string>
+    <string name="reg_reset_confirm">重置</string>
+    <string name="reg_reset_cancel">取消</string>
+
+    <string name="no_camera_permission">没有照相机权限，无法扫描</string>
 </resources>

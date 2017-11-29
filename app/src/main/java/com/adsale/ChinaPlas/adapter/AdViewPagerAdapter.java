@@ -35,4 +35,14 @@ public class AdViewPagerAdapter extends PagerAdapter {
 		// super.destroyItem(container, position, object);
 		container.removeView(mData.get(position));
 	}
+
+
+
+
+
+
+
+
+
+
 }

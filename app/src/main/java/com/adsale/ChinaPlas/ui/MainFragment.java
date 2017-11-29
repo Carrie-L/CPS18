@@ -3,7 +3,6 @@ package com.adsale.ChinaPlas.ui;
 
 import android.app.Fragment;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,16 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.adsale.ChinaPlas.App;
-import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.MenuAdapter;
 import com.adsale.ChinaPlas.dao.MainIcon;
 import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.data.model.MainPic;
+import com.adsale.ChinaPlas.data.model.adAdvertisementObj;
 import com.adsale.ChinaPlas.databinding.FragmentMainBinding;
-import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.DisplayUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
@@ -137,11 +134,19 @@ public class MainFragment extends Fragment implements OnIntentListener {
 
     @Override
     public <T> void onIntent(T entity, Class toCls) {
-        Intent intent = navViewModel.newIntent(getActivity(), (MainIcon) entity);
-        if (intent == null) {
-            return;
+        if(toCls!=null&&toCls.getSimpleName().equals("ExhibitorDetailActivity")){
+            Intent intent = new Intent(getActivity(),toCls);
+            intent.putExtra(Constant.COMPANY_ID,((adAdvertisementObj)entity).M2.getCompanyID(language));
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }else{
+            Intent intent = navViewModel.newIntent(getActivity(), (MainIcon) entity);
+            if (intent == null) {
+                return;
+            }
+            startActivity(intent);
         }
-        startActivity(intent);
+
     }
 
     private void initViewModel() {

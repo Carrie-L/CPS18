@@ -1,7 +1,5 @@
 package com.adsale.ChinaPlas.data;
 
-import android.os.Bundle;
-
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.dao.DBHelper;
 import com.adsale.ChinaPlas.dao.NewProductAndCategoryDao;
@@ -10,7 +8,6 @@ import com.adsale.ChinaPlas.dao.NewProductInfoDao;
 import com.adsale.ChinaPlas.dao.NewProductsAndApplicationDao;
 import com.adsale.ChinaPlas.dao.ProductApplicationDao;
 import com.adsale.ChinaPlas.dao.ProductImageDao;
-import com.adsale.ChinaPlas.data.model.NewTec;
 
 import java.util.ArrayList;
 
@@ -41,6 +38,13 @@ public class NewTecRepository {
         mNewProductsAndApplicationDao = dbHelper.mNewProductsAndApplicationDao;
         mProductApplicationDao = dbHelper.mProductApplicationDao;
         mProductImageDao = dbHelper.mProductImageDao;
+    }
+
+    public ArrayList<NewProductInfo> getAllProductInfoList(){
+        if(mInfoDao==null){
+            throw new NullPointerException("mInfoDao cannot be null,please #initDao()");
+        }
+        return (ArrayList<NewProductInfo>) mInfoDao.queryBuilder().list();
     }
 
     public ArrayList<NewProductInfo> getProductInfoList(String companyId) {
