@@ -153,7 +153,7 @@ public class NewTecActivity extends BaseActivity implements OnIntentListener {
     }
 
     public void onFilter() {
-        intent(NewTecFilterActivity.class,getString(R.string.filter));
+        intent(NewTecFilterActivity.class,getString(R.string.title_filter));
     }
 
 

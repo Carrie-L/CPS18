@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 
 import com.adsale.ChinaPlas.App;
-import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.dao.DBHelper;
 import com.adsale.ChinaPlas.dao.NewProductAndCategory;
 import com.adsale.ChinaPlas.dao.NewProductAndCategoryDao;
@@ -16,9 +15,10 @@ import com.adsale.ChinaPlas.dao.ProductApplication;
 import com.adsale.ChinaPlas.dao.ProductApplicationDao;
 import com.adsale.ChinaPlas.dao.ProductImage;
 import com.adsale.ChinaPlas.dao.ProductImageDao;
+import com.adsale.ChinaPlas.data.model.ExhibitorFilter;
 import com.adsale.ChinaPlas.data.model.NewTec;
-import com.adsale.ChinaPlas.data.model.Text2;
 import com.adsale.ChinaPlas.utils.Constant;
+import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.Parser;
 
 import java.util.ArrayList;
@@ -90,11 +90,46 @@ public class NewTecRepository {
     /**
      * NewProductAndCategory.csv(划掉)，获取 产品 列表
      */
-    public ArrayList<Text2> getProducts(Context context){
-       ArrayList<Text2> list = new ArrayList<>();
-       list.add(new Text2("0",context.getString(R.string.new_tec_Product_A)));
-       list.add(new Text2("1",context.getString(R.string.new_tec_Product_B)));
+    public ArrayList<NewProductInfo> getFilterList(Context context){
+       ArrayList<NewProductInfo> list = new ArrayList<>();
+
         return list;
+    }
+
+    private String getFilterSql(ArrayList<ExhibitorFilter> filters){
+        int size = filters.size();
+        ArrayList<String> industriesStr = new ArrayList<>();
+        ArrayList<String> appStr = new ArrayList<>();
+        ExhibitorFilter filter;
+        String keyword = "";
+        int index;
+        String sql = getBaseSql();
+        for (int i = 0; i < size; i++) {
+            filter = filters.get(i);
+            index = filter.index;
+             if (index == 0) {
+                if (industriesStr.size() == 0) {
+                    sql = sql.concat(" and COMPANY_ID IN (%3$s)");
+                }
+                industriesStr.add(" select COMPANY_ID from EXHIBITOR_INDUSTRY_DTL where CATALOG_PRODUCT_SUB_ID = " + filter.id);
+            } else if (index == 1) {
+                if (appStr.size() == 0) {
+                    sql = sql.concat(" and COMPANY_ID IN (%4$s)");
+                }
+                appStr.add(" select COMPANY_ID from APPLICATION_COMPANY where INDUSTRY_ID=" + filter.id);
+            }
+        }
+        sql = String.format(sql, halls.toString().replace("[", "").replace("]", ""),
+                countries.toString().replace("[", "").replace("]", ""),
+                industriesStr.toString().replaceAll(",", " intersect").replace("[", "").replace("]", ""),
+                appStr.toString().replaceAll(",", " intersect").replace("[", "").replace("]", ""));
+        sql = sql.replaceAll("carriecps", "E.DESC_E LIKE '%".concat(keyword).concat("%' OR E.DESC_S LIKE '%").concat(keyword).concat("%' OR E.DESC_T LIKE '%").concat(keyword).concat("%'"));
+        LogUtil.i(TAG, ">>>> sql=" + sql);
+        return sql;
+    }
+
+    private String getBaseSql(){
+
     }
 
 
