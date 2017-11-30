@@ -1,28 +1,18 @@
 package com.adsale.ChinaPlas.data;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.adsale.ChinaPlas.App;
-import com.adsale.ChinaPlas.dao.Exhibitor;
-import com.adsale.ChinaPlas.dao.ExhibitorDao;
-import com.adsale.ChinaPlas.dao.ExhibitorIndustryDtl;
-import com.adsale.ChinaPlas.dao.Floor;
-import com.adsale.ChinaPlas.dao.HistoryExhibitorDao;
-import com.adsale.ChinaPlas.dao.Industry;
 import com.adsale.ChinaPlas.dao.MainIcon;
 import com.adsale.ChinaPlas.dao.MainIconDao;
 import com.adsale.ChinaPlas.dao.MapFloor;
 import com.adsale.ChinaPlas.dao.MapFloorDao;
-import com.adsale.ChinaPlas.dao.NameCardDao;
 import com.adsale.ChinaPlas.dao.News;
 import com.adsale.ChinaPlas.dao.NewsDao;
 import com.adsale.ChinaPlas.dao.NewsLink;
 import com.adsale.ChinaPlas.dao.NewsLinkDao;
-import com.adsale.ChinaPlas.dao.ScheduleInfoDao;
 import com.adsale.ChinaPlas.dao.UpdateCenter;
 import com.adsale.ChinaPlas.dao.UpdateCenterDao;
 import com.adsale.ChinaPlas.dao.WebContent;
@@ -31,12 +21,9 @@ import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.Property;
-
-import static android.R.id.list;
 
 /**
  * Created by Carrie on 2017/9/12.

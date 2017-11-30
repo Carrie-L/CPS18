@@ -40,6 +40,12 @@ public class NewProductsAndApplication {
     }
 
     // KEEP METHODS - put your custom methods here
+
+    public void parser(String[] strings) {
+        this.Spot = strings[0];
+        this.RID = strings[1];
+    }
+
     // KEEP METHODS END
 
 }

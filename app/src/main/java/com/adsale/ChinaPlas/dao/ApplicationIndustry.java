@@ -8,6 +8,7 @@ package com.adsale.ChinaPlas.dao;
 import android.databinding.ObservableBoolean;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 import com.adsale.ChinaPlas.utils.AppUtil;
 
@@ -28,10 +29,10 @@ public class ApplicationIndustry implements Parcelable {
 
     // KEEP FIELDS - put your custom fields here
     public final ObservableBoolean isSelected=new ObservableBoolean(false);
+    public String industry;
     // KEEP FIELDS END
 
-    public ApplicationIndustry() {
-    }
+
 
     public ApplicationIndustry(String IndustryID) {
         this.IndustryID = IndustryID;
@@ -101,6 +102,16 @@ public class ApplicationIndustry implements Parcelable {
     }
 
     // KEEP METHODS - put your custom methods here
+    /**
+     * 新技术产品
+     * @param industryID
+     * @param industry
+     */
+    public ApplicationIndustry(String industryID, String industry) {
+        IndustryID = industryID;
+        this.industry = industry;
+    }
+
     public void parser(String[] inputStream){
 		this.IndustryID=inputStream[0];
 		this.ApplicationEng=inputStream[1];
@@ -111,6 +122,9 @@ public class ApplicationIndustry implements Parcelable {
 	}
     
     public String getApplicationName(){
+        if(!TextUtils.isEmpty(industry)){
+            return industry;
+        }
 		return AppUtil.getName(ApplicationTC,ApplicationEng,ApplicationSC);
 	}
     // KEEP METHODS END

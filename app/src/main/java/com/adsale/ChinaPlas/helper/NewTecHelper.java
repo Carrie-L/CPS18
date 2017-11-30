@@ -19,9 +19,7 @@ import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
 
 import static com.adsale.ChinaPlas.App.rootDir;
-import static com.adsale.ChinaPlas.utils.AppUtil.getInputStream;
 import static com.adsale.ChinaPlas.utils.FileUtil.createFile;
-import static com.adsale.ChinaPlas.utils.FileUtil.unpackZip;
 
 /**
  * Created by Carrie on 2017/11/16.
@@ -64,7 +62,7 @@ public class NewTecHelper {
                                 }
                                 CSVHelper csvHelper = new CSVHelper();
                                 csvHelper.initNewTec(mRepository);
-                                return csvHelper.readNewProductInfoCSV(getInputStream(Constant.CSV_NEWTEC_PRODUCT_INFO));
+                                return csvHelper.readNewTecCSV();
                             }
                             return false;
                         }

@@ -38,8 +38,8 @@
                 android:background="@drawable/filter_bg"
                 android:padding="10dp"
                 android:singleLine="true"
-                android:layout_marginLeft="10dp"
-                android:text="@{view.etFilter}" />
+                android:layout_marginLeft="5dp"
+                />
         </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView

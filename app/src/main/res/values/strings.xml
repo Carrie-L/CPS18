@@ -130,6 +130,8 @@
     <string name="sort_by_az">Pingyin</string>
     <string name="sort_by_hall">Hall</string>
 
+
+    <string name="title_filter">篩選</string>
     <string name="filter_industry">產品類別</string>
     <string name="filter_application">應用分類</string>
     <string name="filter_country">國家</string>
@@ -145,6 +147,13 @@
     <string name="filter_search">搜尋</string>
 
     <string name="new_tec_booth">展臺號：%s</string>
+    <string name="new_tec_ad">廣告商產品</string>
+
+    <string name="filter_product">產品</string>
+    <string name="filter_applications">應用</string>
+    <string name="new_tec_Product_A">機械及儀器</string>
+    <string name="new_tec_Product_B">化工及原料</string>
+    <string name="new_tec_Product_C">2017 展會首發技術</string>
 
 
     <!--Name Card-->

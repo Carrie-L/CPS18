@@ -118,7 +118,8 @@
         <activity android:name=".ui.NewTecDtlActivity" />
         <activity android:name=".ui.UserInfoActivity" />
         <activity android:name=".ui.FloorDistributeActivity" />
-        <activity android:name=".ui.NewTecActivity"></activity>
+        <activity android:name=".ui.NewTecActivity" />
+        <activity android:name=".ui.NewTecFilterActivity"></activity>
     </application>
 
 </manifest>

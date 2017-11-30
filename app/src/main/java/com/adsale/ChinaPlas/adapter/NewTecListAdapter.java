@@ -2,47 +2,52 @@ package com.adsale.ChinaPlas.adapter;
 
 import android.content.Context;
 import android.databinding.ViewDataBinding;
-import android.net.Uri;
 
-import com.adsale.ChinaPlas.BR;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.CpsBaseAdapter;
-import com.adsale.ChinaPlas.base.CpsBaseViewHolder;
 import com.adsale.ChinaPlas.dao.NewProductInfo;
 import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.data.model.NewTec;
-import com.adsale.ChinaPlas.databinding.ItemNewTecBinding;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.Parser;
-import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
+
 
 /**
  * Created by Carrie on 2017/11/16.
  */
 
-public class NewTecAdapter extends CpsBaseAdapter<NewTec> {
-
+public class NewTecListAdapter extends CpsBaseAdapter<NewProductInfo> {
+    private static final String TAG = "NewTecListAdapter";
     private ArrayList<NewProductInfo> list;
     private Context mContext;
-    private ItemNewTecBinding techBinding;
-    private String baseUrl;
     private OnIntentListener mListener;
 
-    public NewTecAdapter(Context mContext, ArrayList<NewProductInfo> list, OnIntentListener listener,boolean hasAd) {
+    private final static int TYPE_ITEM = 0;
+    private final static int TYPE_AD = 1;
+    private int mType = 0;
+    private NewProductInfo entity;
+    private ArrayList<NewTec.ADProduct> adProducts=new ArrayList<>();
+    private int adSize = 0;
+    private NewTec newTec;
+    private RequestOptions options;
+
+
+    public NewTecListAdapter(Context mContext, ArrayList<NewProductInfo> list, OnIntentListener listener) {
         this.list = list;
         this.mContext = mContext;
         this.mListener = listener;
 
-
+        options = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE);
+        newTec = Parser.parseJsonFilesDirFile(NewTec.class, Constant.TXT_NEW_TEC);
     }
 
-    private void generateAdList(){
-        NewTec newTec = Parser.parseJsonFilesDirFile(NewTec.class, Constant.TXT_NEW_TEC);
-        baseUrl=newTec.imageLink;
-
-
+    public void setList(ArrayList<NewProductInfo> list){
+        this.list=list;
+        super.setList(list);
     }
 
     public void onItemClick(NewProductInfo entity) {
@@ -55,15 +60,9 @@ public class NewTecAdapter extends CpsBaseAdapter<NewTec> {
     }
 
     @Override
-    public void onBindViewHolder(CpsBaseViewHolder holder, int position) {
-        super.onBindViewHolder(holder, position);
-        Glide.with(mContext).load(Uri.parse(baseUrl.concat((techBinding.getObj()).image))).thumbnail(0.1f).into(techBinding.ivProductPic);
-    }
-
-    @Override
     protected void bindVariable(ViewDataBinding binding) {
-        techBinding = (ItemNewTecBinding) binding;
-        binding.setVariable(BR.adapter, this);
+        binding.setVariable(com.adsale.ChinaPlas.BR.adapter,this);
+        binding.setVariable(com.adsale.ChinaPlas.BR.options,options);
         super.bindVariable(binding);
     }
 
@@ -74,6 +73,9 @@ public class NewTecAdapter extends CpsBaseAdapter<NewTec> {
 
     @Override
     protected int getLayoutIdForPosition(int position) {
+        if(list.get(position).adItem){
+            return R.layout.item_new_tec_ad;
+        }
         return R.layout.item_new_tec;
     }
 

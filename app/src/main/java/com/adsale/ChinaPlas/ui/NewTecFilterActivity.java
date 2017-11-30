@@ -8,19 +8,16 @@ import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.data.model.ExhibitorFilter;
-import com.adsale.ChinaPlas.databinding.ActivityExhibitorFilterBinding;
+import com.adsale.ChinaPlas.databinding.ActivityNewTecFilterBinding;
 import com.adsale.ChinaPlas.ui.view.FilterView;
 import com.adsale.ChinaPlas.utils.LogUtil;
 
 import java.util.ArrayList;
 
-public class ExhibitorFilterActivity extends BaseActivity implements OnIntentListener {
+public class NewTecFilterActivity extends BaseActivity implements OnIntentListener{
     public final ObservableField<String> etKeyword = new ObservableField<>("");
     private FilterView industryFilterView;
     private FilterView applicationFilterView;
-    private FilterView countryFilterView;
-    private FilterView hallFilterView;
-    private FilterView boothFilterView;
     private ArrayList<ExhibitorFilter> results;
     private ArrayList<ExhibitorFilter> allFilters = new ArrayList<>();
     private SwitchCompat switchNewTec;
@@ -28,29 +25,30 @@ public class ExhibitorFilterActivity extends BaseActivity implements OnIntentLis
     @Override
     protected void initView() {
         barTitle.set(getString(R.string.title_filter));
-        ActivityExhibitorFilterBinding binding = ActivityExhibitorFilterBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
+        ActivityNewTecFilterBinding binding = ActivityNewTecFilterBinding.inflate(getLayoutInflater(),mBaseFrameLayout,true);
         binding.setUi(this);
         industryFilterView = binding.industryFilterView;
         applicationFilterView = binding.applicationFilterView;
-        countryFilterView = binding.countryFilterView;
-        hallFilterView = binding.hallFilterView;
-        boothFilterView = binding.boothFilterView;
         switchNewTec = binding.switchNewTec;
+
     }
 
     @Override
     protected void initData() {
-        industryFilterView.initData(0, getString(R.string.filter_industry), getResources().getDrawable(R.drawable.ic_fiter_category), this);
-        applicationFilterView.initData(1, getString(R.string.filter_application), getResources().getDrawable(R.drawable.ic_fiter_industry), this);
-        countryFilterView.initData(2, getString(R.string.filter_country), getResources().getDrawable(R.drawable.ic_fiter_country), this);
-        hallFilterView.initData(3, getString(R.string.filter_hall), getResources().getDrawable(R.drawable.ic_fiter_hall), this);
-        boothFilterView.initData(4, getString(R.string.filter_booth), getResources().getDrawable(R.drawable.ic_fiter_booth), this);
+        industryFilterView.initData(0, getString(R.string.filter_product), getResources().getDrawable(R.drawable.ic_fiter_category), this);
+        applicationFilterView.initData(1, getString(R.string.filter_applications), getResources().getDrawable(R.drawable.ic_fiter_industry), this);
     }
+
 
     @Override
     public <T> void onIntent(T entity, Class toCls) {
-        LogUtil.i(TAG, "onIntent::entity=" + entity);
+        LogUtil.i(TAG, "onIntent::entity=" + entity.toString());
         Intent intent = new Intent(this, toCls);
+        if(toCls.getSimpleName().equals("FilterApplicationListActivity")){
+            intent.putExtra("type",FilterApplicationListActivity.TYPE_NEW_TEC_PRODUCT);
+        }else{
+
+        }
         startActivityForResult(intent, (Integer) entity);
     }
 
@@ -66,12 +64,6 @@ public class ExhibitorFilterActivity extends BaseActivity implements OnIntentLis
             industryFilterView.setList(results);
         } else if (requestCode == 1) {
             applicationFilterView.setList(results);
-        } else if (requestCode == 2) {
-            countryFilterView.setList(results);
-        } else if (requestCode == 3) {
-            hallFilterView.setList(results);
-        } else if (requestCode == 4) {
-            boothFilterView.setList(results);
         }
         allFilters.addAll(results);
     }
@@ -96,11 +88,6 @@ public class ExhibitorFilterActivity extends BaseActivity implements OnIntentLis
         results.clear();
         industryFilterView.setList(results);
         applicationFilterView.setList(results);
-        countryFilterView.setList(results);
-        hallFilterView.setList(results);
-        boothFilterView.setList(results);
         switchNewTec.setChecked(false);
     }
-
-
 }

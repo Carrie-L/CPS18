@@ -9,14 +9,15 @@ import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.dao.ApplicationCompany;
 import com.adsale.ChinaPlas.dao.ApplicationIndustry;
 import com.adsale.ChinaPlas.dao.BussinessMapping;
-import com.adsale.ChinaPlas.dao.DBHelper;
 import com.adsale.ChinaPlas.dao.Exhibitor;
-import com.adsale.ChinaPlas.dao.ExhibitorDao;
 import com.adsale.ChinaPlas.dao.ExhibitorIndustryDtl;
 import com.adsale.ChinaPlas.dao.Floor;
 import com.adsale.ChinaPlas.dao.Industry;
+import com.adsale.ChinaPlas.dao.NewProductAndCategory;
 import com.adsale.ChinaPlas.dao.NewProductInfo;
-import com.adsale.ChinaPlas.dao.NewProductInfoDao;
+import com.adsale.ChinaPlas.dao.NewProductsAndApplication;
+import com.adsale.ChinaPlas.dao.ProductApplication;
+import com.adsale.ChinaPlas.dao.ProductImage;
 import com.adsale.ChinaPlas.data.ExhibitorRepository;
 import com.adsale.ChinaPlas.data.NewTecRepository;
 import com.adsale.ChinaPlas.data.model.AgentInfo;
@@ -763,7 +764,18 @@ public class CSVHelper {
         mNewTecRepository = repository;
     }
 
-    public boolean readNewProductInfoCSV(InputStream is) {
+    public boolean readNewTecCSV() {
+        if (readNewProductInfoCSV(getInputStream(Constant.CSV_NEWTEC_PRODUCT_INFO)) &&
+                readNewProductAndApplicationCSV(getInputStream(Constant.CSV_NEWTEC_PRODUCTS_AND_APPLICATION)) &&
+                readNewProductAndCateCSV(getInputStream(Constant.CSV_NEWTEC_PRODUCT_CATEGORY)) &&
+                readProductApplicationCSV(getInputStream(Constant.CSV_NEWTEC_PRODUCT_APPLICATION)) &&
+                readProductImageCSV(getInputStream(Constant.CSV_NEWTEC_PRODUCT_IMG))) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean readNewProductInfoCSV(InputStream is) {
         long startTime = System.currentTimeMillis();
         ArrayList<NewProductInfo> entities = new ArrayList<>();
         NewProductInfo entity;
@@ -794,15 +806,174 @@ public class CSVHelper {
         LogUtil.i(TAG, "SD卡：NewProductInfoCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
 
         long startTime2 = System.currentTimeMillis();
-        if(mNewTecRepository==null){
+        if (mNewTecRepository == null) {
             throw new NullPointerException("mNewTecRepository cannot be null,please #initNewTec()");
         }
         mNewTecRepository.clearProductInfo();
         mNewTecRepository.insertNewProductInfoAll(entities);
-        LogUtil.i(TAG, "存儲 insertNewProductInfoCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
+        LogUtil.i(TAG, "存儲 insertNewProductInfoAll 所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
         return true;
     }
 
+    private boolean readNewProductAndApplicationCSV(InputStream is) {
+        long startTime = System.currentTimeMillis();
+        ArrayList<NewProductsAndApplication> entities = new ArrayList<>();
+        NewProductsAndApplication entity;
+        CSVReader reader;
+        if (is == null) {
+            return false;
+        }
+        try {
+            reader = new CSVReader(new InputStreamReader(is, "UTF8"));
+            String[] line = reader.readNext();
+            if (line != null) {
+                while ((line = reader.readNext()) != null) {
+                    entity = new NewProductsAndApplication();
+                    entity.parser(line);
+                    entities.add(entity);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        LogUtil.i(TAG, "SD卡：readNewProductAndApplicationCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
+
+        long startTime2 = System.currentTimeMillis();
+        if (mNewTecRepository == null) {
+            throw new NullPointerException("mNewTecRepository cannot be null,please #initNewTec()");
+        }
+        mNewTecRepository.clearNewProductAndApplication();
+        mNewTecRepository.insertNewProductsAndApplicationAll(entities);
+        LogUtil.i(TAG, "存儲 insertNewProductsAndApplicationAll 所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
+        return true;
+    }
+
+    private boolean readNewProductAndCateCSV(InputStream is) {
+        long startTime = System.currentTimeMillis();
+        ArrayList<NewProductAndCategory> entities = new ArrayList<>();
+        NewProductAndCategory entity;
+        CSVReader reader;
+        if (is == null) {
+            return false;
+        }
+        try {
+            reader = new CSVReader(new InputStreamReader(is, "UTF8"));
+            String[] line = reader.readNext();
+            if (line != null) {
+                while ((line = reader.readNext()) != null) {
+                    entity = new NewProductAndCategory();
+                    entity.parser(line);
+                    entities.add(entity);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        LogUtil.i(TAG, "SD卡：readNewProductAndCateCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
+
+        long startTime2 = System.currentTimeMillis();
+        if (mNewTecRepository == null) {
+            throw new NullPointerException("mNewTecRepository cannot be null,please #initNewTec()");
+        }
+        mNewTecRepository.clearNewProductAndCate();
+        mNewTecRepository.insertNewProductAndCategoryAll(entities);
+        LogUtil.i(TAG, "存儲 insertNewProductAndCategoryAll 所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
+        return true;
+    }
+
+    private boolean readProductApplicationCSV(InputStream is) {
+        long startTime = System.currentTimeMillis();
+        ArrayList<ProductApplication> entities = new ArrayList<>();
+        ProductApplication entity;
+        CSVReader reader;
+        if (is == null) {
+            return false;
+        }
+        try {
+            reader = new CSVReader(new InputStreamReader(is, "UTF8"));
+            String[] line = reader.readNext();
+            if (line != null) {
+                while ((line = reader.readNext()) != null) {
+                    entity = new ProductApplication();
+                    entity.parser(line);
+                    entities.add(entity);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        LogUtil.i(TAG, "SD卡：readProductApplicationCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
+
+        long startTime2 = System.currentTimeMillis();
+        if (mNewTecRepository == null) {
+            throw new NullPointerException("mNewTecRepository cannot be null,please #initNewTec()");
+        }
+        mNewTecRepository.clearProductApplication();
+        mNewTecRepository.insertProductApplicationAll(entities);
+        LogUtil.i(TAG, "存儲 insertProductApplicationAll 所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
+        return true;
+    }
+
+    private boolean readProductImageCSV(InputStream is) {
+        long startTime = System.currentTimeMillis();
+        ArrayList<ProductImage> entities = new ArrayList<>();
+        ProductImage entity;
+        CSVReader reader;
+        if (is == null) {
+            return false;
+        }
+        try {
+            reader = new CSVReader(new InputStreamReader(is, "UTF8"));
+            String[] line = reader.readNext();
+            if (line != null) {
+                while ((line = reader.readNext()) != null) {
+                    entity = new ProductImage();
+                    entity.parser(line);
+                    entities.add(entity);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        LogUtil.i(TAG, "SD卡：readProductImageCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
+
+        long startTime2 = System.currentTimeMillis();
+        if (mNewTecRepository == null) {
+            throw new NullPointerException("mNewTecRepository cannot be null,please #initNewTec()");
+        }
+        mNewTecRepository.clearProductImage();
+        mNewTecRepository.insertProductImageAll(entities);
+        LogUtil.i(TAG, "存儲 insertProductImageAll 所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
+        return true;
+    }
 
 }
 //

@@ -40,6 +40,11 @@ public class NewProductAndCategory {
     }
 
     // KEEP METHODS - put your custom methods here
+    public void parser(String[] strings) {
+        this.Category = strings[0];
+        this.RID = strings[1];
+    }
+
     // KEEP METHODS END
 
 }

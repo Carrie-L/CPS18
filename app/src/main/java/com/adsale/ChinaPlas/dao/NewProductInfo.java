@@ -29,6 +29,8 @@ public class NewProductInfo implements Parcelable {
     private String Rroduct_Description_EN;
 
     // KEEP FIELDS - put your custom fields here
+    public String image;
+    public boolean adItem = false;
     // KEEP FIELDS END
 
     public NewProductInfo() {
@@ -171,6 +173,13 @@ public class NewProductInfo implements Parcelable {
         }
     }
 
+    public boolean isContainsCompany(String text) {
+        text = text.toLowerCase();
+        return CompanyNameEn.toLowerCase().contains(text) ||
+                CompanyNameSc.toLowerCase().contains(text) ||
+                CompanyNameTc.toLowerCase().contains(text);
+    }
+
     public String getProductName() {
         if (App.mLanguage.get() == 0) {
             return Product_Name_TC;
@@ -191,6 +200,15 @@ public class NewProductInfo implements Parcelable {
         }
     }
 
+    @Override
+    public String toString() {
+        return "NewProductInfo{" +
+                "RID='" + RID + '\'' +
+                ", BoothNo='" + BoothNo + '\'' +
+                ", adItem=" + adItem +
+                ", image=" + image +
+                '}';
+    }
 
     // KEEP METHODS END
 

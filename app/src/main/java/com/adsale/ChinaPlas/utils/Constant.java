@@ -96,6 +96,7 @@ public class Constant {
     public static final String BDTJ_HALL_MAP = "HallMap";
     public static final String BDTJ_INTERESTED_EXHIBITOR = "MyInterestedExhibitor";
     public static final String BDTJ_TRAVEL_INFO = "TravelInfo";
+    public static final String BDTJ_NEW_TEC = "NewTechCollection";
 
     public static final String DB_UPGRADE = "dbUpgrade";
 
@@ -106,6 +107,7 @@ public class Constant {
     public static final String TXT_PDF_CENTER_INFO = "PDFCenterInfos.txt";
     public static final String TXT_NOTIFICATION = "notification.txt";
     public static final String TXT_NEW_TEC = "NewTechInfo.txt";
+    public static final String TXT_NEW_TEC_TEST = "NewTechInfoTest.txt";
 
     public static final String UC_TXT_EXHIBITOR="ExhibitorInfo.txt";
     public static final String UC_TXT_FLOOR_PLAN="FloorPlan.txt";
@@ -141,7 +143,6 @@ public class Constant {
     public static final String WEB_URL="Url";
 
 
-    /*  CommonList */
-    public static final String COM_MSG_CENTER="MessageCenter";
+
 
 }

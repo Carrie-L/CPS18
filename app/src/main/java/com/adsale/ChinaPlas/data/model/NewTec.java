@@ -28,26 +28,21 @@ public class NewTec {
         public ArrayList<String> ImageLinks;
         public String ProductName_SC;
         public String ProductName_EN;
+        public String ProductName_TC;
         public String Description_SC;
         public String Description_EN;
         public String Description_TC;
         public String CompanyID;
         public String BoothNo;
         public String vedioLink;
+        public String CompanyName_SC;
+        public String CompanyName_TC;
+        public String CompanyName_EN;
 
         @Override
         public String toString() {
             return "AD{" +
-                    "FirstPageImage='" + FirstPageImage + '\'' +
-                    ", ImageLinks=" + ImageLinks +
-                    ", ProductName_SC='" + ProductName_SC + '\'' +
-                    ", ProductName_EN='" + ProductName_EN + '\'' +
-                    ", Description_SC='" + Description_SC + '\'' +
-                    ", Description_EN='" + Description_EN + '\'' +
-                    ", Description_TC='" + Description_TC + '\'' +
-                    ", CompanyID='" + CompanyID + '\'' +
-                    ", BoothNo='" + BoothNo + '\'' +
-                    ", vedioLink='" + vedioLink + '\'' +
+                    " BoothNo='" + BoothNo + '\'' +
                     '}';
         }
 

@@ -50,6 +50,11 @@ public class ProductImage {
     }
 
     // KEEP METHODS - put your custom methods here
+    public void parser(String[] strings) {
+        this.RID = strings[0];
+        this.PID = strings[1];
+        this.Image_File = strings[2];
+    }
     // KEEP METHODS END
 
 }

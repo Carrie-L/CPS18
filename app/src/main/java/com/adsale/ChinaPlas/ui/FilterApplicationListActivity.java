@@ -7,13 +7,10 @@ import android.view.View;
 
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.ApplicationAdapter;
-import com.adsale.ChinaPlas.adapter.IndustryAdapter;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.dao.ApplicationIndustry;
-import com.adsale.ChinaPlas.dao.Industry;
 import com.adsale.ChinaPlas.data.FilterRepository;
 import com.adsale.ChinaPlas.data.model.ExhibitorFilter;
-import com.adsale.ChinaPlas.databinding.ActivityFilterIndustryBinding;
 import com.adsale.ChinaPlas.utils.LogUtil;
 
 import java.util.ArrayList;
@@ -29,19 +26,29 @@ public class FilterApplicationListActivity extends BaseActivity {
     private ArrayList<ApplicationIndustry> mList = new ArrayList<>();
     private ArrayList<ExhibitorFilter> filters;
 
+    public static final int TYPE_NEW_TEC_PRODUCT = 1001; /* 列表为 新技术产品 - 筛选 - 产品 */
+    public static final int TYPE_NEW_TEC_APPLICATIONS = 1002; /* 列表为 新技术产品 - 筛选 - 应用 */
+
     @Override
     protected void initView() {
         View view = getLayoutInflater().inflate(R.layout.activity_filter_application, mBaseFrameLayout, true);
-        recyclerView = (RecyclerView) view.findViewById(R.id.application_recycler_view);
+        recyclerView = view.findViewById(R.id.application_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setHasFixedSize(true);
     }
 
     @Override
     protected void initData() {
-        FilterRepository mRepository = FilterRepository.getInstance();
-        mRepository.initAppIndustryDao();
-        mList = mRepository.getApplicationIndustries();
+        if (getIntent().getIntExtra("type", 0) == TYPE_NEW_TEC_PRODUCT) {
+            mList.add(new ApplicationIndustry("0", getString(R.string.new_tec_Product_A)));
+            mList.add(new ApplicationIndustry("1", getString(R.string.new_tec_Product_B)));
+        } else if (getIntent().getIntExtra("type", 0) == TYPE_NEW_TEC_APPLICATIONS) {
+
+        } else {
+            FilterRepository mRepository = FilterRepository.getInstance();
+            mRepository.initAppIndustryDao();
+            mList = mRepository.getApplicationIndustries();
+        }
 
         filters = new ArrayList<>();
         ApplicationAdapter adapter = new ApplicationAdapter(mList, filters);

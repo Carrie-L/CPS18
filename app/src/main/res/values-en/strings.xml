@@ -189,6 +189,7 @@
     <string name="sort_by_hall">Hall</string>
     <string name="title_sort"></string>
 
+    <string name="title_filter">Filter</string>
     <string name="filter_industry">產品類別</string>
     <string name="filter_application">應用分類</string>
     <string name="filter_country">國家</string>
@@ -204,6 +205,13 @@
     <string name="filter_search">搜尋</string>
 
     <string name="new_tec_booth">Booth: %s</string>
+    <string name="new_tec_ad">廣告商產品</string>
+
+    <string name="filter_product">Product</string>
+    <string name="filter_applications">Applications</string>
+    <string name="new_tec_Product_A">Machinery &amp; Equipment</string>
+    <string name="new_tec_Product_B">Chemicals &amp; Raw Material</string>
+    <string name="new_tec_Product_C">2017 CHINAPLAS 1st launch technology</string>
 
     <!--  -->
     <string name="addScheduleInfo">Add Schedule</string>

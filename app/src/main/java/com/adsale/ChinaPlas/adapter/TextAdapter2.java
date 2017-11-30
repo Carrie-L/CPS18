@@ -30,10 +30,10 @@ public class TextAdapter2 extends CpsBaseAdapter<Text2> {
     private Context mContext;
     private int mType;
 
-    public TextAdapter2(ArrayList<Text2> list,Context context,int type) {
+    public TextAdapter2(ArrayList<Text2> list, Context context, int type) {
         this.list = list;
-        this.mType=type;
-        this.mContext=context;
+        this.mType = type;
+        this.mContext = context;
     }
 
     @Override
@@ -48,8 +48,8 @@ public class TextAdapter2 extends CpsBaseAdapter<Text2> {
         LogUtil.i(TAG, "setList=" + list.size());
     }
 
-    public void onItemClick(String id){
-        LogUtil.i(TAG,"ID="+id);
+    public void onItemClick(String id) {
+        LogUtil.i(TAG, "ID=" + id);
 
         Intent intent = new Intent(mContext, ExhibitorAllListActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -57,7 +57,6 @@ public class TextAdapter2 extends CpsBaseAdapter<Text2> {
         intent.putExtra("type", mType);
         intent.putExtra("id", id);
         mContext.startActivity(intent);
-
     }
 
     @Override
@@ -79,7 +78,6 @@ public class TextAdapter2 extends CpsBaseAdapter<Text2> {
     public int getItemViewType(int position) {
         return super.getItemViewType(position);
     }
-
 
 
 }

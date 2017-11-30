@@ -28,6 +28,7 @@ import com.adsale.ChinaPlas.ui.MainActivity;
 import com.adsale.ChinaPlas.ui.MyExhibitorActivity;
 import com.adsale.ChinaPlas.ui.NCardActivity;
 import com.adsale.ChinaPlas.ui.NCardCreateEditActivity;
+import com.adsale.ChinaPlas.ui.NewTecActivity;
 import com.adsale.ChinaPlas.ui.NewsActivity;
 import com.adsale.ChinaPlas.ui.RegisterActivity;
 import com.adsale.ChinaPlas.ui.ScannerActivity;
@@ -332,6 +333,9 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
             case Constant.BDTJ_NOTIFICATION_CENTER: /* 通知中心 */
                 intent = new Intent(activity, CommonListActivity.class);
                 intent.putExtra(INTENT_COMMON_TYPE, Constant.COM_MSG_CENTER);
+                break;
+            case Constant.BDTJ_NEW_TEC: /* 新技术产品 */
+                intent = new Intent(activity, NewTecActivity.class);
                 break;
             default:
                 intent = new Intent(activity, WebContentActivity.class);

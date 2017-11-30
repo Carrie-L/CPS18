@@ -8,9 +8,12 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.adsale.ChinaPlas.R;
+import com.adsale.ChinaPlas.adapter.ApplicationAdapter;
 import com.adsale.ChinaPlas.adapter.MessageCenterAdapter;
 import com.adsale.ChinaPlas.base.BaseActivity;
+import com.adsale.ChinaPlas.dao.ApplicationIndustry;
 import com.adsale.ChinaPlas.dao.HistoryExhibitor;
+import com.adsale.ChinaPlas.data.model.ExhibitorFilter;
 import com.adsale.ChinaPlas.data.model.MessageCenter;
 import com.adsale.ChinaPlas.helper.IntentHelper;
 import com.adsale.ChinaPlas.ui.view.CpsRecyclerView;
@@ -30,16 +33,20 @@ import java.util.Comparator;
  */
 public class CommonListActivity extends BaseActivity {
     private static final String TAG = "CommonListActivity";
+    public static final int TYPE_MSG_CENTER = 1; /* 消息中心 */
+    public static final int TYPE_NEW_TEC_INDUSTRY = 2; /* 新技术产品 - 产品类别 */
+    public static final int TYPE_NEW_TEC_APPLICATION = 3; /* 新技术产品 - 应用分类 */
 
     private ArrayList<HistoryExhibitor> histories = new ArrayList<>();
     private ArrayList<MessageCenter.Message> messages = new ArrayList<>();
 
     private CpsRecyclerView recyclerView;
 
-    private String type;
+    private int type;
     private Context mContext;
     private Intent gIntent;
     private String mBaiduTJ;
+    private ArrayList<ExhibitorFilter> productFilters;
 
 
     public void initView() {
@@ -53,42 +60,18 @@ public class CommonListActivity extends BaseActivity {
     }
 
     public void initData() {
-        type = gIntent.getStringExtra(Constant.INTENT_COMMON_TYPE);
+        type = gIntent.getIntExtra(Constant.INTENT_COMMON_TYPE, 0);
         setAdapter(type);
         recyclerView.setOnItemClickListener(itemClickListener);
     }
 
-    private void setAdapter(String type) {
+    private void setAdapter(int type) {
         switch (type) {
-            case Constant.COM_MSG_CENTER:// 通知中心
-                messages.clear();
-                MessageCenter msgCenter = Parser.parseJsonFilesDirFile(MessageCenter.class, Constant.TXT_NOTIFICATION);
-                ArrayList<MessageCenter.Message> notifications = msgCenter.notifications;
-
-                String currTime = AppUtil.getCurrentTime();
-
-                size = notifications.size();
-                for (int i = 0; i < size; i++) {
-                    message = notifications.get(i);
-                    LogUtil.i(TAG, "currTime=" + currTime + ",date=" + message.date);
-                    if (message.date.compareTo(currTime) <= 0) {
-                        messages.add(message);
-                    }
-                }
-                LogUtil.i(TAG, "messages before=" + messages.toString());
-
-                Collections.sort(messages, new Comparator<MessageCenter.Message>() {
-                    @Override
-                    public int compare(MessageCenter.Message lhs, MessageCenter.Message rhs) {
-                        if (lhs.date.compareTo(rhs.date) < 0) {
-                            return 1;
-                        }
-                        return -1;
-                    }
-                });
-                LogUtil.i(TAG, "messages after+++ " + messages.size());
-
-                recyclerView.setCpsAdapter(new MessageCenterAdapter(messages));
+            case TYPE_MSG_CENTER:// 通知中心
+                getMessages();
+                break;
+            case TYPE_NEW_TEC_INDUSTRY: // new tec - 产品类别
+                getNewTecProducts();
                 break;
             default:
                 break;
@@ -105,7 +88,7 @@ public class CommonListActivity extends BaseActivity {
         @Override
         public void onItemClick(View view, int position) {
             switch (type) {
-                case Constant.COM_MSG_CENTER:// 通知中心
+                case TYPE_MSG_CENTER:// 通知中心
                     messageCenter(position);
                     break;
 
@@ -116,20 +99,57 @@ public class CommonListActivity extends BaseActivity {
         }
     };
 
-    // ----------------------------歷史記錄HistoryExhibitor-----------------------------------------
-    private void historyExhibitor(int position) {
-//        Intent intent = new Intent(mContext, ExhibitorDetailActivity.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        intent.putExtra("CompanyID", histories.get(position).getCompanyID());
-//        startActivity(intent);
-//        if (oDeviceType.equals("Pad")) {
-//            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-//        }
+
+    /**
+     * ---------------------- 新技术产品 - 产品 ----------------------
+     * NewProductAndCategory.csv
+     * 字段 Category: A- 机械及仪器；B- 化工及原料；C- 2017年首发技术
+     */
+    private void getNewTecProducts() {
+//        NewTecRepository newTecRepository = NewTecRepository.newInstance();
+//        newTecRepository.initDao();
+//        newTecRepository.getCategories();
+        ArrayList<ApplicationIndustry> list = new ArrayList<>();
+        productFilters = new ArrayList<>();
+        list.add(new ApplicationIndustry("0", getString(R.string.new_tec_Product_A)));
+        list.add(new ApplicationIndustry("1", getString(R.string.new_tec_Product_B)));
+        recyclerView.setCpsAdapter(new ApplicationAdapter(list, productFilters));
     }
 
     /**
-     * 通知中心
+     * ---------------------- 通知中心 ----------------------
      */
+    private void getMessages() {
+        messages.clear();
+        MessageCenter msgCenter = Parser.parseJsonFilesDirFile(MessageCenter.class, Constant.TXT_NOTIFICATION);
+        ArrayList<MessageCenter.Message> notifications = msgCenter.notifications;
+
+        String currTime = AppUtil.getCurrentTime();
+
+        size = notifications.size();
+        for (int i = 0; i < size; i++) {
+            message = notifications.get(i);
+            LogUtil.i(TAG, "currTime=" + currTime + ",date=" + message.date);
+            if (message.date.compareTo(currTime) <= 0) {
+                messages.add(message);
+            }
+        }
+        LogUtil.i(TAG, "messages before=" + messages.toString());
+
+        Collections.sort(messages, new Comparator<MessageCenter.Message>() {
+            @Override
+            public int compare(MessageCenter.Message lhs, MessageCenter.Message rhs) {
+                if (lhs.date.compareTo(rhs.date) < 0) {
+                    return 1;
+                }
+                return -1;
+            }
+        });
+        LogUtil.i(TAG, "messages after+++ " + messages.size());
+
+        recyclerView.setCpsAdapter(new MessageCenterAdapter(messages));
+    }
+
     private void messageCenter(int position) {
         message = messages.get(position);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

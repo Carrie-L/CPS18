@@ -80,6 +80,14 @@ public class ProductApplication {
     }
 
     // KEEP METHODS - put your custom methods here
+    public void parser(String[] strings) {
+        this.IndustryID = strings[0];
+        this.NameEn = strings[1];
+        this.NameEnShort = strings[2];
+        this.NameTc = strings[3];
+        this.NameSc = strings[4];
+        this.Ordering = strings[5];
+    }
     // KEEP METHODS END
 
 }

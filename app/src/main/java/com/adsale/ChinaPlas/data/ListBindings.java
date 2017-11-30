@@ -2,19 +2,16 @@ package com.adsale.ChinaPlas.data;
 
 import android.databinding.BindingAdapter;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
+import android.widget.ImageView;
 
 import com.adsale.ChinaPlas.adapter.ExhibitorAdapter;
-import com.adsale.ChinaPlas.adapter.ExhibitorAdapter3;
-import com.adsale.ChinaPlas.adapter.ScheduleAdapter;
 import com.adsale.ChinaPlas.base.CpsBaseAdapter;
 import com.adsale.ChinaPlas.dao.Exhibitor;
-import com.adsale.ChinaPlas.dao.ScheduleInfo;
 import com.adsale.ChinaPlas.utils.LogUtil;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by Carrie on 2017/8/11.
@@ -57,6 +54,14 @@ public class ListBindings {
         }
     }
 
+    @BindingAdapter({"app:imageUrl", "app:requestOptions"})
+    public static void loadListImage(ImageView imageView,String url, RequestOptions requestOptions) {
+        Glide.with(imageView.getContext())
+                .load(url)
+                .apply(requestOptions)
+                .thumbnail(0.1f)
+                .into(imageView);
+    }
 
 
 }

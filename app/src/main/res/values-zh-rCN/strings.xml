@@ -170,6 +170,7 @@
     <string name="sort_by_az">Pingyin</string>
     <string name="sort_by_hall">Hall</string>
 
+    <string name="title_filter">筛选</string>
     <string name="filter_industry">产品类别</string>
     <string name="filter_application">应用分类</string>
     <string name="filter_country">国家</string>
@@ -184,6 +185,13 @@
     <string name="filter_search">搜尋</string>
 
     <string name="new_tec_booth">展台号：%s</string>
+    <string name="new_tec_ad">广告商产品</string>
+
+    <string name="filter_product">产品</string>
+    <string name="filter_applications">应用</string>
+    <string name="new_tec_Product_A">机械及仪器</string>
+    <string name="new_tec_Product_B">化工及原料</string>
+    <string name="new_tec_Product_C">2017 展会首发技术</string>
 
     <!--  -->
     <string name="addScheduleInfo">新增议程</string>

@@ -193,7 +193,7 @@ public class ExhibitorDtlViewModel {
         if (mNewTecRV == null) {
             mNewTecRV = new RecyclerView(mContext);
             setRecyclerView(mNewTecRV);
-            mTecAdapter = new NewTecAdapter(mContext, newProductInfos, "https://www.chinaplasonline.com/CPS17/Files/FirstLaunchProduct/", mListener);
+            mTecAdapter = new NewTecAdapter(mContext, newProductInfos, mListener,false);
             mNewTecRV.setAdapter(mTecAdapter);
         }
         mInfoFrameLayout.removeAllViews();
