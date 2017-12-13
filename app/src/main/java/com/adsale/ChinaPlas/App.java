@@ -18,6 +18,7 @@ import com.adsale.ChinaPlas.dao.DaoSession;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.CrashHandler;
 import com.adsale.ChinaPlas.utils.LogUtil;
+import com.crashlytics.android.Crashlytics;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -25,6 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
+import io.fabric.sdk.android.Fabric;
 import okhttp3.OkHttpClient;
 
 /**
@@ -100,6 +102,7 @@ public class App extends MultiDexApplication {
     private void initCrashHandle() {
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(getApplicationContext());
+        Fabric.with(this, new Crashlytics());
     }
 
     private void getPackageVersion() {

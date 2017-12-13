@@ -2,15 +2,22 @@ buildscript {
     repositories {
         mavenCentral()
         maven { url 'https://maven.google.com' }
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.25.1'
     }
 
 }
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
 
 repositories {
     mavenCentral()
     maven { url 'https://maven.google.com' }
-
+    maven { url 'https://maven.fabric.io/public' }
 }
 
 
@@ -73,4 +80,7 @@ dependencies {
     implementation files('libs/MobCommons-2017.1201.1507.jar')
     implementation files('libs/MobTools-2017.1201.1507.jar')
     compile 'com.android.support:multidex:1.0.2'
+    compile('com.crashlytics.sdk.android:crashlytics:2.8.0@aar') {
+        transitive = true;
+    }
 }
