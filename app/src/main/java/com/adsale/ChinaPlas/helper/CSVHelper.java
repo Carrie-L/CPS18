@@ -415,7 +415,11 @@ public class CSVHelper {
                             enSort = enSort.replace(enSort.charAt(0), '#');
                         }
                         enSort = AppUtil.getFirstChar(enSort);
-                        entity.setEN_SORT("ZZZ".concat(enSort));
+                        if(enSort.contains("#")){
+                            entity.setEN_SORT("ZZZ".concat(enSort));
+                        }else{
+                            entity.setEN_SORT(enSort);
+                        }
                         entities.add(entity);
                     }
                 }

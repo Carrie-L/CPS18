@@ -31,7 +31,6 @@
     <string name="login_first_add_exhibitor">需要登錄后才能添加參展商，是否登錄？</string>
     <string name="login_first_add_schedule">需要登錄后才能添加議程，是否登錄？</string>
     <string name="login_first_save_note">需要登錄后才能保存筆記，是否登錄？</string>
-    <string name="login_first_sync">需要登錄后才能同步，是否登錄？</string>
 
 
     <!--预登记-->
@@ -42,8 +41,6 @@
 
     <string name="confirm">確定</string>
     <string name="cancel">取消</string>
-
-    <string name="drawer_sync">與官網同步</string>
 
     <!--MyAccount-->
     <string name="title_my_account">用戶資料</string>
@@ -75,7 +72,6 @@
     <string name="schedule_event">同期活動</string>
 
     <string name="nodata">沒有相關信息</string>
-    <string name="no_schedule">暫無議程</string>
     <string name="no_keyword_result">如需獲取所有展商列表，請前往內容更新中心更新展商資料庫。</string>
 
     <string name="btnSave">儲存</string>
@@ -109,7 +105,6 @@
 
     <string name="added_exhibitor">已添加進我的參展商。</string>
     <string name="removed_exhibitor">已從我的參展商中移除。</string>
-    <string name="exhibitor_sort_by">排序:</string>
 
     <string name="booth">展覽攤位：</string>
     <string name="address">地址：</string>
@@ -131,11 +126,6 @@
     <string name="toast_floor_download">為了更好的體驗平面圖功能，請您更新展館平面圖對應數據。</string>
     <string name="toast_floor_update">請您更新平面圖數據，以便獲取更准確的資料。</string>
 
-    <!--筛选-->
-    <string name="sort_by_az">筆畫</string>
-    <string name="sort_by_hall">展館</string>
-
-
     <string name="title_filter">篩選</string>
     <string name="filter_industry">產品類別</string>
     <string name="filter_application">應用行業</string>
@@ -153,14 +143,12 @@
 
     <string name="new_tec_booth">展臺號：%s</string>
     <string name="new_tec_ad">廣告商產品</string>
-    <string name="title_new_tec_dtl">產品詳情</string>
 
     <string name="filter_product">產品</string>
     <string name="filter_applications">應用</string>
     <string name="new_tec_Product_A">機械及儀器</string>
     <string name="new_tec_Product_B">化工及原料</string>
     <string name="new_tec_Product_C">2018 展會首發技術</string>
-
 
     <!--Name Card-->
     <!-- cardlist_item -->
@@ -196,6 +184,7 @@
     <string name="toast_input_country">請輸入"國家編碼"</string>
     <string name="toast_input_email">請輸入"電子郵件"</string>
     <string name="toast_input_phone_1">電話只允許輸入數字。</string>
+    <string name="toast_input_phone_2">電話只允許輸入數字。</string>
     <string name="toast_input_country_1">國家編碼只允許輸入數字.</string>
     <string name="toast_input_email_1">請輸入有效的"電子郵件"</string>
     <string name="toast_input_name_1">輸入姓名時，請不要輸入數位或符號！</string>
@@ -213,22 +202,6 @@
     <string name="reg_reset_title">確定重置預登記信息?</string>
     <string name="reg_reset_confirm">重置</string>
     <string name="reg_reset_cancel">取消</string>
-
-    <string name="dialog_toast_delete">確認刪除？</string>
-    <string name="dialog_confirm">確定</string>
-    <string name="dialog_cancel">取消</string>
-    <string name="toast_start_export">開始導出</string>
-    <string name="toast_export_success">導出完成</string>
-
-    <string name="favinfo_url">http://www.chinaplasonline.com/apps/2018/HTML/favinfo/EN.htm</string>
-
-    <string name="dialog_go">前往</string>
-    <string name="more">更多</string>
-    <string name="card_save">存儲至通訊錄</string>
-    <string name="update_map">更新</string>
-    <string name="exception_toast_email">No email client installed.</string>
-    <string name="exception_toast_phone">抱歉，您的設備不支持打電話。</string>
-
 
     <!--扫描二维码-->
     <string name="scanner_tips">將二維碼放入框內，即可自動掃描</string>
@@ -249,6 +222,7 @@
     <string name="event_date_26">2018.04.26</string>
     <string name="event_date_27">2018.04.27</string>
     <string name="event_date_base">2018.04.%s</string>
+    <string name="tech_zone">A</string>
     <string name="tech_am">上午</string>
     <string name="tech_pm">下午</string>
 
@@ -324,9 +298,10 @@
 
     <string name="no_news">沒有最新消息</string>
     <string name="no_exhibitor">沒有展商資料</string>
-    <string name="no_scheduleInfo">暫無議程</string>
+    <string name="no_schedule">暫無議程</string>
     <string name="no_my_exhibitor">沒有收藏的參展商。 \n請到\"參展商名單\"添加參展商。</string>
 
+    <string name="home">主目錄</string>
     <string name="my_exhibt_on_map">Distribution</string>
 
     <string name="dialog_prompt">提示</string>
@@ -354,23 +329,19 @@
     <string name="EXIT">退出</string>
     <string name="EXIT_MSG">離開國際橡塑展？</string>
 
-    <string name="select_Language">請選擇</string>
-    <string name="title_setting">設置</string>
-    <string name="setting_language">語言</string>
-    <string name="setting_website">網站連結</string>
-    <string name="setting_add_to_calendar">添加到日曆</string>
-    <string name="setting_preregistered_login">預先登記觀眾登入</string>
-    <string name="setting_reset_all">重置所有設定</string>
-    <string name="setting_privacy_policy">私隱政策聲明</string>
-    <string name="setting_use_terms">使用條款</string>
-    <string name="setting_sync">資料同步</string>
-    <string name="setting_logout">註銷</string>
-    <string name="setting_show_help">幫助</string>
-
-    <!-- 分享该应用 -->
+    <string name="setting_language">语言</string>
+    <string name="setting_website">网站连结</string>
+    <string name="setting_add_to_calendar">添加到日历</string>
+    <string name="setting_preregistered_login">预先登记观众登入</string>
+    <string name="setting_reset_all">重置所有设定</string>
+    <string name="setting_privacy_policy">私隐政策声明</string>
+    <string name="setting_use_terms">使用条款</string>
+    <string name="setting_sync">资料同步</string>
+    <string name="setting_logout">注销</string>
+    <string name="setting_show_help">帮助</string>
     <string name="share">分享</string>
-
     <string name="exb_search_text_hint">參展商名字/展覽攤位</string>
+    <string name="imgDescription"></string>
     <string name="qrcode_create_success">創建成功</string>
     <string name="namecard_create_success">名片創建成功</string>
     <string name="yn_create">是否創建？</string>
@@ -380,8 +351,8 @@
 
     <!-- 分享 -->
     <string name="share_setting_text">國際橡塑展手機應用程式已經開發下載！</string>
-    <string name="share_setting_url">http://www.chinaplasonline.com/CPS18/Mobile/Home/lang-trad/MobileApp.aspx</string>
-    <string name="share_news_link">http://www.chinaplasonline.com/CPS18/Mobile/Home/lang-trad/WhatsNew.aspx</string>
+    <string name="share_setting_url">http://www.chinaplasonline.com/CPS17/Mobile/Home/lang-trad/MobileApp.aspx</string>
+    <string name="share_news_link">http://www.chinaplasonline.com/CPS17/Mobile/Home/lang-trad/WhatsNew.aspx</string>
     <string name="share_sinna_weibo">新浪微博</string>
     <string name="share_qq">QQ</string>
     <string name="share_qq_zone">QQ空間</string>
@@ -396,7 +367,9 @@
     <string name="share_exhibitor_booth">展台號：</string>
 
     <string name="toast_export_namecard_nodata">請先添加名片好友</string>
+    <string name="title_activity_zbar_capture">ZBarCaptureActivity</string>
     <string name="map_dtl_tip">請選擇展台</string>
+    <string name="title_activity_scan_result">ScanResultActivity</string>
     <string name="my_favourite_product">興趣展品</string>
     <string name="my_favourite_product_on_map">興趣產品分佈</string>
     <string name="add_favourite_product">添加興趣產品</string>
@@ -410,8 +383,9 @@
     <string name="download_in_background">正在後台下載…</string>
     <string name="download_data_toast">您正處於2G/3G/4G網絡中，下載將會產生較多流量。</string>
 
+    <string name="phone">Phone:</string>
     <!-- 内容更新中心 -->
-    <string name="title_update_center">内容更新中心</string>
+    <string name="title_update_center">更新中心</string>
     <string name="uc_exhibitor">展商資料</string>
     <string name="uc_floorplan">展館平面圖</string>
     <string name="uc_seminar">技術交流會</string>
@@ -419,6 +393,27 @@
     <string name="uc_travel">旅遊資料</string>
     <string name="hall_exhibitor_count">家展商</string>
 
+
+    <string name="exhibitor_sort_by">排序:</string>
+    <string name="drawer_sync">與官網同步</string>
+    <string name="login_first_sync">需要登錄后才能同步，是否登錄？</string>
+    <string name="title_new_tec_dtl">產品詳情</string>
+    <string name="sort_by_az">筆畫</string>
+    <string name="sort_by_hall">展館</string>
+    <string name="dialog_toast_delete">確認刪除？</string>
+    <string name="dialog_confirm">確定</string>
+    <string name="dialog_cancel">取消</string>
+    <string name="toast_start_export">開始導出</string>
+    <string name="toast_export_success">導出完成</string>
+    <string name="favinfo_url">http://www.chinaplasonline.com/apps/2018/HTML/favinfo/EN.htm</string>
+    <string name="dialog_go">前往</string>
+    <string name="more">更多</string>
+    <string name="card_save">存儲至通訊錄</string>
+    <string name="update_map">更新</string>
+    <string name="exception_toast_email">No email client installed.</string>
+    <string name="exception_toast_phone">抱歉，您的設備不支持打電話。</string>
+    <string name="select_Language">請選擇</string>
+    <string name="title_setting">設置</string>
     <!--some titles-->
     <string name="title_event">同期活動</string>
     <string name="title_product_category">產品類別</string>
