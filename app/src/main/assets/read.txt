@@ -1,5 +1,10 @@
 
-/**
-* 缩略词
-*/
+/* 缩略词 */
 JST: JUST FOR TEST
+
+1. 搜索列表一打开就自动弹出输入法
+在 Manifest.xml 中加  android:windowSoftInputMode="adjustUnspecified|stateHidden" ，对于搜索列表一打开就自动弹出输入法有效。
+加入之后的效果：EditText框光标闪烁，但不弹出输入法
+如果不加这个，而是改为用RecyclerView请求焦点（requestFocus），则 EditText框光标不闪烁，不弹出输入法。
+
+

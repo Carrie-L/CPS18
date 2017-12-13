@@ -14,15 +14,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.adapter.MenuAdapter;
 import com.adsale.ChinaPlas.dao.MainIcon;
 import com.adsale.ChinaPlas.data.OnIntentListener;
+import com.adsale.ChinaPlas.data.OtherRepository;
 import com.adsale.ChinaPlas.data.model.MainPic;
 import com.adsale.ChinaPlas.data.model.adAdvertisementObj;
 import com.adsale.ChinaPlas.databinding.FragmentMainBinding;
 import com.adsale.ChinaPlas.utils.Constant;
-import com.adsale.ChinaPlas.utils.DisplayUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.viewmodel.MainViewModel;
 import com.adsale.ChinaPlas.viewmodel.NavViewModel;
@@ -42,7 +41,7 @@ public class MainFragment extends Fragment implements OnIntentListener {
     private ImageView rightPic;
     private RecyclerView recyclerView;
 
-    private int language;
+//    private int language;
 
     private NavViewModel navViewModel;
     private MainViewModel mainViewModel;
@@ -74,15 +73,12 @@ public class MainFragment extends Fragment implements OnIntentListener {
     }
 
     private void initData() {
-        language = navViewModel.mCurrLang.get();
         initRecyclerView();
         mainPic = mainViewModel.parseMainInfo();
         mainViewModel.setTopPics();
         mainViewModel.setM2AD();
         setGridMenus();
         setBottomPics();
-
-
     }
 
     private void setGridMenus() {
@@ -94,30 +90,44 @@ public class MainFragment extends Fragment implements OnIntentListener {
     }
 
     private void setBottomPics() {
-        // main_header 的高度
-        int actionBarHeight = App.mSP_Config.getInt(Constant.TOOLBAR_HEIGHT, 0);
-        int displayHeight = App.mSP_Config.getInt(Constant.DISPLAY_HEIGHT, 0);// 用 displayHeight 刚好
-        menuHeight = (mainViewModel.screenWidth * 90 * 2) / (100 * 3);
-        int aboveFixedHeight = actionBarHeight + mainViewModel.topHeight + menuHeight;
-        int bottomHeight = displayHeight - aboveFixedHeight - mainViewModel.adHeight;/* 如果有广告，再减去广告高度 */
-        LogUtil.i(TAG, "displayHeight=" + displayHeight);
-        LogUtil.i(TAG, "statusBarHeight=" + getStatusBarHeight());
-        LogUtil.i(TAG, "actionBarHeight=" + actionBarHeight);
-        LogUtil.i(TAG, "topHeight=" + mainViewModel.topHeight);
-        LogUtil.i(TAG, "menuHeight=" + menuHeight);
-        LogUtil.i(TAG, "adHeight=" + mainViewModel.adHeight);
-        LogUtil.i(TAG, "aboveFixedHeight=" + aboveFixedHeight);
-        LogUtil.i(TAG, "screenWidth=" + mainViewModel.screenWidth);
+//        // main_header 的高度
+//        int actionBarHeight = App.mSP_Config.getInt(Constant.TOOLBAR_HEIGHT, 0);
+//        int displayHeight = App.mSP_Config.getInt(Constant.DISPLAY_HEIGHT, 0);// 用 displayHeight 刚好
+//        menuHeight = (mainViewModel.screenWidth * Constant.MAIN_MENU_HEIGHT * 2) / (Constant.MAIN_MENU_WIDTH * 3);
+//        int aboveFixedHeight = actionBarHeight + mainViewModel.topHeight + menuHeight;
+//        int bottomHeight = displayHeight - aboveFixedHeight - mainViewModel.adHeight;/* 如果有广告，再减去广告高度 */
+//        LogUtil.i(TAG, "displayHeight=" + displayHeight);
+//        LogUtil.i(TAG, "statusBarHeight=" + getStatusBarHeight());
+//        LogUtil.i(TAG, "actionBarHeight=" + actionBarHeight);
+//        LogUtil.i(TAG, "topHeight=" + mainViewModel.topHeight);
+//        LogUtil.i(TAG, "menuHeight=" + menuHeight);
+//        LogUtil.i(TAG, "adHeight=" + mainViewModel.adHeight);
+//        LogUtil.i(TAG, "aboveFixedHeight=" + aboveFixedHeight);
+//        LogUtil.i(TAG, "screenWidth=" + mainViewModel.screenWidth);
+//        LogUtil.i(TAG, "bottomHeight=" + bottomHeight);
+//
+//        int bottomPx2Dp = DisplayUtil.px2dip(getActivity(), bottomHeight);
+//        LogUtil.i(TAG, "--- bottomPx2Dp=" + bottomPx2Dp);
+
+        //311 * 161
+        int bottomHeight = (mainViewModel.screenWidth * 161) / (311 * 2);
         LogUtil.i(TAG, "bottomHeight=" + bottomHeight);
-
-        int bottomPx2Dp=DisplayUtil.px2dip(getActivity(),bottomHeight);
-        LogUtil.i(TAG, "--- bottomPx2Dp=" + bottomPx2Dp);
-
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mainViewModel.screenWidth/2, bottomHeight);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mainViewModel.screenWidth / 2, bottomHeight);
         binding.ivLeftPic.setLayoutParams(params);
         binding.ivRightPic.setLayoutParams(params);
-        Glide.with(getActivity()).load(Uri.parse(language == 0 ? mainPic.LeftBottomBanner.TC.BannerImage : language == 1 ? mainPic.LeftBottomBanner.EN.BannerImage : mainPic.LeftBottomBanner.SC.BannerImage)).into(leftPic);
-        Glide.with(getActivity()).load(Uri.parse(language == 0 ? mainPic.RightBottomBanner.TC.BannerImage : language == 1 ? mainPic.RightBottomBanner.EN.BannerImage : mainPic.RightBottomBanner.SC.BannerImage)).into(rightPic);
+//        RequestOptions options = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true);
+        setBottomImage();
+    }
+
+    private void setBottomImage() {
+        LogUtil.i(TAG, "setBottomImage");
+        Glide.with(getActivity()).load(Uri.parse(navViewModel.mCurrLang.get() == 0 ? mainPic.LeftBottomBanner.TC.BannerImage : navViewModel.mCurrLang.get() == 1 ? mainPic.LeftBottomBanner.EN.BannerImage : mainPic.LeftBottomBanner.SC.BannerImage)).into(leftPic);
+        Glide.with(getActivity()).load(Uri.parse(navViewModel.mCurrLang.get() == 0 ? mainPic.RightBottomBanner.TC.BannerImage : navViewModel.mCurrLang.get() == 1 ? mainPic.RightBottomBanner.EN.BannerImage : mainPic.RightBottomBanner.SC.BannerImage)).into(rightPic);
+    }
+
+    public void refreshImages() {
+        setBottomImage();
+        mainViewModel.refreshImages();
     }
 
     private int getStatusBarHeight() {
@@ -134,25 +144,40 @@ public class MainFragment extends Fragment implements OnIntentListener {
 
     @Override
     public <T> void onIntent(T entity, Class toCls) {
-        if(toCls!=null&&toCls.getSimpleName().equals("ExhibitorDetailActivity")){
-            Intent intent = new Intent(getActivity(),toCls);
-            intent.putExtra(Constant.COMPANY_ID,((adAdvertisementObj)entity).M2.getCompanyID(language));
+        if (toCls != null && toCls.getSimpleName().equals("ExhibitorDetailActivity")) {
+            Intent intent = new Intent(getActivity(), toCls);
+            intent.putExtra(Constant.COMPANY_ID, ((adAdvertisementObj) entity).M2.getCompanyID(navViewModel.mCurrLang.get()));
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
-        }else{
+        } else {
             Intent intent = navViewModel.newIntent(getActivity(), (MainIcon) entity);
             if (intent == null) {
                 return;
             }
             startActivity(intent);
         }
+    }
 
+
+    /**
+     * 如果有更新，跳转到更新中心页面
+     */
+    private void intentToUpdateCenter() {
+        LogUtil.i(TAG, "intentToUpdateCenter");
+        OtherRepository repository = OtherRepository.getInstance();
+        repository.initUpdateCenterDao();
+        int uc_count = repository.getNeedUpdatedCount();
+        if (uc_count > 0) {
+            Intent intent = new Intent(getActivity(), UpdateCenterActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
     }
 
     private void initViewModel() {
         mainViewModel = new MainViewModel(getActivity(), this);
         binding.setModel(mainViewModel);
-        mainViewModel.init(binding.mainTopViewPager, binding.vpindicator, binding.ivAd);
+        mainViewModel.init(binding.mainTopViewPager, binding.vpindicator, binding.ivAd, navViewModel);
     }
 
     private void initView() {

@@ -24,8 +24,8 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginRight="32dp"
             android:onClick="@{()->adapter.onCollect(obj,pos)}"
             android:src="@{obj.isCollected?@drawable/btn_star:@drawable/btn_unstar}" />
 
@@ -35,7 +35,7 @@
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/iv_collect"
             android:layout_toStartOf="@id/iv_collect"
-            android:onClick="@{()->adapter.onItemClick(obj)}"
+            android:onClick="@{()->adapter.onItemClick(obj,pos)}"
             >
 
             <TextView
@@ -56,7 +56,7 @@
 
             <TextView
                 android:id="@+id/tv_booth"
-                android:layout_width="wrap_content"
+                android:layout_width="125dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_company_name"
                 android:drawableLeft="@drawable/icon_booth"
@@ -66,7 +66,9 @@
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:text="@{obj.boothNo}"
+                android:singleLine="true"
                 android:textColor="@color/dark_gray"
+                android:ellipsize="end"
                 android:textSize="13sp" />
 
             <TextView

@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.dao.MapFloor;
 import com.adsale.ChinaPlas.dao.UpdateCenter;
 import com.adsale.ChinaPlas.data.DownloadClient;
@@ -14,6 +15,7 @@ import com.adsale.ChinaPlas.data.FloorRepository;
 import com.adsale.ChinaPlas.data.OtherRepository;
 import com.adsale.ChinaPlas.data.model.AppContent;
 import com.adsale.ChinaPlas.data.model.UpdateCenterUrl;
+import com.adsale.ChinaPlas.helper.CSVHelper;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.FileUtil;
@@ -94,17 +96,21 @@ public class UpdateCenterViewModel {
     private void setData() {
         int size = list.size();
         UpdateCenter entity;
-        int j = 0;
         for (int i = 0; i < size; i++) {
             entity = list.get(i);
-            entity.setLUT(AppUtil.GMT2UTC(entity.getLUT()));
             if (entity.getStatus() == 0) {
                 updateCount++;
             }
-            LogUtil.i(TAG,"TIME= "+AppUtil.GMT2UTC(entity.getLUT()));
+            LogUtil.i(TAG, "TIME= " + entity.getLUT());
         }
         LogUtil.i(TAG, "updateCount=" + updateCount);
-        statusAll.set(updateCount <= 5);
+        statusAll.set(updateCount > 0 && updateCount <= 5);
+
+        //just for test , update Exhibitor
+        entity = list.get(0);
+        entity.setStatus(0);
+        list.set(0,entity);
+
     }
 
     public void onUpdate(int index) {
@@ -160,17 +166,15 @@ public class UpdateCenterViewModel {
                     public void onSubscribe(@NonNull Disposable d) {
                         LogUtil.i(TAG, "----------------------------------------》onSubscribe:开始下载:" + linkUrls.size());
                         disposable = d;
-
                         if (linkUrls.size() == 1) { // 虚假进度条
                             downloadProgress.setMax(10);
-                            downloadProgress.setProgress(5);
-                            progressRate.set("50%");
+                            downloadProgress.setProgress(1);
+                            progressRate.set("10%");
                         } else {
                             downloadProgress.setMax(linkUrls.size());
                             downloadProgress.setProgress(0);
                             progressRate.set("");
                         }
-
                         isUpdating.set(true);
                         canBack = false;
                     }
@@ -197,7 +201,7 @@ public class UpdateCenterViewModel {
                         LogUtil.i(TAG, "onError:" + e.getMessage());
                         canBack = true;
                         isUpdating.set(false);
-                        Toast.makeText(downloadProgress.getContext(),e.getMessage(),Toast.LENGTH_LONG).show();
+                        Toast.makeText(downloadProgress.getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -237,6 +241,14 @@ public class UpdateCenterViewModel {
         if (updateCount == 0) {
             statusAll.set(false);
         }
+        App.mSP_Config.edit().putInt("UC_COUNT", updateCount).apply();
+        navViewModel.refreshUpdateCount(updateCount);
+    }
+
+    private NavViewModel navViewModel;
+
+    public void setNavModel(NavViewModel navModel) {
+        this.navViewModel = navModel;
     }
 
     private Observable<Boolean> downItem(final String url) {
@@ -258,7 +270,17 @@ public class UpdateCenterViewModel {
                                     createFile(mDir);
                                     LogUtil.i(TAG, "events:name=" + name + ",events:mDir=" + mDir);
                                 }
-                                FileUtil.unpackZip(name, body.byteStream(), mDir);
+                                boolean isUnZiped = FileUtil.unpackZip(name, body.byteStream(), mDir);
+                                if (isUnZiped) {// 解析csv到数据库
+                                    if (mDir.toLowerCase().contains("exhibitor")) {
+                                        CSVHelper csvHelper = new CSVHelper();
+                                        csvHelper.initExhibitorCsvHelper();
+                                        csvHelper.processExhibitorCsv();
+                                    } else if (mDir.toLowerCase().contains("seminar")) {
+                                        CSVHelper csvHelper = new CSVHelper();
+
+                                    }
+                                }
                             } else {
                                 LogUtil.i(TAG, "发射文件");
                                 FileOutputStream fos = new FileOutputStream(new File(mDir.concat(name)));
@@ -273,7 +295,7 @@ public class UpdateCenterViewModel {
     }
 
     private void getDir(String url) {
-        mDir="";
+        mDir = "";
         if (url.contains("ExhibitorInfo")) {
             mDir = rootDir.concat(Constant.DIR_EXHIBITOR);
             mDir = createFile(mDir);
@@ -402,7 +424,7 @@ public class UpdateCenterViewModel {
         if (disposable != null && !disposable.isDisposed()) {
             disposable.dispose();
         }
-        mRepository=null;
+        mRepository = null;
     }
 
 

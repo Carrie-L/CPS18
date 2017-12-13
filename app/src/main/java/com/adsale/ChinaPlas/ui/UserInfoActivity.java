@@ -2,8 +2,8 @@ package com.adsale.ChinaPlas.ui;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
+import android.databinding.ObservableBoolean;
 
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
@@ -12,6 +12,7 @@ import com.adsale.ChinaPlas.utils.AppUtil;
 
 
 public class UserInfoActivity extends BaseActivity {
+    public ObservableBoolean isLogin = new ObservableBoolean();
 
     @Override
     protected void initView() {
@@ -19,6 +20,7 @@ public class UserInfoActivity extends BaseActivity {
         ActivityUserInfoBinding binding = ActivityUserInfoBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         binding.setAty(this);
         binding.executePendingBindings();
+        isLogin.set(AppUtil.isLogin());
     }
 
     @Override
@@ -67,12 +69,13 @@ public class UserInfoActivity extends BaseActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+                isLogin.set(false);
                 processLogout();
-                Intent intent = new Intent(UserInfoActivity.this, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-                finish();
-                overridePendingTransPad();
+//                Intent intent = new Intent(UserInfoActivity.this, LoginActivity.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                startActivity(intent);
+//                finish();
+//                overridePendingTransPad();
             }
         });
 

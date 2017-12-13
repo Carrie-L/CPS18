@@ -10,6 +10,8 @@ import android.os.Parcelable;
 
 import com.adsale.ChinaPlas.App;
 
+import java.util.ArrayList;
+
 /**
  * Entity mapped to table "NEW_PRODUCT_INFO".
  */
@@ -29,8 +31,10 @@ public class NewProductInfo implements Parcelable {
     private String Rroduct_Description_EN;
 
     // KEEP FIELDS - put your custom fields here
-    public String image;
-    public boolean adItem = false;
+    public String image; /* 完整url，ad Product 的 FirstPageImage, 非 ad Product 的 imageFile  */
+    public boolean adItem = false; /* is ad product */
+    public ArrayList<String> imageLinks; /* ad product imageLinks, show in dtl */
+    public String videoLink; /* ad product, show in dtl */
     // KEEP FIELDS END
 
     public NewProductInfo() {
@@ -180,6 +184,13 @@ public class NewProductInfo implements Parcelable {
                 CompanyNameTc.toLowerCase().contains(text);
     }
 
+    public boolean isContainsProductName(String text) {
+        text = text.toLowerCase();
+        return Product_Name_EN.toLowerCase().contains(text) ||
+                Product_Name_SC.toLowerCase().contains(text) ||
+                Product_Name_TC.toLowerCase().contains(text);
+    }
+
     public String getProductName() {
         if (App.mLanguage.get() == 0) {
             return Product_Name_TC;
@@ -198,6 +209,10 @@ public class NewProductInfo implements Parcelable {
         } else {
             return Rroduct_Description_SC;
         }
+    }
+
+    public NewProductInfo(String RID) {
+        this.RID = RID;
     }
 
     @Override
@@ -231,6 +246,10 @@ public class NewProductInfo implements Parcelable {
         dest.writeString(this.Rroduct_Description_TC);
         dest.writeString(this.Product_Name_EN);
         dest.writeString(this.Rroduct_Description_EN);
+        dest.writeString(this.image);
+        dest.writeByte(this.adItem ? (byte) 1 : (byte) 0);
+        dest.writeStringList(this.imageLinks);
+        dest.writeString(this.videoLink);
     }
 
     protected NewProductInfo(Parcel in) {
@@ -246,13 +265,19 @@ public class NewProductInfo implements Parcelable {
         this.Rroduct_Description_TC = in.readString();
         this.Product_Name_EN = in.readString();
         this.Rroduct_Description_EN = in.readString();
+        this.image = in.readString();
+        this.adItem = in.readByte() != 0;
+        this.imageLinks = in.createStringArrayList();
+        this.videoLink = in.readString();
     }
 
-    public static final Parcelable.Creator<NewProductInfo> CREATOR = new Parcelable.Creator<NewProductInfo>() {
+    public static final Creator<NewProductInfo> CREATOR = new Creator<NewProductInfo>() {
+        @Override
         public NewProductInfo createFromParcel(Parcel source) {
             return new NewProductInfo(source);
         }
 
+        @Override
         public NewProductInfo[] newArray(int size) {
             return new NewProductInfo[size];
         }

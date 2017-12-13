@@ -8,9 +8,16 @@ import java.util.List;
 
 public class AdViewPagerAdapter extends PagerAdapter {
 	private List<View> mData;
+	private boolean needRefresh=false;
 
 	public AdViewPagerAdapter(List<View> mData) {
 		this.mData = mData;
+	}
+
+	public void setList(List<View> list,boolean needRefresh){
+		mData = list;
+		this.needRefresh=needRefresh;
+		notifyDataSetChanged();
 	}
 
 	@Override
@@ -21,6 +28,14 @@ public class AdViewPagerAdapter extends PagerAdapter {
 	@Override
 	public boolean isViewFromObject(View arg0, Object arg1) {
 		return arg0 == arg1;
+	}
+
+	@Override
+	public int getItemPosition(Object object) {
+		if(needRefresh){
+			return POSITION_NONE;
+		}
+		return super.getItemPosition(object);
 	}
 
 	@Override

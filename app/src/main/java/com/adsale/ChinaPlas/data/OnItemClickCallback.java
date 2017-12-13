@@ -5,5 +5,5 @@ package com.adsale.ChinaPlas.data;
  */
 
 public interface OnItemClickCallback {
-   <T> void onItemClick(T entity);
+   <T> void onItemClick(T entity,int pos);
 }

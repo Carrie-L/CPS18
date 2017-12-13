@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.databinding.ObservableField;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
@@ -20,10 +18,10 @@ import com.adsale.ChinaPlas.databinding.ActivitySettingBinding;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.CalendarUtil;
 import com.adsale.ChinaPlas.utils.Constant;
+import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.NetWorkHelper;
+import com.adsale.ChinaPlas.utils.ShareSDKDialog;
 
-import static com.adsale.ChinaPlas.ui.view.HelpView.HELP_PAGE;
-import static com.adsale.ChinaPlas.ui.view.HelpView.HELP_PAGE_MAIN;
 import static com.adsale.ChinaPlas.utils.Constant.DIR_WEB_CONTENT;
 
 public class SettingActivity extends BaseActivity {
@@ -32,6 +30,7 @@ public class SettingActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        barTitle.set(getString(R.string.title_setting));
         ActivitySettingBinding binding = ActivitySettingBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         binding.setAty(this);
         binding.executePendingBindings();
@@ -39,17 +38,42 @@ public class SettingActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        PackageManager pm = getPackageManager();
-        try {
-            PackageInfo info = pm.getPackageInfo(getPackageName(), 0);
-            version.set(info.versionName.concat("v"));// 测试版本将“V”换成“T”
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
+        version.set(AppUtil.getAppVersion());
     }
 
-    public void onShare(){
+    public void onLangClick() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        String[] languages = new String[]{"English", "繁體中文", "简体中文"};
+        builder.setItems(languages, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                onChooseLanguage(i == 0 ? 1 : i == 1 ? 0 : i);
+            }
+        }).create().show();
+    }
 
+    private boolean isChangeLanguage = false;
+
+    public void onChooseLanguage(int language) {
+        AppUtil.switchLanguage(this, language);
+        App.mLanguage.set(language);
+        recreate();
+        App.mSP_Config.edit().putBoolean("isChangeLanguage", true).apply();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LogUtil.i("Setting", "onResume:isChangeLanguage=" + isChangeLanguage);
+    }
+
+    public void onShare() {
+        ShareSDKDialog share = new ShareSDKDialog();
+        LogUtil.i(TAG, "Constant.SHARE_IMAGE_PATH=" + Constant.SHARE_IMAGE_PATH);
+        share.showDialog(this, getString(R.string.share_setting_text), Constant.SHARE_IMAGE_URL, getString(R.string.share_setting_url),
+                Constant.SHARE_IMAGE_PATH);
+        AppUtil.trackViewLog(getApplicationContext(), 423, "SA", "", "");
+        AppUtil.setStatEvent(getApplicationContext(), "ShareApp", "SA");
     }
 
     public void onLinkWebsite() {
@@ -126,12 +150,32 @@ public class SettingActivity extends BaseActivity {
     }
 
     public void onHelpPage() {
-        App.mSP_Config.edit().putInt(HELP_PAGE + HELP_PAGE_MAIN, -1).apply();
+        App.mSP_HP.edit().putBoolean("HELP_PAGE_OPEN_MAIN", true).apply();
         intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
         finish();
         overridePendingTransPad();
     }
 
+    private void backToMain() {
+        isChangeLanguage = App.mSP_Config.getBoolean("isChangeLanguage", false);
+        LogUtil.i(TAG, "因爲更換了語言，所以返回主界面:isChangeLanguage=" + isChangeLanguage);
+        if (isChangeLanguage) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            App.mSP_Config.edit().putBoolean("isChangeLanguage", false).apply();
+        }
+    }
 
+    @Override
+    public void back() {
+        backToMain();
+        super.back();
+    }
+
+    @Override
+    public void onBackPressed() {
+        backToMain();
+        super.onBackPressed();
+    }
 }

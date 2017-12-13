@@ -2,16 +2,16 @@ package com.adsale.ChinaPlas.ui;
 
 import android.content.Intent;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.databinding.ActivityLoginBinding;
-import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.viewmodel.LoginViewModel;
 
-public class LoginActivity extends BaseActivity implements LoginViewModel.OnLoginFinishListener{
+public class LoginActivity extends BaseActivity implements LoginViewModel.OnLoginFinishListener {
 
     private ActivityLoginBinding binding;
     private LoginViewModel viewModel;
@@ -19,13 +19,14 @@ public class LoginActivity extends BaseActivity implements LoginViewModel.OnLogi
     @Override
     protected void preView() {
         super.preView();
-        barTitle.set(getIntent().getStringExtra(Constant.TITLE));
-        LogUtil.i(TAG,"title="+barTitle.get());
+//        barTitle.set(getIntent().getStringExtra(Constant.TITLE));
+        barTitle.set(getString(R.string.title_login));
+        LogUtil.i(TAG, "title=" + barTitle.get());
     }
 
     @Override
     protected void initView() {
-        binding = ActivityLoginBinding.inflate(getLayoutInflater(),mBaseFrameLayout,true);
+        binding = ActivityLoginBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
     }
 
     @Override
@@ -50,7 +51,7 @@ public class LoginActivity extends BaseActivity implements LoginViewModel.OnLogi
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.toString().contains("894750416")){
+                if (s.toString().contains("894750416")) {
                     viewModel.loginName.set("894750416@qq.com");
                     viewModel.loginPwd.set("ktdv4616KT");
                 }
@@ -59,22 +60,27 @@ public class LoginActivity extends BaseActivity implements LoginViewModel.OnLogi
 
     }
 
-    public void toRegister(){
-        intent(RegisterActivity.class,getString(R.string.title_register));
+    public void toRegister() {
+        intent(RegisterActivity.class, getString(R.string.title_register));
     }
 
 
     @Override
     public void login(boolean bool) {
-        LogUtil.i(TAG,"login: bool="+bool);
-        if(bool){
-            toMyAccount();
+        LogUtil.i(TAG, "login: bool=" + bool);
+        if (bool) {
+            String fromCls = getIntent().getStringExtra("from");
+            if (!TextUtils.isEmpty(fromCls) && fromCls.equals("MyExhibitor")) { // from MyExhibitor
+                finish();
+            } else {
+                toMyAccount(); // default
+            }
         }
     }
 
-    private void toMyAccount(){
-        Intent intent = new Intent(getApplicationContext(),UserInfoActivity.class);
-        intent.putExtra("LoginSync",true);
+    private void toMyAccount() {
+        Intent intent = new Intent(getApplicationContext(), UserInfoActivity.class);
+        intent.putExtra("LoginSync", true);
         startActivity(intent);
         finish();
     }

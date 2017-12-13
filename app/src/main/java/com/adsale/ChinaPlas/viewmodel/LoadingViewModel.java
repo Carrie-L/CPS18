@@ -15,7 +15,6 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.AdViewPagerAdapter;
 import com.adsale.ChinaPlas.dao.MainIcon;
@@ -27,7 +26,6 @@ import com.adsale.ChinaPlas.data.LoadRepository;
 import com.adsale.ChinaPlas.data.LoadTransferTempDB;
 import com.adsale.ChinaPlas.data.LoadingClient;
 import com.adsale.ChinaPlas.data.model.LoadUrl;
-import com.adsale.ChinaPlas.data.model.NewTec;
 import com.adsale.ChinaPlas.data.model.adAdvertisementObj;
 import com.adsale.ChinaPlas.helper.ADHelper;
 import com.adsale.ChinaPlas.helper.NewTecHelper;
@@ -36,10 +34,8 @@ import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.FileUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.NetWorkHelper;
-import com.adsale.ChinaPlas.utils.Parser;
 import com.adsale.ChinaPlas.utils.ReRxUtils;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
@@ -51,19 +47,13 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.adsale.ChinaPlas.App.mSP_Config;
@@ -73,7 +63,6 @@ import static com.adsale.ChinaPlas.utils.AppUtil.isFirstRunning;
 import static com.adsale.ChinaPlas.utils.AppUtil.logListString;
 import static com.adsale.ChinaPlas.utils.AppUtil.setNotFirstRunning;
 import static com.adsale.ChinaPlas.utils.FileUtil.createFile;
-import static com.baidu.mobstat.u.g;
 
 /**
  * Created by Carrie on 2017/9/8.
@@ -107,6 +96,7 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
         mLoadRepository = LoadRepository.getInstance(mContext);
     }
 
+    public final ObservableBoolean showProgressBar = new ObservableBoolean();
     public void chooseLang(int language) {
         LogUtil.i(TAG, "language=" + language);
         AppUtil.switchLanguage(mContext, language);
@@ -114,6 +104,7 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
     }
 
     public void run() {
+        showProgressBar.set(true);
         upgradeDB();
 
         boolean isNetwork = AppUtil.isNetworkAvailable();
@@ -122,6 +113,7 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
         if (AppUtil.isNetworkAvailable()) {
             setupDownload();
             loadingData();
+            downNewTecZip();
             getUpdateInfo();
             if (isFirstRunning()) {
                 setNotFirstRunning();
@@ -137,7 +129,6 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
 
     private void setupDownload() {
         mClient = ReRxUtils.setupRxtrofit(LoadingClient.class, NetWorkHelper.DOWNLOAD_PATH);
-        downNewTecZip();
     }
 
     private void downNewTecZip() {
@@ -447,13 +438,8 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
 
     private void showM1() {
         ADHelper mAdHelper = new ADHelper(mContext);
-        ;
-        if (adObj == null) {
-            LogUtil.e(TAG, "adObj == null ,so parse it");
-            adObj = mAdHelper.getAdObj();
-        }
-        mAdHelper.setAdObj(adObj);
-        if (mAdHelper.isAdOpen() && mAdHelper.isM1Open()) {
+        adObj = mAdHelper.getAdObj();
+        if (mAdHelper.setIsAdOpen() && mAdHelper.isM1Open()) {
             isShowM1.set(true);
             mAdHelper.setOnM1ClickListener(this);
             List<View> pagers = mAdHelper.generateM1View(viewIndicator);

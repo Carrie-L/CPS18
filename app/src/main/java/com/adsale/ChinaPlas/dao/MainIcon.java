@@ -5,6 +5,7 @@ package com.adsale.ChinaPlas.dao;
 // KEEP INCLUDES - put your custom includes here
 // KEEP INCLUDES END
 
+import android.databinding.ObservableInt;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.View;
@@ -86,8 +87,11 @@ public class MainIcon implements Parcelable {
     public String MenuList;
     public String DrawerIcon;
     public String IconTextColor;
+    public Integer IsDelete;
 
     public View innerView;
+
+    public final ObservableInt updateCount = new ObservableInt(0);
 
     // KEEP FIELDS END
 
@@ -99,7 +103,7 @@ public class MainIcon implements Parcelable {
     }
 
     public MainIcon(String IconID, String TitleTW, String TitleCN, String TitleEN, String Icon, int CType, String CFile, String ZipDateTime, int IsHidden, int SEQ, String CreateDateTime, String UpdateDateTime, String RecordTimeStamp, int IsDown, String BaiDu_TJ, String Google_TJ
-            , String DrawerList, String MenuList, String DrawerIcon, String IconTextColor) {
+            , String DrawerList, String MenuList, String DrawerIcon, String IconTextColor,int IsDelete) {
         this.IconID = IconID;
         this.TitleTW = TitleTW;
         this.TitleCN = TitleCN;
@@ -120,6 +124,7 @@ public class MainIcon implements Parcelable {
         this.MenuList = MenuList;
         this.DrawerIcon = DrawerIcon;
         this.IconTextColor = IconTextColor;
+        this.IsDelete=IsDelete;
     }
 
     public String getIconID() {
@@ -363,6 +368,14 @@ public class MainIcon implements Parcelable {
         return IconTextColor;
     }
 
+    public Integer getIsDelete() {
+        return IsDelete;
+    }
+
+    public void setIsDelete(Integer isDelete) {
+        IsDelete = isDelete;
+    }
+
     public void setDrawerList(String drawerList) {
         DrawerList = drawerList;
     }
@@ -402,6 +415,7 @@ public class MainIcon implements Parcelable {
                 ", MenuList='" + MenuList + '\'' +
                 ", DrawerIcon='" + DrawerIcon + '\'' +
                 ", IconTextColor='" + IconTextColor + '\'' +
+                ", IsDelete='" + IsDelete + '\'' +
                 ", isExpanded=" + isExpanded +
                 ", hasChild=" + hasChild +
                 ", isMenuHasChild=" + isMenuHasChild +
@@ -448,6 +462,7 @@ public class MainIcon implements Parcelable {
         dest.writeString(this.MenuList);
         dest.writeString(this.DrawerIcon);
         dest.writeString(this.IconTextColor);
+        dest.writeInt(this.IsDelete);
         dest.writeByte(isExpanded ? (byte) 1 : (byte) 0);
         dest.writeByte(hasChild ? (byte) 1 : (byte) 0);
         dest.writeByte(isMenuHasChild ? (byte) 1 : (byte) 0);
@@ -479,6 +494,7 @@ public class MainIcon implements Parcelable {
         this.MenuList = in.readString();
         this.DrawerIcon = in.readString();
         this.IconTextColor = in.readString();
+        this.IsDelete = in.readInt();
         this.isExpanded = in.readByte() != 0;
         this.hasChild = in.readByte() != 0;
         this.isMenuHasChild = in.readByte() != 0;

@@ -17,59 +17,53 @@
         <RelativeLayout
             android:id="@+id/iv_header"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/drawer_top_bg_color"
+            android:padding="16dp">
 
             <ImageView
                 android:id="@+id/iv_user"
-                android:layout_width="48dp"
+                android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="10dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_user" />
+                android:layout_marginEnd="16dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_drawer_user" />
 
             <TextView
                 android:id="@+id/tv_user_login"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="163dp"
+                android:layout_height="36dp"
                 android:layout_marginBottom="8dp"
-                android:layout_marginTop="10dp"
                 android:layout_toRightOf="@id/iv_user"
-                android:gravity="center_vertical"
+                android:gravity="center"
                 android:text="@{navModel.drawerLoginTitle}"
-                android:textSize="14sp" />
-
-            <Button
-                android:id="@+id/btn_login"
-                android:layout_width="70dp"
-                android:layout_height="32dp"
-                android:layout_alignLeft="@id/tv_user_login"
-                android:layout_below="@id/tv_user_login"
-                android:background="@drawable/bttn_red"
-                android:onClick="@{navModel.isLoginSuccess?navModel::sync:navModel::login}"
-                android:text="@{navModel.drawerLoginOrSync}"
-                android:textColor="@color/white" />
+                android:textSize="16sp"
+                android:visibility="@{navModel.isLoginSuccess?View.INVISIBLE:View.VISIBLE}" />
 
             <Button
                 android:id="@+id/btn_logout"
-                android:layout_width="70dp"
-                android:layout_height="32dp"
-                android:layout_below="@id/tv_user_login"
-                android:layout_marginLeft="16dp"
-                android:layout_toRightOf="@id/btn_login"
-                android:background="@drawable/bttn_grey"
+                android:layout_width="163dp"
+                android:layout_height="36dp"
+                android:layout_marginBottom="8dp"
+                android:layout_toRightOf="@id/iv_user"
+                android:background="@drawable/ic_drawer_logout"
+                android:gravity="center"
                 android:onClick="logout"
                 android:text="@{navModel.drawerLogout}"
-                android:visibility="@{navModel.isLoginSuccess?View.VISIBLE:View.INVISIBLE}" />
+                android:textColor="#fff"
+                android:visibility="@{navModel.isLoginSuccess?View.VISIBLE:View.GONE}" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_below="@id/btn_login"
-                android:layout_marginTop="8dp"
-                android:background="@color/grey_font" />
+            <Button
+                android:id="@+id/btn_login"
+                android:layout_width="163dp"
+                android:layout_height="36dp"
+                android:layout_alignLeft="@id/tv_user_login"
+                android:layout_below="@id/tv_user_login"
+                android:background="@{navModel.isLoginSuccess?@drawable/ic_drawer_sync:@drawable/ic_drawer_login}"
+                android:onClick="@{navModel.isLoginSuccess?navModel::sync:navModel::login}"
+                android:text="@{navModel.drawerLoginOrSync}"
+                android:textColor="@color/white" />
 
         </RelativeLayout>
 
@@ -79,42 +73,12 @@
             android:layout_height="32dp"
             android:layout_alignParentBottom="true"
             android:gravity="center_horizontal"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btn_en"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp"
-                android:layout_weight="1"
-                android:background="@drawable/bttn_eng"
-                android:onClick="@{() -> navModel.onLangClick(1)}" />
-
-            <Button
-                android:id="@+id/btn_sc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="3dp"
-                android:layout_weight="1"
-                android:background="@drawable/bttn_simp"
-                android:onClick="@{() -> navModel.onLangClick(2)}" />
-
-            <Button
-                android:id="@+id/btn_tc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="3dp"
-                android:layout_weight="1"
-                android:background="@drawable/bttn_trad"
-                android:onClick="@{() -> navModel.onLangClick(0)}" />
-        </LinearLayout>
+            android:orientation="horizontal" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/language"
             android:layout_below="@id/iv_header" />
 
     </RelativeLayout>

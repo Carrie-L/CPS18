@@ -1,9 +1,7 @@
 package com.adsale.ChinaPlas.ui;
 
 import android.content.Intent;
-import android.hardware.Camera;
 import android.media.AudioManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.SurfaceHolder;
 
@@ -12,8 +10,6 @@ import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.databinding.ActivityScannerBinding;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.viewmodel.ScannerViewModel;
-
-import java.io.IOException;
 
 public class ScannerActivity extends BaseActivity implements SurfaceHolder.Callback,ScannerViewModel.OnScannedListener {
 
@@ -24,6 +20,7 @@ public class ScannerActivity extends BaseActivity implements SurfaceHolder.Callb
 
     @Override
     protected void initView() {
+        barTitle.set(getString(R.string.qrcode_scanner));
         binding = ActivityScannerBinding.inflate(getLayoutInflater(),mBaseFrameLayout,true);
     }
 

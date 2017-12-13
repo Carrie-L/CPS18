@@ -1,5 +1,8 @@
 package com.adsale.ChinaPlas.ui;
 
+import android.text.TextUtils;
+
+import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.databinding.ActivityUpdateCenterBinding;
 import com.adsale.ChinaPlas.utils.LogUtil;
@@ -19,14 +22,23 @@ public class UpdateCenterActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        if(TextUtils.isEmpty(barTitle.get())){
+            barTitle.set(getString(R.string.title_update_center));
+        }
         binding = ActivityUpdateCenterBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         model = new UpdateCenterViewModel();
         binding.setModel(model);
+
+
     }
 
     @Override
     protected void initData() {
         model.init(binding.downloadProgress);
+        if(mNavViewModel!=null){
+            LogUtil.i(TAG,"mNavViewModel!=NULL");
+            model.setNavModel(mNavViewModel);
+        }
     }
 
     @Override

@@ -12,22 +12,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.dao.News;
 import com.adsale.ChinaPlas.dao.NewsLink;
 import com.adsale.ChinaPlas.databinding.ActivityNewsDtlBinding;
 import com.adsale.ChinaPlas.glide.GlideApp;
+import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.DisplayUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.NetWorkHelper;
 import com.adsale.ChinaPlas.viewmodel.NewsModel;
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
-import net.sourceforge.zbar.Image;
 
 import java.util.ArrayList;
 
@@ -45,18 +42,25 @@ public class NewsDtlActivity extends BaseActivity implements View.OnClickListene
     private News news;
     private ActivityNewsDtlBinding binding;
     private ImageView ivPhoto;
+    private NewsModel model;
+    private String photoUrl;
 
     @Override
     protected void initView() {
         binding = ActivityNewsDtlBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         binding.setView(this);
         ivPhoto = binding.ivPhoto;
+        model = new NewsModel();
 
         Bundle bundle = getIntent().getExtras();
-        news = bundle.getParcelable("News");
+        if (bundle != null) {
+            news = bundle.getParcelable("News");
+            barTitle.set(bundle.getString(Constant.TITLE));
+        } else {
+            news = model.getItemNews(getIntent().getStringExtra("ID"));
+            barTitle.set(getString(R.string.title_news));
+        }
         LogUtil.i(TAG, "NEWS= " + news.toString());
-
-        barTitle.set(bundle.getString(Constant.TITLE));
 
     }
 
@@ -65,7 +69,6 @@ public class NewsDtlActivity extends BaseActivity implements View.OnClickListene
         newsTitle.set(news.getTitle());
         content.set(news.getDescription());
 
-        NewsModel model = new NewsModel();
         ArrayList<NewsLink> links = model.getLinks(news.getNewsID());
 
         LinearLayout linkLayout = binding.lyLink;
@@ -74,7 +77,7 @@ public class NewsDtlActivity extends BaseActivity implements View.OnClickListene
         if (!links.isEmpty()) {
             for (NewsLink oNewsLink : links) {
                 if (oNewsLink.getPhoto() != null && !oNewsLink.getPhoto().equals("")) {
-                    String photoUrl = NetWorkHelper.DOWNLOAD_PATH.concat("News/").concat(oNewsLink.getPhoto());
+                    photoUrl = NetWorkHelper.DOWNLOAD_PATH.concat("News/").concat(oNewsLink.getPhoto());
                     LogUtil.i(TAG, "photoUrl=" + photoUrl);
 //                    Glide.with(this).load(Uri.parse(photoUrl)).into(ivPhoto);
                     GlideApp.with(this).load(Uri.parse(photoUrl)).diskCacheStrategy(DiskCacheStrategy.DATA).into(ivPhoto); // 缓存原始图片
@@ -109,16 +112,21 @@ public class NewsDtlActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View v) {
         String url = v.getTag().toString();
         LogUtil.i(TAG, "url=" + url);
-//        SystemMethod.trackViewLog(mContext, 190, "Page", newsID, "NewsLink");
+        AppUtil.trackViewLog(getApplicationContext(), 190, "Page", news.getNewsID(), "NewsLink");
         Intent intent = new Intent(this, WebViewActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("title", newsTitle);
+        intent.putExtra("title", barTitle.get());
         intent.putExtra(WEB_URL, url);
         startActivity(intent);
         overridePendingTransPad();
     }
 
     public void onPhotoClick() {
-
+        Intent intent = new Intent(this, ImageActivity.class);
+        intent.putExtra("url", photoUrl);
+        intent.putExtra("title", barTitle.get());
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        overridePendingTransPad();
     }
 }

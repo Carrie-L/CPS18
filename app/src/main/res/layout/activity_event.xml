@@ -12,75 +12,133 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/ll_left_btn"
-            android:layout_width="88dp"
-            android:layout_height="match_parent"
-            android:background="#fff"
-            android:orientation="vertical"
-            >
+        <ImageView
+            android:id="@+id/iv_refresh"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/ic_refresh"
+            android:onClick="@{()->eventModel.onRefresh()}" />
 
-            <TextView
-                style="@style/event_btn_style"
-                android:background="@{eventModel.mClickPos==0?@drawable/dot_focused:@drawable/dot_grey}"
-                android:onClick="@{()->eventModel.chooseDate(0)}"
-                android:textColor="@{eventModel.mClickPos==0?@color/white:@color/home}"
-                android:text="@string/event_btn_all" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_toLeftOf="@id/iv_refresh"
+            android:onClick="@{()->eventModel.onFilter()}">
 
-            <TextView
-                style="@style/event_btn_style"
-                android:onClick="@{()->eventModel.chooseDate(1)}"
-                android:textColor="@{eventModel.mClickPos==1?@color/white:@color/home}"
-                android:background="@{eventModel.mClickPos==1?@drawable/dot_focused:@drawable/dot_grey}"
-                android:text="@string/event_btn_24" />
-
-            <TextView
-                style="@style/event_btn_style"
-                android:onClick="@{()->eventModel.chooseDate(2)}"
-                android:textColor="@{eventModel.mClickPos==2?@color/white:@color/home}"
-                android:background="@{eventModel.mClickPos==2?@drawable/dot_focused:@drawable/dot_grey}"
-                android:text="@string/event_btn_25" />
+            <ImageView
+                android:id="@+id/iv_arrow"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/ic_right_arrow" />
 
             <TextView
-                style="@style/event_btn_style"
-                android:onClick="@{()->eventModel.chooseDate(3)}"
-                android:textColor="@{eventModel.mClickPos==3?@color/white:@color/home}"
-                android:background="@{eventModel.mClickPos==3?@drawable/dot_focused:@drawable/dot_grey}"
-                android:text="@string/event_btn_26" />
-
-            <TextView
-                style="@style/event_btn_style"
-                android:onClick="@{()->eventModel.chooseDate(4)}"
-                android:textColor="@{eventModel.mClickPos==4?@color/white:@color/home}"
-                android:background="@{eventModel.mClickPos==4?@drawable/dot_focused:@drawable/dot_grey}"
-                android:text="@string/event_btn_27" />
+                android:id="@+id/tv_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="4dp"
+                android:layout_toLeftOf="@id/iv_arrow"
+                android:drawableLeft="@drawable/ic_fiter_industry"
+                android:drawablePadding="8dp"
+                android:paddingLeft="8dp"
+                android:text="應用分類"
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_marginTop="16dp"
-                android:background="@color/grey"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:text="@string/title_technical_seminar"
-                android:gravity="center"
-                android:onClick="@{()->eventModel.chooseDate(5)}"
-                />
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_label"
+                android:ellipsize="end"
+                android:paddingLeft="37dp"
+                android:singleLine="true"
+                android:text="@{eventModel.filterWords}"
+                android:textColor="@color/home"
+                android:textSize="12sp" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_below="@id/iv_refresh"
+            android:background="@color/grey" />
+
+        <ImageView
+            android:id="@+id/iv_ad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:scaleType="fitXY" />
+
+        <android.support.v7.widget.CardView
+            android:layout_width="64dp"
+            android:layout_height="match_parent"
+            app:cardElevation="2dp"
+            android:id="@+id/ll_left_btn"
+            android:layout_below="@id/iv_refresh"
+            android:layout_above="@id/iv_ad"
+            android:layout_marginTop="1dp"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/event_btn_style"
+                    android:background="@{eventModel.mClickPos==0?@drawable/dot_focused:@drawable/dot_grey_event}"
+                    android:onClick="@{()->eventModel.chooseDate(0)}"
+                    android:text="@string/event_btn_all"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@{eventModel.mClickPos==0?@color/white:@color/home}" />
+
+                <TextView
+                    style="@style/event_btn_style"
+                    android:background="@{eventModel.mClickPos==1?@drawable/dot_focused:@drawable/dot_grey_event}"
+                    android:onClick="@{()->eventModel.chooseDate(1)}"
+                    android:text="@string/event_btn_24"
+                    android:textColor="@{eventModel.mClickPos==1?@color/white:@color/home}" />
+
+                <TextView
+                    style="@style/event_btn_style"
+                    android:background="@{eventModel.mClickPos==2?@drawable/dot_focused:@drawable/dot_grey_event}"
+                    android:onClick="@{()->eventModel.chooseDate(2)}"
+                    android:text="@string/event_btn_25"
+                    android:textColor="@{eventModel.mClickPos==2?@color/white:@color/home}" />
+
+                <TextView
+                    style="@style/event_btn_style"
+                    android:background="@{eventModel.mClickPos==3?@drawable/dot_focused:@drawable/dot_grey_event}"
+                    android:onClick="@{()->eventModel.chooseDate(3)}"
+                    android:text="@string/event_btn_26"
+                    android:textColor="@{eventModel.mClickPos==3?@color/white:@color/home}" />
+
+                <TextView
+                    style="@style/event_btn_style"
+                    android:background="@{eventModel.mClickPos==4?@drawable/dot_focused:@drawable/dot_grey_event}"
+                    android:onClick="@{()->eventModel.chooseDate(4)}"
+                    android:text="@string/event_btn_27"
+                    android:textColor="@{eventModel.mClickPos==4?@color/white:@color/home}" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_event"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toRightOf="@id/ll_left_btn"
-            android:background="@color/white_smoke"
-           />
-
+            android:layout_above="@id/iv_ad"
+            android:layout_marginLeft="@dimen/card_view_little_margin"
+            android:layout_alignTop="@id/ll_left_btn"
+            android:layout_toRightOf="@id/ll_left_btn" />
 
     </RelativeLayout>
 

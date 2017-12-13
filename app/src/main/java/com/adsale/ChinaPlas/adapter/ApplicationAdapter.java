@@ -28,6 +28,11 @@ public class ApplicationAdapter extends CpsBaseAdapter<ApplicationIndustry> {
         this.filters = filters;
     }
 
+    private int index = 1; // 默认为1，在第二个位置。但是当从NewTecFilter跳转过来时，0表示NewTecProduct, 1 表示 NewTecApplications
+    public void setIndex(int index){
+        this.index = index;
+    }
+
     @Override
     protected void bindVariable(ViewDataBinding binding) {
         binding.setVariable(BR.adapter, this);
@@ -76,7 +81,7 @@ public class ApplicationAdapter extends CpsBaseAdapter<ApplicationIndustry> {
         } else {
             LogUtil.i(TAG, "添加：" + entity.getApplicationName());
             entity.isSelected.set(true);
-            filter = new ExhibitorFilter(1, entity.getIndustryID(), entity.getApplicationName());
+            filter = new ExhibitorFilter(index, entity.getIndustryID(), entity.getApplicationName());
             filters.add(filter);
         }
         LogUtil.i(TAG, "onSelect::filters=" + filters.size());

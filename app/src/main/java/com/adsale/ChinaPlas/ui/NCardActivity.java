@@ -6,9 +6,6 @@ import android.content.SharedPreferences;
 import android.databinding.ObservableField;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.adsale.ChinaPlas.R;
@@ -18,13 +15,7 @@ import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.PermissionUtil;
 import com.adsale.ChinaPlas.viewmodel.NCardViewModel;
 import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
-
-import java.security.Permission;
-import java.util.Hashtable;
 
 import static com.adsale.ChinaPlas.utils.PermissionUtil.PERMISSION_CAMERA;
 import static com.adsale.ChinaPlas.utils.PermissionUtil.PMS_CODE_CAMERA;
@@ -49,6 +40,7 @@ public class NCardActivity extends BaseActivity {
     @Override
     protected void initData() {
         spNameCard = getSharedPreferences("MyNameCard", Context.MODE_PRIVATE);
+        generateQRCodeBitmap();
     }
 
     public void onEdit() {
@@ -80,15 +72,22 @@ public class NCardActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
+        // update QRCode
+        if (spNameCard.getBoolean("HasUpdated", false)) {
+            generateQRCodeBitmap();
+            spNameCard.edit().putBoolean("HasUpdated", false).apply();
+        }
+
+    }
+
+    private void generateQRCodeBitmap() {
         String qrCode = spNameCard.getString("my_qrcode", "");
         LogUtil.i(TAG, "qrCode=" + qrCode);
-
         try {
             bitmap.set(viewModel.createQrCode("UserNC:" + qrCode, BarcodeFormat.QR_CODE));
         } catch (WriterException e) {
             e.printStackTrace();
         }
-
     }
 
 
@@ -97,8 +96,8 @@ public class NCardActivity extends BaseActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == PMS_CODE_CAMERA && PermissionUtil.getGrantResults(grantResults)) {
             toScanner();
-        }else{
-            Toast.makeText(getApplicationContext(),getString(R.string.no_camera_permission),Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getApplicationContext(), getString(R.string.no_camera_permission), Toast.LENGTH_SHORT).show();
         }
     }
 }

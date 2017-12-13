@@ -21,11 +21,9 @@ import com.adsale.ChinaPlas.dao.HistoryExhibitorDao;
 import com.adsale.ChinaPlas.dao.Industry;
 import com.adsale.ChinaPlas.dao.IndustryDao;
 import com.adsale.ChinaPlas.data.model.ExhibitorFilter;
-import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.Locale;
 
@@ -116,16 +114,7 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
         ArrayList<String> tempsHall = new ArrayList<>(new LinkedHashSet<>(lettersHall));
         lettersHall.clear();
         lettersHall.addAll(tempsHall);
-
-        LogUtil.i(TAG, "lettersHall before: >>>>  " + lettersHall.toString());
-
-        AppUtil.sort(lettersHall, new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return o1.compareTo(o2);
-            }
-        });
-        LogUtil.i(TAG, "lettersHall after: >>>>  \n " + lettersHall.toString());
+        LogUtil.i(TAG, "lettersHall  >>>>  " + lettersHall.toString());
         return exhibitorsTemps;
     }
 
@@ -209,6 +198,12 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
         mExhibitorDao.update(entity);
     }
 
+    public void updateItemData(String companyId, int isFavourite) {
+        ContentValues cv = new ContentValues();
+        cv.put("IS_FAVOURITE", isFavourite);
+        App.mDBHelper.db.update(ExhibitorDao.TABLENAME, cv, "COMPANY_ID=?", new String[]{companyId});
+    }
+
     @Override
     public void insertItemData(Exhibitor entity) {
 
@@ -229,7 +224,8 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
     }
 
     /**
-     * "select * from EXHIBITOR WHERE HALL_NO IN (%1$s) and COUNTRY_ID in (%2$s) and COMPANY_ID IN (%3$s) and COMPANY_ID IN (%4$s) and (E.DESC_E LIKE "%%" OR E.DESC_S LIKE "%%" OR E.DESC_T LIKE "%%") order by xxx "
+     * "select * from EXHIBITOR WHERE HALL_NO IN (%1$s) and COUNTRY_ID in (%2$s) and COMPANY_ID IN (%3$s) and COMPANY_ID IN (%4$s) and COMPANY_ID IN (%5$s)  and (E.DESC_E LIKE "%%" OR E.DESC_S LIKE "%%" OR E.DESC_T LIKE "%%") order by xxx "
+     * new tec: SELECT COMPANY_ID FROM NEW_PRODUCT_INFO WHERE RID IN (select RID from NEW_PRODUCT_AND_CATEGORY where CATEGORY="C")
      */
     private String filterSql(ArrayList<ExhibitorFilter> filters, boolean orderByAZ) {
         int size = filters.size();
@@ -237,6 +233,7 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
         ArrayList<String> countries = new ArrayList<>();
         ArrayList<String> industriesStr = new ArrayList<>();
         ArrayList<String> appStr = new ArrayList<>();
+        ArrayList<String> newTecStr = new ArrayList<>();
         ExhibitorFilter filter;
         String keyword = "";
         int index;
@@ -248,7 +245,7 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
                 if (halls.size() == 0) {
                     sql = sql.concat(" and HALL_NO IN (%1$s) ");
                 }
-                halls.add(filter.id);
+                halls.add("'".concat(filter.id).concat("'"));
             } else if (index == 2) {
                 if (countries.size() == 0) {
                     sql = sql.concat(" and E.COUNTRY_ID in (%2$s) ");
@@ -264,6 +261,11 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
                     sql = sql.concat(" and COMPANY_ID IN (%4$s)");
                 }
                 appStr.add(" select COMPANY_ID from APPLICATION_COMPANY where INDUSTRY_ID=" + filter.id);
+            } else if (index == 6) {// new tec
+                if (newTecStr.size() == 0) {
+                    sql = sql.concat(" and COMPANY_ID IN (%5$s)");
+                }
+                newTecStr.add(" SELECT COMPANY_ID FROM NEW_PRODUCT_INFO WHERE RID IN (select RID from NEW_PRODUCT_AND_CATEGORY where CATEGORY='C') ");
             } else if (index == 5) { // keyword
                 keyword = filter.filter;
                 sql = sql.concat(" and (carriecps)");
@@ -278,7 +280,8 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
         sql = String.format(sql, halls.toString().replace("[", "").replace("]", ""),
                 countries.toString().replace("[", "").replace("]", ""),
                 industriesStr.toString().replaceAll(",", " intersect").replace("[", "").replace("]", ""),
-                appStr.toString().replaceAll(",", " intersect").replace("[", "").replace("]", ""));
+                appStr.toString().replaceAll(",", " intersect").replace("[", "").replace("]", ""),
+                newTecStr.toString().replaceAll(",", " intersect").replace("[", "").replace("]", ""));
         sql = sql.replaceAll("carriecps", "E.DESC_E LIKE '%".concat(keyword).concat("%' OR E.DESC_S LIKE '%").concat(keyword).concat("%' OR E.DESC_T LIKE '%").concat(keyword).concat("%'"));
         LogUtil.i(TAG, ">>>> sql=" + sql);
         return sql;
@@ -289,8 +292,8 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
     }
 
     public ArrayList<Exhibitor> sortByHallList(ArrayList<String> letters) {
-        String sql0 = getExhibitorSql().concat("and HALL_NO LIKE \"%.%\" order by CAST(HALL_NO AS INT),BOOTH_NO");
-        String sql1 = getExhibitorSql().concat("and HALL_NO NOT LIKE \"%.%\" order by HALL_NO");
+        String sql0 = getExhibitorSql().concat("and HALL_NO NOT LIKE \"%TBC%\" order by CAST(HALL_NO AS INT),BOOTH_NO");
+        String sql1 = getExhibitorSql().concat("and HALL_NO LIKE \"%TBC%\" order by HALL_NO");
 
         ArrayList<String> letters0 = new ArrayList<>();
         ArrayList<String> letters1 = new ArrayList<>();
@@ -573,6 +576,9 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
         if (language == 0) {
             exhibitor.setStrokeTrad(cursor.getString(cursor.getColumnIndex("STROKE_TRAD")));
             exhibitor.setSeqTC(cursor.getInt(cursor.getColumnIndex("SEQ_TC")));
+            if (!exhibitor.getStrokeTrad().contains("劃")) {
+                exhibitor.setStrokeTrad(exhibitor.getStrokeTrad().concat("劃"));
+            }
         } else if (language == 1) {
             exhibitor.setStrokeEng(cursor.getString(cursor.getColumnIndex("STROKE_ENG")));
             exhibitor.setSeqEN(cursor.getInt(cursor.getColumnIndex("SEQ_EN")));

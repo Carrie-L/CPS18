@@ -1,7 +1,6 @@
 package com.adsale.ChinaPlas.ui.view;
 
 import android.content.Context;
-import android.content.Intent;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
 import android.graphics.Rect;
@@ -41,8 +40,6 @@ public class FilterView extends LinearLayout {
     private ViewExhibitorFilterBinding binding;
     private Context mContext;
     private int index;
-    private RecyclerView recyclerView;
-    private Intent intent;
     private OnIntentListener mListener;
     private FilterAdapter adapter;
 
@@ -67,7 +64,7 @@ public class FilterView extends LinearLayout {
         binding = ViewExhibitorFilterBinding.inflate(inflater, this, true);
         binding.setView(this);
 
-        recyclerView = binding.filterRecyclerView;
+        RecyclerView recyclerView = binding.filterRecyclerView;
         GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 3);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setHasFixedSize(true);

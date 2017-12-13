@@ -17,10 +17,10 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.dao.MainIcon;
 import com.adsale.ChinaPlas.data.model.MainPic;
+import com.adsale.ChinaPlas.databinding.ListItemActionParentBinding;
 import com.adsale.ChinaPlas.ui.MainActivity;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
@@ -52,11 +52,9 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     boolean isMatch = false;
 
-    private int language;
     private MainIcon entity;
 
-    private int uc_count;
-    private boolean clicked = false;
+//    private int uc_count;
     private int mClickPos;
 
     private boolean isLogin = false;
@@ -65,10 +63,8 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
     private boolean isPadDevice;
     private NavViewModel mNavViewModel;
     private String mBaseIconUrl;
-    private MainIcon mRegisterEntity;
-    private MainIcon mLoginEntity;
-    private int mRegOrLoginIndex;
     private MainIcon mainIcon;
+    private ListItemActionParentBinding parentBinding;
 
     public DrawerAdapter(ArrayList<MainIcon> icons, ArrayList<MainIcon> parentList, NavViewModel baseViewModel) {
         super();
@@ -105,29 +101,25 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
     public void updateCenterCount(int count) {
-        uc_count = count;
+//        uc_count = count;
         int size = lists.size();
-        LogUtil.i(TAG, "updateCenterCount_uc_count=" + uc_count + ",size=" + size);
+        LogUtil.i(TAG, "updateCenterCount_uc_count=" + count + ",size=" + size);
         for (int i = 0; i < size; i++) {
-            if (lists.get(i).getBaiDu_TJ().trim().equals("ContentUpdate")) {
+            entity = lists.get(i);
+            if (entity.getBaiDu_TJ().trim().equals("ContentUpdate")) {
+                entity.updateCount.set(count);
+                lists.set(i,entity);
                 notifyItemChanged(i);
                 break;
             }
         }
     }
 
-    public void setUpdateCenterCount(int count) {
-        uc_count = count;
-    }
-
-    public void setLanguage(int language) {
-        this.language = language;
-    }
-
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        language = App.mLanguage.get();
         mainIcon = lists.get(position);
+        parentBinding.setObj(mainIcon);
+        parentBinding.executePendingBindings();
 
         if (holder.getItemViewType() == TYPE_PARENT) {
             parentHolder = (ParentViewHolder) holder;
@@ -146,26 +138,13 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
                 } else {
                     parentHolder.ib_arrow.setVisibility(View.VISIBLE);
                     if (mainIcon.isExpanded) {
-                        parentHolder.ib_arrow.setBackgroundResource(R.drawable.ic_down_arrow);
+                        parentHolder.ib_arrow.setBackgroundResource(R.drawable.ic_down_arrow2);
                     } else {
-                        parentHolder.ib_arrow.setBackgroundResource(R.drawable.ic_right_arrow);
+                        parentHolder.ib_arrow.setBackgroundResource(R.drawable.ic_right_arrow2);
                     }
                 }
             } else {
                 parentHolder.ib_arrow.setVisibility(View.GONE);
-            }
-
-            if (mainIcon.getBaiDu_TJ().trim().equals("ContentUpdate")) {
-                /*当UpdateCenter更新，需刷新数量*/
-                if (uc_count > 0) {
-                    parentHolder.tv_uc_count.setText(String.valueOf(uc_count));
-                    parentHolder.tv_uc_count.setVisibility(View.VISIBLE);
-                } else {
-                    parentHolder.tv_uc_count.setText("");
-                    parentHolder.tv_uc_count.setVisibility(View.GONE);
-                }
-            } else {
-                parentHolder.tv_uc_count.setVisibility(View.GONE);
             }
         } else if (holder.getItemViewType() == TYPE_CHILD) {
             childHolder = (ChildViewHolder) holder;
@@ -175,7 +154,6 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
             if (mainIcon.getDrawerIcon() != null) {
                 Glide.with(mContext).load(mBaseIconUrl.concat(mainIcon.getDrawerIcon())).into(childHolder.ivItemIcon);
             }
-
         }
     }
 
@@ -183,13 +161,13 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
     public ViewHolder onCreateViewHolder(ViewGroup group, int viewType) {
         mContext = group.getContext();
         isLogin = AppUtil.isLogin();
-        language = App.mLanguage.get();
         isPadDevice = AppUtil.isPadDevice(mContext);
 
         // 分别为 父 与 子 设置布局
         if (viewType == TYPE_PARENT) {
-            View parentView = LayoutInflater.from(group.getContext()).inflate(R.layout.list_item_action_parent, group, false);
-            return new ParentViewHolder(parentView);
+//            View parentView = LayoutInflater.from(group.getContext()).inflate(R.layout.list_item_action_parent, group, false);
+            parentBinding = ListItemActionParentBinding.inflate( LayoutInflater.from(group.getContext()),group,false);
+            return new ParentViewHolder(parentBinding.getRoot());
         } else {
             View childView = LayoutInflater.from(group.getContext()).inflate(R.layout.list_item_action_child, group, false);
             return new ChildViewHolder(childView);
@@ -250,13 +228,11 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
                     if (lists.get(getAdapterPosition()).hasChild) {
                         if (lists.get(getAdapterPosition()).getBaiDu_TJ().trim().equals("Visitor") && !isLogin) {
-                            clicked = true;
                             lists.get(getAdapterPosition()).isClicked = true;
                             closeDrawerAndIntent(lists.get(getAdapterPosition()), getAdapterPosition(), true);
                         } else
                             arrowRotate(ib_arrow, collapseOrExpand(getAdapterPosition()));
                     } else {
-                        clicked = true;
                         menuIntent(getAdapterPosition());
                     }
                 }
@@ -270,7 +246,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
          * @param down
          */
         public void arrowRotate(ImageButton arrow, boolean down) {
-            arrow.setBackgroundResource(R.drawable.ic_right_arrow);
+            arrow.setBackgroundResource(R.drawable.ic_right_arrow2);
             if (down) {
                 animation = AnimationUtils.loadAnimation(mContext, R.anim.arrow_rotate_down);
                 LogUtil.e(TAG, "箭头向下↓");
@@ -434,7 +410,6 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
                 @Override
                 public void onClick(View v) {
-                    clicked = true;
                     menuIntent(getAdapterPosition());
                 }
             });

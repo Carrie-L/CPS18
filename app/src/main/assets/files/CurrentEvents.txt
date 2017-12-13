@@ -1,0 +1,220 @@
+{
+  "htmlFilePath": "https://o97tbiy1f.qnssl.com/events/htmlFile/",
+  "pages": [
+    {
+      "title_en": "Design x Innovation",
+      "title_cn": "设计 x 创新",
+      "title_tc": "設計 x 創新",
+      "pre_reg": "0",
+      "entrance_fee": "0",
+      "date": "24",
+      "applications": [
+        "1",
+        "2",
+        "3"
+      ],
+      "location": "",
+      "duration": "14:00-16:00",
+      "sort": "6",
+      "pageID": "001",
+      "imageLink": "https://o97tbiy1f.qnssl.com/currentEventImages/bg1.jpg",
+      "imageLink_Pad": "https://o97tbiy1f.qnssl.com/currentEventImages/bg1.jpg"
+    },
+    {
+      "title_en": "Medical Plastics Conference",
+      "title_cn": "医用塑料论坛",
+      "title_tc": "醫用塑料論壇",
+      "pre_reg": "1",
+      "entrance_fee": "1",
+      "date": "24",
+      "applications": [
+        "3",
+        "5",
+        "6"
+      ],
+      "location": "",
+      "duration": "14:00-16:00",
+      "sort": "7",
+      "pageID": "002",
+      "imageLink": "https://o97tbiy1f.qnssl.com/currentEventImages/bg2.jpg",
+      "imageLink_Pad": "https://o97tbiy1f.qnssl.com/currentEventImages/bg2.jpg"
+    },
+    {
+      "title_en": "2nd Industry 4.0 Conference",
+      "title_cn": "第二届工业4.0论坛",
+      "title_tc": "第二屆工業4.0論壇",
+      "pre_reg": "1",
+      "entrance_fee": "1",
+      "date": "25",
+      "applications": [
+        "6",
+        "7",
+        "8"
+      ],
+      "location": "",
+      "duration": "14:00-16:00",
+      "sort": "8",
+      "pageID": "003",
+      "imageLink": "https://o97tbiy1f.qnssl.com/currentEventImages/bg3.jpg",
+      "imageLink_Pad": "https://o97tbiy1f.qnssl.com/currentEventImages/bg3.jpg"
+    },
+    {
+      "title_en": "Tech Talk",
+      "title_cn": "科技讲台",
+      "title_tc": "科技講台",
+      "pre_reg": "1",
+      "entrance_fee": "1",
+      "date": "25",
+      "applications": [
+        "1",
+        "2",
+        "3"
+      ],
+      "location": "",
+      "duration": "14:00-16:00",
+      "sort": "9",
+      "pageID": "004",
+      "imageLink": "https://o97tbiy1f.qnssl.com/currentEventImages/bg4.jpg",
+      "imageLink_Pad": "https://o97tbiy1f.qnssl.com/currentEventImages/bg4.jpg"
+    },
+    {
+      "title_en": "Guided Technology Tour",
+      "title_cn": "科技导赏团",
+      "title_tc": "科技導賞團",
+      "pre_reg": "1",
+      "entrance_fee": "1",
+      "date": "27",
+      "applications": [
+        "5",
+        "7",
+        "9"
+      ],
+      "location": "",
+      "duration": "14:00-16:00",
+      "sort": "10",
+      "pageID": "005",
+      "imageLink": "https://o97tbiy1f.qnssl.com/currentEventImages/bg6.jpg",
+      "imageLink_Pad": "https://o97tbiy1f.qnssl.com/currentEventImages/bg6.jpg"
+    },
+    {
+      "title_en": "Seminar on Barrier Properties of Food Contact Materials",
+      "title_cn": "食品接触材料阻隔性能研讨会",
+      "title_tc": "食品接觸材料阻隔性能研討會",
+      "pre_reg": "1",
+      "entrance_fee": "1",
+      "date": "26",
+      "applications": [
+        "12",
+        "13",
+        "14"
+      ],
+      "location": "",
+      "duration": "14:00-16:00",
+      "sort": "11",
+      "pageID": "006",
+      "imageLink": "https://o97tbiy1f.qnssl.com/currentEventImages/bg5.jpg",
+      "imageLink_Pad": "https://o97tbiy1f.qnssl.com/currentEventImages/bg5.jpg"
+    },
+    {
+      "title_en": "Seminar on Cutting-edge Plastics Application in Consumer-Electronics Industry",
+      "title_cn": "塑料在消费电子领域的前沿应用研讨会",
+      "title_tc": "塑料在消費電子領域的前沿應用研討會",
+      "pre_reg": "1",
+      "entrance_fee": "1",
+      "date": "26",
+      "applications": [
+        "2",
+        "11"
+      ],
+      "location": "",
+      "duration": "14:00-16:00",
+      "sort": "12",
+      "pageID": "007",
+      "imageLink": "https://o97tbiy1f.qnssl.com/currentEventImages/bg1.jpg",
+      "imageLink_Pad": "https://o97tbiy1f.qnssl.com/currentEventImages/bg1.jpg"
+    },
+    {
+      "title_en": "Seminar on Systematic Injection Molding Solutions for Automotive Industry",
+      "title_cn": "汽车注塑系统化解决方案交流会",
+      "title_tc": "汽車注塑系統化解決方案交流會",
+      "pre_reg": "1",
+      "entrance_fee": "1",
+      "date": "27",
+      "applications": [
+        "11",
+        "3"
+      ],
+      "location": "",
+      "duration": "14:00-16:00",
+      "sort": "2",
+      "pageID": "008",
+      "imageLink": "https://o97tbiy1f.qnssl.com/currentEventImages/bg2.jpg",
+      "imageLink_Pad": "https://o97tbiy1f.qnssl.com/currentEventImages/bg2.jpg"
+    },
+    {
+      "title_en": "Seminar on the Plastics Application Solutions for New Energy Vehicles",
+      "title_cn": "新能源汽车塑料应用方案论坛",
+      "title_tc": "新能源汽車塑料應用方案論壇",
+      "pre_reg": "1",
+      "entrance_fee": "1",
+      "date": "25",
+      "applications": [
+        "12",
+        "13"
+      ],
+      "location": "",
+      "duration": "14:00-16:00",
+      "sort": "3",
+      "pageID": "009",
+      "imageLink": "https://o97tbiy1f.qnssl.com/currentEventImages/bg3.jpg",
+      "imageLink_Pad": "https://o97tbiy1f.qnssl.com/currentEventImages/bg3.jpg"
+    },
+    {
+      "title_en": "China Blister Technologies Summit",
+      "title_cn": "2017中国吸塑产业技术高峰论坛",
+      "title_tc": "2017中國吸塑產業技術高峰論壇",
+      "pre_reg": "0",
+      "entrance_fee": "1",
+      "date": "25",
+      "applications": [
+        "14",
+        "999"
+      ],
+      "location": "",
+      "duration": "14:00-16:00",
+      "sort": "4",
+      "pageID": "010",
+      "imageLink": "https://o97tbiy1f.qnssl.com/currentEventImages/bg4.jpg",
+      "imageLink_Pad": "https://o97tbiy1f.qnssl.com/currentEventImages/bg4.jpg"
+    },
+    {
+      "title_en": "Plastic Beverage Bottles Recycle & Reward Activity",
+      "title_cn": "变废为宝 - 饮料瓶回收奖赏行动",
+      "title_tc": "變廢為寶 - 飲料瓶回收獎賞行動",
+      "pre_reg": "1",
+      "entrance_fee": "0",
+      "date": "26",
+      "applications": [
+        "1",
+        "10"
+      ],
+      "location": "",
+      "duration": "14:00-16:00",
+      "sort": "5",
+      "pageID": "011",
+      "imageLink": "https://o97tbiy1f.qnssl.com/currentEventImages/bg5.jpg",
+      "imageLink_Pad": "https://o97tbiy1f.qnssl.com/currentEventImages/bg5.jpg"
+    }
+  ],
+  "AdInfo": {
+    "Image_SC": "https://o97tbiy1f.qnssl.com/advertisement/M3/phone_sc_1.jpg",
+    "Image_TC": "https://o97tbiy1f.qnssl.com/advertisement/M3/phone_sc_1.jpg",
+    "Image_EN": "https://o97tbiy1f.qnssl.com/advertisement/M3/phone_sc_1.jpg",
+    "Image_Pad_SC": "https://o97tbiy1f.qnssl.com/advertisement/M3/tablet_en_1.jpg",
+    "Image_Pad_TC": "https://o97tbiy1f.qnssl.com/advertisement/M3/tablet_en_1.jpg",
+    "Image_Pad_EN": "https://o97tbiy1f.qnssl.com/advertisement/M3/tablet_en_1.jpg",
+    "EventID_SC": "001",
+    "EventID_TC": "001",
+    "EventID_EN": "001"
+  }
+}

@@ -1,13 +1,12 @@
 package com.adsale.ChinaPlas.data.model;
 
-import android.databinding.ObservableBoolean;
+import android.databinding.ObservableInt;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.adsale.ChinaPlas.utils.AppUtil;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -43,7 +42,7 @@ public class ConcurrentEvent implements Parcelable {
         public String date;
 
         /* 应用行业ID，作为筛选条件 */
-        public String[] applications;
+        public ArrayList<String> applications;
 
         /* 活动地点 */
         public String location;
@@ -57,24 +56,35 @@ public class ConcurrentEvent implements Parcelable {
         /* 同期活动ID */
         public String pageID;
 
-        /* 头部Bar */
-        public final ObservableBoolean isTypeLabel = new ObservableBoolean();
+        /* item 背景图 */
+        public String imageLink;
+
+        /* 平板 item 背景图 */
+        public String imageLink_Pad;
+
+        /* 头部Bar : 0 没有bar， 1 有bar；2 tech */
+        public final ObservableInt isTypeLabel = new ObservableInt(0);
 
         @Override
         public String toString() {
             return "Pages{" +
-                    "title_en='" + title_en + '\'' +
-                    ", title_cn='" + title_cn + '\'' +
-                    ", title_tc='" + title_tc + '\'' +
+                    "title='" + title + '\'' +
                     ", pre_reg='" + pre_reg + '\'' +
                     ", entrance_fee='" + entrance_fee + '\'' +
                     ", date='" + date + '\'' +
-                    ", applications=" + Arrays.toString(applications) +
+                    ", applications=" + applications +
                     ", location='" + location + '\'' +
                     ", duration='" + duration + '\'' +
                     ", sort='" + sort + '\'' +
                     ", pageID='" + pageID + '\'' +
+                    ", imageLink='" + imageLink + '\'' +
+                    ", imageLink_Pad='" + imageLink_Pad + '\'' +
+                    ", isTypeLabel=" + isTypeLabel +
                     '}';
+        }
+
+        public String getImageLink(){
+            return AppUtil.isTablet()?imageLink_Pad:imageLink;
         }
     }
 

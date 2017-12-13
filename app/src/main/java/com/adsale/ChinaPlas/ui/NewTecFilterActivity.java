@@ -14,7 +14,7 @@ import com.adsale.ChinaPlas.utils.LogUtil;
 
 import java.util.ArrayList;
 
-public class NewTecFilterActivity extends BaseActivity implements OnIntentListener{
+public class NewTecFilterActivity extends BaseActivity implements OnIntentListener {
     public final ObservableField<String> etKeyword = new ObservableField<>("");
     private FilterView industryFilterView;
     private FilterView applicationFilterView;
@@ -24,8 +24,9 @@ public class NewTecFilterActivity extends BaseActivity implements OnIntentListen
 
     @Override
     protected void initView() {
+        TAG = "NewTecFilterActivity";
         barTitle.set(getString(R.string.title_filter));
-        ActivityNewTecFilterBinding binding = ActivityNewTecFilterBinding.inflate(getLayoutInflater(),mBaseFrameLayout,true);
+        ActivityNewTecFilterBinding binding = ActivityNewTecFilterBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         binding.setUi(this);
         industryFilterView = binding.industryFilterView;
         applicationFilterView = binding.applicationFilterView;
@@ -42,13 +43,17 @@ public class NewTecFilterActivity extends BaseActivity implements OnIntentListen
 
     @Override
     public <T> void onIntent(T entity, Class toCls) {
-        LogUtil.i(TAG, "onIntent::entity=" + entity.toString());
-        Intent intent = new Intent(this, toCls);
-        if(toCls.getSimpleName().equals("FilterApplicationListActivity")){
-            intent.putExtra("type",FilterApplicationListActivity.TYPE_NEW_TEC_PRODUCT);
-        }else{
-
+        int index =  Integer.valueOf(entity.toString());
+        LogUtil.i(TAG, "onIntent::entity=" + index);
+        Intent intent = new Intent(this, FilterApplicationListActivity.class);
+        if (index == 0) {
+            LogUtil.i(TAG, "》产品");
+            intent.putExtra("type", FilterApplicationListActivity.TYPE_NEW_TEC_PRODUCT);
+        } else if (index == 1) {
+            LogUtil.i(TAG, "》行业");
+            intent.putExtra("type", FilterApplicationListActivity.TYPE_NEW_TEC_APPLICATIONS);
         }
+        intent.putExtra("index", index);
         startActivityForResult(intent, (Integer) entity);
     }
 
@@ -69,12 +74,8 @@ public class NewTecFilterActivity extends BaseActivity implements OnIntentListen
     }
 
     public void onFilter() {
-        ExhibitorFilter newTecFilter = new ExhibitorFilter(5, "", etKeyword.get().trim());
-        allFilters.add(newTecFilter);
-
         if (switchNewTec.isChecked()) {
-            newTecFilter = new ExhibitorFilter(6, "NewTec", "NewTec");
-            allFilters.add(newTecFilter);
+            allFilters.add(new ExhibitorFilter(6, "C", "NewTec"));
         }
 
         Intent intent = new Intent();

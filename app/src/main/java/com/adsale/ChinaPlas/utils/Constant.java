@@ -8,6 +8,21 @@ package com.adsale.ChinaPlas.utils;
 public class Constant {
 
     /**
+     * --------------------- 图片尺寸---------------------------------------
+     **/
+    /* 主界面menu */
+    public static final int MAIN_MENU_WIDTH = 115;
+    public static final int MAIN_MENU_HEIGHT = 120;
+
+    /* 主界面top banner */
+    public static final int MAIN_TOP_BANNER_WIDTH = 345;
+    public static final int MAIN_TOP_BANNER_HEIGHT = 158;
+
+    /* 主界面icon */
+    public static final int MENU_ICON_SIZE = 90;// 90 * 90
+
+
+    /**
      * ---------------------Config 配置信息---------------------------------------
      **/
     public static final String SP_CONFIG = "Config";
@@ -16,14 +31,13 @@ public class Constant {
     public static final String SP_LASTMODIFIED = "LastModified";
     public static final String SP_LUT = "LastUpdateTime";
     public static final String SP_LOGIN = "Login";
+    public static final String SP_HP = "HelpPage";
 
     /* property */
     public static final String SCREEN_WIDTH = "ScreenWidth";
     public static final String SCREEN_HEIGHT = "ScreenHeight";
     public static final String DISPLAY_HEIGHT = "DisplayHeight";//不包括状态栏的高度
     public static final String TOOLBAR_HEIGHT = "ActionBarHeight";
-
-
 
 
     //-------------------MainIcon的最后更新时间----------------
@@ -43,10 +57,10 @@ public class Constant {
     public static final String REG_PNG = "reg.png";
 
     /*  Schedule */
-    public static final String SCHEDULE_DAY01 = "2017-05-16";
-    public static final String SCHEDULE_DAY02 = "2017-05-17";
-    public static final String SCHEDULE_DAY03 = "2017-05-18";
-    public static final String SCHEDULE_DAY_END = "2017-05-19";
+    public static final String SCHEDULE_DAY01 = "2017-04-24";
+    public static final String SCHEDULE_DAY02 = "2017-04-25";
+    public static final String SCHEDULE_DAY03 = "2017-04-26";
+    public static final String SCHEDULE_DAY_END = "2017-04-27";
 
     public static final String INTENT_SCHEDULE = "Schedule";
     public static final String INTENT_EXHIBITOR = "Exhibitor";
@@ -55,9 +69,9 @@ public class Constant {
     /* intent value */
     public static final String INTENT_BAIDU_TJ = "BaiDuTJ";
     public static final String INTENT_COMMON_TYPE = "TYPE";
-    public static final String PUSH_INTENT="PUSH_INTENT";
-    public static final String LEFT_INTENT="LEFT_INTENT";
-    public static final String INTENT_NEW_TEC="NewTecInfo";
+    public static final String PUSH_INTENT = "PUSH_INTENT";
+    public static final String LEFT_INTENT = "LEFT_INTENT";
+    public static final String INTENT_NEW_TEC = "NewTecInfo";
 
     public static final int REQUEST_CODE_ADD_SCHEDULE = 5;
 
@@ -109,40 +123,43 @@ public class Constant {
     public static final String TXT_NEW_TEC = "NewTechInfo.txt";
     public static final String TXT_NEW_TEC_TEST = "NewTechInfoTest.txt";
 
-    public static final String UC_TXT_EXHIBITOR="ExhibitorInfo.txt";
-    public static final String UC_TXT_FLOOR_PLAN="FloorPlan.txt";
-    public static final String UC_TXT_SEMINAR="SeminarInfo.txt";
-    public static final String UC_TXT_TRAVEL="Travelnfo.txt";
-    public static final String UC_TXT_APP_CONTENTS="appContents.txt";
+    public static final String UC_TXT_EXHIBITOR = "ExhibitorInfo.txt";
+    public static final String UC_TXT_FLOOR_PLAN = "FloorPlan.txt";
+    public static final String UC_TXT_SEMINAR = "SeminarInfo.txt";
+    public static final String UC_TXT_TRAVEL = "Travelnfo.txt";
+    public static final String UC_TXT_APP_CONTENTS = "appContents.txt";
 
     /* asset目录下文件夹名称 */
-    public static final String DIR_EXHIBITOR="ExhibitorData";
-    public static final String DIR_FLOOR_PLAN="FloorPlan";
-    public static final String DIR_SEMINAR="TechnicalSeminar";
-    public static final String DIR_TRAVEL="TravelInfo";
-    public static final String DIR_EVENT="ConcurrentEvent";
-    public static final String DIR_NEW_TEC="NewTec/";
-    public static final String DIR_WEB_CONTENT="WebContent/";
+    public static final String DIR_EXHIBITOR = "ExhibitorData";
+    public static final String DIR_FLOOR_PLAN = "FloorPlan";
+    public static final String DIR_SEMINAR = "TechnicalSeminar";
+    public static final String DIR_TRAVEL = "TravelInfo";
+    public static final String DIR_EVENT = "ConcurrentEvent";
+    public static final String DIR_NEW_TEC = "NewTec/";
+    public static final String DIR_WEB_CONTENT = "WebContent/";
 
-    public static final String ASSET_APPLICATION_CSV="Application/Application.csv";
-    public static final String ASSET_COMPANY_APPLICATION_CSV="Application/CompanyApplication.csv";
-    public static final String ASSET_TECHNICAL_SEMINAR_INFO="TechnicalSeminar/SeminarInfo.csv";
-    public static final String ASSET_TECHNICAL_SEMINAR_SPEAK="TechnicalSeminar/SeminarSpeaker.csv";
-    public static final String ASSET_HOTEL_DETAIL="TravelInfo/HotelDetail.csv";
-    public static final String ASSET_HR_HOTEL_DETAIL="TravelInfo/hrHotelDetail.csv";
+    public static final String ASSET_APPLICATION_CSV = "Application/Application.csv";
+    public static final String ASSET_COMPANY_APPLICATION_CSV = "Application/CompanyApplication.csv";
+    public static final String ASSET_TECHNICAL_SEMINAR_INFO = "TechnicalSeminar/SeminarInfo.csv";
+    public static final String ASSET_TECHNICAL_SEMINAR_SPEAK = "TechnicalSeminar/SeminarSpeaker.csv";
+    public static final String ASSET_HOTEL_DETAIL = "TravelInfo/HotelDetail.csv";
+    public static final String ASSET_HR_HOTEL_DETAIL = "TravelInfo/hrHotelDetail.csv";
 
     /*  new tec 的 csv 名称 */
-    public static final String CSV_NEWTEC_PRODUCT_INFO=DIR_NEW_TEC.concat("NewProductInfo.csv");
-    public static final String CSV_NEWTEC_PRODUCT_CATEGORY=DIR_NEW_TEC.concat("NewProductAndCategory.csv");
-    public static final String CSV_NEWTEC_PRODUCTS_AND_APPLICATION=DIR_NEW_TEC.concat("NewProductsAndApplication.csv");
-    public static final String CSV_NEWTEC_PRODUCT_APPLICATION=DIR_NEW_TEC.concat("ProductApplication.csv");
-    public static final String CSV_NEWTEC_PRODUCT_IMG=DIR_NEW_TEC.concat("ProductImage.csv");
+    public static final String CSV_NEWTEC_PRODUCT_INFO = DIR_NEW_TEC.concat("NewProductInfo.csv");
+    public static final String CSV_NEWTEC_PRODUCT_CATEGORY = DIR_NEW_TEC.concat("NewProductAndCategory.csv");
+    public static final String CSV_NEWTEC_PRODUCTS_AND_APPLICATION = DIR_NEW_TEC.concat("NewProductsAndApplication.csv");
+    public static final String CSV_NEWTEC_PRODUCT_APPLICATION = DIR_NEW_TEC.concat("ProductApplication.csv");
+    public static final String CSV_NEWTEC_PRODUCT_IMG = DIR_NEW_TEC.concat("ProductImage.csv");
 
 
     /*  WebView */
-    public static final String WEB_URL="Url";
+    public static final String WEB_URL = "Url";
 
 
+    /* ---- 分享 ---- **/
+    public static final String SHARE_IMAGE_PATH = "file:///android_asset/icon.png";
+    public static final String SHARE_IMAGE_URL = "http://www.chinaplasonline.com/apps/2016/images/icon.png";
 
 
 }

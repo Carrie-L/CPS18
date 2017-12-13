@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -36,7 +35,7 @@ import static android.content.ContentValues.TAG;
  * <p>1. first enter show
  * <br>HelpView  helpView = new HelpView(this, HelpView.HELP_PAGE_MY_EXHIBITOR);
  * <br>helpView.showPage();
- *
+ * <p>
  * <p>2. click show
  * <br>helpView.show();
  */
@@ -63,23 +62,35 @@ public class HelpView extends Dialog implements View.OnClickListener {
      */
     private int mPageType;
 
+    private View.OnClickListener mCloseListener;
+    private AdViewPagerAdapter mPagerAdapter;
+
     /**
      * @param context activity
-     * @param page
+     * @param page    HELP_PAGE_MAIN|...
      */
     public HelpView(@NonNull Context context, int page) {
         super(context, R.style.transparentBgDialog);
         this.mContext = context;
-        initView();
-        getImageIds(page);
-        generatePage();
+        mPageType = page;
+    }
+
+    public HelpView(@NonNull Context context, int page, View.OnClickListener listener) {
+        super(context, R.style.transparentBgDialog);
+        this.mContext = context;
+        mPageType = page;
+        mCloseListener = listener;
     }
 
     private void initView() {
-        mView = LayoutInflater.from(mContext).inflate(R.layout.page_help, null);
-        viewPagerHelp = (ViewPager) mView.findViewById(R.id.helpVP);
-        mLlPoint = (LinearLayout) mView.findViewById(R.id.vpindicator);
-        mView.findViewById(R.id.btn_help_page_close).setOnClickListener(this);
+        viewPagerHelp = findViewById(R.id.helpVP);
+        mLlPoint = findViewById(R.id.vpindicator);
+        if (mCloseListener != null) {
+            findViewById(R.id.btn_help_page_close).setOnClickListener(mCloseListener);
+        } else {
+            findViewById(R.id.btn_help_page_close).setOnClickListener(this);
+        }
+        setCancelable(false);
     }
 
     private void generatePage() {
@@ -99,7 +110,7 @@ public class HelpView extends Dialog implements View.OnClickListener {
             helpPages.add(imageView);
         }
         setPoint(length);
-        AdViewPagerAdapter mPagerAdapter = new AdViewPagerAdapter(helpPages);
+        mPagerAdapter = new AdViewPagerAdapter(helpPages);
         viewPagerHelp.setAdapter(mPagerAdapter);
         viewPagerHelp.addOnPageChangeListener(new HelpPageChangeListener());
     }
@@ -109,7 +120,7 @@ public class HelpView extends Dialog implements View.OnClickListener {
             // 几个圆点
             int width = DisplayUtil.dip2px(mContext, 8);
             LinearLayout.LayoutParams ind_params = new LinearLayout.LayoutParams(width, width);
-            ind_params.setMargins(width, width, 0, width * 2);
+            ind_params.setMargins(width, width, 0, width * 4);
             ImageView iv;
             mLlPoint.removeAllViews();
 
@@ -125,10 +136,9 @@ public class HelpView extends Dialog implements View.OnClickListener {
         }
     }
 
-    private void getImageIds(int page) {
-        mPageType = page;
-        LogUtil.i(TAG, "page=" + page);
-        switch (page) {
+    private void getImageIds() {
+        LogUtil.i(TAG, "page=" + mPageType);
+        switch (mPageType) {
             case HELP_PAGE_MAIN:
                 getMenuImages();
                 break;
@@ -166,27 +176,40 @@ public class HelpView extends Dialog implements View.OnClickListener {
 
     /**
      * 初次进入页面时，如果帮助页面没有显示过，则自动显示，否则要按？按钮才显示。
-     * 这里判断是否是初次进入这个页面，如果显示过了，mSP_Config中保存pageType，肯定不等于-1.   true，则显示，false不显示
+     * 这里判断是否是初次进入这个页面，如果显示过了，mSP_HP中保存pageType，肯定不等于-1.   true，则显示，false不显示
      *
      * @return
      */
     public boolean isFirstShow() {
-        return App.mSP_Config.getInt(HELP_PAGE + mPageType, -1) != mPageType;
+        return App.mSP_HP.getInt(HELP_PAGE + mPageType, -1) != mPageType;
     }
 
     private void setHelpPageShowed() {
-        App.mSP_Config.edit().putInt(HELP_PAGE + mPageType, mPageType).apply();
+        App.mSP_HP.edit().putInt(HELP_PAGE + mPageType, mPageType).apply();
     }
 
-    public void showPage() {
+    public boolean showPage() {
         if (isFirstShow()) {
             show();
             setHelpPageShowed();
+            return true;
         }
+        return false;
+    }
+
+    public void openMainHelpPage() {
+        show();
+        App.mSP_HP.edit().putBoolean("HELP_PAGE_OPEN_MAIN", false).apply();
     }
 
     @Override
     public void onClick(View v) {
+        LogUtil.i(TAG, "onClick");
+        cancel();
+    }
+
+    public void dismissDialog() {
+        LogUtil.i(TAG, "dismissDialog");
         cancel();
     }
 
@@ -216,15 +239,18 @@ public class HelpView extends Dialog implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(mView);
+        setContentView(R.layout.page_help);
         Window window = getWindow();
         WindowManager.LayoutParams wl = window.getAttributes();
         wl.x = 0;
         wl.y = 0;
-        wl.height = App.mSP_Config.getInt(Constant.DISPLAY_HEIGHT, 0);
+        wl.height = App.mSP_Config.getInt(Constant.SCREEN_HEIGHT, 0);
         wl.width = App.mSP_Config.getInt(Constant.SCREEN_WIDTH, 0);
         wl.gravity = Gravity.TOP;
         window.setAttributes(wl);
+        initView();
+        getImageIds();
+        generatePage();
     }
 
 }

@@ -79,9 +79,7 @@ public class MainPic implements Parcelable {
         public String Function;
         public String InnerPage;
         public String Link;
-        public String companyID_sc;
-        public String companyID_en;
-        public String companyID_tc;
+        public String companyID;
         public String eventID;
         public String seminarID;
         public String newsID;
@@ -93,9 +91,7 @@ public class MainPic implements Parcelable {
                     ", Function='" + Function + '\'' +
                     ", InnerPage='" + InnerPage + '\'' +
                     ", Link='" + Link + '\'' +
-                    ", companyID_sc='" + companyID_sc + '\'' +
-                    ", companyID_en='" + companyID_en + '\'' +
-                    ", companyID_tc='" + companyID_tc + '\'' +
+                    ", companyID='" + companyID + '\'' +
                     ", eventID='" + eventID + '\'' +
                     ", seminarID='" + seminarID + '\'' +
                     ", newsID='" + newsID + '\'' +
@@ -113,9 +109,7 @@ public class MainPic implements Parcelable {
             dest.writeString(this.Function);
             dest.writeString(this.InnerPage);
             dest.writeString(this.Link);
-            dest.writeString(this.companyID_sc);
-            dest.writeString(this.companyID_en);
-            dest.writeString(this.companyID_tc);
+            dest.writeString(this.companyID);
             dest.writeString(this.eventID);
             dest.writeString(this.seminarID);
             dest.writeString(this.newsID);
@@ -129,9 +123,7 @@ public class MainPic implements Parcelable {
             this.Function = in.readString();
             this.InnerPage = in.readString();
             this.Link = in.readString();
-            this.companyID_sc = in.readString();
-            this.companyID_en = in.readString();
-            this.companyID_tc = in.readString();
+            this.companyID = in.readString();
             this.eventID = in.readString();
             this.seminarID = in.readString();
             this.newsID = in.readString();

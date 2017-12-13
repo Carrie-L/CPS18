@@ -7,7 +7,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/blue</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@drawable/loading</item>
         <item name="android:textColorPrimary">@color/grey11</item>
         <item name="android:textColor">@color/grey11</item>
@@ -34,6 +34,31 @@
         <item name="android:windowBackground">@color/transparent</item>
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:background">@color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <!--自定义dialog背景全透明无边框theme -->
+    <style name="MyDialog" parent="android:style/Theme.Dialog">
+        <!--背景颜色及和透明程度-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!--是否去除标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!--是否去除边框-->
+        <item name="android:windowFrame">@null</item>
+        <!--是否浮现在activity之上-->
+        <item name="android:windowIsFloating">true</item>
+        <!--是否模糊-->
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+    <!--全屏背景透明 dialog-->
+    <style name="transparentDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:background">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
     </style>
 
@@ -134,8 +159,16 @@
         <item name="android:layout_height">48dp</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_gravity">center_horizontal</item>
-        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginTop">16dp</item>
         <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="tech_btn_style">
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="btn_grey_style">
@@ -168,18 +201,18 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/home</item>
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:padding">1dp</item>
 
     </style>
 
 
     <style name="tech_rect_text_style">
-        <item name="android:layout_width">40dp</item>
-        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_width">36dp</item>
+        <item name="android:layout_height">36dp</item>
         <item name="android:background">@color/grey</item>
         <item name="android:textColor">#fff</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_marginTop">5dp</item>
@@ -194,12 +227,11 @@
 
     <style name="event_header_style">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_height">36dp</item>
         <item name="android:background">@color/dark_gray</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">#fff</item>
         <item name="android:textSize">18sp</item>
-        <item name="android:layout_marginBottom">16dp</item>
     </style>
 
     <style name="tech_header_style">
@@ -314,6 +346,10 @@
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">center</item>
         <item name="android:button">@null</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:paddingLeft">1dp</item>
+        <item name="android:paddingRight">1dp</item>
     </style>
 
     <style name="exhibitor_bottom_bar_style">
@@ -342,10 +378,10 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">1dp</item>
         <item name="android:drawableBottom">@drawable/horizontal_line</item>
-        <item name="android:drawablePadding">12dp</item>
+        <item name="android:drawablePadding">10dp</item>
         <item name="android:drawableTop">@drawable/horizontal_line_trans</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:minHeight">40dp</item>
+        <item name="android:minHeight">32dp</item>
     </style>
 
     <style name="exhi_dtl_note_tv_style">
@@ -360,8 +396,9 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">56dp</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:drawablePadding">12dp</item>
+        <item name="android:drawablePadding">8dp</item>
         <item name="android:textSize">16sp</item>
+        <item name="android:paddingLeft">8dp</item>
         <item name="android:drawableBottom">@drawable/horizontal_line</item>
         <item name="android:drawableTop">@drawable/horizontal_line_trans</item>
     </style>

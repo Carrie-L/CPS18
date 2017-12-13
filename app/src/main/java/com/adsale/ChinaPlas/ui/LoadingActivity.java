@@ -5,13 +5,15 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.graphics.Point;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.Display;
@@ -19,7 +21,6 @@ import android.view.Display;
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.databinding.ActivityLoadingBinding;
-import com.adsale.ChinaPlas.helper.ADHelper;
 import com.adsale.ChinaPlas.helper.LoadingReceiver;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
@@ -50,7 +51,6 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
 
         mConfigSP = getSharedPreferences(Constant.SP_CONFIG, MODE_PRIVATE);
         mConfigSP.edit().putBoolean("M1ShowFinish", false).putBoolean("txtDownFinish", false).putBoolean("webServicesDownFinish", false).putString("M1ClickId", "").apply();
-//        isFirstRunning = mConfigSP.getBoolean("isFirstRunning", true);
         isFirstRunning = AppUtil.isFirstRunning();
         mConfigSP.edit().putBoolean("isFirstGetMaster", isFirstRunning).apply();
         LogUtil.i(TAG, "== isFirstRunning == " + isFirstRunning);
@@ -62,6 +62,7 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
         AppUtil.switchLanguage(getApplicationContext(), language);
         App.mLanguage.set(language);
 
+        getAppVersion();
         if (isFirstRunning) {
             mLoadingModel.showLangBtn.set(true);
             setDeviceType();
@@ -113,6 +114,16 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
             getDeviceId();
         } else {
             PermissionUtil.requestPermission(this, PermissionUtil.PERMISSION_READ_PHONE_STATE, PMS_CODE_READ_PHONE_STATE);
+        }
+    }
+
+    private void getAppVersion() {
+        PackageManager pm = getPackageManager();
+        try {
+            PackageInfo info = pm.getPackageInfo(getPackageName(), 0);
+            App.mSP_Config.edit().putString("AppVersion", info.versionName).apply();
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
         }
     }
 

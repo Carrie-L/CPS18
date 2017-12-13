@@ -1,13 +1,10 @@
 package com.adsale.ChinaPlas.ui;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
-import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.ui.view.IconView;
 
 /**
@@ -22,9 +19,9 @@ public class ExhibitorActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        IconView ivAllExhibitor = (IconView) findViewById(R.id.iv_all_exhibitor);
-        IconView ivClassify = (IconView) findViewById(R.id.iv_classify_search);
-        IconView ivKeyword = (IconView) findViewById(R.id.iv_keyword_search);
+        IconView ivAllExhibitor =  findViewById(R.id.iv_all_exhibitor);
+        IconView ivClassify = findViewById(R.id.iv_classify_search);
+        IconView ivKeyword =  findViewById(R.id.iv_keyword_search);
 
         ivAllExhibitor.setIconText(R.drawable.all_exhibitors, R.string.item_all_exhibitor);
         ivClassify.setIconText(R.drawable.advanced_search, R.string.item_criteria_search);

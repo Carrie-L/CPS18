@@ -20,8 +20,6 @@ import java.util.zip.ZipInputStream;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 
-import static android.R.attr.path;
-
 /**
  * Created by Carrie on 2017/8/10.
  */
@@ -29,7 +27,18 @@ import static android.R.attr.path;
 public class FileUtil {
     private static final String TAG = "FileUtil";
 
+    public static String getSDRootPath() {
+        if (Environment.getExternalStorageState().equals(
+                Environment.MEDIA_MOUNTED)) {
+            return Environment.getExternalStorageDirectory() + "/";
+        } else {
+            return Environment.getDataDirectory() + "/";
+
+        }
+    }
+
     public static boolean saveToMemory(String dir, String fileName, byte[] bytes) {
+        createFile(dir);
         File file = new File(dir, fileName);
         try {
             FileOutputStream fos = new FileOutputStream(file);
@@ -38,8 +47,21 @@ public class FileUtil {
             return true;
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
-        return false;
+    }
+
+    public static boolean saveToMemory(String absPath, byte[] bytes) {
+        File file = new File(absPath);
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(bytes);
+            fos.close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public static String createFile(String absPath) {
@@ -49,7 +71,8 @@ public class FileUtil {
         LogUtil.i(TAG, "absPath1=" + absPath);
         File file = new File(absPath);
         if (!file.exists()) {
-            file.mkdir();
+            boolean isCreateSuccess = file.mkdir();
+            LogUtil.i(TAG, "createFile：isCreateSuccess=" + isCreateSuccess);
         }
         return absPath;
     }
@@ -115,12 +138,12 @@ public class FileUtil {
     public static boolean writeZipToMemory(Response<ResponseBody> response, String zipName, String zipPath) {
         ResponseBody body = response.body();
         if (body != null) {
-            LogUtil.i(TAG,"body != null");
+            LogUtil.i(TAG, "body != null");
             FileUtil.unpackZip(zipName, body.byteStream(), zipPath);
             body.close();
             return true;
         }
-        LogUtil.i(TAG,"body == null");
+        LogUtil.i(TAG, "body == null");
         return false;
     }
 
@@ -214,7 +237,6 @@ public class FileUtil {
         }
         return "";
     }
-
 
 
 }

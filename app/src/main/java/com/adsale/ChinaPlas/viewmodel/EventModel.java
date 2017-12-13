@@ -1,6 +1,7 @@
 package com.adsale.ChinaPlas.viewmodel;
 
 import android.databinding.ObservableArrayList;
+import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
 import android.support.annotation.NonNull;
 
@@ -9,6 +10,7 @@ import com.adsale.ChinaPlas.adapter.EventAdapter;
 import com.adsale.ChinaPlas.data.DownloadClient;
 import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.data.model.ConcurrentEvent;
+import com.adsale.ChinaPlas.ui.FilterApplicationListActivity;
 import com.adsale.ChinaPlas.ui.TechnicalListActivity;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
@@ -32,21 +34,26 @@ import retrofit2.Response;
 
 /**
  * Created by Carrie on 2017/9/19.
+ * 同期活动列表
  */
 
 public class EventModel {
     private static final String TAG = "EventModel";
     public final ObservableArrayList<ConcurrentEvent.Pages> events = new ObservableArrayList<>();
+    public final ObservableField<String> filterWords = new ObservableField<>();
     public final ObservableInt mClickPos = new ObservableInt(0);
     private ConcurrentEvent event;
     private DownloadClient mDownClient;
     private EventAdapter adapter;
-    private ArrayList<ConcurrentEvent.Pages> mCacheList;
+    private ArrayList<ConcurrentEvent.Pages> mCacheList = new ArrayList<>();
+    private ArrayList<ConcurrentEvent.Pages> mCacheList0 = new ArrayList<>();
     private ArrayList<ConcurrentEvent.Pages> mCacheList1;
     private ArrayList<ConcurrentEvent.Pages> mCacheList2;
     private ArrayList<ConcurrentEvent.Pages> mCacheList3;
     private ArrayList<ConcurrentEvent.Pages> mCacheList4;
     private OnIntentListener mListener;
+    private ConcurrentEvent.Pages tech;
+    private ConcurrentEvent.Pages entity;
 
     public EventModel() {
         mCacheList1 = new ArrayList<>();
@@ -62,12 +69,56 @@ public class EventModel {
 
     public void getList() {
         parseEvents();
+        mCacheList.addAll(events);
+        addTech();
+        mCacheList0.addAll(events);
+    }
+
+    private void addTech() {
+        for (int i = 0; i < events.size(); i++) {
+            entity = events.get(i);
+            if (i != 0 && !entity.date.equals(events.get(i - 1).date)) {
+                tech = new ConcurrentEvent.Pages();
+                tech.date = entity.date; /* 为了循环顺利进行，因此给 date 赋值,且+1.如果不加1，会死循环 */
+                tech.pageID = convertToTechDateIndex(events.get(i - 1).date); /* 用于存放 dateIndex 的值 */
+                tech.isTypeLabel.set(2);
+                events.add(i, tech);
+            }
+        }
+        /* all list; 前面的循环是在（第一个bar除外）每个bar的上方插入[技术交流会],因此只有3个。需要在最后再插入1个28日的。
+        *  filter list: 最后一个不一定是最后一天，因此用 events.get(events.size() - 1).date .
+        * */
+        if(events.size()==0){
+            return;
+        }
+        tech = new ConcurrentEvent.Pages();
+        int correctDate = Integer.valueOf(events.get(events.size() - 1).date);
+        tech.date = correctDate + 1 + ""; /* 技术交流会的date都要加1，避免死循环.因此计算实际index时，要-1. */
+        tech.pageID = convertToTechDateIndex(correctDate + "");
+        tech.isTypeLabel.set(2);
+        events.add(tech);
+    }
+
+    /**
+     * @param date 实际是 技术交流会的 date index
+     */
+    private String convertToTechDateIndex(String date) {
+        if (date.equals("24")) {
+            return "1";
+        } else if (date.equals("25")) {
+            return "2";
+        } else if (date.equals("26")) {
+            return "3";
+        } else if (date.equals("27")) {
+            return "4";
+        }
+        return "0";
     }
 
     public void chooseDate(int dateIndex) {
         mClickPos.set(dateIndex);
         if (dateIndex == 0) { /* 全部 */
-            adapter.setList(events);
+            adapter.setList(mCacheList0);
         }
         if (dateIndex == 5) { /* 技术交流会 */
             mListener.onIntent(null, TechnicalListActivity.class);
@@ -86,16 +137,16 @@ public class EventModel {
         mCacheList3.clear();
         mCacheList4.clear();
         ConcurrentEvent.Pages eventItem;
-        int size = events.size();
+        int size = mCacheList0.size();
         for (int i = 0; i < size; i++) {
-            eventItem = events.get(i);
-            if (Integer.valueOf(eventItem.date) == 24) {
+            eventItem = mCacheList0.get(i);
+            if ((eventItem.isTypeLabel.get() != 2 && Integer.valueOf(eventItem.date) == 24) || (eventItem.isTypeLabel.get() == 2 && Integer.valueOf(eventItem.date) == 25)) {
                 mCacheList1.add(eventItem);
-            } else if (Integer.valueOf(eventItem.date) == 25) {
+            } else if ((eventItem.isTypeLabel.get() != 2 && Integer.valueOf(eventItem.date) == 25) || (eventItem.isTypeLabel.get() == 2 && Integer.valueOf(eventItem.date) == 26)) {
                 mCacheList2.add(eventItem);
-            } else if (Integer.valueOf(eventItem.date) == 26) {
+            } else if ((eventItem.isTypeLabel.get() != 2 && Integer.valueOf(eventItem.date) == 26) || (eventItem.isTypeLabel.get() == 2 && Integer.valueOf(eventItem.date) == 27)) {
                 mCacheList3.add(eventItem);
-            } else if (Integer.valueOf(eventItem.date) == 27) {
+            } else if ((eventItem.isTypeLabel.get() != 2 && Integer.valueOf(eventItem.date) == 27) || (eventItem.isTypeLabel.get() == 2 && Integer.valueOf(eventItem.date) == 28)) {
                 mCacheList4.add(eventItem);
             }
         }
@@ -137,10 +188,44 @@ public class EventModel {
         });
 
         LogUtil.i(TAG, "events2=" + events.size() + "," + events.toString());
-
-
     }
 
+    /**
+     * 从选择的应用分类中，筛选出符合结果的同期活动,多个选择的话为交集
+     */
+    public void filterEvent(ArrayList<String> filters) {
+        int size = mCacheList.size();
+        int filterSize = filters.size();
+        events.clear();
+        ArrayList<String> appIds;
+
+        for (int i = 0; i < size; i++) {
+            appIds = mCacheList.get(i).applications;
+            for(int j=0;j<filterSize;j++){
+                if(!appIds.contains(filters.get(j))){ /* 有1个不满足就break */
+                    break;
+                }
+                if(j==filterSize-1){ /* 说明 appIds 里包含 filters 里所有id */
+                    events.add(mCacheList.get(i));
+                }
+            }
+        }
+        LogUtil.i(TAG, "after filter>>> events=" + events.size() + "," + events.toString());
+
+        addTech();
+        adapter.setList(events);
+    }
+
+    public void onFilter() {
+        mListener.onIntent(null, FilterApplicationListActivity.class);
+    }
+
+    public void onRefresh() {
+        filterWords.set("");
+        events.clear();
+        events.addAll(mCacheList0);
+        adapter.setList(events);
+    }
 
     private void downEventZip() {
         final String zipPath = App.rootDir.concat("ConcurrentEvent/");

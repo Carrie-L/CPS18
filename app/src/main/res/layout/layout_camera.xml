@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="view"
+            type="com.adsale.ChinaPlas.ui.view.TakePhotoView" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/camera_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/line"
+            android:layout_width="1dp"
+            android:layout_height="100dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+
+
+        <TextView
+            android:id="@+id/iv_take_photo"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="32dp"
+            android:layout_marginRight="16dp"
+            android:layout_toLeftOf="@id/line"
+            android:background="@drawable/ic_ok"
+            android:onClick="@{()->view.onTakePhoto()}" />
+        <!--android:onClick="@{()->view.onTakePhoto()}"-->
+
+
+        <ImageView
+            android:id="@+id/iv_photo_cancel"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="32dp"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@id/line"
+            android:background="@drawable/ic_cancel"
+            android:onClick="@{()->view.onPhotoCancel()}" />
+
+        <!--/>-->
+        <!--&lt;!&ndash;android:onClick="@{()->view.onPhotoCancel()}"&ndash;&gt;-->
+
+        <!--<ViewStub-->
+        <!--android:id="@+id/vs_photo_action"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignTop="@id/iv_take_photo"-->
+        <!--android:layout="@layout/view_photo_action"-->
+        <!--app:view="@{view}"-->
+        <!--/>-->
+        <!--app:view="@{view}"-->
+
+    </RelativeLayout>
+</layout>

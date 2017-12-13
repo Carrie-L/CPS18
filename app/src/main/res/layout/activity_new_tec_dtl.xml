@@ -4,87 +4,84 @@
     tools:context="com.adsale.ChinaPlas.ui.NewTecDtlActivity">
 
     <data>
+
         <variable
             name="obj"
-            type="com.adsale.ChinaPlas.dao.NewProductInfo"/>
+            type="com.adsale.ChinaPlas.dao.NewProductInfo" />
 
     </data>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
-       <FrameLayout
-           android:id="@+id/new_tec_frame"
-           android:layout_width="match_parent"
-           android:layout_height="180dp"
-           />
-
-        <TextView
+        <FrameLayout
+            android:id="@+id/new_tec_frame"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:background="#fff"
-            android:text="全新高速流"
-            android:textColor="@color/blue1"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            />
+            android:layout_height="180dp" />
 
-        <ImageView
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/blue1"
-            />
+            android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="@color/white_smoke"
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/new_tec_booth_style"
-                android:text="@{String.format(@string/new_tec_booth,obj.boothNo)}"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                />
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:gravity="center_vertical"
-                android:drawableLeft="@drawable/company"
-                android:drawablePadding="8dp"
-                android:text="@{obj.companyName}"
-                />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:gravity="center_vertical"
-                android:drawableLeft="@drawable/ic_website"
-                android:drawablePadding="8dp"
-                android:text="@{obj.companyID}"
-                />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white_smoke"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="8dp"
+                    android:text="@{obj.productName}"
+                    android:textColor="@color/blue1"
+                    android:textSize="20sp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:lineSpacingExtra="5dp"
-                android:text="@{obj.description"
-                />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/blue1" />
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white_smoke"
+                    android:lineSpacingExtra="1.5dp"
+                    android:padding="16dp"
+                    android:text="@{obj.description}"
+                    android:textColor="@color/grey21" />
 
+                <TextView
+                    style="@style/new_tec_booth_style"
+                    android:layout_margin="16dp"
+                    android:text="@{String.format(@string/new_tec_booth,obj.boothNo)}" />
 
+                <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_margin="16dp"-->
+                <!--app-->
+                <!--/>-->
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:drawableLeft="@drawable/ic_new_tec_company"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical"
+                    android:text="@{obj.companyName}" />
+
+            </LinearLayout>
+        </ScrollView>
 
     </LinearLayout>
-
-
 </layout>

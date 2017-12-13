@@ -24,12 +24,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
 
+            <!-- top info -->
             <RelativeLayout
-                android:id="@+id/rl1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -41,21 +43,23 @@
                     android:layout_height="match_parent"
                     android:layout_alignBottom="@+id/tv_seminardtl_booth"
                     android:layout_alignParentTop="true"
-                    android:layout_centerVertical="true" />
+                    android:layout_centerVertical="true"
+                    android:background="@color/blue" />
 
                 <TextView
                     android:id="@+id/tv_seminardtl_topic"
                     style="@style/seminaldtl_tv"
-                    android:text="@{info.topic.replaceAll(&quot;  &quot;, &quot;\n&quot;)}"
                     android:lineSpacingExtra="8dp"
+                    android:text="@{info.topic.replaceAll(&quot;  &quot;, &quot;\n&quot;)}"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tv_seminardtl_company"
                     style="@style/seminaldtl_tv"
-                    android:layout_marginTop="8dp"
                     android:layout_below="@id/tv_seminardtl_topic"
+                    android:layout_marginTop="8dp"
+                    android:textStyle="bold"
                     android:text="@{info.presentCompany}" />
 
                 <TextView
@@ -89,133 +93,87 @@
                     android:text="@{String.format(@string/seminar_booth,info.booth)}" />
             </RelativeLayout>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/rl1"
-                android:layout_centerVertical="true">
+                android:layout_centerVertical="true"
+                android:orientation="vertical">
 
-                <RelativeLayout
-                    android:id="@+id/rl_ad"
+                <!-- M6 -->
+                <ViewStub
+                    android:id="@+id/vs_m6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone">
+                    android:layout="@layout/view_m6_banner" />
 
-                    <!-- 公司资料 -->
-
-                    <TextView
-                        android:id="@+id/seminar_ad_company"
-                        android:layout_width="match_parent"
-                        android:layout_height="22dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@color/seminar_gray"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="16dp"
-                        android:text="@string/title_exhibitor_deti" />
-
-                    <ImageView
-                        android:id="@+id/iv_seminar_banner"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/seminar_ad_company"
-                        android:layout_centerHorizontal="true"
-                        android:scaleType="fitXY" />
-
-                    <TextView
-                        android:id="@+id/tv_seminar_ad_description"
-                        style="@style/seminaldtl_tv2"
-                        android:layout_below="@id/iv_seminar_banner"
-                        android:layout_marginRight="5dp"
-                        android:visibility="gone" />
-
-                </RelativeLayout>
-
+                <!-- speaker info  -->
                 <!-- 技术交流会概要 -->
-
                 <TextView
-                    android:id="@+id/seminar_information"
                     android:layout_width="match_parent"
                     android:layout_height="22dp"
-                    android:layout_below="@id/rl_ad"
+                    android:layout_marginTop="8dp"
                     android:background="@color/seminar_gray"
                     android:gravity="center_vertical"
-                    android:layout_marginTop="8dp"
                     android:paddingLeft="16dp"
                     android:text="@string/seminar_information"
                     android:visibility="@{TextUtils.isEmpty(speak.seminarsummary)?View.GONE:View.VISIBLE}" />
 
                 <TextView
-                    android:id="@+id/tv_seminar_information"
                     style="@style/seminaldtl_tv2"
-                    android:layout_below="@id/seminar_information"
                     android:layout_marginRight="5dp"
                     android:lineSpacingExtra="5dp"
                     android:text="@{speak.seminarsummary.replaceAll(&quot;  &quot;, &quot;\n\n&quot;)}"
                     android:visibility="@{TextUtils.isEmpty(speak.seminarsummary)?View.GONE:View.VISIBLE}" />
 
                 <TextView
-                    android:id="@+id/seminar_speaker"
                     style="@style/seminaldtl_tv1"
-                    android:layout_below="@id/tv_seminar_information"
                     android:text="@string/seminar_speaker"
                     android:visibility="@{TextUtils.isEmpty(speak.speakerName)?View.GONE:View.VISIBLE}" />
 
                 <TextView
-                    android:id="@+id/tv_seminar_speaker"
                     style="@style/seminaldtl_tv2"
-                    android:layout_below="@id/seminar_speaker"
-                    android:visibility="@{TextUtils.isEmpty(speak.speakerName)?View.GONE:View.VISIBLE}"
-                    android:text="@{speak.speakerName.replaceAll(&quot;  &quot;, &quot;\n\n&quot;)}" />
+                    android:text="@{speak.speakerName.replaceAll(&quot;  &quot;, &quot;\n\n&quot;)}"
+                    android:visibility="@{TextUtils.isEmpty(speak.speakerName)?View.GONE:View.VISIBLE}" />
 
                 <TextView
-                    android:id="@+id/seminar_query"
                     style="@style/seminaldtl_tv1"
-                    android:layout_below="@id/tv_seminar_speaker"
                     android:text="@string/seminar_contact"
                     android:visibility="@{TextUtils.isEmpty(speak.contactPerson)&amp;&amp;TextUtils.isEmpty(speak.tel)&amp;&amp;TextUtils.isEmpty(speak.email)?View.GONE:View.VISIBLE}" />
 
                 <TextView
-                    android:id="@+id/tv_seminar_contact_person"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/seminar_query"
                     android:gravity="center_vertical"
                     android:paddingBottom="8dp"
                     android:paddingLeft="16dp"
                     android:paddingTop="8dp"
-                    android:visibility="@{TextUtils.isEmpty(speak.contactPerson)?View.GONE:View.VISIBLE}"
                     android:text="@{speak.contactPerson}"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:visibility="@{TextUtils.isEmpty(speak.contactPerson)?View.GONE:View.VISIBLE}" />
 
                 <TextView
-                    android:id="@+id/tv_seminar_tel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_seminar_contact_person"
                     android:onClick="@{()->view.onCall(speak.tel)}"
                     android:paddingBottom="3dp"
                     android:paddingLeft="33dp"
                     android:text="@{speak.tel}"
-                    android:visibility="@{TextUtils.isEmpty(speak.tel)?View.GONE:View.VISIBLE}"
-                    android:textColor="@color/blue"
+                    android:textColor="@color/link"
                     android:textIsSelectable="true"
-                    android:textSize="12sp" />
+                    android:visibility="@{TextUtils.isEmpty(speak.tel)?View.GONE:View.VISIBLE}" />
 
                 <TextView
-                    android:id="@+id/tv_seminar_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_seminar_tel"
                     android:onClick="@{()->view.onSendEmail(speak.email)}"
                     android:paddingBottom="20dp"
                     android:paddingLeft="33dp"
-                    android:textColor="@color/blue"
                     android:text="@{speak.email}"
-                    android:visibility="@{TextUtils.isEmpty(speak.email)?View.GONE:View.VISIBLE}"
+                    android:textColor="@color/link"
                     android:textIsSelectable="true"
-                    android:textSize="12sp" />
-            </RelativeLayout>
-        </RelativeLayout>
+                    android:visibility="@{TextUtils.isEmpty(speak.email)?View.GONE:View.VISIBLE}" />
+            </LinearLayout>
+        </LinearLayout>
     </ScrollView>
 
 

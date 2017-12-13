@@ -4,7 +4,7 @@
     tools:context="com.adsale.ChinaPlas.ui.UserInfoActivity">
 
     <data>
-
+        <import type="android.view.View"/>
         <variable
             name="aty"
             type="com.adsale.ChinaPlas.ui.UserInfoActivity" />
@@ -45,8 +45,9 @@
             style="@style/user_info_tv_style"
             android:drawableLeft="@drawable/ic_logout"
             android:onClick="@{()->aty.onLogout()}"
-            android:text="@string/logout" />
-
+            android:text="@string/logout"
+            android:visibility="@{aty.isLogin?View.VISIBLE:View.GONE}"
+            />
 
     </LinearLayout>
 

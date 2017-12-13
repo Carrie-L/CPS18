@@ -10,8 +10,6 @@
     <string name="yn_create">是否创建?</string>
     <string name="namecard">名片</string>
     <string name="namecard_create_failed">名片创建失败</string>
-    <string name="chinaZjsYwgjblzx">中国‧上海新国际博览中心</string>
-    <string name="prereg_end">观众预先登记已经结束，请携带公司名片前往展会现场办理登记手续。谢谢！</string>
     <string name="qrcode_create_success">创建成功!</string>
 
     <string name="title_my_name_card">我的名片</string>
@@ -19,27 +17,6 @@
 
     <string name="reg_reset_title">确定重置预登记信息?</string>
      <!--  UpdateCenter更新中心-->
-
-    
-
-    
-     <string name="as_product">按产品类别搜索</string>
-    <string name="as_application">按应用行业搜索</string>
-    <string name="as_hall">按展馆搜索</string>
-    <string name="as_region">按国家/地区搜索</string>
-     <string name="as_search">搜索</string>
-    <string name="as_reset">重置</string>
-
-    <!--  -->
-    <string-array name="exhibitor_nav">
-        <item>全部参展商</item>
-        <item>分类搜索</item>
-        <item>关键字搜索</item>
-    </string-array>
-
-    <string name="item_all_exhibitor">全部参展商</string>
-    <string name="item_criteria_search">分类搜索</string>
-    <string name="item_keyword_search">关键字搜索</string>
 
     <string name="title_product_category">产品类别</string>
     <string name="title_application">应用行业</string>
@@ -50,52 +27,11 @@
         <item>我的兴趣产品</item>
         <item>我的历史记录</item> -->
     
-     <string-array name="advanced_search">
-         <item>按产品类别搜索</item>
-        <item>按应用行业搜索</item>
-        <item>按展馆搜索</item>
-        <item>按国家/地区搜索</item>
-    </string-array>
-
     <!--
     <item>二维码扫描</item> 
     
     <item>兴趣产品</item>
     -->
-    <string-array name="setting_nav">
-        <item>语言</item>
-        <item>网站连结</item>
-        <item>添加到日历</item>
-        <item>资料同步</item>
-        <item>注销</item>
-        <item>重置所有设定</item>
-        <item>私隐政策声明</item>
-        <item>使用条款</item>
-    </string-array>
-
-    <!--
-         <item>我的名片</item>
-        <item>名片列表</item>
-        <item>扫描二维码</item>
-        <item>分享该应用</item>
-    -->
-
-
-    <!--  -->
-    <string-array name="pad_setting_nav">
-        <item>语言</item>
-        <item>网站连结</item>
-        <item>添加到日历</item>
-        <item>重置所有设定</item>
-        <item>私隐政策声明</item>
-        <item>使用条款</item>
-        <item>二维码</item>
-    </string-array>
-
-    <!--  -->
-    <string name="back">返回</string>
-    <string name="home">主目录</string>
-
     <!--  -->
     <string name="no_news">暂无最新消息</string>
     <string name="no_exhibitor">暂无展商资料</string>
@@ -103,32 +39,23 @@
     <string name="no_my_exhibitor">没有收藏的参展商。 \n请到\"参展商名单\"增添参展商。</string>
 
     <!--  -->
-    <string name="title_news">最新消息</string>
-    <string name="title_exhibitor">参展商名单</string>
-     <string name="title_exhibitor_nav">展商资料库</string>
+    <string name="title_news">展会最新消息</string>
+    <string name="title_exhibitor">展商名单</string>
     <string name="title_exhibitor_deti">公司资料</string>
-    <string name="title_agenda">我的日程表</string>
     <string name="title_schedule">我的日程表</string>
-    <string name="title_register">观众预先登记</string>
-    <string name="title_summary">展会概述</string>
-    <string name="title_plan">展馆平面图</string>
+    <string name="title_register">免费观众预登记</string>
     <string name="title_event">同期活动</string>
-    <string name="title_expo">同期展览</string>
-    <string name="title_transportation">交通</string>
-    <string name="title_contact_us">联系我们</string>
     <string name="title_my_exhibitor">我的参展商</string>
     <string name="title_my_account">用户资料</string>
     <string name="title_setting">设置</string>
-    <string name="title_subscribe">订阅电子快讯</string>
-    <string name="edit_schedule">编辑议程</string>
-    <string name="title_exhibitor_advanced_search">进阶搜索</string>
-    <string name="title_exhibitor_keyword_search">关键字搜索</string>
     <string name="title_login">登录</string>
     
     <string name="title_add_note">添加笔记</string>
     <string name="title_add_schedule">添加议程</string>
 
     <string name="dialog_update_event">同期活动内容已更新，请于“内容更新中心”更新最新资料。</string>
+
+    <string name="confirm">确定</string>
 
     <!--  -->
     <string name="title_sort">划</string>
@@ -145,6 +72,7 @@
 
     <string name="added_exhibitor">已添加进我的参展商。</string>
     <string name="removed_exhibitor">已从我的参展商中移除。</string>
+    <string name="exhibitor_sort_by">排序:</string>
 
     <!--  -->
     <string name="booth">展览摊位：</string>
@@ -167,12 +95,12 @@
     <string name="toast_floor_download">为了更好的体验平面图功能，请您更新展馆平面图对应数据。</string>
     <string name="toast_floor_update">请您更新平面图数据，以便获取更准确的资料。</string>
 
-    <string name="sort_by_az">Pingyin</string>
-    <string name="sort_by_hall">Hall</string>
+    <string name="sort_by_az">拼音</string>
+    <string name="sort_by_hall">展馆</string>
 
     <string name="title_filter">筛选</string>
     <string name="filter_industry">产品类别</string>
-    <string name="filter_application">应用分类</string>
+    <string name="filter_application">应用行业</string>
     <string name="filter_country">国家</string>
     <string name="filter_hall">展馆</string>
     <string name="filter_booth">专区</string>
@@ -180,18 +108,19 @@
     <string name="filter_new_tec">首发技术</string>
     <string name="filter_keyword_hint">输入关键字</string>
 
-    <string name="filter_clear_all">清空篩選條件</string>
-    <string name="filter_ok">篩選</string>
-    <string name="filter_search">搜尋</string>
+    <string name="filter_clear_all">清空筛选条件</string>
+    <string name="filter_ok">筛选</string>
+    <string name="filter_search">搜寻</string>
 
     <string name="new_tec_booth">展台号：%s</string>
     <string name="new_tec_ad">广告商产品</string>
+    <string name="title_new_tec_dtl">产品详情</string>
 
     <string name="filter_product">产品</string>
     <string name="filter_applications">应用</string>
     <string name="new_tec_Product_A">机械及仪器</string>
     <string name="new_tec_Product_B">化工及原料</string>
-    <string name="new_tec_Product_C">2017 展会首发技术</string>
+    <string name="new_tec_Product_C">2018 展会首发技术</string>
 
     <!--  -->
     <string name="addScheduleInfo">新增议程</string>
@@ -219,7 +148,7 @@
     <string name="schedule_minute">分钟</string>
     <string name="schedule_save">储存</string>
     <string name="schedule_del">删除</string>
-    <string name="schedule_date">2017年5月</string>
+    <string name="schedule_date">2018年4月</string>
 
     <string name="schedule_exhibitor">参展商</string>
     <string name="schedule_event">同期活动</string>
@@ -229,36 +158,18 @@
     <string name="no_keyword_result">如需获取所有展商列表，请前往內容更新中心更新展商资料库。</string>
 
     <!--  -->
-    <string name="register_str001">如要豁免入场费及尽享预先登记观众之优惠，请于以下登记。</string>
-    <string name="register_str002">登记资料</string>
-    <string name="register_str003">观众姓名（请输入一个名字）</string>
     <string name="register_str004">电邮</string>
-    <string name="register_strTel">手机号码</string>
-    <string name="register_strLanguage">语言</string>
-    <string name="register_str005">手机</string>
-    <string name="register_str006">(国家编码)-(电话号码)</string>
     <string name="register_msg001">请输入观众姓名！</string>
     <string name="register_msg002">输入观众姓名时，请不要输入数位或符号！</string>
     <string name="register_msg003">请输入电邮！</string>
     <string name="register_msg004">请输入有效的电邮！</string>
-    <string name="register_msg005">请输入手机:-国家编码！</string>
-    <string name="register_msg006">请输入有效的手机:-国家编码！</string>
-    <string name="register_msg007">请输入手机:-电话号码！</string>
-    <string name="register_msg008">请输入有效的手机:-电话号码！</string>
-    <string name="register_msg009">登记成功！</string>
-    <string name="register_msg010">登记失败！</string>
-    <string name="register_msg011">你已成功登记为「国际橡塑展」的专业观众。请保留手机中的登记资料图档幷带同阁下的名片两张，于展会现场的「网上预先登记」登记柜台换取阁下的观众胸卡进场。</string>
-    <string name="register_msg012">* 如您于展会未能出示以上讯息及名片，请于现场重新办理登记手续。</string>
     <string name="register_msg013">请输入公司名称！</string>
     <string name="reg_submit">递交</string>
     <string name="reg_reset">重置</string>
     <string name="reg_again">重来</string>
     <string name="reg_invoice">获取发票</string>
      <string name="reg_calendar">添加到日历</string>
-    <string name="Input_Outlimit_Msg">内容长度超过系统限制</string>
     <string name="NoNetwok_Msg">对不起!不能连接网络,请稍后再试！</string>
-    <string name="register_str007">你已成功登记为「国际橡塑展」的专业观众。请保留手机中的登记资料图档并带同阁下的名片两张，于展会现场的「网上预先登记」登记柜台换取阁下的观众胸卡进场。</string>
-    <string name="register_str008">* 如您于展会未能出示以上信息及名片，请于现场重新办理登记手续。</string>
     <string name="Registering_MSg">正在提交数据，请稍后！</string>
     <string name="thx_dy">感谢您的订阅</string>
 
@@ -274,28 +185,22 @@
     <string name="no">否</string>
 
     <!--  -->
-    <string name="notes">欢迎来临国际橡塑展2017</string>
+    <string name="notes">欢迎来临国际橡塑展2018</string>
     <string name="ask_addToCalendar">确定要将展览日期存入日历表吗？</string>
     <string name="ok">确定</string>
     <string name="cancel">取消</string>
     <string name="addToCalendar_success">已成功汇入行事历！</string>
     <string name="addToCalendar_fail">汇入行事历失败！</string>
      <string name="calendar_description">「CHINAPLAS 国际橡塑展」伴随着中国塑料及橡胶行业成长逾30年，至今已发展成为亚洲最具规模之橡塑业展会，并对中国橡塑业的发展产生了积极的推动作用。目前，「CHINAPLAS 国际橡塑展」不单是亚洲最大型的塑料及橡胶业展览会，业内人士更公认其影响力仅次于全球第一大橡塑展的德国「K展」, 成为橡塑业的世界第二大展会。</string>
-	<string name="calendar_location">中国广州．琶洲．中国进出口商品交易会展馆 \n(中国广州市琶洲阅江中路382号(邮编：510335))</string>
-     
+	<string name="calendar_location">中国‧上海‧虹桥‧国家会展中心 \n(中国上海市青浦区崧泽大道333号)</string>
+
     <!--  -->
     <string name="select_url">请选择网站版本</string>
-    <string name="sharetitle">国际橡塑展2017</string>
+    <string name="sharetitle">国际橡塑展2018</string>
 
     <string-array name="url_ver">
         <item>完整版</item>
         <item>移动版</item>
-    </string-array>
-
-    <!--  -->
-    <string-array name="urls">
-        <item>http://www.chinaplasonline.com/CPS17/Home/lang-simp/Information.aspx</item>
-        <item>http://www.chinaplasonline.com/CPS17/Mobile/lang-eng/Home.aspx</item>
     </string-array>
 
     <!--  -->
@@ -306,17 +211,7 @@
     <string name="EXIT_MSG">离开国际橡塑展？</string>
 
     <!--  -->
-    <string-array name="sharing_platform">
-        <item>Facebook</item>
-        <item>Twitter</item>
-        <item>微信好友</item>
-        <item>微信朋友圈</item>
-        <item>微博</item>
-        <item>QQ</item>
-        <item>LinkeIn</item>
-    </string-array>
 
-    <string name="selcet_sharing_platform">请选择分享平台</string>
     <string name="share">分享</string>
     <string name="Share_success">分享成功 </string>
     <string name="Share_failed">分享失败</string>
@@ -326,10 +221,10 @@
     <string name="title_technical_seminar">技术交流会</string>
 
     <!-- 分享该应用 -->
-    <string name="share_app">分享</string>
     <string name="share_exhibitor_booth">展台号：</string>
     
     <!-- 設置 -->
+    <string name="select_Language">请选择</string>
     <string name="setting_language">语言</string>
     <string name="setting_website">网站连结</string>
     <string name="setting_add_to_calendar">添加到日历</string>
@@ -351,9 +246,7 @@
     <string name="qrcode_edit_save">保存&amp;更新二维码</string>
 
     <!-- 登录 -->
-    <string name="login_title_1">预先登记观众登入</string>
     <string name="login_title">观众登入</string>
-    <string name="login_title_2">登出</string>
     <string name="login_text1">请输入预先登记的登入电邮及密码</string>
     <string name="login_text2">登入名称:</string>
     <string name="login_text3">密码:</string>
@@ -373,7 +266,8 @@
     <string name="login_first_add_exhibitor">需要登录后才能添加參展商，是否登录？</string>
     <string name="login_first_add_schedule">需要登录后才能添加议程，是否登录？</string>
     <string name="login_first_save_note">需要登录后才能添加保存笔记，是否登录？</string>
-    
+    <string name="login_first_sync">需要登录后才能同步，是否登录？</string>
+
     
     <!-- logout -->
     <string name="logout">登出</string>
@@ -382,6 +276,8 @@
     <string name="syncSuccess">同步成功</string>
     <string name="syncFailure">同步失败</string>
     <string name="syncStart">开始同步</string>
+
+    <string name="drawer_sync">与官网同步</string>
 
     <!-- 酒店资料 -->
     <string name="title_travel_info">旅游信息</string>
@@ -399,20 +295,6 @@
     <string name="update_map">更新</string>
     <string name="exception_toast_email">No email client installed.</string>
     <string name="exception_toast_phone">抱歉，您的设备不支持打电话。</string>
-
-    <!--技術交流會-->
-    <string name="n_zone">北翼</string>
-    <string name="w_zone">西翼</string>
-    <string name="e_zone">东翼</string>
-    <string name="green">绿色:</string>
-    <string name="blue">蓝色:</string>
-    <string name="red">红色: </string>
-    <string name="a_zone">A区</string>
-    <string name="b_zone">B区</string>
-    <string name="technical_seminar">技术交流会</string>
-    <string name="siminar_time_am">上午时段&#160;(10:00&#8211;12:00)</string>
-    <string name="siminar_time_pm">下午时段&#160;(14:00&#8211;16:00)</string>
-    <string name="ts_date">2017年5月</string>
 
     <!-- 技術交流會詳情頁 -->
     <string name="seminar_information">技术交流会概要</string>
@@ -448,8 +330,6 @@
     <string name="toast_export_success">导出完成</string>
     
     <string name="dialog_go">前往</string>
-    <string name="dialog_view">前往</string>
-    <string name="dialog_close">关闭</string>
 
     <!-- name card -->
     <string name="update_card">存储及更新 二维码</string>
@@ -466,15 +346,18 @@
     
     <!-- 分享 -->
     <string name="share_setting_text">国际橡塑展手机应用程式已经开放下载！</string>
-    <string name="share_setting_url">http://www.chinaplasonline.com/CPS17/Mobile/Home/lang-simp/MobileApp.aspx</string>
-    <string name="share_news_link">http://www.chinaplasonline.com/CPS17/Mobile/Home/lang-simp/WhatsNew.aspx</string>
+    <string name="share_setting_url">http://www.chinaplasonline.com/CPS18/Mobile/Home/lang-simp/MobileApp.aspx</string>
+    <string name="share_news_link">http://www.chinaplasonline.com/CPS18/Mobile/Home/lang-simp/WhatsNew.aspx</string>
     <string name="share_sinna_weibo">新浪微博</string>
     <string name="share_qq">QQ</string>
     <string name="share_qq_zone">QQ空间</string>
     <string name="share_wechat_friends">微信好友</string>
     <string name="share_wechat_moments">朋友圈</string>
     <string name="share_email">邮件</string>
-    <string name="share_title">2017 国际橡塑展</string>
+    <string name="share_facebook">Facebook</string>
+    <string name="share_twitter">Twitter</string>
+    <string name="share_whatsApp">WhatsApp</string>
+    <string name="share_title">2018 国际橡塑展</string>
     
      <string name="toast_export_namecard_nodata">请先添加名片好友</string>
      
@@ -496,7 +379,6 @@
     <string name="toast_input_phone">请输入"电话"</string>
     <string name="toast_input_country">请输入"国家编码"</string>
     <string name="toast_input_email">请输入"电子邮件"</string>
-    
     <string name="toast_input_phone_1">电话只允许输入数字。</string>
      <string name="toast_input_country_1">国家编码只允许输入数字。</string>
     <string name="toast_input_email_1">请输入有效的"电子邮件"</string>
@@ -507,9 +389,7 @@
     <string name="loading_check_update">检测到资料需要更新</string>
     <string name="download_map_update">检测到展馆平面图有更新，请在wifi环境下更新展馆平面图。</string>
     
-    <string name="title_search_by_application">按应用行业搜索</string>
-    
-    <string name="favinfo_url">http://www.chinaplasonline.com/apps/2017/HTML/favinfo/SC.htm</string>
+    <string name="favinfo_url">http://www.chinaplasonline.com/apps/2018/HTML/favinfo/SC.htm</string>
     
     <string name="downloading_apk">继续下载</string>
     <string name="check_new_version">CHINAPLAS自动更新</string>
@@ -529,7 +409,7 @@
       <string name="yesterday">昨天</string>
     <string name="past_records">过去</string>
     
-    <string name="title_update_center">更新中心</string>
+    <string name="title_update_center">内容更新中心</string>
     <string name="uc_exhibitor">展商资料</string>
     <string name="uc_floorplan">展馆平面图</string>
     <string name="uc_seminar">技术交流会</string>

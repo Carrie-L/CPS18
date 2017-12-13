@@ -10,6 +10,7 @@ import com.adsale.ChinaPlas.adapter.ApplicationAdapter;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.dao.ApplicationIndustry;
 import com.adsale.ChinaPlas.data.FilterRepository;
+import com.adsale.ChinaPlas.data.NewTecRepository;
 import com.adsale.ChinaPlas.data.model.ExhibitorFilter;
 import com.adsale.ChinaPlas.utils.LogUtil;
 
@@ -39,11 +40,15 @@ public class FilterApplicationListActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        int type = getIntent().getIntExtra("type", 0);
+        int index = getIntent().getIntExtra("index",1);
+        LogUtil.i(TAG,"type="+type);
         if (getIntent().getIntExtra("type", 0) == TYPE_NEW_TEC_PRODUCT) {
-            mList.add(new ApplicationIndustry("0", getString(R.string.new_tec_Product_A)));
-            mList.add(new ApplicationIndustry("1", getString(R.string.new_tec_Product_B)));
+            mList.add(new ApplicationIndustry("A", getString(R.string.new_tec_Product_A)));
+            mList.add(new ApplicationIndustry("B", getString(R.string.new_tec_Product_B)));
         } else if (getIntent().getIntExtra("type", 0) == TYPE_NEW_TEC_APPLICATIONS) {
-
+            NewTecRepository repository = NewTecRepository.newInstance();
+            mList = repository.getApplications(mList);
         } else {
             FilterRepository mRepository = FilterRepository.getInstance();
             mRepository.initAppIndustryDao();
@@ -53,6 +58,7 @@ public class FilterApplicationListActivity extends BaseActivity {
         filters = new ArrayList<>();
         ApplicationAdapter adapter = new ApplicationAdapter(mList, filters);
         recyclerView.setAdapter(adapter);
+        adapter.setIndex(index);
     }
 
     @Override

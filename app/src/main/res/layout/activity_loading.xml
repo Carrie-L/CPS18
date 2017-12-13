@@ -54,6 +54,13 @@
                 android:background="@drawable/bttn_eng" />
         </LinearLayout>
 
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="@{loadingModel.showProgressBar?View.VISIBLE:View.GONE}"
+            />
+
         <!-- M1	广告 -->
         <FrameLayout
             android:id="@+id/framelayout"
@@ -90,6 +97,7 @@
 
 
         </FrameLayout>
+
 
 
     </RelativeLayout>

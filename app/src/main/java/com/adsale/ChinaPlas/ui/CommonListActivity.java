@@ -3,6 +3,7 @@ package com.adsale.ChinaPlas.ui;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.databinding.ObservableBoolean;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.adsale.ChinaPlas.dao.ApplicationIndustry;
 import com.adsale.ChinaPlas.dao.HistoryExhibitor;
 import com.adsale.ChinaPlas.data.model.ExhibitorFilter;
 import com.adsale.ChinaPlas.data.model.MessageCenter;
+import com.adsale.ChinaPlas.databinding.ActivityCommonListBinding;
 import com.adsale.ChinaPlas.helper.IntentHelper;
 import com.adsale.ChinaPlas.ui.view.CpsRecyclerView;
 import com.adsale.ChinaPlas.utils.AppUtil;
@@ -47,16 +49,18 @@ public class CommonListActivity extends BaseActivity {
     private Intent gIntent;
     private String mBaiduTJ;
     private ArrayList<ExhibitorFilter> productFilters;
-
+    public final ObservableBoolean nodata = new ObservableBoolean();
 
     public void initView() {
         gIntent = getIntent();
         barTitle.set(gIntent.getStringExtra("title"));
         mBaiduTJ = gIntent.getStringExtra("baiduTJ");
-        getLayoutInflater().inflate(R.layout.activity_common_list, mBaseFrameLayout);
-
         mContext = getApplicationContext();
-        recyclerView = (CpsRecyclerView) findViewById(R.id.commom_recycler_view);
+
+        ActivityCommonListBinding binding = ActivityCommonListBinding.inflate(getLayoutInflater(),mBaseFrameLayout,true);
+        binding.setView(this);
+        binding.executePendingBindings();
+        recyclerView = binding.commomRecyclerView;
     }
 
     public void initData() {
@@ -114,6 +118,7 @@ public class CommonListActivity extends BaseActivity {
         list.add(new ApplicationIndustry("0", getString(R.string.new_tec_Product_A)));
         list.add(new ApplicationIndustry("1", getString(R.string.new_tec_Product_B)));
         recyclerView.setCpsAdapter(new ApplicationAdapter(list, productFilters));
+        nodata.set(productFilters.isEmpty());
     }
 
     /**
@@ -148,6 +153,7 @@ public class CommonListActivity extends BaseActivity {
         LogUtil.i(TAG, "messages after+++ " + messages.size());
 
         recyclerView.setCpsAdapter(new MessageCenterAdapter(messages));
+        nodata.set(messages.isEmpty());
     }
 
     private void messageCenter(int position) {

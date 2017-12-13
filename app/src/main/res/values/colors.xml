@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#FF3030</color>
     <color name="colorPrimaryDark">#FFDC370C</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#E7380D</color>
 
     <color name="grey21">#363636</color>
     <color name="grey11">#1C1C1C</color>
@@ -35,9 +35,15 @@
     <color name="grey700">#616161</color>
     <color name="blue">#00BCD4</color>
     <color name="uc_transparent">#B21C1C1C</color>
-    <color name="link">#FF7256</color>
+    <color name="link">#00BFFF</color>
 
     <!-- new tec -->
     <color name="blue1">#63B8FF</color>
+
+
+    <color name="drawer_top_bg_color">#F8E3DE</color>
+    <color name="drawer_item_bg_color">#EEEEF0</color>
+    <color name="drawer_arrow_color">#F04D22</color>
+    <color name="filter_color">#E7380D</color>
 
 </resources>

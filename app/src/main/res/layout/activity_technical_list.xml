@@ -13,14 +13,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageView
+            android:id="@+id/iv_ad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:scaleType="fitXY" />
+
         <ScrollView
             android:id="@+id/scroll_left_tech"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_above="@id/iv_ad"
             android:background="#fff"
-            android:padding="16dp"
-            android:scrollbars="none"
-            >
+            android:padding="12dp"
+            android:scrollbars="none">
 
             <LinearLayout
                 android:id="@+id/ll_left_btn"
@@ -29,7 +36,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    style="@style/event_btn_style"
+                    style="@style/tech_btn_style"
                     android:background="@{techModel.mClickPos==0?@drawable/dot_focused:@drawable/dot_grey}"
                     android:onClick="@{()->techModel.onDateClick(0,false)}"
                     android:text="@string/event_btn_all"
@@ -69,8 +76,8 @@
 
                 <TextView
                     style="@style/tech_rect_text_style"
-                    android:onClick="@{()->techModel.onDateClick(2,false)}"
                     android:background="@{techModel.mClickPos==2&amp;&amp;!techModel.isAm?@color/home:@color/grey}"
+                    android:onClick="@{()->techModel.onDateClick(2,false)}"
                     android:text="@string/tech_pm" />
 
                 <!-- day 3 -->
@@ -82,14 +89,14 @@
 
                 <TextView
                     style="@style/tech_rect_text_style"
-                    android:onClick="@{()->techModel.onDateClick(3,true)}"
                     android:background="@{techModel.mClickPos==3&amp;&amp;techModel.isAm?@color/home:@color/grey}"
+                    android:onClick="@{()->techModel.onDateClick(3,true)}"
                     android:text="@string/tech_am" />
 
                 <TextView
                     style="@style/tech_rect_text_style"
-                    android:onClick="@{()->techModel.onDateClick(3,false)}"
                     android:background="@{techModel.mClickPos==3&amp;&amp;!techModel.isAm?@color/home:@color/grey}"
+                    android:onClick="@{()->techModel.onDateClick(3,false)}"
                     android:text="@string/tech_pm" />
 
                 <!-- day 4 -->
@@ -101,14 +108,15 @@
 
                 <TextView
                     style="@style/tech_rect_text_style"
-                    android:onClick="@{()->techModel.onDateClick(4,true)}"
                     android:background="@{techModel.mClickPos==4&amp;&amp;techModel.isAm?@color/home:@color/grey}"
+                    android:onClick="@{()->techModel.onDateClick(4,true)}"
                     android:text="@string/tech_am" />
 
-                <TextView
+                <ImageView
                     style="@style/tech_rect_text_style"
-                    android:onClick="@{()->techModel.onDateClick(4,false)}"
-                    android:background="@{techModel.mClickPos==4&amp;&amp;!techModel.isAm?@color/home:@color/grey}"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/ic_location_map"
+                    android:onClick="@{()->techModel.onDateClick(5,false)}"
                     android:text="@string/tech_pm" />
 
             </LinearLayout>
@@ -118,6 +126,7 @@
             android:id="@+id/rv_seminar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_above="@id/iv_ad"
             android:layout_toRightOf="@id/scroll_left_tech"
             android:background="@color/white_smoke" />
 

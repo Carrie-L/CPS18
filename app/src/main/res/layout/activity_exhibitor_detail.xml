@@ -42,17 +42,6 @@
                 android:layout_centerHorizontal="true">
 
                 <ImageView
-                    android:id="@+id/m5Logo"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="16dp"
-                    android:background="@color/blue"
-                    android:visibility="gone" />
-
-                <ImageView
                     android:id="@id/iv_help"
                     style="@style/help_btn_style"
                     android:onClick="@{()->aty.onHelpPage()}" />
@@ -64,9 +53,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
                     android:layout_marginTop="12dp"
-                    android:layout_toEndOf="@id/m5Logo"
                     android:layout_toLeftOf="@id/iv_help"
-                    android:layout_toRightOf="@id/m5Logo"
                     android:layout_toStartOf="@id/iv_help"
                     android:text="@{model.companyName}"
                     android:textSize="17sp" />
@@ -83,20 +70,10 @@
                 android:layout_marginTop="8dp"
                 android:orientation="horizontal">
 
-
-                <RadioButton
-                    android:id="@+id/tv_about"
-                    style="@style/exhi_label_style"
-                    android:checked="@{model.isAder}"
-                    android:onClick="@{()->model.onAbout()}"
-                    android:text="@string/about_exhi"
-                    android:visibility="@{model.isAder?View.VISIBLE:View.GONE}" />
-
                 <RadioButton
                     android:id="@+id/tv_information"
                     style="@style/exhi_label_style"
-                    android:layout_height="wrap_content"
-                    android:checked="@{!model.isAder}"
+                    android:checked="true"
                     android:onClick="@{()->model.onInfo()}"
                     android:text="@string/info_exhi" />
 

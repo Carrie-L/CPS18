@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    >
 
     <data>
-
         <variable
             name="ncModel"
             type="com.adsale.ChinaPlas.viewmodel.NCardViewModel" />
@@ -12,13 +10,16 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_margin="16dp"
+
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="16dp"
-            android:background="@drawable/edittext_bg">
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_bg"
+            >
 
             <TextView
                 android:id="@+id/tv_company"
@@ -38,6 +39,8 @@
                 android:layout_marginRight="16dp"
                 android:layout_toRightOf="@id/tv_company"
                 android:text="@={ncModel.company}"
+                android:singleLine="true"
+                android:nextFocusDown="@+id/et_name"
                 />
 
             <TextView
@@ -51,7 +54,10 @@
                 style="@style/ncard_edit_style"
                 android:layout_alignTop="@id/tv_name"
                 android:gravity="center_vertical"
-                android:text="@={ncModel.name}" />
+                android:text="@={ncModel.name}"
+                android:singleLine="true"
+                android:nextFocusDown="@+id/et_title"
+                />
 
             <!--title-->
             <TextView
@@ -64,7 +70,10 @@
                 android:id="@+id/et_title"
                 style="@style/ncard_edit_style"
                 android:layout_alignTop="@id/tv_title"
-                android:text="@={ncModel.title}" />
+                android:text="@={ncModel.title}"
+                android:singleLine="true"
+                android:nextFocusDown="@+id/et_phone1"
+                />
 
             <!--Phone-->
             <TextView
@@ -83,6 +92,8 @@
                 android:inputType="phone"
                 android:text="@={ncModel.phone1}"
                 android:maxLength="4"
+                android:singleLine="true"
+                android:nextFocusDown="@+id/et_phone2"
                 />
 
             <ImageView
@@ -106,6 +117,8 @@
                 android:inputType="phone"
                 android:text="@={ncModel.phone2}"
                 android:maxLength="20"
+                android:singleLine="true"
+                android:nextFocusDown="@+id/et_email"
                 />
 
             <!--Email-->
@@ -119,7 +132,10 @@
                 android:id="@+id/et_email"
                 style="@style/ncard_edit_style"
                 android:layout_alignTop="@id/tv_email"
-                android:text="@={ncModel.email}" />
+                android:text="@={ncModel.email}"
+                android:singleLine="true"
+                android:nextFocusDown="@+id/et_qq"
+                />
 
             <!--QQ-->
             <TextView
@@ -132,7 +148,11 @@
                 android:id="@+id/et_qq"
                 style="@style/ncard_edit_style"
                 android:layout_alignTop="@id/tv_qq"
-                android:text="@={ncModel.qq}" />
+                android:text="@={ncModel.qq}"
+                android:singleLine="true"
+                android:nextFocusDown="@+id/et_weChat"
+                android:inputType="number"
+                />
 
             <!--WeChat-->
             <TextView
@@ -145,7 +165,10 @@
                 android:id="@+id/et_weChat"
                 style="@style/ncard_edit_style"
                 android:layout_alignTop="@id/tv_weChat"
-                android:text="@={ncModel.weChat}" />
+                android:text="@={ncModel.weChat}"
+                android:singleLine="true"
+                android:imeOptions="actionDone"
+                />
 
             <Button
                 android:id="@+id/btnQrCode"

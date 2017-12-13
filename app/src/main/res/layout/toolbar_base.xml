@@ -20,6 +20,7 @@
 
 
         <include
+            android:id="@+id/layout_title_bar"
             layout="@layout/view_title_bar"
             app:activity="@{activity}" />
 

@@ -1,6 +1,8 @@
 package com.adsale.ChinaPlas.ui;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.widget.Toast;
 
@@ -25,9 +27,14 @@ public class NCardCreateEditActivity extends BaseActivity implements NCardViewMo
 
     @Override
     protected void initView() {
+        SharedPreferences spNameCard = getSharedPreferences("MyNameCard", Context.MODE_PRIVATE);
+        boolean isCreate = spNameCard.getBoolean("isCreate", true);
+        barTitle.set(isCreate ? getString(R.string.create_card) : getString(R.string.title_edit_name_card));
+
         binding = ActivityNcardCreateEditBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         viewModel = new NCardViewModel(getApplicationContext());
         binding.setNcModel(viewModel);
+        viewModel.isCreate.set(isCreate);
     }
 
     @Override
@@ -51,15 +58,15 @@ public class NCardCreateEditActivity extends BaseActivity implements NCardViewMo
 
     @Override
     public boolean checkNotNull() {
-        if (viewModel.company.get()==null||viewModel.company.get().trim().equals("")) {
+        if (viewModel.company.get() == null || viewModel.company.get().trim().equals("")) {
             Toast.makeText(getApplicationContext(), getString(R.string.toast_input_company), Toast.LENGTH_SHORT).show();
             binding.etCompany.requestFocus();
             return false;
         }
 
         // 姓名
-        if (viewModel.name.get()==null||viewModel.name.get().trim().equals("")) {
-            Toast.makeText(getApplicationContext(),getString(R.string.toast_input_name), Toast.LENGTH_SHORT).show();
+        if (viewModel.name.get() == null || viewModel.name.get().trim().equals("")) {
+            Toast.makeText(getApplicationContext(), getString(R.string.toast_input_name), Toast.LENGTH_SHORT).show();
             binding.etName.requestFocus();
             return false;
         }
@@ -112,7 +119,7 @@ public class NCardCreateEditActivity extends BaseActivity implements NCardViewMo
             return false;
         }
 
-//        deviceId = SystemMethod.getDeviceId(getApplicationContext());
+//        deviceId = AppUtil.getDeviceId(getApplicationContext());
 //        Log.d("TAG", "deviceIddeviceIddeviceIddeviceId:" + deviceId);
 
         return true;
@@ -120,9 +127,9 @@ public class NCardCreateEditActivity extends BaseActivity implements NCardViewMo
 
     @Override
     public void saved() {
-        if(!getIntent().getBooleanExtra("edit",false)){
-            LogUtil.i(TAG,"! EDIT");
-            Intent intent = new Intent(this,NCardActivity.class);
+        if (!getIntent().getBooleanExtra("edit", false)) {
+            LogUtil.i(TAG, "! EDIT");
+            Intent intent = new Intent(this, NCardActivity.class);
             startActivity(intent);
         }
         finish();

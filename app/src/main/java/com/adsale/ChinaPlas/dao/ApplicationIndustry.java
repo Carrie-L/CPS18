@@ -32,7 +32,9 @@ public class ApplicationIndustry implements Parcelable {
     public String industry;
     // KEEP FIELDS END
 
+    public ApplicationIndustry(){
 
+    }
 
     public ApplicationIndustry(String IndustryID) {
         this.IndustryID = IndustryID;

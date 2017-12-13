@@ -2,12 +2,16 @@ package com.adsale.ChinaPlas.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.WebView;
 
+import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.databinding.ActivityRegisterBinding;
+import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.PermissionUtil;
 import com.adsale.ChinaPlas.viewmodel.RegisterViewModel;
 import com.pingplusplus.android.Pingpp;
@@ -19,9 +23,14 @@ public class RegisterActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        if(TextUtils.isEmpty(barTitle.get())){
+            barTitle.set(getString(R.string.title_register));
+        }
         binding = ActivityRegisterBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         mRegModel = new RegisterViewModel(this);
         binding.setRegModel(mRegModel);
+        binding.setAty(this);
+        binding.executePendingBindings();
     }
 
     @Override
@@ -30,8 +39,17 @@ public class RegisterActivity extends BaseActivity {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setDomStorageEnabled(true);
         mRegModel.start(webView, binding.ivRegisted, binding.progressBar);
+    }
 
+    public void onReset(){
+        barTitle.set(getString(R.string.title_register));
+        mRegModel.reset();
+    }
 
+    public void onGetInvoice(){
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mRegModel.getInvoiceUrl()));
+        startActivity(intent);
+        overridePendingTransPad();
     }
 
     @Override
@@ -51,14 +69,15 @@ public class RegisterActivity extends BaseActivity {
                  */
                 String errorMsg = data.getExtras().getString("error_msg"); // 错误信息
                 String extraMsg = data.getExtras().getString("extra_msg"); // 错误信息
-                Log.i(TAG, "result=" + result + ",errorMsg=" + errorMsg + ",extraMsg=" + extraMsg);
+                LogUtil.i(TAG, "result=" + result + ",errorMsg=" + errorMsg + ",extraMsg=" + extraMsg);
 
                 if (result.contains("success")) { /* 刷新确认信 */
                     mRegModel.paySuccess();
                 } else if (result.contains("fail")) { /* 支付失败，重新调起支付 */
                     mRegModel.createPayment();
-                }
+                }else if(result.equals("cancel")){
 
+                }
             }
         }
     }

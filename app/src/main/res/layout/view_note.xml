@@ -2,10 +2,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-
         <variable
             name="model"
             type="com.adsale.ChinaPlas.viewmodel.ExhibitorDtlViewModel" />
+
     </data>
 
     <RelativeLayout
@@ -26,7 +26,11 @@
             android:background="@drawable/edittext_bg"
             android:gravity="start|top"
             android:lineSpacingExtra="1.5dp"
-            android:padding="8dp" />
+            android:padding="8dp"
+            android:textColor="@color/grey11"
+            android:text="@={model.mNote}"
+            android:cursorVisible="true"
+            />
 
         <!--展商评分-->
         <TextView
@@ -52,24 +56,28 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
                 android:background="@{model.mRate>=2?@drawable/btn_star:@drawable/btn_unstar}"
                 android:onClick="@{()->model.onRate(2)}" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
                 android:background="@{model.mRate>=3?@drawable/btn_star:@drawable/btn_unstar}"
                 android:onClick="@{()->model.onRate(3)}" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
                 android:background="@{model.mRate>=4?@drawable/btn_star:@drawable/btn_unstar}"
                 android:onClick="@{()->model.onRate(4)}" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
                 android:background="@{model.mRate==5?@drawable/btn_star:@drawable/btn_unstar}"
                 android:onClick="@{()->model.onRate(5)}" />
 
@@ -82,28 +90,27 @@
             android:layout_below="@id/ll_rate"
             android:layout_marginTop="12dp"
             android:text="@string/exhi_dtl_note_photo"
-            android:visibility="gone"
             />
 
         <TextView
             android:id="@+id/btn_photo"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="@dimen/item_photo_height"
+            android:layout_height="@dimen/item_photo_height"
             android:layout_alignParentRight="true"
             android:layout_below="@id/tv_photo"
-            android:background="@color/blue"
+            android:background="@drawable/btn_take_photo"
             android:gravity="center"
-            android:text="拍照"
             android:onClick="@{()->model.onTakePhoto()}"
-            android:textColor="#fff"
-            android:visibility="gone"
+            android:textColor="#bfbfbf"
             />
 
-        <!--<android.support.v7.widget.RecyclerView-->
-            <!--android:id="@+id/photo_recycler_view"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="120dp"-->
-            <!--android:layout_toLeftOf="@id/tv_photo" />-->
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/photo_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_photo_height"
+            android:layout_toLeftOf="@id/btn_photo"
+            android:layout_alignTop="@id/btn_photo"
+            />
 
 
     </RelativeLayout>

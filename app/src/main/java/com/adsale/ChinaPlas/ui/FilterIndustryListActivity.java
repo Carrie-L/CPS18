@@ -11,13 +11,11 @@ import android.text.TextWatcher;
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.adapter.IndustryAdapter;
 import com.adsale.ChinaPlas.base.BaseActivity;
-import com.adsale.ChinaPlas.dao.ApplicationIndustry;
 import com.adsale.ChinaPlas.dao.Industry;
 import com.adsale.ChinaPlas.data.FilterRepository;
 import com.adsale.ChinaPlas.data.model.ExhibitorFilter;
 import com.adsale.ChinaPlas.databinding.ActivityFilterIndustryBinding;
 import com.adsale.ChinaPlas.ui.view.SideLetter;
-import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.RecyclerViewScrollTo;
 
@@ -25,7 +23,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Carrie on 2017/10/17.
- * 产品类别列表
+ * 产品类别列表  Product Category
  */
 
 public class FilterIndustryListActivity extends BaseActivity implements SideLetter.OnLetterClickListener {
@@ -39,6 +37,7 @@ public class FilterIndustryListActivity extends BaseActivity implements SideLett
     private LinearLayoutManager layoutManager;
     public final ObservableField<String> dialogLetter = new ObservableField<>("");
     private RecyclerViewScrollTo mRVScrollTo;
+    private ArrayList<String> letters = new ArrayList<>();
 
     @Override
     protected void initView() {
@@ -65,23 +64,20 @@ public class FilterIndustryListActivity extends BaseActivity implements SideLett
         setupSideLetter();
     }
 
-    public void setupSideLetter() {
-        ArrayList<String> letters = mRepository.getIndustryLetters();
-        sideLetter.setList(letters);
-        sideLetter.setOnLetterClickListener(this);
-        mRVScrollTo = new RecyclerViewScrollTo(layoutManager, recyclerView);
-    }
-
     private void getIndustries() {
         industries.clear();
         if (industryCaches.isEmpty()) {
             LogUtil.i(TAG, "getIndustries:industryCaches.isEmpty()");
-            industryCaches = mRepository.getIndustries(App.mLanguage.get());
-        } else {
-            LogUtil.i(TAG, "getIndustries:industryCaches.is not Empty()");
+            industryCaches = mRepository.getIndustries(App.mLanguage.get(), letters);
         }
         industries.addAll(industryCaches);
         LogUtil.i(TAG, "industryCaches=" + industryCaches.size() + "," + industryCaches.toString());
+    }
+
+    public void setupSideLetter() {
+        sideLetter.setList(letters);
+        sideLetter.setOnLetterClickListener(this);
+        mRVScrollTo = new RecyclerViewScrollTo(layoutManager, recyclerView);
     }
 
     TextWatcher filterWatcher = new TextWatcher() {

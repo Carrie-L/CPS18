@@ -1,26 +1,8 @@
 package com.adsale.ChinaPlas.data;
 
-import java.io.File;
-import java.io.StringReader;
-import java.util.ArrayList;
-
-import javax.xml.parsers.SAXParserFactory;
-
-import org.xml.sax.Attributes;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.DefaultHandler;
-
-import android.graphics.Paint.FontMetrics;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.adsale.ChinaPlas.App;
-import com.adsale.ChinaPlas.dao.Exhibitor;
-import com.adsale.ChinaPlas.dao.ExhibitorIndustryDtl;
-import com.adsale.ChinaPlas.dao.Floor;
-import com.adsale.ChinaPlas.dao.Industry;
 import com.adsale.ChinaPlas.dao.MainIcon;
 import com.adsale.ChinaPlas.dao.MapFloor;
 import com.adsale.ChinaPlas.dao.News;
@@ -28,6 +10,17 @@ import com.adsale.ChinaPlas.dao.NewsLink;
 import com.adsale.ChinaPlas.dao.WebContent;
 import com.adsale.ChinaPlas.utils.FileUtils;
 import com.adsale.ChinaPlas.utils.LogUtil;
+
+import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.DefaultHandler;
+
+import java.io.StringReader;
+import java.util.ArrayList;
+
+import javax.xml.parsers.SAXParserFactory;
 
 public class ContentHandler extends DefaultHandler {
 
@@ -167,7 +160,9 @@ public class ContentHandler extends DefaultHandler {
 
         // -----------------MainIcon--------------------
         if (isMainIcon) {
-            if ("IconID".equals(nodeName)) {
+            if(nodeName.equals("IsDelete")){
+                mMainIcon.setIsDelete(strData.equals("false")?0:1);
+            }else if ("IconID".equals(nodeName)) {
                 mMainIcon.setIconID(strData);
             } else if ("CType".equals(nodeName)) {
                 mMainIcon.setCType(Integer.valueOf(strData));

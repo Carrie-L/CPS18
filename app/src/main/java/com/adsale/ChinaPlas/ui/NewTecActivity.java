@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 
 import com.adsale.ChinaPlas.App;
-import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.NewTecListAdapter;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.dao.NewProductInfo;
@@ -25,18 +24,20 @@ import com.adsale.ChinaPlas.utils.Parser;
 import java.util.ArrayList;
 
 public class NewTecActivity extends BaseActivity implements OnIntentListener {
-    //    public final ObservableField<String> etFilter = new ObservableField<>();
     private ActivityNewTecBinding binding;
     private SideDataView mSideDataView;
-    private ArrayList<NewProductInfo> products;  /*  没有广告的、从数据库取出的 产品列表 */
-    private ArrayList<NewProductInfo> productCaches = new ArrayList<>();  /* 包含产品和广告的全部列表 */
+    private ArrayList<NewProductInfo> products;  /*  没有广告的、从数据库取出的 产品列表, 用于 搜索 时判断 */
+    private ArrayList<NewProductInfo> productCaches = new ArrayList<>(); /*  没有广告的、从数据库取出的 产品列表缓存，当返回筛选结果时，在这个列表里选择符合条件的数据 */
+    private ArrayList<NewProductInfo> listCaches = new ArrayList<>();  /* 包含产品和广告的全部列表缓存，用于清空搜索时还原列表 */
     private ArrayList<NewProductInfo> list = new ArrayList<>(); /*  交给adapter的列表（可能有产品和广告） */
+
     private RecyclerView recyclerView;
     private NewTecListAdapter adapter;
     private NewProductInfo entity;
     private ArrayList<NewTec.ADProduct> adProducts = new ArrayList<>();
     private int adSize;
     private NewTec.ADProduct adProduct;
+    private NewTecRepository mRepository;
 
     @Override
     protected void initView() {
@@ -50,26 +51,23 @@ public class NewTecActivity extends BaseActivity implements OnIntentListener {
     @Override
     protected void initData() {
         mSideDataView.initRecyclerView(recyclerView);
-        ArrayList<String> letters = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            letters.add(i + "a");
-        }
-        mSideDataView.setupSideLitter(letters);
         getList();
+//        mSideDataView.initNewTecProducts(list,letters);
         generateAdList();
         insertAdList();
-        productCaches.addAll(list);
+        listCaches.addAll(list);
         adapter = new NewTecListAdapter(getApplicationContext(), list, this);
         recyclerView.setAdapter(adapter);
-
+        recyclerView.requestFocus();
         search();
     }
 
     private void getList() {
-        NewTecRepository mRepository = NewTecRepository.newInstance();
+        mRepository = NewTecRepository.newInstance();
         mRepository.initDao();
         products = mRepository.getAllProductInfoList();
         list.addAll(products);
+        productCaches.addAll(products);
     }
 
     /**
@@ -111,6 +109,8 @@ public class NewTecActivity extends BaseActivity implements OnIntentListener {
                             adProduct.Description_EN);
                     entity.adItem = true;
                     entity.image = adProduct.FirstPageImage;
+                    entity.imageLinks = adProduct.ImageLinks;
+                    entity.videoLink = adProduct.vedioLink;
                     list.add(i, entity);
                 }
             } else {
@@ -119,6 +119,9 @@ public class NewTecActivity extends BaseActivity implements OnIntentListener {
         }
     }
 
+    /**
+     * 可按 公司名、产品名、展台号 搜索
+     */
     private void search() {
         binding.editFilter.addTextChangedListener(new TextWatcher() {
             @Override
@@ -134,14 +137,15 @@ public class NewTecActivity extends BaseActivity implements OnIntentListener {
             @Override
             public void afterTextChanged(Editable editable) {
                 if (TextUtils.isEmpty(editable.toString())) {
-                    adapter.setList(productCaches);
+                    adapter.setList(listCaches);
                 } else {
                     list.clear();
                     /* 从 products 产品列表中选出符合的list，再用 generateAdList() 向 list 中插入广告列表 */
                     for (int i = 0; i < products.size(); i++) {
                         entity = products.get(i);
                         if (entity.getBoothNo().toLowerCase().contains(editable.toString().toLowerCase())
-                                || entity.isContainsCompany(editable.toString())) {
+                                || entity.isContainsCompany(editable.toString())
+                                || entity.isContainsProductName(editable.toString())) {
                             list.add(entity);
                         }
                     }
@@ -153,26 +157,39 @@ public class NewTecActivity extends BaseActivity implements OnIntentListener {
     }
 
     public void onFilter() {
-        intent(NewTecFilterActivity.class,getString(R.string.title_filter));
+        Intent intent = new Intent(this, NewTecFilterActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivityForResult(intent, 1);
     }
-
 
     @Override
     public <T> void onIntent(T entity, Class toCls) {
-
+        Intent intent = new Intent(this, NewTecDtlActivity.class);
+        intent.putExtra("obj", (NewProductInfo) entity);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        TAG = "NewTecActivity";
         if (data == null) {
             return;
         }
         ArrayList<ExhibitorFilter> filters = data.getParcelableArrayListExtra("data");
+        if (filters.size() == 0) {
+            return;
+        }
         LogUtil.i(TAG, "onActivityResult::filters=" + filters.size() + "," + filters.toString());
         list.clear();
-
-
-        LogUtil.i(TAG, "mExhibitorModel.letters= " + mExhibitorModel.mLetters.size() + "," + mExhibitorModel.mLetters.toString());
+        listCaches.clear();
+        products.clear();
+        list = mRepository.getFilterList(productCaches, filters);
+        products.addAll(list);
+        insertAdList();
+        adapter.setList(list);
+        listCaches.addAll(list);
+        LogUtil.i(TAG, "list= " + list.size() + "," + list.toString());
     }
 }

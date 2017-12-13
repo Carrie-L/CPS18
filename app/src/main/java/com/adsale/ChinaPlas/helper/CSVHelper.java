@@ -1,6 +1,5 @@
 package com.adsale.ChinaPlas.helper;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.text.TextUtils;
@@ -43,7 +42,6 @@ import static com.adsale.ChinaPlas.utils.AppUtil.getInputStream;
 
 public class CSVHelper {
     private final String TAG = "CSVHelper";
-    private ContentValues cv;
     private Context mContext;
     private BufferedReader br;
     private ExhibitorRepository mExhibitorRepository;
@@ -167,6 +165,7 @@ public class CSVHelper {
 
     public void initExhibitorCsvHelper() {
         mExhibitorRepository = ExhibitorRepository.getInstance();
+        mExhibitorRepository.initCsvDao();
     }
 
 
@@ -200,6 +199,16 @@ public class CSVHelper {
                         entity.setCompanyNameCN(entity.getCompanyNameCN().trim());
                         entity.setCompanyNameEN(entity.getCompanyNameEN().trim());
                         entity.setCompanyNameTW(entity.getCompanyNameTW().trim());
+
+                        if(entity.getStrokeEng().equals("#")){
+                            entity.setStrokeEng("ZZZ#");
+                        }
+                        if(entity.getStrokeTrad().equals("#")){
+                            entity.setStrokeTrad("999#");
+                        }
+                        if(entity.getPYSimp().equals("#")){
+                            entity.setPYSimp("ZZZ#");
+                        }
 
                         if (entity.getIsFavourite() == null) {
                             entity.setIsFavourite(0);
@@ -271,12 +280,11 @@ public class CSVHelper {
      * @param list1   exhibitors.csv的数据
      * @param listDes <font color="#f97798">ExhibitorDescripton.csv</font>
      */
-    public void combineExhibitorList(ArrayList<Exhibitor> list1, ArrayList<Exhibitor> listDes) {
-        long startTime = System.currentTimeMillis();
+    private void combineExhibitorList(ArrayList<Exhibitor> list1, ArrayList<Exhibitor> listDes) {
         int size1 = list1.size();
         int size2 = listDes.size();
-        Exhibitor entity1 = null;
-        Exhibitor entity2 = null;
+        Exhibitor entity1 ;
+        Exhibitor entity2;
         for (int i = 0; i < size1; i++) {
             entity1 = list1.get(i);
             for (int j = 0; j < size2; j++) {
@@ -299,7 +307,7 @@ public class CSVHelper {
     /**
      * 读取CompanyApplication.csv，且存入数据库表APPLICATION_COMPANY
      */
-    public void readCompanyApplicationCSV(InputStream is) {
+    private void readCompanyApplicationCSV(InputStream is) {
         long startTime = System.currentTimeMillis();
         ArrayList<ApplicationCompany> entities = new ArrayList<>();
         ApplicationCompany entity = null;
@@ -341,7 +349,7 @@ public class CSVHelper {
     /**
      * 读取Application.csv，且存入数据库表APPLICATION_INDUSTRY
      */
-    public void readApplicationCSV(InputStream is) {
+    private void readApplicationCSV(InputStream is) {
         long startTime = System.currentTimeMillis();
         ArrayList<ApplicationIndustry> entities = new ArrayList<>();
         ApplicationIndustry entity = null;
@@ -382,7 +390,7 @@ public class CSVHelper {
     /**
      * 读取ExhibitionCatalogProductLang.csv，且存入数据库表INDUSTRY
      */
-    public void readExhibitionCatalogProductLangCSV(InputStream is) {
+    private void readExhibitionCatalogProductLangCSV(InputStream is) {
         long startTime = System.currentTimeMillis();
         ArrayList<Industry> entities = new ArrayList<>();
         Industry entity = null;
@@ -396,15 +404,18 @@ public class CSVHelper {
                     while ((line = reader.readNext()) != null) {
                         entity = new Industry();
                         entity.parser(line);
-                        enSort = entity.getCatEng().trim();
                         entity.setCatEng(entity.getCatEng().trim());
+
+                        // 由于csv中没有 EN 排序，因此在代码中提取 CatEng 的首字母，保存到 enSort 中。
+                        // 为了在get list时方便排序，将# 放到最后，将#赋值为 ZZZ#.因此在取出时记得replace ZZZ
+                        enSort = entity.getCatEng();
                         if (enSort.startsWith("(")) {
                             enSort = enSort.replace("(", "#");
                         } else if (Character.isDigit(enSort.charAt(0))) {
                             enSort = enSort.replace(enSort.charAt(0), '#');
                         }
                         enSort = AppUtil.getFirstChar(enSort);
-                        entity.setEN_SORT(enSort);
+                        entity.setEN_SORT("ZZZ".concat(enSort));
                         entities.add(entity);
                     }
                 }
@@ -434,7 +445,7 @@ public class CSVHelper {
     /**
      * 读取CompanyCatalogProduct.csv，且存入数据库表EXHIBITOR_INDUSTRY_DTL
      */
-    public void readCompanyCatalogProductCSV(InputStream is) {
+    private void readCompanyCatalogProductCSV(InputStream is) {
         long startTime = System.currentTimeMillis();
         ArrayList<ExhibitorIndustryDtl> entities = new ArrayList<>();
         ExhibitorIndustryDtl entity = null;
@@ -475,7 +486,7 @@ public class CSVHelper {
     /**
      * 读取BusinessMapping.csv，且存入数据库表EXHIBITOR_INDUSTRY_DTL
      */
-    public void readBusinessMappingCSV(InputStream is) {
+    private void readBusinessMappingCSV(InputStream is) {
         long startTime = System.currentTimeMillis();
         ArrayList<BussinessMapping> entities = new ArrayList<>();
         BussinessMapping entity = null;
@@ -563,7 +574,7 @@ public class CSVHelper {
      * 读取Hall.csv，且存入数据库表FLOOR_PLAN_COORDINATE
      * <P>FloorPlan坐标信息
      */
-    public void readHallCSV(InputStream is) {
+    private void readHallCSV(InputStream is) {
         long startTime = System.currentTimeMillis();
         ArrayList<Floor> entities = new ArrayList<>();
         Floor entity;
@@ -609,7 +620,7 @@ public class CSVHelper {
 //        SeminarInfo entity = null;
 //        CSVReader reader;
 //        DBHelper dbHelper = App.dbHelper;
-//        InputStream is = SystemMethod.getInputStream("TechnicalSeminar/SeminarInfo.csv");
+//        InputStream is = AppUtil.getInputStream("TechnicalSeminar/SeminarInfo.csv");
 //        if (is != null) {
 //            dbHelper.deleteSeminarInfoAll();
 //            try {
@@ -648,7 +659,7 @@ public class CSVHelper {
 //        SeminarSpeaker entity = null;
 //        CSVReader reader;
 //        DBHelper dbHelper = App.dbHelper;
-//        InputStream is = SystemMethod.getInputStream("TechnicalSeminar/SeminarSpeaker.csv");
+//        InputStream is = AppUtil.getInputStream("TechnicalSeminar/SeminarSpeaker.csv");
 //        if (is != null) {
 //            dbHelper.deleteSeminarSpeakerAll();
 //            try {
@@ -720,11 +731,11 @@ public class CSVHelper {
 //    //---------------------------------FloorPlan.csv-------------------------------
 //
 //    public  InputStream getInputStream(String csv) {
-//        return SystemMethod.getInputStream("Exhibitor Data/" + csv);
+//        return AppUtil.getInputStream("Exhibitor Data/" + csv);
 //    }
 //
 //    public  InputStream getInputStreamAsscts(String csv){
-//        return SystemMethod.getAssetInputStream("Exhibitor Data/" + csv);
+//        return AppUtil.getAssetInputStream("Exhibitor Data/" + csv);
 //    }
 //
     //更新中心下载展商资料后的数据处理
@@ -734,7 +745,6 @@ public class CSVHelper {
         if (mExhibitorRepository == null) {
             throw new NullPointerException("mExhibitorRepository cannot be null, please #initExhibitorCsvHelper() first.");
         }
-
         mExhibitorRepository.deleteAllAppCompany();
         mExhibitorRepository.clearAppIndustry();
         mExhibitorRepository.deleteBsnsMappingAll();

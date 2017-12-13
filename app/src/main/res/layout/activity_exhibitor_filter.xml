@@ -17,7 +17,9 @@
             android:id="@+id/iv_ad"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true" />
+            android:layout_alignParentBottom="true"
+            android:scaleType="fitXY"
+            />
 
         <LinearLayout
             android:id="@+id/ll_btn"
@@ -80,7 +82,9 @@
                 <com.adsale.ChinaPlas.ui.view.FilterView
                     android:id="@+id/booth_filter_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    />
 
                 <!--关键字-->
                <RelativeLayout
@@ -104,14 +108,17 @@
 
                    <EditText
                        android:layout_width="150dp"
-                       android:layout_height="match_parent"
+                       android:layout_height="35dp"
                        android:layout_alignParentRight="true"
                        android:layout_marginRight="16dp"
                        android:drawableLeft="@drawable/search_bar_icon_normal"
                        android:drawablePadding="3dp"
+                       android:paddingLeft="5dp"
+                       android:background="@drawable/edit_bg"
                        android:hint="@string/filter_keyword_hint"
                        android:textSize="14sp"
                        android:text="@={ui.etKeyword}"
+                       android:layout_centerVertical="true"
                        />
 
                </RelativeLayout>
@@ -144,7 +151,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="8dp"
-                        android:checked="true" />
+                        android:checked="false" />
 
                 </RelativeLayout>
 

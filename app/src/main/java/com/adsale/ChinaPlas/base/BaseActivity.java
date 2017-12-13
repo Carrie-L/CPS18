@@ -36,13 +36,17 @@ import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.viewmodel.NavViewModel;
 import com.adsale.ChinaPlas.viewmodel.SyncViewModel;
+import com.baidu.mobstat.StatService;
 
+/**
+ * todo [LinearLayout   android:id="@+id/language"] 一删掉，Databinding 就报错。
+ */
 public abstract class BaseActivity extends AppCompatActivity implements NavViewModel.OnDrawerClickListener {
     //title bar
     public final ObservableField<String> barTitle = new ObservableField<>();
     public final ObservableBoolean isShowTitleBar = new ObservableBoolean(true);
 
-    protected static String TAG;
+    protected String TAG;
     protected DrawerLayout mDrawerLayout;
     protected FrameLayout mBaseFrameLayout;
     protected DBHelper mDBHelper;
@@ -55,6 +59,9 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
     protected ActionBar actionBar;
     protected int mScreenWidth;
     protected boolean isTablet;
+    protected String mBaiduTJ;
+    private String eventName;
+    protected String mTypePrefix;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +88,8 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
 
         initData();
 
+        setBaiDuTJ();
+
 
     }
 
@@ -92,16 +101,22 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
         mDrawerLayout.setStatusBarBackground(R.color.colorPrimaryDark);
 
         NavigationView navigationView = mBaseBinding.navView;
-        View navHeaderView = navigationView.getHeaderView(0);
         NavHeaderBinding navBinding = NavHeaderBinding.inflate(getLayoutInflater(), navigationView, true);
         navBinding.setNavModel(mNavViewModel);
 
         recyclerView = navBinding.recyclerView;
 
-        mNavViewModel.setOnDrawerClickListener(this);
+        setOnDrawerClickListener();
 
         long endTime = System.currentTimeMillis();
         LogUtil.i(TAG, "initDrawer spend : " + (endTime - startTime) + "ms");
+    }
+
+    protected void setOnDrawerClickListener() {
+        LogUtil.i(TAG, "- setOnDrawerClickListener - ");
+        if (mNavViewModel.mDrawerListener == null) {
+            mNavViewModel.setOnDrawerClickListener(this);
+        }
     }
 
     private void setupDrawer() {
@@ -121,6 +136,7 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
         ToolbarBaseBinding toolbarBinding = ToolbarBaseBinding.inflate(getLayoutInflater(), toolbarFrame, true);
         toolbarBinding.setVariable(BR.activity, this);
         toolbarBinding.executePendingBindings();
+
         Toolbar toolbar = toolbarBinding.toolbar;
         toolbar.setBackgroundResource(mToolbarBackgroundRes);
 
@@ -133,10 +149,9 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
         actionBar = getSupportActionBar();
         if (actionBar != null && !isShowTitleBar.get()) { // Main Activity
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_main_menu);
             actionBar.setDisplayShowTitleEnabled(false);
         }
-
         setStatusBar();
     }
 
@@ -163,10 +178,10 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
 
     protected abstract void initData();
 
-    protected <T> void intent(Class<T> cls,String title) {
+    protected <T> void intent(Class<T> cls, String title) {
         Intent intent = new Intent(this, cls);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("title",title);
+        intent.putExtra("title", title);
         startActivity(intent);
         overridePendingTransPad();
     }
@@ -185,16 +200,16 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
     }
 
     protected void logout() {
-        final String className=getClass().getSimpleName();
-        LogUtil.i(TAG,"className="+className);
+        final String className = getClass().getSimpleName();
+        LogUtil.i(TAG, "className=" + className);
 
         AppUtil.showAlertDialog(this, getString(R.string.logout_message), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 processLogout();
-                LogUtil.i(TAG,"TAG="+TAG);
-                if(!className.equals("MainActivity")){
+                LogUtil.i(TAG, "TAG=" + TAG);
+                if (!className.equals("MainActivity")) {
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                     finish();
@@ -204,7 +219,7 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
         });
     }
 
-    protected void processLogout(){
+    protected void processLogout() {
         AppUtil.putLogout();
         mNavViewModel.isLoginSuccess.set(false);
         mNavViewModel.isLoginStatusChanged.set(true);
@@ -212,7 +227,7 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
         mNavViewModel.updateDrawerListLogin();
     }
 
-    protected void processLogin(){
+    protected void processLogin() {
         AppUtil.putLogin();
         mNavViewModel.isLoginSuccess.set(true);
         mNavViewModel.setUpHeader();
@@ -220,18 +235,13 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
     }
 
     @Override
-    public void itemClicked(String bdTJ) {
-
-    }
-
-    @Override
     public void languageChanged(int language, boolean inMainAty) {
+        LogUtil.i("BaseAty", "languageChanged: " + language);
         if (!inMainAty) {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
+//            Intent intent = new Intent(this, MainActivity.class);
+//            startActivity(intent);
+//            finish();
         }
-
         LogUtil.i(TAG, "BaseAty: languageChanged=" + language + ",inMainAty=" + inMainAty);
     }
 
@@ -274,4 +284,37 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
         }
     }
 
+    /**
+     * 百度统计
+     */
+    private void setBaiDuTJ() {
+        mBaiduTJ = getIntent().getStringExtra(Constant.BAIDU_TJ);
+        if (mBaiduTJ != null) {
+            eventName = "Page_".concat(mBaiduTJ).concat("_").concat(AppUtil.getLanguageType()).concat("_Android");
+        }
+        if (mTypePrefix != null) {
+            eventName = setEventName(mTypePrefix);
+        }
+    }
+
+    /**
+     * @param prefix 前缀，如“Page_NewsLink”,"EPage_220098"
+     * @return String
+     */
+    public String setEventName(String prefix) {
+        return prefix.concat("_").concat(AppUtil.getLanguageType()).concat("_Android");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        StatService.onPageStart(this, eventName);
+        LogUtil.e(TAG, "this=" + this + "..onResume_eventName=" + eventName);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        StatService.onPageEnd(this, eventName);
+    }
 }

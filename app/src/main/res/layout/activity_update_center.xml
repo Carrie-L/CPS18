@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_update_name"
                 android:layout_marginTop="8dp"
-                android:text="@{String.format(@string/uc_last_update_time,model.list.get(0).getLUT())}"
+                android:text="@{String.format(@string/uc_last_update_time,model.list.get(0).getLUT().split(&quot;T&quot;)[0])}"
                 android:textColor="@color/gray_qrcode_tips"
                 android:textSize="12sp" />
 
@@ -115,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_update_name1"
                 android:layout_marginTop="8dp"
-                android:text="@{String.format(@string/uc_last_update_time,model.list.get(1).getLUT())}"
+                android:text="@{String.format(@string/uc_last_update_time,model.list.get(1).getLUT().split(&quot;T&quot;)[0])}"
                 android:textColor="@color/gray_qrcode_tips"
                 android:textSize="12sp" />
 
@@ -166,7 +166,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_update_name3"
                 android:layout_marginTop="8dp"
-                android:text="@{String.format(@string/uc_last_update_time,model.list.get(2).getLUT())}"
+                android:text="@{String.format(@string/uc_last_update_time,model.list.get(2).getLUT().split(&quot;T&quot;)[0])}"
                 android:textColor="@color/gray_qrcode_tips"
                 android:textSize="12sp" />
 
@@ -217,7 +217,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_update_name4"
                 android:layout_marginTop="8dp"
-                android:text="@{String.format(@string/uc_last_update_time,model.list.get(3).getLUT())}"
+                android:text="@{String.format(@string/uc_last_update_time,model.list.get(3).getLUT().split(&quot;T&quot;)[0])}"
                 android:textColor="@color/gray_qrcode_tips"
                 android:textSize="12sp" />
 
@@ -268,7 +268,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_update_name5"
                 android:layout_marginTop="8dp"
-                android:text="@{String.format(@string/uc_last_update_time,model.list.get(4).getLUT())}"
+                android:text="@{String.format(@string/uc_last_update_time,model.list.get(4).getLUT().split(&quot;T&quot;)[0])}"
                 android:textColor="@color/gray_qrcode_tips"
                 android:textSize="12sp" />
 

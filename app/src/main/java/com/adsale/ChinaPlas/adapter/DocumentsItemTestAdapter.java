@@ -1,22 +1,17 @@
 package com.adsale.ChinaPlas.adapter;
 
 import android.content.Context;
-import android.databinding.ObservableInt;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.data.DownloadClient;
-import com.adsale.ChinaPlas.data.RxInterface;
 import com.adsale.ChinaPlas.data.model.DocumentsCenter;
 import com.adsale.ChinaPlas.databinding.ItemDocomentsChildBinding;
 import com.adsale.ChinaPlas.databinding.ItemDocumentsListBinding;
 import com.adsale.ChinaPlas.utils.AppUtil;
-import com.adsale.ChinaPlas.utils.Constant;
-import com.adsale.ChinaPlas.utils.FileUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.NetWorkHelper;
 import com.adsale.ChinaPlas.utils.ReRxUtils;
@@ -24,7 +19,6 @@ import com.bumptech.glide.Glide;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import io.reactivex.Observer;
@@ -40,6 +34,7 @@ import static com.adsale.ChinaPlas.utils.FileUtil.createFile;
 
 /**
  * Created by Carrie on 2017/10/31.
+ *
  */
 
 public class DocumentsItemTestAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

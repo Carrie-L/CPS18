@@ -1,6 +1,9 @@
 package com.adsale.ChinaPlas.viewmodel;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.databinding.ObservableBoolean;
 import android.net.Uri;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -8,11 +11,14 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.AdViewPagerAdapter;
 import com.adsale.ChinaPlas.dao.MainIcon;
+import com.adsale.ChinaPlas.data.ExhibitorRepository;
 import com.adsale.ChinaPlas.data.MainIconRepository;
 import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.data.model.MainPic;
@@ -20,6 +26,7 @@ import com.adsale.ChinaPlas.data.model.adAdvertisementObj;
 import com.adsale.ChinaPlas.databinding.ImageViewBinding;
 import com.adsale.ChinaPlas.helper.ADHelper;
 import com.adsale.ChinaPlas.ui.ExhibitorDetailActivity;
+import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.DisplayUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
@@ -30,6 +37,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
+import static com.adsale.ChinaPlas.utils.Constant.MAIN_TOP_BANNER_HEIGHT;
+import static com.adsale.ChinaPlas.utils.Constant.MAIN_TOP_BANNER_WIDTH;
 
 
 /**
@@ -40,8 +49,8 @@ import static android.content.ContentValues.TAG;
 public class MainViewModel {
     private Context mContext;
     private MainIconRepository mRepository;
+    private NavViewModel navViewModel;
     private MainPic mainPic;
-    private int language;
 
     private ViewPager viewPager;
     private LinearLayout vpindicator;
@@ -58,18 +67,32 @@ public class MainViewModel {
     private adAdvertisementObj adObj;
     private ImageView adPic;
     private OnIntentListener mIntentListener;
+    private AdViewPagerAdapter viewPagerAdapter;
+    private List<View> topPics;
+    private LayoutInflater inflater;
+    private MainPic.Banners banners;
+    private int topBannerSize;
+    public ObservableBoolean isCountDownShow = new ObservableBoolean(false);
+    private ImageView ivTop;
+    private ImageView ivPoint;
+    private ADHelper adHelper;
+    private ArrayList<MainIcon> icons;
+    private MainIcon mainIcon;
+    private Intent intent;
+    private ArrayList<MainIcon> allIcons = new ArrayList<>();
 
     public MainViewModel(Context mContext, OnIntentListener listener) {
         this.mContext = mContext;
         this.mIntentListener = listener;
         mRepository = MainIconRepository.getInstance();
-        language = App.mLanguage.get();
     }
 
-    public void init(ViewPager viewPager, LinearLayout vpindicator, ImageView adPic) {
+    public void init(ViewPager viewPager, LinearLayout vpindicator, ImageView adPic, NavViewModel navViewModel) {
         this.viewPager = viewPager;
         this.vpindicator = vpindicator;
         this.adPic = adPic;
+        this.navViewModel = navViewModel;
+        inflater = LayoutInflater.from(mContext);
     }
 
     public MainPic parseMainInfo() {
@@ -77,26 +100,17 @@ public class MainViewModel {
         return mainPic;
     }
 
-    public void setMainInfo(MainPic mainInfo) {
-        mainPic = mainInfo;
-    }
-
     public void setTopPics() {
-        List<View> topPics = new ArrayList<>();
-        MainPic.Banners banners;
-        int size = mainPic.TopBanners.size();
+        topPics = new ArrayList<>();
+        topBannerSize = mainPic.TopBanners.size();
         screenWidth = App.mSP_Config.getInt(Constant.SCREEN_WIDTH, 0);
         /* top banner 图片默认尺寸设为：647*281 */
-        topHeight = (screenWidth * TOP_PIC_HEIGHT) / TOP_PIC_WIDTH;
-
+        topHeight = (screenWidth * MAIN_TOP_BANNER_HEIGHT) / MAIN_TOP_BANNER_WIDTH;
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(screenWidth, topHeight);
         params.topMargin = 0;
         viewPager.setLayoutParams(params);
 
-        ImageView ivTop, ivPoint;
-        LayoutInflater inflater = LayoutInflater.from(mContext);
-
-        if (size > 1) {
+        if (topBannerSize > 1) {
              /* 设置单个小圆点尺寸 */
             int width = DisplayUtil.dip2px(mContext, 8);
             ind_params = new LinearLayout.LayoutParams(width, width);
@@ -106,18 +120,18 @@ public class MainViewModel {
             vpindicator.setLayoutParams(llParams);
         }
 
-        for (int i = 0; i < size; ++i) {
-            /* banner图片 */
-            banners = mainPic.TopBanners.get(i);
-            ImageViewBinding binding = ImageViewBinding.inflate(inflater, null);
-            binding.setModel(this);
-            binding.setPos(i);
-            ivTop = binding.imageView;
-            Glide.with(mContext).load(Uri.parse(language == 0 ? banners.TC.BannerImage : language == 1 ? banners.EN.BannerImage : banners.SC.BannerImage)).into(ivTop);
-            topPics.add(ivTop);
+        generateTopPics();
+        setLlPoints();
 
+        viewPagerAdapter = new AdViewPagerAdapter(topPics);
+        viewPager.setAdapter(viewPagerAdapter);
+        viewPager.addOnPageChangeListener(mPageChangeListener);
+    }
+
+    private void setLlPoints() {
+        for (int i = 0; i < topBannerSize; ++i) {
             /* 小圆点 */
-            if (size > 1) {
+            if (topBannerSize > 1) {
                 ivPoint = new ImageView(mContext);
                 if (i == 0) {
                     ivPoint.setBackgroundResource(R.drawable.dot_focused);
@@ -128,17 +142,41 @@ public class MainViewModel {
                 vpindicator.addView(ivPoint);
             }
         }
+    }
 
-        AdViewPagerAdapter viewPagerAdapter = new AdViewPagerAdapter(topPics);
-        viewPager.setAdapter(viewPagerAdapter);
-        viewPager.addOnPageChangeListener(mPageChangeListener);
+    private void generateTopPics() {
+        for (int i = 0; i < topBannerSize; ++i) {
+            /* banner图片 */
+            banners = mainPic.TopBanners.get(i);
+            ImageViewBinding binding = ImageViewBinding.inflate(inflater, null);
+            RelativeLayout rlTopBanner = binding.rlBanner;
+            binding.setModel(this);
+            binding.setPos(i);
+            ivTop = binding.imageView;
+
+            Glide.with(mContext).load(Uri.parse(navViewModel.mCurrLang.get() == 0 ? banners.TC.BannerImage : navViewModel.mCurrLang.get() == 1 ? banners.EN.BannerImage : banners.SC.BannerImage)).into(ivTop);
+
+            if (i == 0) {// 第一张图加倒计时
+                TextView tvCDD = binding.tvCdd;
+                long diff = AppUtil.getShowCountDown();
+                tvCDD.setText(String.valueOf(diff));
+                isCountDownShow.set(diff != 0);
+            }
+            topPics.add(rlTopBanner);
+        }
+    }
+
+    public void refreshImages() {
+        topPics.clear();
+        generateTopPics();
+        viewPagerAdapter.setList(topPics, true);
+        showM2();
     }
 
     public void getMainIcons(ArrayList<MainIcon> largeIcons, ArrayList<MainIcon> littleIcons) {
-        ArrayList<MainIcon> icons = mRepository.getMenus();
+        icons = mRepository.getMenus();
         LogUtil.i(TAG, "icons=" + icons.size() + "," + icons.toString());
         int size = icons.size();
-        MainIcon mainIcon;
         for (int i = 0; i < size; i++) {
             mainIcon = icons.get(i);
             if (mainIcon.getMenuList().split("_").length > 2) {
@@ -150,26 +188,92 @@ public class MainViewModel {
     }
 
     public void setM2AD() {
-        ADHelper adHelper = new ADHelper(mContext);
+        adHelper = new ADHelper(mContext);
         adObj = adHelper.getAdObj();
-        if(adHelper.isAdOpen()){
+        if (adHelper.isAdOpen()) {
              /* M2广告图片尺寸：640*100 */
             adHeight = (screenWidth * 100) / 640;
             LogUtil.i(TAG, "adHeight=" + adHeight);
             LinearLayout.LayoutParams adParams = new LinearLayout.LayoutParams(screenWidth, adHeight);
             adPic.setLayoutParams(adParams);
-            adHelper.showM2(adPic);
+            showM2();
         }
+    }
 
+    private void showM2() {
+        LogUtil.i(TAG, "adObj.M2.version=" + adObj.M2.version);
+        if (Integer.valueOf(adObj.M2.version) <= 0) {
+            return;
+        }
+        StringBuilder m2Url = new StringBuilder();
+        m2Url.append(adObj.Common.baseUrl).append(adObj.M2.filepath).append(AppUtil.isTablet() ? adObj.Common.tablet : adObj.Common.phone).append(AppUtil.getLanguageType(navViewModel.mCurrLang.get())).append("_")
+                .append(adObj.M2.version).append(adObj.M2.format);
+        LogUtil.i(TAG, "m2Url.toString()=" + m2Url.toString());
+        adPic.setVisibility(View.VISIBLE);
+        Glide.with(mContext).load(Uri.parse(m2Url.toString())).into(adPic);
+        AppUtil.trackViewLog(mContext, 202, "Ad", "M2", adObj.M2.getCompanyID(App.mLanguage.get()));
+        AppUtil.setStatEvent(mContext, "ViewM2", "Ad_M2_" + adObj.M2.getCompanyID(App.mLanguage.get()));
     }
 
     public void onM2Click() {
-        mIntentListener.onIntent(adObj, ExhibitorDetailActivity.class);
+        ExhibitorRepository exhibitorRepository = ExhibitorRepository.getInstance();
+        boolean isExhibitorIDExists = exhibitorRepository.isExhibitorIDExists(adObj.M2.getCompanyID(navViewModel.mCurrLang.get()));
+        if (isExhibitorIDExists) {
+            mIntentListener.onIntent(adObj, ExhibitorDetailActivity.class);
+        } else {
+            Toast.makeText(mContext, mContext.getString(R.string.no_exhibitor), Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void onTopPicClick(int index) {
-        LogUtil.i(TAG, "onTopPicClick: pos=" + index + ", companyID= " + mainPic.TopBanners.get(index).SC.companyID_sc);
-//        mIntentListener.onIntent(mainPic.TopBanners.get(index),null);
+        LogUtil.i(TAG, "onTopPicClick: pos=" + index + ", companyID= " + mainPic.TopBanners.get(index).SC.companyID);
+        MainPic.Property property = navViewModel.mCurrLang.get() == 0 ? mainPic.TopBanners.get(index).TC
+                : navViewModel.mCurrLang.get() == 1 ? mainPic.TopBanners.get(index).EN : mainPic.TopBanners.get(index).SC;
+        bannerIntent(property);
+    }
+
+    public void onLeftClick(View view) {
+        MainPic.Property property = navViewModel.mCurrLang.get() == 0 ? mainPic.LeftBottomBanner.TC
+                : navViewModel.mCurrLang.get() == 1 ? mainPic.LeftBottomBanner.EN : mainPic.LeftBottomBanner.SC;
+        bannerIntent(property);
+    }
+
+    public void onRightClick() {
+        MainPic.Property property = navViewModel.mCurrLang.get() == 0 ? mainPic.RightBottomBanner.TC
+                : navViewModel.mCurrLang.get() == 1 ? mainPic.RightBottomBanner.EN : mainPic.RightBottomBanner.SC;
+        bannerIntent(property);
+    }
+
+    private void bannerIntent(MainPic.Property property) {
+        int function = Integer.valueOf(property.Function);
+        LogUtil.i(TAG, "function=" + function);
+        if (function < 5) {
+            adHelper.intentAd(function, property.companyID,
+                    property.eventID, property.seminarID, property.newsID);
+        } else if (function == 5) {  // function = 5, 根據 baiduTJ 值跳轉
+            if (allIcons.isEmpty()) {
+                allIcons = mRepository.getAllIcons();
+            }
+            int size = allIcons.size();
+            for (int i = 0; i < size; i++) {
+                mainIcon = allIcons.get(i);
+                if (mainIcon.getBaiDu_TJ().trim().equals(property.InnerPage.trim())) {
+                    LogUtil.i(TAG, "InnerPage=" + property.InnerPage);
+                    break;
+                }
+            }
+            intent = navViewModel.newIntent((Activity) mContext, mainIcon);
+        } else if (function == 6) {   // function = 6， link
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse(property.Link));
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+        if (intent == null) {
+            return;
+        }
+        mContext.startActivity(intent);
+        if (AppUtil.isTablet()) {
+            ((Activity) mContext).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        }
     }
 
     private ViewPager.OnPageChangeListener mPageChangeListener = new ViewPager.OnPageChangeListener() {

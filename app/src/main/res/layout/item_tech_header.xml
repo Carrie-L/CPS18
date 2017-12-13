@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="obj"
+            type="com.adsale.ChinaPlas.dao.SeminarInfo" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+    <TextView
+        android:id="@+id/tv_tech_header"
+        style="@style/tech_header_style"
+        android:text="@{obj.date}"
+        android:visibility="@{obj.isTypeLabel?View.VISIBLE:View.GONE}" />
+
+    <ImageView
+        android:id="@+id/iv_m6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
+        app:imgUrl="@{obj.adHeaderUrl}"
+        android:visibility="@{obj.isADer?View.VISIBLE:View.GONE}"
+        />
+
+    </LinearLayout>
+
+</layout>

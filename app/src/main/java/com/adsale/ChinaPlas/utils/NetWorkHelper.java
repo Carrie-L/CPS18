@@ -15,7 +15,7 @@ import okhttp3.RequestBody;
 public class NetWorkHelper {
     private static final String TAG = "NetWorkHelper";
     private static final MediaType MEDIA_TYPE_XML = MediaType.parse("text/xml; charset=UTF-8");
-    private static final String PROJECT_CODE = "CPS17";// scanFile : normal
+    private static final String PROJECT_CODE = "CPS18";// scanFile : normal
 //    private static final String PROJECT_CODE = "CPSTEST";// scanFile:  test
 
     // WEBSERVICE 17年
@@ -34,11 +34,12 @@ public class NetWorkHelper {
     public static final String HEADER_SOAP_ACTION_SCANFILES = "SOAPAction:http://tempuri.org/getFolderScanFilesJson";
 
 
-    public static final String BASE_URL_CPS = "https://www.chinaplasonline.com/CPS17/";
+    public static final String BASE_URL_CPS = "https://www.chinaplasonline.com/CPS18/";
     public static final String BASE_URL_EFORM = "http://eform.adsale.com.hk/";
     public static final String BASE_URL_EFORM_API = "http://eform.adsale.com.hk/GeniusAnalyst/api/appapi/";
 
     public static final String LoginPreLink = "Membership/###/MyExhibitor.aspx?istest=321";
+//    https://www.chinaplasonline.com/CPS18/Membership/lang-simp/MyExhibitor.aspx?istest=321
     public static final String syncMyExhibitor = "info/CartSync.aspx?vf=581";//prefix: BASE_URL_CPS
 
     public static final String GET_VISITOR_DATA_URL = "http://eform.adsale.com.hk/GeniusAnalyst/api/appapi/GetVisitorDataByEmail";
@@ -61,6 +62,10 @@ public class NetWorkHelper {
 
     /*  内容更新中心baseUrl */
     public static final String UC_BASE_URL="https://o97tbiy1f.qnssl.com/";
+
+    public static final String LOGJSON="http://eform.adsale.com.hk/adsaleApi/CpsApp/CPSAddTrackingJson";
+    public static final String SHARE_EXHIBITOR_URL="http://www.chinaplasonline.com/CPS18/Mobile/Home/lang-%1$s/searchType-5/company-%2$s/SearchExhibitor.aspx";
+
 
 
     /** |||-------------------------------------------------------------------||| */

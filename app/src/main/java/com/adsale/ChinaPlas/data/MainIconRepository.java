@@ -105,7 +105,11 @@ public class MainIconRepository implements DataSource<MainIcon> {
      * 获取主界面数据
      */
     public ArrayList<MainIcon> getMenus() {
-        return (ArrayList<MainIcon>) mIconDao.queryBuilder().where(MainIconDao.Properties.MenuList.like("%M%"),MainIconDao.Properties.IsHidden.notEq(1)).orderAsc(MainIconDao.Properties.MenuList).list();
+        return (ArrayList<MainIcon>) mIconDao.queryBuilder().where(MainIconDao.Properties.MenuList.like("%M%"),MainIconDao.Properties.IsHidden.notEq(1),MainIconDao.Properties.IsDelete.notEq(1)).orderAsc(MainIconDao.Properties.MenuList).list();
+    }
+
+    public ArrayList<MainIcon> getAllIcons() {
+        return (ArrayList<MainIcon>) mIconDao.queryBuilder().where(MainIconDao.Properties.IsHidden.notEq(1),MainIconDao.Properties.IsDelete.notEq(1)).orderAsc(MainIconDao.Properties.MenuList).list();
     }
 
     /**
@@ -115,7 +119,7 @@ public class MainIconRepository implements DataSource<MainIcon> {
         long startTime = System.currentTimeMillis();
 
         Cursor cursor = db.rawQuery(
-                "select * from MAIN_ICON where IS_HIDDEN NOT LIKE 1 AND GOOGLE__TJ like \"%|%\" and GOOGLE__TJ like \"%S_%\" order by GOOGLE__TJ asc", null);
+                "select * from MAIN_ICON where IS_HIDDEN NOT LIKE 1 AND IS_DELETE NOT LIKE 1 AND GOOGLE__TJ like \"%|%\" and GOOGLE__TJ like \"%S_%\" order by GOOGLE__TJ asc", null);
         if (cursor != null) {
             MainIcon entity = null;
             String google_tj = "";
@@ -130,12 +134,17 @@ public class MainIconRepository implements DataSource<MainIcon> {
                 entity.setCFile(cursor.getString(cursor.getColumnIndex("CFILE")));
                 entity.setBaiDu_TJ(cursor.getString(cursor.getColumnIndex("BAI_DU__TJ")));
                 google_tj = cursor.getString(cursor.getColumnIndex("GOOGLE__TJ")).split("\\|")[0].replace("S_", "");
-                entity.setGoogle_TJ(google_tj);//11,1_1  //SystemMethod.subStringFront(google_tj,'|')
+                entity.setGoogle_TJ(google_tj);//11,1_1  //AppUtil.subStringFront(google_tj,'|')
                 entity.setDrawerList(cursor.getString(cursor.getColumnIndex("DRAWER_LIST")));
                 entity.setMenuList(cursor.getString(cursor.getColumnIndex("MENU_LIST")));
                 entity.setDrawerIcon(cursor.getString(cursor.getColumnIndex("DRAWER_ICON")));
                 entity.setIconTextColor(cursor.getString(cursor.getColumnIndex("ICON_TEXT_COLOR")));
-
+                if(entity.getBaiDu_TJ().equals("ContentUpdate")){
+                    OtherRepository repository = OtherRepository.getInstance();
+                    repository.initUpdateCenterDao();
+                    int uc_count = repository.getNeedUpdatedCount();
+                    entity.updateCount.set(uc_count);
+                }
                 if (!entity.getGoogle_TJ().contains("_")) {
                     parentList.add(entity);
                 } else {

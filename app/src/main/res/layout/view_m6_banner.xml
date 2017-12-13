@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="view"
+            type="com.adsale.ChinaPlas.ui.TechSeminarDtlActivity" />
+    </data>
+
+    <!-- M6 ad -->
+    <LinearLayout
+        android:id="@+id/rl_ad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <!-- 公司资料 -->
+        <TextView
+            android:id="@+id/seminar_ad_company"
+            android:layout_width="match_parent"
+            android:layout_height="22dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/seminar_gray"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:text="@string/title_exhibitor_deti" />
+
+        <ImageView
+            android:id="@+id/iv_seminar_banner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/tv_seminar_ad_description"
+            style="@style/seminaldtl_tv2"
+            android:layout_marginRight="5dp"
+            android:visibility="gone"
+            />
+
+    </LinearLayout>
+
+</layout>

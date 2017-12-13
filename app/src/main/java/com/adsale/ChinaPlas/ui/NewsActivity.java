@@ -12,8 +12,6 @@ import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.viewmodel.NewsModel;
 
-import java.util.ArrayList;
-
 public class NewsActivity extends BaseActivity {
 
     private NewsModel newsModel;
@@ -40,7 +38,6 @@ public class NewsActivity extends BaseActivity {
     //String newsID, String title
     public void onItemClick(News news) {
         LogUtil.i(TAG,"news="+news.getTitle());
-
         Bundle bundle = new Bundle();
         bundle.putParcelable("News",news);
         bundle.putString(Constant.TITLE,barTitle.get());

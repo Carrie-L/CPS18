@@ -1,58 +1,48 @@
 package com.adsale.ChinaPlas.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
-import android.view.ViewStub;
-import android.widget.ImageView;
 
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
-import com.adsale.ChinaPlas.dao.UpdateCenterDao;
+import com.adsale.ChinaPlas.data.OtherRepository;
 import com.adsale.ChinaPlas.databinding.ActivityMainBinding;
-import com.adsale.ChinaPlas.helper.HelpPage;
+import com.adsale.ChinaPlas.ui.view.HelpView;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.PermissionUtil;
 
+import static com.adsale.ChinaPlas.ui.view.HelpView.HELP_PAGE_MAIN;
 import static com.adsale.ChinaPlas.utils.PermissionUtil.PMS_CODE_WRITE_SD;
 
 /**
- * todo HELP PAGE:还需解决：全屏，平板
+ * todo 平板
  */
 public class MainActivity extends BaseActivity {
 
-    private ActivityMainBinding binding;
     private MainFragment mainFragment;
-
-    private ViewStub mVS_Help;
-    private View mHelpView;
-    private HelpPage helpPage;
-    private ImageView ivCloseHelpPage;
     private SharedPreferences spHelpPage;
-    /**
-     * 是否显示完第一次帮助页面，true，显示完，下次进入不再显示；false，还未显示，显示
-     */
-    private boolean isFirstHelpPageShowed;
     private boolean isLogin = false;
-    private boolean isPadDevice;
+    private int uc_count;
+    private boolean isShowPage;
+    private HelpView helpView;
 
     @Override
     protected void preView() {
         super.preView();
-        TAG="MainActivity";
+        TAG = "MainActivity";
         mToolbarBackgroundRes = R.drawable.main_header;
         isShowTitleBar.set(false);
     }
 
     @Override
     protected void initView() {
-        binding = ActivityMainBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
-        mVS_Help = binding.viewPagerHelp.getViewStub();
-        helpPage = new HelpPage();
+        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         spHelpPage = getSharedPreferences("HelpPage", MODE_PRIVATE);
-        isPadDevice = AppUtil.isTablet();
     }
 
     @Override
@@ -61,7 +51,14 @@ public class MainActivity extends BaseActivity {
         isLogin = AppUtil.isLogin();
         mNavViewModel.setMainActivity(this);
         setFragment();
+        helpPage();
 
+        OtherRepository repository = OtherRepository.getInstance();
+        repository.initUpdateCenterDao();
+        uc_count = repository.getNeedUpdatedCount();
+        if (!isShowPage) {
+            intentToUpdateCenter();
+        }
     }
 
     private void setFragment() {
@@ -86,31 +83,44 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
 
-        LogUtil.i(TAG,"=== onResume === isLogin=" +isLogin);
-        LogUtil.i(TAG,"=== onResume ===  mNavViewModel.isLoginSuccess=" + mNavViewModel.isLoginSuccess.get());
-        LogUtil.i(TAG,"=== onResume ===  AppUtil.isLogin()=" + AppUtil.isLogin());
+        LogUtil.i(TAG, "=== onResume === isLogin=" + isLogin);
+        LogUtil.i(TAG, "=== onResume ===  mNavViewModel.isLoginSuccess=" + mNavViewModel.isLoginSuccess.get());
+        LogUtil.i(TAG, "=== onResume ===  AppUtil.isLogin()=" + AppUtil.isLogin());
 
         if (mNavViewModel.isLoginSuccess.get() != AppUtil.isLogin()) { // 做一个登陆状态的判断，只有在登陆状态改变时才执行以下操作
-//            isLogin=AppUtil.isLogin();
             mNavViewModel.isLoginSuccess.set(AppUtil.isLogin()); /* 改变Menu的文字 */
             mNavViewModel.updateDrawerListLogin();
         }
+
+        LogUtil.i(TAG, "onResume: App.mLanguage=" + App.mLanguage.get());
+        LogUtil.i(TAG, "onResume: mNavViewModel.mCurrLang=" + mNavViewModel.mCurrLang.get());
+
+        if (App.mLanguage.get() != mNavViewModel.mCurrLang.get()) {
+            mNavViewModel.mCurrLang.set(App.mLanguage.get());
+            mNavViewModel.updateLanguage();
+            mainFragment.refreshImages();
+            AppUtil.switchLanguage(getApplicationContext(),App.mLanguage.get());
+        }
+
+        updateCenterCount();
+
+        boolean isOpenMainHelpPage = spHelpPage.getBoolean("HELP_PAGE_OPEN_MAIN", false);
+        if (isOpenMainHelpPage) {
+            helpView.openMainHelpPage();
+        }
+
+
 //        firstHelpPage();
     }
 
     /**
-     * 5个帮助页面完成了，才算是完成初始化启动
+     * 更新侧边栏下载中心数据，如有
      */
-    private void firstHelpPage() {
-        LogUtil.i(TAG, "firstHelpPage");
-        if (canShowHelpPage()) {
-            if (isPadDevice) {
-                helpPage.showPageMenu(getApplicationContext(), false, mMenuHelpCloseListener);
-            } else {
-                helpPage();
-            }
-        } else {
-
+    private void updateCenterCount() {
+        int ucCount = App.mSP_Config.getInt("UC_COUNT", 0);
+        LogUtil.i(TAG, "uc_count=" + uc_count + ",ucCount=" + ucCount);
+        if (uc_count != ucCount) {
+            mNavViewModel.refreshUpdateCount(ucCount);
         }
     }
 
@@ -118,71 +128,71 @@ public class MainActivity extends BaseActivity {
      * 显示帮助页面
      */
     private void helpPage() {
-        if (mHelpView == null) {
-            mHelpView = mVS_Help.inflate();
-            helpPage.findView(mHelpView);
-            ivCloseHelpPage = (ImageView) mHelpView.findViewById(R.id.btn_help_page_close);
-        }
-        Integer[] imageIds;
-        imageIds = helpPage.getMenuImages();
+        helpView = new HelpView(this, HELP_PAGE_MAIN, mMenuHelpCloseListener);
+        isShowPage = helpView.showPage();
 
-        helpPage.init(this, imageIds);
-        mHelpView.setVisibility(View.VISIBLE);
-        ivCloseHelpPage.setOnClickListener(mMenuHelpCloseListener);
-        spHelpPage.edit().putBoolean("ShowMenuHelpPage", false).apply();/*  帮助页面显示过了，设为false，下次获取ShowMenuHelpPage为true时，表示打开帮助页面 */
+//        if (mHelpView == null) {
+//            mHelpView = mVS_Help.inflate();
+//            helpPage.findView(mHelpView);
+//            ivCloseHelpPage =  mHelpView.findViewById(R.id.btn_help_page_close);
+//        }
+//        Integer[] imageIds;
+//        imageIds = helpPage.getMenuImages();
+//
+//        helpPage.init(this, imageIds);
+//        mHelpView.setVisibility(View.VISIBLE);
+//        ivCloseHelpPage.setOnClickListener(mMenuHelpCloseListener);
+//        spHelpPage.edit().putBoolean("ShowMenuHelpPage", false).apply();/*  帮助页面显示过了，设为false，下次获取ShowMenuHelpPage为true时，表示打开帮助页面 */
     }
 
     private View.OnClickListener mMenuHelpCloseListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            setFragment();
-            if (!isFirstHelpPageShowed) {
-                spHelpPage.edit().putBoolean("IsFirstHelpPageShowed", true).apply();
-                intentToUpdateCenter();
-            }
-            if (AppUtil.isTablet()) {
-//                mHelpFrame.setVisibility(View.GONE);
-            } else
-                mHelpView.setVisibility(View.GONE);
+            helpView.dismissDialog();
+            intentToUpdateCenter();
         }
     };
-
-    /**
-     * 如果是第一次进入主界面，或者设置中点击了帮助，则显示帮助页面
-     *
-     * @return isFirstHelpPageShowed
-     */
-    private boolean canShowHelpPage() {
-        isFirstHelpPageShowed = isFirstHelpPageShowed();
-        return !isFirstHelpPageShowed || spHelpPage.getBoolean("ShowMenuHelpPage", false);
-    }
-
-    private boolean isFirstHelpPageShowed() {
-        //"第一次显示帮助页面"是否已经显示过了，true:显示过了；false:还没有显示过
-        isFirstHelpPageShowed = spHelpPage.getBoolean("IsFirstHelpPageShowed", false);
-        return isFirstHelpPageShowed;
-    }
 
     /**
      * 如果有更新，跳转到更新中心页面
      */
     private void intentToUpdateCenter() {
-        if (isFirstHelpPageShowed()) {
-            int uc_count = getNeedUpdatedCount();
-            LogUtil.i(TAG, "uc_count=" + uc_count);
-            if (uc_count > 0) {
-                Intent intent = new Intent(this, UpdateCenterActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-            }
+        LogUtil.i(TAG, "intentToUpdateCenter");
+//        if (uc_count > 0) {
+            Intent intent = new Intent(this, UpdateCenterActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+//        }
+    }
+
+    private void exit() {
+        try {
+            AlertDialog.Builder ad = new AlertDialog.Builder(this);
+            ad.setTitle(getString(R.string.EXIT));
+            ad.setMessage(getString(R.string.EXIT_MSG));
+            ad.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {// ??锟斤 ?锟介 ?
+                @Override
+                public void onClick(DialogInterface dialog, int i) {
+                    App.mDBHelper.db.close();
+                    App.mDBHelper = null;
+                    finish();
+                    System.exit(0);
+                }
+            });
+            ad.setNegativeButton(getString(R.string.cancel), null);
+            ad.show();
+        } catch (Exception e) {
+            System.exit(0);
         }
     }
 
-    /**
-     * 获取更新中心需要下载的个数
-     */
-    public int getNeedUpdatedCount() {
-        return App.mDBHelper.mUpdateCenterDao.queryBuilder().where(UpdateCenterDao.Properties.Status.eq(0)).list().size();
+    @Override
+    public void back() {
+        exit();
     }
 
+    @Override
+    public void onBackPressed() {
+        exit();
+    }
 }

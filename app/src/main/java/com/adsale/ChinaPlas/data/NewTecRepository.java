@@ -1,9 +1,9 @@
 package com.adsale.ChinaPlas.data;
 
-import android.content.Context;
 import android.database.Cursor;
 
 import com.adsale.ChinaPlas.App;
+import com.adsale.ChinaPlas.dao.ApplicationIndustry;
 import com.adsale.ChinaPlas.dao.DBHelper;
 import com.adsale.ChinaPlas.dao.NewProductAndCategory;
 import com.adsale.ChinaPlas.dao.NewProductAndCategoryDao;
@@ -40,9 +40,13 @@ public class NewTecRepository {
     private NewProductsAndApplicationDao mNewProductsAndApplicationDao;
     private ProductApplicationDao mProductApplicationDao;
     private ProductImageDao mProductImageDao;
+    private static NewTecRepository INSTANCE;
 
     public static NewTecRepository newInstance() {
-        return new NewTecRepository();
+        if (INSTANCE == null) {
+            INSTANCE = new NewTecRepository();
+        }
+        return INSTANCE;
     }
 
     public void initDao() {
@@ -66,9 +70,8 @@ public class NewTecRepository {
         if (mInfoDao == null) {
             throw new NullPointerException("mInfoDao cannot be null,please #initDao()");
         }
-        Cursor cursor = App.mDBHelper.db.rawQuery("select N.*,I.IMAGE__FILE AS IMAGE from NEW_PRODUCT_INFO N, PRODUCT_IMAGE I WHERE N.RID=I.RID AND N.COMPANY_ID='?'", new String[]{companyId});
+        Cursor cursor = App.mDBHelper.db.rawQuery("select N.*,I.IMAGE__FILE AS IMAGE from NEW_PRODUCT_INFO N, PRODUCT_IMAGE I WHERE N.RID=I.RID AND N.COMPANY_ID='".concat(companyId).concat("'"),null);
         return getInfoList(cursor);
-//        return (ArrayList<NewProductInfo>) mInfoDao.queryBuilder().where(NewProductInfoDao.Properties.CompanyID.eq(companyId)).list();
     }
 
     private ArrayList<NewProductInfo> getInfoList(Cursor cursor) {
@@ -87,52 +90,72 @@ public class NewTecRepository {
         return list;
     }
 
-    /**
-     * NewProductAndCategory.csv(划掉)，获取 产品 列表
-     */
-    public ArrayList<NewProductInfo> getFilterList(Context context){
-       ArrayList<NewProductInfo> list = new ArrayList<>();
-
+    public ArrayList<ApplicationIndustry> getApplications(ArrayList<ApplicationIndustry> list) {
+        Cursor cursor = App.mDBHelper.db.rawQuery("SELECT * FROM PRODUCT_APPLICATION ORDER BY ORDERING", null);
+        if (cursor != null) {
+            ApplicationIndustry entity;
+            while (cursor.moveToNext()) {
+                entity = new ApplicationIndustry(cursor.getString(0), cursor.getString(1), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(5));
+                list.add(entity);
+            }
+            cursor.close();
+        }
         return list;
     }
 
-    private String getFilterSql(ArrayList<ExhibitorFilter> filters){
+    /**
+     * NewProductAndCategory.csv(划掉)，获取 产品 列表
+     */
+    public ArrayList<NewProductInfo> getFilterList(ArrayList<NewProductInfo> productsAll, ArrayList<ExhibitorFilter> filters) {
+        Cursor cursor = App.mDBHelper.db.rawQuery(getFilterSql(filters), null);
+        ArrayList<NewProductInfo> list = new ArrayList<>();
+        int size = productsAll.size();
+        if (cursor != null) {
+            NewProductInfo info;
+            while (cursor.moveToNext()) {
+                info = new NewProductInfo(cursor.getString(0));
+                for (int i = 0; i < size; i++) {
+                    if (productsAll.get(i).getRID().equals(info.getRID())) {
+                        list.add(productsAll.get(i));
+                        break;
+                    }
+                }
+            }
+            cursor.close();
+        }
+        return list;
+    }
+
+    private String getFilterSql(ArrayList<ExhibitorFilter> filters) {
         int size = filters.size();
         ArrayList<String> industriesStr = new ArrayList<>();
         ArrayList<String> appStr = new ArrayList<>();
         ExhibitorFilter filter;
-        String keyword = "";
         int index;
-        String sql = getBaseSql();
+        String sql = "select RID from NEW_PRODUCT_INFO WHERE ";
         for (int i = 0; i < size; i++) {
             filter = filters.get(i);
             index = filter.index;
-             if (index == 0) {
-                if (industriesStr.size() == 0) {
-                    sql = sql.concat(" and COMPANY_ID IN (%3$s)");
-                }
-                industriesStr.add(" select COMPANY_ID from EXHIBITOR_INDUSTRY_DTL where CATALOG_PRODUCT_SUB_ID = " + filter.id);
+            if (index == 0 || index ==6) { // 0: 产品； 6：首发技术
+                industriesStr.add(" select RID from NEW_PRODUCT_AND_CATEGORY where CATEGORY = '".concat(filter.id).concat("'"));
             } else if (index == 1) {
-                if (appStr.size() == 0) {
-                    sql = sql.concat(" and COMPANY_ID IN (%4$s)");
-                }
-                appStr.add(" select COMPANY_ID from APPLICATION_COMPANY where INDUSTRY_ID=" + filter.id);
+                appStr.add(" SELECT RID FROM NEW_PRODUCTS_AND_APPLICATION WHERE SPOT IN (SELECT INDUSTRY_ID FROM PRODUCT_APPLICATION WHERE INDUSTRY_ID = ".concat(filter.id).concat(")"));
             }
         }
-        sql = String.format(sql, halls.toString().replace("[", "").replace("]", ""),
-                countries.toString().replace("[", "").replace("]", ""),
-                industriesStr.toString().replaceAll(",", " intersect").replace("[", "").replace("]", ""),
-                appStr.toString().replaceAll(",", " intersect").replace("[", "").replace("]", ""));
-        sql = sql.replaceAll("carriecps", "E.DESC_E LIKE '%".concat(keyword).concat("%' OR E.DESC_S LIKE '%").concat(keyword).concat("%' OR E.DESC_T LIKE '%").concat(keyword).concat("%'"));
-        LogUtil.i(TAG, ">>>> sql=" + sql);
+        if (industriesStr.size() > 0 && appStr.size() > 0) {
+            sql = sql.concat(" RID IN (%1$s) AND RID IN (%2$s)");
+            sql = String.format(sql, industriesStr.toString().replaceAll(",", " intersect").replace("[", "").replace("]", ""),
+                    appStr.toString().replaceAll(",", " intersect").replace("[", "").replace("]", ""));
+        } else if (industriesStr.size() > 0) {
+            sql = sql.concat(" RID IN (%1$s)");
+            sql = String.format(sql, industriesStr.toString().replaceAll(",", " intersect").replace("[", "").replace("]", ""));
+        } else {
+            sql = sql.concat(" RID IN (%1$s)");
+            sql = String.format(sql, appStr.toString().replaceAll(",", " intersect").replace("[", "").replace("]", ""));
+        }
+        LogUtil.i("NewTecRepository", ">>>> sql=" + sql);
         return sql;
     }
-
-    private String getBaseSql(){
-
-    }
-
-
 
     public void insertNewProductInfoAll(ArrayList<NewProductInfo> list) {
         mInfoDao.insertInTx(list);

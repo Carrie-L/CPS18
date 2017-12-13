@@ -20,8 +20,7 @@
            android:layout_height="wrap_content"
            android:layout_alignParentEnd="true"
            android:layout_alignParentRight="true"
-           android:layout_below="@id/rl_search" />
-
+           />
 
        <TextView
            android:id="@+id/DialogText"
@@ -34,7 +33,7 @@
            style="@style/no_data_style"
            android:layout_alignParentStart="true"
            android:layout_alignParentTop="true"
-           android:visibility="@{view.isNoData?View.GONE:View.VISIBLE}" />
+           android:visibility="@{view.isNoData?View.VISIBLE:View.GONE}" />
 
    </RelativeLayout>
 

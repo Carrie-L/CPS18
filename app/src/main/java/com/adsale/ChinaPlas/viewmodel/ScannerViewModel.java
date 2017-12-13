@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.utils.AESCrypt;
+import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.zbar.lib.ZbarManager;
 import com.zbar.lib.camera.CameraSetting;
@@ -210,7 +211,7 @@ public class ScannerViewModel implements Camera.PreviewCallback, Camera.AutoFocu
             LogUtil.i(TAG, "nameCardInfo.decrypt=" + name);
             // 设备ID###公司###姓名###职位###电话###邮箱###QQ
         }
-//        SystemMethod.trackLog(mContext,400,429,"ScanQrcode","VisitorNamecard",email,"SQ_VisitorNameCard_");
+        AppUtil.trackLog(mContext,400,429,"ScanQrcode","VisitorNamecard",email,"SQ_VisitorNameCard_");
 
         if (mListener != null) {
             Bundle bundle = new Bundle();

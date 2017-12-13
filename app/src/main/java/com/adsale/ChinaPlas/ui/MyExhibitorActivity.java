@@ -1,5 +1,6 @@
 package com.adsale.ChinaPlas.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.databinding.ActivityMyExhibitorBinding;
 import com.adsale.ChinaPlas.ui.view.HelpView;
+import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.RecyclerItemDecoration;
 import com.adsale.ChinaPlas.utils.RecyclerViewScrollTo;
@@ -60,8 +62,21 @@ public class MyExhibitorActivity extends BaseActivity implements OnIntentListene
     }
 
     public void onSync() {
-        viewModel.setAdapter(adapter);
-        viewModel.sync();
+        if (AppUtil.isLogin()) {
+            viewModel.setAdapter(adapter);
+            viewModel.sync();
+        } else {
+            AppUtil.showAlertDialog(this, R.string.login_first_sync, R.string.login_text4, R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent intent = new Intent(MyExhibitorActivity.this, LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra("from","MyExhibitor");
+                    startActivity(intent);
+                    overridePendingTransPad();
+                }
+            });
+        }
     }
 
     public void onHelpPage() {

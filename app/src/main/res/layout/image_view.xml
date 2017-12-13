@@ -2,18 +2,59 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="pos"
-            type="int"/>
+            type="int" />
+
         <variable
             name="model"
             type="com.adsale.ChinaPlas.viewmodel.MainViewModel" />
     </data>
 
-    <ImageView
-        android:id="@+id/image_view"
+    <RelativeLayout
+        android:id="@+id/rl_banner"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:onClick="@{()->model.onTopPicClick(pos)}"
-        android:scaleType="fitCenter" />
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:onClick="@{()->model.onTopPicClick(pos)}"
+            android:scaleType="fitXY" />
+
+        <RelativeLayout
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="8dp"
+            android:visibility="@{model.isCountDownShow?View.VISIBLE:View.GONE}"
+            >
+
+            <ImageView
+                android:id="@+id/iv_cdd"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/ic_countdown"
+               />
+
+            <TextView
+                android:id="@+id/tv_cdd"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingTop="6dp"
+                android:paddingRight="3dp"
+                android:textColor="@color/home"
+                android:textSize="20sp"
+                />
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content" />-->
+        </RelativeLayout>
+
+    </RelativeLayout>
 </layout>

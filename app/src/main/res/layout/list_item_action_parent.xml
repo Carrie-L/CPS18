@@ -1,49 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/rl_left_parent"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="obj"
+            type="com.adsale.ChinaPlas.dao.MainIcon"/>
+    </data>
 
-    <ImageView
-        android:id="@+id/iv_drawer_icon"
-        android:layout_width="@dimen/drawer_icon_size"
-        android:layout_height="@dimen/drawer_icon_size"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp" />
-
-    <TextView
-        android:id="@+id/parent_menu_left_item_tv"
+    <RelativeLayout
+        android:id="@+id/rl_left_parent"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_toRightOf="@id/iv_drawer_icon"
-        android:clickable="true"
-        android:gravity="center_vertical"
-        android:textColor="#000000"
-        android:textSize="14sp" />
+        android:layout_height="wrap_content">
 
-    <ImageButton
-        android:id="@+id/parent_menu_left_item_arrow"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="16dp"
-        android:background="@null"
-        android:gravity="center_vertical"
-        android:visibility="visible" />
+        <ImageView
+            android:id="@+id/iv_drawer_icon"
+            android:layout_width="@dimen/drawer_icon_size"
+            android:layout_height="@dimen/drawer_icon_size"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp" />
 
-    <TextView
-        android:id="@+id/parent_menu_left_item_count"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="16dp"
-        android:background="@drawable/circle_number"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:visibility="gone" />
+        <TextView
+            android:id="@+id/parent_menu_left_item_tv"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_toRightOf="@id/iv_drawer_icon"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:textColor="#000000"
+            android:textSize="16sp" />
 
+        <ImageButton
+            android:id="@+id/parent_menu_left_item_arrow"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:visibility="visible" />
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/parent_menu_left_item_count"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/circle_number"
+            android:gravity="center"
+            android:text="@{String.valueOf(obj.updateCount.get())}"
+            android:textColor="@color/white"
+            android:visibility="@{obj.updateCount.get()>0?View.VISIBLE:View.GONE}" />
+    </RelativeLayout>
+
+</layout>

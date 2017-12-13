@@ -10,9 +10,8 @@ import com.adsale.ChinaPlas.data.ExhibitorRepository;
 import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.data.model.ExhibitorFilter;
 import com.adsale.ChinaPlas.ui.ExhibitorFilterActivity;
-import com.adsale.ChinaPlas.ui.view.SideLetter;
+import com.adsale.ChinaPlas.ui.view.SideDataView;
 import com.adsale.ChinaPlas.utils.LogUtil;
-import com.adsale.ChinaPlas.utils.RecyclerViewScrollTo;
 
 import java.util.ArrayList;
 
@@ -39,7 +38,6 @@ import java.util.ArrayList;
 public class ExhibitorListViewModel {
     private final String TAG = "ExhibitorListViewModel";
     public final ObservableField<String> etFilter = new ObservableField<>();
-    public final ObservableField<String> dialogLetter = new ObservableField<>();
     /**
      * 当前是否以拼音字母排序，true是；false hall排序。
      */
@@ -49,14 +47,13 @@ public class ExhibitorListViewModel {
     /**
      * 从Exhibitor Dtl 的 Industry or App Industry 跳转过来的
      */
-    public static final int TYPE_INDUSTRY = 1;
-    public static final int TYPE_APP_INDUSTRY = 2;
+    static final int TYPE_INDUSTRY = 1;
+    static final int TYPE_APP_INDUSTRY = 2;
     private int mType = 0;
     private String mId;
 
-    private RecyclerViewScrollTo mRVScrollTo;
     private ExhibitorAdapter adapter;
-    private SideLetter sideLetter;
+    private SideDataView sideDataView;
     private ArrayList<Exhibitor> searchTemps = new ArrayList<>();
     private OnIntentListener mListener;
 
@@ -74,7 +71,7 @@ public class ExhibitorListViewModel {
     public ArrayList<String> mLetters = new ArrayList<>();
 
     public boolean isFiltering;
-    private boolean isSearching;
+    public boolean isSearching;
     private String mKeyword;
 
     public ExhibitorListViewModel(ExhibitorRepository repository, OnIntentListener listener) {
@@ -82,9 +79,8 @@ public class ExhibitorListViewModel {
         this.mListener = listener;
     }
 
-    public void setLayoutManager(RecyclerViewScrollTo scrollTo, SideLetter sideLetter) {
-        mRVScrollTo = scrollTo;
-        this.sideLetter = sideLetter;
+    public void setLayoutManager(SideDataView sideDataView) {
+        this.sideDataView = sideDataView;
     }
 
     public void setAdapter(ExhibitorAdapter adapter) {
@@ -128,7 +124,6 @@ public class ExhibitorListViewModel {
     }
 
     private void getSearchExhibitorsAZ() {
-        isSearching = true;
         clearList();
         searchTemps.clear();
         searchTemps.addAll(mAllExhibitorAZCaches);
@@ -142,15 +137,18 @@ public class ExhibitorListViewModel {
     }
 
     private void getSearchExhibitorsHall() {
-        isSearching = true;
         clearList();
+        if (mAllExhibitorHallCaches.isEmpty() && !isFiltering) { /* 获取全部Hall排序列表缓存。only 从全部展商列表里搜索时执行，当列表为筛选结果列表时，不执行这个 */
+            mAllExhibitorHallCaches.addAll(mExhibitorRepo.sortByHallList(mAllSideHallCaches));
+        }
         searchTemps.clear();
         searchTemps.addAll(mAllExhibitorHallCaches);
-        if (mSearchExhibitorsAZ.isEmpty()) {
+        if (mSearchExhibitorsHall.isEmpty()) {
             mSearchExhibitorsHall.addAll(mExhibitorRepo.getExhibitorSearchHalls(searchTemps, mSearchSideHalls, mKeyword));
         }
         mExhibitors.addAll(mSearchExhibitorsHall);
         mLetters.addAll(mSearchSideHalls);
+        LogUtil.i(TAG, "mSearchSideHalls= " + mSearchSideHalls.size() + "," + mSearchSideHalls.toString());
         refreshUI();
     }
 
@@ -178,6 +176,7 @@ public class ExhibitorListViewModel {
             return;
         }
         if (mAllExhibitorHallCaches.isEmpty()) {
+            LogUtil.i(TAG, "getFilterExhibitorsHall:mAllExhibitorHallCaches.isEmpty()>>");
             mAllExhibitorHallCaches.addAll(mExhibitorRepo.queryFilterExhibitor(mFilters, mAllSideHallCaches, false));
         }
         mExhibitors.addAll(mAllExhibitorHallCaches);
@@ -185,7 +184,7 @@ public class ExhibitorListViewModel {
         refreshUI();
     }
 
-    private ArrayList<ExhibitorFilter> mFilters;
+    private ArrayList<ExhibitorFilter> mFilters = new ArrayList<>();
 
     public void setFilters(ArrayList<ExhibitorFilter> filters) {
         mFilters = filters;
@@ -193,6 +192,7 @@ public class ExhibitorListViewModel {
 
     public void onSortAZ() {
         isSortAZ.set(true);
+        LogUtil.i(TAG, "onSortAZ>>>:isSearching=" + isSearching);
         if (isSearching) {
             getSearchExhibitorsAZ();
         } else if (isFiltering) {
@@ -204,6 +204,7 @@ public class ExhibitorListViewModel {
 
     public void onSortHall() {
         isSortAZ.set(false);
+        LogUtil.i(TAG, "onSortHall///:isSearching=" + isSearching + ",isFiltering=" + isFiltering + ",KEYWORD=" + mKeyword);
         if (isSearching) {
             getSearchExhibitorsHall();
         } else if (isFiltering) {
@@ -214,6 +215,7 @@ public class ExhibitorListViewModel {
     }
 
     public void search(String keyword) {
+        isSearching = true;
         mKeyword = keyword;
         clearSearchList();
         if (isSortAZ.get()) {
@@ -244,12 +246,7 @@ public class ExhibitorListViewModel {
 
     private void refreshUI() {
         adapter.setList(mExhibitors);
-        refreshSideLetter();
-    }
-
-    private void refreshSideLetter() {
-        sideLetter.setList(mLetters);
-        sideLetter.refresh();
+        sideDataView.refreshExhibitors(mExhibitors, mLetters);
     }
 
     public void clearCache() {
@@ -270,16 +267,5 @@ public class ExhibitorListViewModel {
         mSearchExhibitorsHall.clear();
         mSearchSideHalls.clear();
     }
-
-    public void scrollTo(String letter) {
-        int size = mExhibitors.size();
-        for (int j = 0; j < size; j++) {
-            if (mExhibitors.get(j).getSort().equals(letter)) {
-                mRVScrollTo.scroll(j);
-                break;
-            }
-        }
-    }
-
 
 }

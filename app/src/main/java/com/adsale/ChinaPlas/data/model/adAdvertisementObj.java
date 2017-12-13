@@ -17,7 +17,7 @@ public class adAdvertisementObj {
 	public Common Common;
 
 //	public static adAdvertisementObj parseAd() {
-//		return new Gson().fromJson(SystemMethod.readTxt(Constant.AdvertisementPath), adAdvertisementObj.class);
+//		return new Gson().fromJson(AppUtil.readTxt(Constant.AdvertisementPath), adAdvertisementObj.class);
 //	}
 
 	@Override

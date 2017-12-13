@@ -9,6 +9,9 @@
         <variable
             name="obj"
             type="com.adsale.ChinaPlas.dao.Exhibitor" />
+        <variable
+            name="pos"
+            type="int"/>
     </data>
 
     <LinearLayout
@@ -31,6 +34,7 @@
             layout="@layout/item_exhi_detail_child"
             app:obj="@{obj}"
             app:adapter="@{adapter}"
+            app:pos="@{pos}"
             />
 
     </LinearLayout>

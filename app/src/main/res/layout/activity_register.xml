@@ -8,6 +8,10 @@
         <variable
             name="regModel"
             type="com.adsale.ChinaPlas.viewmodel.RegisterViewModel" />
+
+        <variable
+            name="aty"
+            type="com.adsale.ChinaPlas.ui.RegisterActivity"/>
     </data>
 
     <RelativeLayout
@@ -64,8 +68,10 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="16dp"
                     android:background="@drawable/btn_bg"
-                    android:onClick="@{()->regModel.onGetInvoice()}"
+                    android:onClick="@{()->aty.onGetInvoice()}"
                     android:text="@string/reg_invoice"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
                     android:textColor="#fff" />
 
                 <TextView
@@ -109,7 +115,7 @@
                     android:layout_toEndOf="@id/iv_center_line"
                     android:layout_toRightOf="@id/iv_center_line"
                     android:background="@drawable/bttn_grey"
-                    android:onClick="@{() -> regModel.reset()}"
+                    android:onClick="@{() -> aty.onReset()}"
                     android:text="@string/reg_again" />
 
 

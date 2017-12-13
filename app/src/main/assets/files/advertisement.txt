@@ -1,7 +1,7 @@
-﻿{
+{
     "Common": {
         "baseUrl": "https://o97tbiy1f.qnssl.com/advertisement/",
-        "time": "13/1/2017-30/6/2017",
+        "time": "13/1/2017-30/12/2017",
         "tablet": "tablet_",
         "phone": "phone_"
     },

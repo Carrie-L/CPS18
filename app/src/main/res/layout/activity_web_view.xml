@@ -14,20 +14,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ProgressBar
-            android:id="@+id/progressBar1"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:layout_alignParentTop="true"
-            android:progressDrawable="@drawable/progressbar_selector" />
-
         <LinearLayout
             android:id="@+id/ll_bar"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/white_smoke"
+            android:background="@drawable/webview_bottom_bg"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -37,7 +29,7 @@
                 android:layout_height="32dp"
                 android:layout_weight="1"
                 android:onClick="@{()->view.onBack()}"
-                android:src="@drawable/back" />
+                android:src="@drawable/bottom_arrow_left" />
 
             <ImageView
                 android:id="@+id/go"
@@ -45,7 +37,7 @@
                 android:layout_height="32dp"
                 android:layout_weight="1"
                 android:onClick="@{()->view.onGo()}"
-                android:src="@drawable/go" />
+                android:src="@drawable/bottom_arrow_right" />
 
             <ImageView
                 android:id="@+id/out"
@@ -53,9 +45,26 @@
                 android:layout_height="32dp"
                 android:layout_weight="1"
                 android:onClick="@{()->view.onOut()}"
-                android:src="@drawable/out" />
+                android:src="@drawable/icon_browser" />
 
         </LinearLayout>
+
+        <WebView
+            android:id="@+id/web_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/ll_bar"
+            />
+
+        <ProgressBar
+            android:id="@+id/progressBar1"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_alignParentTop="true"
+            android:progressDrawable="@drawable/progressbar_selector" />
+
+
 
         <ImageView
             android:id="@id/iv_help"

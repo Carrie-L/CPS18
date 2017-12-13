@@ -1,6 +1,5 @@
 package com.adsale.ChinaPlas.utils;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
@@ -8,7 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -16,19 +14,20 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.provider.Settings;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import android.os.Build;
 import android.support.v7.app.AlertDialog;
-import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
+import com.adsale.ChinaPlas.data.model.LogJson;
+import com.baidu.mobstat.StatService;
 import com.github.promeg.pinyinhelper.Pinyin;
+import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -44,10 +43,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
-import java.util.TimeZone;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.Request;
+import okhttp3.Response;
 
 import static android.content.Context.MODE_PRIVATE;
-import static com.adsale.ChinaPlas.utils.PermissionUtil.PMS_CODE_CALL_PHONE;
 
 /**
  * Created by Carrie on 2017/8/8.
@@ -56,7 +59,9 @@ import static com.adsale.ChinaPlas.utils.PermissionUtil.PMS_CODE_CALL_PHONE;
 public class AppUtil {
     private static final String TAG = "AppUtil";
     private static final String isTesting = ReleaseHelper.TRACK_IS_TEST;//上线版本则改为false
-    private static final String TRACKING_OS = "Android_CPS";
+    private static final String TRACKING_OS = "Android_CPS18";
+    private static String strLogJson;
+    private static ArrayList<LogJson> logJsonArr;
 
     private static final String ACCOUNT_NAME = "ChinaPlas@gmail.com";
     private static final String CALENDAR_DISPLAY_NAME = "ChinaPlas18";
@@ -79,26 +84,16 @@ public class AppUtil {
         App.mSP_Config.edit().putBoolean("isPhone", bool).apply();
     }
 
-    public static void setDeviceId(Context context) {
-        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        String deviceId = tm.getDeviceId();
-        if (TextUtils.isEmpty(deviceId)) {
-            deviceId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
-        }
-        LogUtil.i(TAG, "deviceId=" + deviceId);
-        App.mSP_Config.edit().putString("DeviceId", deviceId).apply();
-    }
-
-    public static String getUUID() {
-        return App.mSP_Config.getString("UUID", "");
-    }
+//    public static String getUUID() {
+//        return App.mSP_Config.getString("UUID", "");
+//    }
 
     public static String getDeviceId() {
         return App.mSP_Config.getString("deviceId", "");
     }
 
     public static int getScreenWidth() {
-        return App.mSP_Config.getInt("ScreenWidth", 0);
+        return App.mSP_Config.getInt(Constant.SCREEN_WIDTH, 0);
     }
 
     public static int getScreenHeight() {
@@ -345,7 +340,6 @@ public class AppUtil {
         if (context instanceof App) {
             throw new ClassCastException("Application cannot be cast to Activity");
         }
-
         Uri uri;
         try {
             if (url.contains("tel")) {
@@ -355,9 +349,8 @@ public class AppUtil {
             }
             Intent intent = new Intent(Intent.ACTION_CALL, uri);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            if (ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.CALL_PHONE}, PMS_CODE_CALL_PHONE);
-                return;
+            if (PermissionUtil.checkPermission((Activity) context, PermissionUtil.PERMISSION_CALL_PHONE)) {
+                PermissionUtil.requestPermission((Activity) context, PermissionUtil.PERMISSION_CALL_PHONE, PermissionUtil.PMS_CODE_CALL_PHONE);
             } else {
                 context.startActivity(intent);
                 if (isTablet()) {
@@ -368,6 +361,332 @@ public class AppUtil {
             Toast.makeText(context, context.getString(R.string.exception_toast_phone), Toast.LENGTH_SHORT).show();
         }
     }
+
+    public static String getAppVersion() {
+        return App.mSP_Config.getString("AppVersion", "");
+    }
+
+    /**
+     * <font color="#f97798"></font>
+     *
+     * @param context
+     * @param actionId not null
+     * @param type     not null 缩写
+     * @param subType
+     * @param location <font color="#f97798">not null</font>
+     * @return void
+     * @version 创建时间：2016年5月25日 上午10:20:29
+     */
+    public static void trackViewLog(Context context, int actionId, String type, String subType, String location) {
+        if (strLogJson == null) {
+            strLogJson = new String();
+        }
+        if (logJsonArr == null) {
+            logJsonArr = new ArrayList<>();
+        }
+
+        if (subType == null) {
+            subType = "";
+        }
+        LogJson logJson = new LogJson();
+        logJson.ActionID = actionId;
+        logJson.AppName = LOG_APP_NAME.concat(getAppVersion());
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        LogUtil.i(TAG, "当前时间为：" + df.format(Calendar.getInstance().getTime()));
+        logJson.CreateDate = df.format(Calendar.getInstance().getTime());
+        logJson.DeviceID = getDeviceId();
+        logJson.SystemLanguage = Locale.getDefault().getLanguage();
+        logJson.CountryCode = Locale.getDefault().getCountry();
+
+        logJson.SubType = subType;
+
+        if (!TextUtils.isEmpty(subType)) {
+            subType = subType + "_";
+        }
+
+
+        String completeType = "";
+
+        if (type.contains("Page")) {
+            logJson.ActionGroup = 100;
+
+            //189\190\191(newPhoto、newsLink、newsDetail的trackingName不加subType)
+            if (actionId == 189 || actionId == 190 || actionId == 191 || actionId == 192) {
+                subType = "";
+            }
+
+        } else if (type.equals("Ad")) {
+            logJson.ActionGroup = 200;
+
+//			if (subType.contains("_")) {
+//				LogUtil.i(TAG, "Ad_subType.contains(_)");
+//				completeType = subType.split("_")[0];
+//			}
+
+        } else if (type.equals("Event")) {
+            logJson.ActionGroup = 300;
+        } else if (type.equals("Download")) {
+            logJson.ActionGroup = 400;
+        } else if (type.equals("CA")) {
+            logJson.ActionGroup = 400;
+            completeType = "ClickAD";
+        } else if (type.equals("BE")) {
+            logJson.ActionGroup = 400;
+            completeType = "BookmarkExh";
+        } else if (type.equals("CB")) {
+            logJson.ActionGroup = 400;
+            completeType = "ClickBooth";
+        } else if (type.equals("UC")) {
+            logJson.ActionGroup = 400;
+            completeType = "UpdateContent";
+        } else if (actionId == 422) {
+            logJson.ActionGroup = 400;
+            completeType = "SubscribeE";
+        } else if (type.equals("PR")) {
+            logJson.ActionGroup = 400;
+            completeType = "PreregReset";
+        } else if (type.equals("PS")) {
+            logJson.ActionGroup = 400;
+            completeType = "PreregSuccess";
+        } else if (type.equals("SME")) {
+            logJson.ActionGroup = 400;
+            completeType = "SyncMyExhibitor";
+        } else if (type.equals("Technical")) {
+            logJson.ActionGroup = 300;
+            completeType = "Technical Seminar";
+        } else if (type.contains("Msg")) {
+            logJson.ActionGroup = 400;
+        } else if (type.equals("US")) {
+            completeType = "UpdateSchedule";
+            logJson.ActionGroup = 400;
+        } else if (type.equals("UN")) {
+            completeType = "UpdateNote";
+            logJson.ActionGroup = 400;
+        } else if (type.equals("SA")) {
+            completeType = "ShareApp";
+            logJson.ActionGroup = 400;
+        } else if (type.equals("SN")) {
+            completeType = "ShareNews";
+            logJson.ActionGroup = 400;
+        } else if (actionId == 425) {
+            completeType = "ShareExhibitor";
+            logJson.ActionGroup = 400;
+        } else if (actionId == 426) {
+            completeType = "LoadingTime";
+            logJson.ActionGroup = 400;
+        } else if (type.equals("CU")) {
+            completeType = "ContentUpdate";
+            logJson.ActionGroup = 400;
+        }// TODO: 2017/2/13 貌似少了 427 keySearch，428 AdvanceSearch
+        else if (actionId == 429) {
+            completeType = "VisitorNamecard";
+            logJson.ActionGroup = 400;
+        } else if (actionId == 430) {
+            completeType = "CompanyNamecard";
+            logJson.ActionGroup = 400;
+        } else if (actionId == 431) {
+            completeType = "HallMap";
+            logJson.ActionGroup = 400;
+        } else if (actionId == 432) {
+            completeType = "HallMapAd";
+            logJson.ActionGroup = 400;
+        } else if (actionId == 433) {
+            completeType = "Link";
+            logJson.ActionGroup = 400;
+        } else {
+            logJson.ActionGroup = 500;
+        }
+        if (type.equals("Download")) {
+            completeType = "DL";
+        }
+
+        LogUtil.i(TAG, "completeType111=" + completeType);
+        if (TextUtils.isEmpty(completeType)) {
+            LogUtil.i(TAG, "completeType222=" + completeType);
+            logJson.Type = type;
+        } else {
+            LogUtil.i(TAG, "completeType333=" + completeType);
+            logJson.Type = completeType;
+        }
+
+//        logJson.Location = location.isEmpty() ? " " : location;
+
+        if (TextUtils.isEmpty(location)) {
+            logJson.Location = " ";
+        } else {
+            logJson.Location = location;
+            if (actionId == 192) {
+                logJson.Location = "ScheduleDetailInfo";
+            }
+            location = location + "_";
+        }
+        int language = App.mLanguage.get();
+
+        switch (App.mLanguage.get()) {
+            case 1:
+
+                logJson.TrackingName = type + "_" + subType + location + "en_Android";
+                break;
+            case 2:
+                logJson.LangID = 950;
+                logJson.TrackingName = type + "_" + subType + location + "sc_Android";
+                break;
+            default:
+                logJson.LangID = 936;
+                logJson.TrackingName = type + "_" + subType + location + "tc_Android";
+                break;
+        }
+        logJson.IsTest = isTesting;
+        String visitorID = getVmid();
+        LogUtil.e(TAG, "visitorID=" + visitorID);
+        if (TextUtils.isEmpty(visitorID)) {
+            logJson.VisitorID = "-1";
+        } else {
+            logJson.VisitorID = visitorID;
+        }
+        logJson.Platform = "Android".concat(Build.VERSION.RELEASE).concat("_").concat(Build.MODEL);
+        //todo don't know how to get PreregID
+//        if (getBooleanSharedPreferences(context, "IsRegister")) {
+//            logJson.PreregID = getSharedPreferences(context, "PreregID");
+//        } else {
+//            logJson.PreregID = "-1";
+//        }
+        logJson.PreregID = "-1";
+        logJson.TimeZone = "+8";
+        logJson.TrackingOS = TRACKING_OS;
+        logJson.Year = YEAR;
+
+        sendLog(logJson);
+
+    }
+
+    public static void trackLog(Context context, int actionGroup, int actionId, String type, String subType, String location, String trackingNamePrefix) {
+        if (strLogJson == null) {
+            strLogJson = "";
+        }
+        if (logJsonArr == null) {
+            logJsonArr = new ArrayList<>();
+//            readSDLog(); // TODO: 2017/2/14 检测为什么加了这句，提交log就会失败
+        }
+        LogJson logJson = new LogJson();
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        LogUtil.i(TAG, "当前时间为：" + df.format(Calendar.getInstance().getTime()));
+        int curLang = App.mLanguage.get();
+
+        Calendar cal = Calendar.getInstance(Locale.getDefault());
+        int zoneOffset = cal.get(Calendar.ZONE_OFFSET);
+        int zone = zoneOffset / 60 / 60 / 1000;
+
+        logJson.AppName = LOG_APP_NAME.concat(getAppVersion());
+        logJson.ActionGroup = actionGroup;
+        logJson.ActionID = actionId;
+        logJson.Platform = "Android".concat(Build.VERSION.RELEASE).concat("_").concat(Build.MODEL);
+        logJson.DeviceID = getDeviceId();
+        logJson.LangID = curLang == 0 ? 936 : curLang == 1 ? 1252 : 950;
+//        if (getBooleanSharedPreferences(context, "IsRegister")) {
+//            logJson.PreregID = getSharedPreferences(context, "PreregID");
+//        } else {
+//            logJson.PreregID = "-1";
+//        }
+        logJson.PreregID = "-1";
+        logJson.Type = type;
+        logJson.SubType = subType;
+        logJson.Location = location;
+        logJson.CountryCode = Locale.getDefault().getCountry();
+        logJson.SystemLanguage = Locale.getDefault().getLanguage();
+        logJson.TrackingName = trackingNamePrefix.concat(getLanguageType()).concat("_Android");
+        logJson.TrackingOS = TRACKING_OS;
+        logJson.CreateDate = df.format(Calendar.getInstance().getTime());
+        logJson.Year = YEAR;
+        logJson.TimeZone = zone > 0 ? ("+" + zone) : zone + "";
+        logJson.IsTest = isTesting;
+        String visitorID = context.getSharedPreferences(Constant.SP_LOGIN, 0).getString("vmid", "");
+        logJson.VisitorID = TextUtils.isEmpty(visitorID) ? "-1" : visitorID;
+        LogUtil.e(TAG, "visitorID=" + visitorID);
+        LogUtil.i(TAG, "TrackingName=" + trackingNamePrefix + getLanguageType(curLang) + "_Android");
+
+        sendLog(logJson);
+
+    }
+
+    private static void sendLog(LogJson logJson) {
+        //2016.6.23: 那你就每次寫入的時候加個簡單判斷，若時間、trackingname一致，就不重複寫入
+        boolean isRepeat = false;
+        int size = logJsonArr.size();
+        if (size > 0) {
+            for (int i = 0; i < size; i++) {
+                LogJson log = logJsonArr.get(i);
+                if (logJson.Location.equals(log.Location) && (logJson.TrackingName).equals(log.TrackingName)) {
+                    isRepeat = true;
+                    break;
+                }
+            }
+        }
+
+        if (!isRepeat) {
+            logJsonArr.add(logJson);
+        }
+        if (logJsonArr == null || logJsonArr.size() == 0) {
+            return;
+        }
+        strLogJson = new Gson().toJson(logJsonArr);
+
+        // 目的是为了退出之后再打开app还是会记得退出之前的事件
+//        writeFileToSD(strLogJson, LOG_JSON_STR_KEY);
+//        final String strLogSD = readFromSD(LOG_JSON_STR_KEY);
+//        LogUtil.i(TAG, "strLogSD=" + strLogSD);
+//        if (!TextUtils.isEmpty(strLogSD)) {
+//            ArrayList<LogJson> logList = Parser.parseJsonArray(strLogSD);
+////            LogUtil.e(TAG, "----------------trackingLog=" + logList.toString());
+//
+//            int logSize = logList.size();
+//            LogUtil.i(TAG, "logSize=" + logSize);
+//            LogUtil.i(TAG, "logJsonArr.size()=" + logJsonArr.size());
+////            LogUtil.e(TAG, "----------------strLogJson=" + strLogJson);
+//        }
+
+        if (logJsonArr.size() >= 5) {// >= 5
+            FormBody formBody = new FormBody.Builder().add("logArr", strLogJson).build();
+            Request request = new Request.Builder().url(NetWorkHelper.LOGJSON).post(formBody).build();
+            App.mOkHttpClient.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    Log.e(TAG, "PostLogFailed: " + e.getMessage());
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    Log.i(TAG, "PostLogSuccess");
+                    if (logJsonArr != null) {
+                        logJsonArr.clear();
+                    }
+                    strLogJson = "";
+//                    writeFileToSD(strLogJson, LOG_JSON_STR_KEY);
+                }
+            });
+        }
+    }
+
+    public static String getVmid() {
+        return App.mSP_Login.getString(Constant.VMID, "");
+    }
+
+    /**
+     * <font color="#f97798">百度统计自定义事件</font>
+     *
+     * @param context
+     * @param id       自定义事件id
+     * @param lable    标签 （TrackingName）前缀BE_219644|| Page_AdvancedSearch
+     * @return void
+     * @version 创建时间：2016年6月15日 下午2:21:19
+     */
+    public static void setStatEvent(Context context, String id, String lable) {
+        //lable: Page_AdvancedSearch_sc_Android
+        lable = lable.concat("_").concat(getLanguageType()).concat("_Android");
+        StatService.onEvent(context, id, lable, 1);
+    }
+
 
     /* \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\  工具  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ */
 
@@ -424,6 +743,19 @@ public class AppUtil {
         if (negativeResID > 0) {
             ad.setNegativeButton(negativeResID, negativeClickListener);
         }
+        ad.create().show();
+    }
+
+    public static void showAlertDialog(Context context, int messageResID, int positiveResID, int negativeResID, DialogInterface.OnClickListener positiveClickListener) {
+        AlertDialog.Builder ad = new AlertDialog.Builder(context);
+        ad.setMessage(messageResID);
+        ad.setPositiveButton(positiveResID, positiveClickListener);
+        ad.setNegativeButton(negativeResID, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
         ad.create().show();
     }
 
@@ -499,27 +831,33 @@ public class AppUtil {
      * @return <font color="#f97798">yyyy-MM-dd HH:mm:ss</font>
      */
     public static String GMT2UTC(String time) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSZ", Locale.CHINA);
-        SimpleDateFormat sformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+        LogUtil.i(TAG, "time=" + time);
+//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSZ", Locale.CHINA);
+//        SimpleDateFormat sformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+//        try {
+//            Date date = format.parse(time);
+//            System.out.println("time=" + time + ",,,time2=" + sformat.format(date));
+//            return sformat.format(date);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+        return time;
+    }
+
+    public static long getShowCountDown() {
+        long diff = 0;
+        String today = AppUtil.getTodayDate();
+        String showStartDate = "2018-04-24";//yyyy-MM-dd
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         try {
-            Date date = format.parse(time);
-            /* System.out.println("time="+time+",,,time2="+sformat.format(date)); */
-            return sformat.format(date);
+            Date date0 = sdf.parse(today);
+            Date date1 = sdf.parse(showStartDate);
+            diff = (date1.getTime() - date0.getTime()) / (1000 * 60 * 60 * 24);
+            LogUtil.i(TAG, "diff=" + diff);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return "";
-    }
-
-    public static String GMTTOUTC(){
-        SimpleDateFormat dateFormatGmt = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss",Locale.CHINA);
-        dateFormatGmt.setTimeZone(TimeZone.getTimeZone("GMT"));
-
-//Local time zone
-        SimpleDateFormat dateFormatLocal = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss",Locale.getDefault());
-
-//Time in GMT
-        return dateFormatLocal.format( dateFormatGmt.format(new Date()) );
+        return diff;
     }
 
 
@@ -687,6 +1025,10 @@ public class AppUtil {
         return subStringFront1(str1, c2);
     }
 
+    public static String subLast(String str, char c) {
+        return str.substring(0, str.lastIndexOf(c) + 1);
+    }
+
     /**
      * 截取字母前的数字，如11.2D1——> 11.2
      *
@@ -710,7 +1052,7 @@ public class AppUtil {
 
     public static boolean isNetworkAvailable() {
         NetworkInfo ni = App.mConnectivityManager.getActiveNetworkInfo();
-        return ni != null && ni.isAvailable()&&ni.isConnected();
+        return ni != null && ni.isAvailable() && ni.isConnected();
     }
 
     public static <T> void logListString(ArrayList<T> list) {
@@ -739,6 +1081,16 @@ public class AppUtil {
     public static void getDuringTime(String tag, String str, long startTime) {
         long endTime = System.currentTimeMillis();
         LogUtil.i(tag, str + " * 所花費的時間為:" + (endTime - startTime) + "ms");
+    }
+
+    /**
+     * 得到计算后的高度，宽度为屏幕宽
+     *
+     * @return height
+     */
+    public static int getCalculatedHeight(int originWidth, int originHeight) {
+        int screenWidth = App.mSP_Config.getInt(Constant.SCREEN_WIDTH, 0);
+        return (screenWidth * originHeight) / originWidth;
     }
 
 

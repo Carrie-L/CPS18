@@ -43,11 +43,11 @@ public class SeminarInfo implements Parcelable {
 
     public String timeStatus;
 
-    public boolean isADer = false;//广告商
-    public String adLogoUrl;
-    public String adBannerUrl;
+    public ObservableBoolean isADer = new ObservableBoolean(false);//广告商
+    private String adLogoUrl = "";
+    private String adHeaderUrl = "";
 
-    public final ObservableBoolean isTypeLabel = new ObservableBoolean();
+    public boolean isTypeLabel = false;
 
     // KEEP FIELDS END
 
@@ -189,31 +189,18 @@ public class SeminarInfo implements Parcelable {
 
     // KEEP METHODS - put your custom methods here
 
+
     @Override
     public String toString() {
         return "SeminarInfo{" +
                 "ID=" + ID +
-                ", EventID=" + EventID +
                 ", CompanyID='" + CompanyID + '\'' +
-                ", Booth='" + Booth + '\'' +
                 ", Date='" + Date + '\'' +
                 ", Time='" + Time + '\'' +
-                ", Hall='" + Hall + '\'' +
-                ", RoomNo='" + RoomNo + '\'' +
-                ", PresentCompany='" + PresentCompany + '\'' +
-                ", Topic='" + Topic + '\'' +
-                ", Speaker='" + Speaker + '\'' +
                 ", langID=" + langID +
-                ", OrderFull=" + OrderFull +
-                ", OrderMob=" + OrderMob +
-                ", startTime='" + startTime + '\'' +
-                ", endTime='" + endTime + '\'' +
-                ", timeStartStatus='" + timeStartStatus + '\'' +
-                ", timeEndStatus='" + timeEndStatus + '\'' +
-                ", colorCode=" + colorCode +
-                ", zone='" + zone + '\'' +
-                ", timeStatus='" + timeStatus + '\'' +
-                ", isADer=" + isADer +
+                ", isADer=" + isADer.get() +
+                ", isTypeLabel=" + isTypeLabel +
+                ", adHeaderUrl=" + adHeaderUrl +
                 '}';
     }
 
@@ -270,6 +257,23 @@ public class SeminarInfo implements Parcelable {
         this.OrderFull = Integer.valueOf(strings[12]);
         this.OrderMob = Integer.valueOf(strings[13]);
     }
+
+    public String getAdLogoUrl() {
+        return adLogoUrl;
+    }
+
+    public String getAdHeaderUrl() {
+        return adHeaderUrl;
+    }
+
+    public void setAdLogoUrl(String adLogoUrl) {
+        this.adLogoUrl = adLogoUrl;
+    }
+
+    public void setAdHeaderUrl(String adHeaderUrl) {
+        this.adHeaderUrl = adHeaderUrl;
+    }
+
     // KEEP METHODS END
 
     @Override
@@ -300,7 +304,10 @@ public class SeminarInfo implements Parcelable {
         dest.writeInt(this.colorCode);
         dest.writeString(this.zone);
         dest.writeString(this.timeStatus);
-        dest.writeByte(isADer ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isADer.get() ? (byte) 1 : (byte) 0);
+        dest.writeString(this.adLogoUrl);
+        dest.writeString(this.adHeaderUrl);
+        dest.writeByte(this.isTypeLabel ? (byte) 1 : (byte) 0);
     }
 
     protected SeminarInfo(Parcel in) {
@@ -325,14 +332,19 @@ public class SeminarInfo implements Parcelable {
         this.colorCode = in.readInt();
         this.zone = in.readString();
         this.timeStatus = in.readString();
-        this.isADer = in.readByte() != 0;
+        this.isADer.set(in.readByte() != 0) ;
+        this.adLogoUrl = in.readString();
+        this.adHeaderUrl = in.readString();
+        this.isTypeLabel = in.readByte() != 0;
     }
 
     public static final Creator<SeminarInfo> CREATOR = new Creator<SeminarInfo>() {
+        @Override
         public SeminarInfo createFromParcel(Parcel source) {
             return new SeminarInfo(source);
         }
 
+        @Override
         public SeminarInfo[] newArray(int size) {
             return new SeminarInfo[size];
         }

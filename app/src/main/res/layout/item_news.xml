@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -8,6 +9,13 @@
         <variable
             name="activity"
             type="com.adsale.ChinaPlas.ui.NewsActivity"/>
+        <import type="com.adsale.ChinaPlas.utils.NetWorkHelper"/>
+        <variable
+            name="options"
+            type="com.bumptech.glide.request.RequestOptions"/>
+        <variable
+            name="baseUrl"
+            type="String"/>
     </data>
 
     <RelativeLayout
@@ -22,8 +30,9 @@
             android:id="@+id/iv_news_pic"
             android:layout_width="40dp"
             android:layout_height="40dp"
-
-            android:layout_marginLeft="16dp"
+            android:layout_marginLeft="12dp"
+            app:imageUrl="@{obj.getLogo()}"
+            app:requestOptions="@{options}"
             />
 
         <!--android:background="@{obj.logo}"-->

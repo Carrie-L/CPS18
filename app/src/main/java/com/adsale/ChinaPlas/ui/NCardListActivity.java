@@ -1,7 +1,5 @@
 package com.adsale.ChinaPlas.ui;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -19,6 +17,7 @@ public class NCardListActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        barTitle.set(getString(R.string.title_all_name_card));
         binding = ActivityNcardListBinding.inflate(getLayoutInflater(),mBaseFrameLayout,true);
         viewModel = new NCardViewModel(getApplicationContext());
         binding.setViewModel(viewModel);

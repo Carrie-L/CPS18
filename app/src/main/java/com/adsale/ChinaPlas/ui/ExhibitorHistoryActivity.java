@@ -38,7 +38,7 @@ public class ExhibitorHistoryActivity extends BaseActivity {
     public void initView() {
         getLayoutInflater().inflate(R.layout.activity_history_exhibitor,mBaseFrameLayout);
         barTitle.set(getString(R.string.title_history_exhibitor));
-        mRecyclerView= (CpsRecyclerView) findViewById(R.id.recycler_view2);
+        mRecyclerView=  findViewById(R.id.recycler_view2);
     }
 
     public void initData() {

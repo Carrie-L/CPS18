@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="obj"
+            type="String"/>
+    </data>
+    <TextView
+        android:id="@+id/tv_test_side"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@{obj}"
+        android:textSize="12sp"
+        android:textColor="@color/home"
+        >
+
+    </TextView>
+
+</layout>

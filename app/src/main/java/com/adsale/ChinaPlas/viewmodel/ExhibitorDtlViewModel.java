@@ -7,12 +7,17 @@ import android.databinding.ObservableInt;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import com.adsale.ChinaPlas.adapter.NewTecAdapter;
+import com.adsale.ChinaPlas.R;
+import com.adsale.ChinaPlas.adapter.ExhibitorPhotoAdapter;
+import com.adsale.ChinaPlas.adapter.NewTecListAdapter;
 import com.adsale.ChinaPlas.adapter.ScheduleAdapter;
 import com.adsale.ChinaPlas.adapter.TextAdapter2;
 import com.adsale.ChinaPlas.dao.Exhibitor;
@@ -27,11 +32,19 @@ import com.adsale.ChinaPlas.data.ScheduleRepository;
 import com.adsale.ChinaPlas.data.model.Text2;
 import com.adsale.ChinaPlas.databinding.LayoutExhibitorAddScheduleBinding;
 import com.adsale.ChinaPlas.databinding.ViewNoteBinding;
+import com.adsale.ChinaPlas.ui.ExhibitorDetailActivity;
 import com.adsale.ChinaPlas.ui.ScheduleEditActivity;
+import com.adsale.ChinaPlas.ui.TakePhotoActivity;
 import com.adsale.ChinaPlas.ui.view.ExhiDtlInfoView;
 import com.adsale.ChinaPlas.utils.AppUtil;
+import com.adsale.ChinaPlas.utils.Constant;
+import com.adsale.ChinaPlas.utils.FileUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
+import com.adsale.ChinaPlas.utils.NetWorkHelper;
+import com.adsale.ChinaPlas.utils.PermissionUtil;
+import com.adsale.ChinaPlas.utils.ShareSDKDialog;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import static com.adsale.ChinaPlas.viewmodel.ExhibitorListViewModel.TYPE_APP_INDUSTRY;
@@ -46,7 +59,6 @@ import static com.adsale.ChinaPlas.viewmodel.ExhibitorListViewModel.TYPE_INDUSTR
 public class ExhibitorDtlViewModel {
     private final String TAG = "ExhibitorDtlViewModel";
     public final ObservableField<String> companyName = new ObservableField<>("");
-    public final ObservableBoolean isAder = new ObservableBoolean(); // 是否广告展商
     public final ObservableBoolean isCollected = new ObservableBoolean(); // 是否收藏
     public final ObservableBoolean isInfoView = new ObservableBoolean(true); // 显示 InfoView, 控制底部button背景的
     public final ObservableBoolean isNoteView = new ObservableBoolean(); // 显示 NoteView
@@ -62,10 +74,8 @@ public class ExhibitorDtlViewModel {
     private FrameLayout mContentFrameLayout; // other button view
     private LayoutInflater inflater;
     private ExhiDtlInfoView mInfoView;
-    private Exhibitor exhibitor;
+    public Exhibitor exhibitor;
     private ExhibitorRepository mRepository;
-    private TextAdapter2 mIndustryAdapter;
-    private TextAdapter2 mAppIndAdapter;
     private ArrayList<Text2> industries;
     private ArrayList<Text2> appIndustries = new ArrayList<>();
     private ArrayList<NewProductInfo> newProductInfos = new ArrayList<>();
@@ -73,40 +83,48 @@ public class ExhibitorDtlViewModel {
     private RecyclerView mCatalogRV; // 产品
     private RecyclerView mAppIndustryRV; // 应用行业
     private RecyclerView mNewTecRV; // 新技术产品
-    private NewTecAdapter mTecAdapter;
     private View mScheduleView;
-    private RecyclerView mScheduleRV;
     private ArrayList<ScheduleInfo> mScheduleInfos = new ArrayList<>();
     private ScheduleAdapter mScheduleAdapter;
     private ViewStub mViewStub;
     private View mNoteView;
+    private String M5Description;
+    private TextView mAboutView;
+    private ArrayList<String> mPhotos;
+    private String mPhotoDir;
+    private ExhibitorPhotoAdapter mPhotoAdapter;
 
     public ExhibitorDtlViewModel(Context mContext, FrameLayout frameLayout) {
         this.mContext = mContext;
         this.mInfoFrameLayout = frameLayout;
         inflater = LayoutInflater.from(mContext);
-
     }
 
-    public void start(String companyID, OnIntentListener listener, ViewStub viewStub) {
+    public void start(String companyID, OnIntentListener listener, ViewStub viewStub, boolean isAder) {
         mListener = listener;
         mViewStub = viewStub;
         mRepository = ExhibitorRepository.getInstance();
-        LogUtil.i(TAG,"start:companyID="+companyID);
+        LogUtil.i(TAG, "start:companyID=" + companyID);
         exhibitor = mRepository.getExhibitor(companyID);
         companyName.set(exhibitor.getCompanyName());
         isCollected.set(exhibitor.getIsFavourite() == 1);
-        showInfo();
+        if (isAder) {
+            showAbout();
+        } else {
+            showInfo();
+        }
         mFilterRepository = FilterRepository.getInstance();
         getProductList();
         getAppIndList();
         getNewTecList();
-
-
     }
 
-    public void addToHistory(){
-        HistoryExhibitor historyExhibitor = new HistoryExhibitor(null,exhibitor.getCompanyID(),exhibitor.getCompanyNameEN(),exhibitor.getCompanyNameCN(),exhibitor.getCompanyNameTW(),exhibitor.getBoothNo(), AppUtil.getCurrentTime());
+    public void setM5Description(String description) {
+        M5Description = description;
+    }
+
+    public void addToHistory() {
+        HistoryExhibitor historyExhibitor = new HistoryExhibitor(null, exhibitor.getCompanyID(), exhibitor.getCompanyNameEN(), exhibitor.getCompanyNameCN(), exhibitor.getCompanyNameTW(), exhibitor.getBoothNo(), AppUtil.getCurrentTime());
         mRepository.initHistoryDao();
         mRepository.insertHistoryExhiItem(historyExhibitor);
     }
@@ -122,32 +140,23 @@ public class ExhibitorDtlViewModel {
         mInfoFrameLayout.addView(mInfoView);
     }
 
-    private void getProductList() {
-        industries = new ArrayList<>();
-        mFilterRepository.initIndustryDao();
-        industries = mFilterRepository.getIndustries(exhibitor.getCompanyID());
-        isIndustryEmpty.set(industries.isEmpty());
-    }
-
-    private void getAppIndList() {
-        mFilterRepository.initAppIndustryDao();
-        appIndustries = mFilterRepository.queryAppIndustryLists(exhibitor.getCompanyID());
-        isAppIndEmpty.set(appIndustries.isEmpty());
-    }
-
-    private void getNewTecList() {
-        NewTecRepository repository = new NewTecRepository();
-        repository.initDao();
-        newProductInfos.clear();
-        newProductInfos = repository.getProductInfoList(exhibitor.getCompanyID());
-        isNewTecEmpty.set(newProductInfos.isEmpty());
+    private void showAbout() {
+        mViewStub.setVisibility(View.GONE);
+        mInfoFrameLayout.removeAllViews();
+        if (mAboutView == null) {
+            mAboutView = new TextView(mContext);
+            mAboutView.setText(M5Description);
+            mAboutView.setTextColor(mContext.getResources().getColor(R.color.grey11));
+        }
+        mInfoFrameLayout.addView(mAboutView);
     }
 
     /**
      * 关于 ： 广告商才有
      */
     public void onAbout() {
-
+        setIsView(0);
+        showAbout();
     }
 
     /**
@@ -165,7 +174,7 @@ public class ExhibitorDtlViewModel {
         if (mCatalogRV == null) {
             mCatalogRV = new RecyclerView(mContext);
             setRecyclerView(mCatalogRV);
-            mIndustryAdapter = new TextAdapter2(industries, mContext, TYPE_INDUSTRY);
+            TextAdapter2 mIndustryAdapter = new TextAdapter2(industries, mContext, TYPE_INDUSTRY);
             mCatalogRV.setAdapter(mIndustryAdapter);
         }
         mInfoFrameLayout.removeAllViews();
@@ -179,7 +188,7 @@ public class ExhibitorDtlViewModel {
         if (mAppIndustryRV == null) {
             mAppIndustryRV = new RecyclerView(mContext);
             setRecyclerView(mAppIndustryRV);
-            mAppIndAdapter = new TextAdapter2(appIndustries, mContext, TYPE_APP_INDUSTRY);
+            TextAdapter2 mAppIndAdapter = new TextAdapter2(appIndustries, mContext, TYPE_APP_INDUSTRY);
             mAppIndustryRV.setAdapter(mAppIndAdapter);
         }
         mInfoFrameLayout.removeAllViews();
@@ -193,7 +202,7 @@ public class ExhibitorDtlViewModel {
         if (mNewTecRV == null) {
             mNewTecRV = new RecyclerView(mContext);
             setRecyclerView(mNewTecRV);
-            mTecAdapter = new NewTecAdapter(mContext, newProductInfos, mListener,false);
+            NewTecListAdapter mTecAdapter = new NewTecListAdapter(mContext, newProductInfos, mListener);
             mNewTecRV.setAdapter(mTecAdapter);
         }
         mInfoFrameLayout.removeAllViews();
@@ -211,6 +220,7 @@ public class ExhibitorDtlViewModel {
 
     /*   ↓↓↓ ------------------------ Note --------------------------- ↓↓↓           */
     public final ObservableInt mRate = new ObservableInt(1);
+    public final ObservableField<String> mNote = new ObservableField<>("");
 
     /**
      * 笔记、评分、拍照
@@ -224,22 +234,89 @@ public class ExhibitorDtlViewModel {
             mNoteView = noteBinding.getRoot();
             noteBinding.setModel(this);
             noteBinding.executePendingBindings();
-//            mScheduleRV = scheduleBinding.rvSchedule;
-//            setRecyclerView(mScheduleRV);
-//            getExhibitorSchedules();
-//            mScheduleAdapter = new ScheduleAdapter(mScheduleInfos, mContext);
-//            mScheduleRV.setAdapter(mScheduleAdapter);
+            showNoteAndRate();
+            RecyclerView mNoteRV = noteBinding.photoRecyclerView;
+            setHorizontalRecyclerView(mNoteRV);
+            getPhotos();
+            mPhotoAdapter = new ExhibitorPhotoAdapter(mPhotos, mContext, mListener);
+            mNoteRV.setAdapter(mPhotoAdapter);
         }
         mContentFrameLayout.addView(mNoteView);
+    }
 
+    private void showNoteAndRate() {
+        if (exhibitor.getRate() != null) {
+            mRate.set(exhibitor.getRate());
+        }
+        if (!TextUtils.isEmpty(exhibitor.getNote())) {
+            mNote.set(exhibitor.getNote());
+        }
     }
 
     public void onRate(int rate) {
         mRate.set(rate);
     }
 
-    public void onTakePhoto() {
+    public void saveNoteAndRate() {
+        LogUtil.i(TAG, "= saveNoteAndRate =");
+        exhibitor.setNote(mNote.get());
+        exhibitor.setRate(mRate.get());
+        mRepository.updateItemData(exhibitor);
+    }
 
+    private void getPhotos() {
+        mPhotos = new ArrayList<>();
+        File file0 = new File(FileUtil.getSDRootPath().concat("CPS18/"));
+        if (!file0.exists()) {
+            file0.mkdir();
+        }
+        mPhotoDir = FileUtil.getSDRootPath().concat("CPS18/").concat(exhibitor.getCompanyID()).concat("/");
+        File file = new File(mPhotoDir);
+        if (!file.exists()) {
+            file.mkdir();
+        }
+        String[] files = file.list();
+        for (String fileName : files) {
+            LogUtil.i(TAG, "fileName =" + fileName);
+            mPhotos.add(mPhotoDir.concat(fileName));
+        }
+        LogUtil.i(TAG, "mPhotos=" + mPhotos.size() + "," + mPhotos.toString());
+    }
+
+//    @Override
+//    public void success(String path, int width, int height) {
+//        LogUtil.i(TAG, "take photo success:" + path);
+//        mPhotos.add(path);
+//        mPhotoAdapter.setList(mPhotos);
+//    }
+
+    public void photoSuccess(String path) {
+        LogUtil.i(TAG, "take photo success:" + path);
+        mPhotos.add(path);
+        mPhotoAdapter.setList(mPhotos);
+    }
+
+    public void onTakePhoto() {
+        if (PermissionUtil.checkPermission(activity, PermissionUtil.PERMISSION_CAMERA)) {
+            showCamera();
+        } else {
+            PermissionUtil.requestPermission(activity, PermissionUtil.PERMISSION_CAMERA, PermissionUtil.PMS_CODE_CAMERA);
+        }
+    }
+
+    public void showCamera() {
+//        TakePhotoView takePhotoView = new TakePhotoView(activity, this);
+//        takePhotoView.setPhotoAbsPath(mPhotoDir.concat(exhibitor.getCompanyID()).concat("_").concat(mPhotos.size() + "").concat(".jpg"));
+//        takePhotoView.show();
+
+        mListener.onIntent(mPhotoDir.concat(exhibitor.getCompanyID()).concat("_").concat(mPhotos.size() + "").concat(".jpg"), TakePhotoActivity.class);
+
+    }
+
+    private ExhibitorDetailActivity activity;
+
+    public void setActivity(ExhibitorDetailActivity activity) {
+        this.activity = activity;
     }
 
     /*   ↓↓↓ ------------------------ Schedule --------------------------- ↓↓↓           */
@@ -254,7 +331,7 @@ public class ExhibitorDtlViewModel {
             mScheduleView = scheduleBinding.getRoot();
             scheduleBinding.setModel(this);
             scheduleBinding.executePendingBindings();
-            mScheduleRV = scheduleBinding.rvSchedule;
+            RecyclerView mScheduleRV = scheduleBinding.rvSchedule;
             setRecyclerView(mScheduleRV);
             getExhibitorSchedules();
             mScheduleAdapter = new ScheduleAdapter(mScheduleInfos, mContext);
@@ -277,21 +354,47 @@ public class ExhibitorDtlViewModel {
     }
 
     public void onAddSchedule() {
-
-
         mListener.onIntent(exhibitor, ScheduleEditActivity.class);
-
     }
-/*   [ ------------------------ Schedule End  --------------------------- ]           */
-
+/*   ↑↑↑↑ ------------------------ Schedule End  --------------------------- ↑↑↑↑           */
 
     public void onShare() {
-        // 取消了 share sdk
+        String url = String.format(NetWorkHelper.SHARE_EXHIBITOR_URL, AppUtil.getName("trad", "eng", "simp"), exhibitor.getCompanyID());
+        LogUtil.i(TAG, "分享展商地址为：" + url);
+
+        ShareSDKDialog shareSDKDialog = new ShareSDKDialog();
+        shareSDKDialog.showDialog(activity, companyName.get().concat("\n").concat(mContext.getString(R.string.share_exhibitor_booth)).concat(exhibitor.getBoothNo()),
+                Constant.SHARE_IMAGE_URL, url, Constant.SHARE_IMAGE_PATH);
+
+        AppUtil.trackViewLog(mContext, 425, "SE", "", exhibitor.getCompanyID());
+        AppUtil.setStatEvent(mContext, "ShareExhibitor", "SE_".concat(exhibitor.getCompanyID()));
+
     }
 
     public void onBackToInfo() {
         setIsView(0);
         showInfo();
+    }
+
+    private void getProductList() {
+        industries = new ArrayList<>();
+        mFilterRepository.initIndustryDao();
+        industries = mFilterRepository.getIndustries(exhibitor.getCompanyID());
+        isIndustryEmpty.set(industries.isEmpty());
+    }
+
+    private void getAppIndList() {
+        mFilterRepository.initAppIndustryDao();
+        appIndustries = mFilterRepository.queryAppIndustryLists(exhibitor.getCompanyID());
+        isAppIndEmpty.set(appIndustries.isEmpty());
+    }
+
+    private void getNewTecList() {
+        NewTecRepository repository = new NewTecRepository();
+        repository.initDao();
+        newProductInfos.clear();
+        newProductInfos = repository.getProductInfoList(exhibitor.getCompanyID());
+        isNewTecEmpty.set(newProductInfos.isEmpty());
     }
 
     private void initContentFrame() {
@@ -317,7 +420,14 @@ public class ExhibitorDtlViewModel {
     private void setRecyclerView(RecyclerView recyclerView) {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        recyclerView.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(mContext, LinearLayout.VERTICAL));
+    }
+
+    private void setHorizontalRecyclerView(RecyclerView recyclerView) {
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager llManager = new LinearLayoutManager(mContext);
+        llManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerView.setLayoutManager(llManager);
     }
 
 

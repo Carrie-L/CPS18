@@ -1,18 +1,19 @@
 package com.adsale.ChinaPlas.adapter;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+
 import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.data.ExhibitorRepository;
 import com.adsale.ChinaPlas.data.OnItemClickCallback;
 import com.adsale.ChinaPlas.databinding.ItemExhiDetailChildBinding;
 import com.adsale.ChinaPlas.databinding.ItemExhiDetailHeaderBinding;
 import com.adsale.ChinaPlas.utils.LogUtil;
+
+import java.util.ArrayList;
 
 public class ExhibitorAdapter extends RecyclerView.Adapter<ViewHolder> {
     private static final String TAG = "ExhibitorAdapter";
@@ -45,6 +46,10 @@ public class ExhibitorAdapter extends RecyclerView.Adapter<ViewHolder> {
         this.exhibitors = lists;
         LogUtil.e(TAG, "setList_" + exhibitors.size());
         notifyDataSetChanged();
+    }
+
+    public void setList2(ArrayList<Exhibitor> lists) {
+        this.exhibitors = lists;
     }
 
     @Override
@@ -94,6 +99,7 @@ public class ExhibitorAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         public void bind(Exhibitor exhibitor) {
             headerBinding.setObj(exhibitor);
+            headerBinding.setPos(getAdapterPosition());
             headerBinding.executePendingBindings();
         }
 
@@ -123,13 +129,13 @@ public class ExhibitorAdapter extends RecyclerView.Adapter<ViewHolder> {
         exhibitor.setIsFavourite(exhibitor.getIsFavourite() == 0 ? 1 : 0);
         exhibitor.isCollected.set(exhibitor.getIsFavourite() == 1);
         exhibitors.set(pos, exhibitor);
-        mRepository.updateItemData(exhibitor);
+        mRepository.updateItemData(exhibitor.getCompanyID(), exhibitor.getIsFavourite());
         LogUtil.i(TAG, "pos=" + pos + "//isCollected=" + exhibitor.isCollected.get() + "//IsFavourite=" + exhibitor.getIsFavourite() + "//IsFavourite2=" + exhibitors.get(pos).getIsFavourite());
     }
 
-    public void onItemClick(Exhibitor exhibitor) {
+    public void onItemClick(Exhibitor exhibitor, int pos) {
         if (mCallback != null) {
-            mCallback.onItemClick(exhibitor);
+            mCallback.onItemClick(exhibitor, pos);
         }
     }
 }

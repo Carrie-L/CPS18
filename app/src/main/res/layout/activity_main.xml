@@ -29,12 +29,5 @@
             android:fitsSystemWindows="true"
             app:headerLayout="@layout/nav_header" />
 
-        <ViewStub
-            android:id="@+id/view_pager_help"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout="@layout/page_help"
-            />
-
     </android.support.v4.widget.DrawerLayout>
 </layout>

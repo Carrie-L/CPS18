@@ -42,6 +42,7 @@ public class App extends Application {
     public static SharedPreferences mSP_LastModified;
     public static SharedPreferences mSP_UpdateTime;
     public static SharedPreferences mSP_Login;
+    public static SharedPreferences mSP_HP;
 
     public static final String DATABASE_NAME = "cps18.db";
 
@@ -93,6 +94,7 @@ public class App extends Application {
         mSP_LastModified = getSharedPreferences(Constant.SP_LASTMODIFIED, MODE_PRIVATE);
         mSP_UpdateTime = getSharedPreferences(Constant.SP_LUT, MODE_PRIVATE);
         mSP_Login = getSharedPreferences(Constant.SP_LOGIN, MODE_PRIVATE);
+        mSP_HP = getSharedPreferences(Constant.SP_HP, MODE_PRIVATE);
     }
 
     private void initCrashHandle() {

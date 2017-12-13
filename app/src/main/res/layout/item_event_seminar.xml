@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="obj"
+            type="com.adsale.ChinaPlas.data.model.ConcurrentEvent.Pages" />
+        <variable
+            name="adapter"
+            type="com.adsale.ChinaPlas.adapter.EventAdapter"/>
+    </data>
+
+    <!-- 在每个日期的同期活动下加一个技术交流会 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/item_tech_bg"
+        android:text="@string/title_technical_seminar"
+        android:gravity="center"
+        android:textColor="@color/grey11"
+        android:onClick="@{()->adapter.onTechClick(obj)}"
+        />
+
+
+</layout>

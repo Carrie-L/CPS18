@@ -11,8 +11,6 @@ import android.os.Parcelable;
 
 import com.adsale.ChinaPlas.utils.AppUtil;
 
-import static com.adsale.ChinaPlas.R.id.language;
-
 /**
  * Entity mapped to table "COUNTRY".
  */
@@ -44,14 +42,14 @@ public class Country implements Parcelable {
         this.CountryID = CountryID;
     }
 
-    public Country(String CountryID, String CountryNameTW, String CountryNameCN, String CountryNameEN, String SortTW, String SortEN, String SortCN) {
+    public Country(String CountryID, String CountryNameTW, String CountryNameCN, String CountryNameEN, String SortTW, String SortCN, String SortEN) {
         this.CountryID = CountryID;
         this.CountryNameTW = CountryNameTW;
         this.CountryNameCN = CountryNameCN;
         this.CountryNameEN = CountryNameEN;
         this.SortTW = SortTW;
-        this.SortEN = SortEN;
         this.SortCN = SortCN;
+        this.SortEN = SortEN;
     }
 
     public String getCountryID() {

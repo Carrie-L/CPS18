@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -20,7 +19,6 @@ import android.widget.ProgressBar;
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.data.DownloadClient;
 import com.adsale.ChinaPlas.data.OtherRepository;
-import com.adsale.ChinaPlas.glide.GlideApp;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.CalendarUtil;
 import com.adsale.ChinaPlas.utils.Constant;
@@ -34,8 +32,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -304,8 +300,9 @@ public class RegisterViewModel {
         AppUtil.putLogout();
         isLoginOrReged.set(false);
         App.mSP_Login.edit().putBoolean("IsPreUser", false).apply();
-//        SystemMethod.trackViewLog(mContext, 420, "PR", "", "");
-//        SystemMethod.setStatEvent(mContext, "PreregReset", "PR", SystemMethod.getCurLanguage(mContext));
+
+        AppUtil.trackViewLog(activity, 420, "PR", "", "");
+        AppUtil.setStatEvent(activity, "PreregReset", "PR");
         showWebView();
     }
 
@@ -321,9 +318,8 @@ public class RegisterViewModel {
         calendarUtil.addToCalendar();
     }
 
-    public void onGetInvoice() {
-        mWebView.loadUrl(String.format(NetWorkHelper.REGISTER_INVOICE_URL, AppUtil.getUrlLangType(App.mLanguage.get()), sp_reg.getString("p_image", "")));
+    public String getInvoiceUrl() {
+        return String.format(NetWorkHelper.REGISTER_INVOICE_URL, AppUtil.getUrlLangType(App.mLanguage.get()), sp_reg.getString("p_image", ""));
     }
-
 
 }

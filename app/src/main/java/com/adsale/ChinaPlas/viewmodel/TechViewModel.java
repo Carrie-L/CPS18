@@ -23,10 +23,10 @@ import java.util.ArrayList;
 
 public class TechViewModel {
     private static final String TAG = "TechViewModel";
-    private static final String DATE1 = "5.16";
-    private static final String DATE2 = "5.17";
-    private static final String DATE3 = "5.18";
-    private static final String DATE4 = "5.19";
+    public static final String DATE1 = "5.16";
+    public static final String DATE2 = "5.17";
+    public static final String DATE3 = "5.18";
+    public static final String DATE4 = "5.19";
     private Context mContext;
     public final ObservableInt mClickPos = new ObservableInt(0);
     /**
@@ -38,7 +38,7 @@ public class TechViewModel {
     private int currLang;
     private OnIntentListener mListener;
 
-    private ArrayList<SeminarInfo> mSeminars = new ArrayList<>();
+    public ArrayList<SeminarInfo> mSeminars = new ArrayList<>();
     private ArrayList<SeminarInfo> allSeminarCaches = new ArrayList<>();
     private adAdvertisementObj adObj;
     private ADHelper adHelper;
@@ -53,9 +53,9 @@ public class TechViewModel {
         currLang = App.mLanguage.get();
         mRepository = OtherRepository.getInstance();
         mRepository.initTechSeminarDao();
-        allSeminarCaches = mRepository.getAllSeminars(getCurrLangId());
+        adHelper = new ADHelper(mContext);
+        allSeminarCaches = mRepository.getAllSeminars(getCurrLangId(), adHelper);
         whetherShowM6();
-        getAllSeminars();
     }
 
     public void onStart(OnIntentListener listener, TechAdapter adapter) {
@@ -69,6 +69,7 @@ public class TechViewModel {
     }
 
     public ArrayList<SeminarInfo> getList() {
+        getAllSeminars();
         return mSeminars;
     }
 
@@ -77,11 +78,20 @@ public class TechViewModel {
     }
 
     private String getCurrDate() {
-        LogUtil.i(TAG, "mClickPos=" + mClickPos.get());
         return mClickPos.get() == 1 ? DATE1 : mClickPos.get() == 2 ? DATE2 : mClickPos.get() == 3 ? DATE3 : DATE4;
     }
 
     public void onDateClick(int index, boolean am) {
+        if (index == 5) {//平面图
+
+        } else {
+            getPartList(index, am);
+            adapter.setList(mSeminars);
+        }
+    }
+
+    public void getPartList(int index, boolean am) {
+        LogUtil.i(TAG, "onDateClick::index=" + index);
         mClickPos.set(index);
         isAm.set(am);
         if (index == 0) {
@@ -89,7 +99,6 @@ public class TechViewModel {
         } else {
             getPartSeminars();
         }
-        adapter.setList(mSeminars);
     }
 
     private void getPartSeminars() {
@@ -111,21 +120,42 @@ public class TechViewModel {
     }
 
     private void getAdList() {
+        if (!adHelper.isAdOpen()) {
+            return;
+        }
         int size = allSeminarCaches.size();
         int index;
+
+        int adSize = adObj.M6B.version.length;
+        for (int t = 0; t < adSize; t++) {
+            for (int i = 0; i < size; i++) {
+                seminarInfo = allSeminarCaches.get(i);
+                index = getCurrIndex();
+                if (!adObj.M6B.version[index].equals("0") && seminarInfo.getCompanyID().equals(adObj.M6B.companyID[index])) {
+//                    seminarInfo.isADer = true;
+//                    seminarInfo.adLogoUrl = adHelper.getM6LogoUrl(index);
+//                    seminarInfo.adHeaderUrl = adHelper.getM6HeaderUrl(index);
+                }
+                allSeminarCaches.set(i, seminarInfo);
+            }
+        }
+
         for (int i = 0; i < size; i++) {
             seminarInfo = allSeminarCaches.get(i);
             index = getCurrIndex();
             if (!adObj.M6B.version[index].equals("0") && seminarInfo.getCompanyID().equals(adObj.M6B.companyID[index])) {
-                seminarInfo.isADer = true;
-                seminarInfo.adLogoUrl = adHelper.getM6LogoUrl(index);
-                seminarInfo.adBannerUrl = adHelper.getM6BannerUrl(index);
+//                seminarInfo.isADer = true;
+//                seminarInfo.adLogoUrl = adHelper.getM6LogoUrl(index);
+//                seminarInfo.adHeaderUrl = adHelper.getM6HeaderUrl(index);
+
+
             }
             allSeminarCaches.set(i, seminarInfo);
         }
     }
 
     private int getCurrIndex() {
+        LogUtil.i(TAG, "seminarInfo.getDate()=" + seminarInfo.getDate());
         if (seminarInfo.getDate().contains(DATE1)) {
             return 0;
         } else if (seminarInfo.getDate().contains(DATE2)) {
@@ -141,12 +171,11 @@ public class TechViewModel {
 
     private void whetherShowM6() {
         boolean isAdOpen = App.mSP_Config.getBoolean(Constant.IS_AD_OPEN, false);
-        adHelper = new ADHelper(mContext);
         adObj = adHelper.getAdObj();
         if (isAdOpen && adObj != null) {
-            getAdList();
-            //                SystemMethod.trackViewLog(getActivity(), 206, "Ad", "M6" + "_Date" + (16 + index), m6B.companyID[index]);// 统计广告出现次数
-//                SystemMethod.setStatEvent(getActivity(), "ViewM6", "M6" + "_Date" + (16 + index) + m6B.companyID[index], currLang);
+//            getAdList();
+//                            AppUtil.trackViewLog(mContext, 206, "Ad", "M6" + "_Date" + (16 + index), m6B.companyID[index]);// 统计广告出现次数
+//                AppUtil.setStatEvent(mContext, "ViewM6", "M6" + "_Date" + (16 + index) + m6B.companyID[index], currLang);
         }
     }
 

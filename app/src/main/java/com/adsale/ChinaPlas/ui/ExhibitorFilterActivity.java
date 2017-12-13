@@ -3,12 +3,14 @@ package com.adsale.ChinaPlas.ui;
 import android.content.Intent;
 import android.databinding.ObservableField;
 import android.support.v7.widget.SwitchCompat;
+import android.text.TextUtils;
 
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.data.model.ExhibitorFilter;
 import com.adsale.ChinaPlas.databinding.ActivityExhibitorFilterBinding;
+import com.adsale.ChinaPlas.helper.ADHelper;
 import com.adsale.ChinaPlas.ui.view.FilterView;
 import com.adsale.ChinaPlas.utils.LogUtil;
 
@@ -24,6 +26,7 @@ public class ExhibitorFilterActivity extends BaseActivity implements OnIntentLis
     private ArrayList<ExhibitorFilter> results;
     private ArrayList<ExhibitorFilter> allFilters = new ArrayList<>();
     private SwitchCompat switchNewTec;
+    private String[] names;
 
     @Override
     protected void initView() {
@@ -36,21 +39,27 @@ public class ExhibitorFilterActivity extends BaseActivity implements OnIntentLis
         hallFilterView = binding.hallFilterView;
         boothFilterView = binding.boothFilterView;
         switchNewTec = binding.switchNewTec;
+
+        ADHelper adHelper = new ADHelper(this);
+        adHelper.showM3(binding.ivAd);
     }
 
     @Override
     protected void initData() {
-        industryFilterView.initData(0, getString(R.string.filter_industry), getResources().getDrawable(R.drawable.ic_fiter_category), this);
-        applicationFilterView.initData(1, getString(R.string.filter_application), getResources().getDrawable(R.drawable.ic_fiter_industry), this);
-        countryFilterView.initData(2, getString(R.string.filter_country), getResources().getDrawable(R.drawable.ic_fiter_country), this);
-        hallFilterView.initData(3, getString(R.string.filter_hall), getResources().getDrawable(R.drawable.ic_fiter_hall), this);
-        boothFilterView.initData(4, getString(R.string.filter_booth), getResources().getDrawable(R.drawable.ic_fiter_booth), this);
+        names = new String[]{getString(R.string.filter_industry), getString(R.string.filter_application),
+                getString(R.string.filter_country), getString(R.string.filter_hall), getString(R.string.filter_booth)};
+        industryFilterView.initData(0, names[0], getResources().getDrawable(R.drawable.ic_fiter_category), this);
+        applicationFilterView.initData(1, names[1], getResources().getDrawable(R.drawable.ic_fiter_industry), this);
+        countryFilterView.initData(2, names[2], getResources().getDrawable(R.drawable.ic_fiter_country), this);
+        hallFilterView.initData(3, names[3], getResources().getDrawable(R.drawable.ic_fiter_hall), this);
+        boothFilterView.initData(4, names[4], getResources().getDrawable(R.drawable.ic_fiter_booth), this);
     }
 
     @Override
     public <T> void onIntent(T entity, Class toCls) {
         LogUtil.i(TAG, "onIntent::entity=" + entity);
         Intent intent = new Intent(this, toCls);
+        intent.putExtra("title", names[(Integer) entity]);
         startActivityForResult(intent, (Integer) entity);
     }
 
@@ -77,11 +86,15 @@ public class ExhibitorFilterActivity extends BaseActivity implements OnIntentLis
     }
 
     public void onFilter() {
-        ExhibitorFilter newTecFilter = new ExhibitorFilter(5, "", etKeyword.get().trim());
-        allFilters.add(newTecFilter);
+        ExhibitorFilter newTecFilter;
+
+        if (!TextUtils.isEmpty(etKeyword.get().trim())) {
+            newTecFilter = new ExhibitorFilter(5, "", etKeyword.get().trim());
+            allFilters.add(newTecFilter);
+        }
 
         if (switchNewTec.isChecked()) {
-            newTecFilter = new ExhibitorFilter(6, "NewTec", "NewTec");
+            newTecFilter = new ExhibitorFilter(6, "C", "NewTec");
             allFilters.add(newTecFilter);
         }
 
@@ -99,7 +112,9 @@ public class ExhibitorFilterActivity extends BaseActivity implements OnIntentLis
         countryFilterView.setList(results);
         hallFilterView.setList(results);
         boothFilterView.setList(results);
+        etKeyword.set("");
         switchNewTec.setChecked(false);
+
     }
 
 

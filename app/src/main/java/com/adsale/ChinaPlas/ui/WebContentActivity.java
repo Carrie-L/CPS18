@@ -3,6 +3,7 @@ package com.adsale.ChinaPlas.ui;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -11,6 +12,7 @@ import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.utils.AppUtil;
+import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
 
 import java.io.File;
@@ -24,12 +26,15 @@ public class WebContentActivity extends BaseActivity {
     private WebView webView;
     private String webUrl;
     private Intent mIntent;
+    private WebSettings settings;
 
     @Override
     protected void initView() {
         getLayoutInflater().inflate(R.layout.activity_web_content, mBaseFrameLayout, true);
-        webView = (WebView) findViewById(R.id.web_content_view);
-        TAG="WebContentActivity";
+        webView = findViewById(R.id.web_content_view);
+        TAG = "WebContentActivity";
+
+        settings = webView.getSettings();
     }
 
     @Override
@@ -38,7 +43,7 @@ public class WebContentActivity extends BaseActivity {
         webUrl = intent.getStringExtra("Url");
         LogUtil.i(TAG, "webUrl=" + webUrl);
 
-        if (webUrl.toLowerCase().startsWith("http") || webUrl.toLowerCase().startsWith("web:")) {
+        if ((webUrl.toLowerCase().startsWith("http") && !checkImageUrl(webUrl)) || webUrl.toLowerCase().startsWith("web:")) {
             loadWebUrl();
         } else {
             loadLocalHtml();
@@ -46,6 +51,10 @@ public class WebContentActivity extends BaseActivity {
 
         setWebViewClient();
 
+    }
+
+    private boolean checkImageUrl(String url) {
+        return url.endsWith("jpg") || url.endsWith("png");
     }
 
     private void loadLocalHtml() {
@@ -85,7 +94,12 @@ public class WebContentActivity extends BaseActivity {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 mUrl = url;
                 LogUtil.i(TAG, "shouldOverrideUrlLoading: url= " + url);
-                if (startsWith("web")) {
+
+                if (checkImageUrl(url)) {
+                    toImageAty();
+                } else if (startsWith("prereg://")) {
+                    toRegisterAty();
+                } else if (startsWith("web")) {
                     web();
                     return true;
                 } else if (startsWith("http")) {
@@ -97,15 +111,24 @@ public class WebContentActivity extends BaseActivity {
                     callPhone();
                     return true;
                 }
-
                 intent();
-                return super.shouldOverrideUrlLoading(view, url);
+                return true;
             }
         });
     }
 
     private boolean startsWith(String abc) {
         return mUrl.toLowerCase().startsWith(abc);
+    }
+
+    private void toImageAty() {
+        mIntent = new Intent(WebContentActivity.this, ImageActivity.class);
+        mIntent.putExtra("url", mUrl);
+        mIntent.putExtra("title", barTitle.get());
+    }
+
+    private void toRegisterAty() {
+        mIntent = new Intent(WebContentActivity.this, RegisterActivity.class);
     }
 
     private void web() {
@@ -117,7 +140,7 @@ public class WebContentActivity extends BaseActivity {
 
     private void http() {
         mIntent = new Intent(WebContentActivity.this, WebViewActivity.class);
-        mIntent.putExtra("WebUrl", mUrl);
+        mIntent.putExtra(Constant.WEB_URL, mUrl);
 //                    mIntent.putExtra("title", gTitle);
     }
 
@@ -152,9 +175,7 @@ public class WebContentActivity extends BaseActivity {
         LogUtil.e(TAG, "intent()");
         mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(mIntent);
-        if (AppUtil.isTablet()) {
-            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-        }
+        overridePendingTransPad();
     }
 
 

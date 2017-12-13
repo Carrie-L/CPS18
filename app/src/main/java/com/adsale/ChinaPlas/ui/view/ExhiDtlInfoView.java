@@ -1,35 +1,27 @@
 package com.adsale.ChinaPlas.ui.view;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.ObservableBoolean;
-import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.RelativeLayout;
 
-import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.databinding.ViewExhiDtlInfoBinding;
 import com.adsale.ChinaPlas.ui.WebViewActivity;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
-import com.adsale.ChinaPlas.utils.LogUtil;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static android.R.attr.animation;
-import static com.adsale.ChinaPlas.R.drawable.arrow;
 import static com.adsale.ChinaPlas.R.id.language;
 
 /**
@@ -86,12 +78,13 @@ public class ExhiDtlInfoView extends RelativeLayout {
 
 
     public void onTel() {
-        AppUtil.callPhoneIntent(binding.getView().getContext(), mExhibitor.getTel());
+        AppUtil.callPhoneIntent(binding.tvTel.getContext(), mExhibitor.getTel());
     }
 
     public void onWebsite() {
         Intent intent = new Intent(mContext, WebViewActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(Constant.WEB_URL, checkUrl(mExhibitor.getWebsite()));
         intent.putExtra("title", mExhibitor.getCompanyName(language));
         mContext.startActivity(intent);
@@ -103,17 +96,16 @@ public class ExhiDtlInfoView extends RelativeLayout {
     public void onDesc() {
         arrowRotate(!arrowDown.get());
         arrowDown.set(!arrowDown.get());
-
     }
 
     /**
      * 箭头旋转动画
      *
-     * @param down 要点击箭头往下，则执行往下的动画；要点击箭头返回原位向右，则执行向右的动画。
+     * @param toDown 要点击箭头往下，则执行往下的动画；要点击箭头返回原位向右，则执行向右的动画。
      */
-    public void arrowRotate(boolean down) {
+    public void arrowRotate(boolean toDown) {
         Animation animation;
-        if (down) {
+        if (toDown) {
             animation = AnimationUtils.loadAnimation(mContext, R.anim.arrow_rotate_down);
         } else {
             animation = AnimationUtils.loadAnimation(mContext, R.anim.arrow_rotate_right);

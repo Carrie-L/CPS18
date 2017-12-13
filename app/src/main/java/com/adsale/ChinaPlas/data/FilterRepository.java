@@ -7,24 +7,19 @@ import com.adsale.ChinaPlas.dao.ApplicationIndustry;
 import com.adsale.ChinaPlas.dao.ApplicationIndustryDao;
 import com.adsale.ChinaPlas.dao.Country;
 import com.adsale.ChinaPlas.dao.CountryDao;
-import com.adsale.ChinaPlas.dao.ExhibitorDao;
 import com.adsale.ChinaPlas.dao.ExhibitorIndustryDtlDao;
 import com.adsale.ChinaPlas.dao.Floor;
 import com.adsale.ChinaPlas.dao.FloorDao;
-import com.adsale.ChinaPlas.dao.HallDao;
 import com.adsale.ChinaPlas.dao.Industry;
 import com.adsale.ChinaPlas.dao.IndustryDao;
 import com.adsale.ChinaPlas.data.model.Text2;
 import com.adsale.ChinaPlas.utils.AppUtil;
-import com.adsale.ChinaPlas.utils.LogUtil;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 
-import de.greenrobot.dao.query.Query;
 import de.greenrobot.dao.query.WhereCondition;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by Carrie on 2017/10/17.
@@ -57,17 +52,25 @@ public class FilterRepository {
         }
     }
 
-    public ArrayList<Industry> getIndustries(int language) {
+    public ArrayList<Industry> getIndustries(int language, ArrayList<String> letters) {
         checkIndustryDaoNull();
-        ArrayList<Industry> list;
-        if (language == 0) {
-            list = (ArrayList<Industry>) mIndustryDao.queryBuilder().orderAsc(IndustryDao.Properties.TCStroke).list();
-        } else if (language == 1) {
-            list = (ArrayList<Industry>) mIndustryDao.queryBuilder().orderAsc(IndustryDao.Properties.EN_SORT).list();
-        } else {
-            list = (ArrayList<Industry>) mIndustryDao.queryBuilder().orderAsc(IndustryDao.Properties.SCPY).list();
+        ArrayList<Industry> list = new ArrayList<>();
+        String sql = "select * from INDUSTRY order by %s";
+        sql = String.format(sql, language == 0 ? "TCSTROKE" : language == 1 ? "EN_SORT" : "SCPY");
+        Cursor cursor = App.mDBHelper.db.rawQuery(sql, null);
+        Industry entity;
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                entity = mIndustryDao.readEntity(cursor, 0);
+                list.add(entity);
+                letters.add(entity.getSort());
+            }
+            cursor.close();
         }
-        LogUtil.i(TAG, "仓库中：getIndustries=" + list.size() + "," + list.toString());
+        //去重
+        ArrayList<String> temps = new ArrayList<>(new LinkedHashSet<>(letters));
+        letters.clear();
+        letters.addAll(temps);
         return list;
     }
 
@@ -110,6 +113,7 @@ public class FilterRepository {
 
     /**
      * Exhibitor Dtl
+     *
      * @return ArrayList<Text2>
      */
     public ArrayList<Text2> getIndustries(String companyID) {
@@ -148,11 +152,11 @@ public class FilterRepository {
         ArrayList<ApplicationIndustry> list;
         ArrayList<ApplicationIndustry> temps;
         if (App.mLanguage.get() == 0) {
-            list = (ArrayList<ApplicationIndustry>) mAppIndustryDao.queryBuilder().where(new WhereCondition.StringCondition(" TCSTROKE=\"#\" order by cast(TCSTROKE as int)")).list();
-            temps = (ArrayList<ApplicationIndustry>) mAppIndustryDao.queryBuilder().where(new WhereCondition.StringCondition(" TCSTROKE!=\"#\" order by cast(TCSTROKE as int)")).list();
+            list = (ArrayList<ApplicationIndustry>) mAppIndustryDao.queryBuilder().where(new WhereCondition.StringCondition(" TCSTROKE!=\"#\" order by cast(TCSTROKE as int)")).list();
+            temps = (ArrayList<ApplicationIndustry>) mAppIndustryDao.queryBuilder().where(new WhereCondition.StringCondition(" TCSTROKE=\"#\" order by cast(TCSTROKE as int)")).list();
         } else {
-            list = (ArrayList<ApplicationIndustry>) mAppIndustryDao.queryBuilder().where(ApplicationIndustryDao.Properties.SCPY.eq("#")).orderAsc(ApplicationIndustryDao.Properties.SCPY).list();
-            temps = (ArrayList<ApplicationIndustry>) mAppIndustryDao.queryBuilder().where(ApplicationIndustryDao.Properties.SCPY.notEq("#")).orderAsc(ApplicationIndustryDao.Properties.SCPY).list();
+            list = (ArrayList<ApplicationIndustry>) mAppIndustryDao.queryBuilder().where(ApplicationIndustryDao.Properties.SCPY.notEq("#")).orderAsc(ApplicationIndustryDao.Properties.SCPY).list();
+            temps = (ArrayList<ApplicationIndustry>) mAppIndustryDao.queryBuilder().where(ApplicationIndustryDao.Properties.SCPY.eq("#")).orderAsc(ApplicationIndustryDao.Properties.SCPY).list();
         }
         list.addAll(temps);
         return list;
@@ -161,6 +165,7 @@ public class FilterRepository {
     /**
      * Exhibitor Dtl
      * 与AppCompany表连接查询
+     *
      * @return ArrayList<Text2>
      */
     public ArrayList<Text2> queryAppIndustryLists(String companyID) {
@@ -190,16 +195,39 @@ public class FilterRepository {
         }
     }
 
-    public ArrayList<Country> getCountries(int language) {
+    /**
+     * TC: select C.* from COUNTRY C WHERE COUNTRY_ID IN (SELECT DISTINCT COUNTRY_ID FROM EXHIBITOR ) order by cast(SORT_TW as int)
+     * EN: order by SORT_EN
+     * CN: order by SORT_CN
+     *
+     * @return
+     */
+    public ArrayList<Country> getCountries(ArrayList<String> letters) {
         checkCountryDaoNull();
-        ArrayList<Country> list;
-        if (language == 0) {
-            list = (ArrayList<Country>) mCountryDao.queryBuilder().where(new WhereCondition.StringCondition(" 1 order by cast(SORT_TW as int)")).list();
-        } else if (language == 1) {
-            list = (ArrayList<Country>) mCountryDao.queryBuilder().orderAsc(CountryDao.Properties.SortEN).list();
+        String sql = "select C.* from COUNTRY C WHERE COUNTRY_ID IN (SELECT DISTINCT COUNTRY_ID FROM EXHIBITOR ) order by ";
+        if (App.mLanguage.get() == 0) {
+            sql = sql.concat("cast(SORT_TW as int)");
+        } else if (App.mLanguage.get() == 1) {
+            sql = sql.concat("SORT_EN");
         } else {
-            list = (ArrayList<Country>) mCountryDao.queryBuilder().orderAsc(CountryDao.Properties.SortCN).list();
+            sql = sql.concat("SORT_CN");
         }
+        Cursor cursor = App.mDBHelper.db.rawQuery(sql, null);
+        ArrayList<Country> list = new ArrayList<>();
+        Country entity;
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                entity = mCountryDao.readEntity(cursor, 0);
+                list.add(entity);
+                letters.add(entity.getSort());
+            }
+            cursor.close();
+        }
+        //去重
+        ArrayList<String> tempsAZ = new ArrayList<>(new LinkedHashSet<>(letters));
+        letters.clear();
+        letters.addAll(tempsAZ);
+
         return list;
     }
 

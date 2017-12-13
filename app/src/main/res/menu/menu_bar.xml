@@ -6,8 +6,7 @@
         android:id="@+id/action_home"
         android:icon="@drawable/bttn_home"
         android:orderInCategory="80"
-        android:title="@string/home"
-        app:showAsAction="always" />
-
+        app:showAsAction="always"
+        />
 
 </menu>

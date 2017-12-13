@@ -1,8 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.adsale.ChinaPlas.ui.view.CpsRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/commom_recycler_view"
-    >
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-</com.adsale.ChinaPlas.ui.view.CpsRecyclerView>
+    <data>
+
+        <variable
+            name="view"
+            type="com.adsale.ChinaPlas.ui.CommonListActivity" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.adsale.ChinaPlas.ui.view.CpsRecyclerView
+            android:id="@+id/commom_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/nodata"
+            android:visibility="@{view.nodata?View.VISIBLE:View.GONE}" />
+
+
+    </RelativeLayout>
+
+</layout>

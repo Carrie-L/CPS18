@@ -1,37 +1,22 @@
 package com.adsale.ChinaPlas.ui;
 
-import android.app.AlertDialog;
-import android.content.ActivityNotFoundException;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
-import com.adsale.ChinaPlas.App;
-import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
-import com.adsale.ChinaPlas.dao.DBHelper;
-import com.adsale.ChinaPlas.dao.MainIcon;
 import com.adsale.ChinaPlas.databinding.ActivityWebViewBinding;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
-
-import java.io.File;
 
 /**
  * Created by new on 2016/10/13.
@@ -67,14 +52,21 @@ public class WebViewActivity extends BaseActivity {
     @Override
     protected void initData() {
         mWebUrl = gIntent.getStringExtra(Constant.WEB_URL);
+        mWebUrl = addPrefix(mWebUrl);
         initWebView();
     }
 
+    private String addPrefix(String url) {
+        if (url != null && url.toLowerCase().startsWith("www")) {
+            url = "http://".concat(url);
+        }
+        return url;
+    }
+
     private void initWebView() {
-        rl=binding.rlWebcontent;
-        progressBar=binding.progressBar1;
-        webView=new WebView(getApplicationContext());
-        rl.addView(webView);
+        rl = binding.rlWebcontent;
+        progressBar = binding.progressBar1;
+        webView = binding.webView;
         settings = webView.getSettings();
         settings.setJavaScriptEnabled(true); //如果访问的页面中有Javascript，则WebView必须设置支持Javascript
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
@@ -110,6 +102,7 @@ public class WebViewActivity extends BaseActivity {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                url = addPrefix(url);
                 view.loadUrl(url);
                 return true;
             }
@@ -171,7 +164,7 @@ public class WebViewActivity extends BaseActivity {
 //        if(gIntent.getStringExtra("Type")!=null&&gIntent.getStringExtra("Type").equals(Constant.PUSH_INTENT)){
 //            Intent intent=new Intent(getApplicationContext(),MenuActivity.class);
 //            startActivity(intent);
-//            SystemMethod.animBack(this);
+//            AppUtil.animBack(this);
 //        }
         super.back();
     }
@@ -192,5 +185,6 @@ public class WebViewActivity extends BaseActivity {
         LogUtil.i(TAG, "mWebUrl=" + mWebUrl);
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mWebUrl));
         startActivity(intent);
+        overridePendingTransPad();
     }
 }

@@ -59,14 +59,17 @@
             android:layout_margin="@dimen/margin16"
             android:onClick="@{()->aty.onHallMap()}"
             android:src="@drawable/ic_location"
-            app:fabSize="normal" />
+            app:fabSize="normal"
+            android:visibility="gone"
+            />
 
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
             android:layout_marginRight="@dimen/margin16"
-            android:layout_above="@id/btn_hall"
+            android:layout_marginBottom="16dp"
             android:onClick="@{()->aty.onSync()}"
             android:src="@drawable/ic_synchro"
             app:fabSize="normal" />

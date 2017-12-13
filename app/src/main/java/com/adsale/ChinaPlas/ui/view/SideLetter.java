@@ -1,60 +1,58 @@
 package com.adsale.ChinaPlas.ui.view;
 
-import java.util.List;
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Paint.Style;
+import android.graphics.drawable.ColorDrawable;
+import android.text.TextPaint;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.view.View;
 
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.utils.DisplayUtil;
 
-import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Paint.Style;
-import android.graphics.drawable.ColorDrawable;
-import android.util.AttributeSet;
-import android.view.MotionEvent;
-import android.view.View;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 国家列表侧边的索引bar
  */
 public class SideLetter extends View {
-    private List<String> arrIndexList;
-    private Paint paint;
+    private List<String> arrIndexList = new ArrayList<>();
+    private TextPaint paint;
     private OnLetterClickListener mListener;
 
     public SideLetter(Context context) {
         super(context);
-        init();
+        init(context);
     }
 
     public SideLetter(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(context);
     }
 
     public SideLetter(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init();
+        init(context);
     }
 
     public void setList(List<String> pIndexList) {
         arrIndexList = pIndexList;
     }
 
-    public void refresh(){
+    public void refresh() {
         invalidate();
     }
 
-    private void init() {
-        // l = new char[] {'#','A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
-        // 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
-        // 'W', 'X', 'Y', 'Z'};
+    private void init(Context context) {
         int fontSize = DisplayUtil.dip2px(getContext(), 12);
-        paint = new Paint();
-        paint.setColor(0xff858c94);
+        paint = new TextPaint();
+        paint.setColor(context.getResources().getColor(R.color.home));
         paint.setTextSize(fontSize);
         paint.setStyle(Style.FILL);
-        paint.setTextAlign(Paint.Align.CENTER);
+//        paint.setTextAlign(Paint.Align.CENTER);
     }
 
     @SuppressWarnings("deprecation")
@@ -62,6 +60,9 @@ public class SideLetter extends View {
         super.onTouchEvent(event);
         int i = (int) event.getY();
         int intSize = arrIndexList.size();
+        if (intSize == 0) {
+            return false;
+        }
         int idx = i / (getMeasuredHeight() / intSize);
         if (idx >= intSize) {
             idx = intSize - 1;
@@ -86,24 +87,18 @@ public class SideLetter extends View {
 
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        float widthCenter = getMeasuredWidth() / 2;
-        if (arrIndexList != null) {
-            if (arrIndexList.size() > 1) {
-                int intSize = arrIndexList.size();
-                int y;
-                int height = getMeasuredHeight() / (intSize);
-                for (int i = 0; i < intSize; i++) {
-                    y = (i + 1) * height;
-                    canvas.drawText(arrIndexList.get(i), widthCenter, y, paint);
-                }
-            } else if (arrIndexList.size() == 1) {
-                int height = getMeasuredHeight();
-                canvas.drawText(arrIndexList.get(0), widthCenter, height / 2, paint);
-            }
-
+        if (arrIndexList.isEmpty()) {
+            return;
         }
-        this.invalidate();
-
+        int y;
+        int intSize = arrIndexList.size();
+        int itemHeight = getMeasuredHeight() / intSize;
+        for (int i = 0; i < intSize; i++) {
+            y = (i + 1) * itemHeight;
+            float textWidth = paint.measureText(arrIndexList.get(i));
+            float width = getMeasuredWidth();
+            canvas.drawText(arrIndexList.get(i), textWidth <= width ? (width-textWidth) / 2 : 0, y - (itemHeight / 2), paint); // y-(itemHeight/2):让字母显示在item vertical center
+        }
     }
 
     public interface OnLetterClickListener {

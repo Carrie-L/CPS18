@@ -15,6 +15,12 @@
 
         <TextView
             style="@style/user_info_tv_style"
+            android:drawableLeft="@drawable/language"
+            android:onClick="@{()->aty.onLangClick()}"
+            android:text="@string/setting_language" />
+
+        <TextView
+            style="@style/user_info_tv_style"
             android:drawableLeft="@drawable/ic_setting_share"
             android:onClick="@{()->aty.onShare()}"
             android:text="@string/share" />
@@ -49,11 +55,11 @@
             android:onClick="@{()->aty.onUseItems()}"
             android:text="@string/setting_use_terms" />
 
-        <!--<TextView-->
-            <!--style="@style/user_info_tv_style"-->
-            <!--android:drawableLeft="@drawable/ic_setting_help"-->
-            <!--android:onClick="@{()->aty.onHelpPage()}"-->
-            <!--android:text="@string/setting_show_help" />-->
+        <TextView
+            style="@style/user_info_tv_style"
+            android:drawableLeft="@drawable/ic_setting_help"
+            android:onClick="@{()->aty.onHelpPage()}"
+            android:text="@string/setting_show_help" />
 
         <TextView
             android:layout_width="wrap_content"
