@@ -65,6 +65,8 @@ public class Exhibitor implements Parcelable {
     private Integer Rate;
 
     // KEEP FIELDS - put your custom fields here
+    private int i = 0;
+
     public String CompanyName;
     public String Sort;
     public String CountryName;
@@ -622,7 +624,7 @@ public class Exhibitor implements Parcelable {
 //        CompanyID|NameInEngDisp|NameInTradDisp|NameInSimpDisp|AddressE|AddressT|AddressS|Postal|Tel|Fax|Email|   —�??0-10
 //        Website|CountryID|AddressE1|AddressT1|asAddressS1| AddressE2|asAddressT2|AddressS2|BoothNo|StrokeEng|StrokeTrad  —�?? 11-21
 //        |StrokeSimp|PYSimp|ImgFolder|ExhibitNameE|ExhibitNameS|ExhibitNameT|DescE|DescS|DescT|PhotoFileName  —�?? 22-31
-//        |ConfArea|FreeArea|PillarArea|NewTechUpdateDate|SEQ_EN|SEQ_TC|SEQ_SC|HallNo
+//        |ConfArea|FreeArea|PillarArea|NewTechUpdateDate|SEQ_EN|SEQ_TC|SEQ_SC|HallNo  // 32 - 39
 
         this.CompanyID = csv[0];
         this.CompanyNameEN = csv[1];
@@ -660,11 +662,13 @@ public class Exhibitor implements Parcelable {
         this.FreeArea = csv[33];
         this.PillarArea = csv[34];
         this.NewTechUpdateDate = csv[35];
-        this.SeqEN = Integer.valueOf(csv[36]);
-        this.SeqTC = Integer.valueOf(csv[37]);
-        this.SeqSC = Integer.valueOf(csv[38]);
-        this.HallNo = csv[39];
+        i=4;
+        this.SeqEN = Integer.valueOf(csv[32+i]);
+        this.SeqTC = Integer.valueOf(csv[33+i]);
+        this.SeqSC = Integer.valueOf(csv[34+i]);
+        this.HallNo = csv[35+i];
     }
+
 
     @Override
     public String toString() {

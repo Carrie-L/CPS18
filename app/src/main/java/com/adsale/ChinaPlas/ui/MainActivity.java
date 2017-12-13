@@ -99,7 +99,7 @@ public class MainActivity extends BaseActivity {
             mNavViewModel.mCurrLang.set(App.mLanguage.get());
             mNavViewModel.updateLanguage();
             mainFragment.refreshImages();
-            AppUtil.switchLanguage(getApplicationContext(),App.mLanguage.get());
+            AppUtil.switchLanguage(getApplicationContext(), App.mLanguage.get());
         }
 
         updateCenterCount();
@@ -130,19 +130,6 @@ public class MainActivity extends BaseActivity {
     private void helpPage() {
         helpView = new HelpView(this, HELP_PAGE_MAIN, mMenuHelpCloseListener);
         isShowPage = helpView.showPage();
-
-//        if (mHelpView == null) {
-//            mHelpView = mVS_Help.inflate();
-//            helpPage.findView(mHelpView);
-//            ivCloseHelpPage =  mHelpView.findViewById(R.id.btn_help_page_close);
-//        }
-//        Integer[] imageIds;
-//        imageIds = helpPage.getMenuImages();
-//
-//        helpPage.init(this, imageIds);
-//        mHelpView.setVisibility(View.VISIBLE);
-//        ivCloseHelpPage.setOnClickListener(mMenuHelpCloseListener);
-//        spHelpPage.edit().putBoolean("ShowMenuHelpPage", false).apply();/*  帮助页面显示过了，设为false，下次获取ShowMenuHelpPage为true时，表示打开帮助页面 */
     }
 
     private View.OnClickListener mMenuHelpCloseListener = new View.OnClickListener() {
@@ -159,9 +146,9 @@ public class MainActivity extends BaseActivity {
     private void intentToUpdateCenter() {
         LogUtil.i(TAG, "intentToUpdateCenter");
 //        if (uc_count > 0) {
-            Intent intent = new Intent(this, UpdateCenterActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
+        Intent intent = new Intent(this, UpdateCenterActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
 //        }
     }
 

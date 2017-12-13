@@ -190,28 +190,28 @@
     <string name="title_sort"></string>
 
     <string name="title_filter">Filter</string>
-    <string name="filter_industry">產品類別</string>
-    <string name="filter_application">應用分類</string>
-    <string name="filter_country">國家</string>
-    <string name="filter_hall">展館</string>
-    <string name="filter_booth">專區</string>
-    <string name="filter_keyword">關鍵字</string>
-    <string name="filter_new_tec">新技術</string>
-    <string name="filter_keyword_hint">输入关键字</string>
+    <string name="filter_industry">Product Category</string>
+    <string name="filter_application">Application</string>
+    <string name="filter_country">Country / Region</string>
+    <string name="filter_hall">Hall</string>
+    <string name="filter_booth">Zone</string>
+    <string name="filter_keyword">Keyword</string>
+    <string name="filter_new_tec">New Technology</string>
+    <string name="filter_keyword_hint">Input keywords</string>
 
-    <string name="filter_clear_all">清空篩選條件</string>
-    <string name="filter_ok">篩選</string>
+    <string name="filter_clear_all">Clear</string>
+    <string name="filter_ok">Filter</string>
 
-    <string name="filter_search">搜尋</string>
+    <string name="filter_search">Search</string>
 
     <string name="new_tec_booth">Booth: %s</string>
-    <string name="new_tec_ad">廣告商產品</string>
+    <string name="new_tec_ad">Ad Product</string>
 
     <string name="filter_product">Product</string>
     <string name="filter_applications">Applications</string>
     <string name="new_tec_Product_A">Machinery &amp; Equipment</string>
     <string name="new_tec_Product_B">Chemicals &amp; Raw Material</string>
-    <string name="new_tec_Product_C">2017 CHINAPLAS 1st launch technology</string>
+    <string name="new_tec_Product_C">2018 CHINAPLAS 1st launch technology</string>
 
     <!--  -->
     <string name="addScheduleInfo">Add Schedule</string>
@@ -315,7 +315,7 @@
 
     <!--  -->
     <string name="EXIT">Exit</string>
-    <string name="EXIT_MSG">Exit CHINAPLAS 2017?</string>
+    <string name="EXIT_MSG">Exit CHINAPLAS 2018?</string>
 
     <!--  -->
     <string-array name="sharing_platform">
@@ -520,7 +520,7 @@
     <string name="blue">Blue:</string>
     <string name="red">Red: </string>
     <string name="technical_seminar">Technical Seminar</string>
-    <string name="ts_date">May, 2017</string>
+    <string name="ts_date">April, 2018</string>
     <string name="siminar_time_am">AM Session&#160;(10:00&#8211;12:00)</string>
     <string name="siminar_time_pm">PM Session&#160;(14:00&#8211;16:00)</string>
     <string name="exception_toast_email">No email client installed.</string>
@@ -595,7 +595,7 @@
     <string name="loading_check_update">Data need to be updated</string>
     <string name="download_map_update">Floorplan need to be updated. Please download under wifi environment.</string>
     <string name="title_search_by_application">Search by Application</string>
-    <string name="favinfo_url">http://www.chinaplasonline.com/apps/2017/HTML/favinfo/EN.htm</string>
+    <string name="favinfo_url">http://www.chinaplasonline.com/apps/2018/HTML/favinfo/EN.htm</string>
     <string name="downloading_apk">Continue to Download</string>
     <string name="check_new_version">CHINAPLAS Automatic Updater</string>
     <string name="update_now">Upgrade now</string>

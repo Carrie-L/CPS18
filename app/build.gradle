@@ -24,7 +24,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-//        multiDexEnabled true
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -72,5 +72,5 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.1.1'
     implementation files('libs/MobCommons-2017.1201.1507.jar')
     implementation files('libs/MobTools-2017.1201.1507.jar')
-//    compile 'com.android.support:multidex:1.0.2'
+    compile 'com.android.support:multidex:1.0.2'
 }

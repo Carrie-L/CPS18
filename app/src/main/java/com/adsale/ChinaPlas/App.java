@@ -1,6 +1,5 @@
 package com.adsale.ChinaPlas;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -11,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.databinding.ObservableInt;
 import android.net.ConnectivityManager;
 import android.os.Environment;
+import android.support.multidex.MultiDexApplication;
 
 import com.adsale.ChinaPlas.dao.DBHelper;
 import com.adsale.ChinaPlas.dao.DaoMaster;
@@ -31,7 +31,7 @@ import okhttp3.OkHttpClient;
  * Created by Carrie on 2017/8/8.
  */
 
-public class App extends Application {
+public class App extends MultiDexApplication {
     private static final String TAG = "App";
 
 //    public static final ObservableInt language=new ObservableInt(0);

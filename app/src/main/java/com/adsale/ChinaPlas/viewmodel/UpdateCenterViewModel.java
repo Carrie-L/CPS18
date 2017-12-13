@@ -107,9 +107,9 @@ public class UpdateCenterViewModel {
         statusAll.set(updateCount > 0 && updateCount <= 5);
 
         //just for test , update Exhibitor
-        entity = list.get(0);
-        entity.setStatus(0);
-        list.set(0,entity);
+//        entity = list.get(0);
+//        entity.setStatus(0);
+//        list.set(0,entity);
 
     }
 

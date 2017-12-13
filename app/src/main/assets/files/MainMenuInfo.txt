@@ -3,9 +3,10 @@
   "TopBanners": [
     {
       "EN": {
-        "BannerImage": "http://img.taopic.com/uploads/allimg/140326/235113-1403260G01561.jpg",
-        "Function": "2",
-        "InnerPage": "",
+        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/banner_en2.png",
+        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/Tablet_banner_en.png",
+        "Function": "5",
+        "InnerPage": "GeneralInformation",
         "Link": "baidu.com",
         "companyID": "229048",
         "eventID": "001",
@@ -13,9 +14,10 @@
         "newsID": "0000000409"
       },
       "SC": {
-        "BannerImage": "http://img.taopic.com/uploads/allimg/140326/235113-1403260G01561.jpg",
-        "Function": "2",
-        "InnerPage": "",
+        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/Banner%281%29.png",
+        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/Tablet_banner_sc.png",
+        "Function": "5",
+        "InnerPage": "GeneralInformation",
         "Link": "baidu.com",
         "companyID": "229048",
         "eventID": "001",
@@ -23,73 +25,10 @@
         "newsID": "0000000409"
       },
       "TC": {
-        "BannerImage": "http://img.taopic.com/uploads/allimg/140326/235113-1403260G01561.jpg",
-        "Function": "2",
-        "InnerPage": "",
-        "Link": "baidu.com",
-        "companyID": "229048",
-        "eventID": "001",
-        "seminarID": "15",
-        "newsID": "0000000409"
-      }
-    },
-    {
-      "EN": {
-        "BannerImage": "http://pic39.nipic.com/20140312/18085061_092729513131_2.jpg",
-        "Function": "2",
-        "InnerPage": "",
-        "Link": "baidu.com",
-        "companyID": "229048",
-        "eventID": "001",
-        "seminarID": "15",
-        "newsID": "0000000409"
-      },
-      "SC": {
-        "BannerImage": "http://pic39.nipic.com/20140312/18085061_092729513131_2.jpg",
-        "Function": "2",
-        "InnerPage": "",
-        "Link": "baidu.com",
-        "companyID": "229048",
-        "eventID": "001",
-        "seminarID": "15",
-        "newsID": "0000000409"
-      },
-      "TC": {
-        "BannerImage": "http://pic39.nipic.com/20140312/18085061_092729513131_2.jpg",
-        "Function": "2",
-        "InnerPage": "",
-        "Link": "baidu.com",
-        "companyID": "229048",
-        "eventID": "001",
-        "seminarID": "15",
-        "newsID": "0000000409"
-      }
-    },
-    {
-      "EN": {
-        "BannerImage": "http://pic23.photophoto.cn/20120530/0020033092420808_b.jpg",
-        "Function": "2",
-        "InnerPage": "",
-        "Link": "baidu.com",
-        "companyID": "229048",
-        "eventID": "001",
-        "seminarID": "15",
-        "newsID": "0000000409"
-      },
-      "SC": {
-        "BannerImage": "http://pic9.nipic.com/20100818/5462876_150854046500_2.jpg",
-        "Function": "2",
-        "InnerPage": "",
-        "Link": "baidu.com",
-        "companyID": "229048",
-        "eventID": "001",
-        "seminarID": "15",
-        "newsID": "0000000409"
-      },
-      "TC": {
-        "BannerImage": "http://pic9.nipic.com/20100818/5462876_150854046500_2.jpg",
-        "Function": "2",
-        "InnerPage": "",
+        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/Banner%281%29.png",
+        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/Tablet_banner_tc.png",
+        "Function": "5",
+        "InnerPage": "GeneralInformation",
         "Link": "baidu.com",
         "companyID": "229048",
         "eventID": "001",
@@ -101,8 +40,9 @@
   "LeftBottomBanner": {
     "EN": {
       "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon7.png",
-      "Function": "2",
-      "InnerPage": "",
+      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon7.png",
+      "Function": "5",
+      "InnerPage": "VisitorPreRegistrationText",
       "Link": "baidu.com",
       "companyID": "229048",
       "eventID": "001",
@@ -110,9 +50,10 @@
       "newsID": "0000000409"
     },
     "SC": {
-      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon7.png",
-      "Function": "2",
-      "InnerPage": "",
+      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon7_sc.png",
+      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon7_sc.png",
+      "Function": "5",
+      "InnerPage": "VisitorPreRegistrationText",
       "Link": "baidu.com",
       "companyID": "229048",
       "eventID": "001",
@@ -120,9 +61,10 @@
       "newsID": "0000000409"
     },
     "TC": {
-      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon7.png",
-      "Function": "2",
-      "InnerPage": "",
+      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon7_tc.png",
+      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon7_tc.png",
+      "Function": "5",
+      "InnerPage": "VisitorPreRegistrationText",
       "Link": "baidu.com",
       "companyID": "229048",
       "eventID": "001",
@@ -133,8 +75,9 @@
   "RightBottomBanner": {
     "EN": {
       "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon8.png",
-      "Function": "2",
-      "InnerPage": "",
+      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon8.png",
+      "Function": "5",
+      "InnerPage": "ContactUs",
       "Link": "baidu.com",
       "companyID": "229048",
       "eventID": "001",
@@ -142,9 +85,10 @@
       "newsID": "0000000409"
     },
     "SC": {
-      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon8.png",
-      "Function": "2",
-      "InnerPage": "",
+      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon8_sc.png",
+      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon8_sc.png",
+      "Function": "5",
+      "InnerPage": "ContactUs",
       "Link": "baidu.com",
       "companyID": "229048",
       "eventID": "001",
@@ -152,9 +96,10 @@
       "newsID": "0000000409"
     },
     "TC": {
-      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon8.png",
-      "Function": "2",
-      "InnerPage": "",
+      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon8_tc.png",
+      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon8_tc.png",
+      "Function": "5",
+      "InnerPage": "ContactUs",
       "Link": "baidu.com",
       "companyID": "229048",
       "eventID": "001",

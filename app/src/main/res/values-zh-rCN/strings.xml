@@ -169,7 +169,7 @@
 
     <string name="title_filter">筛选</string>
     <string name="filter_industry">产品类别</string>
-    <string name="filter_application">应用分类</string>
+    <string name="filter_application">应用行业</string>
     <string name="filter_country">国家</string>
     <string name="filter_hall">展馆</string>
     <string name="filter_booth">专区</string>
@@ -177,9 +177,9 @@
     <string name="filter_new_tec">首发技术</string>
     <string name="filter_keyword_hint">输入关键字</string>
 
-    <string name="filter_clear_all">清空篩選條件</string>
-    <string name="filter_ok">篩選</string>
-    <string name="filter_search">搜尋</string>
+    <string name="filter_clear_all">清空筛选条件</string>
+    <string name="filter_ok">筛选</string>
+    <string name="filter_search">搜寻</string>
 
     <string name="new_tec_booth">展台号：%s</string>
     <string name="new_tec_ad">广告商产品</string>
