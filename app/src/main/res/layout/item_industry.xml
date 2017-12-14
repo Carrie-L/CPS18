@@ -2,13 +2,16 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="obj"
             type="com.adsale.ChinaPlas.dao.Industry" />
+
         <variable
             name="adapter"
-            type="com.adsale.ChinaPlas.adapter.IndustryAdapter"/>
+            type="com.adsale.ChinaPlas.adapter.IndustryAdapter" />
     </data>
 
     <LinearLayout
@@ -25,18 +28,16 @@
             android:paddingLeft="16dp"
             android:text="@{obj.getSort()}"
             android:textColor="#000"
-            android:visibility="@{obj.isTypeLabel?View.VISIBLE:View.GONE}"
-            />
+            android:visibility="@{obj.isTypeLabel?View.VISIBLE:View.GONE}" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:drawableEnd="@{obj.selected?@drawable/ic_choosed:null}"
-            android:drawableRight="@{obj.selected?@drawable/ic_choosed:null}"
             android:gravity="center_vertical"
-            android:paddingLeft="16dp"
-            android:paddingRight="8dp"
             android:onClick="@{()->adapter.onSelect(obj)}"
+            android:paddingLeft="16dp"
+            android:paddingRight="28dp"
             android:text="@{obj.getIndustryName()}" />
     </LinearLayout>
 

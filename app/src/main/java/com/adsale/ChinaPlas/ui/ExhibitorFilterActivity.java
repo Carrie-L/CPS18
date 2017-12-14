@@ -23,7 +23,7 @@ public class ExhibitorFilterActivity extends BaseActivity implements OnIntentLis
     private FilterView countryFilterView;
     private FilterView hallFilterView;
     private FilterView boothFilterView;
-    private ArrayList<ExhibitorFilter> results;
+    private ArrayList<ExhibitorFilter> results = new ArrayList<>();
     private ArrayList<ExhibitorFilter> allFilters = new ArrayList<>();
     private SwitchCompat switchNewTec;
     private String[] names;
@@ -105,6 +105,9 @@ public class ExhibitorFilterActivity extends BaseActivity implements OnIntentLis
     }
 
     public void onClear() {
+        if(results.size()==0){
+            return;
+        }
         allFilters.clear();
         results.clear();
         industryFilterView.setList(results);
@@ -114,7 +117,6 @@ public class ExhibitorFilterActivity extends BaseActivity implements OnIntentLis
         boothFilterView.setList(results);
         etKeyword.set("");
         switchNewTec.setChecked(false);
-
     }
 
 

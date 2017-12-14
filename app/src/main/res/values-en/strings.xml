@@ -115,7 +115,7 @@
     <!--  -->
     <string name="no_news">No News</string>
     <string name="no_exhibitor">No related information</string>
-    <string name="no_scheduleInfo">No Schedule</string>
+    <string name="no_schedule">No Schedule</string>
     <string name="no_my_exhibitor">No Bookmarked Exhibitor. \nPlease go to \"Exhibitor list\" to add exhibitors. </string>
     <string name="nodata">No related information</string>
     <string name="no_keyword_result">If you want to get the full exhibitor list, please visit Update Center to update the exhibitor data</string>

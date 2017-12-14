@@ -57,10 +57,10 @@ public class Constant {
     public static final String REG_PNG = "reg.png";
 
     /*  Schedule */
-    public static final String SCHEDULE_DAY01 = "2017-04-24";
-    public static final String SCHEDULE_DAY02 = "2017-04-25";
-    public static final String SCHEDULE_DAY03 = "2017-04-26";
-    public static final String SCHEDULE_DAY_END = "2017-04-27";
+    public static final String SCHEDULE_DAY01 = "2018-04-24";
+    public static final String SCHEDULE_DAY02 = "2018-04-25";
+    public static final String SCHEDULE_DAY03 = "2018-04-26";
+    public static final String SCHEDULE_DAY_END = "2018-04-27";
 
     public static final String INTENT_SCHEDULE = "Schedule";
     public static final String INTENT_EXHIBITOR = "Exhibitor";

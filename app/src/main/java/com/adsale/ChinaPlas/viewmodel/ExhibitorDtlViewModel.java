@@ -14,6 +14,7 @@ import android.view.ViewStub;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.ExhibitorPhotoAdapter;
@@ -283,17 +284,36 @@ public class ExhibitorDtlViewModel {
         LogUtil.i(TAG, "mPhotos=" + mPhotos.size() + "," + mPhotos.toString());
     }
 
-//    @Override
-//    public void success(String path, int width, int height) {
-//        LogUtil.i(TAG, "take photo success:" + path);
-//        mPhotos.add(path);
-//        mPhotoAdapter.setList(mPhotos);
-//    }
-
     public void photoSuccess(String path) {
         LogUtil.i(TAG, "take photo success:" + path);
         mPhotos.add(path);
         mPhotoAdapter.setList(mPhotos);
+
+        LogUtil.i(TAG, "exhibitor.isCollected 0 = " + exhibitor.isCollected.get());
+        // 拍了照片的自动加入到我的参展商
+        if (!exhibitor.isCollected.get()) {
+            isCollected.set(true);
+            exhibitor.setIsFavourite(1);
+            mRepository.updateItemData(exhibitor);
+            LogUtil.i(TAG, "exhibitor.isCollected 1 = " + exhibitor.isCollected.get());
+        }
+        LogUtil.i(TAG, "exhibitor.isCollected 2 = " + exhibitor.isCollected.get());
+    }
+
+    public void deletePhoto(String path) {
+        LogUtil.i(TAG, "deletePhoto:" + path);
+        int size = mPhotos.size();
+        for (int i = 0; i < size; i++) {
+            if (mPhotos.get(i).equals(path)) {
+                mPhotos.remove(i);
+                break;
+            }
+        }
+        mPhotoAdapter.setList(mPhotos);
+
+        File file = new File(path);
+        boolean isDel = file.delete();
+        Toast.makeText(mContext, "delete: " + isDel, Toast.LENGTH_SHORT).show();
     }
 
     public void onTakePhoto() {
@@ -309,7 +329,8 @@ public class ExhibitorDtlViewModel {
 //        takePhotoView.setPhotoAbsPath(mPhotoDir.concat(exhibitor.getCompanyID()).concat("_").concat(mPhotos.size() + "").concat(".jpg"));
 //        takePhotoView.show();
 
-        mListener.onIntent(mPhotoDir.concat(exhibitor.getCompanyID()).concat("_").concat(mPhotos.size() + "").concat(".jpg"), TakePhotoActivity.class);
+        //exhibitor.getCompanyID()).concat("_").concat(mPhotos.size() + ""
+        mListener.onIntent(mPhotoDir.concat(System.currentTimeMillis()+"").concat(".jpg"), TakePhotoActivity.class);
 
     }
 

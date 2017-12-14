@@ -43,12 +43,6 @@ public class NewsAdapter extends CpsBaseAdapter<News> {
         super.setList(list);
     }
 
-//    @Override
-//    public void onBindViewHolder(CpsBaseViewHolder holder, int position) {
-//        super.onBindViewHolder(holder, position);
-//        GlideApp.with(activity).load(Uri.parse(NetWorkHelper.DOWNLOAD_PATH.concat("News/").concat(newsBinding.getObj().getLogo()))).thumbnail(0.1f).diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(newsBinding.ivNewsPic);// 缓存最终图片
-//    }
-
     @Override
     protected void bindVariable(ViewDataBinding binding) {
         binding.setVariable(BR.activity, activity);

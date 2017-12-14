@@ -36,12 +36,14 @@
         </activity>
         <activity
             android:name=".ui.RegisterActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="stateHidden|adjustPan"
+            />
         <activity
             android:name=".ui.MainActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+          />
 
         <meta-data
             android:name="io.fabric.ApiKey"
@@ -251,17 +253,23 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <!-- ++++++++++++++++++ShareSDK配置END++++++++++++++++++ -->
 
-        <activity android:name=".ui.ExhibitorDetailActivity" />
+        <activity android:name=".ui.ExhibitorDetailActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="stateHidden|adjustPan"
+            />
         <activity android:name=".ui.MyExhibitorActivity" />
         <activity android:name=".ui.NewTecDtlActivity" />
-        <activity android:name=".ui.UserInfoActivity" />
+        <activity android:name=".ui.UserInfoActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="stateHidden|adjustPan"
+            />
         <activity android:name=".ui.FloorDistributeActivity" />
         <activity
             android:name=".ui.NewTecActivity"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name=".ui.NewTecFilterActivity" />
         <activity android:name=".ui.ImageActivity" />
-        <activity android:name=".ui.TakePhotoActivity"></activity>
+        <activity android:name=".ui.TakePhotoActivity"/>
     </application>
 
 </manifest>

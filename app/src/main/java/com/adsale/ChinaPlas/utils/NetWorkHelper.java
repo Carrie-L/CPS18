@@ -48,7 +48,7 @@ public class NetWorkHelper {
     public static final String Register_URL = "https://www.chinaplasonline.com/CPS18/Mobile/Home/%s/QuickPreReg.aspx?device=mobileapp";
     public static final String REGISTER_CHARGE="https://epayment.adsale-marketing.com.cn/vreg/PayMent/PayAPPjump";/* 获取charge数据 */
     public static final String REGISTER_BASE_URL="https://epayment.adsale-marketing.com.cn/vreg/PayMent/";
-    public static final String REGISTER_CONFIRM_URL="https://www.chinaplasonline.com/CPS18/Mobile/Home/%1s/QuickPreRegResult.aspx?image=%2s";  /*  确认信链接 */
+//    public static final String REGISTER_CONFIRM_URL="https://www.chinaplasonline.com/CPS18/Mobile/Home/%1s/QuickPreRegResult.aspx?image=%2s";  /*  确认信链接 */
     public static final String REGISTER_CONFIRM_IMG_URL="https://eform.adsale.com.hk/vreg/Files/Mobile/PreReg/479/";  /*  确认信图片链接 */
     public static final String REGISTER_INVOICE_URL="https://www.chinaplasonline.com/CPS18/Mobile/Home/%1s/PreRegInvoice.aspx?image=%2s";  /*  发票链接 */
 

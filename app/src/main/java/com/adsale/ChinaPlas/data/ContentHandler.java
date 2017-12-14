@@ -187,7 +187,6 @@ public class ContentHandler extends DefaultHandler {
                 mMainIcon.setBaiDu_TJ(strData);
             } else if ("Google_TJ".equals(nodeName)) {
                 mMainIcon.setGoogle_TJ(strData);
-
                 if(strData.contains("S_")){
                     mMainIcon.setDrawerList(strData.split("\\|")[0]);
                 }

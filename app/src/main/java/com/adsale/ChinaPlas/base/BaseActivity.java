@@ -75,6 +75,9 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
 
         mScreenWidth = App.mSP_Config.getInt(Constant.SCREEN_WIDTH, 0);
 
+//        Window w = getWindow(); // in Activity's onCreate() for instance
+//        w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+
         preView();
 
         setupToolBar();

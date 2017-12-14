@@ -33,6 +33,9 @@ public class ExhibitorDetailActivity extends BaseActivity implements OnIntentLis
     private HelpView helpView;
     private ADHelper adHelper;
 
+    private final Integer REQUET_TAKE_PHOTO = 101;
+    private final Integer REQUET_DELETE_PHOTO = 102;
+
     @Override
     protected void preView() {
         super.preView();
@@ -111,12 +114,14 @@ public class ExhibitorDetailActivity extends BaseActivity implements OnIntentLis
             } else if (toCls.getSimpleName().contains("ImageActivity")) {
                 Intent intent = new Intent(this, toCls);
                 intent.putExtra("url", (String) entity);
+                intent.putExtra("del", true);
+                intent.putExtra("title", barTitle.get());
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                startActivityForResult(intent, REQUET_DELETE_PHOTO);
             } else if (toCls.getSimpleName().contains("TakePhotoActivity")) {
                 Intent intent = new Intent(this, TakePhotoActivity.class);
                 intent.putExtra("absPath", (String) entity);
-                startActivityForResult(intent, 101);
+                startActivityForResult(intent, REQUET_TAKE_PHOTO);
             }
             overridePendingTransPad();
         }
@@ -140,8 +145,13 @@ public class ExhibitorDetailActivity extends BaseActivity implements OnIntentLis
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 101 && resultCode == RESULT_OK) {
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+        if (requestCode == REQUET_TAKE_PHOTO) {
             mViewModel.photoSuccess(data.getStringExtra("path"));
+        } else if (requestCode == REQUET_DELETE_PHOTO) {
+            mViewModel.deletePhoto(data.getStringExtra("path"));
         }
     }
 

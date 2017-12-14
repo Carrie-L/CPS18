@@ -50,6 +50,9 @@
                     android:layout_weight="0.389"
                     android:minHeight="180dp" />
 
+        <!--<ScrollView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
                 <LinearLayout
                     android:id="@+id/ll_bottom"
                     android:layout_width="match_parent"
@@ -74,6 +77,7 @@
                         android:scaleType="fitXY" />
 
                 </LinearLayout>
+        <!--</ScrollView>-->
 
             <!--</LinearLayout>-->
         <!--</android.support.v4.widget.NestedScrollView>-->

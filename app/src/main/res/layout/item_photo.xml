@@ -3,12 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="obj"
             type="String" />
+
         <variable
             name="adapter"
-            type="com.adsale.ChinaPlas.adapter.ExhibitorPhotoAdapter"/>
+            type="com.adsale.ChinaPlas.adapter.ExhibitorPhotoAdapter" />
+
+        <variable
+            name="options"
+            type="com.bumptech.glide.request.RequestOptions" />
+
     </data>
 
     <ImageView
@@ -17,7 +24,8 @@
         android:layout_height="@dimen/item_photo_height"
         android:layout_marginRight="8dp"
         android:onClick="@{()->adapter.onItemClick(obj)}"
+        app:imagePath="@{obj}"
+        app:requestOptions="@{options}"
         />
-    <!--app:imagePath="@{obj}"-->
 
 </layout>

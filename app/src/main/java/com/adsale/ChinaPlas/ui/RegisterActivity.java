@@ -73,6 +73,11 @@ public class RegisterActivity extends BaseActivity {
 
                 if (result.contains("success")) { /* 刷新确认信 */
                     mRegModel.paySuccess();
+
+                    //请求自家服务器接口
+
+
+
                 } else if (result.contains("fail")) { /* 支付失败，重新调起支付 */
                     mRegModel.createPayment();
                 }else if(result.equals("cancel")){

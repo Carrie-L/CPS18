@@ -21,19 +21,26 @@ public class NewsModel {
         mLinkDao = App.mDBHelper.mLinkDao;
     }
 
+    /**
+     * LType = 1, TC;
+     * LType = 2, SC;
+     * LType = 3, EN.
+     */
     public ArrayList<News> getNewsList() {
-        return (ArrayList<News>) mNewsDao.queryBuilder().orderDesc(NewsDao.Properties.PublishDate).list();
+        return (ArrayList<News>) mNewsDao.queryBuilder()
+                .where(NewsDao.Properties.LType.eq(App.mLanguage.get() == 0 ? 1 : App.mLanguage.get() == 2 ? 2 : 3))
+                .orderDesc(NewsDao.Properties.PublishDate).list();
     }
 
     //select  * from NEWS_LINK NL,NEWS N where NL.NEWS_ID=N.NEWS_ID AND N.NEWS_ID="0000000668"
-    public ArrayList<NewsLink> getLinks(String newsId){
+    public ArrayList<NewsLink> getLinks(String newsId) {
         return (ArrayList<NewsLink>) mLinkDao.queryBuilder()
                 .where(NewsLinkDao.Properties.NewsID.eq(newsId))
                 .orderAsc(NewsLinkDao.Properties.SEQ).list();
     }
 
-    public News getItemNews(String newsId){
-      return   mNewsDao.load(newsId);
+    public News getItemNews(String newsId) {
+        return mNewsDao.load(newsId);
     }
 
 }

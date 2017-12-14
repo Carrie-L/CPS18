@@ -13,4 +13,12 @@ public class Text2 {
         this.id = id;
         this.text = text;
     }
+
+    @Override
+    public String toString() {
+        return "Text2{" +
+                "id='" + id + '\'' +
+                ", text='" + text + '\'' +
+                '}';
+    }
 }

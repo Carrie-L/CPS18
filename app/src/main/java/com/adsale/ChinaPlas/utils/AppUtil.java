@@ -847,7 +847,7 @@ public class AppUtil {
     public static long getShowCountDown() {
         long diff = 0;
         String today = AppUtil.getTodayDate();
-        String showStartDate = "2018-04-24";//yyyy-MM-dd
+        String showStartDate = Constant.SCHEDULE_DAY01;//yyyy-MM-dd
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         try {
             Date date0 = sdf.parse(today);

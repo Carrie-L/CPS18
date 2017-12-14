@@ -40,7 +40,7 @@ public class ADHelper {
     public final String TAG = "ADHelper";
     private Context mContext;
     private static ADHelper INSTANCE;
-    private final String AD_TXT = "advertisement_test.txt";
+    private final String AD_TXT = "advertisement.txt";
     private Intent intent;
     private int mLanguage;
     private String mRightUrl;
@@ -56,15 +56,12 @@ public class ADHelper {
 
     private adAdvertisementObj adObj;
 
-    public void setAdObj(adAdvertisementObj obj) {
-        this.adObj = obj;
-    }
-
     public adAdvertisementObj getAdObj() {
         if (adObj != null) {
             return adObj;
         }
         adObj = Parser.parseJsonFilesDirFile(adAdvertisementObj.class, AD_TXT);
+        LogUtil.i(TAG, "adObj=" + adObj.toString());
         return adObj;
     }
 
@@ -75,24 +72,22 @@ public class ADHelper {
      */
     public boolean setIsAdOpen() {
         getAdObj();
-        App.mSP_Config.edit().putBoolean(Constant.IS_AD_OPEN, true).apply();
-        return true;//todo just for test
-//
-//        String todayDate = getCurrentDate();
-//        String adStartTime = adObj.Common.time.split("-")[0];
-//        String adEndTime = adObj.Common.time.split("-")[1];
-//        LogUtil.i(TAG, "todayDate=" + todayDate + ".adStartTime=" + adStartTime + ".adEndTime=" + adEndTime);
-//        int c1 = todayDate.compareTo(adStartTime);
-//        int c2 = todayDate.compareTo(adEndTime);
-//        LogUtil.i(TAG, "c1=" + c1 + ".c2=" + c2);
-//        if (todayDate.compareTo(adStartTime) > 0 && todayDate.compareTo(adEndTime) < 0) {
-//            mSP_Config.edit().putBoolean(Constant.IS_AD_OPEN, true).apply();
-//            LogUtil.e(TAG, "~~~ad opening~~");
-//            return true;
-//        }
-//        mSP_Config.edit().putBoolean("M1ShowFinish", true).apply();
-//        LogUtil.e(TAG, "~~~ad closed~~");
-//        return false;
+        String todayDate = AppUtil.getCurrentDate();
+        String adStartTime = adObj.Common.time.split("-")[0];
+        String adEndTime = adObj.Common.time.split("-")[1];
+        LogUtil.i(TAG, "todayDate=" + todayDate + ".adStartTime=" + adStartTime + ".adEndTime=" + adEndTime);
+        int c1 = todayDate.compareTo(adStartTime);
+        int c2 = todayDate.compareTo(adEndTime);
+        LogUtil.i(TAG, "c1=" + c1 + ".c2=" + c2);
+        if (todayDate.compareTo(adStartTime) > 0 && todayDate.compareTo(adEndTime) < 0) {
+            App.mSP_Config.edit().putBoolean(Constant.IS_AD_OPEN, true).apply();
+            LogUtil.e(TAG, "~~~ad opening~~");
+            return true;
+        }
+        App.mSP_Config.edit().putBoolean(Constant.IS_AD_OPEN, false).apply();
+        App.mSP_Config.edit().putBoolean("M1ShowFinish", true).apply();
+        LogUtil.e(TAG, "~~~ad closed~~");
+        return false;
     }
 
     public boolean isAdOpen() {
@@ -205,12 +200,12 @@ public class ADHelper {
 
     public void showM3(final ImageView imageView) {
         getAdObj();
-        if(!isAdOpen()){
-            imageView.setVisibility(View.GONE);
+        if (!isAdOpen()) {
+            imageView.setVisibility(View.INVISIBLE);
             return;
         }
         if (Integer.valueOf(adObj.M3.version) == 0) {
-            imageView.setVisibility(View.GONE);
+            imageView.setVisibility(View.INVISIBLE);
             return;
         }
         imageView.setVisibility(View.VISIBLE);

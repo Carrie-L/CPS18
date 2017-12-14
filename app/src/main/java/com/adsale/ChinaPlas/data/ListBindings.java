@@ -69,7 +69,7 @@ public class ListBindings {
 
     @BindingAdapter({"app:imgUrl"})
     public static void setImgUrl(ImageView imageView, String url) {
-        if(TextUtils.isEmpty(url)){
+        if (TextUtils.isEmpty(url)) {
             return;
         }
         Glide.with(imageView.getContext())
@@ -77,11 +77,15 @@ public class ListBindings {
                 .into(imageView);
     }
 
-    @BindingAdapter({"app:imagePath"})
-    public static void setImagePath(ImageView imageView, String absolutePath) {
+    @BindingAdapter({"app:imagePath", "app:requestOptions"})
+    public static void setImagePath(ImageView imageView, String absolutePath, RequestOptions options) {
         LogUtil.i("setImagePath", "absolutePath=" + absolutePath);
+        if (TextUtils.isEmpty(absolutePath)) {
+            return;
+        }
         Glide.with(imageView.getContext())
                 .load(new File(absolutePath))
+                .apply(options)
                 .into(imageView);
     }
 

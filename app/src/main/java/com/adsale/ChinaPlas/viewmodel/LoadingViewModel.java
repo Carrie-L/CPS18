@@ -331,8 +331,8 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
                     @Override
                     public void onNext(@NonNull String s) {
                         LogUtil.i(TAG, "getScanFile: onNext = " + s);
-                        if (s.toLowerCase().equals(AD_TXT) && adObj != null) {
-                            LogUtil.i(TAG, "* 显示M1广告 * ");
+                        if (s.toLowerCase().equals(AD_TXT)) {
+                            LogUtil.i(TAG, "* 是否显示M1广告 * ");
                             showM1();
                         }
                     }
@@ -385,7 +385,6 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
         }
         LogUtil.i(TAG, "!!~~isOneOfFiveTxt~~!!");
         return getTxt(fileName);// has network, download others txt. always download
-
     }
 
     /**
@@ -409,9 +408,9 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
                         long startTime = System.currentTimeMillis();
                         ResponseBody body = responseBodyResponse.body();
                         if (body != null) {
-                            if (fileName.trim().equals(AD_TXT)) {
-                                adObj = new Gson().fromJson(body.string(), adAdvertisementObj.class);
-                            }
+//                            if (fileName.trim().equals(AD_TXT)) {
+//                                adObj = new Gson().fromJson(body.string(), adAdvertisementObj.class);
+//                            }
                             FileOutputStream fos = mContext.openFileOutput(fileName, Context.MODE_PRIVATE);
                             fos.write(body.bytes());
                             body.close();

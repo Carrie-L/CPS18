@@ -3,16 +3,15 @@ package com.adsale.ChinaPlas.adapter;
 import android.content.Context;
 import android.databinding.ViewDataBinding;
 
+import com.adsale.ChinaPlas.BR;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.CpsBaseAdapter;
-import com.adsale.ChinaPlas.base.CpsBaseViewHolder;
 import com.adsale.ChinaPlas.data.OnIntentListener;
-import com.adsale.ChinaPlas.databinding.ItemPhotoBinding;
 import com.adsale.ChinaPlas.ui.ImageActivity;
 import com.adsale.ChinaPlas.utils.LogUtil;
-import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 
-import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -23,41 +22,39 @@ import java.util.ArrayList;
 public class ExhibitorPhotoAdapter extends CpsBaseAdapter<String> {
     private ArrayList<String> list;
     private Context mContext;
-    private ItemPhotoBinding photoBinding;
     private OnIntentListener mListener;
+    private RequestOptions options;
 
     public ExhibitorPhotoAdapter(ArrayList<String> list, Context context, OnIntentListener listener) {
         this.list = list;
         this.mContext = context;
-        this.mListener=listener;
+        this.mListener = listener;
+        LogUtil.i("ExhibitorPhotoAdapter","list="+list.toString());
+        options = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true);
     }
 
     @Override
     public void setList(ArrayList<String> list) {
         this.list = list;
+        options = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true);
         super.setList(list);
     }
 
-    public void onItemClick(String path){
+    public void onItemClick(String path) {
         mListener.onIntent(path, ImageActivity.class);
     }
 
     @Override
     protected void bindVariable(ViewDataBinding binding) {
-        photoBinding = (ItemPhotoBinding) binding;
-        photoBinding.setAdapter(this);
+        binding.setVariable(BR.adapter,this);
+        binding.setVariable(BR.options,options);
         super.bindVariable(binding);
     }
 
-    @Override
-    public void onBindViewHolder(CpsBaseViewHolder holder, int position) {
-        super.onBindViewHolder(holder, position);
-        Glide.with(mContext).load(new File(list.get(position))).into(photoBinding.ivPhoto);
-    }
+// Glide.with(mContext).load(new File(list.get(position))).into(photoBinding.ivPhoto);
 
     @Override
     protected Object getObjForPosition(int position) {
-        LogUtil.i("getObjForPosition","list.get(position)="+list.get(position));
         return list.get(position);
     }
 

@@ -32,6 +32,12 @@ public class MainActivity extends BaseActivity {
     private HelpView helpView;
 
     @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        LogUtil.i(TAG,"onWindowFocusChanged:hasFocus="+hasFocus);
+    }
+
+    @Override
     protected void preView() {
         super.preView();
         TAG = "MainActivity";
@@ -145,11 +151,11 @@ public class MainActivity extends BaseActivity {
      */
     private void intentToUpdateCenter() {
         LogUtil.i(TAG, "intentToUpdateCenter");
-//        if (uc_count > 0) {
-        Intent intent = new Intent(this, UpdateCenterActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-//        }
+        if (uc_count > 0) {
+            Intent intent = new Intent(this, UpdateCenterActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
     }
 
     private void exit() {

@@ -72,6 +72,10 @@ public class RegisterViewModel {
         mWebView = wv;
         mImageView = iv;
         mProgressBar = pb;
+        show();
+    }
+
+    public void show(){
         isLoginOrReged.set(AppUtil.isLogin());
         LogUtil.i(TAG, "isLoginOrReged=" + isLoginOrReged.get());
         sp_reg = activity.getSharedPreferences("Prereg", MODE_PRIVATE);
@@ -79,8 +83,8 @@ public class RegisterViewModel {
             showPicView();
         } else {
             showWebView();
+            setProgressClient();
         }
-        setProgressClient();
     }
 
     private void showWebView() {
@@ -187,7 +191,7 @@ public class RegisterViewModel {
                     public void onSubscribe(@NonNull Disposable d) {
                         mDisposable0 = d;
                         //加载确认信
-                        view.loadUrl(String.format(NetWorkHelper.REGISTER_CONFIRM_URL, AppUtil.getUrlLangType(App.mLanguage.get()), sp_reg.getString("p_image", "")));
+//                        view.loadUrl(String.format(NetWorkHelper.REGISTER_CONFIRM_URL, AppUtil.getUrlLangType(App.mLanguage.get()), sp_reg.getString("p_image", "")));
                     }
 
                     @Override
@@ -224,9 +228,10 @@ public class RegisterViewModel {
     }
 
     public void paySuccess() {
-        mWebView.loadUrl(String.format(NetWorkHelper.REGISTER_CONFIRM_URL, AppUtil.getUrlLangType(App.mLanguage.get()), sp_reg.getString("p_image", "")));
+//        mWebView.loadUrl(String.format(NetWorkHelper.REGISTER_CONFIRM_URL, AppUtil.getUrlLangType(App.mLanguage.get()), sp_reg.getString("p_image", "")));
         mSP_Login.edit().putBoolean(Constant.IS_LOGIN, true).apply();
         downConfirmImage();
+        show();
     }
 
     private void downConfirmImage() {
@@ -264,6 +269,7 @@ public class RegisterViewModel {
                     @Override
                     public void onComplete() {
                         mDisposable1.dispose();
+                        showPicView();
                     }
                 });
     }

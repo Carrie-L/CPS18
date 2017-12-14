@@ -580,7 +580,7 @@
     <string name="exhibitor_sort_by">排序:</string>
     <string name="drawer_sync">与官网同步</string>
     <string name="login_first_sync">需要登录后才能同步，是否登录？</string>
-    <string name="title_new_tec_dtl">產品詳情</string>
-    <string name="sort_by_az">筆畫</string>
-    <string name="sort_by_hall">展館</string>
+    <string name="title_new_tec_dtl">产品详情</string>
+    <string name="sort_by_az">拼音</string>
+    <string name="sort_by_hall">展馆</string>
 </resources>
