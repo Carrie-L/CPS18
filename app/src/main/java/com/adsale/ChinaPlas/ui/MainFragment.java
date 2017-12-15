@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.adapter.MenuAdapter;
 import com.adsale.ChinaPlas.dao.MainIcon;
 import com.adsale.ChinaPlas.data.OnIntentListener;
@@ -52,11 +51,16 @@ public class MainFragment extends Fragment implements OnIntentListener {
     private MainViewModel mainViewModel;
     private MainPic mainPic;
     private int menuHeight;
+    private int navHeight;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentMainBinding.inflate(inflater, container, false);
         initView();
+
+        binding.getRoot().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE|View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                |View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+
         return binding.getRoot();
     }
 
@@ -83,8 +87,9 @@ public class MainFragment extends Fragment implements OnIntentListener {
         mainViewModel.setTopPics();
         mainViewModel.setM2AD();
         setGridMenus();
-        setBottomPics();
         calNavigationBar();
+        setBottomPics();
+
     }
 
     private void calNavigationBar() {
@@ -96,8 +101,8 @@ public class MainFragment extends Fragment implements OnIntentListener {
             Resources resources = getResources();
             int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
             //获取NavigationBar的高度
-            int height = resources.getDimensionPixelSize(resourceId);
-            LogUtil.i(TAG, "navigation_bar_height=" + height);
+            navHeight = resources.getDimensionPixelSize(resourceId);
+            LogUtil.i(TAG, "navigation_bar_height=" + navHeight);
         }
     }
 
@@ -115,26 +120,27 @@ public class MainFragment extends Fragment implements OnIntentListener {
 
     private void setBottomPics() {
 //        // main_header 的高度
-        int actionBarHeight = App.mSP_Config.getInt(Constant.TOOLBAR_HEIGHT, 0);
-        int displayHeight = App.mSP_Config.getInt(Constant.DISPLAY_HEIGHT, 0);// 用 displayHeight 刚好
-        int aboveFixedHeight = actionBarHeight + mainViewModel.topHeight + menuHeight;
-        int bottomHeight = displayHeight - aboveFixedHeight - mainViewModel.adHeight;/* 如果有广告，再减去广告高度 */
-        LogUtil.i(TAG, "displayHeight=" + displayHeight);
-        LogUtil.i(TAG, "SCREENHeight=" + App.mSP_Config.getInt(Constant.SCREEN_HEIGHT, 0));
-        LogUtil.i(TAG, "statusBarHeight=" + getStatusBarHeight());
-        LogUtil.i(TAG, "actionBarHeight=" + actionBarHeight);
-        LogUtil.i(TAG, "topHeight=" + mainViewModel.topHeight);
-        LogUtil.i(TAG, "menuHeight=" + menuHeight);
-        LogUtil.i(TAG, "adHeight=" + mainViewModel.adHeight);
-        LogUtil.i(TAG, "aboveFixedHeight=" + aboveFixedHeight);
-        LogUtil.i(TAG, "screenWidth=" + mainViewModel.screenWidth);
-        LogUtil.i(TAG, "bottomHeight=" + bottomHeight);
+//        int actionBarHeight = App.mSP_Config.getInt(Constant.TOOLBAR_HEIGHT, 0);
+//        int displayHeight = App.mSP_Config.getInt(Constant.DISPLAY_HEIGHT, 0);// 用 displayHeight 刚好
+//        int aboveFixedHeight = actionBarHeight + mainViewModel.topHeight + menuHeight; //+ navHeight
+//        int screenHeight = App.mSP_Config.getInt(Constant.SCREEN_HEIGHT, 0);
+//        int bottomHeight = displayHeight - aboveFixedHeight - mainViewModel.adHeight;/* 如果有广告，再减去广告高度 */
+//        LogUtil.i(TAG, "displayHeight=" + displayHeight);
+//        LogUtil.i(TAG, "SCREENHeight=" + App.mSP_Config.getInt(Constant.SCREEN_HEIGHT, 0));
+//        LogUtil.i(TAG, "statusBarHeight=" + getStatusBarHeight());
+//        LogUtil.i(TAG, "actionBarHeight=" + actionBarHeight);
+//        LogUtil.i(TAG, "topHeight=" + mainViewModel.topHeight);
+//        LogUtil.i(TAG, "menuHeight=" + menuHeight);
+//        LogUtil.i(TAG, "adHeight=" + mainViewModel.adHeight);
+//        LogUtil.i(TAG, "aboveFixedHeight=" + aboveFixedHeight);
+//        LogUtil.i(TAG, "screenWidth=" + mainViewModel.screenWidth);
+//        LogUtil.i(TAG, "bottomHeight=" + bottomHeight);
 //
 //        int bottomPx2Dp = DisplayUtil.px2dip(getActivity(), bottomHeight);
 //        LogUtil.i(TAG, "--- bottomPx2Dp=" + bottomPx2Dp);
 
         //311 * 161
-         bottomHeight = (mainViewModel.screenWidth * 161) / (311 * 2);
+       int  bottomHeight = (mainViewModel.screenWidth * 161) / (311 * 2);
         LogUtil.i(TAG, "bottomHeight=" + bottomHeight);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mainViewModel.screenWidth / 2, bottomHeight);
         binding.ivLeftPic.setLayoutParams(params);

@@ -11,7 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="0.88">
+        android:weightSum="0.791">
+
+        <!--0.88-->
 
         <!--Top Banner-->
         <RelativeLayout

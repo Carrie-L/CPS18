@@ -35,6 +35,7 @@
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:background">@color/transparent</item>
         <item name="android:windowNoTitle">true</item>
+        <item name="android:fitsSystemWindows">true</item>
     </style>
 
     <!--自定义dialog背景全透明无边框theme -->

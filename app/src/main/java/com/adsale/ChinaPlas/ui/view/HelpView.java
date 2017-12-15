@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -15,6 +16,7 @@ import android.widget.LinearLayout;
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.AdViewPagerAdapter;
+import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.DisplayUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
@@ -73,6 +75,10 @@ public class HelpView extends Dialog implements View.OnClickListener {
         super(context, R.style.transparentBgDialog);
         this.mContext = context;
         mPageType = page;
+        mView = LayoutInflater.from(context).inflate(R.layout.page_help,null);
+        initView();
+        getImageIds();
+        generatePage();
     }
 
     public HelpView(@NonNull Context context, int page, View.OnClickListener listener) {
@@ -80,17 +86,22 @@ public class HelpView extends Dialog implements View.OnClickListener {
         this.mContext = context;
         mPageType = page;
         mCloseListener = listener;
+        mView = LayoutInflater.from(context).inflate(R.layout.page_help,null);
+        initView();
+        getImageIds();
+        generatePage();
     }
 
     private void initView() {
-        viewPagerHelp = findViewById(R.id.helpVP);
-        mLlPoint = findViewById(R.id.vpindicator);
+        viewPagerHelp = mView.findViewById(R.id.helpVP);
+        mLlPoint =  mView.findViewById(R.id.vpindicator);
         if (mCloseListener != null) {
-            findViewById(R.id.btn_help_page_close).setOnClickListener(mCloseListener);
+            mView.findViewById(R.id.btn_help_page_close).setOnClickListener(mCloseListener);
         } else {
-            findViewById(R.id.btn_help_page_close).setOnClickListener(this);
+            mView. findViewById(R.id.btn_help_page_close).setOnClickListener(this);
         }
         setCancelable(false);
+
     }
 
     private void generatePage() {
@@ -101,11 +112,15 @@ public class HelpView extends Dialog implements View.OnClickListener {
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.diskCacheStrategy(DiskCacheStrategy.NONE);
         requestOptions.skipMemoryCache(true);
-        requestOptions.override(500, 888);
-        requestOptions.fitCenter();
+        int sw = AppUtil.getScreenWidth();
+        int height = (sw*1136)/640;
+        LogUtil.i(TAG,"height="+height);
+        requestOptions.override(sw, height);
+//        requestOptions.fitCenter();
         for (int i = 0; i < length; i++) {
             ImageView imageView = new ImageView(mContext);
             imageView.setAdjustViewBounds(true);
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             Glide.with(mContext).load(imageIds[i]).apply(requestOptions).into(imageView);
             helpPages.add(imageView);
         }
@@ -239,8 +254,9 @@ public class HelpView extends Dialog implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.page_help);
+        setContentView(mView);
         Window window = getWindow();
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         WindowManager.LayoutParams wl = window.getAttributes();
         wl.x = 0;
         wl.y = 0;
@@ -248,9 +264,15 @@ public class HelpView extends Dialog implements View.OnClickListener {
         wl.width = App.mSP_Config.getInt(Constant.SCREEN_WIDTH, 0);
         wl.gravity = Gravity.TOP;
         window.setAttributes(wl);
-        initView();
-        getImageIds();
-        generatePage();
+
+        mView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE|View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+        |View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+
+
+//        setContentView(R.layout.page_help);
+//        initView();
+//        getImageIds();
+//        generatePage();
     }
 
 }

@@ -190,12 +190,12 @@ public class MainViewModel {
     public void setM2AD() {
         adHelper = new ADHelper(mContext);
         adObj = adHelper.getAdObj();
+           /* M2广告图片尺寸：640*100 */
+        adHeight = (screenWidth * 100) / 640;
+        LogUtil.i(TAG, "adHeight=" + adHeight);
+        LinearLayout.LayoutParams adParams = new LinearLayout.LayoutParams(screenWidth, adHeight);
+        adPic.setLayoutParams(adParams);
         if (adHelper.isAdOpen()) {
-             /* M2广告图片尺寸：640*100 */
-            adHeight = (screenWidth * 100) / 640;
-            LogUtil.i(TAG, "adHeight=" + adHeight);
-            LinearLayout.LayoutParams adParams = new LinearLayout.LayoutParams(screenWidth, adHeight);
-            adPic.setLayoutParams(adParams);
             showM2();
         }
     }
