@@ -11,24 +11,21 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.adsale.ChinaPlas.App;
-import com.adsale.ChinaPlas.BR;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.dao.DBHelper;
 import com.adsale.ChinaPlas.databinding.ActivityBaseBinding;
 import com.adsale.ChinaPlas.databinding.NavHeaderBinding;
-import com.adsale.ChinaPlas.databinding.ToolbarBaseBinding;
 import com.adsale.ChinaPlas.ui.LoginActivity;
 import com.adsale.ChinaPlas.ui.MainActivity;
 import com.adsale.ChinaPlas.utils.AppUtil;
@@ -56,7 +53,6 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
     private boolean isInitedDrawer;
 
     protected int mToolbarBackgroundRes = R.drawable.inner_header;
-    protected ActionBar actionBar;
     protected int mScreenWidth;
     protected boolean isTablet;
     protected String mBaiduTJ;
@@ -67,6 +63,8 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBaseBinding = DataBindingUtil.setContentView(this, R.layout.activity_base);
+        mBaseBinding.setActivity(this);
+        mBaseBinding.executePendingBindings();
         mBaseFrameLayout = mBaseBinding.contentFrame;
 
         mDBHelper = App.mDBHelper;
@@ -75,13 +73,8 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
 
         mScreenWidth = App.mSP_Config.getInt(Constant.SCREEN_WIDTH, 0);
 
-//        Window w = getWindow(); // in Activity's onCreate() for instance
-//        w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-
         preView();
-
-        setupToolBar();
-
+        initToolbar();
         initView();
 
         if (TextUtils.isEmpty(barTitle.get())) {
@@ -90,29 +83,27 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
 
 
         initData();
-
         setBaiDuTJ();
+        initDrawer();
+    }
 
-
+    protected void setBarTitle(int resId) {
+        if (TextUtils.isEmpty(barTitle.get())) {
+            barTitle.set(getString(resId));
+        }
     }
 
     private void initDrawer() {
-        LogUtil.i(TAG, "--------- isInitedDrawer=" + isInitedDrawer);
-        long startTime = System.currentTimeMillis();
-
         mDrawerLayout = mBaseBinding.drawerLayout;
         mDrawerLayout.setStatusBarBackground(R.color.colorPrimaryDark);
-
-        NavigationView navigationView = mBaseBinding.navView;
-        NavHeaderBinding navBinding = NavHeaderBinding.inflate(getLayoutInflater(), navigationView, true);
-        navBinding.setNavModel(mNavViewModel);
-
-        recyclerView = navBinding.recyclerView;
-
-        setOnDrawerClickListener();
-
-        long endTime = System.currentTimeMillis();
-        LogUtil.i(TAG, "initDrawer spend : " + (endTime - startTime) + "ms");
+        mDrawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                LogUtil.i(TAG, "onDrawerOpened");
+                openDrawer();
+            }
+        });
     }
 
     protected void setOnDrawerClickListener() {
@@ -123,38 +114,34 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
     }
 
     private void setupDrawer() {
+        LogUtil.i(TAG, "--------- isInitedDrawer=" + isInitedDrawer);
+        long startTime = System.currentTimeMillis();
+
+        NavigationView navigationView = mBaseBinding.navView;
+        NavHeaderBinding navBinding = NavHeaderBinding.inflate(getLayoutInflater(), navigationView, true);
+        navBinding.setNavModel(mNavViewModel);
+
+        recyclerView = navBinding.recyclerView;
+
+        setOnDrawerClickListener();
+
         mNavViewModel.onStart(recyclerView, mDrawerLayout);
+
+        long endTime = System.currentTimeMillis();
+        LogUtil.i(TAG, "initDrawer spend : " + (endTime - startTime) + "ms");
+
+
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            menu();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void setupToolBar() {
-        FrameLayout toolbarFrame = mBaseBinding.toolbarFrame;
-        ToolbarBaseBinding toolbarBinding = ToolbarBaseBinding.inflate(getLayoutInflater(), toolbarFrame, true);
-        toolbarBinding.setVariable(BR.activity, this);
-        toolbarBinding.executePendingBindings();
-
-        Toolbar toolbar = toolbarBinding.toolbar;
-        toolbar.setBackgroundResource(mToolbarBackgroundRes);
+    private void initToolbar() {
+        RelativeLayout rlToolbar = mBaseBinding.layoutTitleBar.rlToolbar;
+        rlToolbar.setBackgroundResource(mToolbarBackgroundRes);
 
         int height = (mScreenWidth * 68) / 320; /* Toolbar图片尺寸：320*68 */
         App.mSP_Config.edit().putInt(Constant.TOOLBAR_HEIGHT, height).apply();
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(mScreenWidth, height);
-        toolbar.setLayoutParams(params);
-        setSupportActionBar(toolbar);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mScreenWidth, height);
+        rlToolbar.setLayoutParams(params);
 
-        actionBar = getSupportActionBar();
-        if (actionBar != null && !isShowTitleBar.get()) { // Main Activity
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_main_menu);
-            actionBar.setDisplayShowTitleEnabled(false);
-        }
         setStatusBar();
     }
 
@@ -166,6 +153,11 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
+            if(isShowTitleBar.get()){
+                window.setNavigationBarColor(getResources().getColor(R.color.home_transparent));
+            }else{
+                window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            }
         }
     }
 
@@ -254,21 +246,25 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
         syncViewModel.syncMyExhibitor();
     }
 
-    private void menu() {
+    private void openDrawer() {
         if (!isInitedDrawer) {
-            initDrawer();
             setupDrawer();
             isInitedDrawer = true;
         } else {
             LogUtil.i(TAG, "已经 isInitedDrawer=" + isInitedDrawer);
         }
         mNavViewModel.openDrawer();
+    }
+
+    private void menu() {
+        openDrawer();
         mDrawerLayout.openDrawer(GravityCompat.START);
     }
 
     public void onMenu() {
         menu();
     }
+
 
     public void back() {
         finish();
@@ -277,6 +273,7 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
 
     public void home() {
         Intent intent = new Intent(this, MainActivity.class);
+        App.mSP_Config.edit().putBoolean("HOME", true).apply();
         startActivity(intent);
         finish();
     }

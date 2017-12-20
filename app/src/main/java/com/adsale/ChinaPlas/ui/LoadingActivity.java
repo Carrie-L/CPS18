@@ -17,6 +17,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.Display;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
@@ -41,11 +44,12 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
     private boolean isFirstRunning;
     private LoadingViewModel mLoadingModel;
     private LoadingReceiver mReceiver;
+    private ActivityLoadingBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActivityLoadingBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_loading);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_loading);
         mLoadingModel = new LoadingViewModel(getApplicationContext());
         binding.setLoadingModel(mLoadingModel);
 
@@ -58,9 +62,7 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
         mLoadingModel.initM1(binding.vpindicator, binding.autoVP, binding.tvSkip, binding.framelayout);
         registerBroadcastReceiver();
 
-        int language = AppUtil.getCurLanguage();
-        AppUtil.switchLanguage(getApplicationContext(), language);
-        App.mLanguage.set(language);
+        hideNavBar();
 
         getAppVersion();
         if (isFirstRunning) {
@@ -69,9 +71,20 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
             requestPermission();
             getDeviceInfo();
         } else {
+            int language = AppUtil.getCurLanguage();
+            AppUtil.switchLanguage(getApplicationContext(), language);
+            App.mLanguage.set(language);
+
             getDeviceInfo2();
             mLoadingModel.run();
         }
+    }
+
+    private void hideNavBar() {
+        binding.getRoot().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
     }
 
     private void registerBroadcastReceiver() {
@@ -122,6 +135,7 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
         try {
             PackageInfo info = pm.getPackageInfo(getPackageName(), 0);
             App.mSP_Config.edit().putString("AppVersion", info.versionName).apply();
+            LogUtil.i("App", "mAppVersion=" + info.versionName + ",mVersionCode=" + info.versionCode);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }

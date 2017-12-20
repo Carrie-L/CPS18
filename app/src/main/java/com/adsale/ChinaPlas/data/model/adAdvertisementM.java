@@ -25,6 +25,7 @@ public class adAdvertisementM {
 	public String action_newsID;
 	public String action_seminarID;
 	public String action_seminariD;
+	public String image2;
 
 
 	public String getStart() {

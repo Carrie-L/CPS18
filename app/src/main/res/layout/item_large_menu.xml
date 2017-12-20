@@ -43,15 +43,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:gravity="center"
                 android:orientation="vertical">
                 <!--&lt;!&ndash;大Menu图片&ndash;&gt;-->
                 <ImageView
                     android:id="@+id/icon"
                     android:layout_width="wrap_content"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="2"
                     android:scaleType="fitCenter"
                     android:visibility="visible" />
 
@@ -59,13 +58,12 @@
                 <TextView
                     android:id="@+id/tv_menu"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:paddingTop="8dp"
+                    android:padding="4dp"
                     android:text="@{obj.getTitle(navModel.mCurrLang.get(),navModel.isLoginSuccess.get())}"
                     android:textSize="14sp" />
-                <!---->
+                <!--   "  -->
 
             </LinearLayout>
         </android.support.v7.widget.CardView>

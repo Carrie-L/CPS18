@@ -1,10 +1,10 @@
 package com.adsale.ChinaPlas.ui.view;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +42,7 @@ import static android.content.ContentValues.TAG;
  * <br>helpView.show();
  */
 
-public class HelpView extends Dialog implements View.OnClickListener {
+public class HelpView extends AlertDialog implements View.OnClickListener {
     private Integer[] imageIds;
     private Context mContext;
     private View mView;
@@ -72,24 +72,16 @@ public class HelpView extends Dialog implements View.OnClickListener {
      * @param page    HELP_PAGE_MAIN|...
      */
     public HelpView(@NonNull Context context, int page) {
-        super(context, R.style.transparentBgDialog);
+        super(context, R.style.transparentDialog);
         this.mContext = context;
         mPageType = page;
-        mView = LayoutInflater.from(context).inflate(R.layout.page_help,null);
-        initView();
-        getImageIds();
-        generatePage();
     }
 
     public HelpView(@NonNull Context context, int page, View.OnClickListener listener) {
-        super(context, R.style.transparentBgDialog);
+        super(context, R.style.transparentDialog);
         this.mContext = context;
         mPageType = page;
         mCloseListener = listener;
-        mView = LayoutInflater.from(context).inflate(R.layout.page_help,null);
-        initView();
-        getImageIds();
-        generatePage();
     }
 
     private void initView() {
@@ -101,7 +93,6 @@ public class HelpView extends Dialog implements View.OnClickListener {
             mView. findViewById(R.id.btn_help_page_close).setOnClickListener(this);
         }
         setCancelable(false);
-
     }
 
     private void generatePage() {
@@ -254,7 +245,12 @@ public class HelpView extends Dialog implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mView = LayoutInflater.from(mContext).inflate(R.layout.page_help,null);
         setContentView(mView);
+        initView();
+        getImageIds();
+        generatePage();
+
         Window window = getWindow();
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         WindowManager.LayoutParams wl = window.getAttributes();
@@ -268,11 +264,6 @@ public class HelpView extends Dialog implements View.OnClickListener {
         mView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE|View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
         |View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
-
-//        setContentView(R.layout.page_help);
-//        initView();
-//        getImageIds();
-//        generatePage();
     }
 
 }

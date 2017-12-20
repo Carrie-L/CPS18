@@ -17,15 +17,8 @@ public class LoginActivity extends BaseActivity implements LoginViewModel.OnLogi
     private LoginViewModel viewModel;
 
     @Override
-    protected void preView() {
-        super.preView();
-//        barTitle.set(getIntent().getStringExtra(Constant.TITLE));
-        barTitle.set(getString(R.string.title_login));
-        LogUtil.i(TAG, "title=" + barTitle.get());
-    }
-
-    @Override
     protected void initView() {
+        setBarTitle(R.string.title_login);
         binding = ActivityLoginBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
     }
 

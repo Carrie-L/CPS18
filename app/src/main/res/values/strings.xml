@@ -43,7 +43,7 @@
     <string name="cancel">取消</string>
 
     <!--MyAccount-->
-    <string name="title_my_account">用戶資料</string>
+    <string name="title_my_account">用戶小工具</string>
     <string name="title_my_exhibitor">我的參展商</string>
     <string name="title_schedule">我的日程表</string>
     <string name="title_my_name_card">我的名片</string>
@@ -196,7 +196,7 @@
     <string name="edit_qrcode">編輯</string>
     <string name="create">創建</string>
     <string name="my_qrcode">我的二維碼</string>
-    <string name="qrcode_scanner">二維碼掃描</string>
+    <string name="qrcode_scanner">二維碼掃描器</string>
     <string name="qrcode_all">名片列表</string>
     <string name="qrcode_edit_save">保存&amp;更新二維碼</string>
     <string name="reg_reset_title">確定重置預登記信息?</string>
@@ -275,7 +275,7 @@
     <string name="no">否</string>
 
     <!-- 酒店资料 -->
-    <string name="title_travel_info">旅遊信息</string>
+    <string name="title_travel_info">旅遊住宿</string>
     <string name="official_travel_agency">接待服務單位</string>
     <string name="official_travel_agency2">大會指定接待服務單位</string>
     <string name="hotel_info">住宿資料</string>
@@ -329,16 +329,15 @@
     <string name="EXIT">退出</string>
     <string name="EXIT_MSG">離開國際橡塑展？</string>
 
-    <string name="setting_language">语言</string>
-    <string name="setting_website">网站连结</string>
-    <string name="setting_add_to_calendar">添加到日历</string>
-    <string name="setting_preregistered_login">预先登记观众登入</string>
-    <string name="setting_reset_all">重置所有设定</string>
-    <string name="setting_privacy_policy">私隐政策声明</string>
-    <string name="setting_use_terms">使用条款</string>
-    <string name="setting_sync">资料同步</string>
-    <string name="setting_logout">注销</string>
-    <string name="setting_show_help">帮助</string>
+    <string name="setting_language">語言</string>
+    <string name="setting_website">網站連結</string>
+    <string name="setting_add_to_calendar">添加到日曆</string>
+    <string name="setting_reset_all">重置所有設定</string>
+    <string name="setting_privacy_policy">私隱政策聲明</string>
+    <string name="setting_use_terms">使用條款</string>
+    <string name="setting_sync">資料同步</string>
+    <string name="setting_logout">注銷</string>
+    <string name="setting_show_help">幫助</string>
     <string name="share">分享</string>
     <string name="exb_search_text_hint">參展商名字/展覽攤位</string>
     <string name="imgDescription"></string>
@@ -351,8 +350,8 @@
 
     <!-- 分享 -->
     <string name="share_setting_text">國際橡塑展手機應用程式已經開發下載！</string>
-    <string name="share_setting_url">http://www.chinaplasonline.com/CPS17/Mobile/Home/lang-trad/MobileApp.aspx</string>
-    <string name="share_news_link">http://www.chinaplasonline.com/CPS17/Mobile/Home/lang-trad/WhatsNew.aspx</string>
+    <string name="share_setting_url">http://www.chinaplasonline.com/CPS18/Mobile/Home/lang-trad/MobileApp.aspx</string>
+    <string name="share_news_link">http://www.chinaplasonline.com/CPS18/Mobile/Home/lang-trad/WhatsNew.aspx</string>
     <string name="share_sinna_weibo">新浪微博</string>
     <string name="share_qq">QQ</string>
     <string name="share_qq_zone">QQ空間</string>
@@ -385,7 +384,7 @@
 
     <string name="phone">Phone:</string>
     <!-- 内容更新中心 -->
-    <string name="title_update_center">更新中心</string>
+    <string name="title_update_center">內容更新中心</string>
     <string name="uc_exhibitor">展商資料</string>
     <string name="uc_floorplan">展館平面圖</string>
     <string name="uc_seminar">技術交流會</string>
@@ -421,9 +420,11 @@
     <string name="title_hall">展館</string>
     <string name="title_region">國家/地區</string>
     <string name="title_login">登錄</string>
-    <string name="title_register">免費觀衆預登記</string>
-    <string name="title_news">展會最新消息</string>
+    <string name="title_register">觀眾預登記</string>
+    <string name="title_register_success">我的門票</string>
+    <string name="title_news">最新消息</string>
     <string name="title_exhibitor">展商名單</string>
+    <string name="title_new_tec">首發及熱點技術</string>
 
     <string name="notes">歡迎來臨國際橡塑展2018</string>
     <string name="ask_addToCalendar">確定要將展覽日期存入日曆表嗎？</string>

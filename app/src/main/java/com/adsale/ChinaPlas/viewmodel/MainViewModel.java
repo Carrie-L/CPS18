@@ -80,6 +80,7 @@ public class MainViewModel {
     private MainIcon mainIcon;
     private Intent intent;
     private ArrayList<MainIcon> allIcons = new ArrayList<>();
+    public String m2LargeUrl;
 
     public MainViewModel(Context mContext, OnIntentListener listener) {
         this.mContext = mContext;
@@ -154,6 +155,8 @@ public class MainViewModel {
             binding.setPos(i);
             ivTop = binding.imageView;
 
+            LogUtil.i(TAG, "banners.TC.BannerImage=" + banners.TC.BannerImage);
+
             Glide.with(mContext).load(Uri.parse(navViewModel.mCurrLang.get() == 0 ? banners.TC.BannerImage : navViewModel.mCurrLang.get() == 1 ? banners.EN.BannerImage : banners.SC.BannerImage)).into(ivTop);
 
             if (i == 0) {// 第一张图加倒计时
@@ -201,16 +204,15 @@ public class MainViewModel {
     }
 
     private void showM2() {
-        LogUtil.i(TAG, "adObj.M2.version=" + adObj.M2.version);
         if (Integer.valueOf(adObj.M2.version) <= 0) {
             return;
         }
         StringBuilder m2Url = new StringBuilder();
-        m2Url.append(adObj.Common.baseUrl).append(adObj.M2.filepath).append(AppUtil.isTablet() ? adObj.Common.tablet : adObj.Common.phone).append(AppUtil.getLanguageType(navViewModel.mCurrLang.get())).append("_")
-                .append(adObj.M2.version).append(adObj.M2.format);
-        LogUtil.i(TAG, "m2Url.toString()=" + m2Url.toString());
+        m2Url.append(adObj.Common.baseUrl).append(adObj.M2.filepath).append(AppUtil.isTablet() ? adObj.Common.tablet : adObj.Common.phone).append(AppUtil.getLanguageType(navViewModel.mCurrLang.get())).append("_");
         adPic.setVisibility(View.VISIBLE);
-        Glide.with(mContext).load(Uri.parse(m2Url.toString())).into(adPic);
+        Glide.with(mContext).load(Uri.parse(m2Url.toString().concat(adObj.M2.version).concat(adObj.M2.format))).into(adPic);
+        m2LargeUrl = m2Url.toString().concat(adObj.M2.image2).concat(adObj.M2.version).concat(adObj.M2.format);
+
         AppUtil.trackViewLog(mContext, 202, "Ad", "M2", adObj.M2.getCompanyID(App.mLanguage.get()));
         AppUtil.setStatEvent(mContext, "ViewM2", "Ad_M2_" + adObj.M2.getCompanyID(App.mLanguage.get()));
     }

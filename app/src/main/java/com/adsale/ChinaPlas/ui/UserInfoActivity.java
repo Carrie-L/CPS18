@@ -10,13 +10,15 @@ import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.databinding.ActivityUserInfoBinding;
 import com.adsale.ChinaPlas.utils.AppUtil;
 
-
+/**
+ *  用戶資料 / My Tools
+ */
 public class UserInfoActivity extends BaseActivity {
     public ObservableBoolean isLogin = new ObservableBoolean();
 
     @Override
     protected void initView() {
-        barTitle.set(getString(R.string.title_my_account));
+       setBarTitle(R.string.title_my_account);
         ActivityUserInfoBinding binding = ActivityUserInfoBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         binding.setAty(this);
         binding.executePendingBindings();

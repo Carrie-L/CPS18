@@ -43,7 +43,7 @@ public class TechSeminarDtlActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        barTitle.set(getString(R.string.title_technical_seminar));
+       setBarTitle(R.string.title_technical_seminar);
         binding = ActivityTechSeminarDtlBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
     }
 

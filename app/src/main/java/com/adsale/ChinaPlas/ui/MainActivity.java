@@ -9,12 +9,15 @@ import android.view.View;
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
+import com.adsale.ChinaPlas.data.LoginClient;
 import com.adsale.ChinaPlas.data.OtherRepository;
 import com.adsale.ChinaPlas.databinding.ActivityMainBinding;
 import com.adsale.ChinaPlas.ui.view.HelpView;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
+import com.adsale.ChinaPlas.utils.NetWorkHelper;
 import com.adsale.ChinaPlas.utils.PermissionUtil;
+import com.adsale.ChinaPlas.utils.ReRxUtils;
 
 import static com.adsale.ChinaPlas.ui.view.HelpView.HELP_PAGE_MAIN;
 import static com.adsale.ChinaPlas.utils.PermissionUtil.PMS_CODE_WRITE_SD;
@@ -32,12 +35,6 @@ public class MainActivity extends BaseActivity {
     private HelpView helpView;
 
     @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        LogUtil.i(TAG,"onWindowFocusChanged:hasFocus="+hasFocus);
-    }
-
-    @Override
     protected void preView() {
         super.preView();
         TAG = "MainActivity";
@@ -49,6 +46,8 @@ public class MainActivity extends BaseActivity {
     protected void initView() {
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         spHelpPage = getSharedPreferences("HelpPage", MODE_PRIVATE);
+        int language = AppUtil.getCurLanguage();
+        AppUtil.switchLanguage(getApplicationContext(), language);
     }
 
     @Override
@@ -115,8 +114,14 @@ public class MainActivity extends BaseActivity {
             helpView.openMainHelpPage();
         }
 
+        // 如果點擊Home按鈕，則將Menu的子按鈕都關閉
+        boolean isPressHome = App.mSP_Config.getBoolean("HOME", false);
+        if (isPressHome) {
+            mainFragment.closeLitterMenu();
+            App.mSP_Config.edit().putBoolean("HOME", false).apply();
+        }
 
-//        firstHelpPage();
+
     }
 
     /**
@@ -156,6 +161,11 @@ public class MainActivity extends BaseActivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
+    }
+
+    private void sendCrashLog(){
+        final LoginClient client = ReRxUtils.setupRxtrofit(LoginClient.class, NetWorkHelper.BASE_URL_CPS);
+
     }
 
     private void exit() {

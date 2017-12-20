@@ -104,12 +104,13 @@
 
     <!--  -->
     <string name="title_news">最新消息</string>
-    <string name="title_exhibitor">参展商名单</string>
+    <string name="title_exhibitor">展商名单</string>
      <string name="title_exhibitor_nav">展商资料库</string>
     <string name="title_exhibitor_deti">公司资料</string>
     <string name="title_agenda">我的日程表</string>
     <string name="title_schedule">我的日程表</string>
-    <string name="title_register">观众预先登记</string>
+    <string name="title_register">观众预登记</string>
+    <string name="title_register_success">我的门票</string>
     <string name="title_summary">展会概述</string>
     <string name="title_plan">展馆平面图</string>
     <string name="title_event">同期活动</string>
@@ -117,14 +118,15 @@
     <string name="title_transportation">交通</string>
     <string name="title_contact_us">联系我们</string>
     <string name="title_my_exhibitor">我的参展商</string>
-    <string name="title_my_account">用户资料</string>
+    <string name="title_my_account">用户小工具</string>
     <string name="title_setting">设置</string>
     <string name="title_subscribe">订阅电子快讯</string>
     <string name="edit_schedule">编辑议程</string>
     <string name="title_exhibitor_advanced_search">进阶搜索</string>
     <string name="title_exhibitor_keyword_search">关键字搜索</string>
     <string name="title_login">登录</string>
-    
+    <string name="title_new_tec">首发及热点技术</string>
+
     <string name="title_add_note">添加笔记</string>
     <string name="title_add_schedule">添加议程</string>
 
@@ -216,7 +218,7 @@
     <string name="schedule_minute">分钟</string>
     <string name="schedule_save">储存</string>
     <string name="schedule_del">删除</string>
-    <string name="schedule_date">2018年5月</string>
+    <string name="schedule_date">2018年4月</string>
 
     <string name="schedule_exhibitor">参展商</string>
     <string name="schedule_event">同期活动</string>
@@ -330,7 +332,6 @@
     <string name="setting_language">语言</string>
     <string name="setting_website">网站连结</string>
     <string name="setting_add_to_calendar">添加到日历</string>
-    <string name="setting_preregistered_login">预先登记观众登入</string>
     <string name="setting_reset_all">重置所有设定</string>
     <string name="setting_privacy_policy">私隐政策声明</string>
     <string name="setting_use_terms">使用条款</string>
@@ -342,7 +343,7 @@
     <string name="create_qrcode">创建二维码</string>
     <string name="create">创建</string>
     <string name="my_qrcode">我的二维码</string>
-    <string name="qrcode_scanner">二维码扫描</string>
+    <string name="qrcode_scanner">二维码扫描器</string>
     <string name="edit_qrcode">编辑</string>
     <string name="qrcode_all">名片列表</string>
     <string name="qrcode_edit_save">保存&amp;更新二维码</string>
@@ -463,8 +464,8 @@
     
     <!-- 分享 -->
     <string name="share_setting_text">国际橡塑展手机应用程式已经开放下载！</string>
-    <string name="share_setting_url">http://www.chinaplasonline.com/CPS17/Mobile/Home/lang-simp/MobileApp.aspx</string>
-    <string name="share_news_link">http://www.chinaplasonline.com/CPS17/Mobile/Home/lang-simp/WhatsNew.aspx</string>
+    <string name="share_setting_url">http://www.chinaplasonline.com/CPS18/Mobile/Home/lang-simp/MobileApp.aspx</string>
+    <string name="share_news_link">http://www.chinaplasonline.com/CPS18/Mobile/Home/lang-simp/WhatsNew.aspx</string>
     <string name="share_sinna_weibo">新浪微博</string>
     <string name="share_qq">QQ</string>
     <string name="share_qq_zone">QQ空间</string>
@@ -526,7 +527,7 @@
       <string name="yesterday">昨天</string>
     <string name="past_records">过去</string>
     
-    <string name="title_update_center">更新中心</string>
+    <string name="title_update_center">内容更新中心</string>
     <string name="uc_exhibitor">展商资料</string>
     <string name="uc_floorplan">展馆平面图</string>
     <string name="uc_seminar">技术交流会</string>

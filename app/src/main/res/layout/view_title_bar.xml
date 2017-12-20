@@ -12,10 +12,10 @@
     </data>
 
     <RelativeLayout
+        android:id="@+id/rl_toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/inner_header"
-        android:visibility="@{activity.isShowTitleBar?View.VISIBLE:View.GONE}">
+       >
 
         <ImageView
             android:id="@+id/ivLeft"
@@ -39,6 +39,7 @@
             android:onClick="@{() -> activity.back()}"
             android:scaleType="centerInside"
             android:src="@drawable/bttn_back"
+            android:visibility="@{activity.isShowTitleBar?View.VISIBLE:View.GONE}"
            />
 
         <ImageView
@@ -51,7 +52,9 @@
             android:gravity="center"
             android:onClick="@{() -> activity.home()}"
             android:scaleType="centerInside"
-            android:background="@drawable/ic_home" />
+            android:background="@drawable/ic_home"
+            android:visibility="@{activity.isShowTitleBar?View.VISIBLE:View.GONE}"
+            />
 
         <TextView
             android:id="@+id/txtBarTitle"
@@ -66,6 +69,7 @@
             android:ellipsize="end"
             android:gravity="center"
             android:singleLine="true"
+            android:visibility="@{activity.isShowTitleBar?View.VISIBLE:View.GONE}"
             android:text="@{activity.barTitle}"
             android:textColor="#fff"
             android:textSize="16sp" />

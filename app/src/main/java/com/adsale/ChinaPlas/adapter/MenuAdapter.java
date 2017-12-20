@@ -16,7 +16,6 @@ import com.adsale.ChinaPlas.dao.MainIcon;
 import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.databinding.ItemLargeMenuBinding;
 import com.adsale.ChinaPlas.utils.Constant;
-import com.adsale.ChinaPlas.utils.DisplayUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.NetWorkHelper;
 import com.adsale.ChinaPlas.viewmodel.NavViewModel;
@@ -75,7 +74,7 @@ public class MenuAdapter extends CpsBaseAdapter<MainIcon> {
         this.mListener = listener;
         this.navViewModel = navViewModel;
 
-        LogUtil.i(TAG,"largeMenus="+largeMenus.size()+","+largeMenus.toString());
+        LogUtil.i(TAG, "largeMenus=" + largeMenus.size() + "," + largeMenus.toString());
 
         mBaseUrl = NetWorkHelper.DOWNLOAD_PATH.concat("WebContent/");
         int mScreenWidth = App.mSP_Config.getInt(Constant.SCREEN_WIDTH, 0);
@@ -83,8 +82,7 @@ public class MenuAdapter extends CpsBaseAdapter<MainIcon> {
         LogUtil.i(TAG, "menu: width=" + mScreenWidth / 3 + ",height=" + height / 3);
         largeParams = new FrameLayout.LayoutParams(mScreenWidth / 3, height / 3);
         generate();
-        int iconSize = DisplayUtil.dip2px(mContext,Constant.MENU_ICON_SIZE);
-        requestOptions = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE).override(iconSize,iconSize);
+        requestOptions = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE).override(Constant.MENU_ICON_SIZE * 2, Constant.MENU_ICON_SIZE * 2);
     }
 
     /**
@@ -121,9 +119,9 @@ public class MenuAdapter extends CpsBaseAdapter<MainIcon> {
     @Override
     public void onBindViewHolder(CpsBaseViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        LogUtil.i(TAG,"ICON="+largeMenus.get(position).getIcon());
+        LogUtil.i(TAG, "ICON=" + largeMenus.get(position).getIcon());
         Glide.with(mContext).load(Uri.parse(mBaseUrl.concat(largeMenus.get(position).getIcon())))
-                .apply(requestOptions).into(menuBinding.icon);
+                .apply(requestOptions).into(menuBinding.icon);//
         resizeLargeMenu();
     }
 
@@ -158,7 +156,7 @@ public class MenuAdapter extends CpsBaseAdapter<MainIcon> {
     }
 
     public void onLargeMenuClick(MainIcon entity, int pos) {
-        LogUtil.i(TAG, "pos=" + pos + ",mClickPos=" + mClickPos.get()+",bdtj="+entity.getBaiDu_TJ());
+        LogUtil.i(TAG, "pos=" + pos + ",mClickPos=" + mClickPos.get() + ",bdtj=" + entity.getBaiDu_TJ());
         if (menus.get(pos).size() > 0) {
             mClickPos.set(pos);
             innerMenu0.set(menus.get(pos).get(0));
@@ -169,7 +167,7 @@ public class MenuAdapter extends CpsBaseAdapter<MainIcon> {
     }
 
     public void onInnerClick(int index, MainIcon entity) {
-        LogUtil.i(TAG, "---onInnerClick: " + index + ", entity=" + entity.getTitle(App.mLanguage.get())+","+entity.getBaiDu_TJ());
+        LogUtil.i(TAG, "---onInnerClick: " + index + ", entity=" + entity.getTitle(App.mLanguage.get()) + "," + entity.getBaiDu_TJ());
         mListener.onIntent(entity, null);
     }
 

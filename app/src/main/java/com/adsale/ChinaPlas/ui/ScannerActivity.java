@@ -11,7 +11,7 @@ import com.adsale.ChinaPlas.databinding.ActivityScannerBinding;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.viewmodel.ScannerViewModel;
 
-public class ScannerActivity extends BaseActivity implements SurfaceHolder.Callback,ScannerViewModel.OnScannedListener {
+public class ScannerActivity extends BaseActivity implements SurfaceHolder.Callback, ScannerViewModel.OnScannedListener {
 
     private ActivityScannerBinding binding;
     private ScannerViewModel viewModel;
@@ -20,8 +20,8 @@ public class ScannerActivity extends BaseActivity implements SurfaceHolder.Callb
 
     @Override
     protected void initView() {
-        barTitle.set(getString(R.string.qrcode_scanner));
-        binding = ActivityScannerBinding.inflate(getLayoutInflater(),mBaseFrameLayout,true);
+        setBarTitle(R.string.qrcode_scanner);
+        binding = ActivityScannerBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
     }
 
     @Override
@@ -33,26 +33,26 @@ public class ScannerActivity extends BaseActivity implements SurfaceHolder.Callb
     @Override
     protected void onResume() {
         super.onResume();
-        mHolder=binding.capturePreview.getHolder();
-        if(hasSurface){
-            LogUtil.i(TAG,"hasSurface");
+        mHolder = binding.capturePreview.getHolder();
+        if (hasSurface) {
+            LogUtil.i(TAG, "hasSurface");
             initCamera(mHolder);
-        }else{
-            LogUtil.i(TAG,"! hasSurface");
+        } else {
+            LogUtil.i(TAG, "! hasSurface");
             mHolder.addCallback(this);
         }
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
     }
 
-    private void initCamera(SurfaceHolder holder){
-        viewModel.onStart(holder,binding.captureCropLayout,binding.rlScanner,binding.captureScanLine);
+    private void initCamera(SurfaceHolder holder) {
+        viewModel.onStart(holder, binding.captureCropLayout, binding.rlScanner, binding.captureScanLine);
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        LogUtil.i(TAG,"surfaceCreated");
+        LogUtil.i(TAG, "surfaceCreated");
         initCamera(holder);
-        hasSurface=true;
+        hasSurface = true;
     }
 
     @Override
@@ -67,11 +67,11 @@ public class ScannerActivity extends BaseActivity implements SurfaceHolder.Callb
 
     @Override
     public void intentTo(Bundle data) {
-        Intent intent=null;
-        int intentType=data.getInt("intentType");
-        if(intentType==viewModel.SCAN_RESULT){
-            intent=new Intent(this,ScanDtlActivity.class);
-            intent.putExtra("result",data.getString("result"));
+        Intent intent = null;
+        int intentType = data.getInt("intentType");
+        if (intentType == viewModel.SCAN_RESULT) {
+            intent = new Intent(this, ScanDtlActivity.class);
+            intent.putExtra("result", data.getString("result"));
         }
         startActivity(intent);
 //        finish();
@@ -89,9 +89,9 @@ public class ScannerActivity extends BaseActivity implements SurfaceHolder.Callb
         release();
     }
 
-    private void release(){
-        hasSurface=false;
-        if(mHolder!=null){
+    private void release() {
+        hasSurface = false;
+        if (mHolder != null) {
             mHolder.removeCallback(this);
         }
         viewModel.unSubscribe();

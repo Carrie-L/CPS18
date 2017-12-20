@@ -10,6 +10,8 @@
 
     <dimen name="margin16">0dp</dimen>
 
+    <dimen name="margin_bottom">32dp</dimen>
+
     <dimen name="item_photo_height">100dp</dimen>
     <dimen name="item_photo_width">132dp</dimen>  <!--4:3-->
 

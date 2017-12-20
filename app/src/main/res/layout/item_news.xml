@@ -13,9 +13,6 @@
         <variable
             name="options"
             type="com.bumptech.glide.request.RequestOptions"/>
-        <variable
-            name="baseUrl"
-            type="String"/>
     </data>
 
     <RelativeLayout

@@ -3,7 +3,7 @@
   "TopBanners": [
     {
       "EN": {
-        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/banner_en2.png",
+        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/Banner_en.png",
         "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/Tablet_banner_en.png",
         "Function": "5",
         "InnerPage": "GeneralInformation",
@@ -14,7 +14,7 @@
         "newsID": "0000000409"
       },
       "SC": {
-        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/Banner%281%29.png",
+        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/Banner_sc.png",
         "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/Tablet_banner_sc.png",
         "Function": "5",
         "InnerPage": "GeneralInformation",
@@ -25,7 +25,7 @@
         "newsID": "0000000409"
       },
       "TC": {
-        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/Banner%281%29.png",
+        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/Banner_tc.png",
         "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/Tablet_banner_tc.png",
         "Function": "5",
         "InnerPage": "GeneralInformation",

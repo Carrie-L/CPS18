@@ -32,6 +32,7 @@ public class NCardActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        setBarTitle(R.string.title_my_name_card);
         ActivityNcardBinding binding = ActivityNcardBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         binding.setView(this);
         viewModel = new NCardViewModel(getApplicationContext());

@@ -14,20 +14,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/sche_icon"
-            android:layout_width="24dp"
-            android:layout_height="@dimen/schedule_edit_item_height"
-            android:layout_marginLeft="16dp"
-            android:src="@drawable/sche_title" />
-
         <TextView
             android:id="@+id/sche_title"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/schedule_edit_item_height"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_toRightOf="@id/sche_icon"
+            android:drawableLeft="@drawable/sche_title"
+            android:drawablePadding="8dp"
             android:gravity="center"
             android:text="@string/schedule_title" />
 
@@ -42,7 +36,6 @@
             android:id="@+id/imgExhibitor"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/schedule_edit_item_height"
-            android:layout_marginLeft="12dp"
             android:layout_toLeftOf="@id/iv_help"
             android:onClick="@{() -> scheduleModel.onClickExhibitor()}"
             android:scaleType="centerInside"
@@ -53,23 +46,18 @@
             android:layout_height="30dp"
             android:layout_alignLeft="@+id/et_location"
             android:layout_marginBottom="12dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginRight="12dp"
             android:layout_marginTop="12dp"
             android:layout_toLeftOf="@id/imgExhibitor"
             android:background="@drawable/edittext_bg"
             android:text="@={scheduleModel.etTitle}" />
 
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="@dimen/schedule_edit_item_height"
-            android:layout_alignLeft="@id/sche_icon"
-            android:layout_below="@id/sche_icon"
-            android:src="@drawable/sche_location" />
-
         <TextView
             android:id="@+id/sche_location"
             style="@style/schedule_edit_title_style"
             android:layout_below="@id/sche_title"
+            android:drawableLeft="@drawable/sche_location"
+            android:drawablePadding="8dp"
             android:text="@string/schedule_location" />
 
         <EditText
@@ -80,17 +68,12 @@
             android:layout_toRightOf="@id/sche_location"
             android:text="@={scheduleModel.etLocation}" />
 
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="@dimen/schedule_edit_item_height"
-            android:layout_alignLeft="@id/sche_icon"
-            android:layout_below="@id/sche_location"
-            android:src="@drawable/sche_date" />
-
         <TextView
             android:id="@+id/sche_date"
             style="@style/schedule_edit_title_style"
             android:layout_below="@id/sche_location"
+            android:drawableLeft="@drawable/sche_date"
+            android:drawablePadding="8dp"
             android:text="@string/schedule_startTime" />
 
         <TextView
@@ -113,18 +96,12 @@
             android:paddingRight="16dp"
             android:text="@={scheduleModel.etStartTime}" />
 
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="@dimen/schedule_edit_item_height"
-            android:layout_alignLeft="@id/sche_icon"
-            android:layout_below="@id/sche_date"
-            android:src="@drawable/sche_duration" />
-
         <TextView
             android:id="@+id/sche_duration"
             style="@style/schedule_edit_title_style"
             android:layout_below="@id/sche_date"
+            android:drawableLeft="@drawable/sche_duration"
+            android:drawablePadding="8dp"
             android:text="@string/schedule_length" />
 
         <EditText
@@ -154,6 +131,7 @@
             android:layout_below="@id/sche_date"
             android:layout_toRightOf="@id/lblHour"
             android:inputType="number"
+            android:gravity="center"
             android:text="@={scheduleModel.etMinute}" />
 
         <TextView
@@ -165,17 +143,12 @@
             android:gravity="center"
             android:text="@string/schedule_minute" />
 
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="@dimen/schedule_edit_item_height"
-            android:layout_alignLeft="@id/sche_icon"
-            android:layout_below="@id/sche_duration"
-            android:src="@drawable/sche_note" />
-
         <TextView
             android:id="@+id/sche_note"
             style="@style/schedule_edit_title_style"
             android:layout_below="@id/sche_duration"
+            android:drawableLeft="@drawable/sche_note"
+            android:drawablePadding="8dp"
             android:text="@string/schedule_note" />
 
         <ImageView
@@ -191,7 +164,7 @@
             android:layout_height="32dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="@dimen/margin_bottom"
             android:layout_marginRight="15dp"
             android:layout_toLeftOf="@id/vertical_line"
             android:background="@drawable/bttn_red"
@@ -217,7 +190,7 @@
             android:layout_height="match_parent"
             android:layout_above="@id/btnSave"
             android:layout_below="@id/sche_note"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:background="@drawable/edittext_bg"

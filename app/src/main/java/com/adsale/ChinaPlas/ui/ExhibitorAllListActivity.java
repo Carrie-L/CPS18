@@ -45,9 +45,7 @@ public class ExhibitorAllListActivity extends BaseActivity implements OnItemClic
 
     @Override
     protected void initView() {
-        if(TextUtils.isEmpty(barTitle.get())){
-            barTitle.set(getString(R.string.title_exhibitor));
-        }
+      setBarTitle(R.string.title_exhibitor);
         binding = ActivityExhibitorAllListBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         ADHelper adHelper = new ADHelper(this);
         adHelper.showM3(binding.ivAd);

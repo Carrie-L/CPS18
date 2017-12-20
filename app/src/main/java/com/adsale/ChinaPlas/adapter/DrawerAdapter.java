@@ -378,7 +378,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
     }
 
     private void closeDrawerAndIntent(final MainIcon mainIcon, final int pos, final boolean isVistor) {
-        LogUtil.i(TAG, "mainIcon=" + mainIcon.getBaiDu_TJ() + ",pos=" + pos);
+        LogUtil.i(TAG, "mainIcon=" + mainIcon.getBaiDu_TJ() + ",pos=" + pos+","+mainIcon.getTitleCN()+","+mainIcon.getTitleEN()+","+mainIcon.getTitleTW());
 
         if (isPadDevice) {
 

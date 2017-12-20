@@ -12,19 +12,17 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/inner_header"
         android:minHeight="56dp"
-        android:theme="@style/MyToolBar"
         app:contentInsetLeft="0dp"
         app:contentInsetStart="0dp">
 
 
         <include
-            android:id="@+id/layout_title_bar"
             layout="@layout/view_title_bar"
             app:activity="@{activity}" />
 
     </android.support.v7.widget.Toolbar>
 
+    <!--app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"-->
 
 </layout>

@@ -7,6 +7,9 @@
         <variable
             name="viewmodel"
             type="com.adsale.ChinaPlas.viewmodel.NavViewModel"/>
+        <variable
+            name="activity"
+            type="com.adsale.ChinaPlas.base.BaseActivity"/>
     </data>
 
     <android.support.v4.widget.DrawerLayout
@@ -21,17 +24,23 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <FrameLayout
-                android:id="@+id/toolbarFrame"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
+            <!--<FrameLayout-->
+                <!--android:id="@+id/toolbarFrame"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--/>-->
+
+            <include
+                android:id="@+id/layout_title_bar"
+                layout="@layout/view_title_bar"
+                app:activity="@{activity}" />
 
             <FrameLayout
                 android:id="@+id/contentFrame"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@android:color/white" />
+                android:background="@android:color/white"
+                />
 
         </LinearLayout>
 

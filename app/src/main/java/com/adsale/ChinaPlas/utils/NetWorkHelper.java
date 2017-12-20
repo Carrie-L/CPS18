@@ -33,7 +33,6 @@ public class NetWorkHelper {
     public static final String HEADER_SOAP_ACTION_MASTER = "SOAPAction:http://tempuri.org/getMasterV2";
     public static final String HEADER_SOAP_ACTION_SCANFILES = "SOAPAction:http://tempuri.org/getFolderScanFilesJson";
 
-
     public static final String BASE_URL_CPS = "https://www.chinaplasonline.com/CPS18/";
     public static final String BASE_URL_EFORM = "http://eform.adsale.com.hk/";
     public static final String BASE_URL_EFORM_API = "http://eform.adsale.com.hk/GeniusAnalyst/api/appapi/";
@@ -59,6 +58,8 @@ public class NetWorkHelper {
     /* loading页的下载地址 */
     public static final String DOWN_TXT_URL = "https://forms.adsale.com.hk/VirtualDirectory/AppCPS18CMS/AppFiles/{fileName}";
     public static final String DOWN_WEBCONTENT_URL = "WebContent/{fileName}";
+
+    public static final String M2_SMALL_TEST = "https://forms.adsale.com.hk/VirtualDirectory/AppCPS18CMS/images/m2_small.png";
 
     /*  内容更新中心baseUrl */
     public static final String UC_BASE_URL="https://o97tbiy1f.qnssl.com/";
@@ -118,6 +119,7 @@ public class NetWorkHelper {
                 .append("    </RoxvellWebserviceHeader>\n")
                 .append("  </soap:Header>\n").toString();
     }
+
 
 
 }

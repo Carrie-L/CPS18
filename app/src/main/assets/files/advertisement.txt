@@ -1,4 +1,4 @@
-﻿{
+{
   "Common": {
     "baseUrl": "https://o97tbiy1f.qnssl.com/advertisement/",
     "time": "13/1/2017-30/12/2017",
@@ -39,6 +39,7 @@
     "function": "1",
     "filepath": "M2/",
     "format": ".jpg",
+    "image2":"big_",
     "action_companyID_sc": "227665",
     "action_companyID_en": "226395",
     "action_companyID_tc": "227665",

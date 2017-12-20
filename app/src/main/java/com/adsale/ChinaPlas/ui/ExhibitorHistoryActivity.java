@@ -2,7 +2,6 @@ package com.adsale.ChinaPlas.ui;
 
 import android.content.Intent;
 import android.view.View;
-import android.widget.TextView;
 
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.ExhibitorHistoryAdapter;
@@ -27,7 +26,6 @@ public class ExhibitorHistoryActivity extends BaseActivity {
     private ArrayList<HistoryExhibitor> yesterdayHistories= new ArrayList<>();
     private ArrayList<HistoryExhibitor> pastHistories= new ArrayList<>();
     protected CpsRecyclerView mRecyclerView;
-    protected TextView txtNoData;
 
     private ExhibitorHistoryAdapter adapter;
 
@@ -44,10 +42,6 @@ public class ExhibitorHistoryActivity extends BaseActivity {
     public void initData() {
         mRepository = ExhibitorRepository.getInstance();
         generateList();
-
-        if(histories.size()==0){
-            txtNoData.setVisibility(View.VISIBLE);
-        }
 
         adapter = new ExhibitorHistoryAdapter(getApplicationContext(), histories);
         mRecyclerView.setCpsAdapter(adapter);

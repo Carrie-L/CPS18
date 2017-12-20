@@ -12,7 +12,9 @@
         <item name="android:textColorPrimary">@color/grey11</item>
         <item name="android:textColor">@color/grey11</item>
         <item name="android:textSize">14sp</item>
+
     </style>
+    <!--<item name="android:windowTranslucentNavigation">true</item>-->
 
     <style name="MyToolBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:actionMenuTextColor">#ffffff</item>
@@ -20,6 +22,13 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:fitsSystemWindows">true</item>
     </style>
+
+    <style name="M2AnimStyle">
+        <item name="@android:windowEnterAnimation">@anim/bottom_to_top</item>
+        <item name="@android:windowExitAnimation">@anim/top_to_bottom</item>
+        <item name="android:duration">4000</item>
+    </style>
+
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
@@ -100,7 +109,6 @@
         <item name="android:layout_height">@dimen/schedule_edit_item_height</item>
         <item name="android:layout_alignLeft">@id/sche_title</item>
         <item name="android:layout_marginRight">16dp</item>
-        <item name="android:layout_toRightOf">@id/sche_icon</item>
         <item name="android:gravity">center</item>
     </style>
 
@@ -397,9 +405,9 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">56dp</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:drawablePadding">8dp</item>
+        <item name="android:drawablePadding">16dp</item>
         <item name="android:textSize">16sp</item>
-        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingLeft">16dp</item>
         <item name="android:drawableBottom">@drawable/horizontal_line</item>
         <item name="android:drawableTop">@drawable/horizontal_line_trans</item>
     </style>

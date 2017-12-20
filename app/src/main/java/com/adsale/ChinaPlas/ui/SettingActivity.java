@@ -30,7 +30,7 @@ public class SettingActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        barTitle.set(getString(R.string.title_setting));
+        setBarTitle(R.string.title_setting);
         ActivitySettingBinding binding = ActivitySettingBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         binding.setAty(this);
         binding.executePendingBindings();
@@ -38,7 +38,7 @@ public class SettingActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        version.set(AppUtil.getAppVersion());
+        version.set("v".concat(AppUtil.getAppVersion()));
     }
 
     public void onLangClick() {

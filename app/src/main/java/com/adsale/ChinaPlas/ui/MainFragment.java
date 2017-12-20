@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.adapter.MenuAdapter;
 import com.adsale.ChinaPlas.dao.MainIcon;
 import com.adsale.ChinaPlas.data.OnIntentListener;
@@ -25,6 +26,7 @@ import com.adsale.ChinaPlas.data.OtherRepository;
 import com.adsale.ChinaPlas.data.model.MainPic;
 import com.adsale.ChinaPlas.data.model.adAdvertisementObj;
 import com.adsale.ChinaPlas.databinding.FragmentMainBinding;
+import com.adsale.ChinaPlas.ui.view.M2Dialog;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.viewmodel.MainViewModel;
@@ -32,6 +34,8 @@ import com.adsale.ChinaPlas.viewmodel.NavViewModel;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+
+import io.reactivex.disposables.Disposable;
 
 import static android.content.ContentValues.TAG;
 
@@ -52,14 +56,19 @@ public class MainFragment extends Fragment implements OnIntentListener {
     private MainPic mainPic;
     private int menuHeight;
     private int navHeight;
+    private Disposable mM2Disposable;
+    private int screenHeight;
+    private MenuAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentMainBinding.inflate(inflater, container, false);
         initView();
 
-        binding.getRoot().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE|View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                |View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        binding.getRoot().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+
+//        binding.getRoot().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+//                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
         return binding.getRoot();
     }
@@ -82,6 +91,7 @@ public class MainFragment extends Fragment implements OnIntentListener {
     }
 
     private void initData() {
+        screenHeight = App.mSP_Config.getInt(Constant.SCREEN_HEIGHT, 0);
         initRecyclerView();
         mainPic = mainViewModel.parseMainInfo();
         mainViewModel.setTopPics();
@@ -89,7 +99,13 @@ public class MainFragment extends Fragment implements OnIntentListener {
         setGridMenus();
         calNavigationBar();
         setBottomPics();
+        m2UpAnimation(mainViewModel.m2LargeUrl);
+    }
 
+    private void m2UpAnimation(String url) {
+        M2Dialog dialog = new M2Dialog(getActivity());
+        dialog.setUrl(url);
+        dialog.show();
     }
 
     private void calNavigationBar() {
@@ -114,7 +130,7 @@ public class MainFragment extends Fragment implements OnIntentListener {
         ArrayList<MainIcon> largeIcons = new ArrayList<>();
         ArrayList<MainIcon> littleIcons = new ArrayList<>();
         mainViewModel.getMainIcons(largeIcons, littleIcons);
-        MenuAdapter adapter = new MenuAdapter(getActivity(), largeIcons, littleIcons, this, navViewModel);
+        adapter = new MenuAdapter(getActivity(), largeIcons, littleIcons, this, navViewModel);
         recyclerView.setAdapter(adapter);
     }
 
@@ -123,7 +139,7 @@ public class MainFragment extends Fragment implements OnIntentListener {
 //        int actionBarHeight = App.mSP_Config.getInt(Constant.TOOLBAR_HEIGHT, 0);
 //        int displayHeight = App.mSP_Config.getInt(Constant.DISPLAY_HEIGHT, 0);// 用 displayHeight 刚好
 //        int aboveFixedHeight = actionBarHeight + mainViewModel.topHeight + menuHeight; //+ navHeight
-//        int screenHeight = App.mSP_Config.getInt(Constant.SCREEN_HEIGHT, 0);
+
 //        int bottomHeight = displayHeight - aboveFixedHeight - mainViewModel.adHeight;/* 如果有广告，再减去广告高度 */
 //        LogUtil.i(TAG, "displayHeight=" + displayHeight);
 //        LogUtil.i(TAG, "SCREENHeight=" + App.mSP_Config.getInt(Constant.SCREEN_HEIGHT, 0));
@@ -140,17 +156,21 @@ public class MainFragment extends Fragment implements OnIntentListener {
 //        LogUtil.i(TAG, "--- bottomPx2Dp=" + bottomPx2Dp);
 
         //311 * 161
-       int  bottomHeight = (mainViewModel.screenWidth * 161) / (311 * 2);
+        int bottomHeight = (mainViewModel.screenWidth * 161) / (311 * 2);
         LogUtil.i(TAG, "bottomHeight=" + bottomHeight);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mainViewModel.screenWidth / 2, bottomHeight);
         binding.ivLeftPic.setLayoutParams(params);
         binding.ivRightPic.setLayoutParams(params);
+//        binding.scroll.setLayoutParams(params);
 //        RequestOptions options = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true);
         setBottomImage();
     }
 
     private void setBottomImage() {
-        LogUtil.i(TAG, "setBottomImage");
+//        int bottomHeight = (mainViewModel.screenWidth * 161) / (311 * 2);
+//        LogUtil.i(TAG, "bottomHeight=" + bottomHeight);
+//        RequestOptions options = new RequestOptions().override(mainViewModel.screenWidth / 2, bottomHeight);
+//        LogUtil.i(TAG, "setBottomImage");
         Glide.with(getActivity()).load(Uri.parse(navViewModel.mCurrLang.get() == 0 ? mainPic.LeftBottomBanner.TC.BannerImage : navViewModel.mCurrLang.get() == 1 ? mainPic.LeftBottomBanner.EN.BannerImage : mainPic.LeftBottomBanner.SC.BannerImage)).into(leftPic);
         Glide.with(getActivity()).load(Uri.parse(navViewModel.mCurrLang.get() == 0 ? mainPic.RightBottomBanner.TC.BannerImage : navViewModel.mCurrLang.get() == 1 ? mainPic.RightBottomBanner.EN.BannerImage : mainPic.RightBottomBanner.SC.BannerImage)).into(rightPic);
     }
@@ -158,6 +178,13 @@ public class MainFragment extends Fragment implements OnIntentListener {
     public void refreshImages() {
         setBottomImage();
         mainViewModel.refreshImages();
+    }
+
+    /**
+     * when click [HOME] button, set little menus invisible
+     */
+    public void closeLitterMenu() {
+        adapter.mClickPos.set(-1);
     }
 
     private int getStatusBarHeight() {

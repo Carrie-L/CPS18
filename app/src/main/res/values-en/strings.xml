@@ -128,7 +128,8 @@
     <string name="title_exhibitor_deti">Company Info</string>
     <string name="title_agenda">My Schedule</string>
     <string name="title_schedule">My Schedule</string>
-    <string name="title_register">Visitor Pre-registration</string>
+    <string name="title_register">Visitor Registration</string>
+    <string name="title_register_success">My eTicket</string>
     <string name="title_summary">Show Information</string>
     <string name="title_plan">Floor Plan</string>
     <string name="title_event">Concurrent Event</string>
@@ -136,13 +137,14 @@
     <string name="title_transportation">Transportation</string>
     <string name="title_contact_us">Contact Us</string>
     <string name="title_my_exhibitor">My Exhibitor</string>
-    <string name="title_my_account">My Exhibitor</string>
+    <string name="title_my_account">My Tools</string>
     <string name="title_setting">Setting</string>
     <string name="title_subscribe">Subscribe eNewsletter</string>
     <string name="edit_schedule">Edit Schedule</string>
     <string name="title_exhibitor_advanced_search">Advanced Search</string>
     <string name="title_exhibitor_keyword_search">Keyword Search</string>
     <string name="title_login">Login</string>
+    <string name="title_new_tec">New ＆ Hot Tech</string>
 
     <string name="title_add_note">Add Note</string>
     <string name="title_add_schedule">Add Schedule</string>
@@ -453,7 +455,6 @@
     <string name="setting_language">Language</string>
     <string name="setting_website">Link to websites</string>
     <string name="setting_add_to_calendar">Add to Calendar</string>
-    <string name="setting_preregistered_login">Pre-registered Visitor Login</string>
     <string name="setting_reset_all">Reset All Data</string>
     <string name="setting_privacy_policy">Privacy Policy Statement</string>
     <string name="setting_use_terms">Terms of Use</string>
@@ -543,7 +544,7 @@
 
     <!-- name card -->
     <string name="update_card">Save &amp; Update QR Code</string>
-    <string name="create_card">Create</string>
+    <string name="create_card">Create Name Card</string>
     <string name="btn_edit_card">Edit</string>
     <string name="btn_scanner_card">QRcode Scanner</string>
     <string name="btn_all_card">All Name Card</string>
@@ -558,8 +559,8 @@
 
     <!-- 分享 -->
     <string name="share_setting_text">CHINAPLAS APP is now ready for download!</string>
-    <string name="share_setting_url">http://www.chinaplasonline.com/CPS17/Mobile/Home/lang-eng/MobileApp.aspx</string>
-    <string name="share_news_link">http://www.chinaplasonline.com/CPS17/Mobile/Home/lang-eng/WhatsNew.aspx</string>
+    <string name="share_setting_url">http://www.chinaplasonline.com/CPS18/Mobile/Home/lang-eng/MobileApp.aspx</string>
+    <string name="share_news_link">http://www.chinaplasonline.com/CPS18/Mobile/Home/lang-eng/WhatsNew.aspx</string>
     <string name="share_sinna_weibo">Sina Weibo</string>
     <string name="share_qq">QQ</string>
     <string name="share_qq_zone">QZone</string>
@@ -615,7 +616,7 @@
     <string name="yesterday">Yesterday</string>
     <string name="past_records">Past</string>
 
-    <string name="title_update_center">Update Center</string>
+    <string name="title_update_center">Update Centre</string>
     <string name="uc_exhibitor">Exhibitor Data</string>
     <string name="uc_floorplan">Floor Plan</string>
     <string name="uc_seminar">Technical Seminar</string>

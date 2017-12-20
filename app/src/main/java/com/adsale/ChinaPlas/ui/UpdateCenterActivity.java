@@ -1,7 +1,5 @@
 package com.adsale.ChinaPlas.ui;
 
-import android.text.TextUtils;
-
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.databinding.ActivityUpdateCenterBinding;
@@ -14,7 +12,6 @@ import com.adsale.ChinaPlas.viewmodel.UpdateCenterViewModel;
  * 如果 STATUS == 1，说明没有更新；否则，有更新。
  * 全部没有更新时，btnUpdateAll,btnUpdate 按钮为灰色，不可点击。
  * // TODO: 2017/11/10 下载csv后，解析，保存到数据库
- *
  */
 public class UpdateCenterActivity extends BaseActivity {
     private ActivityUpdateCenterBinding binding;
@@ -22,9 +19,7 @@ public class UpdateCenterActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        if(TextUtils.isEmpty(barTitle.get())){
-            barTitle.set(getString(R.string.title_update_center));
-        }
+        setBarTitle(R.string.title_update_center);
         binding = ActivityUpdateCenterBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         model = new UpdateCenterViewModel();
         binding.setModel(model);
@@ -35,8 +30,8 @@ public class UpdateCenterActivity extends BaseActivity {
     @Override
     protected void initData() {
         model.init(binding.downloadProgress);
-        if(mNavViewModel!=null){
-            LogUtil.i(TAG,"mNavViewModel!=NULL");
+        if (mNavViewModel != null) {
+            LogUtil.i(TAG, "mNavViewModel!=NULL");
             model.setNavModel(mNavViewModel);
         }
     }

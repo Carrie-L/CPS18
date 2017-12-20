@@ -4,13 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.WebView;
 
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.databinding.ActivityRegisterBinding;
+import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.PermissionUtil;
 import com.adsale.ChinaPlas.viewmodel.RegisterViewModel;
@@ -23,8 +23,10 @@ public class RegisterActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        if(TextUtils.isEmpty(barTitle.get())){
-            barTitle.set(getString(R.string.title_register));
+        if(AppUtil.isLogin()){
+            setBarTitle(R.string.title_register_success);
+        }else{
+            setBarTitle(R.string.title_register);
         }
         binding = ActivityRegisterBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         mRegModel = new RegisterViewModel(this);
