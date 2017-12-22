@@ -8,6 +8,7 @@ import android.databinding.ObservableField;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -28,9 +29,11 @@ import com.adsale.ChinaPlas.databinding.ActivityBaseBinding;
 import com.adsale.ChinaPlas.databinding.NavHeaderBinding;
 import com.adsale.ChinaPlas.ui.LoginActivity;
 import com.adsale.ChinaPlas.ui.MainActivity;
+import com.adsale.ChinaPlas.ui.ScannerActivity;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
+import com.adsale.ChinaPlas.utils.PermissionUtil;
 import com.adsale.ChinaPlas.viewmodel.NavViewModel;
 import com.adsale.ChinaPlas.viewmodel.SyncViewModel;
 import com.baidu.mobstat.StatService;
@@ -58,6 +61,7 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
     protected String mBaiduTJ;
     private String eventName;
     protected String mTypePrefix;
+    private Window window;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +84,6 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
         if (TextUtils.isEmpty(barTitle.get())) {
             barTitle.set(getIntent().getStringExtra(Constant.TITLE));
         }
-
 
         initData();
         setBaiDuTJ();
@@ -147,16 +150,18 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
 
     private void setStatusBar() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getWindow();
+            window = getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
-            if(isShowTitleBar.get()){
+            if (isShowTitleBar.get()) {
                 window.setNavigationBarColor(getResources().getColor(R.color.home_transparent));
-            }else{
-                window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            } else {
+                window.setNavigationBarColor(getResources().getColor(R.color.home_nav_bar));
+                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE|View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        |View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
             }
         }
     }
@@ -219,25 +224,6 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
         mNavViewModel.isLoginSuccess.set(false);
         mNavViewModel.isLoginStatusChanged.set(true);
         mNavViewModel.setUpHeader();
-        mNavViewModel.updateDrawerListLogin();
-    }
-
-    protected void processLogin() {
-        AppUtil.putLogin();
-        mNavViewModel.isLoginSuccess.set(true);
-        mNavViewModel.setUpHeader();
-        mNavViewModel.updateDrawerListLogin();
-    }
-
-    @Override
-    public void languageChanged(int language, boolean inMainAty) {
-        LogUtil.i("BaseAty", "languageChanged: " + language);
-        if (!inMainAty) {
-//            Intent intent = new Intent(this, MainActivity.class);
-//            startActivity(intent);
-//            finish();
-        }
-        LogUtil.i(TAG, "BaseAty: languageChanged=" + language + ",inMainAty=" + inMainAty);
     }
 
     @Override
@@ -317,4 +303,16 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
         super.onPause();
         StatService.onPageEnd(this, eventName);
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        LogUtil.i(TAG, "onRequestPermissionsResult: requestCode=" + requestCode);
+        if (requestCode == PermissionUtil.PMS_CODE_CAMERA && PermissionUtil.getGrantResults(grantResults)) {
+            Intent intent = new Intent(this, ScannerActivity.class);
+            startActivity(intent);
+            overridePendingTransPad();
+        }
+    }
+
 }

@@ -17,6 +17,7 @@ public class ScannerActivity extends BaseActivity implements SurfaceHolder.Callb
     private ScannerViewModel viewModel;
     private SurfaceHolder mHolder;
     private boolean hasSurface;
+    private boolean hasCameraPerm;
 
     @Override
     protected void initView() {
@@ -30,9 +31,7 @@ public class ScannerActivity extends BaseActivity implements SurfaceHolder.Callb
         viewModel.setOnScannedListener(this);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+    private void setupCamera() {
         mHolder = binding.capturePreview.getHolder();
         if (hasSurface) {
             LogUtil.i(TAG, "hasSurface");
@@ -42,6 +41,12 @@ public class ScannerActivity extends BaseActivity implements SurfaceHolder.Callb
             mHolder.addCallback(this);
         }
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setupCamera();
     }
 
     private void initCamera(SurfaceHolder holder) {

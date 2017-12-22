@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="obj"
+            type="com.adsale.ChinaPlas.dao.MainIcon"/>
+        <variable
+            name="navModel"
+            type="com.adsale.ChinaPlas.viewmodel.NavViewModel"/>
+        <variable
+            name="adapter"
+            type="com.adsale.ChinaPlas.adapter.DrawerListAdapter"/>
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rl_left_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white_smoke"
+        >
+
+        <ImageView
+            android:id="@+id/iv_drawer_icon"
+            android:layout_width="@dimen/drawer_icon_size"
+            android:layout_height="@dimen/drawer_icon_size"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="54dp"
+            android:layout_marginRight="16dp"
+            app:imgUrl="@{obj.getDrawerIconFull()}"
+            />
+
+        <TextView
+            android:id="@+id/tv_drawer_title"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:onClick="@{()->adapter.onItemClick(obj)}"
+            android:layout_toRightOf="@id/iv_drawer_icon"
+            android:clickable="true"
+            android:gravity="center_vertical"
+            android:textColor="#000000"
+            android:text="@{obj.getTitle(navModel.mCurrLang.get(),navModel.isLoginSuccess.get())}"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/parent_menu_left_item_count"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/circle_number"
+            android:gravity="center"
+            android:text="@{String.valueOf(obj.updateCount.get())}"
+            android:textColor="@color/white"
+            android:visibility="@{obj.updateCount.get()>0?View.VISIBLE:View.GONE}" />
+    </RelativeLayout>
+
+</layout>

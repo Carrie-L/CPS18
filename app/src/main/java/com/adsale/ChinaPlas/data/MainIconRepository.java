@@ -105,11 +105,11 @@ public class MainIconRepository implements DataSource<MainIcon> {
      * 获取主界面数据
      */
     public ArrayList<MainIcon> getMenus() {
-        return (ArrayList<MainIcon>) mIconDao.queryBuilder().where(MainIconDao.Properties.MenuList.like("%M%"),MainIconDao.Properties.IsHidden.notEq(1),MainIconDao.Properties.IsDelete.notEq(1)).orderAsc(MainIconDao.Properties.MenuList).list();
+        return (ArrayList<MainIcon>) mIconDao.queryBuilder().where(MainIconDao.Properties.MenuList.like("%M%"), MainIconDao.Properties.IsHidden.notEq(1), MainIconDao.Properties.IsDelete.notEq(1)).orderAsc(MainIconDao.Properties.MenuList).list();
     }
 
     public ArrayList<MainIcon> getAllIcons() {
-        return (ArrayList<MainIcon>) mIconDao.queryBuilder().where(MainIconDao.Properties.IsHidden.notEq(1),MainIconDao.Properties.IsDelete.notEq(1)).orderAsc(MainIconDao.Properties.MenuList).list();
+        return (ArrayList<MainIcon>) mIconDao.queryBuilder().where(MainIconDao.Properties.IsHidden.notEq(1), MainIconDao.Properties.IsDelete.notEq(1)).orderAsc(MainIconDao.Properties.MenuList).list();
     }
 
     /**
@@ -139,7 +139,7 @@ public class MainIconRepository implements DataSource<MainIcon> {
                 entity.setMenuList(cursor.getString(cursor.getColumnIndex("MENU_LIST")));
                 entity.setDrawerIcon(cursor.getString(cursor.getColumnIndex("DRAWER_ICON")));
                 entity.setIconTextColor(cursor.getString(cursor.getColumnIndex("ICON_TEXT_COLOR")));
-                if(entity.getBaiDu_TJ().equals("ContentUpdate")){
+                if (entity.getBaiDu_TJ().equals("ContentUpdate")) {
                     OtherRepository repository = OtherRepository.getInstance();
                     repository.initUpdateCenterDao();
                     int uc_count = repository.getNeedUpdatedCount();
@@ -150,6 +150,9 @@ public class MainIconRepository implements DataSource<MainIcon> {
                 } else {
                     childList.add(entity);
                 }
+//                if (entity.getDrawerList().split("_").length > 2) {
+//                    entity.isDrawerChild.set(true);
+//                }
                 leftMenus.add(entity);
             }
 

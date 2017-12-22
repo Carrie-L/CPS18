@@ -2,6 +2,7 @@ package com.adsale.ChinaPlas.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.databinding.ObservableInt;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.Log;
@@ -55,7 +56,8 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
     private MainIcon entity;
 
 //    private int uc_count;
-    private int mClickPos;
+//    private int mClickPos;
+    private ObservableInt mClickPos = new ObservableInt(-1);
 
     private boolean isLogin = false;
 
@@ -367,13 +369,13 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
             if (mBaiduTJ.equals(mainIcon.getBaiDu_TJ())) {
                 isMatch = true;
                 mainIcon.isClicked = true;
-                mClickPos = j;
+                mClickPos.set(j);
                 break;
             }
         }
 
         if (isMatch) {
-            closeDrawerAndIntent(mainIcon, mClickPos, false);
+            closeDrawerAndIntent(mainIcon, mClickPos.get(), false);
         }
     }
 

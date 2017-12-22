@@ -54,8 +54,9 @@ public class MainActivity extends BaseActivity {
     protected void initData() {
         permissionSD();
         isLogin = AppUtil.isLogin();
-        mNavViewModel.setMainActivity(this);
         setFragment();
+
+
         helpPage();
 
         OtherRepository repository = OtherRepository.getInstance();
@@ -87,14 +88,12 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
         LogUtil.i(TAG, "=== onResume === isLogin=" + isLogin);
         LogUtil.i(TAG, "=== onResume ===  mNavViewModel.isLoginSuccess=" + mNavViewModel.isLoginSuccess.get());
         LogUtil.i(TAG, "=== onResume ===  AppUtil.isLogin()=" + AppUtil.isLogin());
 
         if (mNavViewModel.isLoginSuccess.get() != AppUtil.isLogin()) { // 做一个登陆状态的判断，只有在登陆状态改变时才执行以下操作
             mNavViewModel.isLoginSuccess.set(AppUtil.isLogin()); /* 改变Menu的文字 */
-            mNavViewModel.updateDrawerListLogin();
         }
 
         LogUtil.i(TAG, "onResume: App.mLanguage=" + App.mLanguage.get());
@@ -163,7 +162,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private void sendCrashLog(){
+    private void sendCrashLog() {
         final LoginClient client = ReRxUtils.setupRxtrofit(LoginClient.class, NetWorkHelper.BASE_URL_CPS);
 
     }

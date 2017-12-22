@@ -35,8 +35,6 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-import io.reactivex.disposables.Disposable;
-
 import static android.content.ContentValues.TAG;
 
 /**
@@ -51,12 +49,11 @@ public class MainFragment extends Fragment implements OnIntentListener {
 
 //    private int language;
 
-    private NavViewModel navViewModel;
+    public NavViewModel navViewModel;
     private MainViewModel mainViewModel;
     private MainPic mainPic;
     private int menuHeight;
     private int navHeight;
-    private Disposable mM2Disposable;
     private int screenHeight;
     private MenuAdapter adapter;
 
@@ -64,12 +61,7 @@ public class MainFragment extends Fragment implements OnIntentListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentMainBinding.inflate(inflater, container, false);
         initView();
-
         binding.getRoot().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-
-//        binding.getRoot().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-//                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-
         return binding.getRoot();
     }
 
@@ -83,6 +75,9 @@ public class MainFragment extends Fragment implements OnIntentListener {
 
     public static MainFragment newInstance() {
         return new MainFragment();
+    }
+
+    public MainFragment(){
     }
 
     public void setNavViewModel(NavViewModel model) {

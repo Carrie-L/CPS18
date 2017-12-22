@@ -17,12 +17,13 @@ import android.widget.Toast;
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.DrawerAdapter;
+import com.adsale.ChinaPlas.adapter.DrawerListAdapter;
 import com.adsale.ChinaPlas.dao.MainIcon;
 import com.adsale.ChinaPlas.data.MainIconRepository;
+import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.ui.CommonListActivity;
 import com.adsale.ChinaPlas.ui.ConcurrentEventActivity;
 import com.adsale.ChinaPlas.ui.ExhibitorAllListActivity;
-import com.adsale.ChinaPlas.ui.MainActivity;
 import com.adsale.ChinaPlas.ui.MyExhibitorActivity;
 import com.adsale.ChinaPlas.ui.NCardActivity;
 import com.adsale.ChinaPlas.ui.NCardCreateEditActivity;
@@ -40,6 +41,7 @@ import com.adsale.ChinaPlas.ui.WebContentActivity;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
+import com.adsale.ChinaPlas.utils.PermissionUtil;
 import com.adsale.ChinaPlas.utils.RecyclerItemDecoration;
 
 import java.util.ArrayList;
@@ -48,13 +50,15 @@ import java.util.Comparator;
 
 import static com.adsale.ChinaPlas.utils.Constant.INTENT_COMMON_TYPE;
 import static com.adsale.ChinaPlas.utils.Constant.WEB_URL;
+import static com.adsale.ChinaPlas.utils.PermissionUtil.PERMISSION_CAMERA;
+import static com.adsale.ChinaPlas.utils.PermissionUtil.PMS_CODE_CAMERA;
 
 /**
  * Created by Carrie on 2017/8/8.
  * 侧边栏
  */
 
-public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
+public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener, OnIntentListener {
     //drawer
     public final ObservableField<String> drawerLoginTitle = new ObservableField<>();
     public final ObservableField<String> drawerLoginOrSync = new ObservableField<>();
@@ -74,9 +78,10 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
     private static NavViewModel INSTANCE;
 
     public final ObservableInt language = new ObservableInt(0);
-    private DrawerAdapter drawerAdapter;
+//    private DrawerAdapter drawerAdapter;
 
     public final ObservableInt mCurrLang = new ObservableInt(App.mLanguage.get());
+    private DrawerListAdapter drawerListAdapter;
 
     public NavViewModel(Context context) {
         LogUtil.i(TAG, "-- NavViewModel Construct--");
@@ -89,7 +94,7 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
         mDrawerLayout = drawerLayout;
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        recyclerView.addItemDecoration(new RecyclerItemDecoration(mContext,LinearLayoutManager.HORIZONTAL));
+        recyclerView.addItemDecoration(new RecyclerItemDecoration(mContext, LinearLayoutManager.HORIZONTAL));
 
         mainIconRepository = MainIconRepository.getInstance();
         initPadList();
@@ -106,7 +111,7 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
 
     private void processDrawerList() {
         long startTime = System.currentTimeMillis();
-        LogUtil.i(TAG,"processDrawerList");
+        LogUtil.i(TAG, "processDrawerList");
 
         ArrayList<MainIcon> child = new ArrayList<>();
         mLeftMenus = mainIconRepository.getLeftMenus(mLeftMenus, mParents, child);
@@ -128,6 +133,7 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
             for (int j = 0; j < childSize; j++) {
                 if (child.get(j).getGoogle_TJ().split("_")[0].equals(parent.getGoogle_TJ())) {
                     parent.hasChild = true;
+                    parent.isDrawerHasChild.set(true);
                     mParents.set(i, parent);
                     children.add(child);
                 }
@@ -141,22 +147,20 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
     private void setAdapter(RecyclerView recyclerView) {
         long startTime = System.currentTimeMillis();
 
-        drawerAdapter = new DrawerAdapter(mLeftMenus, mParents, this);
-        recyclerView.setAdapter(drawerAdapter);
+        drawerListAdapter = new DrawerListAdapter(mLeftMenus, mParents, this);
+        recyclerView.setAdapter(drawerListAdapter);
 
-        drawerAdapter.setOnCloseDrawerListener(this);
+//        drawerAdapter.setOnCloseDrawerListener(this);
 
         long endTime = System.currentTimeMillis();
         LogUtil.i(TAG, " setAdapter spend : " + (endTime - startTime) + "ms");
     }
 
-    public void refreshUpdateCount(int count){
-        if(drawerAdapter==null){
-            LogUtil.i(TAG,"drawerAdapter==null");
+    public void refreshUpdateCount(int count) {
+        if (drawerListAdapter == null) {
             return;
         }
-        LogUtil.i(TAG,"drawerAdapter!=null,refresh?");
-        drawerAdapter.updateCenterCount(count);
+        drawerListAdapter.updateCenterCount(count);
     }
 
     private void initPadList() {
@@ -189,9 +193,6 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
 
     public void updateLanguage() {
         setHeaderText();
-        if(drawerAdapter!=null){
-            drawerAdapter.notifyDataSetChanged();
-        }
     }
 
     public void sync(View view) {
@@ -208,68 +209,25 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
         }
     }
 
-    public void updateDrawerListLogin() {
-        if (drawerAdapter != null) {
-            LogUtil.i(TAG,"updateDrawerListLogin drawerAdapter != null");
-            drawerAdapter.setLoginChanged();
-        }else{
-            LogUtil.i(TAG,"updateDrawerListLogin drawerAdapter == null");
-        }
-    }
-
-    public void onLangClick(int language) {
-        AppUtil.switchLanguage(mContext, language);
-        App.mLanguage.set(language);
-//        mCurrLang.set(language);
-        setHeaderText();
-        String className = mContext.getClass().getSimpleName();
-        LogUtil.i(TAG, "className=" + className);
-        if (mainActivity != null) {
-            LogUtil.i(TAG, "in MainActivity");
-            drawerAdapter.notifyDataSetChanged();
-        } else {
-            LogUtil.i(TAG, "changeLanguage: other aty");
-        }
-        setLanguageListener(language, mainActivity != null);
-    }
-
-    private void setLanguageListener(int lang, boolean isInMain) {
-        if (mDrawerListener != null) {
-            LogUtil.i(TAG, "setLanguageListener:" + lang);
-            mDrawerListener.languageChanged(lang, isInMain);
-        }
-    }
-
-    private MainActivity mainActivity;
-
-    public void setMainActivity(MainActivity activity) {
-        mainActivity = activity;
-    }
-
     @Override
     public void close() {
         mDrawerLayout.closeDrawer(GravityCompat.START);
     }
 
-    private <T> void toIntent(Activity activity, Class<T> cls) {
-        intent = new Intent(activity, cls);
-    }
-
-    public void intent(Activity activity, MainIcon mainIcon) {
+    public Intent intent(Activity activity, MainIcon mainIcon) {
         LogUtil.i(TAG, "mContext: " + mContext.getClass().getSimpleName());
         LogUtil.i(TAG, "activity: " + activity.getClass().getSimpleName());
 
         if (mContext.getClass().getSimpleName().equals(activity.getClass().getSimpleName())) {
-            return;
+            return null;
         }
-        newIntent(activity, mainIcon);
+        intent = newIntent(activity, mainIcon);
         if (intent != null) {
             intent.putExtra(Constant.TITLE, mainIcon.getTitle(App.mLanguage.get()));
-            intent.putExtra(Constant.BAIDU_TJ,mainIcon.getBaiDu_TJ());
+            intent.putExtra(Constant.BAIDU_TJ, mainIcon.getBaiDu_TJ());
             activity.startActivity(intent);
         }
-
-
+        return intent;
     }
 
     public Intent newIntent(Activity activity, MainIcon mainIcon) {
@@ -303,8 +261,8 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
                 break;
             case Constant.BDTJ_HALL_MAP_TEXT:
             case Constant.BDTJ_HALL_MAP:
-                intent = new Intent(activity,WebContentActivity.class);
-                intent.putExtra(WEB_URL,Constant.DIR_WEB_CONTENT.concat(mainIcon.getIconID()));
+                intent = new Intent(activity, WebContentActivity.class);
+                intent.putExtra(WEB_URL, Constant.DIR_WEB_CONTENT.concat(mainIcon.getIconID()));
                 break;
             case Constant.BDTJ_INTERESTED_EXHIBITOR:
 //                 intent = new Intent(context, FavouriteProductActivity.class);
@@ -331,7 +289,14 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
                 intent = new Intent(activity, SubscribeActivity.class);
                 break;
             case Constant.BDTJ_QR_SCANNER:/* 二维码扫描器 */
-                intent = new Intent(activity, ScannerActivity.class);
+                boolean hasCameraPerm = PermissionUtil.checkPermission(activity, PERMISSION_CAMERA);
+                LogUtil.i(TAG, "hasCameraPerm=" + hasCameraPerm);
+                if (hasCameraPerm) {
+                    intent = new Intent(activity, ScannerActivity.class);
+                } else {
+                    PermissionUtil.requestPermission(activity, PERMISSION_CAMERA, PMS_CODE_CAMERA);
+                    return null;
+                }
                 break;
             case Constant.BDTJ_NOTIFICATION_CENTER: /* 通知中心 */
                 intent = new Intent(activity, CommonListActivity.class);
@@ -349,12 +314,19 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener {
         return intent;
     }
 
+    @Override
+    public <T> void onIntent(T entity, Class toCls) {
+        LogUtil.i(TAG, "-  onIntent -");
+//        intent(mContext,(MainIcon) entity);
+//        if(intent!= null && !(mContext instanceof MainActivity)){
+//            ((Activity) mContext).finish();
+//        }
+    }
+
     public interface OnDrawerClickListener {
         void login();
 
         void sync();
-
-        void languageChanged(int language, boolean inMainAty);
     }
 
     public void setOnDrawerClickListener(OnDrawerClickListener listener) {

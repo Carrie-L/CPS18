@@ -109,11 +109,7 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
         Display display = getWindowManager().getDefaultDisplay();
         int displayHeight = display.getHeight();
         Point point = new Point();
-        if (Build.VERSION.SDK_INT >= 17) {
-            display.getRealSize(point);
-        } else {
-            display.getSize(point);
-        }
+        display.getRealSize(point);
         int width = point.x;
         int height = point.y;
         LogUtil.i(TAG, "device 的宽高为：width=" + width + ",height=" + height + ",displayHeight=" + displayHeight);

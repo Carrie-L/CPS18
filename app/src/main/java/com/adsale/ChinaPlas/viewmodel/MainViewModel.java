@@ -98,6 +98,7 @@ public class MainViewModel {
 
     public MainPic parseMainInfo() {
         mainPic = Parser.parseJsonFilesDirFile(MainPic.class, Constant.TXT_MAIN_PIC_INFO);
+        App.mSP_Config.edit().putString("MainIconBaseUrl",mainPic.IconPath).apply();
         return mainPic;
     }
 

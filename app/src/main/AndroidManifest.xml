@@ -48,16 +48,19 @@
             android:windowSoftInputMode="stateHidden|adjustPan"
           />
 
+        <activity
+            android:name=".ui.PadMainActivity"
+            android:launchMode="singleTask"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="stateHidden|adjustPan"
+            />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="e9711e47de2f01e87b1b2a761338687e93c10e5d" />
 
         <activity
             android:name=".ui.WebViewActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
-        <activity
-            android:name=".ui.MyAccountActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity

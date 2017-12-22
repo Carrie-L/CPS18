@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
@@ -26,6 +25,8 @@ import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.NetWorkHelper;
 import com.adsale.ChinaPlas.utils.ReRxUtils;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.pingplusplus.android.Pingpp;
 
 import org.json.JSONException;
@@ -63,6 +64,7 @@ public class RegisterViewModel {
     private Disposable mDisposable0;
     private Disposable mDisposable1;
     private CalendarUtil calendarUtil;
+    private File imgFile;
 
     public RegisterViewModel(Activity activity) {
         this.activity = activity;
@@ -75,7 +77,7 @@ public class RegisterViewModel {
         show();
     }
 
-    public void show(){
+    public void show() {
         isLoginOrReged.set(AppUtil.isLogin());
         LogUtil.i(TAG, "isLoginOrReged=" + isLoginOrReged.get());
         sp_reg = activity.getSharedPreferences("Prereg", MODE_PRIVATE);
@@ -83,13 +85,13 @@ public class RegisterViewModel {
             showPicView();
         } else {
             showWebView();
-            setProgressClient();
         }
     }
 
     private void showWebView() {
         mWebView.setWebViewClient(new MyWebClient());
         mWebView.loadUrl(String.format(NetWorkHelper.Register_URL, AppUtil.getUrlLangType(App.mLanguage.get())));
+        setProgressClient();
     }
 
     private void setProgressClient() {
@@ -236,16 +238,11 @@ public class RegisterViewModel {
 
     private void downConfirmImage() {
         initClient();
-        mClient.downConfirmImg(NetWorkHelper.REGISTER_CONFIRM_IMG_URL.concat(sp_reg.getString("p_image", "")))
+        mClient.downConfirmImg(NetWorkHelper.REGISTER_CONFIRM_IMG_URL.concat(regImgName()))
                 .map(new Function<ResponseBody, Boolean>() {
                     @Override
                     public Boolean apply(@NonNull ResponseBody responseBody) throws Exception {
-                        File imgFile = new File(App.filesDir.concat(Constant.REG_PNG));
-                        if (imgFile.exists()) {
-                            boolean deleteImg = imgFile.delete();
-                            LogUtil.e(TAG, "reg img is exists, so delete it." + deleteImg + ", path=" + App.filesDir.concat(Constant.REG_PNG));
-                        }
-                        return AppUtil.saveFileOutput(activity, Constant.REG_PNG, responseBody.bytes());
+                        return AppUtil.saveFileOutput(activity, regImgName(), responseBody.bytes());
                     }
                 })
                 .subscribeOn(Schedulers.io())
@@ -274,21 +271,20 @@ public class RegisterViewModel {
                 });
     }
 
-    private void showPicView() {
-//        try {
-////            FileInputStream fis = activity.openFileInput(Constant.REG_PNG);
-////            mImageView.setImageBitmap(BitmapFactory.decodeStream(fis));
-////            fis.close();
-//
-//
-////            mImageView.setImageURI(Uri.parse("file:///" + activity.openFileInput(Constant.REG_PNG)));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            //如果图片不存在，下载 [登录时保存的regImageName]
-//            downConfirmImage();
-//        }
+    private String regImgName() {
+        return sp_reg.getString("p_image", "");
+    }
 
-        Glide.with(activity).load(Uri.parse("file:///".concat(App.filesDir).concat(Constant.REG_PNG))).into(mImageView);
+    private void showPicView() {
+        imgFile = new File(App.filesDir.concat(regImgName()));
+        if (imgFile.exists()) {
+            RequestOptions options = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true);
+            Glide.with(activity).load(imgFile).apply(options).into(mImageView);
+        } else {
+            LogUtil.e(TAG, "reg图片不存在，下载");
+            downConfirmImage();
+        }
+
         showRegText();
     }
 
@@ -303,6 +299,11 @@ public class RegisterViewModel {
     }
 
     public void reset() {
+        imgFile = new File(App.filesDir.concat(regImgName()));
+        if (imgFile.exists()) {
+            boolean deleteImg = imgFile.delete();
+            LogUtil.e(TAG, "reset: reg img is exists, so delete it." + deleteImg + ", path=" + App.filesDir.concat(regImgName()));
+        }
         AppUtil.putLogout();
         isLoginOrReged.set(false);
         App.mSP_Login.edit().putBoolean("IsPreUser", false).apply();

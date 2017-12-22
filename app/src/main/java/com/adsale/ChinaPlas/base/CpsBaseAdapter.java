@@ -1,26 +1,24 @@
 package com.adsale.ChinaPlas.base;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.adsale.ChinaPlas.dao.ScheduleInfo;
-import com.adsale.ChinaPlas.utils.LogUtil;
-
 import java.util.ArrayList;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by Carrie on 2017/8/3.
  */
 
 public abstract class CpsBaseAdapter<T> extends RecyclerView.Adapter<CpsBaseViewHolder> {
+        protected Context mContext;
 
     @Override
     public CpsBaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        mContext = parent.getContext();
         ViewDataBinding  binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),viewType,parent,false);
         bindVariable(binding);
         return new CpsBaseViewHolder(binding);
