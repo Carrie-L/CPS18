@@ -15,7 +15,9 @@ import com.adsale.ChinaPlas.base.CpsBaseViewHolder;
 import com.adsale.ChinaPlas.dao.MainIcon;
 import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.databinding.ItemLargeMenuBinding;
+import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
+import com.adsale.ChinaPlas.utils.DisplayUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.NetWorkHelper;
 import com.adsale.ChinaPlas.viewmodel.NavViewModel;
@@ -60,12 +62,14 @@ public class MenuAdapter extends CpsBaseAdapter<MainIcon> {
 
     private ItemLargeMenuBinding menuBinding;
     private Context mContext;
-    private final String mBaseUrl;
-    private final FrameLayout.LayoutParams largeParams;
+    private  String mBaseUrl;
+    private  FrameLayout.LayoutParams largeParams;
     private OnIntentListener mListener;
     private MainIcon littleIcon;
     private NavViewModel navViewModel;
-    private final RequestOptions requestOptions;
+    private  RequestOptions requestOptions;
+    private boolean isTablet;
+    private  int menuWidth;
 
     public MenuAdapter(Context context, ArrayList<MainIcon> largeMenus, ArrayList<MainIcon> littleMenus, OnIntentListener listener, NavViewModel navViewModel) {
         this.mContext = context;
@@ -73,16 +77,41 @@ public class MenuAdapter extends CpsBaseAdapter<MainIcon> {
         this.littleMenus = littleMenus;
         this.mListener = listener;
         this.navViewModel = navViewModel;
+        isTablet = AppUtil.isTablet();
 
         LogUtil.i(TAG, "largeMenus=" + largeMenus.size() + "," + largeMenus.toString());
 
         mBaseUrl = NetWorkHelper.DOWNLOAD_PATH.concat("WebContent/");
-        int mScreenWidth = App.mSP_Config.getInt(Constant.SCREEN_WIDTH, 0);
-        int height = (mScreenWidth * Constant.MAIN_MENU_HEIGHT) / Constant.MAIN_MENU_WIDTH;
-        LogUtil.i(TAG, "menu: width=" + mScreenWidth / 3 + ",height=" + height / 3);
-        largeParams = new FrameLayout.LayoutParams(mScreenWidth / 3, height / 3);
+        int height = 0;
+        int iconSize = 0;
+        if (isTablet) {
+            float scale = DisplayUtil.getScale(mContext);
+            scale = scale>1?2:1;
+            height = (int) (632 * AppUtil.getPadHeightRate());
+            menuWidth = (1280 * height) / 632;
+
+            int margin = (int) (scale*8*3);
+            LogUtil.i(TAG,"margin="+margin);
+
+            int itemBannerWidth = App.mSP_Config.getInt("itemBannerWidth",0);
+            int itemBannerHeight = App.mSP_Config.getInt("itemBannerHeight",0);
+            int menuWidth0 = (AppUtil.getScreenWidth() - itemBannerWidth - 48)/3;
+
+            int itemHeight = itemBannerHeight;
+            int itemWidth = menuWidth0; // 无需改动
+
+            largeParams = new FrameLayout.LayoutParams(itemWidth, itemHeight);
+            LogUtil.i(TAG, "menu: itemWidth=" + itemWidth + ",itemHeight=" + itemHeight);
+            iconSize = (int) (Constant.MENU_ICON_SIZE_PAD * AppUtil.getPadHeightRate());
+        } else {
+            menuWidth = AppUtil.getScreenWidth();
+            height = (menuWidth * Constant.MAIN_MENU_HEIGHT) / Constant.MAIN_MENU_WIDTH;
+            largeParams = new FrameLayout.LayoutParams(menuWidth / 3, height / 3);
+            LogUtil.i(TAG, "menu: width=" + menuWidth / 3 + ",height=" + height / 3);
+            iconSize = Constant.MENU_ICON_SIZE * 2;
+        }
         generate();
-        requestOptions = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE).override(Constant.MENU_ICON_SIZE * 2, Constant.MENU_ICON_SIZE * 2);
+        requestOptions = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE).override(iconSize, iconSize);
     }
 
     /**
@@ -119,7 +148,6 @@ public class MenuAdapter extends CpsBaseAdapter<MainIcon> {
     @Override
     public void onBindViewHolder(CpsBaseViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        LogUtil.i(TAG, "ICON=" + largeMenus.get(position).getIcon());
         Glide.with(mContext).load(Uri.parse(mBaseUrl.concat(largeMenus.get(position).getIcon())))
                 .apply(requestOptions).into(menuBinding.icon);//
         resizeLargeMenu();

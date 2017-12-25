@@ -96,6 +96,22 @@ public class AppUtil {
         return App.mSP_Config.getInt(Constant.SCREEN_WIDTH, 0);
     }
 
+    public static void setScreenWidth(int sw) {
+        App.mSP_Config.edit().putInt(Constant.SCREEN_WIDTH, sw).apply();
+    }
+
+    public static int getPadLeftMargin() {
+        return App.mSP_Config.getInt(Constant.PAD_LEFT_MARGIN, 0);
+    }
+
+    public static float getPadWidthRate() {
+        return App.mSP_Config.getFloat("PadWidthRate", 0);
+    }
+
+    public static float getPadHeightRate() {
+        return App.mSP_Config.getFloat("PadHeightRate", 0);
+    }
+
     public static int getScreenHeight() {
         return App.mSP_Config.getInt("ScreenHeight", 0);
     }
@@ -676,8 +692,8 @@ public class AppUtil {
      * <font color="#f97798">百度统计自定义事件</font>
      *
      * @param context
-     * @param id       自定义事件id
-     * @param lable    标签 （TrackingName）前缀BE_219644|| Page_AdvancedSearch
+     * @param id      自定义事件id
+     * @param lable   标签 （TrackingName）前缀BE_219644|| Page_AdvancedSearch
      * @return void
      * @version 创建时间：2016年6月15日 下午2:21:19
      */

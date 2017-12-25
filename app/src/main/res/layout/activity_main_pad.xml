@@ -1,0 +1,94 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.adsale.ChinaPlas.viewmodel.MainViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:weightSum="0.904">
+        <!--android:weightSum="0.904"-->
+
+        <!--Top Banner-->
+        <RelativeLayout
+            android:id="@+id/rl_top_banner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4">
+            <!--android:layout_weight="0.4"-->
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/main_top_view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:id="@+id/vpindicator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal|bottom"
+                android:orientation="horizontal" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/rl_center_menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.411"
+            android:orientation="horizontal"
+            >
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/menu_recycler_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+          />
+
+            <LinearLayout
+                android:id="@+id/ll_banner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+                <ImageView
+                    android:id="@+id/iv_up_pic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{model::onLeftClick}"
+                    android:scaleType="fitXY"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_down_pic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{()->model.onRightClick()}"
+                    android:scaleType="fitXY" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_ad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="0.09"
+            android:background="@color/home_transparent"
+            android:onClick="@{()->model.onM2Click()}"
+            android:scaleType="fitXY" />
+        <!--android:layout_weight="0.09"-->
+
+    </LinearLayout>
+
+
+</layout>

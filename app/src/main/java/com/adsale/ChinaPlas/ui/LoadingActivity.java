@@ -7,9 +7,9 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.graphics.Point;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -45,6 +45,7 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
     private LoadingViewModel mLoadingModel;
     private LoadingReceiver mReceiver;
     private ActivityLoadingBinding binding;
+    private boolean isTablet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,9 +96,19 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
     }
 
     private void setDeviceType() {
-        boolean isTablet = getResources().getBoolean(R.bool.isTablet);
+        isTablet = getResources().getBoolean(R.bool.isTablet);
         LogUtil.i(TAG, "isTablet=" + isTablet);
         mConfigSP.edit().putBoolean("isTablet", isTablet).apply();
+        if (isTablet) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
         if (isTablet) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         } else {
@@ -113,7 +124,29 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
         int width = point.x;
         int height = point.y;
         LogUtil.i(TAG, "device 的宽高为：width=" + width + ",height=" + height + ",displayHeight=" + displayHeight);
-        mConfigSP.edit().putInt(Constant.SCREEN_WIDTH, width).putInt(SCREEN_HEIGHT, height).putInt(Constant.DISPLAY_HEIGHT, displayHeight).apply();
+
+        if (isTablet) {
+            LogUtil.i(TAG, "isTablet");
+            int contentWidth = (1840 * height) / 1536; // 2014*1536是设计图的尺寸； 1840*1536 是中间内容的尺寸。
+            int leftMargin = (width - contentWidth) / 2;
+            LogUtil.i(TAG, "leftMargin = " + leftMargin);
+            LogUtil.i(TAG, "screenWidth =" + width + ",contentWidth=" + contentWidth);
+
+            float screenWidthRate = ((float) width / 2048f); // 实际屏幕宽度 比 主界面设计图片宽度 。这样在计算显示宽度时只需用 图片宽度 * rate 即为需要的宽度
+            LogUtil.i(TAG, "screenWidthRate = " + screenWidthRate);
+            float heightRate = (float) height / 1536f;
+            LogUtil.i(TAG, "heightRate = " + heightRate);
+//            width = width - leftMargin * 2;
+//            LogUtil.i(TAG, "new mScreenWidth = " + width);
+            width = contentWidth;
+            LogUtil.i(TAG, "mScreenHeight = " + height);
+
+            mConfigSP.edit().putInt(Constant.PAD_LEFT_MARGIN, leftMargin).putFloat("PadWidthRate", screenWidthRate).putFloat("PadHeightRate", heightRate).apply();
+        }
+
+        mConfigSP.edit().putInt(Constant.SCREEN_WIDTH, width).putInt(SCREEN_HEIGHT, height)
+                .putInt(Constant.DISPLAY_HEIGHT, displayHeight)
+                .apply();
     }
 
     private void requestPermission() {
@@ -187,8 +220,15 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
     public void intent(String companyId) {
         LogUtil.i(TAG, ")))) ALL END ,GO AHEAD");
         mConfigSP.edit().putBoolean("M1ShowFinish", false).putBoolean("txtDownFinish", false).putBoolean("webServicesDownFinish", false).putString("M1ClickId", "").apply();
-        Intent i = new Intent(this, companyId.isEmpty() ? MainActivity.class : ExhibitorActivity.class);
-        startActivity(i);
+        if (AppUtil.isTablet()) {
+            Intent i = new Intent(this, companyId.isEmpty() ? PadMainActivity.class : ExhibitorActivity.class);
+            startActivity(i);
+        } else {
+            Intent i = new Intent(this, companyId.isEmpty() ? MainActivity.class : ExhibitorActivity.class);
+            startActivity(i);
+        }
+
+
         mLoadingModel.unSubscribe();
         finish();
     }

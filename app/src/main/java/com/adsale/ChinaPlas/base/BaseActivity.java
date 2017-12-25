@@ -2,6 +2,8 @@ package com.adsale.ChinaPlas.base;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
@@ -15,6 +17,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -57,11 +60,13 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
 
     protected int mToolbarBackgroundRes = R.drawable.inner_header;
     protected int mScreenWidth;
+    protected int mScreenHeight;
     protected boolean isTablet;
     protected String mBaiduTJ;
     private String eventName;
     protected String mTypePrefix;
     private Window window;
+    private int leftMargin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,11 +78,17 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
 
         mDBHelper = App.mDBHelper;
         isTablet = AppUtil.isTablet();
+        if (isTablet) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
         mNavViewModel = new NavViewModel(getApplicationContext());
-
-        mScreenWidth = App.mSP_Config.getInt(Constant.SCREEN_WIDTH, 0);
-
+        setContentWidth();
         preView();
+
+        LogUtil.i(TAG, "mScreenWidth=" + mScreenWidth);
+        LogUtil.i(TAG, "mScreenHeight=" + mScreenHeight);
         initToolbar();
         initView();
 
@@ -90,6 +101,14 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
         initDrawer();
     }
 
+    private void setContentWidth() {
+        mScreenWidth = AppUtil.getScreenWidth();
+        mScreenHeight = AppUtil.getScreenHeight();
+        if(isTablet){
+            leftMargin=AppUtil.getPadLeftMargin();
+        }
+    }
+
     protected void setBarTitle(int resId) {
         if (TextUtils.isEmpty(barTitle.get())) {
             barTitle.set(getString(resId));
@@ -98,6 +117,11 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
 
     private void initDrawer() {
         mDrawerLayout = mBaseBinding.drawerLayout;
+        if(isTablet){
+            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(mScreenWidth,mScreenHeight);
+            layoutParams.gravity= Gravity.CENTER_HORIZONTAL;
+            mDrawerLayout.setLayoutParams(layoutParams);
+        }
         mDrawerLayout.setStatusBarBackground(R.color.colorPrimaryDark);
         mDrawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
@@ -139,12 +163,15 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
     private void initToolbar() {
         RelativeLayout rlToolbar = mBaseBinding.layoutTitleBar.rlToolbar;
         rlToolbar.setBackgroundResource(mToolbarBackgroundRes);
-
-        int height = (mScreenWidth * 68) / 320; /* Toolbar图片尺寸：320*68 */
-        App.mSP_Config.edit().putInt(Constant.TOOLBAR_HEIGHT, height).apply();
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mScreenWidth, height);
+        int toolbarHeight;
+        if (AppUtil.isTablet()) {
+            toolbarHeight = (mScreenWidth * Constant.PAD_HEADER_HEIGHT) / Constant.PAD_CONTENT_WIDTH;
+        } else {
+            toolbarHeight = (mScreenWidth * Constant.PHONE_HEADER_HEIGHT) / Constant.PHONE_HEADER_WIDTH; /* Toolbar图片尺寸：320*68 */
+        }
+        App.mSP_Config.edit().putInt(Constant.TOOLBAR_HEIGHT, toolbarHeight).apply();
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mScreenWidth, toolbarHeight);
         rlToolbar.setLayoutParams(params);
-
         setStatusBar();
     }
 
@@ -160,8 +187,8 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
                 window.setNavigationBarColor(getResources().getColor(R.color.home_transparent));
             } else {
                 window.setNavigationBarColor(getResources().getColor(R.color.home_nav_bar));
-                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE|View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        |View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
             }
         }
     }
@@ -289,6 +316,12 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
      */
     public String setEventName(String prefix) {
         return prefix.concat("_").concat(AppUtil.getLanguageType()).concat("_Android");
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        AppUtil.switchLanguage(getApplicationContext(),AppUtil.getCurLanguage());
     }
 
     @Override

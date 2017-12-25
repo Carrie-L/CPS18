@@ -38,7 +38,9 @@ import java.util.List;
 
 import static android.content.ContentValues.TAG;
 import static com.adsale.ChinaPlas.utils.Constant.MAIN_TOP_BANNER_HEIGHT;
+import static com.adsale.ChinaPlas.utils.Constant.MAIN_TOP_BANNER_HEIGHT_PAD;
 import static com.adsale.ChinaPlas.utils.Constant.MAIN_TOP_BANNER_WIDTH;
+import static com.adsale.ChinaPlas.utils.Constant.PAD_CONTENT_WIDTH;
 
 
 /**
@@ -81,11 +83,13 @@ public class MainViewModel {
     private Intent intent;
     private ArrayList<MainIcon> allIcons = new ArrayList<>();
     public String m2LargeUrl;
+    private boolean isTablet;
 
     public MainViewModel(Context mContext, OnIntentListener listener) {
         this.mContext = mContext;
         this.mIntentListener = listener;
         mRepository = MainIconRepository.getInstance();
+        isTablet = AppUtil.isTablet();
     }
 
     public void init(ViewPager viewPager, LinearLayout vpindicator, ImageView adPic, NavViewModel navViewModel) {
@@ -98,19 +102,32 @@ public class MainViewModel {
 
     public MainPic parseMainInfo() {
         mainPic = Parser.parseJsonFilesDirFile(MainPic.class, Constant.TXT_MAIN_PIC_INFO);
-        App.mSP_Config.edit().putString("MainIconBaseUrl",mainPic.IconPath).apply();
+        App.mSP_Config.edit().putString("MainIconBaseUrl", mainPic.IconPath).apply();
         return mainPic;
+    }
+
+    private RelativeLayout rlTopBanner;
+    public void setPadTopBanner(RelativeLayout rlBanner){
+        rlTopBanner=rlBanner;
     }
 
     public void setTopPics() {
         topPics = new ArrayList<>();
         topBannerSize = mainPic.TopBanners.size();
-        screenWidth = App.mSP_Config.getInt(Constant.SCREEN_WIDTH, 0);
+        screenWidth = AppUtil.getScreenWidth();
         /* top banner 图片默认尺寸设为：647*281 */
-        topHeight = (screenWidth * MAIN_TOP_BANNER_HEIGHT) / MAIN_TOP_BANNER_WIDTH;
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(screenWidth, topHeight);
-        params.topMargin = 0;
-        viewPager.setLayoutParams(params);
+        topHeight = isTablet ? (screenWidth * MAIN_TOP_BANNER_HEIGHT_PAD) / PAD_CONTENT_WIDTH :
+                (screenWidth * MAIN_TOP_BANNER_HEIGHT) / MAIN_TOP_BANNER_WIDTH;
+        LogUtil.i(TAG,"screenWidth="+screenWidth+",topHeight = "+(screenWidth * MAIN_TOP_BANNER_HEIGHT_PAD) / PAD_CONTENT_WIDTH);
+        if(isTablet){
+            topHeight =  (screenWidth * MAIN_TOP_BANNER_HEIGHT_PAD) / PAD_CONTENT_WIDTH;
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(screenWidth, topHeight);
+            rlTopBanner.setLayoutParams(params);
+        }else{
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(screenWidth, topHeight);
+            params.topMargin = 0;
+            viewPager.setLayoutParams(params);
+        }
 
         if (topBannerSize > 1) {
              /* 设置单个小圆点尺寸 */
@@ -155,11 +172,13 @@ public class MainViewModel {
             binding.setModel(this);
             binding.setPos(i);
             ivTop = binding.imageView;
-
-            LogUtil.i(TAG, "banners.TC.BannerImage=" + banners.TC.BannerImage);
-
-            Glide.with(mContext).load(Uri.parse(navViewModel.mCurrLang.get() == 0 ? banners.TC.BannerImage : navViewModel.mCurrLang.get() == 1 ? banners.EN.BannerImage : banners.SC.BannerImage)).into(ivTop);
-
+            if (isTablet) {
+                LogUtil.i(TAG, "banners.TC.BannerImage=" + banners.TC.BannerImage_Pad);
+                Glide.with(mContext).load(Uri.parse(navViewModel.mCurrLang.get() == 0 ? banners.TC.BannerImage_Pad : navViewModel.mCurrLang.get() == 1 ? banners.EN.BannerImage_Pad : banners.SC.BannerImage_Pad)).into(ivTop);
+            } else {
+                LogUtil.i(TAG, "banners.TC.BannerImage=" + banners.TC.BannerImage);
+                Glide.with(mContext).load(Uri.parse(navViewModel.mCurrLang.get() == 0 ? banners.TC.BannerImage : navViewModel.mCurrLang.get() == 1 ? banners.EN.BannerImage : banners.SC.BannerImage)).into(ivTop);
+            }
             if (i == 0) {// 第一张图加倒计时
                 TextView tvCDD = binding.tvCdd;
                 long diff = AppUtil.getShowCountDown();
@@ -195,7 +214,11 @@ public class MainViewModel {
         adHelper = new ADHelper(mContext);
         adObj = adHelper.getAdObj();
            /* M2广告图片尺寸：640*100 */
-        adHeight = (screenWidth * 100) / 640;
+        if (!isTablet) {
+            adHeight = (screenWidth * 100) / 640;
+        } else {
+            adHeight = (screenWidth * 140) / 1840;
+        }
         LogUtil.i(TAG, "adHeight=" + adHeight);
         LinearLayout.LayoutParams adParams = new LinearLayout.LayoutParams(screenWidth, adHeight);
         adPic.setLayoutParams(adParams);

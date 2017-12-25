@@ -55,8 +55,6 @@ public class MainActivity extends BaseActivity {
         permissionSD();
         isLogin = AppUtil.isLogin();
         setFragment();
-
-
         helpPage();
 
         OtherRepository repository = OtherRepository.getInstance();

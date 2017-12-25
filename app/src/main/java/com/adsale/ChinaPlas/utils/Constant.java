@@ -10,17 +10,36 @@ public class Constant {
     /**
      * --------------------- 图片尺寸---------------------------------------
      **/
+    /* toolbar 图片尺寸 */
+    public static final int PHONE_HEADER_WIDTH = 320;
+    public static final int PHONE_HEADER_HEIGHT = 68;
+
+    public static final int PAD_CONTENT_WIDTH = 1840; // 平板内容宽度 1840.没有特意指明的则主界面平板宽度都为这个值
+    public static final int PAD_HEADER_HEIGHT = 148;
+
     /* 主界面menu */
     public static final int MAIN_MENU_WIDTH = 115;
     public static final int MAIN_MENU_HEIGHT = 120;
 
+    public static final int MAIN_MENU_WIDTH_PAD = 408;
+    public static final int MAIN_MENU_HEIGHT_PAD = 288;
+
     /* 主界面top banner */
     public static final int MAIN_TOP_BANNER_WIDTH = 345;
     public static final int MAIN_TOP_BANNER_HEIGHT = 158;
+    public static final int MAIN_TOP_BANNER_HEIGHT_PAD = 616;
+
+    /* M2 */
+    public static final int M2_WIDTH = 640;
+    public static final int M2_HEIGHT = 100;
+    public static final int M2_HEIGHT_PAD = 140;
 
     /* 主界面icon */
     public static final int MENU_ICON_SIZE = 90;// 90 * 90
+    public static final int MENU_ICON_SIZE_PAD = 150;// 90 * 90
 
+    public static final int PAD_RIGHT_BANNER_WIDTH = 560;// 560*288
+    public static final int PAD_TOP_MARGIN = 16;// 560*288
 
     /**
      * ---------------------Config 配置信息---------------------------------------
@@ -38,6 +57,7 @@ public class Constant {
     public static final String SCREEN_HEIGHT = "ScreenHeight";
     public static final String DISPLAY_HEIGHT = "DisplayHeight";//不包括状态栏的高度
     public static final String TOOLBAR_HEIGHT = "ActionBarHeight";
+    public static final String PAD_LEFT_MARGIN = "PadLeftMargin";
 
 
     //-------------------MainIcon的最后更新时间----------------

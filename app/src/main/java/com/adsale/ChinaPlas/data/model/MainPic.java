@@ -76,6 +76,7 @@ public class MainPic implements Parcelable {
 
     public static class Property implements Parcelable {
         public String BannerImage;
+        public String BannerImage_Pad;
         public String Function;
         public String InnerPage;
         public String Link;

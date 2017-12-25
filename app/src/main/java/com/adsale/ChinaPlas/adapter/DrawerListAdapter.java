@@ -11,6 +11,7 @@ import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.CpsBaseAdapter;
 import com.adsale.ChinaPlas.dao.MainIcon;
 import com.adsale.ChinaPlas.ui.MainActivity;
+import com.adsale.ChinaPlas.ui.PadMainActivity;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.viewmodel.NavViewModel;
 
@@ -64,7 +65,7 @@ public class DrawerListAdapter extends CpsBaseAdapter<MainIcon> {
             showChild(entity);
         } else {
             Intent intent = navViewModel.intent((Activity) mContext, entity);
-            if (intent != null && !(mContext instanceof MainActivity)) {
+            if (intent != null && (!(mContext instanceof MainActivity) || !(mContext instanceof PadMainActivity) )) {
                 ((Activity) mContext).finish();
             }
         }
