@@ -1,16 +1,16 @@
 package com.adsale.ChinaPlas.ui;
 
 import android.content.Intent;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.TextAdapter;
 import com.adsale.ChinaPlas.base.BaseActivity;
-import com.adsale.ChinaPlas.dao.Country;
 import com.adsale.ChinaPlas.dao.Floor;
-import com.adsale.ChinaPlas.dao.Hall;
 import com.adsale.ChinaPlas.data.FilterRepository;
 import com.adsale.ChinaPlas.data.model.ExhibitorFilter;
 import com.adsale.ChinaPlas.utils.LogUtil;
@@ -28,11 +28,18 @@ public class FilterHallListActivity extends BaseActivity {
     private ArrayList<ExhibitorFilter> filters;
 
     @Override
+    protected void preView() {
+        super.preView();
+        isChangeTitleHomeIcon=true;
+    }
+
+    @Override
     protected void initView() {
         View view = getLayoutInflater().inflate(R.layout.activity_filter_hall, mBaseFrameLayout, true);
         recyclerView = (RecyclerView) view.findViewById(R.id.hall_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
     }
 
     @Override
@@ -70,13 +77,22 @@ public class FilterHallListActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
+        filters.clear();
         setResultData();
         super.onBackPressed();
     }
 
     @Override
     public void back() {
+        filters.clear();
         setResultData();
         super.back();
+    }
+
+    @Override
+    protected void onReplaceHomeClick() {
+        super.onReplaceHomeClick();
+        setResultData();
+        finish();
     }
 }

@@ -10,18 +10,17 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white">
+        >
 
         <RelativeLayout
             android:id="@+id/iv_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/drawer_top_bg_color"
-            android:paddingTop="24dp"
             android:paddingBottom="16dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            >
+            android:paddingTop="24dp">
 
             <ImageView
                 android:id="@+id/iv_user"
@@ -54,18 +53,21 @@
                 android:onClick="logout"
                 android:text="@{navModel.drawerLogout}"
                 android:textColor="#fff"
+                android:textSize="14sp"
                 android:visibility="@{navModel.isLoginSuccess?View.VISIBLE:View.GONE}" />
-
+            <!-- 注意：此处特设android:textSize="14sp".若为16sp，平板文字会显示不全  -->
             <Button
                 android:id="@+id/btn_login"
                 android:layout_width="163dp"
-                android:layout_height="36dp"
+                android:layout_height="38dp"
                 android:layout_alignLeft="@id/tv_user_login"
                 android:layout_below="@id/tv_user_login"
                 android:background="@{navModel.isLoginSuccess?@drawable/ic_drawer_sync:@drawable/ic_drawer_login}"
+                android:gravity="center"
                 android:onClick="@{navModel.isLoginSuccess?navModel::sync:navModel::login}"
                 android:text="@{navModel.drawerLoginOrSync}"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textSize="14sp" />
 
         </RelativeLayout>
 

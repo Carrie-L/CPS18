@@ -3,12 +3,13 @@ package com.adsale.ChinaPlas.ui;
 import android.content.Intent;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.widget.LinearLayout;
 
-import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.adapter.IndustryAdapter;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.dao.Industry;
@@ -16,6 +17,7 @@ import com.adsale.ChinaPlas.data.FilterRepository;
 import com.adsale.ChinaPlas.data.model.ExhibitorFilter;
 import com.adsale.ChinaPlas.databinding.ActivityFilterIndustryBinding;
 import com.adsale.ChinaPlas.ui.view.SideLetter;
+import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.RecyclerViewScrollTo;
 
@@ -40,6 +42,12 @@ public class FilterIndustryListActivity extends BaseActivity implements SideLett
     private ArrayList<String> letters = new ArrayList<>();
 
     @Override
+    protected void preView() {
+        super.preView();
+        isChangeTitleHomeIcon = true;
+    }
+
+    @Override
     protected void initView() {
         ActivityFilterIndustryBinding binding = ActivityFilterIndustryBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         binding.setAty(this);
@@ -48,6 +56,7 @@ public class FilterIndustryListActivity extends BaseActivity implements SideLett
         layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
         binding.etFilterIndustry.addTextChangedListener(filterWatcher);
     }
 
@@ -68,7 +77,7 @@ public class FilterIndustryListActivity extends BaseActivity implements SideLett
         industries.clear();
         if (industryCaches.isEmpty()) {
             LogUtil.i(TAG, "getIndustries:industryCaches.isEmpty()");
-            industryCaches = mRepository.getIndustries(App.mLanguage.get(), letters);
+            industryCaches = mRepository.getIndustries(AppUtil.getCurLanguage(), letters);
         }
         industries.addAll(industryCaches);
         LogUtil.i(TAG, "industryCaches=" + industryCaches.size() + "," + industryCaches.toString());
@@ -124,14 +133,23 @@ public class FilterIndustryListActivity extends BaseActivity implements SideLett
 
     @Override
     public void onBackPressed() {
+        filters.clear();
         setResultData();
         super.onBackPressed();
     }
 
     @Override
     public void back() {
+        filters.clear();
         setResultData();
         super.back();
+    }
+
+    @Override
+    protected void onReplaceHomeClick() {
+        super.onReplaceHomeClick();
+        setResultData();
+        finish();
     }
 
     @Override

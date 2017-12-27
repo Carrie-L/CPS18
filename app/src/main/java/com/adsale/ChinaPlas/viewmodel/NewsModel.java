@@ -5,6 +5,7 @@ import com.adsale.ChinaPlas.dao.News;
 import com.adsale.ChinaPlas.dao.NewsDao;
 import com.adsale.ChinaPlas.dao.NewsLink;
 import com.adsale.ChinaPlas.dao.NewsLinkDao;
+import com.adsale.ChinaPlas.utils.AppUtil;
 
 import java.util.ArrayList;
 
@@ -28,7 +29,7 @@ public class NewsModel {
      */
     public ArrayList<News> getNewsList() {
         return (ArrayList<News>) mNewsDao.queryBuilder()
-                .where(NewsDao.Properties.LType.eq(App.mLanguage.get() == 0 ? 1 : App.mLanguage.get() == 2 ? 2 : 3))
+                .where(NewsDao.Properties.LType.eq(AppUtil.getCurLanguage() == 0 ? 1 : AppUtil.getCurLanguage() == 2 ? 2 : 3))
                 .orderDesc(NewsDao.Properties.PublishDate).list();
     }
 

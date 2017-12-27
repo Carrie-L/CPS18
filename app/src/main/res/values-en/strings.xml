@@ -16,7 +16,6 @@
     <string name="title_my_name_card">My Name Card</string>
 
 
-
     <string name="cancel">Cancel</string>
     <string name="confirm">Confirm</string>
     <string name="finish">Finish</string>
@@ -178,7 +177,7 @@
     <string name="category_exhi">Product</string>
     <string name="application_cata">Application Category</string>
     <string name="application_exhi">Application</string>
-    <string name="new_tec_exhi">新技術產品</string>
+    <string name="new_tec_exhi">New Tech</string>
     <string name="info_exhi">Info</string>
     <string name="about_exhi">About</string>
     <string name="about_website">Website：</string>
@@ -478,7 +477,6 @@
     <string name="prompt">Select</string>
 
 
-
     <!-- 登录 -->
     <string name="login_title">Visitor Login</string>
     <string name="login_text1">Please input your visitors pre-registration login information</string>
@@ -645,9 +643,9 @@
     <string name="dc_open">Open</string>
 
     <!--exhibitor dtl-->
-    <string name="exhi_dtl_note_comment">展商評論</string>
-    <string name="exhi_dtl_note_rate">展商評分</string>
-    <string name="exhi_dtl_note_photo">照片</string>
+    <string name="exhi_dtl_note_comment">Comment</string>
+    <string name="exhi_dtl_note_rate">Rate</string>
+    <string name="exhi_dtl_note_photo">Photo</string>
 
     <!--同期活动-->
     <string name="event_btn_all">All</string>

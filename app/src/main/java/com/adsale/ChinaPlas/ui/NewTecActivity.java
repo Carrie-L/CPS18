@@ -160,6 +160,7 @@ public class NewTecActivity extends BaseActivity implements OnIntentListener {
         Intent intent = new Intent(this, NewTecFilterActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivityForResult(intent, 1);
+        overridePendingTransPad();
     }
 
     @Override
@@ -168,6 +169,7 @@ public class NewTecActivity extends BaseActivity implements OnIntentListener {
         intent.putExtra("obj", (NewProductInfo) entity);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        overridePendingTransPad();
     }
 
     @Override

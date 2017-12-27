@@ -2,8 +2,10 @@ package com.adsale.ChinaPlas.ui;
 
 import android.content.Intent;
 import android.databinding.ObservableField;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.LinearLayout;
 
 import com.adsale.ChinaPlas.adapter.CountryAdapter;
 import com.adsale.ChinaPlas.base.BaseActivity;
@@ -50,6 +52,12 @@ public class FilterCountryListActivity extends BaseActivity implements SideLette
     }
 
     @Override
+    protected void preView() {
+        super.preView();
+        isChangeTitleHomeIcon = true;
+    }
+
+    @Override
     protected void initView() {
         ActivityFilterCountryBinding binding = ActivityFilterCountryBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         binding.setAty(this);
@@ -57,6 +65,7 @@ public class FilterCountryListActivity extends BaseActivity implements SideLette
         layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
         sideLetter = binding.sideLetter;
     }
 
@@ -64,7 +73,7 @@ public class FilterCountryListActivity extends BaseActivity implements SideLette
     protected void initData() {
         mRepository = FilterRepository.getInstance();
         mRepository.initCountryDao();
-        mList = mRepository.getCountries( mLetters);
+        mList = mRepository.getCountries(mLetters);
 
         filters = new ArrayList<>();
         CountryAdapter adapter = new CountryAdapter(mList, filters);
@@ -104,15 +113,23 @@ public class FilterCountryListActivity extends BaseActivity implements SideLette
 
     @Override
     public void onBackPressed() {
+        filters.clear();
         setResultData();
         super.onBackPressed();
     }
 
     @Override
     public void back() {
+        filters.clear();
         setResultData();
         super.back();
     }
 
-
+    @Override
+    protected void onReplaceHomeClick() {
+        super.onReplaceHomeClick();
+        LogUtil.i(TAG,"onReplaceHomeClick");
+        setResultData();
+        finish();
+    }
 }

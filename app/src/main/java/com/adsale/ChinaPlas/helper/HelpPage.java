@@ -206,7 +206,7 @@ public class HelpPage {
 
     public void showPageMenu(Context context, boolean check, View.OnClickListener listener) {
         mContext = context;
-        language = App.mLanguage.get();
+        language = AppUtil.getCurLanguage();
         imageIds = getMenuImages();
 
         if (check) {

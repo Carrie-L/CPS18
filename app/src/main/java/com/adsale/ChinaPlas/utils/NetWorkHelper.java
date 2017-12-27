@@ -18,9 +18,13 @@ public class NetWorkHelper {
     private static final String PROJECT_CODE = "CPS18";// scanFile : normal
 //    private static final String PROJECT_CODE = "CPSTEST";// scanFile:  test
 
-    // WEBSERVICE 17年
-    public static final String DOWNLOAD_PATH = "https://eform.adsale.com.hk/AppCPS18Services/";
-    public static final String WEBSERVICEURL = "https://eform.adsale.com.hk/AppCPS18Services/wsCLE15.asmx";
+    // Test service
+//    public static final String DOWNLOAD_PATH = "https://eform.adsale.com.hk/AppCPS18Services/";
+//    public static final String WEBSERVICEURL = "https://eform.adsale.com.hk/AppCPS18Services/wsCLE15.asmx";
+
+    // release service
+    public static final String DOWNLOAD_PATH = "https://eform.adsale.com.hk/AppCPS2018Services/";
+    public static final String WEBSERVICEURL = "https://eform.adsale.com.hk/AppCPS2018Services/wsCLE15.asmx";
 
     public static final String FULL_WEBSITE="http://www.chinaplasonline.com/CPS18/Home/%s/Information.aspx";
     public static final String MOBILE_WEBSITE="http://www.chinaplasonline.com/CPS18/Mobile/%s/Home.aspx";

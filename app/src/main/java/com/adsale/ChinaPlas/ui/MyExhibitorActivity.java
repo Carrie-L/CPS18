@@ -1,10 +1,13 @@
 package com.adsale.ChinaPlas.ui;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.MyExhibitorAdapter;
 import com.adsale.ChinaPlas.base.BaseActivity;
@@ -25,7 +28,7 @@ public class MyExhibitorActivity extends BaseActivity implements OnIntentListene
     private LinearLayoutManager layoutManager;
     private ActivityMyExhibitorBinding binding;
     private MyExhibitorAdapter adapter;
-    private HelpView helpView;
+    private HelpView helpDialog;
 
     @Override
     protected void initView() {
@@ -53,12 +56,22 @@ public class MyExhibitorActivity extends BaseActivity implements OnIntentListene
         adapter = new MyExhibitorAdapter(viewModel.mExhibitors, this);
         recyclerView.setAdapter(adapter);
 
-        showHelpPage();
+        if (HelpView.isFirstShow(HelpView.HELP_PAGE_MY_EXHIBITOR)) {
+            showHelpPage();
+            App.mSP_HP.edit().putInt("HELP_PAGE_" + HelpView.HELP_PAGE_MY_EXHIBITOR, HelpView.HELP_PAGE_MY_EXHIBITOR).apply();
+        }
     }
 
     private void showHelpPage() {
-        helpView = new HelpView(this, HelpView.HELP_PAGE_MY_EXHIBITOR);
-        helpView.showPage();
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment fragment = getFragmentManager().findFragmentByTag("Dialog");
+        if (fragment != null) {
+            ft.remove(fragment);
+        }
+        ft.addToBackStack(null);
+
+        helpDialog = HelpView.newInstance(HelpView.HELP_PAGE_MY_EXHIBITOR);
+        helpDialog.show(ft, "Dialog");
     }
 
     public void onSync() {
@@ -71,7 +84,7 @@ public class MyExhibitorActivity extends BaseActivity implements OnIntentListene
                 public void onClick(DialogInterface dialogInterface, int i) {
                     Intent intent = new Intent(MyExhibitorActivity.this, LoginActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.putExtra("from","MyExhibitor");
+                    intent.putExtra("from", "MyExhibitor");
                     startActivity(intent);
                     overridePendingTransPad();
                 }
@@ -80,7 +93,7 @@ public class MyExhibitorActivity extends BaseActivity implements OnIntentListene
     }
 
     public void onHelpPage() {
-        helpView.show();
+        showHelpPage();
     }
 
     public void onHallMap() {

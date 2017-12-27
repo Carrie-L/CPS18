@@ -292,6 +292,7 @@
     <string name="title_exhibitor_deti">公司資料</string>
     <string name="title_add_note">添加筆記</string>
     <string name="title_add_schedule">添加議程</string>
+    <string name="edit_schedule">編輯議程</string>
     <string name="exhi_dtl_note_comment">展商評論</string>
     <string name="exhi_dtl_note_rate">展商評分</string>
     <string name="exhi_dtl_note_photo">照片</string>

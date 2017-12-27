@@ -82,7 +82,7 @@ public class FilterRepository {
     }
 
     public ArrayList<String> getIndustryLetters() {
-        int language = App.mLanguage.get();
+        int language = AppUtil.getCurLanguage();
         ArrayList<String> list = new ArrayList<>();
         String sql;
         if (language == 0) {
@@ -151,7 +151,7 @@ public class FilterRepository {
         checkAppIndustryDaoNull();
         ArrayList<ApplicationIndustry> list;
         ArrayList<ApplicationIndustry> temps;
-        if (App.mLanguage.get() == 0) {
+        if (AppUtil.getCurLanguage() == 0) {
             list = (ArrayList<ApplicationIndustry>) mAppIndustryDao.queryBuilder().where(new WhereCondition.StringCondition(" TCSTROKE!=\"#\" order by cast(TCSTROKE as int)")).list();
             temps = (ArrayList<ApplicationIndustry>) mAppIndustryDao.queryBuilder().where(new WhereCondition.StringCondition(" TCSTROKE=\"#\" order by cast(TCSTROKE as int)")).list();
         } else {
@@ -205,9 +205,9 @@ public class FilterRepository {
     public ArrayList<Country> getCountries(ArrayList<String> letters) {
         checkCountryDaoNull();
         String sql = "select C.* from COUNTRY C WHERE COUNTRY_ID IN (SELECT DISTINCT COUNTRY_ID FROM EXHIBITOR ) order by ";
-        if (App.mLanguage.get() == 0) {
+        if (AppUtil.getCurLanguage() == 0) {
             sql = sql.concat("cast(SORT_TW as int)");
-        } else if (App.mLanguage.get() == 1) {
+        } else if (AppUtil.getCurLanguage() == 1) {
             sql = sql.concat("SORT_EN");
         } else {
             sql = sql.concat("SORT_CN");
@@ -235,7 +235,7 @@ public class FilterRepository {
      * @return ArrayList<String>
      */
     public ArrayList<String> getCountryLetters() {
-        int language = App.mLanguage.get();
+        int language = AppUtil.getCurLanguage();
         ArrayList<String> list = new ArrayList<>();
         String sql;
         if (language == 0) {

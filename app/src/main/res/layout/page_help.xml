@@ -22,7 +22,7 @@
         android:layout_width="56dp"
         android:layout_height="40dp"
         android:src="@drawable/btn_help_page_close"
-        android:layout_margin="6dp"
+        android:layout_marginTop="12dp"
         android:scaleType="centerInside"
         android:layout_gravity="right|top"
         />

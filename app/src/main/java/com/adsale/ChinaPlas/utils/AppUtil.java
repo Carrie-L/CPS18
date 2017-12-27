@@ -154,7 +154,7 @@ public class AppUtil {
     }
 
     public static String getName(String tc, String en, String sc) {
-        int language = App.mLanguage.get();
+        int language = AppUtil.getCurLanguage();
         if (language == 0) {
             return tc;
         } else if (language == 1) {
@@ -536,11 +536,10 @@ public class AppUtil {
             }
             location = location + "_";
         }
-        int language = App.mLanguage.get();
+        int language = AppUtil.getCurLanguage();
 
-        switch (App.mLanguage.get()) {
+        switch (language) {
             case 1:
-
                 logJson.TrackingName = type + "_" + subType + location + "en_Android";
                 break;
             case 2:
@@ -588,7 +587,7 @@ public class AppUtil {
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         LogUtil.i(TAG, "当前时间为：" + df.format(Calendar.getInstance().getTime()));
-        int curLang = App.mLanguage.get();
+        int curLang = AppUtil.getCurLanguage();
 
         Calendar cal = Calendar.getInstance(Locale.getDefault());
         int zoneOffset = cal.get(Calendar.ZONE_OFFSET);

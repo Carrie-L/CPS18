@@ -2,7 +2,6 @@ package com.adsale.ChinaPlas.utils;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -29,6 +28,7 @@ public class PermissionUtil {
     public static final Integer PMS_CODE_READ_PHONE_STATE=105;//读取手机状态
     public static final Integer PMS_CODE_CAMERA=106; //读取手机状态
     public static final Integer PMS_CODE_CALL_PHONE=107; //拨打电话
+    public static final Integer PMS_CODES=1000; //多个权限一起请求
 
     /**
      * 检查是否有该权限
@@ -42,6 +42,10 @@ public class PermissionUtil {
 
     public static void requestPermission(Activity activity,String permissionType,int requestCode){
         ActivityCompat.requestPermissions(activity, new String[]{permissionType}, requestCode);
+    }
+
+    public static  void requestPermissions(Activity activity,String[] permissionTypes){
+        ActivityCompat.requestPermissions(activity, permissionTypes, PMS_CODES);
     }
 
     public static boolean getGrantResults(int[] grantResults){

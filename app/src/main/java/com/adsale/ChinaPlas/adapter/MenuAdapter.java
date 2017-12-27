@@ -195,7 +195,7 @@ public class MenuAdapter extends CpsBaseAdapter<MainIcon> {
     }
 
     public void onInnerClick(int index, MainIcon entity) {
-        LogUtil.i(TAG, "---onInnerClick: " + index + ", entity=" + entity.getTitle(App.mLanguage.get()) + "," + entity.getBaiDu_TJ());
+        LogUtil.i(TAG, "---onInnerClick: " + index + ", entity=" + entity.getTitle(AppUtil.getCurLanguage()) + "," + entity.getBaiDu_TJ());
         mListener.onIntent(entity, null);
     }
 

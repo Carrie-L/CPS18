@@ -9,6 +9,7 @@ import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.dao.ScheduleInfo;
 import com.adsale.ChinaPlas.databinding.ActivityScheduleItemBinding;
+import com.adsale.ChinaPlas.ui.view.HelpView;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.viewmodel.ScheduleEditViewModel;
@@ -55,6 +56,13 @@ public class ScheduleEditActivity extends BaseActivity implements ScheduleEditVi
             mEditModel.etMinute.set(String.valueOf(scheduleInfo.getMinute()));
             mEditModel.etStartDate.set(scheduleInfo.getStartDate());
             mEditModel.etStartTime.set(scheduleInfo.getStartTime());
+        }
+
+        mEditModel.setFragmentManager(getFragmentManager());
+        if (HelpView.isFirstShow(HelpView.HELP_PAGE_SCHEDULE_DTL)) {
+            mEditModel.showHelpPage();
+            App.mSP_HP.edit().putInt("HELP_PAGE_" + HelpView.HELP_PAGE_SCHEDULE_DTL,
+                    HelpView.HELP_PAGE_SCHEDULE_DTL).apply();
         }
     }
 

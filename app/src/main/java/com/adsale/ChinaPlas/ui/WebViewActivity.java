@@ -159,15 +159,7 @@ public class WebViewActivity extends BaseActivity {
         super.onDestroy();
     }
 
-    @Override
-    public void back() {
-//        if(gIntent.getStringExtra("Type")!=null&&gIntent.getStringExtra("Type").equals(Constant.PUSH_INTENT)){
-//            Intent intent=new Intent(getApplicationContext(),MenuActivity.class);
-//            startActivity(intent);
-//            AppUtil.animBack(this);
-//        }
-        super.back();
-    }
+
 
     public void onBack() {
         if (webView.canGoBack()) {

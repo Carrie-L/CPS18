@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.databinding.ObservableInt;
@@ -15,6 +16,8 @@ import android.support.multidex.MultiDexApplication;
 import com.adsale.ChinaPlas.dao.DBHelper;
 import com.adsale.ChinaPlas.dao.DaoMaster;
 import com.adsale.ChinaPlas.dao.DaoSession;
+import com.adsale.ChinaPlas.dao.TempOpenHelper;
+import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.CrashHandler;
 import com.adsale.ChinaPlas.utils.LogUtil;
@@ -52,7 +55,6 @@ public class App extends MultiDexApplication {
     public SQLiteDatabase db;
     public static String mAppVersion;
     public static int mVersionCode;
-    private long mDiaryId;
     private DaoSession daoSession;
     public static DBHelper mDBHelper;
     public static String DB_PATH = "";// 在手机里存放数据库的位置
@@ -64,6 +66,7 @@ public class App extends MultiDexApplication {
     public static OkHttpClient mOkHttpClient;
 
     public static final ObservableInt mLanguage = new ObservableInt();
+    private TempOpenHelper mTempOpenHelper;
 
     //    public static String memoryFileDir;
 
@@ -73,6 +76,7 @@ public class App extends MultiDexApplication {
         initCrashHandle();
         initSP();
         resources = getResources();
+
         DB_PATH = "/data" + Environment.getDataDirectory().getAbsolutePath() + "/" + getPackageName() + "/databases";
 
         mConnectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -99,6 +103,13 @@ public class App extends MultiDexApplication {
         mSP_HP = getSharedPreferences(Constant.SP_HP, MODE_PRIVATE);
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // 必不可少。否則平板多語言會混亂
+        AppUtil.switchLanguage(getApplicationContext(), AppUtil.getCurLanguage());
+    }
+
     private void initCrashHandle() {
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(getApplicationContext());
@@ -118,16 +129,6 @@ public class App extends MultiDexApplication {
 
     private void getDbHelper() {
         mDBHelper = new DBHelper.Builder(getDaoSession(), daoMaster, db).build();
-    }
-
-    private void checkUpdateDB() {
-        boolean hasUpdate = mSP_Config.getBoolean("DB_UPDATE", false);
-        if (hasUpdate) {
-//            updateDB();
-            if (mDiaryId > 0) {//因为id从1开始自增，所以如果插入成功，返回的id一定是大于0的
-                mSP_Config.edit().putBoolean("DB_UPDATE", false).apply();
-            }
-        }
     }
 
     public static SQLiteDatabase openDatabase(String dbfile) {
@@ -182,7 +183,6 @@ public class App extends MultiDexApplication {
         daoMaster = new DaoMaster(db);
         return daoMaster;
     }
-
 
     public void finish() {
         finish();

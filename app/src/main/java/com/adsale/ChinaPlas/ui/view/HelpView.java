@@ -1,15 +1,16 @@
 package com.adsale.ChinaPlas.ui.view;
 
-import android.content.Context;
+import android.app.DialogFragment;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -17,7 +18,6 @@ import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.AdViewPagerAdapter;
 import com.adsale.ChinaPlas.utils.AppUtil;
-import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.DisplayUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.bumptech.glide.Glide;
@@ -26,8 +26,6 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by Carrie on 2017/11/7.
@@ -42,12 +40,12 @@ import static android.content.ContentValues.TAG;
  * <br>helpView.show();
  */
 
-public class HelpView extends AlertDialog implements View.OnClickListener {
+public class HelpView extends DialogFragment implements View.OnClickListener {
     private Integer[] imageIds;
-    private Context mContext;
     private View mView;
     private ViewPager viewPagerHelp;
     private LinearLayout mLlPoint;
+    private final static String TAG = "HelpView";
 
     public final static int HELP_PAGE_MAIN = 0;
     public final static int HELP_PAGE_EXHIBITOR_DTL = 1;
@@ -65,34 +63,43 @@ public class HelpView extends AlertDialog implements View.OnClickListener {
     private int mPageType;
 
     private View.OnClickListener mCloseListener;
-    private AdViewPagerAdapter mPagerAdapter;
+    private Window window;
 
-    /**
-     * @param context activity
-     * @param page    HELP_PAGE_MAIN|...
-     */
-    public HelpView(@NonNull Context context, int page) {
-        super(context, R.style.transparentDialog);
-        this.mContext = context;
-        mPageType = page;
+    public HelpView() {
     }
 
-    public HelpView(@NonNull Context context, int page, View.OnClickListener listener) {
-        super(context, R.style.transparentDialog);
-        this.mContext = context;
-        mPageType = page;
+    /**
+     * @param page HELP_PAGE_MAIN|...
+     */
+    public static HelpView newInstance(int page) {
+        LogUtil.i(TAG, "newInstance: page=" + page);
+        HelpView hv = new HelpView();
+        Bundle args = new Bundle();
+        args.putInt("page", page);
+        hv.setArguments(args);
+        return hv;
+    }
+
+    public void setCloseListener(View.OnClickListener listener) {
         mCloseListener = listener;
     }
 
     private void initView() {
         viewPagerHelp = mView.findViewById(R.id.helpVP);
-        mLlPoint =  mView.findViewById(R.id.vpindicator);
+        mLlPoint = mView.findViewById(R.id.vpindicator);
         if (mCloseListener != null) {
             mView.findViewById(R.id.btn_help_page_close).setOnClickListener(mCloseListener);
         } else {
-            mView. findViewById(R.id.btn_help_page_close).setOnClickListener(this);
+            mView.findViewById(R.id.btn_help_page_close).setOnClickListener(this);
         }
         setCancelable(false);
+
+        int height = AppUtil.getScreenHeight();
+        int width = AppUtil.isTablet() ? (1024 * height / 767) : AppUtil.getScreenWidth();
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(width, height);
+        params.gravity = Gravity.CENTER_HORIZONTAL;
+        mView.findViewById(R.id.frameLayout_help).setLayoutParams(params);
+        viewPagerHelp.setLayoutParams(params);
     }
 
     private void generatePage() {
@@ -103,20 +110,15 @@ public class HelpView extends AlertDialog implements View.OnClickListener {
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.diskCacheStrategy(DiskCacheStrategy.NONE);
         requestOptions.skipMemoryCache(true);
-        int sw = AppUtil.getScreenWidth();
-        int height = (sw*1136)/640;
-        LogUtil.i(TAG,"height="+height);
-        requestOptions.override(sw, height);
-//        requestOptions.fitCenter();
         for (int i = 0; i < length; i++) {
-            ImageView imageView = new ImageView(mContext);
+            ImageView imageView = new ImageView(getActivity());
             imageView.setAdjustViewBounds(true);
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            Glide.with(mContext).load(imageIds[i]).apply(requestOptions).into(imageView);
+            Glide.with(getActivity()).load(imageIds[i]).apply(requestOptions).into(imageView);
             helpPages.add(imageView);
         }
         setPoint(length);
-        mPagerAdapter = new AdViewPagerAdapter(helpPages);
+        AdViewPagerAdapter mPagerAdapter = new AdViewPagerAdapter(helpPages);
         viewPagerHelp.setAdapter(mPagerAdapter);
         viewPagerHelp.addOnPageChangeListener(new HelpPageChangeListener());
     }
@@ -124,14 +126,14 @@ public class HelpView extends AlertDialog implements View.OnClickListener {
     private void setPoint(int length) {
         if (length > 1) {
             // 几个圆点
-            int width = DisplayUtil.dip2px(mContext, 8);
+            int width = DisplayUtil.dip2px(getActivity(), 8);
             LinearLayout.LayoutParams ind_params = new LinearLayout.LayoutParams(width, width);
-            ind_params.setMargins(width, width, 0, width * 4);
+            ind_params.setMargins(width, width, 0, width * 2);
             ImageView iv;
             mLlPoint.removeAllViews();
 
             for (int i = 0; i < length; ++i) {
-                iv = new ImageView(mContext);
+                iv = new ImageView(getActivity());
                 if (i == 0) {
                     iv.setBackgroundResource(R.drawable.dot_focused);
                 } else
@@ -180,43 +182,51 @@ public class HelpView extends AlertDialog implements View.OnClickListener {
         imageIds = new Integer[]{R.drawable.help_1, R.drawable.help_2, R.drawable.help_3, R.drawable.help_4, R.drawable.help_5, R.drawable.help_6};
     }
 
+
     /**
      * 初次进入页面时，如果帮助页面没有显示过，则自动显示，否则要按？按钮才显示。
      * 这里判断是否是初次进入这个页面，如果显示过了，mSP_HP中保存pageType，肯定不等于-1.   true，则显示，false不显示
      *
      * @return
      */
-    public boolean isFirstShow() {
-        return App.mSP_HP.getInt(HELP_PAGE + mPageType, -1) != mPageType;
+    public static boolean isFirstShow(int pageType) {
+        LogUtil.i(TAG, "pageType=" + pageType + ",SP pageTyp=" + App.mSP_HP.getInt(HELP_PAGE + pageType, -1));
+        return App.mSP_HP.getInt(HELP_PAGE + pageType, -1) != pageType;
     }
 
     private void setHelpPageShowed() {
+        LogUtil.i(TAG, "setHelpPageShowed:mPageType=" + mPageType);
         App.mSP_HP.edit().putInt(HELP_PAGE + mPageType, mPageType).apply();
     }
 
     public boolean showPage() {
-        if (isFirstShow()) {
-            show();
-            setHelpPageShowed();
-            return true;
-        }
-        return false;
+        setHelpPageShowed();
+        return true;
     }
 
     public void openMainHelpPage() {
-        show();
         App.mSP_HP.edit().putBoolean("HELP_PAGE_OPEN_MAIN", false).apply();
     }
 
     @Override
     public void onClick(View v) {
         LogUtil.i(TAG, "onClick");
-        cancel();
-    }
 
-    public void dismissDialog() {
-        LogUtil.i(TAG, "dismissDialog");
-        cancel();
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+//            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+//            window.setStatusBarColor(Color.TRANSPARENT);
+//            window.setNavigationBarColor(getResources().getColor(R.color.home_nav_bar));
+//            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+//                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+//        }
+
+
+        dismiss();
+
+
     }
 
     private class HelpPageChangeListener implements ViewPager.OnPageChangeListener {
@@ -243,27 +253,54 @@ public class HelpView extends AlertDialog implements View.OnClickListener {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mView = LayoutInflater.from(mContext).inflate(R.layout.page_help,null);
-        setContentView(mView);
+        mPageType = getArguments().getInt("page");
+        setStyle(STYLE_NO_TITLE, R.style.transparentDialog);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        mView = LayoutInflater.from(getActivity()).inflate(R.layout.page_help, container, false);
         initView();
         getImageIds();
         generatePage();
+        return mView;
+    }
 
-        Window window = getWindow();
-        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    private void setPadWindow() {
+        window = getDialog().getWindow();
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);// 加了这个就闪现一个顶部黑条, 不加7.1平板帮助页就无法全屏显示
+        mView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (AppUtil.isTablet()) {
+            setPadWindow();
+        } else {
+            setPhoneWindow();
+        }
+    }
+
+    private void setPhoneWindow() {
+        window = getDialog().getWindow();
+        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         WindowManager.LayoutParams wl = window.getAttributes();
         wl.x = 0;
         wl.y = 0;
-        wl.height = App.mSP_Config.getInt(Constant.SCREEN_HEIGHT, 0);
-        wl.width = App.mSP_Config.getInt(Constant.SCREEN_WIDTH, 0);
+        wl.height = AppUtil.getScreenHeight();
+        wl.width = AppUtil.getScreenWidth();
         wl.gravity = Gravity.TOP;
         window.setAttributes(wl);
-
-        mView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE|View.SYSTEM_UI_FLAG_HIDE_NAVIGATION|View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-        |View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-
+        mView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
     }
+
 
 }

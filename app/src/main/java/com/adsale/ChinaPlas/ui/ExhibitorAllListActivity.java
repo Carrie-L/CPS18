@@ -114,6 +114,7 @@ public class ExhibitorAllListActivity extends BaseActivity implements OnItemClic
         mExhibitorModel.isFiltering = true;
         Intent intent = new Intent(this, toCls);
         startActivityForResult(intent, REQUEST_FILTER);
+        overridePendingTransPad();
     }
 
     @Override
@@ -138,8 +139,6 @@ public class ExhibitorAllListActivity extends BaseActivity implements OnItemClic
             LogUtil.i(TAG, "mExhibitorModel.letters= " + mExhibitorModel.mLetters.size() + "," + mExhibitorModel.mLetters.toString());
         } else if (requestCode == REQUEST_COLLECT) {
             boolean isCollected = data.getBooleanExtra("isCollected", false);
-            LogUtil.i(TAG, "list.isCollected=" + mEntity.isCollected.get());
-            LogUtil.i(TAG, "data.getBooleanExtra(\"isCollected\",false)=" + isCollected);
             if (mEntity != null && isCollected != mEntity.isCollected.get()) {
                 mEntity.isCollected.set(isCollected);
                 mExhibitorModel.mExhibitors.set(position, mEntity);
@@ -168,6 +167,7 @@ public class ExhibitorAllListActivity extends BaseActivity implements OnItemClic
         if (!TextUtils.isEmpty(date)) {
             intent = new Intent(ExhibitorAllListActivity.this, ScheduleEditActivity.class);
             intent.putExtra("date", date);
+            intent.putExtra("title",getString(R.string.title_add_schedule));
             intent.putExtra(Constant.INTENT_EXHIBITOR, (Exhibitor) entity);
             startActivity(intent);
             finish();

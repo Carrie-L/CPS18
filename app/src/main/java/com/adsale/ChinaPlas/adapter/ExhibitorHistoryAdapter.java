@@ -8,9 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.dao.HistoryExhibitor;
+import com.adsale.ChinaPlas.utils.AppUtil;
 
 import java.util.ArrayList;
 
@@ -35,7 +35,7 @@ public class ExhibitorHistoryAdapter extends RecyclerView.Adapter<ViewHolder>{
 	public ExhibitorHistoryAdapter(Context context, ArrayList<HistoryExhibitor> lists) {
 		this.mContext=context;
 		this.lists=lists;
-		currLang= App.mLanguage.get();
+		currLang= AppUtil.getCurLanguage();
 		inflater= LayoutInflater.from(mContext);
 	}
 	

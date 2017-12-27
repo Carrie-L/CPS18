@@ -22,7 +22,6 @@ import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.adapter.MenuAdapter;
 import com.adsale.ChinaPlas.dao.MainIcon;
 import com.adsale.ChinaPlas.data.OnIntentListener;
-import com.adsale.ChinaPlas.data.OtherRepository;
 import com.adsale.ChinaPlas.data.model.MainPic;
 import com.adsale.ChinaPlas.data.model.adAdvertisementObj;
 import com.adsale.ChinaPlas.databinding.FragmentMainBinding;
@@ -206,22 +205,6 @@ public class MainFragment extends Fragment implements OnIntentListener {
             if (intent == null) {
                 return;
             }
-            startActivity(intent);
-        }
-    }
-
-
-    /**
-     * 如果有更新，跳转到更新中心页面
-     */
-    private void intentToUpdateCenter() {
-        LogUtil.i(TAG, "intentToUpdateCenter");
-        OtherRepository repository = OtherRepository.getInstance();
-        repository.initUpdateCenterDao();
-        int uc_count = repository.getNeedUpdatedCount();
-        if (uc_count > 0) {
-            Intent intent = new Intent(getActivity(), UpdateCenterActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
     }

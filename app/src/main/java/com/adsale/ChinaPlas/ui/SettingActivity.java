@@ -78,8 +78,8 @@ public class SettingActivity extends BaseActivity {
 
     public void onLinkWebsite() {
         final String[] items = getResources().getStringArray(R.array.url_ver);
-        final String[] urls = new String[]{String.format(NetWorkHelper.FULL_WEBSITE, AppUtil.getUrlLangType(App.mLanguage.get())),
-                String.format(NetWorkHelper.MOBILE_WEBSITE, AppUtil.getUrlLangType(App.mLanguage.get()))};
+        final String[] urls = new String[]{String.format(NetWorkHelper.FULL_WEBSITE, AppUtil.getUrlLangType(AppUtil.getCurLanguage())),
+                String.format(NetWorkHelper.MOBILE_WEBSITE, AppUtil.getUrlLangType(AppUtil.getCurLanguage()))};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.select_url);
@@ -90,6 +90,7 @@ public class SettingActivity extends BaseActivity {
                 Uri content_url = Uri.parse(urls[item]);
                 intent.setData(content_url);
                 startActivity(intent);
+                overridePendingTransPad();
             }
         });
         builder.create().show();
@@ -151,7 +152,7 @@ public class SettingActivity extends BaseActivity {
 
     public void onHelpPage() {
         App.mSP_HP.edit().putBoolean("HELP_PAGE_OPEN_MAIN", true).apply();
-        intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent = new Intent(getApplicationContext(), isTablet?PadMainActivity.class:MainActivity.class);
         startActivity(intent);
         finish();
         overridePendingTransPad();
@@ -161,7 +162,7 @@ public class SettingActivity extends BaseActivity {
         isChangeLanguage = App.mSP_Config.getBoolean("isChangeLanguage", false);
         LogUtil.i(TAG, "因爲更換了語言，所以返回主界面:isChangeLanguage=" + isChangeLanguage);
         if (isChangeLanguage) {
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, isTablet?PadMainActivity.class:MainActivity.class);
             startActivity(intent);
             App.mSP_Config.edit().putBoolean("isChangeLanguage", false).apply();
         }

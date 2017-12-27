@@ -76,5 +76,6 @@ public class LoginActivity extends BaseActivity implements LoginViewModel.OnLogi
         intent.putExtra("LoginSync", true);
         startActivity(intent);
         finish();
+        overridePendingTransPad();
     }
 }

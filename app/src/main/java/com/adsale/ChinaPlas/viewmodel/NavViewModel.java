@@ -42,7 +42,6 @@ import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.PermissionUtil;
-import com.adsale.ChinaPlas.utils.RecyclerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -80,7 +79,7 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener, OnInte
     public final ObservableInt language = new ObservableInt(0);
 //    private DrawerAdapter drawerAdapter;
 
-    public final ObservableInt mCurrLang = new ObservableInt(App.mLanguage.get());
+    public final ObservableInt mCurrLang = new ObservableInt(AppUtil.getCurLanguage());
     private DrawerListAdapter drawerListAdapter;
 
     public NavViewModel(Context context) {
@@ -94,7 +93,6 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener, OnInte
         mDrawerLayout = drawerLayout;
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        recyclerView.addItemDecoration(new RecyclerItemDecoration(mContext, LinearLayoutManager.HORIZONTAL));
 
         mainIconRepository = MainIconRepository.getInstance();
         initPadList();
@@ -145,15 +143,8 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener, OnInte
     }
 
     private void setAdapter(RecyclerView recyclerView) {
-        long startTime = System.currentTimeMillis();
-
         drawerListAdapter = new DrawerListAdapter(mLeftMenus, mParents, this);
         recyclerView.setAdapter(drawerListAdapter);
-
-//        drawerAdapter.setOnCloseDrawerListener(this);
-
-        long endTime = System.currentTimeMillis();
-        LogUtil.i(TAG, " setAdapter spend : " + (endTime - startTime) + "ms");
     }
 
     public void refreshUpdateCount(int count) {
@@ -211,7 +202,9 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener, OnInte
 
     @Override
     public void close() {
-        mDrawerLayout.closeDrawer(GravityCompat.START);
+        if (mDrawerLayout != null) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        }
     }
 
     public Intent intent(Activity activity, MainIcon mainIcon) {
@@ -223,9 +216,12 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener, OnInte
         }
         intent = newIntent(activity, mainIcon);
         if (intent != null) {
-            intent.putExtra(Constant.TITLE, mainIcon.getTitle(App.mLanguage.get()));
+            intent.putExtra(Constant.TITLE, mainIcon.getTitle(AppUtil.getCurLanguage()));
             intent.putExtra(Constant.BAIDU_TJ, mainIcon.getBaiDu_TJ());
             activity.startActivity(intent);
+            if (AppUtil.isTablet()) {
+                activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
         }
         return intent;
     }
@@ -310,7 +306,7 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener, OnInte
                 intent.putExtra("Url", "WebContent/".concat(mainIcon.getIconID()));
                 break;
         }
-        intent.putExtra("title", mainIcon.getTitle(App.mLanguage.get()));
+        intent.putExtra("title", mainIcon.getTitle(AppUtil.getCurLanguage()));
         return intent;
     }
 

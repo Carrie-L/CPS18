@@ -79,6 +79,7 @@ public class ScannerActivity extends BaseActivity implements SurfaceHolder.Callb
             intent.putExtra("result", data.getString("result"));
         }
         startActivity(intent);
+        overridePendingTransPad();
 //        finish();
     }
 

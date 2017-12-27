@@ -77,6 +77,7 @@ public class MainViewModel {
     public ObservableBoolean isCountDownShow = new ObservableBoolean(false);
     private ImageView ivTop;
     private ImageView ivPoint;
+    private RelativeLayout rlTopBanner;
     private ADHelper adHelper;
     private ArrayList<MainIcon> icons;
     private MainIcon mainIcon;
@@ -100,16 +101,21 @@ public class MainViewModel {
         inflater = LayoutInflater.from(mContext);
     }
 
+    public void initPad(ViewPager viewPager, RelativeLayout rlTopBanner, LinearLayout vpindicator, ImageView adPic, NavViewModel navViewModel) {
+        this.viewPager = viewPager;
+        this.rlTopBanner = rlTopBanner;
+        this.vpindicator = vpindicator;
+        this.adPic = adPic;
+        this.navViewModel = navViewModel;
+        inflater = LayoutInflater.from(mContext);
+    }
+
     public MainPic parseMainInfo() {
         mainPic = Parser.parseJsonFilesDirFile(MainPic.class, Constant.TXT_MAIN_PIC_INFO);
         App.mSP_Config.edit().putString("MainIconBaseUrl", mainPic.IconPath).apply();
         return mainPic;
     }
 
-    private RelativeLayout rlTopBanner;
-    public void setPadTopBanner(RelativeLayout rlBanner){
-        rlTopBanner=rlBanner;
-    }
 
     public void setTopPics() {
         topPics = new ArrayList<>();
@@ -118,12 +124,12 @@ public class MainViewModel {
         /* top banner 图片默认尺寸设为：647*281 */
         topHeight = isTablet ? (screenWidth * MAIN_TOP_BANNER_HEIGHT_PAD) / PAD_CONTENT_WIDTH :
                 (screenWidth * MAIN_TOP_BANNER_HEIGHT) / MAIN_TOP_BANNER_WIDTH;
-        LogUtil.i(TAG,"screenWidth="+screenWidth+",topHeight = "+(screenWidth * MAIN_TOP_BANNER_HEIGHT_PAD) / PAD_CONTENT_WIDTH);
-        if(isTablet){
-            topHeight =  (screenWidth * MAIN_TOP_BANNER_HEIGHT_PAD) / PAD_CONTENT_WIDTH;
+        LogUtil.i(TAG, "screenWidth=" + screenWidth + ",topHeight = " + (screenWidth * MAIN_TOP_BANNER_HEIGHT_PAD) / PAD_CONTENT_WIDTH);
+        if (isTablet) {
+            topHeight = (screenWidth * MAIN_TOP_BANNER_HEIGHT_PAD) / PAD_CONTENT_WIDTH;
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(screenWidth, topHeight);
             rlTopBanner.setLayoutParams(params);
-        }else{
+        } else {
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(screenWidth, topHeight);
             params.topMargin = 0;
             viewPager.setLayoutParams(params);
@@ -236,9 +242,10 @@ public class MainViewModel {
         adPic.setVisibility(View.VISIBLE);
         Glide.with(mContext).load(Uri.parse(m2Url.toString().concat(adObj.M2.version).concat(adObj.M2.format))).into(adPic);
         m2LargeUrl = m2Url.toString().concat(adObj.M2.image2).concat(adObj.M2.version).concat(adObj.M2.format);
+        LogUtil.i(TAG,"m2LargeUrl="+m2LargeUrl);
 
-        AppUtil.trackViewLog(mContext, 202, "Ad", "M2", adObj.M2.getCompanyID(App.mLanguage.get()));
-        AppUtil.setStatEvent(mContext, "ViewM2", "Ad_M2_" + adObj.M2.getCompanyID(App.mLanguage.get()));
+        AppUtil.trackViewLog(mContext, 202, "Ad", "M2", adObj.M2.getCompanyID(AppUtil.getCurLanguage()));
+        AppUtil.setStatEvent(mContext, "ViewM2", "Ad_M2_" + adObj.M2.getCompanyID(AppUtil.getCurLanguage()));
     }
 
     public void onM2Click() {

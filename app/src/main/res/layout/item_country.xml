@@ -30,12 +30,12 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="48dp"
             android:drawableEnd="@{obj.selected?@drawable/ic_choosed:null}"
             android:drawableRight="@{obj.selected?@drawable/ic_choosed:null}"
             android:gravity="center_vertical"
             android:paddingLeft="16dp"
-            android:paddingRight="8dp"
+            android:paddingRight="32dp"
             android:onClick="@{()->adapter.onSelect(obj)}"
             android:text="@{obj.getCountryName()}" />
     </LinearLayout>

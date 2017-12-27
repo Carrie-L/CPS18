@@ -90,7 +90,7 @@ public class RegisterViewModel {
 
     private void showWebView() {
         mWebView.setWebViewClient(new MyWebClient());
-        mWebView.loadUrl(String.format(NetWorkHelper.Register_URL, AppUtil.getUrlLangType(App.mLanguage.get())));
+        mWebView.loadUrl(String.format(NetWorkHelper.Register_URL, AppUtil.getUrlLangType(AppUtil.getCurLanguage())));
         setProgressClient();
     }
 
@@ -193,7 +193,7 @@ public class RegisterViewModel {
                     public void onSubscribe(@NonNull Disposable d) {
                         mDisposable0 = d;
                         //加载确认信
-//                        view.loadUrl(String.format(NetWorkHelper.REGISTER_CONFIRM_URL, AppUtil.getUrlLangType(App.mLanguage.get()), sp_reg.getString("p_image", "")));
+//                        view.loadUrl(String.format(NetWorkHelper.REGISTER_CONFIRM_URL, AppUtil.getUrlLangType(AppUtil.getCurLanguage()), sp_reg.getString("p_image", "")));
                     }
 
                     @Override
@@ -230,7 +230,7 @@ public class RegisterViewModel {
     }
 
     public void paySuccess() {
-//        mWebView.loadUrl(String.format(NetWorkHelper.REGISTER_CONFIRM_URL, AppUtil.getUrlLangType(App.mLanguage.get()), sp_reg.getString("p_image", "")));
+//        mWebView.loadUrl(String.format(NetWorkHelper.REGISTER_CONFIRM_URL, AppUtil.getUrlLangType(AppUtil.getCurLanguage()), sp_reg.getString("p_image", "")));
         mSP_Login.edit().putBoolean(Constant.IS_LOGIN, true).apply();
         downConfirmImage();
         show();
@@ -294,8 +294,8 @@ public class RegisterViewModel {
     private void showRegText() {
         OtherRepository repository = OtherRepository.getInstance();
         repository.initWebContentDao();
-        tvHeader.set(repository.getPreHeader(App.mLanguage.get()));
-        tvFooter.set(repository.getPreFooter(App.mLanguage.get()));
+        tvHeader.set(repository.getPreHeader(AppUtil.getCurLanguage()));
+        tvFooter.set(repository.getPreFooter(AppUtil.getCurLanguage()));
     }
 
     public void reset() {
@@ -326,7 +326,7 @@ public class RegisterViewModel {
     }
 
     public String getInvoiceUrl() {
-        return String.format(NetWorkHelper.REGISTER_INVOICE_URL, AppUtil.getUrlLangType(App.mLanguage.get()), sp_reg.getString("p_image", ""));
+        return String.format(NetWorkHelper.REGISTER_INVOICE_URL, AppUtil.getUrlLangType(AppUtil.getCurLanguage()), sp_reg.getString("p_image", ""));
     }
 
 }

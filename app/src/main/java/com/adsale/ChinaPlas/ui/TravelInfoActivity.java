@@ -5,12 +5,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.HotelAdapter;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.data.model.AgentInfo;
 import com.adsale.ChinaPlas.helper.CSVHelper;
+import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.RecyclerItemClickListener;
 
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ public class TravelInfoActivity extends BaseActivity {
 
             @Override
             public void onItemClick(View view, int position) {
-                if (App.mLanguage.get() == 1 && list.get(position).titleENG.contains("Endorsed")) {
+                if (AppUtil.getCurLanguage() == 1 && list.get(position).titleENG.contains("Endorsed")) {
                     intent = new Intent(getApplicationContext(), WebViewActivity.class);
                     intent.putExtra("title", list.get(position).titleENG);
                     intent.putExtra("WebUrl", list.get(position).getWebsiteENG());

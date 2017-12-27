@@ -48,6 +48,7 @@ public class NCardActivity extends BaseActivity {
         Intent intent = new Intent(this, NCardCreateEditActivity.class);
         intent.putExtra("edit", true);
         startActivity(intent);
+        overridePendingTransPad();
     }
 
     public void onScanner() {
@@ -62,11 +63,13 @@ public class NCardActivity extends BaseActivity {
     private void toScanner() {
         Intent intent = new Intent(this, ScannerActivity.class);
         startActivity(intent);
+        overridePendingTransPad();
     }
 
     public void onAllList() {
         Intent intent = new Intent(this, NCardListActivity.class);
         startActivity(intent);
+        overridePendingTransPad();
     }
 
     @Override

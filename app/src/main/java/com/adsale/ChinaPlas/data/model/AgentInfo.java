@@ -3,7 +3,7 @@ package com.adsale.ChinaPlas.data.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.adsale.ChinaPlas.App;
+import com.adsale.ChinaPlas.utils.AppUtil;
 
 import static com.adsale.ChinaPlas.App.mLanguage;
 
@@ -121,9 +121,9 @@ public class AgentInfo implements Parcelable {
     }
 
     public String getTel() {
-        if (App.mLanguage.get() == 1) {
+        if (AppUtil.getCurLanguage() == 1) {
             return telENG;
-        } else if (App.mLanguage.get() == 2) {
+        } else if (AppUtil.getCurLanguage() == 2) {
             return telSC;
         } else {
             return telTC;
@@ -143,9 +143,9 @@ public class AgentInfo implements Parcelable {
     }
 
     public String getEmail() {
-        if (App.mLanguage.get() == 1) {
+        if (AppUtil.getCurLanguage() == 1) {
             return emailENG;
-        } else if (App.mLanguage.get() == 2) {
+        } else if (AppUtil.getCurLanguage() == 2) {
             return emailSC;
         } else {
             return emailTC;
@@ -158,9 +158,9 @@ public class AgentInfo implements Parcelable {
     }
 
     public String getWebsite() {
-        if (App.mLanguage.get() == 1) {
+        if (AppUtil.getCurLanguage() == 1) {
             return websiteENG;
-        } else if (App.mLanguage.get() == 2) {
+        } else if (AppUtil.getCurLanguage() == 2) {
             return websiteSC;
         } else {
             return websiteTC;

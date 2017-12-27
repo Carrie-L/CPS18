@@ -21,6 +21,7 @@ import com.adsale.ChinaPlas.dao.HistoryExhibitorDao;
 import com.adsale.ChinaPlas.dao.Industry;
 import com.adsale.ChinaPlas.dao.IndustryDao;
 import com.adsale.ChinaPlas.data.model.ExhibitorFilter;
+import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 
 import java.util.ArrayList;
@@ -129,7 +130,7 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
     }
 
     private String getExhibitorSql() {
-        int language = App.mLanguage.get();
+        int language = AppUtil.getCurLanguage();
         if (language == 0) {
             return "select E.COMPANY_ID,E.COMPANY_NAME_EN,E.COMPANY_NAME_TW,E.COMPANY_NAME_CN,E.COUNTRY_ID,E.BOOTH_NO,E.STROKE_TRAD,E.SEQ_TC,E.HALL_NO,E.IS_FAVOURITE,E.DESC_E,E.DESC_S,E.DESC_T\n" +
                     ",C.COUNTRY_NAME_TW AS COUNTRY_NAME from EXHIBITOR E,COUNTRY C WHERE E.COUNTRY_ID=C.COUNTRY_ID ";
@@ -144,7 +145,7 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
 
     private ArrayList<Exhibitor> cursorList(String sql, ArrayList<String> letters, boolean orderByAZ) {
         long startTime = System.currentTimeMillis();
-        int language = App.mLanguage.get();
+        int language = AppUtil.getCurLanguage();
         Cursor cursor = mDBHelper.db.rawQuery(sql, null);
         ArrayList<Exhibitor> exhibitors = new ArrayList<>();
         if (cursor != null) {
@@ -483,7 +484,7 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
 
     /*  ---------------------------------  Exhibitor Dtl Industry or App Industry  ------------------------------------------ */
     private String getExhibitorDtlSql() {
-        int language = App.mLanguage.get();
+        int language = AppUtil.getCurLanguage();
         if (language == 0) {
             return "select E.COMPANY_ID,E.COMPANY_NAME_EN,E.COMPANY_NAME_TW,E.COMPANY_NAME_CN,E.COUNTRY_ID,E.BOOTH_NO,E.STROKE_TRAD,E.SEQ_TC,E.HALL_NO,E.IS_FAVOURITE,E.DESC_E,E.DESC_S,E.DESC_T\n" +
                     ",C.COUNTRY_NAME_TW AS COUNTRY_NAME from EXHIBITOR E,COUNTRY C,%1$s I WHERE E.COUNTRY_ID=C.COUNTRY_ID AND E.COMPANY_ID=I.COMPANY_ID AND %2$s";
@@ -525,7 +526,7 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
 
     private ArrayList<Exhibitor> myExhibitorCursorList(String sql, ArrayList<String> letters) {
         long startTime = System.currentTimeMillis();
-        int language = App.mLanguage.get();
+        int language = AppUtil.getCurLanguage();
         Cursor cursor = mDBHelper.db.rawQuery(sql, null);
         ArrayList<Exhibitor> exhibitors = new ArrayList<>();
         if (cursor != null) {
@@ -551,7 +552,7 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
     }
 
     private String getMyExhibitorSql() {
-        int language = App.mLanguage.get();
+        int language = AppUtil.getCurLanguage();
         if (language == 0) {
             return "select E.COMPANY_ID,E.COMPANY_NAME_EN,E.COMPANY_NAME_TW,E.COMPANY_NAME_CN,E.BOOTH_NO,E.STROKE_TRAD,E.SEQ_TC,E.IS_FAVOURITE\n" +
                     " from EXHIBITOR E WHERE E.IS_FAVOURITE=1";

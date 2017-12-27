@@ -48,6 +48,7 @@ import com.adsale.ChinaPlas.utils.ShareSDKDialog;
 import java.io.File;
 import java.util.ArrayList;
 
+import static com.adsale.ChinaPlas.utils.PermissionUtil.PMS_CODE_WRITE_SD;
 import static com.adsale.ChinaPlas.viewmodel.ExhibitorListViewModel.TYPE_APP_INDUSTRY;
 import static com.adsale.ChinaPlas.viewmodel.ExhibitorListViewModel.TYPE_INDUSTRY;
 
@@ -91,9 +92,11 @@ public class ExhibitorDtlViewModel {
     private View mNoteView;
     private String M5Description;
     private TextView mAboutView;
-    private ArrayList<String> mPhotos;
-    private String mPhotoDir;
+    private ArrayList<String> mPhotos = new ArrayList<>();
+    private String mPhotoDir = "";
     private ExhibitorPhotoAdapter mPhotoAdapter;
+    private boolean hasSDPermission;
+    private boolean hasCameraPermission;
 
     public ExhibitorDtlViewModel(Context mContext, FrameLayout frameLayout) {
         this.mContext = mContext;
@@ -266,15 +269,18 @@ public class ExhibitorDtlViewModel {
     }
 
     private void getPhotos() {
-        mPhotos = new ArrayList<>();
+        mPhotoDir = FileUtil.getSDRootPath().concat("CPS18/").concat(exhibitor.getCompanyName()).concat("/");
         File file0 = new File(FileUtil.getSDRootPath().concat("CPS18/"));
         if (!file0.exists()) {
             file0.mkdir();
         }
-        mPhotoDir = FileUtil.getSDRootPath().concat("CPS18/").concat(exhibitor.getCompanyID()).concat("/");
         File file = new File(mPhotoDir);
         if (!file.exists()) {
             file.mkdir();
+        }
+        checkSDPermission();
+        if (!hasSDPermission) {
+            return;
         }
         String[] files = file.list();
         for (String fileName : files) {
@@ -282,6 +288,10 @@ public class ExhibitorDtlViewModel {
             mPhotos.add(mPhotoDir.concat(fileName));
         }
         LogUtil.i(TAG, "mPhotos=" + mPhotos.size() + "," + mPhotos.toString());
+    }
+
+    private void createPhotoDir() {
+
     }
 
     public void photoSuccess(String path) {
@@ -316,22 +326,35 @@ public class ExhibitorDtlViewModel {
         Toast.makeText(mContext, "delete: " + isDel, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * only when app has camera & sd permissions, can intent to TakePhotoActivity.class.
+     * Otherwise, request permissions.
+     */
     public void onTakePhoto() {
-        if (PermissionUtil.checkPermission(activity, PermissionUtil.PERMISSION_CAMERA)) {
+        checkCameraPermission();
+        if (hasCameraPermission && hasSDPermission) {
             showCamera();
-        } else {
+        } else if (hasCameraPermission) {
+            PermissionUtil.requestPermission(activity, PermissionUtil.PERMISSION_WRITE_EXTERNAL_STORAGE, PMS_CODE_WRITE_SD);
+        } else if (hasSDPermission) {
             PermissionUtil.requestPermission(activity, PermissionUtil.PERMISSION_CAMERA, PermissionUtil.PMS_CODE_CAMERA);
+        } else {
+            PermissionUtil.requestPermissions(activity, new String[]{PermissionUtil.PERMISSION_CAMERA, PermissionUtil.PERMISSION_WRITE_EXTERNAL_STORAGE});
         }
     }
 
+    public boolean checkSDPermission() {
+        hasSDPermission = PermissionUtil.checkPermission(activity, PermissionUtil.PERMISSION_WRITE_EXTERNAL_STORAGE);
+        return hasSDPermission;
+    }
+
+    public boolean checkCameraPermission() {
+        hasCameraPermission = PermissionUtil.checkPermission(activity, PermissionUtil.PERMISSION_CAMERA);
+        return hasCameraPermission;
+    }
+
     public void showCamera() {
-//        TakePhotoView takePhotoView = new TakePhotoView(activity, this);
-//        takePhotoView.setPhotoAbsPath(mPhotoDir.concat(exhibitor.getCompanyID()).concat("_").concat(mPhotos.size() + "").concat(".jpg"));
-//        takePhotoView.show();
-
-        //exhibitor.getCompanyID()).concat("_").concat(mPhotos.size() + ""
-        mListener.onIntent(mPhotoDir.concat(System.currentTimeMillis()+"").concat(".jpg"), TakePhotoActivity.class);
-
+        mListener.onIntent(mPhotoDir.concat(System.currentTimeMillis() + "").concat(".jpg"), TakePhotoActivity.class);
     }
 
     private ExhibitorDetailActivity activity;

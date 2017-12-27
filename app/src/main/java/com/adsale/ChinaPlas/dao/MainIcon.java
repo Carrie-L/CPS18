@@ -307,7 +307,7 @@ public class MainIcon implements Parcelable {
 
     // KEEP METHODS - put your custom methods here
     public String getTitle(int language) {
-//        int language = App.mLanguage.get();
+//        int language = AppUtil.getCurLanguage();
         if ((TitleCN.contains("|") || TitleEN.contains("|") || TitleTW.contains("|")) && AppUtil.isLogin()) {
             return title(language).split("\\|")[1];
         } else if ((TitleCN.contains("|") || TitleEN.contains("|") || TitleTW.contains("|")) && !AppUtil.isLogin()) {

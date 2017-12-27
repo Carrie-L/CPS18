@@ -1,5 +1,7 @@
 package com.adsale.ChinaPlas.ui;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,7 +25,6 @@ import static com.adsale.ChinaPlas.ui.view.HelpView.HELP_PAGE_MAIN;
 import static com.adsale.ChinaPlas.utils.PermissionUtil.PMS_CODE_WRITE_SD;
 
 /**
- * todo 平板
  */
 public class MainActivity extends BaseActivity {
 
@@ -32,7 +33,7 @@ public class MainActivity extends BaseActivity {
     private boolean isLogin = false;
     private int uc_count;
     private boolean isShowPage;
-    private HelpView helpView;
+    private HelpView helpDialog;
 
     @Override
     protected void preView() {
@@ -94,21 +95,22 @@ public class MainActivity extends BaseActivity {
             mNavViewModel.isLoginSuccess.set(AppUtil.isLogin()); /* 改变Menu的文字 */
         }
 
-        LogUtil.i(TAG, "onResume: App.mLanguage=" + App.mLanguage.get());
+        LogUtil.i(TAG, "onResume: App.mLanguage=" + AppUtil.getCurLanguage());
         LogUtil.i(TAG, "onResume: mNavViewModel.mCurrLang=" + mNavViewModel.mCurrLang.get());
 
-        if (App.mLanguage.get() != mNavViewModel.mCurrLang.get()) {
-            mNavViewModel.mCurrLang.set(App.mLanguage.get());
+        if (AppUtil.getCurLanguage() != mNavViewModel.mCurrLang.get()) {
+            mNavViewModel.mCurrLang.set(AppUtil.getCurLanguage());
             mNavViewModel.updateLanguage();
             mainFragment.refreshImages();
-            AppUtil.switchLanguage(getApplicationContext(), App.mLanguage.get());
+            AppUtil.switchLanguage(getApplicationContext(), AppUtil.getCurLanguage());
         }
 
         updateCenterCount();
 
         boolean isOpenMainHelpPage = spHelpPage.getBoolean("HELP_PAGE_OPEN_MAIN", false);
         if (isOpenMainHelpPage) {
-            helpView.openMainHelpPage();
+            showHelpPage();
+            helpDialog.openMainHelpPage();
         }
 
         // 如果點擊Home按鈕，則將Menu的子按鈕都關閉
@@ -117,8 +119,6 @@ public class MainActivity extends BaseActivity {
             mainFragment.closeLitterMenu();
             App.mSP_Config.edit().putBoolean("HOME", false).apply();
         }
-
-
     }
 
     /**
@@ -136,14 +136,30 @@ public class MainActivity extends BaseActivity {
      * 显示帮助页面
      */
     private void helpPage() {
-        helpView = new HelpView(this, HELP_PAGE_MAIN, mMenuHelpCloseListener);
-        isShowPage = helpView.showPage();
+        if (HelpView.isFirstShow(HELP_PAGE_MAIN)) {
+            showHelpPage();
+            isShowPage=true;
+            App.mSP_HP.edit().putInt("HELP_PAGE_" + HelpView.HELP_PAGE_MAIN, HelpView.HELP_PAGE_MAIN).apply();
+        }
+    }
+
+    private void showHelpPage() {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment fragment = getFragmentManager().findFragmentByTag("Dialog");
+        if (fragment != null) {
+            ft.remove(fragment);
+        }
+        ft.addToBackStack(null);
+
+        helpDialog = HelpView.newInstance(HELP_PAGE_MAIN);
+        helpDialog.setCloseListener(mMenuHelpCloseListener);
+        helpDialog.show(ft, "Dialog");
     }
 
     private View.OnClickListener mMenuHelpCloseListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            helpView.dismissDialog();
+            helpDialog.dismiss();
             intentToUpdateCenter();
         }
     };

@@ -8,7 +8,7 @@ package com.adsale.ChinaPlas.dao;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.adsale.ChinaPlas.App;
+import com.adsale.ChinaPlas.utils.AppUtil;
 
 import java.util.ArrayList;
 
@@ -168,9 +168,9 @@ public class NewProductInfo implements Parcelable {
     }
 
     public String getCompanyName() {
-        if (App.mLanguage.get() == 0) {
+        if (AppUtil.getCurLanguage() == 0) {
             return CompanyNameTc;
-        } else if (App.mLanguage.get() == 1) {
+        } else if (AppUtil.getCurLanguage() == 1) {
             return CompanyNameEn;
         } else {
             return CompanyNameSc;
@@ -192,9 +192,9 @@ public class NewProductInfo implements Parcelable {
     }
 
     public String getProductName() {
-        if (App.mLanguage.get() == 0) {
+        if (AppUtil.getCurLanguage() == 0) {
             return Product_Name_TC;
-        } else if (App.mLanguage.get() == 1) {
+        } else if (AppUtil.getCurLanguage() == 1) {
             return Product_Name_EN;
         } else {
             return Product_Name_SC;
@@ -202,9 +202,9 @@ public class NewProductInfo implements Parcelable {
     }
 
     public String getDescription() {
-        if (App.mLanguage.get() == 0) {
+        if (AppUtil.getCurLanguage() == 0) {
             return Rroduct_Description_TC;
-        } else if (App.mLanguage.get() == 1) {
+        } else if (AppUtil.getCurLanguage() == 1) {
             return Rroduct_Description_EN;
         } else {
             return Rroduct_Description_SC;

@@ -1,5 +1,7 @@
 package com.adsale.ChinaPlas.ui;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
@@ -16,6 +18,7 @@ import com.adsale.ChinaPlas.databinding.ActivityExhibitorDetailBinding;
 import com.adsale.ChinaPlas.databinding.ActivityExhibitorDetailM5Binding;
 import com.adsale.ChinaPlas.helper.ADHelper;
 import com.adsale.ChinaPlas.ui.view.HelpView;
+import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.DisplayUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
@@ -30,11 +33,12 @@ import static com.adsale.ChinaPlas.utils.Constant.SCHEDULE_DAY01;
 public class ExhibitorDetailActivity extends BaseActivity implements OnIntentListener {
 
     private ExhibitorDtlViewModel mViewModel;
-    private HelpView helpView;
     private ADHelper adHelper;
 
     private final Integer REQUET_TAKE_PHOTO = 101;
     private final Integer REQUET_DELETE_PHOTO = 102;
+    private String mPhotoPath;
+    private HelpView helpDialog;
 
     @Override
     protected void preView() {
@@ -44,9 +48,9 @@ public class ExhibitorDetailActivity extends BaseActivity implements OnIntentLis
 
     @Override
     protected void initView() {
-        int screenWidth = App.mSP_Config.getInt(Constant.SCREEN_WIDTH, 0);
-        int width = (screenWidth - DisplayUtil.dip2px(getApplicationContext(), 32)) / 5;
-        int height = (width * 184) / 209;
+        int screenWidth = AppUtil.getScreenWidth();
+        int width = isTablet ? screenWidth / 5 : (screenWidth - DisplayUtil.dip2px(getApplicationContext(), 32)) / 5;
+        int height = (width * (isTablet ? 77 : 184)) / (isTablet ? 349 : 209);
         LinearLayout.LayoutParams bottomParams = new LinearLayout.LayoutParams(width, height);
 
         String companyId = getIntent().getStringExtra(Constant.COMPANY_ID);
@@ -66,7 +70,7 @@ public class ExhibitorDetailActivity extends BaseActivity implements OnIntentLis
             ActivityExhibitorDetailM5Binding binding = ActivityExhibitorDetailM5Binding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
             mViewModel = new ExhibitorDtlViewModel(getApplicationContext(), binding.flDtlContent);
             bindingVariable(binding);
-            mViewModel.setM5Description(adHelper.getAdObj().M5.description.get(M5Index).getDescription(App.mLanguage.get()));
+            mViewModel.setM5Description(adHelper.getAdObj().M5.description.get(M5Index).getDescription(AppUtil.getCurLanguage()));
             mViewModel.start(companyId, this, binding.viewstubDtlView.getViewStub(), true);
             binding.llButton.ivCompanyInfo.setLayoutParams(bottomParams);
             binding.llButton.ivCollect.setLayoutParams(bottomParams);
@@ -85,14 +89,28 @@ public class ExhibitorDetailActivity extends BaseActivity implements OnIntentLis
 
     @Override
     protected void initData() {
-        helpView = new HelpView(this, HelpView.HELP_PAGE_EXHIBITOR_DTL);
-        helpView.showPage();
+        if (HelpView.isFirstShow(HelpView.HELP_PAGE_EXHIBITOR_DTL)) {
+            showHelpPage();
+            App.mSP_HP.edit().putInt("HELP_PAGE_" + HelpView.HELP_PAGE_EXHIBITOR_DTL, HelpView.HELP_PAGE_EXHIBITOR_DTL).apply();
+        }
         mViewModel.addToHistory();
         mViewModel.setActivity(this);
     }
 
+    private void showHelpPage() {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment fragment = getFragmentManager().findFragmentByTag("Dialog");
+        if (fragment != null) {
+            ft.remove(fragment);
+        }
+        ft.addToBackStack(null);
+
+        helpDialog = HelpView.newInstance(HelpView.HELP_PAGE_EXHIBITOR_DTL);
+        helpDialog.show(ft, "Dialog");
+    }
+
     public void onHelpPage() {
-        helpView.show();
+        showHelpPage();
     }
 
     @Override
@@ -103,6 +121,7 @@ public class ExhibitorDetailActivity extends BaseActivity implements OnIntentLis
             if (toCls.getSimpleName().contains("ScheduleEditActivity")) {
                 Intent intent = new Intent(this, toCls);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("title",getString(R.string.title_add_schedule));
                 intent.putExtra(Constant.INTENT_EXHIBITOR, (Exhibitor) entity);
                 intent.putExtra("date", SCHEDULE_DAY01);
                 startActivity(intent);
@@ -132,12 +151,19 @@ public class ExhibitorDetailActivity extends BaseActivity implements OnIntentLis
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("url", adHelper.getM5ProductUrl(position));
         startActivity(intent);
+        overridePendingTransPad();
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PermissionUtil.PMS_CODE_CAMERA && PermissionUtil.getGrantResults(grantResults)) {
+        if (PermissionUtil.getGrantResults(grantResults)) {
+            showCamera();
+        }
+    }
+
+    private void showCamera() {
+        if (mViewModel.checkCameraPermission() && mViewModel.checkSDPermission()) {
             mViewModel.showCamera();
         }
     }
@@ -172,17 +198,35 @@ public class ExhibitorDetailActivity extends BaseActivity implements OnIntentLis
         setResult(RESULT_OK, intent);
     }
 
+    private void fromM1ToMain() {
+
+    }
+
     @Override
     public void onBackPressed() {
-        setResultForCollect();
-        mViewModel.saveNoteAndRate();
+        if (getIntent().getBooleanExtra("FromM1", false)) {
+            Intent intent = new Intent(this, isTablet ? PadMainActivity.class : MainActivity.class);
+            startActivity(intent);
+            finish();
+            overridePendingTransPad();
+        } else {
+            setResultForCollect();
+            mViewModel.saveNoteAndRate();
+        }
         super.onBackPressed();
     }
 
     @Override
     public void back() {
-        setResultForCollect();
-        mViewModel.saveNoteAndRate();
+        if (getIntent().getBooleanExtra("FromM1", false)) {
+            Intent intent = new Intent(this, isTablet ? PadMainActivity.class : MainActivity.class);
+            startActivity(intent);
+            finish();
+            overridePendingTransPad();
+        } else {
+            setResultForCollect();
+            mViewModel.saveNoteAndRate();
+        }
         super.back();
     }
 }

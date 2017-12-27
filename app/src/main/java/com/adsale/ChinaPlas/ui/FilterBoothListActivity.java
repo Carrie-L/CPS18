@@ -8,6 +8,12 @@ import com.adsale.ChinaPlas.base.BaseActivity;
 
 public class FilterBoothListActivity extends BaseActivity {
     @Override
+    protected void preView() {
+        super.preView();
+        isChangeTitleHomeIcon=true;
+    }
+
+    @Override
     protected void initView() {
 
     }

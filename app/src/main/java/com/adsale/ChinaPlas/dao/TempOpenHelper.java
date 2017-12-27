@@ -38,20 +38,13 @@ public class TempOpenHelper extends SQLiteOpenHelper {
     }
 
     private void createExhibitorTempTable(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE EXHIBITOR_TEMP (COMPANY_ID TEXT PRIMARY KEY,IS_FAVOURITE INTEGER,NOTE TEXT)");
+        db.execSQL("CREATE TABLE EXHIBITOR_TEMP (COMPANY_ID TEXT PRIMARY KEY,IS_FAVOURITE INTEGER,NOTE TEXT,RATE INTEGER)");
     }
 
     private void createScheduleTempTable(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + "\"SCHEDULE_INFO_TEMP\" (" + //
-                "\"_id\" INTEGER PRIMARY KEY ," + // 0: id
-                "\"TITLE\" TEXT," + // 1: Title
-                "\"NOTE\" TEXT," + // 2: Note
-                "\"LOCATION\" TEXT," + // 3: Location
-                "\"COMPANY_ID\" TEXT," + // 4: CompanyID
-                "\"START_TIME\" TEXT," + // 5: StartTime
-                "\"LENGTH\" INTEGER," + // 6: Length
-                "\"ALLDAY\" INTEGER," + // 7: Allday
-                "\"EVENT_CID\" TEXT);"); // 8: EVENT_CID
+        db.execSQL("CREATE TABLE \"SCHEDULE_INFO_TEMP\" \n" +
+                "(\"_id\" INTEGER PRIMARY KEY ,\"TITLE\" TEXT,\"NOTE\" TEXT,\n" +
+                "\"LOCATION\" TEXT,\"COMPANY_ID\" TEXT,\"START_DATE\" TEXT,\"START_TIME\" TEXT,\"HOUR\" INTEGER,\"MINUTE\" INTEGER, EVENT_CID TEXT);"); // 8: EVENT_CID
     }
 
     private void createHistoryTempTable(SQLiteDatabase db) {

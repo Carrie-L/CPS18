@@ -1,9 +1,11 @@
 package com.adsale.ChinaPlas.ui;
 
 import android.content.Intent;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.ApplicationAdapter;
@@ -31,18 +33,25 @@ public class FilterApplicationListActivity extends BaseActivity {
     public static final int TYPE_NEW_TEC_APPLICATIONS = 1002; /* 列表为 新技术产品 - 筛选 - 应用 */
 
     @Override
+    protected void preView() {
+        super.preView();
+        isChangeTitleHomeIcon = true;
+    }
+
+    @Override
     protected void initView() {
         View view = getLayoutInflater().inflate(R.layout.activity_filter_application, mBaseFrameLayout, true);
         recyclerView = view.findViewById(R.id.application_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setHasFixedSize(true);
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
     }
 
     @Override
     protected void initData() {
         int type = getIntent().getIntExtra("type", 0);
-        int index = getIntent().getIntExtra("index",1);
-        LogUtil.i(TAG,"type="+type);
+        int index = getIntent().getIntExtra("index", 1);
+        LogUtil.i(TAG, "type=" + type);
         if (getIntent().getIntExtra("type", 0) == TYPE_NEW_TEC_PRODUCT) {
             mList.add(new ApplicationIndustry("A", getString(R.string.new_tec_Product_A)));
             mList.add(new ApplicationIndustry("B", getString(R.string.new_tec_Product_B)));
@@ -85,15 +94,22 @@ public class FilterApplicationListActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
+        filters.clear();
         setResultData();
         super.onBackPressed();
     }
 
     @Override
     public void back() {
+        filters.clear();
         setResultData();
         super.back();
     }
 
-
+    @Override
+    protected void onReplaceHomeClick() {
+        super.onReplaceHomeClick();
+        setResultData();
+        finish();
+    }
 }

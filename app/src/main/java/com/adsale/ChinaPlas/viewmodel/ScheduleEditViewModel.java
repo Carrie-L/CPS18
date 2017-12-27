@@ -1,6 +1,9 @@
 package com.adsale.ChinaPlas.viewmodel;
 
 import android.app.DatePickerDialog;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.databinding.ObservableBoolean;
@@ -43,6 +46,8 @@ public class ScheduleEditViewModel {
      */
     private long mId = 0;
     private String mCompanyId;
+    private FragmentManager mFragmentManager;
+    private HelpView helpDialog;
 
     public ScheduleEditViewModel(Context mContext) {
         this.mContext = mContext;
@@ -74,10 +79,10 @@ public class ScheduleEditViewModel {
             return;
         }
         if (mId == 0) {// add
-            LogUtil.i(TAG,"isSameTimeSchedule："+mId);
+            LogUtil.i(TAG, "isSameTimeSchedule：" + mId);
             isSameTimeSchedule();
         } else {// update
-            LogUtil.i(TAG,"insertOrReplace："+mId);
+            LogUtil.i(TAG, "insertOrReplace：" + mId);
             insertOrReplace();
         }
     }
@@ -105,8 +110,27 @@ public class ScheduleEditViewModel {
     }
 
     public void onHelpPage(View view) {
-        HelpView helpView = new HelpView(view.getContext(), HelpView.HELP_PAGE_SCHEDULE_DTL);
-        helpView.show();
+        showHelpPage();
+    }
+
+    public void setFragmentManager(FragmentManager fm) {
+        mFragmentManager = fm;
+    }
+
+    public void showHelpPage() {
+        FragmentTransaction ft = mFragmentManager.beginTransaction();
+        Fragment fragment = mFragmentManager.findFragmentByTag("Dialog");
+        if (fragment != null) {
+            ft.remove(fragment);
+        }
+        ft.addToBackStack(null);
+
+        helpDialog = HelpView.newInstance(HelpView.HELP_PAGE_SCHEDULE_DTL);
+        helpDialog.show(ft, "Dialog");
+    }
+
+    public void showPage() {
+        helpDialog.showPage();
     }
 
     public void onClickExhibitor() {

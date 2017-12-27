@@ -4,15 +4,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.databinding.ObservableField;
 
-import com.adsale.ChinaPlas.dao.Exhibitor;
-import com.adsale.ChinaPlas.ui.ExhibitorActivity;
-import com.adsale.ChinaPlas.ui.MainActivity;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
-
-import io.reactivex.Observable;
 
 /**
  * Created by Carrie on 2017/9/15.

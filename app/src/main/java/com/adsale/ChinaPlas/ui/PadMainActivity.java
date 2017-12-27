@@ -1,7 +1,13 @@
 package com.adsale.ChinaPlas.ui;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -14,15 +20,22 @@ import com.adsale.ChinaPlas.adapter.MenuAdapter;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.dao.MainIcon;
 import com.adsale.ChinaPlas.data.OnIntentListener;
+import com.adsale.ChinaPlas.data.OtherRepository;
 import com.adsale.ChinaPlas.data.model.MainPic;
+import com.adsale.ChinaPlas.data.model.adAdvertisementObj;
 import com.adsale.ChinaPlas.databinding.ActivityMainPadBinding;
+import com.adsale.ChinaPlas.ui.view.HelpView;
+import com.adsale.ChinaPlas.ui.view.M2Dialog;
 import com.adsale.ChinaPlas.utils.AppUtil;
+import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.DisplayUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.viewmodel.MainViewModel;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+
+import static com.adsale.ChinaPlas.ui.view.HelpView.HELP_PAGE_MAIN;
 
 /**
  * Created by Carrie on 2017/12/21.
@@ -35,6 +48,12 @@ public class PadMainActivity extends BaseActivity implements OnIntentListener {
     private ActivityMainPadBinding padBinding;
     private MainPic mainPic;
     private int scale;
+    private boolean isShowPage;
+    private int uc_count;
+    private boolean isLogin;
+    private SharedPreferences spHelpPage;
+    private MenuAdapter adapter;
+    private HelpView helpDialog;
 
     @Override
     protected void preView() {
@@ -47,7 +66,7 @@ public class PadMainActivity extends BaseActivity implements OnIntentListener {
     @Override
     protected void initView() {
         padBinding = ActivityMainPadBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
-        mainViewModel = new MainViewModel(getApplicationContext(), this);
+        mainViewModel = new MainViewModel(this, this);
         padBinding.setModel(mainViewModel);
         int language = AppUtil.getCurLanguage();
         AppUtil.switchLanguage(getApplicationContext(), language);
@@ -55,13 +74,18 @@ public class PadMainActivity extends BaseActivity implements OnIntentListener {
 
     @Override
     protected void initData() {
-        mainViewModel.init(padBinding.mainTopViewPager, padBinding.vpindicator, padBinding.ivAd, mNavViewModel);
+        isLogin = AppUtil.isLogin();
+        mainViewModel.initPad(padBinding.mainTopViewPager, padBinding.rlTopBanner, padBinding.vpindicator, padBinding.ivAd, mNavViewModel);
         mainPic = mainViewModel.parseMainInfo();
         setRightBanner();
         initRecyclerView();
-        mainViewModel.setPadTopBanner(padBinding.rlTopBanner);
         mainViewModel.setTopPics();
         mainViewModel.setM2AD();
+
+        helpPage();
+        whetherToUC();
+        m2UpAnimation(mainViewModel.m2LargeUrl);
+//        m2UpAnimation("https://o97tbiy1f.qnssl.com/advertisement/M2/phone_sc_big_2.jpg");
     }
 
     private void initRecyclerView() {
@@ -84,7 +108,7 @@ public class PadMainActivity extends BaseActivity implements OnIntentListener {
         ArrayList<MainIcon> largeIcons = new ArrayList<>();
         ArrayList<MainIcon> littleIcons = new ArrayList<>();
         mainViewModel.getMainIcons(largeIcons, littleIcons);
-        MenuAdapter adapter = new MenuAdapter(getApplicationContext(), largeIcons, littleIcons, this, mNavViewModel);
+        adapter = new MenuAdapter(getApplicationContext(), largeIcons, littleIcons, this, mNavViewModel);
         recyclerView.setAdapter(adapter);
     }
 
@@ -100,7 +124,7 @@ public class PadMainActivity extends BaseActivity implements OnIntentListener {
         LogUtil.i(TAG, "bannerWidth=" + bannerWidth + ",bannerHeight=" + bannerHeight);
         App.mSP_Config.edit().putInt("itemBannerHeight", bannerHeight).putInt("itemBannerWidth", bannerWidth).apply();
 
-        LinearLayout.LayoutParams llParams = new LinearLayout.LayoutParams(bannerWidth, (int) (632 * AppUtil.getPadHeightRate())-(8 * scale));
+        LinearLayout.LayoutParams llParams = new LinearLayout.LayoutParams(bannerWidth, (int) (632 * AppUtil.getPadHeightRate()) - (8 * scale));
         llParams.bottomMargin = 8 * scale;
         padBinding.llBanner.setLayoutParams(llParams);
 
@@ -118,7 +142,171 @@ public class PadMainActivity extends BaseActivity implements OnIntentListener {
     }
 
     @Override
-    public <T> void onIntent(T entity, Class toCls) {
+    protected void onResume() {
+        super.onResume();
+        LogUtil.i(TAG, "=== onResume === isLogin=" + isLogin);
+        LogUtil.i(TAG, "=== onResume ===  mNavViewModel.isLoginSuccess=" + mNavViewModel.isLoginSuccess.get());
+        LogUtil.i(TAG, "=== onResume ===  AppUtil.isLogin()=" + AppUtil.isLogin());
 
+        if (mNavViewModel.isLoginSuccess.get() != AppUtil.isLogin()) { // 做一个登陆状态的判断，只有在登陆状态改变时才执行以下操作
+            mNavViewModel.isLoginSuccess.set(AppUtil.isLogin()); /* 改变Menu的文字 */
+        }
+
+        LogUtil.i(TAG, "onResume: App.mLanguage=" + AppUtil.getCurLanguage());
+        LogUtil.i(TAG, "onResume: mNavViewModel.mCurrLang=" + mNavViewModel.mCurrLang.get());
+
+        if (AppUtil.getCurLanguage() != mNavViewModel.mCurrLang.get()) {
+            mNavViewModel.mCurrLang.set(AppUtil.getCurLanguage());
+            mNavViewModel.updateLanguage();
+            refreshImages();
+            AppUtil.switchLanguage(getApplicationContext(), AppUtil.getCurLanguage());
+        }
+
+        updateCenterCount();
+
+        boolean isOpenMainHelpPage = spHelpPage.getBoolean("HELP_PAGE_OPEN_MAIN", false);
+        if (isOpenMainHelpPage) {
+            showHelpPage();
+            helpDialog.openMainHelpPage();
+        }
+
+        // 如果點擊Home按鈕，則將Menu的子按鈕都關閉
+        boolean isPressHome = App.mSP_Config.getBoolean("HOME", false);
+        if (isPressHome) {
+            adapter.mClickPos.set(-1);
+            App.mSP_Config.edit().putBoolean("HOME", false).apply();
+        }
+    }
+
+    public void refreshImages() {
+        setBottomImage();
+        mainViewModel.refreshImages();
+    }
+
+    /**
+     * 更新侧边栏下载中心数据，如有
+     */
+    private void updateCenterCount() {
+        int ucCount = App.mSP_Config.getInt("UC_COUNT", 0);
+        LogUtil.i(TAG, "uc_count=" + uc_count + ",ucCount=" + ucCount);
+        if (uc_count != ucCount) {
+            mNavViewModel.refreshUpdateCount(ucCount);
+        }
+    }
+
+    /**
+     * 显示帮助页面
+     */
+    private void helpPage() {
+        spHelpPage = getSharedPreferences("HelpPage", MODE_PRIVATE);
+        if (HelpView.isFirstShow(HELP_PAGE_MAIN)) {
+            showHelpPage();
+            isShowPage = true;
+            App.mSP_HP.edit().putInt("HELP_PAGE_" + HelpView.HELP_PAGE_MAIN, HelpView.HELP_PAGE_MAIN).apply();
+        }
+    }
+
+    private void showHelpPage() {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment fragment = getFragmentManager().findFragmentByTag("Dialog");
+        if (fragment != null) {
+            ft.remove(fragment);
+        }
+        ft.addToBackStack(null);
+
+        helpDialog = HelpView.newInstance(HELP_PAGE_MAIN);
+        helpDialog.setCloseListener(mMenuHelpCloseListener);
+        helpDialog.show(ft, "Dialog");
+    }
+
+    private View.OnClickListener mMenuHelpCloseListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            LogUtil.i(TAG, "mMenuHelpCloseListener");
+            helpDialog.dismiss();
+            intentToUpdateCenter();
+            isShowPage = false;
+        }
+    };
+
+    /**
+     * 检查是否有更新，如有，则跳转到更新中心
+     */
+    private void whetherToUC() {
+        OtherRepository repository = OtherRepository.getInstance();
+        repository.initUpdateCenterDao();
+        uc_count = repository.getNeedUpdatedCount();
+        if (!isShowPage) {
+            intentToUpdateCenter();
+        }
+    }
+
+    /**
+     * 如果有更新，跳转到更新中心页面
+     */
+    private void intentToUpdateCenter() {
+        LogUtil.i(TAG, "intentToUpdateCenter");
+        if (uc_count > 0) {
+            Intent intent = new Intent(this, UpdateCenterActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            overridePendingTransPad();
+        }
+    }
+
+    private void m2UpAnimation(String url) {
+        M2Dialog dialog = new M2Dialog(this);
+        dialog.setUrl(url);
+        dialog.show();
+    }
+
+    @Override
+    public <T> void onIntent(T entity, Class toCls) {
+        if (toCls != null && toCls.getSimpleName().equals("ExhibitorDetailActivity")) {
+            Intent intent = new Intent(getApplicationContext(), toCls);
+            intent.putExtra(Constant.COMPANY_ID, ((adAdvertisementObj) entity).M2.getCompanyID(mNavViewModel.mCurrLang.get()));
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            overridePendingTransPad();
+        } else {
+            Intent intent = mNavViewModel.newIntent(this, (MainIcon) entity);
+            if (intent == null) {
+                return;
+            }
+            startActivity(intent);
+            overridePendingTransPad();
+        }
+
+    }
+
+    private void exit() {
+        try {
+            AlertDialog.Builder ad = new AlertDialog.Builder(this);
+            ad.setTitle(getString(R.string.EXIT));
+            ad.setMessage(getString(R.string.EXIT_MSG));
+            ad.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {// ??锟斤 ?锟介 ?
+                @Override
+                public void onClick(DialogInterface dialog, int i) {
+                    App.mDBHelper.db.close();
+                    App.mDBHelper = null;
+                    finish();
+                    System.exit(0);
+                }
+            });
+            ad.setNegativeButton(getString(R.string.cancel), null);
+            ad.show();
+        } catch (Exception e) {
+            System.exit(0);
+        }
+    }
+
+    @Override
+    public void back() {
+        exit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        exit();
     }
 }

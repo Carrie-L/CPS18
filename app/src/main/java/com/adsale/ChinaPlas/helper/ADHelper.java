@@ -51,7 +51,7 @@ public class ADHelper {
 
     public ADHelper(Context context) {
         mContext = context;
-        mLanguage = App.mLanguage.get();
+        mLanguage = AppUtil.getCurLanguage();
     }
 
     private adAdvertisementObj adObj;
@@ -225,8 +225,8 @@ public class ADHelper {
         LogUtil.i(TAG, "SHOWM3:URL=" + m3Url.toString());
         Glide.with(imageView.getContext()).load(Uri.parse(m3Url.toString())).apply(requestOptions).into(imageView);
 
-        AppUtil.trackViewLog(mContext, 203, "Ad", "M3", adObj.M3.getCompanyID(App.mLanguage.get()));
-        AppUtil.setStatEvent(mContext, "ViewM3", "Ad_M3_" + adObj.M3.getCompanyID(App.mLanguage.get()));
+        AppUtil.trackViewLog(mContext, 203, "Ad", "M3", adObj.M3.getCompanyID(AppUtil.getCurLanguage()));
+        AppUtil.setStatEvent(mContext, "ViewM3", "Ad_M3_" + adObj.M3.getCompanyID(AppUtil.getCurLanguage()));
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.data.model.AgentInfo;
+import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.bumptech.glide.Glide;
 
@@ -36,7 +36,7 @@ public class HotelAdapter extends RecyclerView.Adapter<ViewHolder> {
     public HotelAdapter(ArrayList<AgentInfo> hotels, Context context) {
         this.hotels = hotels;
         this.mContext = context;
-        mLanguage = App.mLanguage.get();
+        mLanguage = AppUtil.getCurLanguage();
 
         if (mLanguage != 1) {
             hotels.remove(1);

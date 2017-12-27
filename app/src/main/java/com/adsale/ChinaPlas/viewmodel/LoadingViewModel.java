@@ -8,6 +8,7 @@ import android.databinding.ObservableBoolean;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -22,6 +23,7 @@ import com.adsale.ChinaPlas.dao.TempOpenHelper;
 import com.adsale.ChinaPlas.dao.UpdateCenter;
 import com.adsale.ChinaPlas.dao.WebContent;
 import com.adsale.ChinaPlas.data.ContentHandler;
+import com.adsale.ChinaPlas.data.ExhibitorRepository;
 import com.adsale.ChinaPlas.data.LoadRepository;
 import com.adsale.ChinaPlas.data.LoadTransferTempDB;
 import com.adsale.ChinaPlas.data.LoadingClient;
@@ -97,8 +99,11 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
     }
 
     public final ObservableBoolean showProgressBar = new ObservableBoolean();
+
     public void chooseLang(int language) {
         LogUtil.i(TAG, "language=" + language);
+        showProgressBar.set(true);
+        showLangBtn.set(false);
         AppUtil.switchLanguage(mContext, language);
         run();
     }
@@ -132,7 +137,7 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
     }
 
     private void downNewTecZip() {
-        NewTecHelper newTecHelper=new NewTecHelper();
+        NewTecHelper newTecHelper = new NewTecHelper();
         newTecHelper.init();
         newTecHelper.downNewTecZip(mClient);
     }
@@ -364,7 +369,7 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
      */
     private Observable<String> downTxt(UpdateCenter updateCenter) {
         final String fileName = updateCenter.getScanFile().trim();
-        LogUtil.i(TAG,"downTxt: fileName="+fileName);
+        LogUtil.i(TAG, "downTxt: fileName=" + fileName);
 
         //比较最后更新时间
         if (isOneOfFiveTxt(fileName)) {
@@ -563,6 +568,15 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
 
     @Override
     public void onClick(String companyId) {
+        if (TextUtils.isEmpty(companyId)) {
+            return;
+        }
+        ExhibitorRepository repository = new ExhibitorRepository();
+        if (!repository.isExhibitorIDExists(companyId)) {
+            repository = null;
+            LogUtil.e(TAG, "展商資料庫裏滅有這家展商。");
+            return;
+        }
         Intent intent = new Intent(LOADING_ACTION);
         mSP_Config.edit().putBoolean("M1ShowFinish", true).putString("M1ClickId", companyId).apply();
         mContext.sendBroadcast(intent);

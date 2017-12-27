@@ -1,9 +1,10 @@
 package com.adsale.ChinaPlas.base;
 
+import android.animation.Animator;
+import android.animation.ValueAnimator;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
@@ -17,8 +18,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -32,6 +35,7 @@ import com.adsale.ChinaPlas.databinding.ActivityBaseBinding;
 import com.adsale.ChinaPlas.databinding.NavHeaderBinding;
 import com.adsale.ChinaPlas.ui.LoginActivity;
 import com.adsale.ChinaPlas.ui.MainActivity;
+import com.adsale.ChinaPlas.ui.PadMainActivity;
 import com.adsale.ChinaPlas.ui.ScannerActivity;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
@@ -50,7 +54,11 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
     public final ObservableBoolean isShowTitleBar = new ObservableBoolean(true);
 
     protected String TAG;
+    private int mPadRvHeight;
+    private boolean hasMeasured;
     protected DrawerLayout mDrawerLayout;
+    private RelativeLayout mPadLayout;
+    private NavigationView navigationView;
     protected FrameLayout mBaseFrameLayout;
     protected DBHelper mDBHelper;
     private RecyclerView recyclerView;
@@ -66,7 +74,8 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
     private String eventName;
     protected String mTypePrefix;
     private Window window;
-    private int leftMargin;
+    protected boolean isChangeTitleHomeIcon = false;
+//    protected int mHomeIconRes = R.drawable.ic_home;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,15 +107,15 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
 
         initData();
         setBaiDuTJ();
-        initDrawer();
+        if (isTablet) {
+            initDrawerPad();
+        } else
+            initDrawer();
     }
 
     private void setContentWidth() {
         mScreenWidth = AppUtil.getScreenWidth();
         mScreenHeight = AppUtil.getScreenHeight();
-        if(isTablet){
-            leftMargin=AppUtil.getPadLeftMargin();
-        }
     }
 
     protected void setBarTitle(int resId) {
@@ -117,11 +126,7 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
 
     private void initDrawer() {
         mDrawerLayout = mBaseBinding.drawerLayout;
-        if(isTablet){
-            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(mScreenWidth,mScreenHeight);
-            layoutParams.gravity= Gravity.CENTER_HORIZONTAL;
-            mDrawerLayout.setLayoutParams(layoutParams);
-        }
+        navigationView = mBaseBinding.navView;
         mDrawerLayout.setStatusBarBackground(R.color.colorPrimaryDark);
         mDrawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
@@ -131,6 +136,15 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
                 openDrawer();
             }
         });
+    }
+
+    private void initDrawerPad() {
+        mPadLayout = mBaseBinding.rlPad;
+        navigationView = mBaseBinding.navView;
+        getLeftHeight();
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(mScreenWidth, mScreenHeight);
+        layoutParams.gravity = Gravity.CENTER_HORIZONTAL;
+        mPadLayout.setLayoutParams(layoutParams);
     }
 
     protected void setOnDrawerClickListener() {
@@ -144,20 +158,25 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
         LogUtil.i(TAG, "--------- isInitedDrawer=" + isInitedDrawer);
         long startTime = System.currentTimeMillis();
 
-        NavigationView navigationView = mBaseBinding.navView;
         NavHeaderBinding navBinding = NavHeaderBinding.inflate(getLayoutInflater(), navigationView, true);
         navBinding.setNavModel(mNavViewModel);
-
         recyclerView = navBinding.recyclerView;
-
         setOnDrawerClickListener();
-
-        mNavViewModel.onStart(recyclerView, mDrawerLayout);
+        if (isTablet) {
+            navigationView.setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE);
+            mNavViewModel.onStart(recyclerView, null);
+        } else {
+            mNavViewModel.onStart(recyclerView, mDrawerLayout);
+        }
 
         long endTime = System.currentTimeMillis();
         LogUtil.i(TAG, "initDrawer spend : " + (endTime - startTime) + "ms");
-
-
     }
 
     private void initToolbar() {
@@ -170,9 +189,15 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
             toolbarHeight = (mScreenWidth * Constant.PHONE_HEADER_HEIGHT) / Constant.PHONE_HEADER_WIDTH; /* Toolbar图片尺寸：320*68 */
         }
         App.mSP_Config.edit().putInt(Constant.TOOLBAR_HEIGHT, toolbarHeight).apply();
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mScreenWidth, toolbarHeight);
-        rlToolbar.setLayoutParams(params);
+        if (isTablet) {
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(mScreenWidth, toolbarHeight);
+            rlToolbar.setLayoutParams(params);
+        } else {
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mScreenWidth, toolbarHeight);
+            rlToolbar.setLayoutParams(params);
+        }
         setStatusBar();
+        mBaseBinding.layoutTitleBar.txtBarHome.setImageResource(isChangeTitleHomeIcon ? R.drawable.btn_ok : R.drawable.ic_home);
     }
 
     private void setStatusBar() {
@@ -217,6 +242,7 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
         Intent intent = new Intent(this, cls);
         intent.putExtras(bundle);
         startActivity(intent);
+        overridePendingTransPad();
     }
 
     @Override
@@ -224,6 +250,7 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
         mNavViewModel.isLoginSuccess.set(false);
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(intent);
+        overridePendingTransPad();
     }
 
     protected void logout() {
@@ -236,8 +263,8 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
                 dialog.dismiss();
                 processLogout();
                 LogUtil.i(TAG, "TAG=" + TAG);
-                if (!className.equals("MainActivity")) {
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                if ((!isTablet && !className.equals("MainActivity")) || ((isTablet && !className.equals("PadMainActivity")))) {
+                    Intent intent = new Intent(getApplicationContext(), isTablet ? PadMainActivity.class : MainActivity.class);
                     startActivity(intent);
                     finish();
                     overridePendingTransPad();
@@ -270,8 +297,23 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
     }
 
     private void menu() {
-        openDrawer();
-        mDrawerLayout.openDrawer(GravityCompat.START);
+        if (isTablet) {
+            LogUtil.i(TAG, "navigationView :" + navigationView.getVisibility() + "");
+            if (navigationView.getVisibility() == View.VISIBLE) {
+                LogUtil.i(TAG, "animatorClose");
+                animatorClose();
+            } else {
+                navigationView.setVisibility(View.VISIBLE);
+                openDrawer();
+                animatorOpen();
+                LogUtil.i(TAG, "animatorOpen");
+            }
+        } else {
+            openDrawer();
+            mDrawerLayout.openDrawer(GravityCompat.START);
+            AppUtil.trackViewLog(getApplicationContext(), 184, "Page", "", "SlideMenu");
+        }
+
     }
 
     public void onMenu() {
@@ -285,10 +327,22 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
     }
 
     public void home() {
-        Intent intent = new Intent(this, MainActivity.class);
-        App.mSP_Config.edit().putBoolean("HOME", true).apply();
-        startActivity(intent);
-        finish();
+        if (isChangeTitleHomeIcon) {
+            onReplaceHomeClick();
+        } else {
+            Intent intent = new Intent(this, isTablet ? PadMainActivity.class : MainActivity.class);
+            App.mSP_Config.edit().putBoolean("HOME", true).apply();
+            startActivity(intent);
+            finish();
+            overridePendingTransPad();
+        }
+    }
+
+    /**
+     * 替换掉 HOME icon 后的点击行为
+     */
+    protected void onReplaceHomeClick() {
+
     }
 
     public void overridePendingTransPad() {
@@ -318,17 +372,24 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
         return prefix.concat("_").concat(AppUtil.getLanguageType()).concat("_Android");
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        AppUtil.switchLanguage(getApplicationContext(),AppUtil.getCurLanguage());
-    }
+//    @Override
+//    public void onConfigurationChanged(Configuration newConfig) {
+//        super.onConfigurationChanged(newConfig);
+//        if (AppUtil.isTablet()) {
+//            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+//        }
+//        AppUtil.switchLanguage(getApplicationContext(), AppUtil.getCurLanguage());
+//        mNavViewModel.mCurrLang.set(AppUtil.getCurLanguage());
+//    }
 
     @Override
     protected void onResume() {
         super.onResume();
         StatService.onPageStart(this, eventName);
         LogUtil.e(TAG, "this=" + this + "..onResume_eventName=" + eventName);
+
+        LogUtil.i("onResume", "SP LANGUAGE = " + AppUtil.getCurLanguage() + ", App.mLanguage=" + App.mLanguage.get());
+
     }
 
     @Override
@@ -346,6 +407,72 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
             startActivity(intent);
             overridePendingTransPad();
         }
+    }
+
+    private void getLeftHeight() {
+        ViewTreeObserver observer = navigationView.getViewTreeObserver();
+        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                if (!hasMeasured) {
+                    mPadRvHeight = navigationView.getHeight();
+                    Log.i(TAG, "mPadRvHeight=" + mPadRvHeight);
+                    hasMeasured = true;
+                }
+            }
+        });
+    }
+
+    private void animatorOpen() {
+        navigationView.setVisibility(View.VISIBLE);
+        LogUtil.e(TAG, "mPadRvHeight=" + mPadRvHeight);
+        ValueAnimator animator = createDropAnimator(0, mPadRvHeight);
+        animator.setDuration(500);
+        animator.start();
+        navigationView.requestLayout();
+    }
+
+    private void animatorClose() {
+        int orgHeight = navigationView.getHeight();
+        LogUtil.e(TAG, "orgHeight=" + orgHeight);
+        ValueAnimator animator = createDropAnimator(orgHeight, 0);
+        animator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                navigationView.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        animator.setDuration(500);
+        animator.start();
+    }
+
+    private ValueAnimator createDropAnimator(int start, int end) {
+        ValueAnimator animator = ValueAnimator.ofInt(start, end);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                int value = (Integer) animation.getAnimatedValue();
+                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) navigationView.getLayoutParams();
+                layoutParams.height = value;
+                navigationView.setLayoutParams(layoutParams);
+            }
+        });
+        return animator;
     }
 
 }

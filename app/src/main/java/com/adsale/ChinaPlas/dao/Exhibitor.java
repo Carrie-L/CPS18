@@ -506,11 +506,11 @@ public class Exhibitor implements Parcelable {
     }
 
     public String getAddress() {
-        if (App.mLanguage.get() == 0 && !TextUtils.isEmpty(AddressT)) {
+        if (AppUtil.getCurLanguage() == 0 && !TextUtils.isEmpty(AddressT)) {
             return AddressT;
-        } else if (App.mLanguage.get() == 1 && !TextUtils.isEmpty(AddressT)) {
+        } else if (AppUtil.getCurLanguage() == 1 && !TextUtils.isEmpty(AddressT)) {
             return AddressE;
-        } else if (App.mLanguage.get() == 2 && !TextUtils.isEmpty(AddressS)) {
+        } else if (AppUtil.getCurLanguage() == 2 && !TextUtils.isEmpty(AddressS)) {
             return AddressS;
         }
         return "";
@@ -548,7 +548,7 @@ public class Exhibitor implements Parcelable {
      * @return sort or hall_no
      */
     public String getSort() {
-        language = App.mLanguage.get();
+        language = AppUtil.getCurLanguage();
         /* AZ */
         if (checkStrokeEngNull() && StrokeEng.contains("#")) {
             StrokeEng = "#";
@@ -598,11 +598,11 @@ public class Exhibitor implements Parcelable {
     }
 
     public String getDescription() {
-        if (App.mLanguage.get() == 0 && !TextUtils.isEmpty(DescT)) {
+        if (AppUtil.getCurLanguage() == 0 && !TextUtils.isEmpty(DescT)) {
             return DescT;
-        } else if (App.mLanguage.get() == 1 && !TextUtils.isEmpty(DescE)) {
+        } else if (AppUtil.getCurLanguage() == 1 && !TextUtils.isEmpty(DescE)) {
             return DescE;
-        } else if (App.mLanguage.get() == 2 && !TextUtils.isEmpty(DescS)) {
+        } else if (AppUtil.getCurLanguage() == 2 && !TextUtils.isEmpty(DescS)) {
             return DescS;
         }
         return "";

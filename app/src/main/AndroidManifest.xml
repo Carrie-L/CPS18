@@ -38,20 +38,20 @@
         <activity
             android:name=".ui.RegisterActivity"
             android:theme="@style/AppTheme"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan"
             />
         <activity
             android:name=".ui.MainActivity"
             android:launchMode="singleTask"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan"
           />
 
         <activity
             android:name=".ui.PadMainActivity"
             android:launchMode="singleTask"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan"
             />
 
@@ -61,139 +61,136 @@
 
         <activity
             android:name=".ui.WebViewActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.ScheduleActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.ScheduleEditActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.ExhibitorAllListActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:launchMode="singleTask"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
-            android:name=".ui.ExhibitorActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
-        <activity
             android:name=".ui.NewsActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.NewsDtlActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.NCardCreateEditActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.NCardActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.LoginActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.NCardListActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.ScannerActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.ScanDtlActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.ConcurrentEventActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.WebContentActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan" />
+   
         <activity
             android:name=".ui.DownloadCenterActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.ExhibitorFilterActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.FilterIndustryListActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.FilterApplicationListActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.FilterCountryListActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.FilterHallListActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.FilterBoothListActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.TechnicalListActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.TechSeminarDtlActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.UpdateCenterActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.DocumentsDownCenterActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.SubscribeActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.SettingActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.TravelInfoActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.TravelDetailActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.CommonListActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.ExhibitorHistoryActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <!-- Ping++ ！！！！！！！！！！！！- -->
         <!-- Ping++ SDK -->
         <activity
             android:name="com.pingplusplus.android.PaymentActivity"
-            android:configChanges="orientation|screenSize"
+            android:configChanges="orientation|screenSize|locale"
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
@@ -228,7 +225,7 @@
         <!-- ++++++++++++++++++ShareSDK配置++++++++++++++++++ -->
         <activity
             android:name="com.mob.tools.MobUIShell"
-            android:configChanges="keyboardHidden|orientation|screenSize|locale|layoutDirection|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale|locale|layoutDirection|screenSize|locale"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="stateHidden|adjustResize">
 
@@ -253,20 +250,20 @@
         <!-- 微信分享回调 -->
         <activity
             android:name=".wxapi.WXEntryActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <!-- ++++++++++++++++++ShareSDK配置END++++++++++++++++++ -->
 
         <activity android:name=".ui.ExhibitorDetailActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan"
             />
         <activity android:name=".ui.MyExhibitorActivity" />
         <activity android:name=".ui.NewTecDtlActivity" />
         <activity android:name=".ui.UserInfoActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan"
             />
         <activity android:name=".ui.FloorDistributeActivity" />

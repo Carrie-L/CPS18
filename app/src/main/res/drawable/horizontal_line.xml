@@ -8,7 +8,7 @@
         />
     <!-- 形状的高度 必须大于 width，线居中 -->
     <size android:height="1dp"
-        android:width="500dp"
+        android:width="1500dp"
         />
 
 </shape>

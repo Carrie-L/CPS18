@@ -32,7 +32,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="48dp"
             android:drawableEnd="@{obj.selected?@drawable/ic_choosed:null}"
             android:gravity="center_vertical"
             android:onClick="@{()->adapter.onSelect(obj)}"

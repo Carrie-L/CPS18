@@ -61,6 +61,7 @@ public class ExhibitorFilterActivity extends BaseActivity implements OnIntentLis
         Intent intent = new Intent(this, toCls);
         intent.putExtra("title", names[(Integer) entity]);
         startActivityForResult(intent, (Integer) entity);
+        overridePendingTransPad();
     }
 
     @Override
@@ -105,9 +106,6 @@ public class ExhibitorFilterActivity extends BaseActivity implements OnIntentLis
     }
 
     public void onClear() {
-        if(results.size()==0){
-            return;
-        }
         allFilters.clear();
         results.clear();
         industryFilterView.setList(results);

@@ -4,6 +4,7 @@ package com.adsale.ChinaPlas.adapter;
  * Created by Carrie on 2017/11/16.
  */
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
@@ -13,6 +14,7 @@ import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.CpsBaseAdapter;
 import com.adsale.ChinaPlas.data.model.Text2;
 import com.adsale.ChinaPlas.ui.ExhibitorAllListActivity;
+import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 
 import java.util.ArrayList;
@@ -57,6 +59,9 @@ public class TextAdapter2 extends CpsBaseAdapter<Text2> {
         intent.putExtra("type", mType);
         intent.putExtra("id", id);
         mContext.startActivity(intent);
+        if (AppUtil.isTablet()) {
+            ((Activity) mContext).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        }
     }
 
     @Override

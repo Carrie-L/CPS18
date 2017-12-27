@@ -51,7 +51,7 @@ public class SubscribeActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        language = App.mLanguage.get();
+        language = AppUtil.getCurLanguage();
         test();
     }
 

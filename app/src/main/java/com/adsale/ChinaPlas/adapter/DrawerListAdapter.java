@@ -12,6 +12,7 @@ import com.adsale.ChinaPlas.base.CpsBaseAdapter;
 import com.adsale.ChinaPlas.dao.MainIcon;
 import com.adsale.ChinaPlas.ui.MainActivity;
 import com.adsale.ChinaPlas.ui.PadMainActivity;
+import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.viewmodel.NavViewModel;
 
@@ -52,7 +53,7 @@ public class DrawerListAdapter extends CpsBaseAdapter<MainIcon> {
             entity = list.get(i);
             if (entity.getBaiDu_TJ().trim().equals("ContentUpdate")) {
                 entity.updateCount.set(count);
-                list.set(i,entity);
+                list.set(i, entity);
                 notifyItemChanged(i);
                 break;
             }
@@ -65,7 +66,9 @@ public class DrawerListAdapter extends CpsBaseAdapter<MainIcon> {
             showChild(entity);
         } else {
             Intent intent = navViewModel.intent((Activity) mContext, entity);
-            if (intent != null && (!(mContext instanceof MainActivity) || !(mContext instanceof PadMainActivity) )) {
+            if (intent != null && AppUtil.isTablet() && !(mContext instanceof PadMainActivity)) {
+                ((Activity) mContext).finish();
+            } else if (intent != null && !AppUtil.isTablet() && !(mContext instanceof MainActivity)) {
                 ((Activity) mContext).finish();
             }
         }
@@ -121,7 +124,6 @@ public class DrawerListAdapter extends CpsBaseAdapter<MainIcon> {
 
     @Override
     protected int getLayoutIdForPosition(int position) {
-        LogUtil.i(TAG, "getLayoutIdForPosition");
         if (list.get(position).isDrawerChild.get()) {
             return R.layout.item_drawer_child;
         }

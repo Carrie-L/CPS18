@@ -9,7 +9,9 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -31,6 +33,7 @@ import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.PermissionUtil;
 import com.adsale.ChinaPlas.viewmodel.LoadingViewModel;
 
+import java.lang.reflect.Field;
 import java.util.UUID;
 
 import static com.adsale.ChinaPlas.helper.LoadingReceiver.LOADING_ACTION;
@@ -50,6 +53,15 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            try {
+                Class decorViewClazz = Class.forName("com.android.internal.policy.DecorView");
+                Field field = decorViewClazz.getDeclaredField("mSemiTransparentStatusBarColor");
+                field.setAccessible(true);
+                field.setInt(getWindow().getDecorView(), Color.TRANSPARENT);  //改为透明
+            } catch (Exception e) {
+            }
+        }
         binding = DataBindingUtil.setContentView(this, R.layout.activity_loading);
         mLoadingModel = new LoadingViewModel(getApplicationContext());
         binding.setLoadingModel(mLoadingModel);
@@ -72,20 +84,25 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
             requestPermission();
             getDeviceInfo();
         } else {
-            int language = AppUtil.getCurLanguage();
-            AppUtil.switchLanguage(getApplicationContext(), language);
-            App.mLanguage.set(language);
-
+            isTablet = AppUtil.isTablet();
+            setRequestedOrientation();
+            AppUtil.switchLanguage(getApplicationContext(), AppUtil.getCurLanguage());
             getDeviceInfo2();
             mLoadingModel.run();
         }
     }
 
     private void hideNavBar() {
-        binding.getRoot().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
     }
 
     private void registerBroadcastReceiver() {
@@ -99,6 +116,10 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
         isTablet = getResources().getBoolean(R.bool.isTablet);
         LogUtil.i(TAG, "isTablet=" + isTablet);
         mConfigSP.edit().putBoolean("isTablet", isTablet).apply();
+        setRequestedOrientation();
+    }
+
+    private void setRequestedOrientation() {
         if (isTablet) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         } else {
@@ -109,11 +130,7 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        if (isTablet) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
+        setRequestedOrientation();
     }
 
     private void getDeviceInfo() {
@@ -124,20 +141,13 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
         int width = point.x;
         int height = point.y;
         LogUtil.i(TAG, "device 的宽高为：width=" + width + ",height=" + height + ",displayHeight=" + displayHeight);
-
         if (isTablet) {
             LogUtil.i(TAG, "isTablet");
             int contentWidth = (1840 * height) / 1536; // 2014*1536是设计图的尺寸； 1840*1536 是中间内容的尺寸。
             int leftMargin = (width - contentWidth) / 2;
-            LogUtil.i(TAG, "leftMargin = " + leftMargin);
-            LogUtil.i(TAG, "screenWidth =" + width + ",contentWidth=" + contentWidth);
-
             float screenWidthRate = ((float) width / 2048f); // 实际屏幕宽度 比 主界面设计图片宽度 。这样在计算显示宽度时只需用 图片宽度 * rate 即为需要的宽度
-            LogUtil.i(TAG, "screenWidthRate = " + screenWidthRate);
             float heightRate = (float) height / 1536f;
-            LogUtil.i(TAG, "heightRate = " + heightRate);
-//            width = width - leftMargin * 2;
-//            LogUtil.i(TAG, "new mScreenWidth = " + width);
+            LogUtil.i(TAG, "heightRate = " + heightRate+",screenWidthRate = " + screenWidthRate);
             width = contentWidth;
             LogUtil.i(TAG, "mScreenHeight = " + height);
 
@@ -220,17 +230,22 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
     public void intent(String companyId) {
         LogUtil.i(TAG, ")))) ALL END ,GO AHEAD");
         mConfigSP.edit().putBoolean("M1ShowFinish", false).putBoolean("txtDownFinish", false).putBoolean("webServicesDownFinish", false).putString("M1ClickId", "").apply();
-        if (AppUtil.isTablet()) {
-            Intent i = new Intent(this, companyId.isEmpty() ? PadMainActivity.class : ExhibitorActivity.class);
+        LogUtil.i(TAG, "isTablet=" + isTablet);
+
+        if (!companyId.isEmpty()) {
+            Intent i = new Intent(this, ExhibitorDetailActivity.class);
+            i.putExtra(Constant.COMPANY_ID, companyId);
+            i.putExtra("FromM1", true);
             startActivity(i);
         } else {
-            Intent i = new Intent(this, companyId.isEmpty() ? MainActivity.class : ExhibitorActivity.class);
+            Intent i = new Intent(this, isTablet ? PadMainActivity.class : MainActivity.class);
             startActivity(i);
         }
-
-
         mLoadingModel.unSubscribe();
         finish();
+        if (AppUtil.isTablet()) {
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        }
     }
 
     @Override

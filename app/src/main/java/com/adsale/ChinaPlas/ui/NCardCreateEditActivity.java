@@ -133,6 +133,7 @@ public class NCardCreateEditActivity extends BaseActivity implements NCardViewMo
             startActivity(intent);
         }
         finish();
+        overridePendingTransPad();
     }
 
 

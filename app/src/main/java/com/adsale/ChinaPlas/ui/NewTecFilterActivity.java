@@ -55,6 +55,7 @@ public class NewTecFilterActivity extends BaseActivity implements OnIntentListen
         }
         intent.putExtra("index", index);
         startActivityForResult(intent, (Integer) entity);
+        overridePendingTransPad();
     }
 
     @Override

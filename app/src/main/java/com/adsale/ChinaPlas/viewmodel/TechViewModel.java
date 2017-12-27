@@ -11,6 +11,7 @@ import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.data.OtherRepository;
 import com.adsale.ChinaPlas.data.model.adAdvertisementObj;
 import com.adsale.ChinaPlas.helper.ADHelper;
+import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
 
@@ -50,7 +51,7 @@ public class TechViewModel {
     }
 
     private void init() {
-        currLang = App.mLanguage.get();
+        currLang = AppUtil.getCurLanguage();
         mRepository = OtherRepository.getInstance();
         mRepository.initTechSeminarDao();
         adHelper = new ADHelper(mContext);

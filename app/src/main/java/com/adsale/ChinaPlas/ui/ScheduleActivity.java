@@ -1,32 +1,30 @@
 package com.adsale.ChinaPlas.ui;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.LinearLayout;
 
 import com.adsale.ChinaPlas.App;
+import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.ScheduleAdapter;
 import com.adsale.ChinaPlas.base.BaseActivity;
-import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.dao.ScheduleInfo;
 import com.adsale.ChinaPlas.databinding.ActivityScheduleBinding;
 import com.adsale.ChinaPlas.ui.view.HelpView;
-import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.viewmodel.ScheduleViewModel;
 
-import java.util.ArrayList;
-
-import static android.R.attr.id;
 import static com.adsale.ChinaPlas.utils.Constant.INTENT_SCHEDULE;
 
 public class ScheduleActivity extends BaseActivity {
 
     private ScheduleViewModel mScheduleModel;
     private RecyclerView recyclerView;
+    private HelpView helpDialog;
 
     @Override
     protected void initView() {
@@ -46,19 +44,28 @@ public class ScheduleActivity extends BaseActivity {
         mScheduleModel.onStart();
         ScheduleAdapter adapter = new ScheduleAdapter(mScheduleModel.scheduleInfos, getApplicationContext());
         recyclerView.setAdapter(adapter);
+
+        if (HelpView.isFirstShow(HelpView.HELP_PAGE_SCHEDULE)) {
+            showHelpPage();
+            App.mSP_HP.edit().putInt("HELP_PAGE_" + HelpView.HELP_PAGE_SCHEDULE,
+                    HelpView.HELP_PAGE_SCHEDULE).apply();
+        }
     }
 
     public void onItemClick(ScheduleInfo entity) {
         Intent intent = new Intent(this, ScheduleEditActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(INTENT_SCHEDULE, entity);
+        intent.putExtra("title",getString(R.string.edit_schedule));
         startActivity(intent);
+        overridePendingTransPad();
     }
 
     public void onAddClick() {
         Intent intent = new Intent(this, ExhibitorAllListActivity.class);
         intent.putExtra("date", mScheduleModel.date.get());
         startActivity(intent);
+        overridePendingTransPad();
     }
 
     @Override
@@ -73,18 +80,18 @@ public class ScheduleActivity extends BaseActivity {
     }
 
     public void onHelpPage() {
-        HelpView helpView = new HelpView(this, HelpView.HELP_PAGE_SCHEDULE);
-        helpView.show();
+        showHelpPage();
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if(resultCode==RESULT_OK&&requestCode==Constant.REQUEST_CODE_ADD_SCHEDULE){
-//            Exhibitor exhibitor = data.getParcelableExtra(Constant.EXHIBITOR);
-//            mScheduleModel.setCompanyId(exhibitor.getCompanyID());
-//            mScheduleModel.etTitle.set(exhibitor.getCompanyName());
-//            mScheduleModel.etLocation.set(exhibitor.getBoothNo());
-//        }
-//    }
+    private void showHelpPage() {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment fragment = getFragmentManager().findFragmentByTag("Dialog");
+        if (fragment != null) {
+            ft.remove(fragment);
+        }
+        ft.addToBackStack(null);
+
+        helpDialog = HelpView.newInstance(HelpView.HELP_PAGE_SCHEDULE);
+        helpDialog.show(ft, "Dialog");
+    }
 }

@@ -142,7 +142,7 @@ public class TechSeminarDtlActivity extends BaseActivity {
     }
 
     private int getCurrLangId() {
-        int currLang = App.mLanguage.get();
+        int currLang = AppUtil.getCurLanguage();
         return currLang == 0 ? 950 : currLang == 1 ? 1252 : 936;
     }
 }

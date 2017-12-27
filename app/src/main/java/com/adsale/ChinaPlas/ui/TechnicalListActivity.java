@@ -61,5 +61,6 @@ public class TechnicalListActivity extends BaseActivity implements OnIntentListe
         intent.putExtra("Info", (SeminarInfo) entity);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        overridePendingTransPad();
     }
 }
