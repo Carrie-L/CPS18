@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.adsale.ChinaPlas.viewmodel.NavViewModel" />
+
+        <variable
+            name="activity"
+            type="com.adsale.ChinaPlas.base.BaseActivity" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rl_pad"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff"
+        >
+
+        <include
+            android:id="@+id/layout_title_bar"
+            layout="@layout/view_title_bar"
+            app:activity="@{activity}" />
+
+        <FrameLayout
+            android:id="@+id/contentFrame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/layout_title_bar"
+            android:background="@android:color/white" />
+
+        <android.support.design.widget.NavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_below="@id/layout_title_bar"
+            android:layout_gravity="start"
+            android:visibility="invisible"
+            android:background="#fff"
+            android:fitsSystemWindows="false"
+            app:headerLayout="@layout/nav_header" />
+
+    </RelativeLayout>
+
+</layout>
