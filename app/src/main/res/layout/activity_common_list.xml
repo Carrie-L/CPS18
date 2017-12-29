@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/nodata"
-            android:visibility="@{view.nodata?View.VISIBLE:View.GONE}" />
+            android:visibility="@{view.nodata.get()?View.VISIBLE:View.GONE}" />
 
 
     </RelativeLayout>

@@ -8,3 +8,8 @@ JST: JUST FOR TEST
 如果不加这个，而是改为用RecyclerView请求焦点（requestFocus），则 EditText框光标不闪烁，不弹出输入法。
 
 
+todo
+1. 本地化：加上侧边栏icon，
+
+
+

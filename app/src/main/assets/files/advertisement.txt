@@ -1,7 +1,7 @@
 ﻿{
   "Common": {
     "baseUrl": "https://o97tbiy1f.qnssl.com/advertisement/",
-    "time": "13/1/2017-30/12/2017",
+    "time": "13/1/2017-01/12/2017",
     "tablet": "tablet_",
     "phone": "phone_"
   },
@@ -35,7 +35,7 @@
     "isChange": "1"
   },
   "M2": {
-    "version": "2",
+    "version": "3",
     "function": "1",
     "filepath": "M2/",
     "format": ".jpg",

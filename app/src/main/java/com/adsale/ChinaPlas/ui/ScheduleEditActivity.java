@@ -14,8 +14,6 @@ import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.viewmodel.ScheduleEditViewModel;
 
-import static com.adsale.ChinaPlas.R.id.language;
-
 /**
  * 日程表 add or edit
  */
@@ -39,7 +37,7 @@ public class ScheduleEditActivity extends BaseActivity implements ScheduleEditVi
             mEditModel.isEdit.set(false);
             mEditModel.setCompanyId(exhibitor.getCompanyID());
             mEditModel.etStartDate.set(getIntent().getStringExtra("date"));
-            mEditModel.etTitle.set(exhibitor.getCompanyName(language));
+            mEditModel.etTitle.set(exhibitor.getCompanyName(AppUtil.getCurLanguage()));
             mEditModel.etLocation.set(exhibitor.getBoothNo());
             mEditModel.etNote.set(exhibitor.getNote());
         }

@@ -1067,7 +1067,7 @@ public class AppUtil {
 
     public static boolean isNetworkAvailable() {
         NetworkInfo ni = App.mConnectivityManager.getActiveNetworkInfo();
-        return ni != null && ni.isAvailable() && ni.isConnected();
+        return ni.isAvailable() && ni.isConnected();
     }
 
     public static <T> void logListString(ArrayList<T> list) {

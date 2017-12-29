@@ -28,7 +28,7 @@
             android:text="@{obj.sort}"
             android:textColor="@color/home"
             android:textSize="16sp"
-            android:visibility="@{obj.isTypeLabel?View.VISIBLE:View.GONE}" />
+            android:visibility="@{obj.isTypeLabel.get()?View.VISIBLE:View.GONE}" />
 
         <TextView
             android:layout_width="match_parent"

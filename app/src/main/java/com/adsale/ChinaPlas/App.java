@@ -10,6 +10,7 @@ import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.databinding.ObservableInt;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Environment;
 import android.support.multidex.MultiDexApplication;
 
@@ -23,11 +24,12 @@ import com.adsale.ChinaPlas.utils.CrashHandler;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.crashlytics.android.Crashlytics;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.concurrent.TimeUnit;
+import java.io.InputStreamReader;
 
 import io.fabric.sdk.android.Fabric;
 import okhttp3.OkHttpClient;
@@ -88,9 +90,65 @@ public class App extends MultiDexApplication {
 
         mAssetManager = getAssets();
 
-        mOkHttpClient = new OkHttpClient.Builder().connectTimeout(15, TimeUnit.SECONDS).build();
+//        isNetworkAvailable = AppUtil.isNetworkAvailable();
+        mOkHttpClient = new OkHttpClient.Builder().build();//connectTimeout(15, TimeUnit.SECONDS).
 
         getDbHelper();
+    }
+
+    public static boolean isNetworkAvailable;
+
+    private void isNetworkAvailable() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = mConnectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        String typeName = networkInfo.getTypeName().toLowerCase();
+        LogUtil.i(TAG, "isNetworkAvailable:typeName 0 = " + typeName);
+        if (typeName.equalsIgnoreCase("wifi")) {
+            boolean isWifiConn = networkInfo.isConnected();
+            LogUtil.i(TAG, "isNetworkAvailable:isWifiConn  = " + isWifiConn);
+            if (isWifiConn) {
+//                isNetworkAvailable = false;
+//                ping("www.baidu.com",2,new StringBuffer());
+//                isNetworkAvailable = pingWifi();
+            }
+        } else {
+            typeName = networkInfo.getExtraInfo().toLowerCase();
+            NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+//            isNetworkAvailable = activeNetwork != null &&
+//                    activeNetwork.isConnectedOrConnecting();
+        }
+        LogUtil.i(TAG, "isNetworkAvailable:typeName 1 = " + typeName);
+//        LogUtil.i(TAG, "isNetworkAvailable = " + isNetworkAvailable);
+    }
+
+    /**
+     * 有时会出现有wifi，但没网络的情况，因此先ping一下百度看看网络连接
+     */
+    public boolean pingWifi() {
+        long startTime = System.currentTimeMillis();
+        try {
+            Process process = Runtime.getRuntime().exec("ping www.baidu.com");
+            // 读取ping的内容，可以不加
+            InputStream input = process.getInputStream();
+            BufferedReader in = new BufferedReader(new InputStreamReader(input));
+            StringBuffer stringBuffer = new StringBuffer();
+            String content = "";
+            while ((content = in.readLine()) != null) {
+                stringBuffer.append(content);
+            }
+            LogUtil.i(TAG, "PING: " + stringBuffer.toString());
+
+            int status = process.waitFor();
+            LogUtil.i(TAG, "pingWifi: status=" + status);
+            return status == 0;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        long endTime = System.currentTimeMillis();
+        LogUtil.i(TAG, "PING TIME:" + (endTime - startTime) + "ms");
+        return false;
     }
 
     private void initSP() {

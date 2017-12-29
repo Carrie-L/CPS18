@@ -27,7 +27,7 @@
             android:onClick="@{()->view.onDel()}"
             android:text="@string/card_delete"
             android:textColor="#fff"
-            android:visibility="@{view.isShowDel.get()?View.VISIBLE:View.GONE}" />
+            android:visibility="@{view.isShowDel?View.VISIBLE:View.GONE}" />
 
         <com.github.chrisbanes.photoview.PhotoView
             android:id="@+id/iv_scale"

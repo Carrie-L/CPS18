@@ -77,37 +77,62 @@ public class LoadRepository {
         return isFirstGetMaster && list.size() > 0;
     }
 
-    private <T> void insertAll(ArrayList<T> list, AbstractDao<T, String> dao, String maxUT) {
+    private <T> void insertAll(ArrayList<T> list, AbstractDao<T, String> dao) {
         if (list.size() > 0) {
             long startTime = System.currentTimeMillis();
-            if (deleteAll(list)) {
-                LogUtil.e(TAG, dao.getTablename() + " --->>> clear all data");
-                dao.deleteAll();
-            }
             dao.insertOrReplaceInTx(list);
             LogUtil.i(TAG, "insertMainIconAll：" + (System.currentTimeMillis() - startTime) + "ms");
-            mSP_lut.edit().putString(dao.getTablename(), maxUT).apply();
         }
     }
 
     void insertMainIconAll(ArrayList<MainIcon> list) {
-        insertAll(list, mMainIconDao, getMaxUT(MainIconDao.Properties.UpdateDateTime, mMainIconDao).getUpdateDateTime());
+        if (deleteAll(list)) {
+            LogUtil.e(TAG, mMainIconDao.getTablename() + " --->>> clear all data");
+            mMainIconDao.deleteAll();
+        }
+        insertAll(list, mMainIconDao);
     }
 
     void insertNewsAll(ArrayList<News> list) {
-        insertAll(list, mNewsDao, getMaxUT(NewsDao.Properties.UpdateDateTime, mNewsDao).getUpdateDateTime());
+        if (deleteAll(list)) {
+            LogUtil.e(TAG, mNewsDao.getTablename() + " --->>> clear all data");
+            mNewsDao.deleteAll();
+        }
+        insertAll(list, mNewsDao);
     }
 
     void insertNewsLinkAll(ArrayList<NewsLink> list) {
-        insertAll(list, mNewsLinkDao, getMaxUT(NewsLinkDao.Properties.UpdateDateTime, mNewsLinkDao).getUpdateDateTime());
+        if (deleteAll(list)) {
+            LogUtil.e(TAG, mNewsLinkDao.getTablename() + " --->>> clear all data");
+            mNewsLinkDao.deleteAll();
+        }
+        insertAll(list, mNewsLinkDao);
     }
 
     void insertWebContentAll(ArrayList<WebContent> list) {
-        insertAll(list, mWebContentDao, getMaxUT(WebContentDao.Properties.UpdateDateTime, mWebContentDao).getUpdateDateTime());
+        if (deleteAll(list)) {
+            LogUtil.e(TAG, mWebContentDao.getTablename() + " --->>> clear all data");
+            mWebContentDao.deleteAll();
+        }
+        insertAll(list, mWebContentDao);
     }
 
     void insertMapFloorAll(ArrayList<MapFloor> list) {
-        insertAll(list, mMapFloorDao, getMaxUT(MapFloorDao.Properties.UpdateDateTime, mMapFloorDao).getUpdateDateTime());
+        if (deleteAll(list)) {
+            LogUtil.e(TAG, mMapFloorDao.getTablename() + " --->>> clear all data");
+            mMapFloorDao.deleteAll();
+        }
+        insertAll(list, mMapFloorDao);
+    }
+
+    void setLUT() {
+        mSP_lut.edit()
+                .putString(MainIconDao.TABLENAME, getMaxUT(MainIconDao.Properties.UpdateDateTime, mMainIconDao).getUpdateDateTime())
+                .putString(NewsDao.TABLENAME, getMaxUT(NewsDao.Properties.UpdateDateTime, mNewsDao).getUpdateDateTime())
+                .putString(NewsLinkDao.TABLENAME, getMaxUT(NewsLinkDao.Properties.UpdateDateTime, mNewsLinkDao).getUpdateDateTime())
+                .putString(WebContentDao.TABLENAME, getMaxUT(WebContentDao.Properties.UpdateDateTime, mWebContentDao).getUpdateDateTime())
+                .putString(MapFloorDao.TABLENAME, getMaxUT(MapFloorDao.Properties.UpdateDateTime, mMapFloorDao).getUpdateDateTime())
+                .apply();
     }
 
     /**

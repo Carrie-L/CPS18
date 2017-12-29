@@ -33,7 +33,6 @@ public class ExhibitorAllListActivity extends BaseActivity implements OnItemClic
     private ExhibitorListViewModel mExhibitorModel;
     private ActivityExhibitorAllListBinding binding;
     private ExhibitorRepository mRepository;
-    private RecyclerView rvExhibitors;
     private String date;
     //    private SideLetter sideLetter;
     private ExhibitorAdapter adapter;
@@ -42,10 +41,11 @@ public class ExhibitorAllListActivity extends BaseActivity implements OnItemClic
     private int position;
     private Exhibitor mEntity;
     private SideDataView mSideDataView;
+    private EditText etSearch;
 
     @Override
     protected void initView() {
-      setBarTitle(R.string.title_exhibitor);
+        setBarTitle(R.string.title_exhibitor);
         binding = ActivityExhibitorAllListBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         ADHelper adHelper = new ADHelper(this);
         adHelper.showM3(binding.ivAd);
@@ -69,8 +69,8 @@ public class ExhibitorAllListActivity extends BaseActivity implements OnItemClic
         setExhibitorList();
         setupSideLetter();
 
-        EditText etFilter = binding.editFilter;
-        etFilter.addTextChangedListener(new TextWatcher() {
+        etSearch = binding.editFilter;
+        etSearch.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -93,7 +93,7 @@ public class ExhibitorAllListActivity extends BaseActivity implements OnItemClic
     }
 
     private void setExhibitorList() {
-        rvExhibitors = binding.rvKs;
+        RecyclerView rvExhibitors = binding.rvKs;
         mSideDataView = binding.viewSideData;
         mSideDataView.initRecyclerView(rvExhibitors);
         mExhibitorModel.setLayoutManager(mSideDataView);
@@ -111,6 +111,7 @@ public class ExhibitorAllListActivity extends BaseActivity implements OnItemClic
     @Override
     public <T> void onIntent(T entity, Class toCls) {
         mExhibitorModel.isSearching = false;
+        etSearch.setText("");
         mExhibitorModel.isFiltering = true;
         Intent intent = new Intent(this, toCls);
         startActivityForResult(intent, REQUEST_FILTER);
@@ -167,7 +168,7 @@ public class ExhibitorAllListActivity extends BaseActivity implements OnItemClic
         if (!TextUtils.isEmpty(date)) {
             intent = new Intent(ExhibitorAllListActivity.this, ScheduleEditActivity.class);
             intent.putExtra("date", date);
-            intent.putExtra("title",getString(R.string.title_add_schedule));
+            intent.putExtra("title", getString(R.string.title_add_schedule));
             intent.putExtra(Constant.INTENT_EXHIBITOR, (Exhibitor) entity);
             startActivity(intent);
             finish();

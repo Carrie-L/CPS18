@@ -37,7 +37,7 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/card_view_margin"
             android:layout_marginRight="@dimen/card_view_margin_right"
-            android:visibility="@{pos==adapter.mClickPos?View.INVISIBLE:View.VISIBLE}"
+            android:visibility="@{pos==adapter.mClickPos.get()?View.INVISIBLE:View.VISIBLE}"
             app:cardCornerRadius="1dp"
             app:cardElevation="@dimen/card_elevation">
 
@@ -64,7 +64,6 @@
                     android:padding="4dp"
                     android:text="@{obj.getTitle(navModel.mCurrLang.get(),navModel.isLoginSuccess.get())}"
                  />
-                <!--   "  -->
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
@@ -78,7 +77,7 @@
             android:layout_marginTop="1dp"
             android:background="#fff"
             android:orientation="vertical"
-            android:visibility="@{pos==adapter.mClickPos?View.VISIBLE:View.GONE}">
+            android:visibility="@{pos==adapter.mClickPos.get()?View.VISIBLE:View.GONE}">
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
@@ -98,7 +97,7 @@
                     android:gravity="center_vertical"
                     android:onClick="@{()->adapter.onInnerClick(0,adapter.innerMenu0.get())}"
                     android:paddingLeft="12dp"
-                    android:text="@{adapter.innerMenu0.getTitle(navModel.mCurrLang.get())}"
+                    android:text="@{adapter.innerMenu0.get().getTitle(navModel.mCurrLang.get())}"
                    />
 
             </android.support.v7.widget.CardView>
@@ -122,7 +121,7 @@
                     android:gravity="center_vertical"
                     android:onClick="@{()->adapter.onInnerClick(1,adapter.innerMenu1.get())}"
                     android:paddingLeft="12dp"
-                    android:text="@{adapter.innerMenu1.getTitle(navModel.mCurrLang.get())}"
+                    android:text="@{adapter.innerMenu1.get().getTitle(navModel.mCurrLang.get())}"
                     />
             </android.support.v7.widget.CardView>
         </LinearLayout>

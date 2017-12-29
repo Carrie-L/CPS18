@@ -14,6 +14,14 @@ public class Text2 {
         this.text = text;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public String getText() {
+        return text;
+    }
+
     @Override
     public String toString() {
         return "Text2{" +

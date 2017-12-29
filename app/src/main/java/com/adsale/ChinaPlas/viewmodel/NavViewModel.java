@@ -7,16 +7,13 @@ import android.content.SharedPreferences;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
-import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
-import com.adsale.ChinaPlas.adapter.DrawerAdapter;
 import com.adsale.ChinaPlas.adapter.DrawerListAdapter;
 import com.adsale.ChinaPlas.dao.MainIcon;
 import com.adsale.ChinaPlas.data.MainIconRepository;
@@ -57,7 +54,7 @@ import static com.adsale.ChinaPlas.utils.PermissionUtil.PMS_CODE_CAMERA;
  * 侧边栏
  */
 
-public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener, OnIntentListener {
+public class NavViewModel implements  OnIntentListener {
     //drawer
     public final ObservableField<String> drawerLoginTitle = new ObservableField<>();
     public final ObservableField<String> drawerLoginOrSync = new ObservableField<>();
@@ -194,18 +191,18 @@ public class NavViewModel implements DrawerAdapter.OnCloseDrawerListener, OnInte
     }
 
     public void login(View view) {
-        close();
+//        close();
         if (mDrawerListener != null) {
             mDrawerListener.login();
         }
     }
 
-    @Override
-    public void close() {
-        if (mDrawerLayout != null) {
-            mDrawerLayout.closeDrawer(GravityCompat.START);
-        }
-    }
+//    @Override
+//    public void close() {
+//        if (mDrawerLayout != null) {
+//            mDrawerLayout.closeDrawer(GravityCompat.START);
+//        }
+//    }
 
     public Intent intent(Activity activity, MainIcon mainIcon) {
         LogUtil.i(TAG, "mContext: " + mContext.getClass().getSimpleName());

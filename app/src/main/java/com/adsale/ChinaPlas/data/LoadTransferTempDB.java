@@ -20,7 +20,6 @@ import java.io.File;
 import java.util.List;
 
 import static com.adsale.ChinaPlas.App.DATABASE_NAME;
-import static com.adsale.ChinaPlas.dao.HISTORY_EXHIBITOR_TEMPDao.Properties.COMPANY_NAME_CN;
 
 /**
  * Created by Carrie on 2017/9/18.
@@ -121,12 +120,10 @@ public class LoadTransferTempDB {
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 cv = new ContentValues();
-                LogUtil.i("LoadTransferTempDB", "COMPANY_ID=" + cursor.getString(0));
                 cv.put("COMPANY_ID", cursor.getString(0));
                 cv.put("IS_FAVOURITE", cursor.getString(1));
                 cv.put("NOTE", cursor.getString(2));
                 success = tempDB.insert(EXHIBITOR_TABLE_TEMP, null, cv);
-                LogUtil.i("LoadTransferTempDB", "success=" + success);
             }
             cursor.close();
         }
@@ -195,7 +192,6 @@ public class LoadTransferTempDB {
      */
     public void insertNewTable() {
         if (tempDB != null) {
-            LogUtil.i("LoadTransferTempDB", "insertNewTable:tempDB=" + tempDB);
             getExhibitorTemp();
             getHistoryTemp();
             getScheduleTemp();
@@ -218,7 +214,6 @@ public class LoadTransferTempDB {
                 cv.put("IS_FAVOURITE", cursor.getString(1));
                 cv.put("NOTE", cursor.getString(2));
                 success = db.update(ExhibitorDao.TABLENAME, cv, "COMPANY_ID=?", new String[]{companyId});
-                LogUtil.i("LoadTransferTempDB", "getExhibitorTemp:success=" + success + ": " + companyId + ",IS_FAVOURITE=" + cursor.getString(1) + ",note=" + cursor.getString(2));
             }
             cursor.close();
         }
@@ -242,7 +237,6 @@ public class LoadTransferTempDB {
                 cv.put("TIME", cursor.getString(6));
 
                 success = db.insert(HistoryExhibitorDao.TABLENAME, null, cv);
-                LogUtil.i("LoadTransferTempDB", "getHistoryTemp:success=" + success + ",COMPANY_NAME_CN=" + COMPANY_NAME_CN);
             }
             cursor.close();
         }

@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:gravity="center_vertical"
-        android:onClick="@{()->adapter.onItemClick(obj.id)}"
+        android:onClick="@{()->adapter.onItemClick(obj.getId())}"
         android:text="@{obj.text}"
         android:textColor="@color/deep_gray" />
 

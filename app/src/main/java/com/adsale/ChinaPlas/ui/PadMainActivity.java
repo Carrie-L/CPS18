@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -84,7 +85,9 @@ public class PadMainActivity extends BaseActivity implements OnIntentListener {
 
         helpPage();
         whetherToUC();
-        m2UpAnimation(mainViewModel.m2LargeUrl);
+        if (!TextUtils.isEmpty(mainViewModel.m2LargeUrl)) {
+            m2UpAnimation(mainViewModel.m2LargeUrl);
+        }
 //        m2UpAnimation("https://o97tbiy1f.qnssl.com/advertisement/M2/phone_sc_big_2.jpg");
     }
 
@@ -137,8 +140,17 @@ public class PadMainActivity extends BaseActivity implements OnIntentListener {
 
     private void setBottomImage() {
         LogUtil.i(TAG, "mainPic.LeftBottomBanner.TC.BannerImage_Pad=" + mainPic.LeftBottomBanner.TC.BannerImage_Pad);
-        Glide.with(getApplicationContext()).load(Uri.parse(mNavViewModel.mCurrLang.get() == 0 ? mainPic.LeftBottomBanner.TC.BannerImage_Pad : mNavViewModel.mCurrLang.get() == 1 ? mainPic.LeftBottomBanner.EN.BannerImage_Pad : mainPic.LeftBottomBanner.SC.BannerImage_Pad)).into(padBinding.ivUpPic);
-        Glide.with(getApplicationContext()).load(Uri.parse(mNavViewModel.mCurrLang.get() == 0 ? mainPic.RightBottomBanner.TC.BannerImage_Pad : mNavViewModel.mCurrLang.get() == 1 ? mainPic.RightBottomBanner.EN.BannerImage_Pad : mainPic.RightBottomBanner.SC.BannerImage_Pad)).into(padBinding.ivDownPic);
+        if (App.isNetworkAvailable) {
+            Glide.with(getApplicationContext()).load(Uri.parse(mNavViewModel.mCurrLang.get() == 0 ? mainPic.LeftBottomBanner.TC.BannerImage_Pad : mNavViewModel.mCurrLang.get() == 1 ? mainPic.LeftBottomBanner.EN.BannerImage_Pad : mainPic.LeftBottomBanner.SC.BannerImage_Pad)).into(padBinding.ivUpPic);
+            Glide.with(getApplicationContext()).load(Uri.parse(mNavViewModel.mCurrLang.get() == 0 ? mainPic.RightBottomBanner.TC.BannerImage_Pad : mNavViewModel.mCurrLang.get() == 1 ? mainPic.RightBottomBanner.EN.BannerImage_Pad : mainPic.RightBottomBanner.SC.BannerImage_Pad)).into(padBinding.ivDownPic);
+        } else {
+            Glide.with(getApplicationContext()).load(String.format("file:///android_asset/MainIcon/left_%s.png", getLangType())).into(padBinding.ivUpPic);
+            Glide.with(getApplicationContext()).load(String.format("file:///android_asset/MainIcon/right_%s.png", getLangType())).into(padBinding.ivDownPic);
+        }
+    }
+
+    private String getLangType() {
+        return App.mLanguage.get() == 0 ? "tc" : App.mLanguage.get() == 1 ? "en" : "sc";
     }
 
     @Override

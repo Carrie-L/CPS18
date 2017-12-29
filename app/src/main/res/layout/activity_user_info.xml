@@ -46,7 +46,7 @@
             android:drawableLeft="@drawable/ic_logout"
             android:onClick="@{()->aty.onLogout()}"
             android:text="@string/logout"
-            android:visibility="@{aty.isLogin?View.VISIBLE:View.GONE}" />
+            android:visibility="@{aty.isLogin.get()?View.VISIBLE:View.GONE}" />
 
     </LinearLayout>
 

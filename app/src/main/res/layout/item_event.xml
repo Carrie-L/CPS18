@@ -25,7 +25,7 @@
             android:id="@+id/tv_event_header"
             style="@style/event_header_style"
             android:text="@{String.format(@string/event_date_base,obj.date)}"
-            android:visibility="@{obj.isTypeLabel.get()==1?View.VISIBLE:View.GONE}" />
+            android:visibility="@{obj.isTypeLabel==1?View.VISIBLE:View.GONE}" />
 
         <RelativeLayout
             android:id="@+id/rl_event"

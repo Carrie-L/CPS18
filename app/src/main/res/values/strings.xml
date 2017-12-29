@@ -42,9 +42,11 @@
     <string name="confirm">確定</string>
     <string name="cancel">取消</string>
 
+    <string name="ts_date">2018年4月</string>
+
     <!--MyAccount-->
     <string name="title_my_account">用戶小工具</string>
-    <string name="title_my_exhibitor">我的參展商</string>
+    <string name="title_my_exhibitor">我的Chinaplas</string>
     <string name="title_schedule">我的日程表</string>
     <string name="title_my_name_card">我的名片</string>
     <string name="title_history_exhibitor">我的歷史記錄</string>
@@ -301,6 +303,12 @@
     <string name="no_exhibitor">沒有展商資料</string>
     <string name="no_schedule">暫無議程</string>
     <string name="no_my_exhibitor">沒有收藏的參展商。 \n請到\"參展商名單\"添加參展商。</string>
+
+    <string name="share_app">分享</string>
+    <string name="share_completed">Operation succeeded</string>
+    <string name="share_canceled">Operation canceled</string>
+    <string name="share_failed">Operation failed</string>
+
 
     <string name="home">主目錄</string>
     <string name="my_exhibt_on_map">Distribution</string>

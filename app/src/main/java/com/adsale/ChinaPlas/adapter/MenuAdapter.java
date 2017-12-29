@@ -62,14 +62,14 @@ public class MenuAdapter extends CpsBaseAdapter<MainIcon> {
 
     private ItemLargeMenuBinding menuBinding;
     private Context mContext;
-    private  String mBaseUrl;
-    private  FrameLayout.LayoutParams largeParams;
+    private String mBaseUrl;
+    private FrameLayout.LayoutParams largeParams;
     private OnIntentListener mListener;
     private MainIcon littleIcon;
     private NavViewModel navViewModel;
-    private  RequestOptions requestOptions;
+    private RequestOptions requestOptions;
     private boolean isTablet;
-    private  int menuWidth;
+    private int menuWidth;
 
     public MenuAdapter(Context context, ArrayList<MainIcon> largeMenus, ArrayList<MainIcon> littleMenus, OnIntentListener listener, NavViewModel navViewModel) {
         this.mContext = context;
@@ -82,20 +82,23 @@ public class MenuAdapter extends CpsBaseAdapter<MainIcon> {
         LogUtil.i(TAG, "largeMenus=" + largeMenus.size() + "," + largeMenus.toString());
 
         mBaseUrl = NetWorkHelper.DOWNLOAD_PATH.concat("WebContent/");
+
+//        mBaseUrl = App.rootDir.concat("MainIcon/");
+
         int height = 0;
         int iconSize = 0;
         if (isTablet) {
             float scale = DisplayUtil.getScale(mContext);
-            scale = scale>1?2:1;
+            scale = scale > 1 ? 2 : 1;
             height = (int) (632 * AppUtil.getPadHeightRate());
             menuWidth = (1280 * height) / 632;
 
-            int margin = (int) (scale*8*3);
-            LogUtil.i(TAG,"margin="+margin);
+            int margin = (int) (scale * 8 * 3);
+            LogUtil.i(TAG, "margin=" + margin);
 
-            int itemBannerWidth = App.mSP_Config.getInt("itemBannerWidth",0);
-            int itemBannerHeight = App.mSP_Config.getInt("itemBannerHeight",0);
-            int menuWidth0 = (AppUtil.getScreenWidth() - itemBannerWidth - 48)/3;
+            int itemBannerWidth = App.mSP_Config.getInt("itemBannerWidth", 0);
+            int itemBannerHeight = App.mSP_Config.getInt("itemBannerHeight", 0);
+            int menuWidth0 = (AppUtil.getScreenWidth() - itemBannerWidth - 48) / 3;
 
             int itemHeight = itemBannerHeight;
             int itemWidth = menuWidth0; // 无需改动
@@ -148,22 +151,27 @@ public class MenuAdapter extends CpsBaseAdapter<MainIcon> {
     @Override
     public void onBindViewHolder(CpsBaseViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        Glide.with(mContext).load(Uri.parse(mBaseUrl.concat(largeMenus.get(position).getIcon())))
-                .apply(requestOptions).into(menuBinding.icon);//
+
+        if(App.isNetworkAvailable){
+            LogUtil.i(TAG, "menu: url");
+            Glide.with(mContext).load(Uri.parse(mBaseUrl.concat(largeMenus.get(position).getIcon()))).apply(requestOptions).into(menuBinding.icon);//
+        }else{
+            LogUtil.i(TAG, "menu: asset");
+            Glide.with(mContext).load("file:///android_asset/MainIcon/".concat(largeMenus.get(position).getIcon())).apply(requestOptions).into(menuBinding.icon);
+        }
+//        File file = new File( mBaseUrl.concat(largeMenus.get(position).getIcon()));
+//        if (file.exists()) {
+//            LogUtil.i(TAG, "menu: sd");
+//            Glide.with(mContext).load(file).apply(requestOptions).into(menuBinding.icon);//
+//        } else {
+//            Glide.with(mContext).load("file:///android_asset/MainIcon/".concat(largeMenus.get(position).getIcon())).apply(requestOptions).into(menuBinding.icon);//
+//            LogUtil.i(TAG, "menu: asset");
+//        }
         resizeLargeMenu();
     }
 
     private void resizeLargeMenu() {
         menuBinding.rlLargeMenu.setLayoutParams(largeParams);
-    }
-
-    /**
-     * 如果inner icon是图片，则使用这个方法。ImageView
-     */
-    private void setInnerIcon(int pos) {
-        if (menus.get(pos).size() > 0) {
-//            Glide.with(mContext).load(Uri.parse(mBaseUrl.concat(menus.get(pos).get(0).getIcon()))).into(menuBinding.tvMenu0);
-        }
     }
 
     @Override
@@ -195,6 +203,8 @@ public class MenuAdapter extends CpsBaseAdapter<MainIcon> {
     }
 
     public void onInnerClick(int index, MainIcon entity) {
+        LogUtil.i(TAG, "entity=" + entity.toString());
+
         LogUtil.i(TAG, "---onInnerClick: " + index + ", entity=" + entity.getTitle(AppUtil.getCurLanguage()) + "," + entity.getBaiDu_TJ());
         mListener.onIntent(entity, null);
     }

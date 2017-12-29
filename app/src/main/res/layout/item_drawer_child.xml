@@ -41,7 +41,7 @@
             android:clickable="true"
             android:gravity="center_vertical"
             android:textColor="#000000"
-            android:text="@{obj.getTitle(navModel.mCurrLang.get(),navModel.isLoginSuccess.get())}"
+            android:text="@{obj.getTitle(navModel.mCurrLang,navModel.isLoginSuccess.get())}"
             android:textSize="16sp" />
 
         <TextView
@@ -53,9 +53,9 @@
             android:layout_marginRight="16dp"
             android:background="@drawable/circle_number"
             android:gravity="center"
-            android:text="@{String.valueOf(obj.updateCount.get())}"
+            android:text="@{String.valueOf(obj.updateCount)}"
             android:textColor="@color/white"
-            android:visibility="@{obj.updateCount.get()>0?View.VISIBLE:View.GONE}" />
+            android:visibility="@{obj.updateCount>0?View.VISIBLE:View.GONE}" />
     </RelativeLayout>
 
 </layout>

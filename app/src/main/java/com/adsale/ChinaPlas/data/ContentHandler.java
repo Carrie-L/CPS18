@@ -32,7 +32,7 @@ public class ContentHandler extends DefaultHandler {
     private ArrayList<MapFloor> mMapFloors;
     private ArrayList<NewsLink> mNewsLinks;
     public ArrayList<WebContent> mWebContents;
-    private  ArrayList<News> mNewsArrayLists;
+    private ArrayList<News> mNewsArrayLists;
 
     private News mNews;
     private MainIcon mMainIcon;
@@ -50,15 +50,15 @@ public class ContentHandler extends DefaultHandler {
 
     private long startTime;
     private long endTime;
-    
+
     private LoadRepository mLoadRepository;
 
-    public static ContentHandler getInstance(LoadRepository repository){
+    public static ContentHandler getInstance(LoadRepository repository) {
         return new ContentHandler(repository);
     }
-    
-    private ContentHandler (LoadRepository repository){
-        mLoadRepository=repository;
+
+    private ContentHandler(LoadRepository repository) {
+        mLoadRepository = repository;
     }
 
     /**
@@ -69,7 +69,7 @@ public class ContentHandler extends DefaultHandler {
      * @return
      */
     public boolean parseXmlWithSAX(String xmlData) {
-        FileUtils.writeFileToSD(xmlData,App.rootDir+"response.xml");
+        FileUtils.writeFileToSD(xmlData, App.rootDir + "response.xml");
 
         if (xmlData == null) {
             LogUtil.e(TAG, "xmlData==null，直接返回");
@@ -86,8 +86,8 @@ public class ContentHandler extends DefaultHandler {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            long endTime=System.currentTimeMillis();
-            LogUtil.i(TAG,"parseXmlWithSAX spend time: "+(endTime-startTime)+" ms");
+            long endTime = System.currentTimeMillis();
+            LogUtil.i(TAG, "parseXmlWithSAX spend time: " + (endTime - startTime) + " ms");
             return true;
         }
     }
@@ -120,8 +120,8 @@ public class ContentHandler extends DefaultHandler {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            long endTime=System.currentTimeMillis();
-            LogUtil.i(TAG,"parseNewsXml spend time: "+(endTime-startTime)+" ms");
+            long endTime = System.currentTimeMillis();
+            LogUtil.i(TAG, "parseNewsXml spend time: " + (endTime - startTime) + " ms");
             return mNewsArrayLists;
         }
     }
@@ -160,9 +160,9 @@ public class ContentHandler extends DefaultHandler {
 
         // -----------------MainIcon--------------------
         if (isMainIcon) {
-            if(nodeName.equals("IsDelete")){
-                mMainIcon.setIsDelete(strData.equals("false")?0:1);
-            }else if ("IconID".equals(nodeName)) {
+            if (nodeName.equals("IsDelete")) {
+                mMainIcon.setIsDelete(strData.equals("false") ? 0 : 1);
+            } else if ("IconID".equals(nodeName)) {
                 mMainIcon.setIconID(strData);
             } else if ("CType".equals(nodeName)) {
                 mMainIcon.setCType(Integer.valueOf(strData));
@@ -187,16 +187,16 @@ public class ContentHandler extends DefaultHandler {
                 mMainIcon.setBaiDu_TJ(strData);
             } else if ("Google_TJ".equals(nodeName)) {
                 mMainIcon.setGoogle_TJ(strData);
-                if(strData.contains("S_")){
+                if (strData.contains("S_")) {
                     mMainIcon.setDrawerList(strData.split("\\|")[0]);
                 }
-                if(strData.toLowerCase().contains("icon")){
+                if (strData.toLowerCase().contains("icon")) {
                     mMainIcon.setDrawerIcon(strData.split("\\|")[3]);
                 }
-                if(strData.contains("M_")){
+                if (strData.contains("M_")) {
                     mMainIcon.setMenuList(strData.split("\\|")[1]);
                 }
-                if(strData.contains("|")&&strData.split("\\|").length>2){
+                if (strData.contains("|") && strData.split("\\|").length > 2) {
                     mMainIcon.setIconTextColor(strData.split("\\|")[2]);
                 }
 //                LogUtil.i(TAG,"drawerList="+ mMainIcon.getDrawerList()+",drawerIcon="+mMainIcon.getDrawerIcon()+",menuList="+mMainIcon.getMenuList());
@@ -319,10 +319,10 @@ public class ContentHandler extends DefaultHandler {
     @Override
     public void endElement(String uri, String localName, String qName)
             throws SAXException {
-       if ("News".equals(localName)) {
+        if ("News".equals(localName)) {
             mNewsArrayLists.add(mNews);
             isNews = false;
-        }else if (localName.equals("NewsLink")) {
+        } else if (localName.equals("NewsLink")) {
             mNewsLinks.add(mNewsLink);
             isNewsLink = false;
         } else if (localName.equals("WebContent")) {
@@ -343,12 +343,12 @@ public class ContentHandler extends DefaultHandler {
     @Override
     public void endDocument() throws SAXException {
         super.endDocument();
-        LogUtil.i("ContentHandler", "解析完成！！！！！！！" );
-        logList(mMainIcons,"MainIcon");
-        logList(mNewsArrayLists,"mNewsArrayLists");
-        logList(mNewsLinks,"mNewsLinks");
-        logList(mWebContents,"mWebContents");
-        logList(mMapFloors,"mMapFloors");
+        LogUtil.i("ContentHandler", "解析完成！！！！！！！");
+        logList(mMainIcons, "MainIcon");
+        logList(mNewsArrayLists, "mNewsArrayLists");
+        logList(mNewsLinks, "mNewsLinks");
+        logList(mWebContents, "mWebContents");
+        logList(mMapFloors, "mMapFloors");
 
         endTime = System.currentTimeMillis();
         Log.i(TAG, "解析耗时：" + (endTime - startTime) + "ms");
@@ -360,16 +360,15 @@ public class ContentHandler extends DefaultHandler {
         mLoadRepository.insertNewsLinkAll(mNewsLinks);
         mLoadRepository.insertWebContentAll(mWebContents);
         mLoadRepository.insertMapFloorAll(mMapFloors);
+        mLoadRepository.setLUT();
 
     }
 
-    private <T> void logList(ArrayList<T> list,String tag){
-        if(list.size()>0){
-            LogUtil.i("ContentHandler", "解析完成！！！！！！！" + list.size() +",,,"+tag+" == " );//+ list.toString()
+    private <T> void logList(ArrayList<T> list, String tag) {
+        if (list.size() > 0) {
+            LogUtil.i("ContentHandler", "解析完成！！！！！！！" + list.size() + ",,," + tag + " == ");//+ list.toString()
         }
     }
-
-
 
 
 }

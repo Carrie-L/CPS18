@@ -228,6 +228,7 @@ public class ExhibitorListViewModel {
     public void resetList() {
         LogUtil.e(TAG, "resetList");
         isSearching = false;
+        etFilter.set("");
         clearList();
         clearSearchList();
         if (isSortAZ.get()) {

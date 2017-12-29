@@ -14,8 +14,10 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.AdViewPagerAdapter;
 import com.adsale.ChinaPlas.dao.MainIcon;
@@ -40,7 +42,6 @@ import com.adsale.ChinaPlas.utils.ReRxUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -61,9 +62,7 @@ import static android.content.Context.MODE_PRIVATE;
 import static com.adsale.ChinaPlas.App.mSP_Config;
 import static com.adsale.ChinaPlas.App.rootDir;
 import static com.adsale.ChinaPlas.helper.LoadingReceiver.LOADING_ACTION;
-import static com.adsale.ChinaPlas.utils.AppUtil.isFirstRunning;
 import static com.adsale.ChinaPlas.utils.AppUtil.logListString;
-import static com.adsale.ChinaPlas.utils.AppUtil.setNotFirstRunning;
 import static com.adsale.ChinaPlas.utils.FileUtil.createFile;
 
 /**
@@ -77,7 +76,7 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
     private static final Integer AD_COUNT_DOWN_TIMES = 3;  // 倒计时几秒
     private Context mContext;
 
-    public final ObservableBoolean showLangBtn = new ObservableBoolean(false);
+    //    public final ObservableBoolean showLangBtn = new ObservableBoolean(false);
     public final ObservableBoolean isShowM1 = new ObservableBoolean(false);
     private final SharedPreferences mConfigSP;
 
@@ -91,49 +90,39 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
     private Disposable mTxtDisposable, mWCDisposable, mAdDisposable;
     private SQLiteDatabase mTempDB;
     private boolean isM1Showing = false;
+    private ProgressBar progressBar;
 
-    public LoadingViewModel(Context mContext) {
+    public LoadingViewModel(Context mContext, ProgressBar progressBar) {
         this.mContext = mContext;
+        this.progressBar = progressBar;
         mConfigSP = mContext.getSharedPreferences(Constant.SP_CONFIG, MODE_PRIVATE);
         mLoadRepository = LoadRepository.getInstance(mContext);
     }
 
     public final ObservableBoolean showProgressBar = new ObservableBoolean();
 
-    public void chooseLang(int language) {
-        LogUtil.i(TAG, "language=" + language);
-        showProgressBar.set(true);
-        showLangBtn.set(false);
-        AppUtil.switchLanguage(mContext, language);
-        run();
-    }
-
-    public void run() {
-        showProgressBar.set(true);
-        upgradeDB();
-
-        boolean isNetwork = AppUtil.isNetworkAvailable();
-        LogUtil.e(TAG, "????? isNetworkAvailable=" + isNetwork);
-
-        if (AppUtil.isNetworkAvailable()) {
-            setupDownload();
-            loadingData();
-            downNewTecZip();
+    public void run(boolean isFirstRunning) {
+//        boolean isNetworkAvailable = App.isNetworkAvailable;
+//        LogUtil.e(TAG, "????? isNetworkAvailable=" + isNetworkAvailable);
+        setupDownload();
+        loadingData();
+//        downNewTecZip();
+        if (!isFirstRunning) {
             getUpdateInfo();
-            if (isFirstRunning()) {
-                setNotFirstRunning();
-            }
-        } else {
-            LogUtil.e(TAG, "~~ no network ~~");
-            Intent intent = new Intent(LOADING_ACTION);
-            mSP_Config.edit().putBoolean("webServicesDownFinish", true).putBoolean("txtDownFinish", true).apply();
-            mContext.sendBroadcast(intent);
-            showM1();
         }
     }
 
+    public void intent() {
+        Intent intent = new Intent(LOADING_ACTION);
+        mSP_Config.edit().putBoolean("webServicesDownFinish", true).putBoolean("txtDownFinish", true).apply();
+        mContext.sendBroadcast(intent);
+        showM1();
+    }
+
     private void setupDownload() {
-        mClient = ReRxUtils.setupRxtrofit(LoadingClient.class, NetWorkHelper.DOWNLOAD_PATH);
+        if (mClient == null) {
+            mClient = ReRxUtils.setupRxtrofit(LoadingClient.class, NetWorkHelper.DOWNLOAD_PATH);
+        }
     }
 
     private void downNewTecZip() {
@@ -176,11 +165,7 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
                 .flatMap(new Function<LoadUrl, Observable<Boolean>>() {
                     @Override
                     public Observable<Boolean> apply(@NonNull LoadUrl loadUrl) throws Exception {
-                        if (loadUrl.urlName.endsWith("zip")) {
-                            return downZip(loadUrl.urlName, loadUrl.dirName);
-                        } else {
-                            return downIconPic(loadUrl);
-                        }
+                        return downZip(loadUrl.urlName, loadUrl.dirName);
                     }
                 })
                 .subscribeOn(Schedulers.io())
@@ -231,18 +216,19 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
         int iconSize = mainIcons.size();
         int wcSize = webContents.size();
         ArrayList<LoadUrl> urls = new ArrayList<>();
-        LoadUrl loadUrl;
+        LoadUrl loadUrl = new LoadUrl();
         MainIcon mainIcon;
         WebContent webContent;
+
         for (int i = 0; i < iconSize; i++) {
             mainIcon = mainIcons.get(i);
-            loadUrl = new LoadUrl(mainIcon.getIcon(), mainIcon.getIconID());
-            urls.add(loadUrl);
+            // zips
             if (mainIcon.getCFile() != null && !mainIcon.getCFile().trim().isEmpty()) {
                 loadUrl = new LoadUrl(mainIcon.getCFile(), mainIcon.getIconID());
                 urls.add(loadUrl);
             }
         }
+
         for (int i = 0; i < wcSize; i++) {
             webContent = webContents.get(i);
             if (webContent.getCType() == 1) {
@@ -250,27 +236,28 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
                 urls.add(loadUrl);
             }
         }
+
         LogUtil.i(TAG, "urls=" + urls.size() + "," + urls.toString());
         return urls;
     }
 
-    private Observable<Boolean> downIconPic(final LoadUrl entity) {
-        return mClient.downWebContent(entity.urlName)
-                .subscribeOn(Schedulers.io())
-                .map(new Function<Response<ResponseBody>, Boolean>() {
-                    @Override
-                    public Boolean apply(@NonNull Response<ResponseBody> responseBodyResponse) throws Exception {
-                        ResponseBody body = responseBodyResponse.body();
-                        if (body != null) {
-                            FileOutputStream fos = new FileOutputStream(new File(mMainIconDir + entity.urlName));
-                            fos.write(body.bytes());
-                            fos.close();
-                            body.close();
-                        }
-                        return true;
-                    }
-                });
-    }
+//    private Observable<Boolean> downIconPic(final LoadUrl entity) {
+//        return mClient.downIcons(entity.urlName)
+//                .subscribeOn(Schedulers.io())
+//                .map(new Function<Response<ResponseBody>, Boolean>() {
+//                    @Override
+//                    public Boolean apply(@NonNull Response<ResponseBody> responseBodyResponse) throws Exception {
+//                        ResponseBody body = responseBodyResponse.body();
+//                        if (body != null) {
+//                            FileOutputStream fos = new FileOutputStream(new File(mMainIconDir.concat(AppUtil.subStringLast(entity.urlName, "/"))));
+//                            fos.write(body.bytes());
+//                            fos.close();
+//                            body.close();
+//                        }
+//                        return true;
+//                    }
+//                });
+//    }
 
     private Observable<Boolean> downZip(final String cFile, final String iconId) {
         return mClient.downWebContent(cFile)
@@ -291,7 +278,8 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
     /**
      * 根据更新信息下载txt
      */
-    private void getUpdateInfo() {
+    public void getUpdateInfo() {
+        setupDownload();
         mClient.getScanFile(NetWorkHelper.getScanRequestBody())
                 .flatMap(new Function<Response<ResponseBody>, Observable<UpdateCenter>>() {// getScanFilesJson
                     @Override
@@ -522,12 +510,13 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
                 viewIndicator.getChildAt(i).setBackgroundResource(R.drawable.dot_normal);
             viewIndicator.getChildAt(arg0).setBackgroundResource(R.drawable.dot_focused);
         }
+
     }
 
     /**
      * 当数据库版本增加时，升级数据库
      */
-    private void upgradeDB() {
+    public void upgradeDB() {
         boolean needUpdateDB = mConfigSP.getBoolean(Constant.DB_UPGRADE, false);
         LogUtil.i(TAG, "needUpdateDB=" + needUpdateDB);
         if (needUpdateDB) {
@@ -543,7 +532,7 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
             LogUtil.e(TAG, "④ 清空临时表");
             transferTempDB.clearTemp();
             mTempDB.close();
-            mSP_Config.edit().putBoolean(Constant.DB_UPGRADE, false).apply();
+            App.mSP_Config.edit().putBoolean(Constant.DB_UPGRADE, false).apply();
         }
     }
 

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -76,7 +77,7 @@ public class MainFragment extends Fragment implements OnIntentListener {
         return new MainFragment();
     }
 
-    public MainFragment(){
+    public MainFragment() {
     }
 
     public void setNavViewModel(NavViewModel model) {
@@ -93,7 +94,9 @@ public class MainFragment extends Fragment implements OnIntentListener {
         setGridMenus();
         calNavigationBar();
         setBottomPics();
-        m2UpAnimation(mainViewModel.m2LargeUrl);
+        if (!TextUtils.isEmpty(mainViewModel.m2LargeUrl)) {
+            m2UpAnimation(mainViewModel.m2LargeUrl);
+        }
     }
 
     private void m2UpAnimation(String url) {
@@ -161,12 +164,19 @@ public class MainFragment extends Fragment implements OnIntentListener {
     }
 
     private void setBottomImage() {
-//        int bottomHeight = (mainViewModel.screenWidth * 161) / (311 * 2);
-//        LogUtil.i(TAG, "bottomHeight=" + bottomHeight);
-//        RequestOptions options = new RequestOptions().override(mainViewModel.screenWidth / 2, bottomHeight);
-//        LogUtil.i(TAG, "setBottomImage");
-        Glide.with(getActivity()).load(Uri.parse(navViewModel.mCurrLang.get() == 0 ? mainPic.LeftBottomBanner.TC.BannerImage : navViewModel.mCurrLang.get() == 1 ? mainPic.LeftBottomBanner.EN.BannerImage : mainPic.LeftBottomBanner.SC.BannerImage)).into(leftPic);
-        Glide.with(getActivity()).load(Uri.parse(navViewModel.mCurrLang.get() == 0 ? mainPic.RightBottomBanner.TC.BannerImage : navViewModel.mCurrLang.get() == 1 ? mainPic.RightBottomBanner.EN.BannerImage : mainPic.RightBottomBanner.SC.BannerImage)).into(rightPic);
+        LogUtil.i(TAG, "bottom banners =" + mainPic.LeftBottomBanner.EN.BannerImage + ", " + mainPic.RightBottomBanner.EN.BannerImage);
+        LogUtil.i(TAG, "bottom banners =" + mainPic.LeftBottomBanner.EN.BannerImage_Pad + ", " + mainPic.RightBottomBanner.EN.BannerImage_Pad);
+        if (App.isNetworkAvailable) {
+            Glide.with(getActivity()).load(Uri.parse(navViewModel.mCurrLang.get() == 0 ? mainPic.LeftBottomBanner.TC.BannerImage : navViewModel.mCurrLang.get() == 1 ? mainPic.LeftBottomBanner.EN.BannerImage : mainPic.LeftBottomBanner.SC.BannerImage)).into(leftPic);
+            Glide.with(getActivity()).load(Uri.parse(navViewModel.mCurrLang.get() == 0 ? mainPic.RightBottomBanner.TC.BannerImage : navViewModel.mCurrLang.get() == 1 ? mainPic.RightBottomBanner.EN.BannerImage : mainPic.RightBottomBanner.SC.BannerImage)).into(rightPic);
+        } else {
+            Glide.with(getActivity()).load(String.format("file:///android_asset/MainIcon/left_%s.png", getLangType())).into(leftPic);
+            Glide.with(getActivity()).load(String.format("file:///android_asset/MainIcon/right_%s.png", getLangType())).into(rightPic);
+        }
+    }
+
+    private String getLangType() {
+        return App.mLanguage.get() == 0 ? "tc" : App.mLanguage.get() == 1 ? "en" : "sc";
     }
 
     public void refreshImages() {

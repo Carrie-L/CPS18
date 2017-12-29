@@ -1,14 +1,9 @@
 package com.adsale.ChinaPlas.data;
 
 
-import com.adsale.ChinaPlas.dao.UpdateCenter;
-import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.NetWorkHelper;
 
-import java.util.ArrayList;
-
 import io.reactivex.Observable;
-import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
@@ -18,8 +13,6 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Url;
-
-import static com.baidu.mobstat.u.h;
 
 /**
  * Created by Carrie on 2017/9/8.
@@ -42,6 +35,9 @@ public interface LoadingClient {
 
     @GET(NetWorkHelper.DOWN_WEBCONTENT_URL)
     Observable<Response<ResponseBody>> downWebContent(@Path("fileName") String fileName);
+
+    @GET
+    Observable<Response<ResponseBody>> downIcons(@Url String url);
 
     @GET
     Observable<ResponseBody> download(@Url String url);

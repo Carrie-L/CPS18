@@ -72,9 +72,13 @@ public class ListBindings {
         if (TextUtils.isEmpty(url)) {
             return;
         }
-        Glide.with(imageView.getContext())
-                .load(Uri.parse(url))
-                .into(imageView);
+        if (url.toLowerCase().startsWith("http")) {
+            Glide.with(imageView.getContext()).load(Uri.parse(url)).into(imageView);
+        } else {
+            // 侧边栏按钮：当无网时显示asset下的Icon
+            Glide.with(imageView.getContext()).load("file:///android_asset/MainIcon/".concat(url)).into(imageView);
+            LogUtil.i("setImgUrl", "menu: asset: " + url);
+        }
     }
 
     @BindingAdapter({"app:imagePath", "app:requestOptions"})

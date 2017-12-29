@@ -35,6 +35,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static android.content.ContentValues.TAG;
 import static com.adsale.ChinaPlas.utils.Constant.MAIN_TOP_BANNER_HEIGHT;
@@ -178,12 +179,23 @@ public class MainViewModel {
             binding.setModel(this);
             binding.setPos(i);
             ivTop = binding.imageView;
+            LogUtil.i(TAG, "banners.TC.BannerImage_pad=" + banners.TC.BannerImage_Pad);
             if (isTablet) {
                 LogUtil.i(TAG, "banners.TC.BannerImage=" + banners.TC.BannerImage_Pad);
-                Glide.with(mContext).load(Uri.parse(navViewModel.mCurrLang.get() == 0 ? banners.TC.BannerImage_Pad : navViewModel.mCurrLang.get() == 1 ? banners.EN.BannerImage_Pad : banners.SC.BannerImage_Pad)).into(ivTop);
+                if (App.isNetworkAvailable) {
+                    Glide.with(mContext).load(Uri.parse(navViewModel.mCurrLang.get() == 0 ? banners.TC.BannerImage_Pad : navViewModel.mCurrLang.get() == 1 ? banners.EN.BannerImage_Pad : banners.SC.BannerImage_Pad)).into(ivTop);
+                } else {
+                    Glide.with(mContext).load(String.format(Locale.getDefault(), "file:///android_asset/MainIcon/pad_top_banner_%1s_%d.png", getLangType(), i)).into(ivTop);
+                    LogUtil.i(TAG, "TOP BANNER ASSET = " + String.format(Locale.getDefault(), "file:///android_asset/MainIcon/pad_top_banner_%s_%d.png", getLangType(), i));
+                }
             } else {
                 LogUtil.i(TAG, "banners.TC.BannerImage=" + banners.TC.BannerImage);
-                Glide.with(mContext).load(Uri.parse(navViewModel.mCurrLang.get() == 0 ? banners.TC.BannerImage : navViewModel.mCurrLang.get() == 1 ? banners.EN.BannerImage : banners.SC.BannerImage)).into(ivTop);
+                if (App.isNetworkAvailable) {
+                    Glide.with(mContext).load(Uri.parse(navViewModel.mCurrLang.get() == 0 ? banners.TC.BannerImage : navViewModel.mCurrLang.get() == 1 ? banners.EN.BannerImage : banners.SC.BannerImage)).into(ivTop);
+                } else {
+                    Glide.with(mContext).load(String.format(Locale.getDefault(), "file:///android_asset/MainIcon/top_banner_%1s_%d.png", getLangType(), i)).into(ivTop);
+                    LogUtil.i(TAG, "TOP BANNER ASSET = " + String.format(Locale.getDefault(), "file:///android_asset/MainIcon/top_banner_%1s_%d.png", getLangType(), i));
+                }
             }
             if (i == 0) {// 第一张图加倒计时
                 TextView tvCDD = binding.tvCdd;
@@ -193,6 +205,10 @@ public class MainViewModel {
             }
             topPics.add(rlTopBanner);
         }
+    }
+
+    private String getLangType() {
+        return App.mLanguage.get() == 0 ? "tc" : App.mLanguage.get() == 1 ? "en" : "sc";
     }
 
     public void refreshImages() {
@@ -230,11 +246,14 @@ public class MainViewModel {
         adPic.setLayoutParams(adParams);
         if (adHelper.isAdOpen()) {
             showM2();
+        } else {
+            adPic.setVisibility(View.INVISIBLE);
         }
     }
 
     private void showM2() {
         if (Integer.valueOf(adObj.M2.version) <= 0) {
+            adPic.setVisibility(View.INVISIBLE);
             return;
         }
         StringBuilder m2Url = new StringBuilder();
@@ -242,7 +261,7 @@ public class MainViewModel {
         adPic.setVisibility(View.VISIBLE);
         Glide.with(mContext).load(Uri.parse(m2Url.toString().concat(adObj.M2.version).concat(adObj.M2.format))).into(adPic);
         m2LargeUrl = m2Url.toString().concat(adObj.M2.image2).concat(adObj.M2.version).concat(adObj.M2.format);
-        LogUtil.i(TAG,"m2LargeUrl="+m2LargeUrl);
+        LogUtil.i(TAG, "m2LargeUrl=" + m2LargeUrl);
 
         AppUtil.trackViewLog(mContext, 202, "Ad", "M2", adObj.M2.getCompanyID(AppUtil.getCurLanguage()));
         AppUtil.setStatEvent(mContext, "ViewM2", "Ad_M2_" + adObj.M2.getCompanyID(AppUtil.getCurLanguage()));

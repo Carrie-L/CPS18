@@ -38,9 +38,9 @@
                 android:layout_marginBottom="8dp"
                 android:layout_toRightOf="@id/iv_user"
                 android:gravity="center"
-                android:text="@{navModel.drawerLoginTitle}"
+                android:text="@{navModel.drawerLoginTitle.get()}"
                 android:textSize="16sp"
-                android:visibility="@{navModel.isLoginSuccess?View.INVISIBLE:View.VISIBLE}" />
+                android:visibility="@{navModel.isLoginSuccess.get()?View.INVISIBLE:View.VISIBLE}" />
 
             <Button
                 android:id="@+id/btn_logout"
@@ -51,10 +51,10 @@
                 android:background="@drawable/ic_drawer_logout"
                 android:gravity="center"
                 android:onClick="logout"
-                android:text="@{navModel.drawerLogout}"
+                android:text="@{navModel.drawerLogout.get()}"
                 android:textColor="#fff"
                 android:textSize="14sp"
-                android:visibility="@{navModel.isLoginSuccess?View.VISIBLE:View.GONE}" />
+                android:visibility="@{navModel.isLoginSuccess.get()?View.VISIBLE:View.GONE}" />
             <!-- 注意：此处特设android:textSize="14sp".若为16sp，平板文字会显示不全  -->
             <Button
                 android:id="@+id/btn_login"
@@ -62,10 +62,10 @@
                 android:layout_height="38dp"
                 android:layout_alignLeft="@id/tv_user_login"
                 android:layout_below="@id/tv_user_login"
-                android:background="@{navModel.isLoginSuccess?@drawable/ic_drawer_sync:@drawable/ic_drawer_login}"
+                android:background="@{navModel.isLoginSuccess.get()?@drawable/ic_drawer_sync:@drawable/ic_drawer_login}"
                 android:gravity="center"
-                android:onClick="@{navModel.isLoginSuccess?navModel::sync:navModel::login}"
-                android:text="@{navModel.drawerLoginOrSync}"
+                android:onClick="@{navModel.isLoginSuccess.get()?navModel::sync:navModel::login}"
+                android:text="@{navModel.drawerLoginOrSync.get()}"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
 

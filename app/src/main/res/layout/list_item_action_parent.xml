@@ -50,9 +50,9 @@
             android:layout_marginRight="16dp"
             android:background="@drawable/circle_number"
             android:gravity="center"
-            android:text="@{String.valueOf(obj.updateCount.get())}"
+            android:text="@{String.valueOf(obj.updateCount)}"
             android:textColor="@color/white"
-            android:visibility="@{obj.updateCount.get()>0?View.VISIBLE:View.GONE}" />
+            android:visibility="@{obj.updateCount>0?View.VISIBLE:View.GONE}" />
     </RelativeLayout>
 
 </layout>

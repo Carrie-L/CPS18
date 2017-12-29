@@ -7,14 +7,16 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -22,6 +24,7 @@ import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ProgressBar;
 
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
@@ -32,6 +35,11 @@ import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.PermissionUtil;
 import com.adsale.ChinaPlas.viewmodel.LoadingViewModel;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import java.lang.reflect.Field;
 import java.util.UUID;
@@ -49,6 +57,7 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
     private LoadingReceiver mReceiver;
     private ActivityLoadingBinding binding;
     private boolean isTablet;
+    private ProgressBar loadingProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +72,11 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
             }
         }
         binding = DataBindingUtil.setContentView(this, R.layout.activity_loading);
-        mLoadingModel = new LoadingViewModel(getApplicationContext());
+        loadingProgress = binding.loadingProgress;
+        mLoadingModel = new LoadingViewModel(getApplicationContext(), loadingProgress);
         binding.setLoadingModel(mLoadingModel);
+        binding.setAty(this);
+        binding.executePendingBindings();
 
         mConfigSP = getSharedPreferences(Constant.SP_CONFIG, MODE_PRIVATE);
         mConfigSP.edit().putBoolean("M1ShowFinish", false).putBoolean("txtDownFinish", false).putBoolean("webServicesDownFinish", false).putString("M1ClickId", "").apply();
@@ -74,22 +86,64 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
 
         mLoadingModel.initM1(binding.vpindicator, binding.autoVP, binding.tvSkip, binding.framelayout);
         registerBroadcastReceiver();
-
         hideNavBar();
-
         getAppVersion();
+        mLoadingModel.upgradeDB();
+
+
         if (isFirstRunning) {
-            mLoadingModel.showLangBtn.set(true);
+            loadingProgress.setVisibility(View.INVISIBLE);
             setDeviceType();
             requestPermission();
             getDeviceInfo();
         } else {
+            binding.lyLanguage.setVisibility(View.GONE);
             isTablet = AppUtil.isTablet();
             setRequestedOrientation();
             AppUtil.switchLanguage(getApplicationContext(), AppUtil.getCurLanguage());
             getDeviceInfo2();
-            mLoadingModel.run();
+            isNetwork();
         }
+
+    }
+
+    private void isNetwork(){
+           /* 用Glide加载图片的方式判断有没有网络。因为Glide会捕获无网络的Exception。在 requestListener 中进行后续操作。 */
+        String url = "http://www.chinaplasonline.com/apps/2016/images/icon.png";
+        Glide.with(this).load(Uri.parse(url)).listener(requestListener).into(binding.ivTestNet);
+    }
+
+    RequestListener<Drawable> requestListener = new RequestListener<Drawable>() {
+        @Override
+        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+            LogUtil.i(TAG, "_____________________requestListener: onLoadFailed ");
+            App.isNetworkAvailable = false;
+            mLoadingModel.intent();
+            return false;
+        }
+
+        @Override
+        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+            LogUtil.i(TAG, "_____________________requestListener: onResourceReady ");
+            App.isNetworkAvailable = true;
+            if (isFirstRunning) {
+                mLoadingModel.getUpdateInfo();
+                mLoadingModel.run(true);
+            } else {
+                mLoadingModel.run(false);
+            }
+            return false;
+        }
+    };
+
+    public void chooseLang(int language) {
+        AppUtil.switchLanguage(getApplicationContext(), language);
+        LogUtil.i(TAG, "chooseLang:language=" + language);
+        loadingProgress.setVisibility(View.VISIBLE);
+        binding.lyLanguage.setVisibility(View.GONE);
+        mLoadingModel.showProgressBar.set(true);
+        AppUtil.setNotFirstRunning();
+        isNetwork();
     }
 
     private void hideNavBar() {
@@ -127,12 +181,6 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
         }
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        setRequestedOrientation();
-    }
-
     private void getDeviceInfo() {
         Display display = getWindowManager().getDefaultDisplay();
         int displayHeight = display.getHeight();
@@ -147,7 +195,7 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
             int leftMargin = (width - contentWidth) / 2;
             float screenWidthRate = ((float) width / 2048f); // 实际屏幕宽度 比 主界面设计图片宽度 。这样在计算显示宽度时只需用 图片宽度 * rate 即为需要的宽度
             float heightRate = (float) height / 1536f;
-            LogUtil.i(TAG, "heightRate = " + heightRate+",screenWidthRate = " + screenWidthRate);
+            LogUtil.i(TAG, "heightRate = " + heightRate + ",screenWidthRate = " + screenWidthRate);
             width = contentWidth;
             LogUtil.i(TAG, "mScreenHeight = " + height);
 
@@ -224,7 +272,6 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
 
         LogUtil.i(TAG, "deviceId=" + deviceId);
     }
-
 
     @Override
     public void intent(String companyId) {

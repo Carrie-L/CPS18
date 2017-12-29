@@ -83,7 +83,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_weight="0.09"
-            android:background="@color/home_transparent"
             android:onClick="@{()->model.onM2Click()}"
             android:scaleType="fitXY" />
         <!--android:layout_weight="0.09"-->

@@ -50,35 +50,35 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@{model.mRate>=1?@drawable/btn_star:@drawable/btn_unstar}"
+                android:background="@{model.mRate.get()>=1?@drawable/btn_star:@drawable/btn_unstar}"
                 android:onClick="@{()->model.onRate(1)}" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:background="@{model.mRate>=2?@drawable/btn_star:@drawable/btn_unstar}"
+                android:background="@{model.mRate.get()>=2?@drawable/btn_star:@drawable/btn_unstar}"
                 android:onClick="@{()->model.onRate(2)}" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:background="@{model.mRate>=3?@drawable/btn_star:@drawable/btn_unstar}"
+                android:background="@{model.mRate.get()>=3?@drawable/btn_star:@drawable/btn_unstar}"
                 android:onClick="@{()->model.onRate(3)}" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:background="@{model.mRate>=4?@drawable/btn_star:@drawable/btn_unstar}"
+                android:background="@{model.mRate.get()>=4?@drawable/btn_star:@drawable/btn_unstar}"
                 android:onClick="@{()->model.onRate(4)}" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:background="@{model.mRate==5?@drawable/btn_star:@drawable/btn_unstar}"
+                android:background="@{model.mRate.get()==5?@drawable/btn_star:@drawable/btn_unstar}"
                 android:onClick="@{()->model.onRate(5)}" />
 
         </LinearLayout>

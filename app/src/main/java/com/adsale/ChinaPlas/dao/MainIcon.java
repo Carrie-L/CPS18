@@ -437,7 +437,12 @@ public class MainIcon implements Parcelable {
     public int lastPos = 0;
 
     public String getDrawerIconFull() {
-        return App.mSP_Config.getString("MainIconBaseUrl", "").concat(DrawerIcon);
+        if (App.isNetworkAvailable) {
+            return App.mSP_Config.getString("MainIconBaseUrl", "").concat(DrawerIcon);
+        } else {
+            return DrawerIcon;
+        }
+
     }
 
     // KEEP METHODS END

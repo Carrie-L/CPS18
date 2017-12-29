@@ -6,6 +6,9 @@
         <variable
             name="loadingModel"
             type="com.adsale.ChinaPlas.viewmodel.LoadingViewModel" />
+        <variable
+            name="aty"
+            type="com.adsale.ChinaPlas.ui.LoadingActivity"/>
     </data>
 
 
@@ -24,7 +27,8 @@
             android:layout_centerHorizontal="true"
             android:orientation="horizontal"
             android:layout_marginBottom="16dp"
-            android:visibility="@{loadingModel.showLangBtn?View.VISIBLE:View.GONE}">
+            android:visibility="visible"
+           >
 
             <Button
                 android:id="@+id/btnCN"
@@ -32,7 +36,7 @@
                 android:layout_height="38dp"
                 android:layout_weight="1"
                 android:background="@drawable/bttn_simp"
-                android:onClick="@{()->loadingModel.chooseLang(2)}"
+                android:onClick="@{()->aty.chooseLang(2)}"
                 />
 
             <Button
@@ -42,7 +46,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:onClick="@{()->loadingModel.chooseLang(0)}"
+                android:onClick="@{()->aty.chooseLang(0)}"
                 android:background="@drawable/bttn_trad" />
 
             <Button
@@ -50,15 +54,23 @@
                 android:layout_width="0dp"
                 android:layout_height="38dp"
                 android:layout_weight="1"
-                android:onClick="@{()->loadingModel.chooseLang(1)}"
+                android:onClick="@{()->aty.chooseLang(1)}"
                 android:background="@drawable/bttn_eng" />
         </LinearLayout>
 
         <ProgressBar
+            android:id="@+id/loading_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:visibility="@{loadingModel.showProgressBar?View.VISIBLE:View.GONE}"
+            />
+
+        <ImageView
+            android:id="@+id/iv_test_net"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerInParent="true"
+            android:visibility="invisible"
             />
 
         <!-- M1	广告 -->
@@ -66,7 +78,7 @@
             android:id="@+id/framelayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="@{loadingModel.isShowM1?View.VISIBLE:View.GONE}"
+            android:visibility="@{loadingModel.isShowM1.get()?View.VISIBLE:View.GONE}"
             >
 
             <android.support.v4.view.ViewPager

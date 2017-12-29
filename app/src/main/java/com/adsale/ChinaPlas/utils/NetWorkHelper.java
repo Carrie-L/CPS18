@@ -60,7 +60,8 @@ public class NetWorkHelper {
     public static final String Subscribe_LAST_URL = "EnewsSub.aspx?showid=430&device=app&WAct=9105";//&lang={langType}
 
     /* loading页的下载地址 */
-    public static final String DOWN_TXT_URL = "https://forms.adsale.com.hk/VirtualDirectory/AppCPS18CMS/AppFiles/{fileName}";
+//    public static final String DOWN_TXT_URL = "https://forms.adsale.com.hk/VirtualDirectory/AppCPS18CMS/AppFiles/{fileName}";
+    public static final String DOWN_TXT_URL = "https://forms.adsale.com.hk/VirtualDirectory/AppCPS2018CMS/AppFiles/{fileName}";
     public static final String DOWN_WEBCONTENT_URL = "WebContent/{fileName}";
 
     public static final String M2_SMALL_TEST = "https://forms.adsale.com.hk/VirtualDirectory/AppCPS18CMS/images/m2_small.png";
