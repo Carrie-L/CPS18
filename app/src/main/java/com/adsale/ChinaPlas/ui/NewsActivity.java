@@ -8,6 +8,7 @@ import com.adsale.ChinaPlas.adapter.NewsAdapter;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.dao.News;
 import com.adsale.ChinaPlas.databinding.ActivityNewsBinding;
+import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.viewmodel.NewsModel;
@@ -38,6 +39,7 @@ public class NewsActivity extends BaseActivity {
     //String newsID, String title
     public void onItemClick(News news) {
         LogUtil.i(TAG,"news="+news.getTitle());
+        AppUtil.trackViewLog(191, "Page", news.getNewsID(), "NewsDetail");
         Bundle bundle = new Bundle();
         bundle.putParcelable("News",news);
         bundle.putString(Constant.TITLE,barTitle.get());

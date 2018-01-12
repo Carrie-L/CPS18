@@ -128,7 +128,7 @@ public class ADHelper {
                         .append("/").append(AppUtil.isTablet() ? adObj.Common.tablet : adObj.Common.phone).append(languageType).append("_")
                         .append(adObj.M1.version[i]).append(adObj.M1.format);
                 adPics[i] = fileLink.toString();
-                AppUtil.trackViewLog(mContext, 201, "Ad", "M1", adCompanyIDs[i]);
+                AppUtil.trackViewLog(201, "Ad", "M1", adCompanyIDs[i]);
                 AppUtil.setStatEvent(mContext, "ViewM1", "Ad_M1_" + adCompanyIDs[i]);
             }
             LogUtil.i(TAG, "adPics.length=" + adPics.length);
@@ -225,7 +225,7 @@ public class ADHelper {
         LogUtil.i(TAG, "SHOWM3:URL=" + m3Url.toString());
         Glide.with(imageView.getContext()).load(Uri.parse(m3Url.toString())).apply(requestOptions).into(imageView);
 
-        AppUtil.trackViewLog(mContext, 203, "Ad", "M3", adObj.M3.getCompanyID(AppUtil.getCurLanguage()));
+        AppUtil.trackViewLog(203, "Ad", "M3", adObj.M3.getCompanyID(AppUtil.getCurLanguage()));
         AppUtil.setStatEvent(mContext, "ViewM3", "Ad_M3_" + adObj.M3.getCompanyID(AppUtil.getCurLanguage()));
 
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -284,7 +284,7 @@ public class ADHelper {
         rootUrl.delete(0, rootUrl.length());
         rootUrl = null;
 
-        AppUtil.trackViewLog(mContext, 205, "Ad", "M5", adObj.M5.companyID[index]);
+        AppUtil.trackViewLog(205, "Ad", "M5", adObj.M5.companyID[index]);
         AppUtil.setStatEvent(mContext, "ViewM5", "Ad_M5_".concat(adObj.M5.companyID[index]));
 
     }
@@ -403,7 +403,7 @@ public class ADHelper {
             adObj = getAdObj();
         }
         intentAd(Integer.valueOf(adObj.M3.function), adObj.M3.getCompanyID(mLanguage), adObj.M3.action_eventID, adObj.M3.action_seminarID, adObj.M3.action_newsID);
-        AppUtil.trackViewLog(mContext, 415, "CA", "M3", adObj.M3.getCompanyID(mLanguage));
+        AppUtil.trackViewLog( 415, "CA", "M3", adObj.M3.getCompanyID(mLanguage));
         AppUtil.setStatEvent(mContext, "ClickM3", "CA_M3_" + adObj.M3.getCompanyID(mLanguage));
     }
 
@@ -413,7 +413,7 @@ public class ADHelper {
         }
         intentAd(Integer.valueOf(adObj.M4.function), checkEmpty(adObj.M4.action_companyID, index), checkEmpty(adObj.M4.action_eventID, index), checkEmpty(adObj.M4.action_seminarID, index), checkEmpty(adObj.M4.action_newsID, index));
 
-        AppUtil.trackViewLog(mContext, 415, "CA", "M4", adObj.M4.action_companyID[index]);
+        AppUtil.trackViewLog(415, "CA", "M4", adObj.M4.action_companyID[index]);
         AppUtil.setStatEvent(mContext, "ClickM4", "CA_M4_" + adObj.M4.action_companyID[index]);
     }
 
@@ -438,7 +438,7 @@ public class ADHelper {
 //        if (AppUtil.isTablet()) {
 //            ((Activity) mContext).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 //        }
-        AppUtil.trackViewLog(mContext, 415, "CA", "M5", mCompanyID);
+        AppUtil.trackViewLog(415, "CA", "M5", mCompanyID);
         AppUtil.setStatEvent(mContext, "ClickM5", "CA_M5_" + mCompanyID);
     }
 

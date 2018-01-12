@@ -49,6 +49,7 @@ public class MainActivity extends BaseActivity {
         spHelpPage = getSharedPreferences("HelpPage", MODE_PRIVATE);
         int language = AppUtil.getCurLanguage();
         AppUtil.switchLanguage(getApplicationContext(), language);
+        AppUtil.trackViewLog( 185, "Page", "", "Menu");
     }
 
     @Override

@@ -136,10 +136,4 @@ public class DrawerListAdapter extends CpsBaseAdapter<MainIcon> {
     }
 
 
-//    class DrawerViewHolder extends RecyclerView.ViewHolder{
-//
-//        public DrawerViewHolder(View itemView) {
-//            super(itemView);
-//        }
-//    }
 }

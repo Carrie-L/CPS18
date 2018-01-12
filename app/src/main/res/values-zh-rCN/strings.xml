@@ -101,7 +101,7 @@
     <string name="title_register">观众预登记</string>
     <string name="title_register_success">我的门票</string>
     <string name="title_event">同期活动</string>
-    <string name="title_my_exhibitor">我的Chinaplas</string>
+    <string name="title_my_exhibitor">我的CHINAPLAS</string>
     <string name="title_my_account">用户小工具</string>
     <string name="title_setting">设置</string>
     <string name="edit_schedule">编辑议程</string>
@@ -325,7 +325,7 @@
     <!-- logout -->
     <string name="logout">登出</string>
     <string name="logout_message">确认登出?</string>
-    <string name="syncMessage">在应用内的[我的参展商] 资料，将会跟CHINAPLASONLILNE.com的[我的参展商] 同步，请确认继续。</string>
+    <string name="syncMessage">在应用内的[我的CHINAPLAS] 资料，将会跟CHINAPLASONLILNE.com的[我的CHINAPLAS] 同步，请确认继续。</string>
     <string name="syncSuccess">同步成功</string>
     <string name="syncFailure">同步失败</string>
     <string name="syncStart">开始同步</string>
@@ -418,7 +418,7 @@
     <string name="my_favourite_product">兴趣展品</string>
     <string name="my_favourite_product_on_map">兴趣展品分布</string>
     <string name="add_favourite_product">添加兴趣产品</string>
-     <string name="title_history_exhibitor">我的历史记录</string>
+     <string name="title_history_exhibitor">展商浏览纪录</string>
       <string name="title_use_item">使用条款</string>
        <string name="title_message_center">通知中心</string>
     

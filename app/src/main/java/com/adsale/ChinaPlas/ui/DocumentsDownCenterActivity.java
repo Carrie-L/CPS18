@@ -50,4 +50,17 @@ public class DocumentsDownCenterActivity extends BaseActivity {
         DocumentsItemTestAdapter adapter = new DocumentsItemTestAdapter(list, getApplicationContext());
         recyclerView.setAdapter(adapter);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

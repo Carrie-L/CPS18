@@ -234,6 +234,8 @@ public class RegisterViewModel {
         mSP_Login.edit().putBoolean(Constant.IS_LOGIN, true).apply();
         downConfirmImage();
         show();
+        AppUtil.trackViewLog( 420, "PS", "", "");
+        AppUtil.setStatEvent(activity, "PreregSuccess", "PS");
     }
 
     private void downConfirmImage() {
@@ -308,7 +310,7 @@ public class RegisterViewModel {
         isLoginOrReged.set(false);
         App.mSP_Login.edit().putBoolean("IsPreUser", false).apply();
 
-        AppUtil.trackViewLog(activity, 420, "PR", "", "");
+        AppUtil.trackViewLog( 420, "PR", "", "");
         AppUtil.setStatEvent(activity, "PreregReset", "PR");
         showWebView();
     }

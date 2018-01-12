@@ -58,7 +58,7 @@ public class ListBindings {
         }
     }
 
-    @BindingAdapter({"app:imageUrl", "app:requestOptions"})
+    @BindingAdapter({"imageUrl", "requestOptions"})
     public static void loadListImage(ImageView imageView, String url, RequestOptions requestOptions) {
         Glide.with(imageView.getContext())
                 .load(url)
@@ -67,7 +67,7 @@ public class ListBindings {
                 .into(imageView);
     }
 
-    @BindingAdapter({"app:imgUrl"})
+    @BindingAdapter({"imgUrl"})
     public static void setImgUrl(ImageView imageView, String url) {
         if (TextUtils.isEmpty(url)) {
             return;
@@ -81,7 +81,7 @@ public class ListBindings {
         }
     }
 
-    @BindingAdapter({"app:imagePath", "app:requestOptions"})
+    @BindingAdapter({"imagePath", "requestOptions"})
     public static void setImagePath(ImageView imageView, String absolutePath, RequestOptions options) {
         LogUtil.i("setImagePath", "absolutePath=" + absolutePath);
         if (TextUtils.isEmpty(absolutePath)) {

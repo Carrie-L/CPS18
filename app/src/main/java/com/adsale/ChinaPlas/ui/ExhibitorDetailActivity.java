@@ -79,6 +79,7 @@ public class ExhibitorDetailActivity extends BaseActivity implements OnIntentLis
             binding.llButton.ivShare.setLayoutParams(bottomParams);
             adHelper.showM5(M5Index, binding.m5Left, binding.m5Center, binding.m5Right, binding.m5Logo);
         }
+        AppUtil.trackViewLog(198, "EPage", "", companyId);
     }
 
     private void bindingVariable(ViewDataBinding binding) {

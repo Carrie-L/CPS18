@@ -220,6 +220,10 @@ public class ExhibitorDtlViewModel {
         isCollected.set(!isCollected.get());
         exhibitor.setIsFavourite(isCollected.get() ? 1 : 0);
         mRepository.updateItemData(exhibitor);
+        if (isCollected.get()) { // 只有收藏展商时记录，取消展商不记录
+            AppUtil.trackViewLog(414, "BE", "", exhibitor.getCompanyID());
+            AppUtil.setStatEvent(mContext, "BookmarkExh", "BE_" + exhibitor.getCompanyID());
+        }
     }
 
     /*   ↓↓↓ ------------------------ Note --------------------------- ↓↓↓           */
@@ -263,6 +267,11 @@ public class ExhibitorDtlViewModel {
 
     public void saveNoteAndRate() {
         LogUtil.i(TAG, "= saveNoteAndRate =");
+        if (exhibitor.getNote() != null && !TextUtils.isEmpty(exhibitor.getNote()) && !exhibitor.getNote().equals(mNote.get())) {
+            LogUtil.i(TAG, "保存笔记，添加日志");
+            AppUtil.trackViewLog(417, "UN", "", exhibitor.getCompanyID());
+            AppUtil.setStatEvent(mContext, "UpdateNote", "UN_" + exhibitor.getCompanyID());
+        }
         exhibitor.setNote(mNote.get());
         exhibitor.setRate(mRate.get());
         mRepository.updateItemData(exhibitor);
@@ -410,7 +419,7 @@ public class ExhibitorDtlViewModel {
         shareSDKDialog.showDialog(activity, companyName.get().concat("\n").concat(mContext.getString(R.string.share_exhibitor_booth)).concat(exhibitor.getBoothNo()),
                 Constant.SHARE_IMAGE_URL, url, Constant.SHARE_IMAGE_PATH);
 
-        AppUtil.trackViewLog(mContext, 425, "SE", "", exhibitor.getCompanyID());
+        AppUtil.trackViewLog(425, "SE", "", exhibitor.getCompanyID());
         AppUtil.setStatEvent(mContext, "ShareExhibitor", "SE_".concat(exhibitor.getCompanyID()));
 
     }

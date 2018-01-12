@@ -22,6 +22,7 @@ import com.adsale.ChinaPlas.ui.FilterBoothListActivity;
 import com.adsale.ChinaPlas.ui.FilterCountryListActivity;
 import com.adsale.ChinaPlas.ui.FilterHallListActivity;
 import com.adsale.ChinaPlas.ui.FilterIndustryListActivity;
+import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 
 import java.util.ArrayList;
@@ -105,15 +106,16 @@ public class FilterView extends LinearLayout {
         }
         if (index == 0) {//产品类别
             mListener.onIntent(index,FilterIndustryListActivity.class);
+            AppUtil.trackViewLog( 194, "Page", "", "SearchByProduct");
         } else if (index == 1) {//应用分类
-//            intent = new Intent(mContext, FilterApplicationListActivity.class);
             mListener.onIntent(index,FilterApplicationListActivity.class);
+            AppUtil.trackViewLog( 193, "Page", "", "SearchByApplication");
         } else if (index == 2) {//国家
-//            intent = new Intent(mContext, FilterCountryListActivity.class);
             mListener.onIntent(index,FilterCountryListActivity.class);
+            AppUtil.trackViewLog( 196, "Page", "", "SearchByRegion");
         } else if (index == 3) {//展馆
-//            intent = new Intent(mContext, FilterHallListActivity.class);
             mListener.onIntent(index,FilterHallListActivity.class);
+            AppUtil.trackViewLog( 195, "Page", "", "SearchByHall");
         } else if (index == 4) {//展区
 //            intent = new Intent(mContext, FilterBoothListActivity.class);
             mListener.onIntent(index,FilterBoothListActivity.class);

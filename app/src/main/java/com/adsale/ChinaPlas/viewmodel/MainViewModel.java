@@ -263,7 +263,7 @@ public class MainViewModel {
         m2LargeUrl = m2Url.toString().concat(adObj.M2.image2).concat(adObj.M2.version).concat(adObj.M2.format);
         LogUtil.i(TAG, "m2LargeUrl=" + m2LargeUrl);
 
-        AppUtil.trackViewLog(mContext, 202, "Ad", "M2", adObj.M2.getCompanyID(AppUtil.getCurLanguage()));
+        AppUtil.trackViewLog( 202, "Ad", "M2", adObj.M2.getCompanyID(AppUtil.getCurLanguage()));
         AppUtil.setStatEvent(mContext, "ViewM2", "Ad_M2_" + adObj.M2.getCompanyID(AppUtil.getCurLanguage()));
     }
 

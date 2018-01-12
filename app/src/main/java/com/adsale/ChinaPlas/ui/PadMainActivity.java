@@ -71,6 +71,7 @@ public class PadMainActivity extends BaseActivity implements OnIntentListener {
         padBinding.setModel(mainViewModel);
         int language = AppUtil.getCurLanguage();
         AppUtil.switchLanguage(getApplicationContext(), language);
+        AppUtil.trackViewLog(185, "Page", "", "Menu");
     }
 
     @Override

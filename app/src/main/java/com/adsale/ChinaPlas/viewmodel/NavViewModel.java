@@ -20,6 +20,7 @@ import com.adsale.ChinaPlas.data.MainIconRepository;
 import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.ui.CommonListActivity;
 import com.adsale.ChinaPlas.ui.ConcurrentEventActivity;
+import com.adsale.ChinaPlas.ui.DocumentsDownCenterActivity;
 import com.adsale.ChinaPlas.ui.ExhibitorAllListActivity;
 import com.adsale.ChinaPlas.ui.MyExhibitorActivity;
 import com.adsale.ChinaPlas.ui.NCardActivity;
@@ -224,11 +225,21 @@ public class NavViewModel implements  OnIntentListener {
     }
 
     public Intent newIntent(Activity activity, MainIcon mainIcon) {
+        String iconID = mainIcon.getIconID();
+        if (iconID.startsWith("MI")) {
+            if (iconID.length() > 2) {
+                String subIconId = iconID.substring(iconID.length() - 2, iconID.length());
+                AppUtil.trackViewLog( 100 + Integer.valueOf(subIconId), "Page", "", mainIcon.getBaiDu_TJ());
+            }
+        } else
+            AppUtil.trackViewLog( 100 + Integer.valueOf(iconID), "Page", "", mainIcon.getBaiDu_TJ());
+
         switch (mainIcon.getBaiDu_TJ()) {
             case Constant.BDTJ_VISITOR_REG://预登记
             case Constant.BDTJ_VISITOR_REG_TEXT://预登记
             case Constant.BDTJ_VISITO://预登记
-                intent = new Intent(activity, RegisterActivity.class);
+//                intent = new Intent(activity, RegisterActivity.class);
+                intent = new Intent(activity, DocumentsDownCenterActivity.class);
                 break;
             case Constant.BDTJ_MY_ACCOUNT://用户资料
                 intent = new Intent(activity, UserInfoActivity.class);

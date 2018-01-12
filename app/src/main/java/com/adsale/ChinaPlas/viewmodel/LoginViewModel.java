@@ -184,6 +184,8 @@ public class LoginViewModel {
     private void saveLoginData() {
         App.mSP_Login.edit().putString(Constant.USER_EMAIL, loginName.get().trim()).putString(Constant.USER_PWD, loginPwd.get().trim()).putString(Constant.VMID, vmid.trim()).putBoolean(Constant.IS_LOGIN, true).apply();
         LogUtil.i(TAG, "NAME=" + loginName.get() + ",PWD=" + loginPwd.get());
+        AppUtil.trackViewLog(429, "UserLogin", "", "");
+        AppUtil.setStatEvent(mContext, "UserLogin", "UL");
     }
 
     public interface OnLoginFinishListener {

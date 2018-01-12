@@ -97,6 +97,9 @@ public class SyncViewModel {
     }
 
     public void syncMyExhibitor() {
+        AppUtil.trackViewLog(419, "SME", "", "");// SME_en_Android
+        AppUtil.setStatEvent(mContext, "SyncMyExhibitor", "SME");
+
         final LoginClient client = ReRxUtils.setupRxtrofit(LoginClient.class, NetWorkHelper.BASE_URL_CPS);
         client.sync(getRequestBody())
                 .map(new Function<retrofit2.Response<ResponseBody>, Boolean>() {
@@ -112,7 +115,7 @@ public class SyncViewModel {
                 .subscribe(new Observer<Boolean>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-                        mDisposable=d;
+                        mDisposable = d;
                     }
 
                     @Override
@@ -130,14 +133,14 @@ public class SyncViewModel {
 
                     @Override
                     public void onError(Throwable e) {
-                        LogUtil.i(TAG,"SYNC ON ERROR: "+e.getMessage());
+                        LogUtil.i(TAG, "SYNC ON ERROR: " + e.getMessage());
                         mDisposable.dispose();
                         Toast.makeText(mContext, mContext.getString(R.string.syncFailure), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onComplete() {
-                        LogUtil.i(TAG,"SYNC onComplete");
+                        LogUtil.i(TAG, "SYNC onComplete");
                         mDisposable.dispose();
                     }
                 });

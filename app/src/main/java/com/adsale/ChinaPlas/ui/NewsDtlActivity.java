@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.dao.News;
@@ -105,14 +106,15 @@ public class NewsDtlActivity extends BaseActivity implements View.OnClickListene
 
 
     public void share() {
-
+        AppUtil.trackViewLog( 424, "SN", "", news.getNewsID());
+        AppUtil.setStatEvent(getApplicationContext(), "ShareNews", "SN_" + news.getNewsID());
     }
 
     @Override
     public void onClick(View v) {
         String url = v.getTag().toString();
         LogUtil.i(TAG, "url=" + url);
-        AppUtil.trackViewLog(getApplicationContext(), 190, "Page", news.getNewsID(), "NewsLink");
+        AppUtil.trackViewLog( 190, "Page", news.getNewsID(), "NewsLink");
         Intent intent = new Intent(this, WebViewActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("title", barTitle.get());
@@ -122,6 +124,7 @@ public class NewsDtlActivity extends BaseActivity implements View.OnClickListene
     }
 
     public void onPhotoClick() {
+        AppUtil.trackViewLog( 189, "Page", news.getNewsID(), "NewsPhoto");
         Intent intent = new Intent(this, ImageActivity.class);
         intent.putExtra("url", photoUrl);
         intent.putExtra("title", barTitle.get());

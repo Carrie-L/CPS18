@@ -110,7 +110,7 @@
     <string name="title_register">Visitor Registration</string>
     <string name="title_register_success">My eTicket</string>
     <string name="title_event">Concurrent Event</string>
-    <string name="title_my_exhibitor">My Chinaplas</string>
+    <string name="title_my_exhibitor">MyCHINAPLAS</string>
     <string name="title_my_account">My Tools</string>
     <string name="title_setting">Setting</string>
     <string name="edit_schedule">Edit Schedule</string>
@@ -362,7 +362,7 @@
     <!-- logout -->
     <string name="logout">Logout</string>
     <string name="logout_message">Confirm logout?</string>
-    <string name="syncMessage">The records in this APP\'s "My Exhibitor" will be updated with the "My Exhibitor" records in CHINAPLASONLINE.com. Please confirm to proceed.</string>
+    <string name="syncMessage">The records in this APP\'s "MyCHINAPLAS" will be updated with the "MyCHINAPLAS" records in CHINAPLASONLINE.com. Please confirm to proceed.</string>
     <string name="syncSuccess">Sync success</string>
     <string name="syncFailure">Sync failed</string>
     <string name="syncStart">Start..</string>
@@ -423,7 +423,7 @@
     <string name="add_favourite_product">Add Favorite Product</string>
 
     <string name="title_my_favourite_product">My Favorite Product</string>
-    <string name="title_history_exhibitor">My Exhibitor History</string>
+    <string name="title_history_exhibitor">Viewed Exhibitor History</string>
     <string name="title_use_item">Terms of User</string>
     <string name="title_message_center">Message Center</string>
 

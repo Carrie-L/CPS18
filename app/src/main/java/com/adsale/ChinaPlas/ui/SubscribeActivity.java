@@ -190,8 +190,8 @@ public class SubscribeActivity extends BaseActivity {
 
 
     private void track() {
-//		AppUtil.trackViewLog(mContext, 422, "SE", "", "");
-//		AppUtil.setStatEvent(mContext, "SubscribeE", "SE", mLanguage);
+        AppUtil.trackViewLog(422, "SE", "", "");
+        AppUtil.setStatEvent(getApplicationContext(), "SubscribeE", "SE");
     }
 
 

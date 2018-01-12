@@ -72,6 +72,8 @@ public class M2Dialog extends AlertDialog {
 
         closeDialogAnim();
 
+
+
     }
 
     /**

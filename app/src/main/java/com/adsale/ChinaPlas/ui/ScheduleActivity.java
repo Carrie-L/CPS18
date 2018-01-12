@@ -15,6 +15,7 @@ import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.dao.ScheduleInfo;
 import com.adsale.ChinaPlas.databinding.ActivityScheduleBinding;
 import com.adsale.ChinaPlas.ui.view.HelpView;
+import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.viewmodel.ScheduleViewModel;
 
@@ -53,6 +54,7 @@ public class ScheduleActivity extends BaseActivity {
     }
 
     public void onItemClick(ScheduleInfo entity) {
+        AppUtil.trackViewLog( 192, "Page", entity.getCompanyID(), "ScheduleInfo");
         Intent intent = new Intent(this, ScheduleEditActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(INTENT_SCHEDULE, entity);

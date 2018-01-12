@@ -35,6 +35,7 @@ import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.PermissionUtil;
 import com.adsale.ChinaPlas.viewmodel.LoadingViewModel;
+import com.baidu.mobstat.StatService;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
@@ -72,13 +73,17 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
             }
         }
         binding = DataBindingUtil.setContentView(this, R.layout.activity_loading);
+        mConfigSP = getSharedPreferences(Constant.SP_CONFIG, MODE_PRIVATE);
+        long loadingStartTime = System.currentTimeMillis();
+        mConfigSP.edit().putLong("LoadingStartTime", loadingStartTime).apply();
+
         loadingProgress = binding.loadingProgress;
         mLoadingModel = new LoadingViewModel(getApplicationContext(), loadingProgress);
         binding.setLoadingModel(mLoadingModel);
         binding.setAty(this);
         binding.executePendingBindings();
 
-        mConfigSP = getSharedPreferences(Constant.SP_CONFIG, MODE_PRIVATE);
+
         mConfigSP.edit().putBoolean("M1ShowFinish", false).putBoolean("txtDownFinish", false).putBoolean("webServicesDownFinish", false).putString("M1ClickId", "").apply();
         isFirstRunning = AppUtil.isFirstRunning();
         mConfigSP.edit().putBoolean("isFirstGetMaster", isFirstRunning).apply();
@@ -107,7 +112,7 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
 
     }
 
-    private void isNetwork(){
+    private void isNetwork() {
            /* 用Glide加载图片的方式判断有没有网络。因为Glide会捕获无网络的Exception。在 requestListener 中进行后续操作。 */
         String url = "http://www.chinaplasonline.com/apps/2016/images/icon.png";
         Glide.with(this).load(Uri.parse(url)).listener(requestListener).into(binding.ivTestNet);
@@ -293,6 +298,11 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
         if (AppUtil.isTablet()) {
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         }
+        long loadingEndTime = System.currentTimeMillis();
+        long loadingTime = loadingEndTime - mConfigSP.getLong("LoadingStartTime", 0);
+        LogUtil.i(TAG, "intent:loadingTime=" + loadingTime + "ms");
+        AppUtil.trackViewLog(426, "LT", "", loadingTime + "");
+        StatService.onEventEnd(getApplicationContext(), "LoadingTime", "LT_" + AppUtil.getLanguageType() + "_Android");
     }
 
     @Override

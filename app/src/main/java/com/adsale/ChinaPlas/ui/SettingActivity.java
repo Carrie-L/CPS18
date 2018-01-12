@@ -72,7 +72,7 @@ public class SettingActivity extends BaseActivity {
         LogUtil.i(TAG, "Constant.SHARE_IMAGE_PATH=" + Constant.SHARE_IMAGE_PATH);
         share.showDialog(this, getString(R.string.share_setting_text), Constant.SHARE_IMAGE_URL, getString(R.string.share_setting_url),
                 Constant.SHARE_IMAGE_PATH);
-        AppUtil.trackViewLog(getApplicationContext(), 423, "SA", "", "");
+        AppUtil.trackViewLog( 423, "SA", "", "");
         AppUtil.setStatEvent(getApplicationContext(), "ShareApp", "SA");
     }
 

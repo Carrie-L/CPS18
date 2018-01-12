@@ -385,7 +385,6 @@ public class AppUtil {
     /**
      * <font color="#f97798"></font>
      *
-     * @param context
      * @param actionId not null
      * @param type     not null 缩写
      * @param subType
@@ -393,7 +392,7 @@ public class AppUtil {
      * @return void
      * @version 创建时间：2016年5月25日 上午10:20:29
      */
-    public static void trackViewLog(Context context, int actionId, String type, String subType, String location) {
+    public static void trackViewLog(int actionId, String type, String subType, String location) {
         if (strLogJson == null) {
             strLogJson = new String();
         }
@@ -626,6 +625,9 @@ public class AppUtil {
     }
 
     private static void sendLog(LogJson logJson) {
+        LogUtil.i(TAG,"sendLog:logJson="+logJson.toString());
+        LogUtil.i(TAG,"sendLog:logJsonArr="+logJsonArr.size());
+
         //2016.6.23: 那你就每次寫入的時候加個簡單判斷，若時間、trackingname一致，就不重複寫入
         boolean isRepeat = false;
         int size = logJsonArr.size();
@@ -647,6 +649,8 @@ public class AppUtil {
         }
         strLogJson = new Gson().toJson(logJsonArr);
 
+        LogUtil.i(TAG,"sendLog:strLogJson="+strLogJson);
+
         // 目的是为了退出之后再打开app还是会记得退出之前的事件
 //        writeFileToSD(strLogJson, LOG_JSON_STR_KEY);
 //        final String strLogSD = readFromSD(LOG_JSON_STR_KEY);
@@ -667,12 +671,12 @@ public class AppUtil {
             App.mOkHttpClient.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    Log.e(TAG, "PostLogFailed: " + e.getMessage());
+                    LogUtil.e(TAG, "PostLogFailed: " + e.getMessage());
                 }
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
-                    Log.i(TAG, "PostLogSuccess");
+                    LogUtil.i(TAG, "PostLogSuccess");
                     if (logJsonArr != null) {
                         logJsonArr.clear();
                     }

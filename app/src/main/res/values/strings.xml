@@ -46,14 +46,14 @@
 
     <!--MyAccount-->
     <string name="title_my_account">用戶小工具</string>
-    <string name="title_my_exhibitor">我的Chinaplas</string>
+    <string name="title_my_exhibitor">我的CHINAPLAS</string>
     <string name="title_schedule">我的日程表</string>
     <string name="title_my_name_card">我的名片</string>
-    <string name="title_history_exhibitor">我的歷史記錄</string>
+    <string name="title_history_exhibitor">展商瀏覽紀錄</string>
     <!-- logout -->
     <string name="logout">登出</string>
     <string name="logout_message">確認登出?</string>
-    <string name="syncMessage">在應用內的 [我的參展商] 資料，將會跟CHINAPLASONLILNE.com的 [我的參展商] 同步，請確認繼續。</string>
+    <string name="syncMessage">在應用內的 [我的CHINAPLAS] 資料，將會跟CHINAPLASONLILNE.com的 [我的CHINAPLAS] 同步，請確認繼續。</string>
     <string name="syncStart">开始同步</string>
     <string name="syncSuccess">同步成功</string>
     <string name="syncFailure">同步失敗</string>

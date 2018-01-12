@@ -131,6 +131,7 @@ public class TechSeminarDtlActivity extends BaseActivity {
         } else {
             m6View.setVisibility(View.VISIBLE);
         }
+        AppUtil.trackViewLog( 303, "Technical", "", m6Topic.id);
     }
 
     public void onCall(String tel) {

@@ -12,6 +12,7 @@ import com.adsale.ChinaPlas.data.model.ExhibitorFilter;
 import com.adsale.ChinaPlas.databinding.ActivityExhibitorFilterBinding;
 import com.adsale.ChinaPlas.helper.ADHelper;
 import com.adsale.ChinaPlas.ui.view.FilterView;
+import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 
 import java.util.ArrayList;
@@ -64,6 +65,12 @@ public class ExhibitorFilterActivity extends BaseActivity implements OnIntentLis
         overridePendingTransPad();
     }
 
+    /**
+     * item跳转在{@link com.adsale.ChinaPlas.ui.view.FilterView#onItemClick}
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -92,12 +99,21 @@ public class ExhibitorFilterActivity extends BaseActivity implements OnIntentLis
         if (!TextUtils.isEmpty(etKeyword.get().trim())) {
             newTecFilter = new ExhibitorFilter(5, "", etKeyword.get().trim());
             allFilters.add(newTecFilter);
+            AppUtil.setStatEvent(getApplicationContext(), "KeySearch", "Page_KeySearch");
+            AppUtil.trackViewLog( 188, "Page", "", "KeywordSearch");
         }
 
         if (switchNewTec.isChecked()) {
             newTecFilter = new ExhibitorFilter(6, "C", "NewTec");
             allFilters.add(newTecFilter);
         }
+
+//        String location=(industryId == null ? "0" : industryId) + ","
+//                + (applicationId == null ? "0" : applicationId) + "," + (floorId == null ? "0" : floorId) + ","
+//                + (countryId == null ? "0" : countryId);
+//        LogUtil.i(TAG, "track location =" + location);
+//        SystemMethod.trackLog(mContext,400,428,"AdvancedSearch","",location,"AS_"+location+"_");
+
 
         Intent intent = new Intent();
         intent.putExtra("data", allFilters);

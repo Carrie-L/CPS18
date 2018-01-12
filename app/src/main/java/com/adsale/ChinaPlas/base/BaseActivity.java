@@ -311,9 +311,8 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
         } else {
             openDrawer();
             mDrawerLayout.openDrawer(GravityCompat.START);
-            AppUtil.trackViewLog(getApplicationContext(), 184, "Page", "", "SlideMenu");
         }
-
+        AppUtil.trackViewLog(184, "Page", "", "SlideMenu");
     }
 
     public void onMenu() {

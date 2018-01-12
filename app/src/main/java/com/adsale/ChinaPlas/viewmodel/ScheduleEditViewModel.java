@@ -84,6 +84,10 @@ public class ScheduleEditViewModel {
         } else {// update
             LogUtil.i(TAG, "insertOrReplace：" + mId);
             insertOrReplace();
+//            AppUtil.trackViewLog(418, "US", etStartDate.get(), mCompanyId);
+//            AppUtil.setStatEvent(mContext, "UpdateSchedule", "US_" + etStartDate.get() + "_" + mCompanyId);
+            LogUtil.i(TAG, "etStartDate=" + etStartDate.get());
+
         }
     }
 
