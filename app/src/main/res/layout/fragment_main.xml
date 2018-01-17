@@ -93,7 +93,9 @@
             android:layout_gravity="bottom"
             android:layout_weight="0.089"
             android:onClick="@{()->model.onM2Click()}"
-            android:scaleType="fitCenter" />
+            android:scaleType="fitCenter"
+            android:visibility="invisible"
+            />
 
     </LinearLayout>
 

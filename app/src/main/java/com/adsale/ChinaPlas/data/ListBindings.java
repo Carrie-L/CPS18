@@ -11,6 +11,7 @@ import com.adsale.ChinaPlas.base.CpsBaseAdapter;
 import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.io.File;
@@ -63,6 +64,15 @@ public class ListBindings {
         Glide.with(imageView.getContext())
                 .load(url)
                 .apply(requestOptions)
+                .thumbnail(0.1f)
+                .into(imageView);
+    }
+
+    @BindingAdapter({"thumbnailImage"})
+    public static void setThumbnailImage(ImageView imageView, String url) {
+        Glide.with(imageView.getContext())
+                .load(url)
+                .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE))
                 .thumbnail(0.1f)
                 .into(imageView);
     }

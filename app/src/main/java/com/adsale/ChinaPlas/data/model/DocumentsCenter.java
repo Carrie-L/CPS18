@@ -19,9 +19,6 @@ public class DocumentsCenter {
     public String CategoryName_TC;
     public ArrayList<Child> Items;
 
-    public final ObservableBoolean isItemShow=new ObservableBoolean(false);
-    public final ObservableBoolean isHeaderShow=new ObservableBoolean(true);
-
     public static class Child {
         public String FileName_SC;
         public String FileName_EN;
@@ -38,13 +35,19 @@ public class DocumentsCenter {
         public String FileSize_EN;
 
         /*  自定义variable  */
-        public String CategoryName;
-        public boolean isHeader;
-        public boolean isExpanded=true; // true:当前已经展开，false:未展开
+        public final ObservableBoolean isParent = new ObservableBoolean(false);
+        public final static Integer STATUS_NS = -1;
+        public final static Integer STATUS_PAUSING = 0;
+        public final static Integer STATUS_DOWNLOADING = 1;
+        public final static Integer STATUS_FINISHED = 2;
+
+        public final ObservableInt mProgress = new ObservableInt(0);
+        public final ObservableInt max = new ObservableInt(0);
+
         /**
          * -1:未开始下载；0：点击下载，暂停中；1：正在下载; 2:下载完成
          */
-        public final ObservableInt downloadStatus = new ObservableInt(-1);
+        public final ObservableInt downloadStatus = new ObservableInt(STATUS_NS);
 
 
         public String getFileName() {
@@ -74,11 +77,15 @@ public class DocumentsCenter {
                     ", FileSize_EN='" + FileSize_EN + '\'' +
                     '}';
         }
+
+        public void download(){
+
+        }
+
+
     }
 
-    public String getCategoryName() {
-        return AppUtil.getName(CategoryName_TC, CategoryName_EN, CategoryName_SC);
-    }
+
 
     @Override
     public String toString() {

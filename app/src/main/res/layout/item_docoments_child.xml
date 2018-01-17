@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
-            name="adapter"
-            type="com.adsale.ChinaPlas.adapter.DocumentsItemTestAdapter" />
+            name="pdfAdapter"
+            type="com.adsale.ChinaPlas.adapter.PDFDownloadAdapter" />
 
         <variable
             name="pos"
@@ -13,7 +16,7 @@
 
         <variable
             name="obj"
-            type="com.adsale.ChinaPlas.data.model.DocumentsCenter.Child"/>
+            type="com.adsale.ChinaPlas.data.model.DocumentsCenter.Child" />
 
     </data>
 
@@ -30,7 +33,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            />
+            app:thumbnailImage="@{obj.Cover_SC}" />
 
         <TextView
             android:id="@+id/tv_dc_name"
@@ -45,8 +48,7 @@
             android:layout_height="32dp"
             android:layout_alignLeft="@id/tv_dc_name"
             android:layout_alignParentBottom="true"
-            android:visibility="@{obj.downloadStatus==-1||obj.downloadStatus==2?View.GONE:View.VISIBLE}"
-            >
+            android:visibility="@{obj.downloadStatus==-1||obj.downloadStatus==2?View.GONE:View.VISIBLE}">
             <!--android:visibility="@{adapter.downloadStatus==-1||adapter.downloadStatus==2?View.GONE:View.VISIBLE}"-->
 
             <ImageView
@@ -54,7 +56,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_alignParentRight="true"
-                android:onClick="@{()->adapter.onDelete(pos)}"
+                android:onClick="@{()->pdfAdapter.onDelete(pos)}"
                 android:scaleType="center"
                 android:src="@drawable/ic_dc_delete" />
 
@@ -63,10 +65,9 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_toLeftOf="@id/iv_delete"
+                android:onClick="@{()->pdfAdapter.onRestart(obj,pos)}"
                 android:scaleType="center"
-                android:onClick="@{()->adapter.onRestart(pos)}"
-                android:src="@{obj.downloadStatus==0?@drawable/ic_dc_pause:@drawable/ic_dc_refresh}"
-               />
+                android:src="@{obj.downloadStatus==0?@drawable/ic_dc_pause:@drawable/ic_dc_refresh}" />
 
 
             <ProgressBar
@@ -78,6 +79,8 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="8dp"
                 android:layout_toLeftOf="@id/iv_restart"
+                android:max="@{obj.max}"
+                android:progress="@{obj.mProgress}"
                 android:progressDrawable="@drawable/pb_horizontal_style_red" />
 
         </RelativeLayout>
@@ -87,23 +90,20 @@
             android:id="@+id/tv_dc_download"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="17dp"
             android:layout_marginRight="17dp"
             android:background="@drawable/oval_red_bg"
-
+            android:drawableLeft="@{obj.downloadStatus==2?@drawable/ic_dc_dir:@drawable/ic_dc_down}"
             android:drawablePadding="8dp"
             android:gravity="center_vertical"
-
-            android:textColor="#fff"
-            android:textStyle="bold"
-            android:drawableLeft="@{obj.downloadStatus==2?@drawable/ic_dc_dir:@drawable/ic_dc_down}"
-            android:onClick="@{()->adapter.onDownload(obj)}"
+            android:clickable="@{obj.downloadStatus==1?false:true}"
+            android:onClick="@{()->pdfAdapter.onDownload(obj)}"
             android:text="@{obj.downloadStatus==2?@string/dc_open:@string/dc_download}"
-
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="17dp" />
-
+            android:textColor="#fff"
+            android:textStyle="bold" />
 
 
         <TextView

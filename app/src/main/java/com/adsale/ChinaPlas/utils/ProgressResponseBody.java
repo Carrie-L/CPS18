@@ -1,8 +1,11 @@
 package com.adsale.ChinaPlas.utils;
 
 
+import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.helper.ProgressCallback;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import okhttp3.MediaType;
@@ -17,14 +20,16 @@ import okio.Source;
  * Created by Carrie on 2017/10/31.
  */
 
-public class ProgressResponseBody extends ResponseBody {
+public class ProgressResponseBody<T> extends ResponseBody {
     private final ResponseBody responseBody;
     private final ProgressCallback mCallback;
     private BufferedSource bufferedSource;
+    private T entity;
 
-    public ProgressResponseBody(ResponseBody responseBody, ProgressCallback callback) {
+    public ProgressResponseBody(ResponseBody responseBody, ProgressCallback callback, T t) {
         this.responseBody = responseBody;
         this.mCallback = callback;
+        this.entity = t;
     }
 
     @Override
@@ -54,7 +59,7 @@ public class ProgressResponseBody extends ResponseBody {
             public long read(Buffer sink, long byteCount) throws IOException {
                 long bytesRead = super.read(sink, byteCount);
                 totalBytesRead += bytesRead != -1 ? bytesRead : 0;
-                mCallback.onProgress(totalBytesRead, responseBody.contentLength(), bytesRead == -1);
+                mCallback.onProgress(totalBytesRead, responseBody.contentLength(), bytesRead == -1,entity);
                 return bytesRead;
             }
         };

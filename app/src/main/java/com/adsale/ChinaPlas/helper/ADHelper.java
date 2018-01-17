@@ -40,7 +40,7 @@ public class ADHelper {
     public final String TAG = "ADHelper";
     private Context mContext;
     private static ADHelper INSTANCE;
-    private final String AD_TXT = "advertisement.txt";
+    private final String AD_TXT = "advertisement2.txt";
     private Intent intent;
     private int mLanguage;
     private String mRightUrl;

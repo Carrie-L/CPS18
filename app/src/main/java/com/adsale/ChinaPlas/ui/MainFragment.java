@@ -132,34 +132,12 @@ public class MainFragment extends Fragment implements OnIntentListener {
     }
 
     private void setBottomPics() {
-//        // main_header 的高度
-//        int actionBarHeight = App.mSP_Config.getInt(Constant.TOOLBAR_HEIGHT, 0);
-//        int displayHeight = App.mSP_Config.getInt(Constant.DISPLAY_HEIGHT, 0);// 用 displayHeight 刚好
-//        int aboveFixedHeight = actionBarHeight + mainViewModel.topHeight + menuHeight; //+ navHeight
-
-//        int bottomHeight = displayHeight - aboveFixedHeight - mainViewModel.adHeight;/* 如果有广告，再减去广告高度 */
-//        LogUtil.i(TAG, "displayHeight=" + displayHeight);
-//        LogUtil.i(TAG, "SCREENHeight=" + App.mSP_Config.getInt(Constant.SCREEN_HEIGHT, 0));
-//        LogUtil.i(TAG, "statusBarHeight=" + getStatusBarHeight());
-//        LogUtil.i(TAG, "actionBarHeight=" + actionBarHeight);
-//        LogUtil.i(TAG, "topHeight=" + mainViewModel.topHeight);
-//        LogUtil.i(TAG, "menuHeight=" + menuHeight);
-//        LogUtil.i(TAG, "adHeight=" + mainViewModel.adHeight);
-//        LogUtil.i(TAG, "aboveFixedHeight=" + aboveFixedHeight);
-//        LogUtil.i(TAG, "screenWidth=" + mainViewModel.screenWidth);
-//        LogUtil.i(TAG, "bottomHeight=" + bottomHeight);
-//
-//        int bottomPx2Dp = DisplayUtil.px2dip(getActivity(), bottomHeight);
-//        LogUtil.i(TAG, "--- bottomPx2Dp=" + bottomPx2Dp);
-
         //311 * 161
         int bottomHeight = (mainViewModel.screenWidth * 161) / (311 * 2);
         LogUtil.i(TAG, "bottomHeight=" + bottomHeight);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(mainViewModel.screenWidth / 2, bottomHeight);
         binding.ivLeftPic.setLayoutParams(params);
         binding.ivRightPic.setLayoutParams(params);
-//        binding.scroll.setLayoutParams(params);
-//        RequestOptions options = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true);
         setBottomImage();
     }
 
@@ -189,18 +167,6 @@ public class MainFragment extends Fragment implements OnIntentListener {
      */
     public void closeLitterMenu() {
         adapter.mClickPos.set(-1);
-    }
-
-    private int getStatusBarHeight() {
-        int statusBarHeight = -1;
-        //获取status_bar_height资源的ID
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            //根据资源ID获取响应的尺寸值
-            statusBarHeight = getResources().getDimensionPixelSize(resourceId);
-        }
-        LogUtil.e(TAG, "状态栏-方法1:" + statusBarHeight);
-        return statusBarHeight;
     }
 
     @Override

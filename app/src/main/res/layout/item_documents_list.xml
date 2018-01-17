@@ -9,10 +9,9 @@
             name="obj"
             type="com.adsale.ChinaPlas.data.model.DocumentsCenter.Child" />
 
-
         <variable
-            name="adapter"
-            type="com.adsale.ChinaPlas.adapter.DocumentsItemTestAdapter" />
+            name="pdfAdapter"
+            type="com.adsale.ChinaPlas.adapter.PDFDownloadAdapter" />
 
         <variable
             name="pos"
@@ -25,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:onClick="@{()->adapter.onParentItemClick(obj,pos)}"
+        android:onClick="@{()->pdfAdapter.onParentItemClick(pos)}"
 
         android:padding="16dp">
         <!--android:visibility="@{obj.isHeaderShow?View.VISIBLE:View.GONE}"-->
@@ -36,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/arrow" />
+            android:background="@{pdfAdapter.mClickPos.get()==pos?@drawable/ic_down_arrow2:@drawable/ic_right_arrow2}" />
 
         <TextView
             android:layout_width="match_parent"
@@ -46,7 +45,7 @@
             android:drawablePadding="16dp"
             android:gravity="center_vertical"
             android:paddingRight="8dp"
-            android:text="@{obj.CategoryName}"
+            android:text="@{obj.fileName}"
             android:textSize="16sp" />
 
     </RelativeLayout>

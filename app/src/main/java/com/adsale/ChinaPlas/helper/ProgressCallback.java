@@ -10,5 +10,5 @@ public interface ProgressCallback {
      * @param total        总字节数
      * @param done         是否完成
      */
-    void onProgress(long progress, long total, boolean done);
+    <T> void onProgress(long progress, long total, boolean done,T entity);
 }

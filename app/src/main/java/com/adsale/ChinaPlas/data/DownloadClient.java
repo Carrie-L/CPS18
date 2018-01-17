@@ -2,15 +2,18 @@ package com.adsale.ChinaPlas.data;
 
 import com.adsale.ChinaPlas.utils.NetWorkHelper;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Streaming;
 import retrofit2.http.Url;
 
 /**
@@ -32,6 +35,14 @@ public interface DownloadClient {
     @GET
     Observable<Response<ResponseBody>> downUrls(@Url String url);
 
+    /**
+     *  断点下载接口 breakpoint download
+     */
+    @Streaming  /* 大文件需要加入这个判断，防止下载过程中写入到内存中 */
+    @GET
+    Observable<Response<ResponseBody>> bpDownload(@Header("RANGE") String start, @Url String url);
+
+//    @Streaming  /* 大文件需要加入这个判断，防止下载过程中写入到内存中 */
 
      /*  ``````````````````````````````  订阅电子快讯  `````````````````````````````````````  */
     /**

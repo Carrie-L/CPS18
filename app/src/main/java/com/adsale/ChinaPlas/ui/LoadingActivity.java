@@ -1,5 +1,6 @@
 package com.adsale.ChinaPlas.ui;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -82,6 +83,10 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
         binding.setLoadingModel(mLoadingModel);
         binding.setAty(this);
         binding.executePendingBindings();
+
+        ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+        int memoryClass = am.getMemoryClass();
+        LogUtil.i(TAG, "memoryClass=" + memoryClass);
 
 
         mConfigSP.edit().putBoolean("M1ShowFinish", false).putBoolean("txtDownFinish", false).putBoolean("webServicesDownFinish", false).putString("M1ClickId", "").apply();
