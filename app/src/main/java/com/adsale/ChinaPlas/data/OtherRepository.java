@@ -70,7 +70,7 @@ public class OtherRepository {
             while (cursor.moveToNext()) {
                 entity = mSeminarInfoDao.readEntity(cursor, 0);
                 int index = convertDateToIndex(entity.getDate());
-                if (!adObj.M6B.version[index].equals("0") && adObj.M6B.companyID[index].equals(entity.getCompanyID())) {
+                if (!adObj.M6.version[index].equals("0") && adObj.M6.companyID[index].equals(entity.getCompanyID())) {
                     entity.isADer.set(true);
                     entity.setAdLogoUrl(adHelper.getM6LogoUrl(index));
                     entity.setAdHeaderUrl(adHelper.getM6HeaderUrl(index));

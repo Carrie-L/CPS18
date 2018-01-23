@@ -41,6 +41,34 @@ public class Constant {
     public static final int PAD_RIGHT_BANNER_WIDTH = 560;// 560*288
     public static final int PAD_TOP_MARGIN = 16;// 560*288
 
+
+    /* 广告尺寸  */
+    public static final int M1_WIDTH_PHONE = 1920;
+    public static final int M1_HEIGHT_PHONE = 3408;
+    public static final int M1_WIDTH_TABLET = 2048;
+    public static final int M1_HEIGHT_TABLET = 1536;
+
+    public static final int M2_WIDTH_TABLET = 1636;
+    public static final int M2_WIDTH_PHONE = 1920;
+    public static final int M2_HEIGHT_PHONE = 346;
+    public static final int M2_HEIGHT_TABLET = 138;
+    public static final int M2_BIG_HEIGHT_PHONE = 1704;
+    public static final int M2_BIG_HEIGHT_TABLET = 768;
+
+    public static final int M3_WIDTH_PHONE = 1920;
+    public static final int M3_HEIGHT_PHONE = 346;
+    public static final int M3_WIDTH_TABLET = 1636;
+    public static final int M3_HEIGHT_TABLET = 138;
+
+    public static final int M5_VIDEO_WIDTH = 1072;
+    public static final int M5_VIDEO_HEIGHT = 822;
+
+    public static final int M6_BANNER_WIDTH_PHONE = AppUtil.isTablet()?1740:1754;
+    public static final int M6_BANNER_HEIGHT_PHONE = AppUtil.isTablet()?212:538;
+    public static final int M6_BANNER_WIDTH_TABLET = 1740;
+    public static final int M6_BANNER_HEIGHT_TABLET = 212;
+
+
     /**
      * ---------------------Config 配置信息---------------------------------------
      **/
@@ -125,12 +153,13 @@ public class Constant {
     public static final String BDTJ_QR_SCANNER = "QRCodeScanner";
     public static final String BDTJ_NOTIFICATION_CENTER = "NotificationCenter";
     public static final String BDTJ_EVENTS = "CurrentEvents";
-    public static final String BDTJ_EVENTS_TXT = "CurrentEventsTxt";
+    public static final String BDTJ_EVENTS_TXT = "CurrentEventsText";
     public static final String BDTJ_HALL_MAP_TEXT = "HallMapText";
     public static final String BDTJ_HALL_MAP = "HallMap";
     public static final String BDTJ_INTERESTED_EXHIBITOR = "MyInterestedExhibitor";
     public static final String BDTJ_TRAVEL_INFO = "TravelInfo";
     public static final String BDTJ_NEW_TEC = "NewTechCollection";
+    public static final String BDTJ_NEW_TEC_TXT = "NewTechCollectionText";
 
     public static final String DB_UPGRADE = "dbUpgrade";
 

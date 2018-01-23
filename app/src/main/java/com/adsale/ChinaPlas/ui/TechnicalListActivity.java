@@ -37,7 +37,7 @@ public class TechnicalListActivity extends BaseActivity implements OnIntentListe
     @Override
     protected void initView() {
         ActivityTechnicalListBinding binding = ActivityTechnicalListBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
-        model = new TechViewModel(getApplicationContext());
+        model = new TechViewModel(getApplicationContext(),binding.ivAd);
         binding.setTechModel(model);
         binding.executePendingBindings();
         recyclerView = binding.rvSeminar;
@@ -46,7 +46,12 @@ public class TechnicalListActivity extends BaseActivity implements OnIntentListe
 
         /* todo 这个广告不是M3广告，跳转到同期活动某一页面 */
         ADHelper adHelper = new ADHelper(this);
-        adHelper.showM3(binding.ivAd);
+//        adHelper.isShowM6anner()
+        adHelper.getM6HeaderUrl(0);
+    }
+
+    private void showM6(){
+
     }
 
     @Override

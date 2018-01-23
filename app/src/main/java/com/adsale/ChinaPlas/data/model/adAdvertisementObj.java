@@ -13,7 +13,6 @@ public class adAdvertisementObj {
 	public AdvertisementM4 M4;
 	public AdvertisementM5 M5;
 	public AdvertisementM6 M6;
-	public M6B M6B;
 	public Common Common;
 
 //	public static adAdvertisementObj parseAd() {

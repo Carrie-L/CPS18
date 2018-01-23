@@ -23,6 +23,7 @@ import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.CrashHandler;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.crashlytics.android.Crashlytics;
+import com.mob.MobSDK;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -94,6 +95,8 @@ public class App extends MultiDexApplication {
         mOkHttpClient = new OkHttpClient.Builder().build();//connectTimeout(15, TimeUnit.SECONDS).
 
         getDbHelper();
+
+//        MobSDK.init(this);
     }
 
     public static boolean isNetworkAvailable;

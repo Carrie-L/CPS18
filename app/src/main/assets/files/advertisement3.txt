@@ -1,0 +1,280 @@
+{
+    "Common": {
+        "baseUrl": "https://o97tbiy1f.qnssl.com/advertisement/",
+        "time": "13/1/2018-30/12/2018",
+        "tablet": "tablet_",
+        "phone": "phone_"
+    },
+    "M1": {
+        "version": [
+            "1"
+        ],
+        "format": ".jpg",
+        "function": "1",
+        "filepath": "M1/",
+        "action_companyID": [
+            [
+                "236494"
+            ],
+            [
+                "236494"
+            ],
+            [
+                "236494"
+            ]
+        ],
+        "action_eventID": [
+            "001"
+        ],
+        "action_seminarID": [
+            "15"
+        ],
+        "action_newsID": [
+            "0000000409"
+        ],
+        "isChange": "1"
+    },
+    "M2": {
+        "version": "1",
+        "function": "1",
+        "filepath": "M2/",
+        "format": ".jpg",
+        "image2": "big_",
+        "action_companyID_sc": "236697",
+        "action_companyID_en": "0",
+        "action_companyID_tc": "0",
+        "action_eventID": "001",
+        "action_seminarID": "15",
+        "action_newsID": "0000000409",
+        "cmsID": "0"
+    },
+    "M3": {
+        "version": "1",
+        "function": "0",
+        "filepath": "M3/",
+        "format": ".jpg",
+        "action_companyID_sc": "234768",
+        "action_companyID_en": "234768",
+        "action_companyID_tc": "0",
+        "action_eventID": "001",
+        "action_seminariD": "15",
+        "action_newsID": "0000000409",
+        "cmsID": "0"
+    },
+    "M4": {
+        "version": [
+            "0",
+            "0"
+        ],
+        "function": "1",
+        "filepath": "M4/",
+        "format": ".jpg",
+        "floor": [
+            "1.1",
+            "8.1"
+        ],
+        "action_companyID_right": [
+            "226452",
+            "227590"
+        ],
+        "action_companyID_left": [
+            "226452",
+            "227590"
+        ]
+    },
+    "M5": {
+        "version": [
+            "1",
+            "1",
+            "1"
+        ],
+        "function": "2",
+        "filepath": "M5/",
+        "format": ".jpg",
+        "logo": "logo",
+        "product": [
+            "left",
+            "center",
+            "right"
+        ],
+        "description": [
+            {
+                "descriptionEng": "SCG Chemicals is one of the largest integrated petrochemical companies in Thailand and a key industry leader in the Asia – Pacific region offers a full range of petrochemical products ranging from upstream production of olefins to downstream production of 3 main plastics resins; polyethylene, polypropylene and polyvinyl chloride. To better serve customers’ requirements, SCG Chemicals assigns prime importance to the development of new technology and innovation for the creation of high value-added products and services (HVA) in our main focus industries including food & beverage packaging, building & infrastructure, automotive, and home appliances.",
+                "descriptionTC": "暹罗化工集团 (SCG) 是泰国最大的综合性石化企业之一，也是亚太地区石化行业的领先企业，拥有完整的化工原料供应链，产品系列包括从上游的乙烯单体到下游三种主要塑胶原料:聚乙烯，聚丙烯，聚氯乙烯，更好的服务于不同类型的客户。暹罗化工集团 (SCG) 致力于技术创新和科技进步，为食品包装，建筑和基建材料，汽车和家庭用品等行业的客户开发高附加值的塑胶原料。",
+                "descriptionSC": "暹罗化工集团 (SCG) 是泰国最大的综合性石化企业之一，也是亚太地区石化行业的领先企业，拥有完整的化工原料供应链，产品系列包括从上游的乙烯单体到下游三种主要塑胶原料:聚乙烯，聚丙烯，聚氯乙烯，更好的服务于不同类型的客户。暹罗化工集团 (SCG) 致力于技术创新和科技进步，为食品包装，建筑和基建材料，汽车和家庭用品等行业的客户开发高附加值的塑胶原料。"
+            },
+            {
+                "descriptionEng": "",
+                "descriptionTC": "",
+                "descriptionSC": ""
+            },
+            {
+                "descriptionEng": "",
+                "descriptionTC": "",
+                "descriptionSC": ""
+            }
+        ],
+        "companyID": [
+            "235451",
+            "234768",
+            "236027"
+        ],
+        "website": [
+            "www.dow.com",
+            "www.topolymer.com",
+            "www.sinochemplastics.com"
+        ]
+    },
+    "M6": {
+        "version": [
+            "1",
+            "1",
+            "1",
+            "0"
+        ],
+        "function": [
+            "0",
+            "0",
+            "0",
+            "0"
+        ],
+        "filepath": "M6/",
+        "format": ".jpg",
+        "header": "header",
+        "logo": "logo",
+        "banner": "banner/",
+        "companyID": [
+            "230525",
+            "230525",
+            "230525",
+            ""
+        ],
+        "EventID": {
+            "EN": [
+                "17001",
+                "17002",
+                "17003",
+                "17004"
+            ],
+            "SC": [
+                "17001",
+                "17002",
+                "17003",
+                "17004"
+            ],
+            "TC": [
+                "17001",
+                "17002",
+                "17003",
+                "17004"
+            ]
+        },
+        "topics": [
+            {
+                "id": "36",
+                "image": "17016en_20170413",
+                "description": ""
+            },
+            {
+                "id": "94",
+                "image": "17016cn_20170413",
+                "description": ""
+            },
+            {
+                "id": "152",
+                "image": "17016cn_20170413",
+                "description": ""
+            },
+            {
+                "id": "37",
+                "image": "17018en_20170413",
+                "description": ""
+            },
+            {
+                "id": "95",
+                "image": "17018cn_20170413",
+                "description": ""
+            },
+            {
+                "id": "153",
+                "image": "17018cn_20170413",
+                "description": ""
+            },
+            {
+                "id": "38",
+                "image": "17005en_20170413",
+                "description": ""
+            },
+            {
+                "id": "96",
+                "image": "17005cn_20170413",
+                "description": ""
+            },
+            {
+                "id": "154",
+                "image": "17005cn_20170413",
+                "description": ""
+            },
+            {
+                "id": "33",
+                "image": "17038en_20170413",
+                "description": ""
+            },
+            {
+                "id": "91",
+                "image": "17038cn_20170413",
+                "description": ""
+            },
+            {
+                "id": "149",
+                "image": "17038cn_20170413",
+                "description": ""
+            },
+            {
+                "id": "15",
+                "image": "17036en_20170413",
+                "description": ""
+            },
+            {
+                "id": "73",
+                "image": "17036cn_20170413",
+                "description": ""
+            },
+            {
+                "id": "131",
+                "image": "17036cn_20170413",
+                "description": ""
+            },
+            {
+                "id": "17",
+                "image": "17025en_20170413",
+                "description": ""
+            },
+            {
+                "id": "75",
+                "image": "17025cn_20170413",
+                "description": ""
+            },
+            {
+                "id": "133",
+                "image": "17025cn_20170413",
+                "description": ""
+            },
+            {
+                "id": "43",
+                "image": "17026en_20170413",
+                "description": ""
+            },
+            {
+                "id": "101",
+                "image": "17026cn_20170413",
+                "description": ""
+            },
+            {
+                "id": "159",
+                "image": "17026cn_20170413",
+                "description": ""
+            }
+        ]
+    }
+}

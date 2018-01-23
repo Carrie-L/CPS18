@@ -1,5 +1,6 @@
 package com.adsale.ChinaPlas.viewmodel;
 
+import android.content.Context;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
@@ -18,6 +19,7 @@ import com.adsale.ChinaPlas.utils.FileUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.Parser;
 import com.adsale.ChinaPlas.utils.ReRxUtils;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -42,7 +44,7 @@ public class EventModel {
     public final ObservableArrayList<ConcurrentEvent.Pages> events = new ObservableArrayList<>();
     public final ObservableField<String> filterWords = new ObservableField<>();
     public final ObservableInt mClickPos = new ObservableInt(0);
-    private ConcurrentEvent event;
+    public ConcurrentEvent event;
     private DownloadClient mDownClient;
     private EventAdapter adapter;
     private ArrayList<ConcurrentEvent.Pages> mCacheList = new ArrayList<>();
@@ -276,6 +278,7 @@ public class EventModel {
 
 
     }
+
 
 
 }

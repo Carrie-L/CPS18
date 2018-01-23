@@ -18,7 +18,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:scaleType="fitXY" />
+            android:scaleType="fitXY"
+            android:visibility="gone"
+            />
 
         <ScrollView
             android:id="@+id/scroll_left_tech"

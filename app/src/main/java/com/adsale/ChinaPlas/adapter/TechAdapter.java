@@ -2,6 +2,7 @@ package com.adsale.ChinaPlas.adapter;
 
 import android.content.Context;
 import android.databinding.ViewDataBinding;
+import android.widget.RelativeLayout;
 
 import com.adsale.ChinaPlas.BR;
 import com.adsale.ChinaPlas.R;
@@ -10,6 +11,7 @@ import com.adsale.ChinaPlas.base.CpsBaseViewHolder;
 import com.adsale.ChinaPlas.dao.SeminarInfo;
 import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.ui.TechSeminarDtlActivity;
+import com.adsale.ChinaPlas.utils.Constant;
 
 import java.util.ArrayList;
 
@@ -28,6 +30,9 @@ public class TechAdapter extends CpsBaseAdapter<SeminarInfo> {
         this.mContext = context;
         this.list = list;
         this.mListener=listener;
+
+//        int width = (Constant.M6_BANNER_HEIGHT_PHONE*)/ Constant.M6_BANNER_WIDTH_PHONE;
+//        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams();
     }
 
     public void setList(ArrayList<SeminarInfo> list) {
@@ -62,16 +67,6 @@ public class TechAdapter extends CpsBaseAdapter<SeminarInfo> {
 
     @Override
     protected int getLayoutIdForPosition(int position) {
-//        entity = list.get(position);
-//        if (position == 0) {
-//            entity.isTypeLabel.set(true);  ader=false;  setHeaderUrl
-//        } else if (list.get(position).getDate().equals(list.get(position - 1).getDate())) {
-//            entity.isTypeLabel.set(false);
-//        } else {
-//            entity.isTypeLabel.set(true);  ader=false;  setHeaderUrl
-//        }
-//        list.set(position, entity);
-
         if(list.get(position).isTypeLabel){
             return R.layout.item_tech_header;
         }

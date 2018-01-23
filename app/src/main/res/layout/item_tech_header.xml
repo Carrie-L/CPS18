@@ -23,14 +23,14 @@
         android:text="@{obj.date}"
         android:visibility="@{obj.isTypeLabel?View.VISIBLE:View.GONE}" />
 
-    <ImageView
-        android:id="@+id/iv_m6"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="fitCenter"
-        app:imgUrl="@{obj.adHeaderUrl}"
-        android:visibility="@{obj.isADer?View.VISIBLE:View.GONE}"
-        />
+    <!--<ImageView-->
+        <!--android:id="@+id/iv_m6"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:scaleType="fitCenter"-->
+        <!--app:imgUrl="@{obj.adHeaderUrl}"-->
+        <!--android:visibility="@{obj.isADer?View.VISIBLE:View.GONE}"-->
+        <!--/>-->
 
     </LinearLayout>
 

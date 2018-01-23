@@ -4,6 +4,7 @@ import android.databinding.ObservableInt;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.utils.AppUtil;
 
 import java.util.ArrayList;
@@ -21,10 +22,13 @@ public class ConcurrentEvent implements Parcelable {
 
     public ArrayList<Pages> pages;
 
+    public AdInfo AdInfo;
+
     public static class Pages {
         public String title;
-        public String getTitle(){
-            return AppUtil.getName(title_tc,title_en,title_cn);
+
+        public String getTitle() {
+            return AppUtil.getName(title_tc, title_en, title_cn);
         }
 
         /* 同期活动标题 */
@@ -83,8 +87,46 @@ public class ConcurrentEvent implements Parcelable {
                     '}';
         }
 
-        public String getImageLink(){
-            return AppUtil.isTablet()?imageLink_Pad:imageLink;
+        public String getImageLink() {
+            return AppUtil.isTablet() ? imageLink_Pad : imageLink;
+        }
+    }
+
+    public static class AdInfo {
+        public String Image_SC;
+        public String Image_TC;
+        public String Image_EN;
+        public String Image_Pad_SC;
+        public String Image_Pad_TC;
+        public String Image_Pad_EN;
+        public String EventID_SC;
+        public String EventID_TC;
+        public String EventID_EN;
+
+        public String getImageUrl() {
+            if (AppUtil.isTablet()) {
+                return App.mLanguage.get() == 0 ? Image_Pad_TC : App.mLanguage.get() == 1 ? Image_Pad_EN : Image_Pad_SC;
+            }
+            return App.mLanguage.get() == 0 ? Image_TC : App.mLanguage.get() == 1 ? Image_EN : Image_SC;
+        }
+
+        public String getEventID() {
+            return App.mLanguage.get() == 0 ? EventID_TC : App.mLanguage.get() == 1 ? EventID_EN : EventID_SC;
+        }
+
+        @Override
+        public String toString() {
+            return "AdInfo{" +
+                    "Image_SC='" + Image_SC + '\'' +
+                    ", Image_TC='" + Image_TC + '\'' +
+                    ", Image_EN='" + Image_EN + '\'' +
+                    ", Image_Pad_SC='" + Image_Pad_SC + '\'' +
+                    ", Image_Pad_TC='" + Image_Pad_TC + '\'' +
+                    ", Image_Pad_EN='" + Image_Pad_EN + '\'' +
+                    ", EventID_SC='" + EventID_SC + '\'' +
+                    ", EventID_TC='" + EventID_TC + '\'' +
+                    ", EventID_EN='" + EventID_EN + '\'' +
+                    '}';
         }
     }
 

@@ -4,6 +4,7 @@ import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 
+import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.adapter.ExhibitorAdapter;
 import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.data.ExhibitorRepository;
@@ -14,6 +15,7 @@ import com.adsale.ChinaPlas.ui.view.SideDataView;
 import com.adsale.ChinaPlas.utils.LogUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by Carrie on 2017/11/9.
@@ -109,7 +111,56 @@ public class ExhibitorListViewModel {
         if (adapter != null) { /* 第一次进入页面时，adapter == null ,不需要刷新 */
             refreshUI();
         }
+
     }
+
+    public void sort(double a[], int low, int hight) {
+        int i, j, index;
+        if (low > hight) {
+            return;
+        }
+        i = low;
+        j = hight;
+        index = 0; // 用子表的第一个记录做基准
+        while (i > j) { // 从表的两端交替向中间扫描
+            while (i < j && a[j] >= index)
+                j--;
+            if (i < j)
+                a[i++] = a[j];// 用比基准小的记录替换低位记录
+            while (i < j && a[i] < index)
+                i++;
+            if (i < j) // 用比基准大的记录替换高位记录
+                a[j--] = a[i];
+        }
+        a[i] = index;// 将基准数值替换回 a[i]
+        sort(a, low, i - 1); // 对低子表进行递归排序
+        sort(a, i + 1, hight); // 对高子表进行递归排序
+
+    }
+
+    public void quickSort(double a[]) {
+        sort(a, 0, a.length - 1);
+    }
+
+    private void sortLetter() {
+        LogUtil.i(TAG,"sortLetter");
+        if ( !isSortAZ.get()) {
+            LogUtil.i(TAG, "mLetters before>>> " + mLetters.toString());
+            long startTime = System.currentTimeMillis();
+            String[] halls = {"1", "2", "3", "4.1", "4.2", "5.1", "5.2",  "6.1", "6.2", "7.1","7.2", "8.1", "8.2"};
+            double[] dLetters = new double[halls.length];
+            int size = halls.length;
+            for (int i = 0; i < size; i++) {
+                dLetters[i] = Double.parseDouble(halls[i]);
+                LogUtil.i(TAG, "dLetters >" + dLetters[i]);
+            }
+            quickSort(dLetters);
+            long endTime = System.currentTimeMillis();
+            LogUtil.i(TAG,"SORT SPEND TIME : "+(endTime - startTime)+"ms");
+            LogUtil.i(TAG, "mLetters before>>> " + Arrays.toString(dLetters));
+        }
+    }
+
 
     private void getAllExhibitorsHall() {
         isSortAZ.set(false);
@@ -121,6 +172,7 @@ public class ExhibitorListViewModel {
         mExhibitors.addAll(mAllExhibitorHallCaches);
         mLetters.addAll(mAllSideHallCaches);
         refreshUI();
+
     }
 
     private void getSearchExhibitorsAZ() {
@@ -212,6 +264,7 @@ public class ExhibitorListViewModel {
         } else {
             getAllExhibitorsHall();
         }
+        sortLetter();
     }
 
     public void search(String keyword) {

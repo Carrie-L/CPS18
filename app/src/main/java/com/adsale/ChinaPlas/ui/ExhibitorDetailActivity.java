@@ -151,6 +151,7 @@ public class ExhibitorDetailActivity extends BaseActivity implements OnIntentLis
         Intent intent = new Intent(this, ImageActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("url", adHelper.getM5ProductUrl(position));
+        intent.putExtra("title",mViewModel.exhibitor.getCompanyName());
         startActivity(intent);
         overridePendingTransPad();
     }

@@ -3,6 +3,8 @@ buildscript {
         mavenCentral()
         maven { url 'https://maven.google.com' }
         maven { url 'https://maven.fabric.io/public' }
+
+
     }
 
     dependencies {
@@ -12,7 +14,7 @@ buildscript {
 }
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
-
+//apply plugin: 'com.mob.sdk'
 
 repositories {
     mavenCentral()
@@ -35,8 +37,9 @@ android {
     }
     buildTypes {
         release {
-//            minifyEnabled true
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
     dataBinding {
@@ -74,7 +77,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
-    implementation 'com.rengwuxian.materialedittext:library:2.1.4'
+//    implementation 'com.rengwuxian.materialedittext:library:2.1.4'
     implementation 'com.android.support:support-v4:26.1.0'
     implementation 'com.github.bumptech.glide:glide:4.1.1'
     implementation 'com.android.support:cardview-v7:26.1.0'
@@ -82,7 +85,7 @@ dependencies {
     implementation 'com.pingxx:pingpp-alipay:2.1.7'
     implementation 'com.pingxx:pingpp-upacp:2.1.7'
     implementation 'com.pingxx:pingpp-wxpay:2.1.7'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+//    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.github.promeg:tinypinyin:2.0.2'
     implementation 'com.github.chrisbanes:PhotoView:2.1.3'
     testImplementation 'junit:junit:4.12'
@@ -93,4 +96,39 @@ dependencies {
     implementation('com.crashlytics.sdk.android:crashlytics:2.8.0@aar') {
         transitive = true
     }
+
+//    MobSDK {
+//        appKey "90f2da741a6c"
+//        appSecret "229b9b055954a4143b8b24ab7a67e58d"
+//        gui false
+//        ShareSDK {
+//            //平台配置信息
+//            devInfo {
+//                SinaWeibo {
+//                    appKey "4129025582"
+//                    appSecret "7c5bbd2dd4db2a7a67a9584d8d5c5c13"
+//                    callbackUri "https://api.weibo.com/oauth2/default.html"
+//                    shareByAppClient false
+//                }
+//                Wechat {
+//                    appId "wx223f8a526408a81e"
+//                    appSecret "1016278ea2660d15a08aaf468c409bbf"
+//                }
+//                QQ {
+//                    appId "1150073875"
+//                    appKey "8feba0a959a748bbd76c182b4f1bd99d"
+//                }
+//                Facebook {
+//                    appKey "377553155788004"
+//                    appSecret "fd9dd5c7a261d1135589ad75394007f1"
+//                    callbackUri "http://www.chinaplasonline.com/"
+//                }
+//                WhatsApp{
+//                    enable "true"
+//                }
+//            }
+//        }
+//    }
+
+
 }

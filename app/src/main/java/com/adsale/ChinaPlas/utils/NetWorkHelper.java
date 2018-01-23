@@ -19,12 +19,19 @@ public class NetWorkHelper {
 //    private static final String PROJECT_CODE = "CPSTEST";// scanFile:  test
 
     // Test service
-//    public static final String DOWNLOAD_PATH = "https://eform.adsale.com.hk/AppCPS18Services/";
-//    public static final String WEBSERVICEURL = "https://eform.adsale.com.hk/AppCPS18Services/wsCLE15.asmx";
+    public static final String DOWNLOAD_PATH = "https://eform.adsale.com.hk/AppCPS18Services/";
+    public static final String WEBSERVICEURL = "https://eform.adsale.com.hk/AppCPS18Services/wsCLE15.asmx";
 
     // release service
-    public static final String DOWNLOAD_PATH = "https://eform.adsale.com.hk/AppCPS2018Services/";
-    public static final String WEBSERVICEURL = "https://eform.adsale.com.hk/AppCPS2018Services/wsCLE15.asmx";
+//    public static final String DOWNLOAD_PATH = "https://eform.adsale.com.hk/AppCPS2018Services/";
+//    public static final String WEBSERVICEURL = "https://eform.adsale.com.hk/AppCPS2018Services/wsCLE15.asmx";
+
+    /* loading页的下载地址 */
+    public static final String DOWN_TXT_URL = "https://forms.adsale.com.hk/VirtualDirectory/AppCPS18CMS/AppFiles/{fileName}";
+    //    public static final String DOWN_TXT_URL = "https://forms.adsale.com.hk/VirtualDirectory/AppCPS2018CMS/AppFiles/{fileName}";
+    public static final String DOWN_WEBCONTENT_URL = "WebContent/{fileName}";
+
+    public static final String M2_SMALL_TEST = "https://forms.adsale.com.hk/VirtualDirectory/AppCPS18CMS/images/m2_small.png";
 
     public static final String FULL_WEBSITE="http://www.chinaplasonline.com/CPS18/Home/%s/Information.aspx";
     public static final String MOBILE_WEBSITE="http://www.chinaplasonline.com/CPS18/Mobile/%s/Home.aspx";
@@ -59,12 +66,7 @@ public class NetWorkHelper {
     public static final String Subscribe_BASE_URL = "https://eform.adsale.com.hk/FormR/ContactUs/";
     public static final String Subscribe_LAST_URL = "EnewsSub.aspx?showid=430&device=app&WAct=9105";//&lang={langType}
 
-    /* loading页的下载地址 */
-//    public static final String DOWN_TXT_URL = "https://forms.adsale.com.hk/VirtualDirectory/AppCPS18CMS/AppFiles/{fileName}";
-    public static final String DOWN_TXT_URL = "https://forms.adsale.com.hk/VirtualDirectory/AppCPS2018CMS/AppFiles/{fileName}";
-    public static final String DOWN_WEBCONTENT_URL = "WebContent/{fileName}";
 
-    public static final String M2_SMALL_TEST = "https://forms.adsale.com.hk/VirtualDirectory/AppCPS18CMS/images/m2_small.png";
 
     /*  内容更新中心baseUrl */
     public static final String UC_BASE_URL="https://o97tbiy1f.qnssl.com/";

@@ -238,8 +238,8 @@ public class NavViewModel implements  OnIntentListener {
             case Constant.BDTJ_VISITOR_REG://预登记
             case Constant.BDTJ_VISITOR_REG_TEXT://预登记
             case Constant.BDTJ_VISITO://预登记
-//                intent = new Intent(activity, RegisterActivity.class);
-                intent = new Intent(activity, DocumentsDownCenterActivity.class);
+                intent = new Intent(activity, RegisterActivity.class);
+//                intent = new Intent(activity, DocumentsDownCenterActivity.class);
                 break;
             case Constant.BDTJ_MY_ACCOUNT://用户资料
                 intent = new Intent(activity, UserInfoActivity.class);
@@ -274,8 +274,8 @@ public class NavViewModel implements  OnIntentListener {
             case Constant.BDTJ_NEWS:
                 intent = new Intent(activity, NewsActivity.class);
                 break;
-            case Constant.BDTJ_EVENTS:  // 同期活动
-//            case Constant.BDTJ_EVENTS_TXT:
+//            case Constant.BDTJ_EVENTS:  // 同期活动
+            case Constant.BDTJ_EVENTS_TXT:
                 intent = new Intent(activity, ConcurrentEventActivity.class);
                 break;
             case Constant.BDTJ_TRAVEL_INFO:
@@ -306,7 +306,8 @@ public class NavViewModel implements  OnIntentListener {
                 intent = new Intent(activity, CommonListActivity.class);
                 intent.putExtra(INTENT_COMMON_TYPE, CommonListActivity.TYPE_MSG_CENTER);
                 break;
-            case Constant.BDTJ_NEW_TEC: /* 新技术产品 */
+//            case Constant.BDTJ_NEW_TEC: /* 新技术产品 */
+            case Constant.BDTJ_NEW_TEC_TXT: /* test */
                 intent = new Intent(activity, NewTecActivity.class);
                 break;
             default:

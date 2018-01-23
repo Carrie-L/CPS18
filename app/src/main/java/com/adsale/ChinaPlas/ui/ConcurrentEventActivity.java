@@ -1,11 +1,15 @@
 package com.adsale.ChinaPlas.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
+import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.EventAdapter;
 import com.adsale.ChinaPlas.base.BaseActivity;
@@ -17,6 +21,7 @@ import com.adsale.ChinaPlas.helper.ADHelper;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.viewmodel.EventModel;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -32,17 +37,16 @@ public class ConcurrentEventActivity extends BaseActivity implements OnIntentLis
 
     private RecyclerView recyclerView;
     private EventModel mEventModel;
+    private ActivityEventBinding binding;
+    private ConcurrentEvent.AdInfo adInfo;
 
     @Override
     protected void initView() {
-        ActivityEventBinding binding = ActivityEventBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
+        binding = ActivityEventBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         mEventModel = new EventModel();
         binding.setEventModel(mEventModel);
+        binding.setAty(this);
         recyclerView = binding.rvEvent;
-
-        ADHelper adHelper = new ADHelper(this);
-        adHelper.showM3(binding.ivAd);
-
     }
 
     @Override
@@ -56,19 +60,30 @@ public class ConcurrentEventActivity extends BaseActivity implements OnIntentLis
         recyclerView.setAdapter(adapter);
         mEventModel.onStart(this, adapter);
 
+        showAd();
+
+    }
+
+    public void showAd() {
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) binding.ivAd.getLayoutParams();
+        int screenWidth = App.mSP_Config.getInt(Constant.SCREEN_WIDTH, 0);
+        params.width = screenWidth;
+        params.height = isTablet ? (screenWidth * Constant.M3_HEIGHT_TABLET) / Constant.M3_WIDTH_TABLET : (screenWidth * Constant.M3_HEIGHT_PHONE) / Constant.M3_WIDTH_PHONE;
+        binding.ivAd.setLayoutParams(params);
+
+        adInfo = mEventModel.event.AdInfo;
+        Glide.with(getApplicationContext()).load(adInfo.getImageUrl()).into(binding.ivAd);
+    }
+
+    public void onAdClick() {
+        toEventDtl(adInfo.getEventID(), "");
     }
 
     @Override
     public <T> void onIntent(T entity, Class toCls) {
         if (toCls.getSimpleName().equals("WebContentActivity")) {
-            LogUtil.i(TAG, "onItemClick: id= " + id);
-            Intent intent = new Intent(this, WebContentActivity.class);
             ConcurrentEvent.Pages pages = (ConcurrentEvent.Pages) entity;
-            intent.putExtra(Constant.WEB_URL, "ConcurrentEvent/".concat(pages.pageID));
-            intent.putExtra("title", pages.getTitle());
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            overridePendingTransPad();
+            toEventDtl(pages.pageID, pages.getTitle());
         } else if (toCls.getSimpleName().equals("TechnicalListActivity")) {
             Intent intent = new Intent(this, toCls);
             intent.putExtra("title", getString(R.string.title_technical_seminar));
@@ -82,6 +97,27 @@ public class ConcurrentEventActivity extends BaseActivity implements OnIntentLis
             startActivityForResult(intent, 1);
             overridePendingTransPad();
         }
+    }
+
+    private void toEventDtl(String eventId, String title) {
+        LogUtil.i(TAG, "onItemClick: id= " + eventId);
+        Intent intent = new Intent(this, WebContentActivity.class);
+        intent.putExtra(Constant.WEB_URL, "ConcurrentEvent/".concat(eventId));
+        if (TextUtils.isEmpty(title)) {
+            ArrayList<ConcurrentEvent.Pages> pages = mEventModel.event.pages;
+            int size = pages.size();
+            for (int i = 0; i < size; i++) {
+                if (pages.get(i).pageID.equals(eventId)) {
+                    title = pages.get(i).getTitle();
+                    break;
+                }
+            }
+        }
+        intent.putExtra("title", title);
+        LogUtil.i(TAG, "title=" + title);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        overridePendingTransPad();
     }
 
     @Override

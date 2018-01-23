@@ -3,6 +3,9 @@ package com.adsale.ChinaPlas.viewmodel;
 import android.content.Context;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableInt;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.adapter.TechAdapter;
@@ -14,6 +17,7 @@ import com.adsale.ChinaPlas.helper.ADHelper;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -44,9 +48,12 @@ public class TechViewModel {
     private adAdvertisementObj adObj;
     private ADHelper adHelper;
     private SeminarInfo seminarInfo;
+    private ImageView ivM6;
+    private boolean isCalM6;
 
-    public TechViewModel(Context mContext) {
+    public TechViewModel(Context mContext, ImageView iv) {
         this.mContext = mContext;
+        this.ivM6 = iv;
         init();
     }
 
@@ -56,7 +63,7 @@ public class TechViewModel {
         mRepository.initTechSeminarDao();
         adHelper = new ADHelper(mContext);
         allSeminarCaches = mRepository.getAllSeminars(getCurrLangId(), adHelper);
-        whetherShowM6();
+        showM6(0);
     }
 
     public void onStart(OnIntentListener listener, TechAdapter adapter) {
@@ -88,6 +95,7 @@ public class TechViewModel {
         } else {
             getPartList(index, am);
             adapter.setList(mSeminars);
+            showM6(index);
         }
     }
 
@@ -127,12 +135,12 @@ public class TechViewModel {
         int size = allSeminarCaches.size();
         int index;
 
-        int adSize = adObj.M6B.version.length;
+        int adSize = adObj.M6.version.length;
         for (int t = 0; t < adSize; t++) {
             for (int i = 0; i < size; i++) {
                 seminarInfo = allSeminarCaches.get(i);
                 index = getCurrIndex();
-                if (!adObj.M6B.version[index].equals("0") && seminarInfo.getCompanyID().equals(adObj.M6B.companyID[index])) {
+                if (!adObj.M6.version[index].equals("0") && seminarInfo.getCompanyID().equals(adObj.M6.companyID[index])) {
 //                    seminarInfo.isADer = true;
 //                    seminarInfo.adLogoUrl = adHelper.getM6LogoUrl(index);
 //                    seminarInfo.adHeaderUrl = adHelper.getM6HeaderUrl(index);
@@ -144,7 +152,7 @@ public class TechViewModel {
         for (int i = 0; i < size; i++) {
             seminarInfo = allSeminarCaches.get(i);
             index = getCurrIndex();
-            if (!adObj.M6B.version[index].equals("0") && seminarInfo.getCompanyID().equals(adObj.M6B.companyID[index])) {
+            if (!adObj.M6.version[index].equals("0") && seminarInfo.getCompanyID().equals(adObj.M6.companyID[index])) {
 //                seminarInfo.isADer = true;
 //                seminarInfo.adLogoUrl = adHelper.getM6LogoUrl(index);
 //                seminarInfo.adHeaderUrl = adHelper.getM6HeaderUrl(index);
@@ -169,14 +177,27 @@ public class TechViewModel {
         return 0;
     }
 
+    private void showM6(int index) {
+        LogUtil.i(TAG, "showM6:index=" + index);
+        if (adHelper.isAdOpen() && adHelper.isM6Open(index)) {
+            calculateM6Size();
+            ivM6.setVisibility(View.VISIBLE);
+            adHelper.getM6HeaderUrl(index);
+            Glide.with(mContext).load(adHelper.getM6HeaderUrl(index)).into(ivM6);
+            adObj = adHelper.getAdObj();
+            AppUtil.trackViewLog(206, "Ad", "M6" + "_Date" + (16 + index), adObj.M6.companyID[index]);// 统计广告出现次数
+            AppUtil.setStatEvent(mContext, "ViewM6", "M6" + "_Date" + (16 + index) + adObj.M6.companyID[index]);
+        } else {
+            ivM6.setVisibility(View.GONE);
+        }
+    }
 
-    private void whetherShowM6() {
-        boolean isAdOpen = App.mSP_Config.getBoolean(Constant.IS_AD_OPEN, false);
-        adObj = adHelper.getAdObj();
-        if (isAdOpen && adObj != null) {
-//            getAdList();
-//                            AppUtil.trackViewLog(mContext, 206, "Ad", "M6" + "_Date" + (16 + index), m6B.companyID[index]);// 统计广告出现次数
-//                AppUtil.setStatEvent(mContext, "ViewM6", "M6" + "_Date" + (16 + index) + m6B.companyID[index], currLang);
+    private void calculateM6Size() {
+        if (!isCalM6) {
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(AppUtil.getScreenWidth(),
+                    AppUtil.getCalculatedHeight(Constant.M6_BANNER_WIDTH_PHONE, Constant.M6_BANNER_HEIGHT_PHONE));
+            ivM6.setLayoutParams(params);
+            isCalM6 = true;
         }
     }
 

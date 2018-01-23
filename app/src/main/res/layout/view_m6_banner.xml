@@ -26,13 +26,6 @@
             android:paddingLeft="16dp"
             android:text="@string/title_exhibitor_deti" />
 
-        <ImageView
-            android:id="@+id/iv_seminar_banner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:scaleType="fitCenter" />
-
         <TextView
             android:id="@+id/tv_seminar_ad_description"
             style="@style/seminaldtl_tv2"

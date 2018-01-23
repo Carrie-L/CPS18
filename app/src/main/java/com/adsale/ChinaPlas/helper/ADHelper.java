@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.data.ExhibitorRepository;
-import com.adsale.ChinaPlas.data.model.M6B;
+import com.adsale.ChinaPlas.data.model.AdvertisementM6;
 import com.adsale.ChinaPlas.data.model.adAdvertisementObj;
 import com.adsale.ChinaPlas.ui.ExhibitorDetailActivity;
 import com.adsale.ChinaPlas.ui.NewsDtlActivity;
@@ -40,15 +40,13 @@ public class ADHelper {
     public final String TAG = "ADHelper";
     private Context mContext;
     private static ADHelper INSTANCE;
-    private final String AD_TXT = "advertisement2.txt";
+    private final String AD_TXT = "advertisement.txt";
     private Intent intent;
     private int mLanguage;
     private String mRightUrl;
     private String mCenterUrl;
     private String mLeftUrl;
-    private M6B.Topic M6Topic;
-
-
+    
     public ADHelper(Context context) {
         mContext = context;
         mLanguage = AppUtil.getCurLanguage();
@@ -214,7 +212,7 @@ public class ADHelper {
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
         int screenWidth = App.mSP_Config.getInt(Constant.SCREEN_WIDTH, 0);
         params.width = screenWidth;
-        params.height = isTablet ? (screenWidth * 64) / 880 : (screenWidth * 100) / 640;
+        params.height = isTablet ? (screenWidth * Constant.M3_HEIGHT_TABLET) / Constant.M3_WIDTH_TABLET : (screenWidth * Constant.M3_HEIGHT_PHONE) / Constant.M3_WIDTH_PHONE;
         imageView.setLayoutParams(params);
 //        imageView.setAspectRatio(isPadDevice ? 13.75f : 6.4f);
 
@@ -275,11 +273,11 @@ public class ADHelper {
         mRightUrl = rootUrl.toString().concat(adObj.M5.product[2]).concat("_").concat(adObj.M5.version[index]).concat(adObj.M5.format);
         LogUtil.i(TAG, "rightUrl=" + mRightUrl);
 
-        RequestOptions options = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.DATA).placeholder(R.drawable.scan_mask);
-        Glide.with(mContext).load(Uri.parse(logoUrl)).apply(options.override(45, 45)).into(logo);
-        Glide.with(mContext).load(Uri.parse(mLeftUrl)).apply(options).into(leftImg);
-        Glide.with(mContext).load(Uri.parse(mCenterUrl)).apply(options).into(centerImg);
-        Glide.with(mContext).load(Uri.parse(mRightUrl)).apply(options).into(rightImg);
+        RequestOptions options = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE).placeholder(R.drawable.scan_mask);
+        Glide.with(mContext).load(Uri.parse(logoUrl)).apply(options).thumbnail(0.1f).into(logo);
+        Glide.with(mContext).load(Uri.parse(mLeftUrl)).apply(options).thumbnail(0.1f).into(leftImg);
+        Glide.with(mContext).load(Uri.parse(mCenterUrl)).apply(options).thumbnail(0.1f).into(centerImg);
+        Glide.with(mContext).load(Uri.parse(mRightUrl)).apply(options).thumbnail(0.1f).into(rightImg);
 
         rootUrl.delete(0, rootUrl.length());
         rootUrl = null;
@@ -291,6 +289,10 @@ public class ADHelper {
 
     public String getM5ProductUrl(int pos) {
         return pos == 1 ? mLeftUrl : pos == 2 ? mCenterUrl : mRightUrl;
+    }
+
+    public void showEvent(){
+
     }
 
 //    public void showM6(int currIndex) {
@@ -308,12 +310,12 @@ public class ADHelper {
         return Integer.valueOf(adObj.M6.version[index]) > 0;
     }
 
-    public boolean isShowM6Banner(String id) {
+    public boolean isShowM6anner(String id) {
         getAdObj();
         if (!isAdOpen()) {
             return false;
         }
-        ArrayList<M6B.Topic> topics = adObj.M6B.topics;
+        ArrayList<AdvertisementM6.Topic> topics = adObj.M6.topics;
         int size = topics.size();
         for (int i = 0; i < size; i++) {
             if (topics.get(i).id.equals(id)) {
@@ -327,19 +329,30 @@ public class ADHelper {
      * @param index start from 0
      */
     public String getM6LogoUrl(int index) {
+        getAdObj();
         StringBuilder sbUrl = new StringBuilder();
-        sbUrl.append(adObj.Common.baseUrl).append(adObj.M6B.filepath).append(adObj.M6B.companyID[index]).append("/")
-                .append(AppUtil.isTablet() ? adObj.Common.tablet : adObj.Common.phone).append(adObj.M6B.logo).append("_").append(adObj.M6B.version[index])
-                .append(adObj.M6B.format);
+        sbUrl.append(adObj.Common.baseUrl).append(adObj.M6.filepath).append(adObj.M6.companyID[index]).append("/")
+                .append(AppUtil.isTablet() ? adObj.Common.tablet : adObj.Common.phone).append(adObj.M6.logo).append("_").append(adObj.M6.version[index])
+                .append(adObj.M6.format);
         LogUtil.i(TAG, "getM6LogoUrl= " + sbUrl.toString());
         return sbUrl.toString();
     }
 
     public String getM6HeaderUrl(int index) {
+        getAdObj();
         StringBuilder sbUrl = new StringBuilder();
-        sbUrl.append(adObj.Common.baseUrl).append(adObj.M6B.filepath).append(adObj.M6B.companyID[index]).append("/")
-                .append(AppUtil.isTablet() ? adObj.Common.tablet : adObj.Common.phone).append(adObj.M6B.header).append("_").append(adObj.M6B.version[index])
-                .append(adObj.M6B.format);
+        sbUrl.append(adObj.Common.baseUrl).append(adObj.M6.filepath).append(adObj.M6.companyID[index]).append("/")
+                .append(AppUtil.isTablet() ? adObj.Common.tablet : adObj.Common.phone).append(adObj.M6.header).append("_").append(adObj.M6.version[index])
+                .append(adObj.M6.format);
+        LogUtil.e(TAG, "getM6HeaderUrl=" + sbUrl.toString());
+        return sbUrl.toString();
+    }
+
+    public String getM6BannerUrl(int index) {
+        StringBuilder sbUrl = new StringBuilder();
+        sbUrl.append(adObj.Common.baseUrl).append(adObj.M6.filepath).append(adObj.M6.companyID[index]).append("/")
+                .append(AppUtil.isTablet() ? adObj.Common.tablet : adObj.Common.phone).append(adObj.M6.header).append("_").append(adObj.M6.version[index])
+                .append(adObj.M6.format);
         LogUtil.e(TAG, "getM6HeaderUrl=" + sbUrl.toString());
         return sbUrl.toString();
     }
