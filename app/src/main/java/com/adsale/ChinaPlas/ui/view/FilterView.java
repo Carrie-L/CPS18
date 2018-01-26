@@ -18,7 +18,7 @@ import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.data.model.ExhibitorFilter;
 import com.adsale.ChinaPlas.databinding.ViewExhibitorFilterBinding;
 import com.adsale.ChinaPlas.ui.FilterApplicationListActivity;
-import com.adsale.ChinaPlas.ui.FilterBoothListActivity;
+import com.adsale.ChinaPlas.ui.FilterZoneListActivity;
 import com.adsale.ChinaPlas.ui.FilterCountryListActivity;
 import com.adsale.ChinaPlas.ui.FilterHallListActivity;
 import com.adsale.ChinaPlas.ui.FilterIndustryListActivity;
@@ -117,8 +117,8 @@ public class FilterView extends LinearLayout {
             mListener.onIntent(index,FilterHallListActivity.class);
             AppUtil.trackViewLog( 195, "Page", "", "SearchByHall");
         } else if (index == 4) {//展区
-//            intent = new Intent(mContext, FilterBoothListActivity.class);
-            mListener.onIntent(index,FilterBoothListActivity.class);
+//            intent = new Intent(mContext, FilterZoneListActivity.class);
+            mListener.onIntent(index,FilterZoneListActivity.class);
         }
     }
 

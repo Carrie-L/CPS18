@@ -10,6 +10,7 @@ import com.adsale.ChinaPlas.dao.ApplicationIndustry;
 import com.adsale.ChinaPlas.dao.BussinessMapping;
 import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.dao.ExhibitorIndustryDtl;
+import com.adsale.ChinaPlas.dao.ExhibitorZone;
 import com.adsale.ChinaPlas.dao.Floor;
 import com.adsale.ChinaPlas.dao.Industry;
 import com.adsale.ChinaPlas.dao.NewProductAndCategory;
@@ -17,6 +18,7 @@ import com.adsale.ChinaPlas.dao.NewProductInfo;
 import com.adsale.ChinaPlas.dao.NewProductsAndApplication;
 import com.adsale.ChinaPlas.dao.ProductApplication;
 import com.adsale.ChinaPlas.dao.ProductImage;
+import com.adsale.ChinaPlas.dao.Zone;
 import com.adsale.ChinaPlas.data.ExhibitorRepository;
 import com.adsale.ChinaPlas.data.NewTecRepository;
 import com.adsale.ChinaPlas.data.model.AgentInfo;
@@ -616,6 +618,80 @@ public class CSVHelper {
         }
     }
 
+    private void readExhibitorZoneCSV(InputStream is) {
+        long startTime = System.currentTimeMillis();
+        ArrayList<ExhibitorZone> entities = new ArrayList<>();
+        ExhibitorZone entity = null;
+        CSVReader reader;
+        if (is != null) {
+            try {
+                reader = new CSVReader(new InputStreamReader(is, "UTF8"));
+                String[] line = reader.readNext();
+                if (line != null) {
+                    while ((line = reader.readNext()) != null) {
+                        entity = new ExhibitorZone();
+                        entity.parser(line);
+                        entities.add(entity);
+                    }
+                }
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (is != null) {
+                        is.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            LogUtil.i(TAG, "SD卡：ExhibitorZoneCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
+            long startTime2 = System.currentTimeMillis();
+            mExhibitorRepository.clearExhibitorZone();
+            mExhibitorRepository.insertExhibitorZoneAll(entities);
+            LogUtil.i(TAG, "存儲 readExhibitorZoneCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
+        }
+    }
+
+    private void readZoneCSV(InputStream is) {
+        long startTime = System.currentTimeMillis();
+        ArrayList<Zone> entities = new ArrayList<>();
+        Zone entity = null;
+        CSVReader reader;
+        if (is != null) {
+            try {
+                reader = new CSVReader(new InputStreamReader(is, "UTF8"));
+                String[] line = reader.readNext();
+                if (line != null) {
+                    while ((line = reader.readNext()) != null) {
+                        entity = new Zone();
+                        entity.parser(line);
+                        entities.add(entity);
+                    }
+                }
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (is != null) {
+                        is.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            LogUtil.i(TAG, "SD卡：ExhibitorZoneCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
+            long startTime2 = System.currentTimeMillis();
+            mExhibitorRepository.clearZone();
+            mExhibitorRepository.insertZoneAll(entities);
+            LogUtil.i(TAG, "存儲 read Zone CSV 所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
+        }
+    }
+
     //
 //    // ==========================Technical Seminar===================================
 //    public  void readSeminarInfoCSV() {
@@ -756,6 +832,8 @@ public class CSVHelper {
         mExhibitorRepository.clearIndustry();
         mExhibitorRepository.clearFloor();
         mExhibitorRepository.clearExhibitorAll();
+        mExhibitorRepository.clearExhibitorZone();
+        mExhibitorRepository.clearZone();
 
         readApplicationCSV(getInputStream("ExhibitorData/Application.csv"));
         readCompanyApplicationCSV(getInputStream("ExhibitorData/CompanyApplication.csv"));
@@ -764,6 +842,8 @@ public class CSVHelper {
         readExhibitionCatalogProductLangCSV(getInputStream("ExhibitorData/ExhibitionCatalogProductLang.csv"));
         readExhibitorCSV(getInputStream("ExhibitorData/exhibitors.csv"), getInputStream("ExhibitorData/ExhibitorDescripton.csv"));//Exhibitor Data/
         readHallCSV(getInputStream("ExhibitorData/Hall.csv"));
+        readExhibitorZoneCSV(getInputStream("ExhibitorData/ExhibitorZone.csv"));
+        readZoneCSV(getInputStream("ExhibitorData/Zone.csv"));
 
         long endTime = System.currentTimeMillis();
         LogUtil.i(TAG, "导入完成：" + (endTime - startTime) + "ms");

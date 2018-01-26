@@ -69,7 +69,7 @@ public class ContentHandler extends DefaultHandler {
      * @return
      */
     public boolean parseXmlWithSAX(String xmlData) {
-        FileUtils.writeFileToSD(xmlData, App.rootDir + "response.xml");
+//        FileUtils.writeFileToSD(xmlData, App.rootDir + "response.xml");
 
         if (xmlData == null) {
             LogUtil.e(TAG, "xmlData==null，直接返回");

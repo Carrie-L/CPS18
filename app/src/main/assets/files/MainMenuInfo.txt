@@ -39,8 +39,8 @@
   ],
   "LeftBottomBanner": {
     "EN": {
-      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon7.png",
-      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon7.png",
+      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon7v3_en.png",
+      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon7v3_en.png",
       "Function": "5",
       "InnerPage": "VisitorPreRegistrationText",
       "Link": "baidu.com",
@@ -50,8 +50,8 @@
       "newsID": "0000000409"
     },
     "SC": {
-      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon7_sc.png",
-      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon7_sc.png",
+      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon7v3_sc.png",
+      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon7v3_sc.png",
       "Function": "5",
       "InnerPage": "VisitorPreRegistrationText",
       "Link": "baidu.com",
@@ -61,8 +61,8 @@
       "newsID": "0000000409"
     },
     "TC": {
-      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon7_tc.png",
-      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon7_tc.png",
+      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon7v3_tc.png",
+      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon7v3_tc.png",
       "Function": "5",
       "InnerPage": "VisitorPreRegistrationText",
       "Link": "baidu.com",

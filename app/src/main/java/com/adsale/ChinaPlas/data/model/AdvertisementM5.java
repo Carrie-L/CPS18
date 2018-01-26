@@ -1,5 +1,6 @@
 package com.adsale.ChinaPlas.data.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,7 +19,20 @@ public class AdvertisementM5 {
 	public String[] action_seminarID;
 	public String[] action_newsID;
 	public List<Description> description;
-	
+	public ArrayList<M5Video> videos;
+
+	public static class M5Video{
+		public String[] imagelinks;
+		public String[] videolinks;
+
+		@Override
+		public String toString() {
+			return "M5Video{" +
+					"imagelinks=" + Arrays.toString(imagelinks) +
+					", videolinks=" + Arrays.toString(videolinks) +
+					'}';
+		}
+	}
 	
 	@Override
 	public String toString() {

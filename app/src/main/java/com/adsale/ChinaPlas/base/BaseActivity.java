@@ -2,6 +2,7 @@ package com.adsale.ChinaPlas.base;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -207,6 +208,7 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
             window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+//            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);/* 20180126添加  */
             window.setStatusBarColor(Color.TRANSPARENT);
             if (isShowTitleBar.get()) {
                 window.setNavigationBarColor(getResources().getColor(R.color.home_transparent));
@@ -215,6 +217,9 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
                 window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
             }
+
+
+
         }
     }
 
@@ -350,17 +355,25 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
         }
     }
 
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(AppUtil.createConfigurationContext(base));
+    }
+
     /**
      * 百度统计
      */
     private void setBaiDuTJ() {
         mBaiduTJ = getIntent().getStringExtra(Constant.BAIDU_TJ);
+        LogUtil.i(TAG,"setBaiDuTJ:mBaiduTJ="+mBaiduTJ);
+
         if (mBaiduTJ != null) {
             eventName = "Page_".concat(mBaiduTJ).concat("_").concat(AppUtil.getLanguageType()).concat("_Android");
         }
         if (mTypePrefix != null) {
             eventName = setEventName(mTypePrefix);
         }
+        LogUtil.i(TAG,"setBaiDuTJ:eventName="+eventName);
     }
 
     /**

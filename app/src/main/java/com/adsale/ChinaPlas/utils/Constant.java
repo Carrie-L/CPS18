@@ -29,11 +29,6 @@ public class Constant {
     public static final int MAIN_TOP_BANNER_HEIGHT = 158;
     public static final int MAIN_TOP_BANNER_HEIGHT_PAD = 616;
 
-    /* M2 */
-    public static final int M2_WIDTH = 640;
-    public static final int M2_HEIGHT = 100;
-    public static final int M2_HEIGHT_PAD = 140;
-
     /* 主界面icon */
     public static final int MENU_ICON_SIZE = 90;// 90 * 90
     public static final int MENU_ICON_SIZE_PAD = 150;// 90 * 90
@@ -48,25 +43,18 @@ public class Constant {
     public static final int M1_WIDTH_TABLET = 2048;
     public static final int M1_HEIGHT_TABLET = 1536;
 
-    public static final int M2_WIDTH_TABLET = 1636;
-    public static final int M2_WIDTH_PHONE = 1920;
-    public static final int M2_HEIGHT_PHONE = 346;
-    public static final int M2_HEIGHT_TABLET = 138;
-    public static final int M2_BIG_HEIGHT_PHONE = 1704;
-    public static final int M2_BIG_HEIGHT_TABLET = 768;
+    public static final int M2_WIDTH = AppUtil.isTablet() ? 1636 : 1920;
+    public static final int M2_HEIGHT = AppUtil.isTablet() ? 138 : 346;
+    public static final int M2_HEIGHT_BIG = AppUtil.isTablet() ? 768 : 1704;
 
-    public static final int M3_WIDTH_PHONE = 1920;
-    public static final int M3_HEIGHT_PHONE = 346;
-    public static final int M3_WIDTH_TABLET = 1636;
-    public static final int M3_HEIGHT_TABLET = 138;
+    public static final int M3_WIDTH = AppUtil.isTablet() ? 1636 : 1920;
+    public static final int M3_HEIGHT = AppUtil.isTablet() ? 138 : 346;
 
     public static final int M5_VIDEO_WIDTH = 1072;
     public static final int M5_VIDEO_HEIGHT = 822;
 
-    public static final int M6_BANNER_WIDTH_PHONE = AppUtil.isTablet()?1740:1754;
-    public static final int M6_BANNER_HEIGHT_PHONE = AppUtil.isTablet()?212:538;
-    public static final int M6_BANNER_WIDTH_TABLET = 1740;
-    public static final int M6_BANNER_HEIGHT_TABLET = 212;
+    public static final int M6_BANNER_WIDTH = AppUtil.isTablet() ? 1740 : 1754;
+    public static final int M6_BANNER_HEIGHT = AppUtil.isTablet() ? 212 : 538;
 
 
     /**

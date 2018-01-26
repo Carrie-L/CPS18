@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
@@ -62,6 +63,7 @@ public class PadMainActivity extends BaseActivity implements OnIntentListener {
         isShowTitleBar.set(false);
         mToolbarBackgroundRes = R.drawable.main_header;
         TAG = "PadMainActivity";
+        mTypePrefix = "Page_Menu";
     }
 
     @Override
@@ -90,6 +92,13 @@ public class PadMainActivity extends BaseActivity implements OnIntentListener {
             m2UpAnimation(mainViewModel.m2LargeUrl);
         }
 //        m2UpAnimation("https://o97tbiy1f.qnssl.com/advertisement/M2/phone_sc_big_2.jpg");
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // 必不可少。否則平板多語言會混亂
+        AppUtil.switchLanguage(getApplicationContext(), AppUtil.getCurLanguage());
     }
 
     private void initRecyclerView() {

@@ -13,6 +13,7 @@ import android.widget.ImageView;
 
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.utils.AppUtil;
+import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.bumptech.glide.Glide;
 
@@ -34,7 +35,7 @@ public class M2Dialog extends AlertDialog {
     private Activity activity;
     private Disposable mM2Disposable;
     private String mUrl;
-    private final Integer SECOND = 3;
+    private final Integer SECOND = 4;
 
     public M2Dialog(Activity activity) {
         super(activity, R.style.MyDialog);
@@ -58,10 +59,7 @@ public class M2Dialog extends AlertDialog {
         Window window = getWindow();
         WindowManager.LayoutParams wl = window.getAttributes();
         int sw = AppUtil.getScreenWidth();
-        boolean isTablet = AppUtil.isTablet();
-        int m2BigWidth = isTablet ? 920 : 640;
-        int m2BigHeight = isTablet ? 335 : 400;
-        wl.height = (sw * m2BigHeight) / m2BigWidth;
+        wl.height = (sw * Constant.M2_HEIGHT_BIG) / Constant.M2_WIDTH;
         wl.width = sw;
         wl.gravity = Gravity.BOTTOM;
         window.getDecorView().setPadding(0, 0, 0, 0);
@@ -73,11 +71,10 @@ public class M2Dialog extends AlertDialog {
         closeDialogAnim();
 
 
-
     }
 
     /**
-     * 停留2s，再關閉
+     * 停留3s，再關閉
      */
     private void closeDialogAnim() {
         Observable.interval(1, TimeUnit.SECONDS)

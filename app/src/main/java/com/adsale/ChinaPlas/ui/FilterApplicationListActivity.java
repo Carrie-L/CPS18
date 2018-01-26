@@ -36,6 +36,7 @@ public class FilterApplicationListActivity extends BaseActivity {
     protected void preView() {
         super.preView();
         isChangeTitleHomeIcon = true;
+        mTypePrefix="Page_SearchByApplication";
     }
 
     @Override

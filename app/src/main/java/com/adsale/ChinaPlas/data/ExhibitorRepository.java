@@ -10,16 +10,21 @@ import com.adsale.ChinaPlas.dao.ApplicationIndustry;
 import com.adsale.ChinaPlas.dao.ApplicationIndustryDao;
 import com.adsale.ChinaPlas.dao.BussinessMapping;
 import com.adsale.ChinaPlas.dao.BussinessMappingDao;
+import com.adsale.ChinaPlas.dao.DBHelper;
 import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.dao.ExhibitorDao;
 import com.adsale.ChinaPlas.dao.ExhibitorIndustryDtl;
 import com.adsale.ChinaPlas.dao.ExhibitorIndustryDtlDao;
+import com.adsale.ChinaPlas.dao.ExhibitorZone;
+import com.adsale.ChinaPlas.dao.ExhibitorZoneDao;
 import com.adsale.ChinaPlas.dao.Floor;
 import com.adsale.ChinaPlas.dao.FloorDao;
 import com.adsale.ChinaPlas.dao.HistoryExhibitor;
 import com.adsale.ChinaPlas.dao.HistoryExhibitorDao;
 import com.adsale.ChinaPlas.dao.Industry;
 import com.adsale.ChinaPlas.dao.IndustryDao;
+import com.adsale.ChinaPlas.dao.Zone;
+import com.adsale.ChinaPlas.dao.ZoneDao;
 import com.adsale.ChinaPlas.data.model.ExhibitorFilter;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
@@ -49,6 +54,8 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
     private BussinessMappingDao mBsnsMappingDao;
     private FloorDao mFloorDao;
     private Exhibitor exhibitor;
+    private ExhibitorZoneDao mExhibitorZoneDao;
+    private ZoneDao mZoneDao;
 
     public static ExhibitorRepository getInstance() {
         if (INSTANCE == null) {
@@ -132,14 +139,11 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
     private String getExhibitorSql() {
         int language = AppUtil.getCurLanguage();
         if (language == 0) {
-            return "select E.COMPANY_ID,E.COMPANY_NAME_EN,E.COMPANY_NAME_TW,E.COMPANY_NAME_CN,E.COUNTRY_ID,E.BOOTH_NO,E.STROKE_TRAD,E.SEQ_TC,E.HALL_NO,E.IS_FAVOURITE,E.DESC_E,E.DESC_S,E.DESC_T\n" +
-                    ",C.COUNTRY_NAME_TW AS COUNTRY_NAME from EXHIBITOR E,COUNTRY C WHERE E.COUNTRY_ID=C.COUNTRY_ID ";
+            return "select E.COMPANY_ID,E.COMPANY_NAME_EN,E.COMPANY_NAME_TW,E.COMPANY_NAME_CN,E.COUNTRY_ID,E.BOOTH_NO,E.STROKE_TRAD,E.SEQ_TC,E.HALL_NO,E.IS_FAVOURITE,E.DESC_E,E.DESC_S,E.DESC_T,E.PHOTO_FILE_NAME,C.COUNTRY_NAME_TW AS COUNTRY_NAME from EXHIBITOR E,COUNTRY C WHERE E.COUNTRY_ID=C.COUNTRY_ID ";
         } else if (language == 1) {
-            return "select E.COMPANY_ID,E.COMPANY_NAME_EN,E.COMPANY_NAME_TW,E.COMPANY_NAME_CN,E.BOOTH_NO,E.STROKE_ENG,E.SEQ_EN,E.HALL_NO,E.IS_FAVOURITE,E.DESC_E,E.DESC_S,E.DESC_T\n" +
-                    ",C.COUNTRY_NAME_EN AS COUNTRY_NAME from EXHIBITOR E,COUNTRY C WHERE E.COUNTRY_ID=C.COUNTRY_ID ";
+            return "select E.COMPANY_ID,E.COMPANY_NAME_EN,E.COMPANY_NAME_TW,E.COMPANY_NAME_CN,E.BOOTH_NO,E.STROKE_ENG,E.SEQ_EN,E.HALL_NO,E.IS_FAVOURITE,E.DESC_E,E.DESC_S,E.DESC_T,E.PHOTO_FILE_NAME,C.COUNTRY_NAME_EN AS COUNTRY_NAME from EXHIBITOR E,COUNTRY C WHERE E.COUNTRY_ID=C.COUNTRY_ID ";
         } else {
-            return "select E.COMPANY_ID,E.COMPANY_NAME_EN,E.COMPANY_NAME_TW,E.COMPANY_NAME_CN,E.BOOTH_NO,E.PYSIMP,E.SEQ_SC,E.HALL_NO,E.IS_FAVOURITE,E.DESC_E,E.DESC_S,E.DESC_T\n" +
-                    ",C.COUNTRY_NAME_CN AS COUNTRY_NAME from EXHIBITOR E,COUNTRY C WHERE E.COUNTRY_ID=C.COUNTRY_ID ";
+            return "select E.COMPANY_ID,E.COMPANY_NAME_EN,E.COMPANY_NAME_TW,E.COMPANY_NAME_CN,E.BOOTH_NO,E.PYSIMP,E.SEQ_SC,E.HALL_NO,E.IS_FAVOURITE,E.DESC_E,E.DESC_S,E.DESC_T,E.PHOTO_FILE_NAME,C.COUNTRY_NAME_CN AS COUNTRY_NAME from EXHIBITOR E,COUNTRY C WHERE E.COUNTRY_ID=C.COUNTRY_ID ";
         }
     }
 
@@ -234,6 +238,7 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
         ArrayList<String> countries = new ArrayList<>();
         ArrayList<String> industriesStr = new ArrayList<>();
         ArrayList<String> appStr = new ArrayList<>();
+        ArrayList<String> zoneStr = new ArrayList<>();
         ArrayList<String> newTecStr = new ArrayList<>();
         ExhibitorFilter filter;
         String keyword = "";
@@ -262,9 +267,15 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
                     sql = sql.concat(" and COMPANY_ID IN (%4$s)");
                 }
                 appStr.add(" select COMPANY_ID from APPLICATION_COMPANY where INDUSTRY_ID=" + filter.id);
-            } else if (index == 6) {// new tec
-                if (newTecStr.size() == 0) {
+            }else if (index == 4) {
+                if (zoneStr.size() == 0) {
                     sql = sql.concat(" and COMPANY_ID IN (%5$s)");
+                }
+                zoneStr.add(" select CompanyId from EXHIBITOR_ZONE where ThemeZoneCode='" + filter.id+"'");
+            }
+            else if (index == 6) {// new tec
+                if (newTecStr.size() == 0) {
+                    sql = sql.concat(" and COMPANY_ID IN (%6$s)");
                 }
                 newTecStr.add(" SELECT COMPANY_ID FROM NEW_PRODUCT_INFO WHERE RID IN (select RID from NEW_PRODUCT_AND_CATEGORY where CATEGORY='C') ");
             } else if (index == 5) { // keyword
@@ -282,6 +293,7 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
                 countries.toString().replace("[", "").replace("]", ""),
                 industriesStr.toString().replaceAll(",", " intersect").replace("[", "").replace("]", ""),
                 appStr.toString().replaceAll(",", " intersect").replace("[", "").replace("]", ""),
+                zoneStr.toString().replaceAll(",", " intersect").replace("[", "").replace("]", ""),
                 newTecStr.toString().replaceAll(",", " intersect").replace("[", "").replace("]", ""));
         sql = sql.replaceAll("carriecps", "E.DESC_E LIKE '%".concat(keyword).concat("%' OR E.DESC_S LIKE '%").concat(keyword).concat("%' OR E.DESC_T LIKE '%").concat(keyword).concat("%'"));
         LogUtil.i(TAG, ">>>> sql=" + sql);
@@ -394,6 +406,8 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
         mIndustryDtlDao = mDBHelper.mIndustryDtlDao;
         mBsnsMappingDao = mDBHelper.mBsnsMappingDao;
         mFloorDao = mDBHelper.mFloorDao;
+        mExhibitorZoneDao = mDBHelper.mExhibitorZoneDao;
+        mZoneDao = mDBHelper.mZoneDao;
     }
 
     public void insertExhibitorAll(ArrayList<Exhibitor> list) {
@@ -446,6 +460,25 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
         mBsnsMappingDao.insertInTx(lists);
     }
 
+
+    public void insertExhibitorZoneAll(final ArrayList<ExhibitorZone> entities) {
+        final long startTime = System.currentTimeMillis();
+        if (entities == null || entities.isEmpty()) {
+            return;
+        }
+        mExhibitorZoneDao.insertOrReplaceInTx(entities);
+        LogUtil.i(TAG, "插入 ExhibitorZone 成功：" + (System.currentTimeMillis() - startTime) + "ms");
+    }
+
+    public void insertZoneAll(final ArrayList<Zone> entities) {
+        final long startTime = System.currentTimeMillis();
+        if (entities == null || entities.isEmpty()) {
+            return;
+        }
+        mZoneDao.insertOrReplaceInTx(entities);
+        LogUtil.i(TAG, "插入 Zone 成功：" + (System.currentTimeMillis() - startTime) + "ms");
+    }
+
     public void deleteBsnsMappingAll() {
         mBsnsMappingDao.deleteAll();
     }
@@ -464,6 +497,14 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
 
     public void clearFloor() {
         mFloorDao.deleteAll();
+    }
+
+    public void clearExhibitorZone() {
+        mExhibitorZoneDao.deleteAll();
+    }
+
+    public void clearZone(){
+        mZoneDao.deleteAll();
     }
 
     public void insertFloorAll(final ArrayList<Floor> entities) {
@@ -554,13 +595,13 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
     private String getMyExhibitorSql() {
         int language = AppUtil.getCurLanguage();
         if (language == 0) {
-            return "select E.COMPANY_ID,E.COMPANY_NAME_EN,E.COMPANY_NAME_TW,E.COMPANY_NAME_CN,E.BOOTH_NO,E.STROKE_TRAD,E.SEQ_TC,E.IS_FAVOURITE\n" +
+            return "select E.COMPANY_ID,E.COMPANY_NAME_EN,E.COMPANY_NAME_TW,E.COMPANY_NAME_CN,E.BOOTH_NO,E.STROKE_TRAD,E.SEQ_TC,E.IS_FAVOURITE,E.PHOTO_FILE_NAME\n" +
                     " from EXHIBITOR E WHERE E.IS_FAVOURITE=1";
         } else if (language == 1) {
-            return "select E.COMPANY_ID,E.COMPANY_NAME_EN,E.COMPANY_NAME_TW,E.COMPANY_NAME_CN,E.BOOTH_NO,E.STROKE_ENG,E.SEQ_EN,E.IS_FAVOURITE\n" +
+            return "select E.COMPANY_ID,E.COMPANY_NAME_EN,E.COMPANY_NAME_TW,E.COMPANY_NAME_CN,E.BOOTH_NO,E.STROKE_ENG,E.SEQ_EN,E.IS_FAVOURITE,E.PHOTO_FILE_NAME\n" +
                     " from EXHIBITOR E WHERE E.IS_FAVOURITE=1";
         } else {
-            return "select E.COMPANY_ID,E.COMPANY_NAME_EN,E.COMPANY_NAME_TW,E.COMPANY_NAME_CN,E.BOOTH_NO,E.PYSIMP,E.SEQ_SC,E.IS_FAVOURITE\n" +
+            return "select E.COMPANY_ID,E.COMPANY_NAME_EN,E.COMPANY_NAME_TW,E.COMPANY_NAME_CN,E.BOOTH_NO,E.PYSIMP,E.SEQ_SC,E.IS_FAVOURITE,E.PHOTO_FILE_NAME\n" +
                     " from EXHIBITOR E WHERE E.IS_FAVOURITE=1";
         }
     }
@@ -574,6 +615,7 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
         exhibitor.setCompanyNameTW(cursor.getString(cursor.getColumnIndex("COMPANY_NAME_TW")));
         exhibitor.setBoothNo(cursor.getString(cursor.getColumnIndex("BOOTH_NO")));
         exhibitor.setIsFavourite(cursor.getInt(cursor.getColumnIndex("IS_FAVOURITE")));
+        exhibitor.setPhotoFileName(cursor.getString(cursor.getColumnIndex("PHOTO_FILE_NAME")));
         if (language == 0) {
             exhibitor.setStrokeTrad(cursor.getString(cursor.getColumnIndex("STROKE_TRAD")));
             exhibitor.setSeqTC(cursor.getInt(cursor.getColumnIndex("SEQ_TC")));

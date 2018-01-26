@@ -18,6 +18,7 @@ import com.adsale.ChinaPlas.data.model.ConcurrentEvent;
 import com.adsale.ChinaPlas.data.model.ExhibitorFilter;
 import com.adsale.ChinaPlas.databinding.ActivityEventBinding;
 import com.adsale.ChinaPlas.helper.ADHelper;
+import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.viewmodel.EventModel;
@@ -68,7 +69,7 @@ public class ConcurrentEventActivity extends BaseActivity implements OnIntentLis
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) binding.ivAd.getLayoutParams();
         int screenWidth = App.mSP_Config.getInt(Constant.SCREEN_WIDTH, 0);
         params.width = screenWidth;
-        params.height = isTablet ? (screenWidth * Constant.M3_HEIGHT_TABLET) / Constant.M3_WIDTH_TABLET : (screenWidth * Constant.M3_HEIGHT_PHONE) / Constant.M3_WIDTH_PHONE;
+        params.height = AppUtil.getCalculatedHeight(Constant.M3_WIDTH, Constant.M3_HEIGHT);
         binding.ivAd.setLayoutParams(params);
 
         adInfo = mEventModel.event.AdInfo;

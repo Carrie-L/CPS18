@@ -57,6 +57,8 @@ public class DaoMaster extends AbstractDaoMaster {
         NewProductsAndApplicationDao.createTable(db, ifNotExists);
         ProductApplicationDao.createTable(db, ifNotExists);
         ProductImageDao.createTable(db, ifNotExists);
+        ExhibitorZoneDao.createTable(db, ifNotExists);
+       ZoneDao.createTable(db, ifNotExists);
     }
     
     /** Drops underlying database table using DAOs. */
@@ -164,6 +166,8 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(NewProductsAndApplicationDao.class);
         registerDaoClass(ProductApplicationDao.class);
         registerDaoClass(ProductImageDao.class);
+        registerDaoClass(ExhibitorZoneDao.class);
+        registerDaoClass(ZoneDao.class);
     }
     
     public DaoSession newSession() {

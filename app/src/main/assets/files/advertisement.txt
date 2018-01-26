@@ -1,4 +1,4 @@
-﻿{
+{
   "Common": {
     "baseUrl": "https://o97tbiy1f.qnssl.com/advertisement/",
     "time": "13/1/2017-01/12/2017",
@@ -35,14 +35,14 @@
     "isChange": "1"
   },
   "M2": {
-    "version": "3",
+    "version": "0",
     "function": "1",
     "filepath": "M2/",
     "format": ".jpg",
     "image2":"big_",
-    "action_companyID_sc": "227665",
-    "action_companyID_en": "226395",
-    "action_companyID_tc": "227665",
+    "action_companyID_sc": "0",
+    "action_companyID_en": "0",
+    "action_companyID_tc": "0",
     "action_eventID": "001",
     "action_seminarID": "15",
     "action_newsID": "0000000409",
@@ -102,14 +102,14 @@
       "226688"
     ],
     "website": [
-      "www.dow.com"
+      "www.scgchemicals.com"
     ]
   },
   "M6": {
     "version": [
-      "1",
-      "1",
-      "1",
+      "0",
+      "0",
+      "0",
       "0"
     ],
     "function": [

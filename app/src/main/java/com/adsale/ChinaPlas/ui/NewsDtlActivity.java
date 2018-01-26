@@ -32,7 +32,14 @@ import java.util.ArrayList;
 import static com.adsale.ChinaPlas.utils.Constant.WEB_URL;
 
 /**
- * todo track photo显示和点击
+ * todo track
+ * SocalMediaActivity(2017):
+ *   if(gIntent.getStringExtra("fromCls").equals("NewsLink")){
+        mTypePrefix="Page_NewsLink";
+     }
+ *
+ *
+ *
  */
 public class NewsDtlActivity extends BaseActivity implements View.OnClickListener {
     public final ObservableField<String> newsTitle = new ObservableField<>();
@@ -48,6 +55,7 @@ public class NewsDtlActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initView() {
+        mTypePrefix="Page_NewsDetail";
         binding = ActivityNewsDtlBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         binding.setView(this);
         ivPhoto = binding.ivPhoto;

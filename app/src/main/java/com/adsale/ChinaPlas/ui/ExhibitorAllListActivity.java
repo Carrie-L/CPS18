@@ -42,13 +42,14 @@ public class ExhibitorAllListActivity extends BaseActivity implements OnItemClic
     private Exhibitor mEntity;
     private SideDataView mSideDataView;
     private EditText etSearch;
+    private boolean isM3Open;
 
     @Override
     protected void initView() {
         setBarTitle(R.string.title_exhibitor);
         binding = ActivityExhibitorAllListBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         ADHelper adHelper = new ADHelper(this);
-        adHelper.showM3(binding.ivAd);
+        isM3Open = adHelper.showM3(binding.ivAd);
     }
 
     @Override
@@ -99,7 +100,7 @@ public class ExhibitorAllListActivity extends BaseActivity implements OnItemClic
         mExhibitorModel.setLayoutManager(mSideDataView);
 
         mExhibitorModel.getAllExhibitorsAZ();
-        adapter = new ExhibitorAdapter(this, mExhibitorModel.mExhibitors, mRepository, this);
+        adapter = new ExhibitorAdapter(this, mExhibitorModel.mExhibitors, mRepository, this, isM3Open);
         rvExhibitors.setAdapter(adapter);
         mExhibitorModel.setAdapter(adapter);
     }

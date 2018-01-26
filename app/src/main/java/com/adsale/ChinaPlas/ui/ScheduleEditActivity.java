@@ -23,6 +23,7 @@ public class ScheduleEditActivity extends BaseActivity implements ScheduleEditVi
 
     @Override
     protected void initView() {
+        mTypePrefix="Page_ScheduleInfo";
         ActivityScheduleItemBinding binding = ActivityScheduleItemBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         mEditModel = new ScheduleEditViewModel(getApplicationContext());
         binding.setScheduleModel(mEditModel);

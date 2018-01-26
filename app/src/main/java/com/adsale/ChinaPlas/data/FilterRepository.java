@@ -12,6 +12,8 @@ import com.adsale.ChinaPlas.dao.Floor;
 import com.adsale.ChinaPlas.dao.FloorDao;
 import com.adsale.ChinaPlas.dao.Industry;
 import com.adsale.ChinaPlas.dao.IndustryDao;
+import com.adsale.ChinaPlas.dao.Zone;
+import com.adsale.ChinaPlas.dao.ZoneDao;
 import com.adsale.ChinaPlas.data.model.Text2;
 import com.adsale.ChinaPlas.utils.AppUtil;
 
@@ -33,6 +35,7 @@ public class FilterRepository {
     private ApplicationIndustryDao mAppIndustryDao;
     private CountryDao mCountryDao;
     private FloorDao mFloorDao;
+    private ZoneDao mZoneDao;
 
     public static FilterRepository getInstance() {
         if (INSTANCE == null) {
@@ -272,5 +275,22 @@ public class FilterRepository {
         return (ArrayList<Floor>) mFloorDao.queryBuilder().orderAsc(FloorDao.Properties.SEQ).list();
     }
 
+    /* ------------------- Zone -------------------------- */
+    private void checkZoneDaoNull() {
+        if (mZoneDao == null) {
+            mZoneDao = App.mDBHelper.mZoneDao;
+        }
+    }
+
+    public ArrayList<Zone> getZones() {
+        checkZoneDaoNull();
+        if (App.mLanguage.get() == 0) {
+            return (ArrayList<Zone>) mZoneDao.queryBuilder().where(ZoneDao.Properties.ThemeZoneDescriptionTC.notEq("NULL")).list();
+        } else if (App.mLanguage.get() == 1) {
+            return (ArrayList<Zone>) mZoneDao.queryBuilder().where(ZoneDao.Properties.ThemeZoneDescription.notEq("NULL")).list();
+        } else {
+            return (ArrayList<Zone>) mZoneDao.queryBuilder().where(ZoneDao.Properties.ThemeZoneDescriptionSC.notEq("NULL")).list();
+        }
+    }
 
 }

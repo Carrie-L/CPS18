@@ -55,6 +55,7 @@ public class FilterCountryListActivity extends BaseActivity implements SideLette
     protected void preView() {
         super.preView();
         isChangeTitleHomeIcon = true;
+        mTypePrefix="Page_SearchByRegion";
     }
 
     @Override

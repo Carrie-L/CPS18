@@ -47,8 +47,6 @@ public class MainFragment extends Fragment implements OnIntentListener {
     private ImageView rightPic;
     private RecyclerView recyclerView;
 
-//    private int language;
-
     public NavViewModel navViewModel;
     private MainViewModel mainViewModel;
     private MainPic mainPic;
@@ -94,8 +92,16 @@ public class MainFragment extends Fragment implements OnIntentListener {
         setGridMenus();
         calNavigationBar();
         setBottomPics();
-        if (!TextUtils.isEmpty(mainViewModel.m2LargeUrl)) {
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        boolean isM2Popup = App.mSP_Config.getBoolean("isM2Popup", false);
+        LogUtil.i(TAG, "MainFragment:onResume:isM2Popup=" + isM2Popup);
+        if (!isM2Popup && !TextUtils.isEmpty(mainViewModel.m2LargeUrl)) {
             m2UpAnimation(mainViewModel.m2LargeUrl);
+            App.mSP_Config.edit().putBoolean("isM2Popup", true).apply();
         }
     }
 

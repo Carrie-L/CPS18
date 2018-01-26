@@ -45,6 +45,7 @@ public class FilterIndustryListActivity extends BaseActivity implements SideLett
     protected void preView() {
         super.preView();
         isChangeTitleHomeIcon = true;
+        mTypePrefix="Page_SearchByProduct";
     }
 
     @Override

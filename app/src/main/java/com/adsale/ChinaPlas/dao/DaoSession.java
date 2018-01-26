@@ -95,6 +95,8 @@ public class DaoSession extends AbstractDaoSession {
     private final DaoConfig newProductsAndApplicationDaoConfig;
     private final DaoConfig productApplicationDaoConfig;
     private final DaoConfig productImageDaoConfig;
+    private final DaoConfig exhibitorZoneDaoConfig;
+    private final DaoConfig zoneDaoConfig;
 
     private final MainIconDao mainIconDao;
     private final ApplicationIndustryDao applicationIndustryDao;
@@ -125,6 +127,8 @@ public class DaoSession extends AbstractDaoSession {
     private final NewProductsAndApplicationDao newProductsAndApplicationDao;
     private final ProductApplicationDao productApplicationDao;
     private final ProductImageDao productImageDao;
+    private final ExhibitorZoneDao exhibitorZoneDao;
+    private final ZoneDao zoneDao;
 
     public DaoSession(SQLiteDatabase db, IdentityScopeType type, Map<Class<? extends AbstractDao<?, ?>>, DaoConfig>
             daoConfigMap) {
@@ -215,6 +219,11 @@ public class DaoSession extends AbstractDaoSession {
         productImageDaoConfig = daoConfigMap.get(ProductImageDao.class).clone();
         productImageDaoConfig.initIdentityScope(type);
 
+        exhibitorZoneDaoConfig = daoConfigMap.get(ExhibitorZoneDao.class).clone();
+        exhibitorZoneDaoConfig.initIdentityScope(type);
+
+        zoneDaoConfig = daoConfigMap.get(ZoneDao.class).clone();
+        zoneDaoConfig.initIdentityScope(type);
 
         mainIconDao = new MainIconDao(mainIconDaoConfig, this);
         applicationIndustryDao = new ApplicationIndustryDao(applicationIndustryDaoConfig, this);
@@ -245,6 +254,8 @@ public class DaoSession extends AbstractDaoSession {
         newProductsAndApplicationDao = new NewProductsAndApplicationDao(newProductsAndApplicationDaoConfig, this);
         productApplicationDao = new ProductApplicationDao(productApplicationDaoConfig, this);
         productImageDao = new ProductImageDao(productImageDaoConfig, this);
+        exhibitorZoneDao = new ExhibitorZoneDao(exhibitorZoneDaoConfig,this);
+        zoneDao = new ZoneDao(zoneDaoConfig,this);
 
 
         registerDao(MainIcon.class, mainIconDao);
@@ -275,6 +286,8 @@ public class DaoSession extends AbstractDaoSession {
         registerDao(NewProductsAndApplication.class, newProductsAndApplicationDao);
         registerDao(ProductApplication.class, productApplicationDao);
         registerDao(ProductImage.class, productImageDao);
+        registerDao(ExhibitorZone.class, exhibitorZoneDao);
+        registerDao(Zone.class, zoneDao);
     }
     
     public void clear() {
@@ -306,6 +319,8 @@ public class DaoSession extends AbstractDaoSession {
         newProductsAndApplicationDaoConfig.getIdentityScope().clear();
         productApplicationDaoConfig.getIdentityScope().clear();
         productImageDaoConfig.getIdentityScope().clear();
+        exhibitorZoneDaoConfig.getIdentityScope().clear();
+        zoneDaoConfig.getIdentityScope().clear();
     }
 
     public MainIconDao getMainIconDao() {
@@ -418,5 +433,13 @@ public class DaoSession extends AbstractDaoSession {
 
     public ProductImageDao getProductImageDao() {
         return productImageDao;
+    }
+
+    public ExhibitorZoneDao getExhibitorZoneDao() {
+        return exhibitorZoneDao;
+    }
+
+    public ZoneDao getZoneDao() {
+        return zoneDao;
     }
 }

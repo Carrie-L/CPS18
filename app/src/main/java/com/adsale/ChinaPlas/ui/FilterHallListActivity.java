@@ -31,6 +31,7 @@ public class FilterHallListActivity extends BaseActivity {
     protected void preView() {
         super.preView();
         isChangeTitleHomeIcon=true;
+        mTypePrefix="Page_SearchByHall";
     }
 
     @Override

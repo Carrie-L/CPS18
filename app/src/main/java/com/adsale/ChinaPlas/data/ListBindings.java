@@ -70,11 +70,15 @@ public class ListBindings {
 
     @BindingAdapter({"thumbnailImage"})
     public static void setThumbnailImage(ImageView imageView, String url) {
-        Glide.with(imageView.getContext())
-                .load(url)
-                .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE))
-                .thumbnail(0.1f)
-                .into(imageView);
+        if (url != null && !url.trim().isEmpty()) {
+            LogUtil.i("setThumbnailImage","thumbnailImage="+url);
+            Glide.with(imageView.getContext())
+                    .load(url)
+                    .apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE))
+                    .thumbnail(0.1f)
+                    .into(imageView);
+        }
+
     }
 
     @BindingAdapter({"imgUrl"})

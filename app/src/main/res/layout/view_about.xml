@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="view"
+            type="com.adsale.ChinaPlas.ui.view.AboutView" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_about"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="1.5dp"
+                android:textColor="@color/grey11" />
+
+            <TextView
+                android:id="@+id/tv_website"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/link"
+                android:layout_marginTop="8dp"
+                android:onClick="@{()->view.onWebsite()}"
+                />
+
+            <ImageView
+                android:id="@+id/iv_video0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:scaleType="fitStart"
+                android:onClick="@{()->view.onClick(0)}"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/iv_video1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:scaleType="fitStart"
+                android:onClick="@{()->view.onClick(1)}"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/iv_video2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:scaleType="fitStart"
+                android:onClick="@{()->view.onClick(2)}"
+                android:visibility="gone" />
+        </LinearLayout>
+    </ScrollView>
+</layout>

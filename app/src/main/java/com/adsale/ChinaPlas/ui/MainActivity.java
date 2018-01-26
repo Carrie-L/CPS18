@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 
@@ -45,6 +46,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        mTypePrefix = "Page_Menu";
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         spHelpPage = getSharedPreferences("HelpPage", MODE_PRIVATE);
         int language = AppUtil.getCurLanguage();
@@ -73,6 +75,7 @@ public class MainActivity extends BaseActivity {
             getFragmentManager().beginTransaction().add(R.id.contentFrame, mainFragment).commit();
             mainFragment.setNavViewModel(mNavViewModel);
         }
+        App.mSP_Config.edit().putBoolean("isM2Popup",false).apply();
     }
 
     private void permissionSD() {
@@ -173,13 +176,22 @@ public class MainActivity extends BaseActivity {
         if (uc_count > 0) {
             Intent intent = new Intent(this, UpdateCenterActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("FromMain",true);
             startActivity(intent);
+            overridePendingTransPad();
         }
     }
 
     private void sendCrashLog() {
         final LoginClient client = ReRxUtils.setupRxtrofit(LoginClient.class, NetWorkHelper.BASE_URL_CPS);
 
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // 必不可少。否則平板多語言會混亂
+        AppUtil.switchLanguage(getApplicationContext(), AppUtil.getCurLanguage());
     }
 
     private void exit() {

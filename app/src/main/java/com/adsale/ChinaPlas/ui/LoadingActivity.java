@@ -46,6 +46,8 @@ import com.bumptech.glide.request.target.Target;
 import java.lang.reflect.Field;
 import java.util.UUID;
 
+import cn.jpush.android.api.JPushInterface;
+
 import static com.adsale.ChinaPlas.helper.LoadingReceiver.LOADING_ACTION;
 import static com.adsale.ChinaPlas.utils.Constant.SCREEN_HEIGHT;
 import static com.adsale.ChinaPlas.utils.PermissionUtil.PMS_CODE_READ_PHONE_STATE;
@@ -153,6 +155,7 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
         binding.lyLanguage.setVisibility(View.GONE);
         mLoadingModel.showProgressBar.set(true);
         AppUtil.setNotFirstRunning();
+        initJpushAlias(language);
         isNetwork();
     }
 
@@ -215,6 +218,16 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
         mConfigSP.edit().putInt(Constant.SCREEN_WIDTH, width).putInt(SCREEN_HEIGHT, height)
                 .putInt(Constant.DISPLAY_HEIGHT, displayHeight)
                 .apply();
+    }
+
+    private void initJpushAlias(int language){
+        if (language == 0) {
+            JPushInterface.setAlias(getApplicationContext(), 1, "TCUser");
+        } else if (language == 1) {
+            JPushInterface.setAlias(getApplicationContext(), 1, "ENUser");
+        } else {
+            JPushInterface.setAlias(getApplicationContext(), 1, "SCUser");
+        }
     }
 
     private void requestPermission() {
@@ -308,6 +321,21 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
         LogUtil.i(TAG, "intent:loadingTime=" + loadingTime + "ms");
         AppUtil.trackViewLog(426, "LT", "", loadingTime + "");
         StatService.onEventEnd(getApplicationContext(), "LoadingTime", "LT_" + AppUtil.getLanguageType() + "_Android");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // 极光推送onResume
+        JPushInterface.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // 极光推送onPause
+        JPushInterface.onPause(this);
+
     }
 
     @Override

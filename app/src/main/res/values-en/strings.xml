@@ -167,7 +167,7 @@
     <string name="filter_application">Application</string>
     <string name="filter_country">Country / Region</string>
     <string name="filter_hall">Hall</string>
-    <string name="filter_booth">Zone</string>
+    <string name="filter_booth">Theme Zones</string>
     <string name="filter_keyword">Keyword</string>
     <string name="filter_new_tec">New Technology</string>
     <string name="filter_keyword_hint">Input keywords</string>

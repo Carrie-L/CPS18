@@ -201,6 +201,7 @@ public class SeminarInfo implements Parcelable {
                 ", isADer=" + isADer.get() +
                 ", isTypeLabel=" + isTypeLabel +
                 ", adHeaderUrl=" + adHeaderUrl +
+                ", adLogoUrl=" + adLogoUrl +
                 '}';
     }
 

@@ -30,9 +30,6 @@ public class TechAdapter extends CpsBaseAdapter<SeminarInfo> {
         this.mContext = context;
         this.list = list;
         this.mListener=listener;
-
-//        int width = (Constant.M6_BANNER_HEIGHT_PHONE*)/ Constant.M6_BANNER_WIDTH_PHONE;
-//        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams();
     }
 
     public void setList(ArrayList<SeminarInfo> list) {
@@ -48,16 +45,11 @@ public class TechAdapter extends CpsBaseAdapter<SeminarInfo> {
     protected void bindVariable(ViewDataBinding binding) {
         binding.setVariable(BR.adapter, this);
         super.bindVariable(binding);
-//        techBinding = (ItemTechBinding) binding;
     }
 
     @Override
     public void onBindViewHolder(CpsBaseViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-//        if (techBinding.getObj().isADer) {
-//            LogUtil.i(TAG, "是广告啦！" + techBinding.getObj().getCompanyID() + "," + techBinding.getObj().adLogoUrl);
-//            Glide.with(mContext).load(Uri.parse(techBinding.getObj().adLogoUrl)).into(techBinding.ivLogo);
-//        }
     }
 
     @Override

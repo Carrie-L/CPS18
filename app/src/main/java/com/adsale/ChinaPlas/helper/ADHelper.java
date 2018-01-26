@@ -46,7 +46,7 @@ public class ADHelper {
     private String mRightUrl;
     private String mCenterUrl;
     private String mLeftUrl;
-    
+
     public ADHelper(Context context) {
         mContext = context;
         mLanguage = AppUtil.getCurLanguage();
@@ -196,32 +196,33 @@ public class ADHelper {
         mListener = listener;
     }
 
-    public void showM3(final ImageView imageView) {
+    public boolean showM3(final ImageView imageView) {
         getAdObj();
         if (!isAdOpen()) {
             imageView.setVisibility(View.INVISIBLE);
-            return;
+            return false;
         }
         if (Integer.valueOf(adObj.M3.version) == 0) {
             imageView.setVisibility(View.INVISIBLE);
-            return;
+            return false;
         }
         imageView.setVisibility(View.VISIBLE);
-        RequestOptions requestOptions = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE);
+        RequestOptions requestOptions = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true);
         boolean isTablet = AppUtil.isTablet();
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) imageView.getLayoutParams();
-        int screenWidth = App.mSP_Config.getInt(Constant.SCREEN_WIDTH, 0);
-        params.width = screenWidth;
-        params.height = isTablet ? (screenWidth * Constant.M3_HEIGHT_TABLET) / Constant.M3_WIDTH_TABLET : (screenWidth * Constant.M3_HEIGHT_PHONE) / Constant.M3_WIDTH_PHONE;
+        params.width = AppUtil.getScreenWidth();
+        params.height = AppUtil.getCalculatedHeight(Constant.M3_WIDTH, Constant.M3_HEIGHT);
         imageView.setLayoutParams(params);
 //        imageView.setAspectRatio(isPadDevice ? 13.75f : 6.4f);
 
-        StringBuffer m3Url = new StringBuffer();
+        StringBuilder m3Url = new StringBuilder();
         m3Url.append(adObj.Common.baseUrl).append(adObj.M3.filepath)
                 .append(isTablet ? adObj.Common.tablet : adObj.Common.phone)
                 .append(AppUtil.getName("tc", "en", "sc")).append("_").append(adObj.M3.version).append(adObj.M3.format);
         LogUtil.i(TAG, "SHOWM3:URL=" + m3Url.toString());
         Glide.with(imageView.getContext()).load(Uri.parse(m3Url.toString())).apply(requestOptions).into(imageView);
+
+//        imageView.setImageURI(Uri.parse(m3Url.toString()));
 
         AppUtil.trackViewLog(203, "Ad", "M3", adObj.M3.getCompanyID(AppUtil.getCurLanguage()));
         AppUtil.setStatEvent(mContext, "ViewM3", "Ad_M3_" + adObj.M3.getCompanyID(AppUtil.getCurLanguage()));
@@ -232,6 +233,7 @@ public class ADHelper {
                 m3Intent();
             }
         });
+        return true;
     }
 
     public int isM5Show(String companyId) {
@@ -291,7 +293,7 @@ public class ADHelper {
         return pos == 1 ? mLeftUrl : pos == 2 ? mCenterUrl : mRightUrl;
     }
 
-    public void showEvent(){
+    public void showEvent() {
 
     }
 
@@ -416,7 +418,7 @@ public class ADHelper {
             adObj = getAdObj();
         }
         intentAd(Integer.valueOf(adObj.M3.function), adObj.M3.getCompanyID(mLanguage), adObj.M3.action_eventID, adObj.M3.action_seminarID, adObj.M3.action_newsID);
-        AppUtil.trackViewLog( 415, "CA", "M3", adObj.M3.getCompanyID(mLanguage));
+        AppUtil.trackViewLog(415, "CA", "M3", adObj.M3.getCompanyID(mLanguage));
         AppUtil.setStatEvent(mContext, "ClickM3", "CA_M3_" + adObj.M3.getCompanyID(mLanguage));
     }
 

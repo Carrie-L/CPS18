@@ -1,6 +1,7 @@
 package com.adsale.ChinaPlas.adapter;
 
 import android.content.Context;
+import android.databinding.ObservableBoolean;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
@@ -31,11 +32,14 @@ public class ExhibitorAdapter extends RecyclerView.Adapter<ViewHolder> {
     private ExhibitorRepository mRepository;
     private OnItemClickCallback mCallback;
 
-    public ExhibitorAdapter(Context context, ArrayList<Exhibitor> lists, ExhibitorRepository repository, OnItemClickCallback callback) {
+    public final ObservableBoolean isM3Show = new ObservableBoolean(false);
+
+    public ExhibitorAdapter(Context context, ArrayList<Exhibitor> lists, ExhibitorRepository repository, OnItemClickCallback callback, boolean isM3Open) {
         this.mContext = context;
         this.exhibitors = lists;
         mRepository = repository;
         this.mCallback = callback;
+        isM3Show.set(isM3Open);
         inflater = LayoutInflater.from(mContext);
 
         LogUtil.e(TAG, "ExhibitorAdapter");
@@ -130,7 +134,8 @@ public class ExhibitorAdapter extends RecyclerView.Adapter<ViewHolder> {
         exhibitor.isCollected.set(exhibitor.getIsFavourite() == 1);
         exhibitors.set(pos, exhibitor);
         mRepository.updateItemData(exhibitor.getCompanyID(), exhibitor.getIsFavourite());
-        LogUtil.i(TAG, "pos=" + pos + "//isCollected=" + exhibitor.isCollected.get() + "//IsFavourite=" + exhibitor.getIsFavourite() + "//IsFavourite2=" + exhibitors.get(pos).getIsFavourite());
+        LogUtil.i(TAG, "pos=" + pos + "//isCollected=" + exhibitor.isCollected.get() + "//IsFavourite=" + exhibitor.getIsFavourite()
+                + "//IsFavourite2=" + exhibitors.get(pos).getIsFavourite() + ",logo=" + exhibitor.getPhotoFileName());
     }
 
     public void onItemClick(Exhibitor exhibitor, int pos) {

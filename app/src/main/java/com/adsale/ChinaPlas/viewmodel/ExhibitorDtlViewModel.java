@@ -31,11 +31,13 @@ import com.adsale.ChinaPlas.data.NewTecRepository;
 import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.data.ScheduleRepository;
 import com.adsale.ChinaPlas.data.model.Text2;
+import com.adsale.ChinaPlas.data.model.adAdvertisementObj;
 import com.adsale.ChinaPlas.databinding.LayoutExhibitorAddScheduleBinding;
 import com.adsale.ChinaPlas.databinding.ViewNoteBinding;
 import com.adsale.ChinaPlas.ui.ExhibitorDetailActivity;
 import com.adsale.ChinaPlas.ui.ScheduleEditActivity;
 import com.adsale.ChinaPlas.ui.TakePhotoActivity;
+import com.adsale.ChinaPlas.ui.view.AboutView;
 import com.adsale.ChinaPlas.ui.view.ExhiDtlInfoView;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
@@ -47,6 +49,7 @@ import com.adsale.ChinaPlas.utils.ShareSDKDialog;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static com.adsale.ChinaPlas.utils.PermissionUtil.PMS_CODE_WRITE_SD;
 import static com.adsale.ChinaPlas.viewmodel.ExhibitorListViewModel.TYPE_APP_INDUSTRY;
@@ -91,7 +94,10 @@ public class ExhibitorDtlViewModel {
     private ViewStub mViewStub;
     private View mNoteView;
     private String M5Description;
-    private TextView mAboutView;
+    private adAdvertisementObj adObj;
+    private int M5Index;
+    //    private TextView mAboutView;
+    private AboutView mAboutView;
     private ArrayList<String> mPhotos = new ArrayList<>();
     private String mPhotoDir = "";
     private ExhibitorPhotoAdapter mPhotoAdapter;
@@ -123,8 +129,10 @@ public class ExhibitorDtlViewModel {
         getNewTecList();
     }
 
-    public void setM5Description(String description) {
-        M5Description = description;
+    public void setM5Data(adAdvertisementObj adObj, int M5Index) {
+        this.adObj = adObj;
+        this.M5Index = M5Index;
+        M5Description = adObj.M5.description.get(M5Index).getDescription(AppUtil.getCurLanguage());
     }
 
     public void addToHistory() {
@@ -148,9 +156,10 @@ public class ExhibitorDtlViewModel {
         mViewStub.setVisibility(View.GONE);
         mInfoFrameLayout.removeAllViews();
         if (mAboutView == null) {
-            mAboutView = new TextView(mContext);
-            mAboutView.setText(M5Description);
-            mAboutView.setTextColor(mContext.getResources().getColor(R.color.grey11));
+            mAboutView = new AboutView(mContext);
+            String[] images = adObj.M5.videos.get(M5Index).imagelinks;
+            String[] videos = adObj.M5.videos.get(M5Index).videolinks;
+            mAboutView.initData(M5Description, adObj.M5.website[M5Index], images, videos);
         }
         mInfoFrameLayout.addView(mAboutView);
     }

@@ -198,13 +198,6 @@ public class NavViewModel implements  OnIntentListener {
         }
     }
 
-//    @Override
-//    public void close() {
-//        if (mDrawerLayout != null) {
-//            mDrawerLayout.closeDrawer(GravityCompat.START);
-//        }
-//    }
-
     public Intent intent(Activity activity, MainIcon mainIcon) {
         LogUtil.i(TAG, "mContext: " + mContext.getClass().getSimpleName());
         LogUtil.i(TAG, "activity: " + activity.getClass().getSimpleName());
@@ -216,6 +209,7 @@ public class NavViewModel implements  OnIntentListener {
         if (intent != null) {
             intent.putExtra(Constant.TITLE, mainIcon.getTitle(AppUtil.getCurLanguage()));
             intent.putExtra(Constant.BAIDU_TJ, mainIcon.getBaiDu_TJ());
+            LogUtil.i(TAG,"Constant.BAIDU_TJ="+mainIcon.getBaiDu_TJ());
             activity.startActivity(intent);
             if (AppUtil.isTablet()) {
                 activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -274,8 +268,8 @@ public class NavViewModel implements  OnIntentListener {
             case Constant.BDTJ_NEWS:
                 intent = new Intent(activity, NewsActivity.class);
                 break;
-//            case Constant.BDTJ_EVENTS:  // 同期活动
-            case Constant.BDTJ_EVENTS_TXT:
+            case Constant.BDTJ_EVENTS:  // 同期活动
+//            case Constant.BDTJ_EVENTS_TXT:
                 intent = new Intent(activity, ConcurrentEventActivity.class);
                 break;
             case Constant.BDTJ_TRAVEL_INFO:
@@ -306,8 +300,8 @@ public class NavViewModel implements  OnIntentListener {
                 intent = new Intent(activity, CommonListActivity.class);
                 intent.putExtra(INTENT_COMMON_TYPE, CommonListActivity.TYPE_MSG_CENTER);
                 break;
-//            case Constant.BDTJ_NEW_TEC: /* 新技术产品 */
-            case Constant.BDTJ_NEW_TEC_TXT: /* test */
+            case Constant.BDTJ_NEW_TEC: /* 新技术产品 */
+//            case Constant.BDTJ_NEW_TEC_TXT: /* test */
                 intent = new Intent(activity, NewTecActivity.class);
                 break;
             default:
@@ -316,6 +310,7 @@ public class NavViewModel implements  OnIntentListener {
                 break;
         }
         intent.putExtra("title", mainIcon.getTitle(AppUtil.getCurLanguage()));
+        intent.putExtra(Constant.BAIDU_TJ, mainIcon.getBaiDu_TJ());
         return intent;
     }
 

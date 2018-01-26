@@ -143,6 +143,25 @@ public class MapFloor {
     }
 
     // KEEP METHODS - put your custom methods here
+
+    @Override
+    public String toString() {
+        return "MapFloor{" +
+                "MapFloorID='" + MapFloorID + '\'' +
+                ", ParentID='" + ParentID + '\'' +
+                ", Type=" + Type +
+                ", NameTW='" + NameTW + '\'' +
+                ", NameCN='" + NameCN + '\'' +
+                ", NameEN='" + NameEN + '\'' +
+                ", SEQ=" + SEQ +
+                ", CreateDateTime='" + CreateDateTime + '\'' +
+                ", UpdateDateTime='" + UpdateDateTime + '\'' +
+                ", RecordTimeStamp='" + RecordTimeStamp + '\'' +
+                ", Down=" + Down +
+                '}';
+    }
+
+
     // KEEP METHODS END
 
 }

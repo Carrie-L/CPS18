@@ -1,5 +1,6 @@
 package com.adsale.ChinaPlas;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -12,6 +13,7 @@ import android.databinding.ObservableInt;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
+import android.os.Process;
 import android.support.multidex.MultiDexApplication;
 
 import com.adsale.ChinaPlas.dao.DBHelper;
@@ -22,6 +24,8 @@ import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.CrashHandler;
 import com.adsale.ChinaPlas.utils.LogUtil;
+import com.adsale.ChinaPlas.utils.ReleaseHelper;
+import com.baidu.mobstat.StatService;
 import com.crashlytics.android.Crashlytics;
 import com.mob.MobSDK;
 
@@ -31,7 +35,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.List;
+import java.util.Set;
 
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
+import cn.sharesdk.framework.ShareSDK;
 import io.fabric.sdk.android.Fabric;
 import okhttp3.OkHttpClient;
 
@@ -70,14 +79,25 @@ public class App extends MultiDexApplication {
 
     public static final ObservableInt mLanguage = new ObservableInt();
     private TempOpenHelper mTempOpenHelper;
+    public static Configuration configuration;
 
     //    public static String memoryFileDir;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        initCrashHandle();
         initSP();
+        String processName = getProcessName();
+        LogUtil.i(TAG, "processName=" + processName);
+        if (processName != null && processName.endsWith("pushcore")) {
+            //因为极光推送开启了独立进程，因此onCreate()会调用两次。所以根据进程名做出区分
+            initJPush();
+            LogUtil.i(TAG, "---------APP START-----初始化了极光推送的sdk!!");
+            return;
+        }
+
+        LogUtil.i(TAG, "~~~~~~~~~~~After JPUSH~~~~~~~~");
+        initCrashHandle();
         resources = getResources();
 
         DB_PATH = "/data" + Environment.getDataDirectory().getAbsolutePath() + "/" + getPackageName() + "/databases";
@@ -96,7 +116,64 @@ public class App extends MultiDexApplication {
 
         getDbHelper();
 
+        StatService.setAppChannel(this, "RepleceWithYourChannel", true);
+
 //        MobSDK.init(this);
+
+
+    }
+
+    private void initJPush() {
+        // ------------ 极光推送初始化------------------
+        JPushInterface.setDebugMode(ReleaseHelper.LOG_OPEN); // 设置调试模式，用于开启Debug模式，显示更多的日志信息
+        JPushInterface.init(this); // 初始化sdk
+        String registrationID = JPushInterface.getRegistrationID(getApplicationContext());
+        LogUtil.i("App_JPushInterface", "registrationID=" + registrationID);
+        // 别名
+        setJPushAlias();
+    }
+
+    private void setJPushAlias() {
+        // test
+//        JPushInterface.setAlias(this, "Carrie180126", new TagAliasCallback() {
+//            @Override
+//            public void gotResult(int arg0, String arg1, Set<String> arg2) {
+//                // Toast.makeText(mContext, "JPushInterface.setAlias",
+//                // 1).show();
+//                LogUtil.i("App:JPushInterface", "返回状态码arg0=" + arg0 + ",别名arg1=" +
+//                        arg1 + ",标签arg2=" + arg2);
+//            }
+//        });
+        int language = AppUtil.getCurLanguage();
+        if (language == 0) {
+            JPushInterface.setAlias(getApplicationContext(), 1, "TCUser");
+        } else if (language == 1) {
+            JPushInterface.setAlias(getApplicationContext(), 1, "ENUser");
+        } else {
+            JPushInterface.setAlias(getApplicationContext(), 1, "SCUser");
+        }
+
+
+    }
+
+    private String getProcessName() {
+        ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> runningApps = am.getRunningAppProcesses();
+        if (runningApps == null) {
+            return null;
+        }
+        for (ActivityManager.RunningAppProcessInfo procInfo : runningApps) {
+            if (procInfo.pid == Process.myPid()) {
+                return procInfo.processName;
+            }
+        }
+        return null;
+    }
+
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(AppUtil.createConfigurationContext(base));
     }
 
     public static boolean isNetworkAvailable;
@@ -122,36 +199,6 @@ public class App extends MultiDexApplication {
         }
         LogUtil.i(TAG, "isNetworkAvailable:typeName 1 = " + typeName);
 //        LogUtil.i(TAG, "isNetworkAvailable = " + isNetworkAvailable);
-    }
-
-    /**
-     * 有时会出现有wifi，但没网络的情况，因此先ping一下百度看看网络连接
-     */
-    public boolean pingWifi() {
-        long startTime = System.currentTimeMillis();
-        try {
-            Process process = Runtime.getRuntime().exec("ping www.baidu.com");
-            // 读取ping的内容，可以不加
-            InputStream input = process.getInputStream();
-            BufferedReader in = new BufferedReader(new InputStreamReader(input));
-            StringBuffer stringBuffer = new StringBuffer();
-            String content = "";
-            while ((content = in.readLine()) != null) {
-                stringBuffer.append(content);
-            }
-            LogUtil.i(TAG, "PING: " + stringBuffer.toString());
-
-            int status = process.waitFor();
-            LogUtil.i(TAG, "pingWifi: status=" + status);
-            return status == 0;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        long endTime = System.currentTimeMillis();
-        LogUtil.i(TAG, "PING TIME:" + (endTime - startTime) + "ms");
-        return false;
     }
 
     private void initSP() {

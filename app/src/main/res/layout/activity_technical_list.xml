@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:scaleType="fitXY"
-            android:visibility="gone"
+            android:onClick="@{()->techModel.onM6Click()}"
             />
 
         <ScrollView

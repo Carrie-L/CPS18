@@ -90,8 +90,7 @@ public class RegisterViewModel {
 
     private void showWebView() {
         mWebView.setWebViewClient(new MyWebClient());
-//        mWebView.loadUrl(String.format(NetWorkHelper.Register_URL, AppUtil.getUrlLangType(AppUtil.getCurLanguage())));
-        mWebView.loadUrl("http://www.neccsh.com/pano/index.html");
+        mWebView.loadUrl(String.format(NetWorkHelper.Register_URL, AppUtil.getUrlLangType(AppUtil.getCurLanguage())));
         setProgressClient();
     }
 

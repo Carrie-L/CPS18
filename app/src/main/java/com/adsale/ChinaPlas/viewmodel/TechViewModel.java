@@ -21,6 +21,8 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
+import cn.sharesdk.framework.authorize.ResizeLayout;
+
 
 /**
  * Created by Carrie on 2017/9/19.
@@ -50,6 +52,7 @@ public class TechViewModel {
     private SeminarInfo seminarInfo;
     private ImageView ivM6;
     private boolean isCalM6;
+    private int mIndex;
 
     public TechViewModel(Context mContext, ImageView iv) {
         this.mContext = mContext;
@@ -90,17 +93,19 @@ public class TechViewModel {
     }
 
     public void onDateClick(int index, boolean am) {
+        mIndex = index;
         if (index == 5) {//平面图
 
         } else {
             getPartList(index, am);
             adapter.setList(mSeminars);
-            showM6(index);
         }
     }
 
     public void getPartList(int index, boolean am) {
+        mIndex = index;
         LogUtil.i(TAG, "onDateClick::index=" + index);
+        showM6(index);
         mClickPos.set(index);
         isAm.set(am);
         if (index == 0) {
@@ -117,6 +122,9 @@ public class TechViewModel {
             seminarInfo = allSeminarCaches.get(i);
             if (seminarInfo.getDate().contains(getCurrDate()) && seminarInfo.getLangID().equals(getCurrLangId()) && compareTime(seminarInfo.getTime())) {
                 mSeminars.add(seminarInfo);
+//                if (seminarInfo.isADer.get()) {
+//                    mSeminars.add(0, seminarInfo);
+//                }
             }
         }
     }
@@ -126,41 +134,6 @@ public class TechViewModel {
             return time.compareTo("12:00") < 0;
         }
         return time.compareTo("12:00") > 0;
-    }
-
-    private void getAdList() {
-        if (!adHelper.isAdOpen()) {
-            return;
-        }
-        int size = allSeminarCaches.size();
-        int index;
-
-        int adSize = adObj.M6.version.length;
-        for (int t = 0; t < adSize; t++) {
-            for (int i = 0; i < size; i++) {
-                seminarInfo = allSeminarCaches.get(i);
-                index = getCurrIndex();
-                if (!adObj.M6.version[index].equals("0") && seminarInfo.getCompanyID().equals(adObj.M6.companyID[index])) {
-//                    seminarInfo.isADer = true;
-//                    seminarInfo.adLogoUrl = adHelper.getM6LogoUrl(index);
-//                    seminarInfo.adHeaderUrl = adHelper.getM6HeaderUrl(index);
-                }
-                allSeminarCaches.set(i, seminarInfo);
-            }
-        }
-
-        for (int i = 0; i < size; i++) {
-            seminarInfo = allSeminarCaches.get(i);
-            index = getCurrIndex();
-            if (!adObj.M6.version[index].equals("0") && seminarInfo.getCompanyID().equals(adObj.M6.companyID[index])) {
-//                seminarInfo.isADer = true;
-//                seminarInfo.adLogoUrl = adHelper.getM6LogoUrl(index);
-//                seminarInfo.adHeaderUrl = adHelper.getM6HeaderUrl(index);
-
-
-            }
-            allSeminarCaches.set(i, seminarInfo);
-        }
     }
 
     private int getCurrIndex() {
@@ -177,10 +150,14 @@ public class TechViewModel {
         return 0;
     }
 
-    private void showM6(int index) {
+    public void showM6(int index) {
+        if (index > 0) {  // 因为在侧边Index中，0表示all，1-4 表示4天，5表示Floor Plan，因此用在ad[]中需要-1.
+            index = index - 1;
+        }
+        mIndex = index;
         LogUtil.i(TAG, "showM6:index=" + index);
         if (adHelper.isAdOpen() && adHelper.isM6Open(index)) {
-            calculateM6Size();
+//            calculateM6Size();
             ivM6.setVisibility(View.VISIBLE);
             adHelper.getM6HeaderUrl(index);
             Glide.with(mContext).load(adHelper.getM6HeaderUrl(index)).into(ivM6);
@@ -192,10 +169,16 @@ public class TechViewModel {
         }
     }
 
+    public void onM6Click(){
+        LogUtil.i(TAG,"onM6Click:mIndex="+mIndex+",id="+adObj.M6.topics.get(mIndex).id);
+        mListener.onIntent(adObj.M6.topics.get(mIndex).id,null);
+    }
+
     private void calculateM6Size() {
         if (!isCalM6) {
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(AppUtil.getScreenWidth(),
-                    AppUtil.getCalculatedHeight(Constant.M6_BANNER_WIDTH_PHONE, Constant.M6_BANNER_HEIGHT_PHONE));
+                    AppUtil.getCalculatedHeight(Constant.M6_BANNER_WIDTH, Constant.M6_BANNER_HEIGHT));
+            params.addRule(RelativeLayout.ALIGN_BOTTOM);
             ivM6.setLayoutParams(params);
             isCalM6 = true;
         }

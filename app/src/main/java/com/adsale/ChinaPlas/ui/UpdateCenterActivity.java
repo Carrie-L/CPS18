@@ -1,5 +1,6 @@
 package com.adsale.ChinaPlas.ui;
 
+import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.databinding.ActivityUpdateCenterBinding;
@@ -50,6 +51,9 @@ public class UpdateCenterActivity extends BaseActivity {
             LogUtil.e(TAG, "back:不可以返回:" + model.canBack);
             return;
         }
+        if(getIntent().getBooleanExtra("FromMain",false)){ // 从Main跳转过来，则设置 isM2Popup 为false，这样跳转回去时可以在Main的onResume()弹出M2广告
+            App.mSP_Config.edit().putBoolean("isM2Popup",false).apply();
+        }
         LogUtil.i(TAG, "back:可以返回:" + model.canBack);
         super.back();
     }
@@ -59,6 +63,9 @@ public class UpdateCenterActivity extends BaseActivity {
         if (!model.canBack) {
             LogUtil.e(TAG, "onBackPressed:不可以返回:" + model.canBack);
             return;
+        }
+        if(getIntent().getBooleanExtra("FromMain",false)){ // 从Main跳转过来，则设置 isM2Popup 为false，这样跳转回去时可以在Main的onResume()弹出M2广告
+            App.mSP_Config.edit().putBoolean("isM2Popup",false).apply();
         }
         LogUtil.i(TAG, "onBackPressed:可以返回:" + model.canBack);
         super.onBackPressed();

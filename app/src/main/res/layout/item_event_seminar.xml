@@ -14,9 +14,10 @@
     <!-- 在每个日期的同期活动下加一个技术交流会 -->
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@drawable/item_tech_bg"
+        android:layout_height="96dp"
+        android:background="@drawable/inner_bar"
         android:text="@string/title_technical_seminar"
+        android:textSize="18sp"
         android:gravity="center"
         android:textColor="@color/grey11"
         android:onClick="@{()->adapter.onTechClick(obj)}"

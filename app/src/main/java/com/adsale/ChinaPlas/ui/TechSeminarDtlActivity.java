@@ -75,6 +75,7 @@ public class TechSeminarDtlActivity extends BaseActivity {
         if (seminarInfo == null) {
             /*  seminar_info.id，唯一。ad.txt: M6.Topics.id  */
             mUniqueID = getIntent().getStringExtra("ID");
+            LogUtil.i(TAG,"mUniqueID="+mUniqueID);
             seminarInfo = repository.getItemSeminarInfo(mUniqueID);
             if (seminarInfo == null) {
                 Toast.makeText(this, getString(R.string.nodata), Toast.LENGTH_LONG).show();
@@ -120,7 +121,7 @@ public class TechSeminarDtlActivity extends BaseActivity {
         }
         ImageView ivBanner = binding.ivSeminarBanner;
         ivBanner.setVisibility(View.VISIBLE);
-        int height = AppUtil.getCalculatedHeight(Constant.M6_BANNER_WIDTH_PHONE, Constant.M6_BANNER_HEIGHT_PHONE);
+        int height = AppUtil.getCalculatedHeight(Constant.M6_BANNER_WIDTH, Constant.M6_BANNER_HEIGHT);
         RequestOptions options = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE).override(AppUtil.getScreenWidth(), height);
         Glide.with(getApplicationContext()).load(Uri.parse(mBannerUrl)).apply(options).into(ivBanner);
 

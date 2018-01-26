@@ -44,6 +44,7 @@ public class ExhibitorDetailActivity extends BaseActivity implements OnIntentLis
     protected void preView() {
         super.preView();
         barTitle.set(getString(R.string.title_exhibitor_deti));
+        mTypePrefix = "EPage";
     }
 
     @Override
@@ -70,7 +71,7 @@ public class ExhibitorDetailActivity extends BaseActivity implements OnIntentLis
             ActivityExhibitorDetailM5Binding binding = ActivityExhibitorDetailM5Binding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
             mViewModel = new ExhibitorDtlViewModel(getApplicationContext(), binding.flDtlContent);
             bindingVariable(binding);
-            mViewModel.setM5Description(adHelper.getAdObj().M5.description.get(M5Index).getDescription(AppUtil.getCurLanguage()));
+            mViewModel.setM5Data(adHelper.getAdObj(),M5Index);
             mViewModel.start(companyId, this, binding.viewstubDtlView.getViewStub(), true);
             binding.llButton.ivCompanyInfo.setLayoutParams(bottomParams);
             binding.llButton.ivCollect.setLayoutParams(bottomParams);

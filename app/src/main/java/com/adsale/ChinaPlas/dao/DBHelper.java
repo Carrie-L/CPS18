@@ -45,6 +45,8 @@ public class DBHelper {
     public NewProductsAndApplicationDao mNewProductsAndApplicationDao;
     public ProductApplicationDao mProductApplicationDao;
     public ProductImageDao mProductImageDao;
+    public ExhibitorZoneDao mExhibitorZoneDao;
+    public ZoneDao mZoneDao;
 
 
     private DBHelper(Builder builder) {
@@ -99,6 +101,8 @@ public class DBHelper {
         mNewProductsAndApplicationDao=mDaoSession.getNewProductsAndApplicationDao();
         mProductImageDao=mDaoSession.getProductImageDao();
         mProductApplicationDao=mDaoSession.getProductApplicationDao();
+        mExhibitorZoneDao = mDaoSession.getExhibitorZoneDao();
+        mZoneDao = mDaoSession.getZoneDao();
     }
 
     /**

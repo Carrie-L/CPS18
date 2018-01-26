@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -9,28 +10,88 @@
         <variable
             name="obj"
             type="com.adsale.ChinaPlas.dao.SeminarInfo" />
+
+        <variable
+            name="adapter"
+            type="com.adsale.ChinaPlas.adapter.TechAdapter" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_tech_header"
-        style="@style/tech_header_style"
-        android:text="@{obj.date}"
-        android:visibility="@{obj.isTypeLabel?View.VISIBLE:View.GONE}" />
+        <TextView
+            android:id="@+id/tv_tech_header"
+            style="@style/tech_header_style"
+            android:text="@{obj.date}"
+            android:visibility="@{obj.isTypeLabel?View.VISIBLE:View.GONE}" />
 
-    <!--<ImageView-->
-        <!--android:id="@+id/iv_m6"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:scaleType="fitCenter"-->
-        <!--app:imgUrl="@{obj.adHeaderUrl}"-->
-        <!--android:visibility="@{obj.isADer?View.VISIBLE:View.GONE}"-->
-        <!--/>-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/inner_bar"
+            android:visibility="@{obj.isADer?View.VISIBLE:View.GONE}"
+            android:onClick="@{()->adapter.onItemClick(obj)}">
+
+            <ImageView
+                android:id="@+id/iv_arrow"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/ic_right_arrow2" />
+
+            <ImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_toStartOf="@id/iv_arrow"
+                android:scaleType="fitCenter"
+                android:visibility="@{obj.isADer?View.VISIBLE:View.GONE}"
+                app:imgUrl="@{obj.adLogoUrl}" />
+
+            <TextView
+                android:id="@+id/tv_seminar_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv_logo"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_toStartOf="@id/iv_arrow"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:lineSpacingExtra="1.5dp"
+                android:text="@{obj.topic.replaceAll(&quot;  &quot;, &quot;\n&quot;)}" />
+
+            <TextView
+                android:id="@+id/tv_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_seminar_title"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:drawableLeft="@drawable/ic_event_location"
+                android:drawablePadding="8dp"
+                android:text="@{obj.roomNo}" />
+
+            <TextView
+                android:id="@+id/tv_tech_zone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@id/tv_location"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:drawableLeft="@drawable/ic_tech_m1m2"
+                android:drawablePadding="8dp"
+                android:text="@{obj.hall}"
+                android:textColor="@color/home" />
+        </RelativeLayout>
 
     </LinearLayout>
 

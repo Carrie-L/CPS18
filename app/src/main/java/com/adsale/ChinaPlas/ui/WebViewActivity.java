@@ -22,7 +22,7 @@ import com.adsale.ChinaPlas.utils.LogUtil;
  * Created by new on 2016/10/13.
  * <p/>
  * <p>只顯示本地html，不縮放</>
- * <p>WebUrl|MainIcon</p>
+ * <p>Url(Constant.WEB_URL)|MainIcon</p>
  * title/WebUrl/baiduTJ
  */
 public class WebViewActivity extends BaseActivity {

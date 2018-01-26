@@ -1,5 +1,6 @@
 package com.adsale.ChinaPlas.utils;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
@@ -15,6 +16,7 @@ import android.graphics.Paint;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
+import android.os.LocaleList;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -24,7 +26,17 @@ import android.widget.Toast;
 
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
+import com.adsale.ChinaPlas.dao.WebContent;
+import com.adsale.ChinaPlas.data.ExhibitorRepository;
 import com.adsale.ChinaPlas.data.model.LogJson;
+import com.adsale.ChinaPlas.data.model.MessageCenter;
+import com.adsale.ChinaPlas.ui.ConcurrentEventActivity;
+import com.adsale.ChinaPlas.ui.ExhibitorDetailActivity;
+import com.adsale.ChinaPlas.ui.NewsActivity;
+import com.adsale.ChinaPlas.ui.NewsDtlActivity;
+import com.adsale.ChinaPlas.ui.RegisterActivity;
+import com.adsale.ChinaPlas.ui.WebContentActivity;
+import com.adsale.ChinaPlas.ui.WebViewActivity;
 import com.baidu.mobstat.StatService;
 import com.github.promeg.pinyinhelper.Pinyin;
 import com.google.gson.Gson;
@@ -44,6 +56,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 
+import cn.jpush.android.api.JPushInterface;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
@@ -185,6 +198,10 @@ public class AppUtil {
         return App.mSP_Login.getString(Constant.USER_EMAIL, "");
     }
 
+    public static void setJPUSHRegId(String regId) {
+        App.mSP_Config.edit().putString(JPushInterface.EXTRA_REGISTRATION_ID, regId).apply();
+    }
+
     /**
      * 0:ZhTw; 1:en;2:ZhCn;
      */
@@ -209,9 +226,26 @@ public class AppUtil {
         Resources resources = mContext.getResources();
         Configuration config = resources.getConfiguration();
         DisplayMetrics dm = resources.getDisplayMetrics();
-        config.locale = getLocale(language);
+        config.setLocale(getLocale(language));
         resources.updateConfiguration(config, dm);
         App.mLanguage.set(language);
+    }
+
+    public static Context createConfigurationContext(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return updateResources(context);
+        }
+        return context;
+    }
+
+    @TargetApi(Build.VERSION_CODES.N)
+    private static Context updateResources(Context context) {
+        Resources resources = context.getResources();
+        Locale locale = getLocale(context.getSharedPreferences(Constant.SP_CONFIG, MODE_PRIVATE).getInt("CUR_LANGUAGE", 0));
+        Configuration configuration = resources.getConfiguration();
+        configuration.setLocale(locale);
+        configuration.setLocales(new LocaleList(locale));
+        return context.createConfigurationContext(configuration);
     }
 
     private static Locale getLocale(int language) {
@@ -625,8 +659,8 @@ public class AppUtil {
     }
 
     private static void sendLog(LogJson logJson) {
-        LogUtil.i(TAG,"sendLog:logJson="+logJson.toString());
-        LogUtil.i(TAG,"sendLog:logJsonArr="+logJsonArr.size());
+        LogUtil.i(TAG, "sendLog:logJson=" + logJson.toString());
+        LogUtil.i(TAG, "sendLog:logJsonArr=" + logJsonArr.size());
 
         //2016.6.23: 那你就每次寫入的時候加個簡單判斷，若時間、trackingname一致，就不重複寫入
         boolean isRepeat = false;
@@ -649,7 +683,7 @@ public class AppUtil {
         }
         strLogJson = new Gson().toJson(logJsonArr);
 
-        LogUtil.i(TAG,"sendLog:strLogJson="+strLogJson);
+        LogUtil.i(TAG, "sendLog:strLogJson=" + strLogJson);
 
         // 目的是为了退出之后再打开app还是会记得退出之前的事件
 //        writeFileToSD(strLogJson, LOG_JSON_STR_KEY);
@@ -1110,6 +1144,66 @@ public class AppUtil {
     public static int getCalculatedHeight(int originWidth, int originHeight) {
         int screenWidth = App.mSP_Config.getInt(Constant.SCREEN_WIDTH, 0);
         return (screenWidth * originHeight) / originWidth;
+    }
+
+    public static void messageIntent(Context context, MessageCenter.Message message, boolean pendingIntent) {
+        Intent intent = null;
+        switch (Integer.valueOf(message.function)) {
+            case 1://展商詳情頁
+                ExhibitorRepository repository = ExhibitorRepository.getInstance();
+                if (!repository.isExhibitorIDExists(message.ID)) {
+                    Toast.makeText(context, context.getString(R.string.no_exhibitor), Toast.LENGTH_SHORT).show();
+                } else {
+                    LogUtil.i(TAG, ",companyID=" + message.ID);
+                    intent = new Intent(context, ExhibitorDetailActivity.class);
+                    intent.putExtra("CompanyID", message.ID);
+                    intent.putExtra("title", context.getString(R.string.title_exhibitor_deti));
+                }
+                break;
+
+            case 2://新闻
+                if (TextUtils.isEmpty(message.ID)) {
+                    intent = new Intent(context, NewsActivity.class);
+                } else {
+                    intent = new Intent(context, NewsDtlActivity.class);
+                    intent.putExtra("NewsID", message.ID);
+                }
+                break;
+
+            case 3://同期活动
+                intent = new Intent(context, WebContentActivity.class);
+                intent.putExtra(Constant.WEB_URL, "ConcurrentEvent/".concat(message.ID));
+                break;
+
+            case 4://link
+                intent = new Intent(context, WebViewActivity.class);
+                intent.putExtra(Constant.WEB_URL, message.ID);
+                break;
+
+            case 5://预登记
+                intent = new Intent(context, RegisterActivity.class);
+                break;
+
+            case 6://新闻详情
+                intent = new Intent(context, NewsDtlActivity.class);
+                intent.putExtra("ID", message.ID);
+                break;
+
+            default:
+                break;
+        }
+
+        //不是PendingIntent，就直接跳转
+        if (!pendingIntent && intent != null) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);//必不可少
+            intent.putExtra("Type", Constant.PUSH_INTENT);
+            context.startActivity(intent);
+            if (AppUtil.isTablet()) {
+                ((Activity) context).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
+        }
+
     }
 
 
