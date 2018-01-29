@@ -6,9 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
-import com.adsale.ChinaPlas.adapter.ExhibitorAdapter;
 import com.adsale.ChinaPlas.base.CpsBaseAdapter;
-import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -47,15 +45,6 @@ public class ListBindings {
                 return;
             }
             LogUtil.i("ListBindings_setItems", "setList");
-        }
-    }
-
-    //    @BindingAdapter("app:exhibitors")
-    @BindingAdapter({"exhibitors"})
-    public static void setExhibitors(RecyclerView recyclerView, ArrayList<Exhibitor> list) {
-        ExhibitorAdapter adapter = (ExhibitorAdapter) recyclerView.getAdapter();
-        if (adapter != null) {
-            adapter.setList(list);
         }
     }
 

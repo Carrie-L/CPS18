@@ -5,7 +5,7 @@
     <data>
         <variable
             name="adapter"
-            type="com.adsale.ChinaPlas.adapter.ExhibitorAdapter"/>
+            type="com.adsale.ChinaPlas.adapter.ExhibitorListAdapter"/>
         <variable
             name="obj"
             type="com.adsale.ChinaPlas.dao.Exhibitor" />

@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.utils.DisplayUtil;
+import com.adsale.ChinaPlas.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,12 +75,11 @@ public class SideLetter extends View {
             String letter = arrIndexList.get(idx);
             if (mListener != null) {
                 mListener.onClick(letter);
+                LogUtil.i("SideLetter","letter="+letter);
             }
-        } else if (event.getAction() == MotionEvent.ACTION_UP) {
+        }
+        else if (event.getAction() == MotionEvent.ACTION_UP) {
             setBackgroundDrawable(new ColorDrawable(0x00000000));
-            if (mListener != null) {
-                mListener.onClick("");
-            }
         }
 
         return true;

@@ -37,6 +37,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
@@ -112,7 +113,14 @@ public class App extends MultiDexApplication {
         mAssetManager = getAssets();
 
 //        isNetworkAvailable = AppUtil.isNetworkAvailable();
-        mOkHttpClient = new OkHttpClient.Builder().build();//connectTimeout(15, TimeUnit.SECONDS).
+//        mOkHttpClient = new OkHttpClient.Builder().build();//connectTimeout(15, TimeUnit.SECONDS).
+
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.connectTimeout(15, TimeUnit.SECONDS);
+        builder.readTimeout(15, TimeUnit.SECONDS);
+        builder.writeTimeout(15, TimeUnit.SECONDS);
+        mOkHttpClient = builder.build();
+
 
         getDbHelper();
 

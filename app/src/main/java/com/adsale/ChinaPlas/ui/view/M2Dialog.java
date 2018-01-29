@@ -35,7 +35,7 @@ public class M2Dialog extends AlertDialog {
     private Activity activity;
     private Disposable mM2Disposable;
     private String mUrl;
-    private final Integer SECOND = 4;
+    private final Integer SECOND = 3;
 
     public M2Dialog(Activity activity) {
         super(activity, R.style.MyDialog);

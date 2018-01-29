@@ -8,7 +8,7 @@
 
         <variable
             name="adapter"
-            type="com.adsale.ChinaPlas.adapter.ExhibitorAdapter" />
+            type="com.adsale.ChinaPlas.adapter.ExhibitorListAdapter" />
 
         <variable
             name="pos"
@@ -43,8 +43,11 @@
             android:layout_marginRight="8dp"
             android:layout_toLeftOf="@id/iv_collect"
             android:scaleType="fitCenter"
-            android:visibility="@{adapter.isM3Show?View.VISIBLE:View.INVISIBLE}"
+            android:visibility="@{adapter.isM3Show&amp;&amp;obj.isPhotoLogo?View.VISIBLE:View.INVISIBLE}"
             app:imgUrl="@{obj.photoFileName}" />
+        <!--android:visibility="@{adapter.isM3Show?View.VISIBLE:View.INVISIBLE}"-->
+        <!--app:imgUrl="@{obj.photoFileName}"-->
+
 
         <RelativeLayout
             android:layout_width="match_parent"

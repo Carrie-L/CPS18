@@ -35,6 +35,41 @@
         "seminarID": "15",
         "newsID": "0000000409"
       }
+    },
+ {
+      "EN": {
+        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/for-Visitor-Badge-640x293-EN.jpg",
+        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/for-Visitor-Badge-tablet-EN.jpg",
+        "Function": "5",
+        "InnerPage": "VisitorPreRegistrationText",
+        "Link": "baidu.com",
+        "companyID": "229048",
+        "eventID": "001",
+        "seminarID": "15",
+        "newsID": "0000000409"
+      },
+      "SC": {
+        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/for-Visitor-Badge-640x293-SC.jpg",
+        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/for-Visitor-Badge-tablet-SC.jpg",
+        "Function": "5",
+        "InnerPage": "VisitorPreRegistrationText",
+        "Link": "baidu.com",
+        "companyID": "229048",
+        "eventID": "001",
+        "seminarID": "15",
+        "newsID": "0000000409"
+      },
+      "TC": {
+        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/for-Visitor-Badge-640x293-TC.jpg",
+        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/for-Visitor-Badge-tablet-TC.jpg",
+        "Function": "5",
+        "InnerPage": "VisitorPreRegistrationText",
+        "Link": "baidu.com",
+        "companyID": "229048",
+        "eventID": "001",
+        "seminarID": "15",
+        "newsID": "0000000409"
+      }
     }
   ],
   "LeftBottomBanner": {

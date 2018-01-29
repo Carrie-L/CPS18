@@ -34,7 +34,7 @@ public class RecyclerViewScrollTo {
      * @version 创建时间：2016年7月22日 上午11:24:51
      */
     public void scroll(int position) {
-        LogUtil.e("RecyclerViewScrollTo", "smoothScroller");
+        LogUtil.e("RecyclerViewScrollTo", "smoothScroller:position="+position);
         int firstItem = mLayoutManager.findFirstVisibleItemPosition();
         int lastItem = mLayoutManager.findLastVisibleItemPosition();
 //		LogUtil.i(TAG, "position=" + position + ",firstItem=" + firstItem + ",lastItem=" + lastItem);

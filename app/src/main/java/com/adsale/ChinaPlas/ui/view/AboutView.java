@@ -46,7 +46,7 @@ public class AboutView extends LinearLayout {
         binding = ViewAboutBinding.inflate(LayoutInflater.from(context), this, true);
         binding.setView(this);
         binding.executePendingBindings();
-        options = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE).override(715,588); // 1072*882 * 2/3
+        options = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE).override(536,441); // 1072*882  /2
     }
 
     private String[] imageLinks;

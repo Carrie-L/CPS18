@@ -52,7 +52,6 @@ public class MainFragment extends Fragment implements OnIntentListener {
     private MainPic mainPic;
     private int menuHeight;
     private int navHeight;
-    private int screenHeight;
     private MenuAdapter adapter;
 
     @Override
@@ -84,7 +83,6 @@ public class MainFragment extends Fragment implements OnIntentListener {
     }
 
     private void initData() {
-        screenHeight = App.mSP_Config.getInt(Constant.SCREEN_HEIGHT, 0);
         initRecyclerView();
         mainPic = mainViewModel.parseMainInfo();
         mainViewModel.setTopPics();
@@ -103,6 +101,7 @@ public class MainFragment extends Fragment implements OnIntentListener {
             m2UpAnimation(mainViewModel.m2LargeUrl);
             App.mSP_Config.edit().putBoolean("isM2Popup", true).apply();
         }
+//        mainViewModel.resume();
     }
 
     private void m2UpAnimation(String url) {
@@ -207,5 +206,18 @@ public class MainFragment extends Fragment implements OnIntentListener {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setHasFixedSize(true);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        LogUtil.i("MainFragment", "-------onPause()------");
+//        mainViewModel.pasue();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mainViewModel.destroy();
     }
 }

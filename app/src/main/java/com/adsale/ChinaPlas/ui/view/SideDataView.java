@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.dao.NewProductInfo;
 import com.adsale.ChinaPlas.databinding.ViewSideBinding;
+import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.RecyclerViewScrollTo;
 
 import java.util.ArrayList;
@@ -101,6 +102,7 @@ public class SideDataView extends RelativeLayout implements SideLetter.OnLetterC
 
     @Override
     public void onClick(String letter) {
+        LogUtil.i(TAG,"onClick:letter="+letter);
         dialogLetter.set(letter);
         scrollToExhibitor();
     }

@@ -8,7 +8,7 @@ import android.text.TextWatcher;
 import android.widget.EditText;
 
 import com.adsale.ChinaPlas.R;
-import com.adsale.ChinaPlas.adapter.ExhibitorAdapter;
+import com.adsale.ChinaPlas.adapter.ExhibitorListAdapter;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.data.ExhibitorRepository;
@@ -35,7 +35,7 @@ public class ExhibitorAllListActivity extends BaseActivity implements OnItemClic
     private ExhibitorRepository mRepository;
     private String date;
     //    private SideLetter sideLetter;
-    private ExhibitorAdapter adapter;
+    private ExhibitorListAdapter adapter;
     private final int REQUEST_FILTER = 100;
     private final int REQUEST_COLLECT = 101;
     private int position;
@@ -100,7 +100,7 @@ public class ExhibitorAllListActivity extends BaseActivity implements OnItemClic
         mExhibitorModel.setLayoutManager(mSideDataView);
 
         mExhibitorModel.getAllExhibitorsAZ();
-        adapter = new ExhibitorAdapter(this, mExhibitorModel.mExhibitors, mRepository, this, isM3Open);
+        adapter = new ExhibitorListAdapter(this, mExhibitorModel.mExhibitors, mRepository, this, isM3Open);
         rvExhibitors.setAdapter(adapter);
         mExhibitorModel.setAdapter(adapter);
     }

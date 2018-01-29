@@ -31,8 +31,6 @@ public class NetWorkHelper {
     public static final String DOWN_TXT_URL = "https://forms.adsale.com.hk/VirtualDirectory/AppCPS2018CMS/AppFiles/{fileName}";
     public static final String DOWN_WEBCONTENT_URL = "WebContent/{fileName}";
 
-    public static final String M2_SMALL_TEST = "https://forms.adsale.com.hk/VirtualDirectory/AppCPS18CMS/images/m2_small.png";
-
     public static final String FULL_WEBSITE="http://www.chinaplasonline.com/CPS18/Home/%s/Information.aspx";
     public static final String MOBILE_WEBSITE="http://www.chinaplasonline.com/CPS18/Mobile/%s/Home.aspx";
 

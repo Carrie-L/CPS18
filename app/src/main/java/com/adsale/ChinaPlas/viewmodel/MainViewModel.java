@@ -39,6 +39,14 @@ import com.bumptech.glide.signature.MediaStoreSignature;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 import static android.content.ContentValues.TAG;
 import static com.adsale.ChinaPlas.utils.Constant.MAIN_TOP_BANNER_HEIGHT;
@@ -53,6 +61,7 @@ import static com.adsale.ChinaPlas.utils.Constant.PAD_CONTENT_WIDTH;
  */
 
 public class MainViewModel {
+    private final String TAG = "MainViewModel";
     private Context mContext;
     private MainIconRepository mRepository;
     private NavViewModel navViewModel;
@@ -78,7 +87,6 @@ public class MainViewModel {
     private LayoutInflater inflater;
     private MainPic.Banners banners;
     private int topBannerSize;
-    public ObservableBoolean isCountDownShow = new ObservableBoolean(false);
     private ImageView ivTop;
     private ImageView ivPoint;
     private RelativeLayout rlTopBanner;
@@ -89,6 +97,8 @@ public class MainViewModel {
     private ArrayList<MainIcon> allIcons = new ArrayList<>();
     public String m2LargeUrl;
     private boolean isTablet;
+    private final Integer SECOND = 5;
+    private Disposable mDisposable;
 
     public MainViewModel(Context mContext, OnIntentListener listener) {
         this.mContext = mContext;
@@ -155,6 +165,10 @@ public class MainViewModel {
         viewPagerAdapter = new AdViewPagerAdapter(topPics);
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.addOnPageChangeListener(mPageChangeListener);
+
+        if (viewPagerAdapter.getCount() > 1) {
+            rollAuto();
+        }
     }
 
     private void setLlPoints() {
@@ -204,10 +218,59 @@ public class MainViewModel {
                 TextView tvCDD = binding.tvCdd;
                 long diff = AppUtil.getShowCountDown();
                 tvCDD.setText(String.valueOf(diff));
-                isCountDownShow.set(diff != 0);
+                binding.rvCountdown.setVisibility(View.VISIBLE);
             }
+//            isCountDownShow.set(viewPager.getCurrentItem()==0);
             topPics.add(rlTopBanner);
         }
+    }
+
+    /**
+     * 每5s 自动切换到下一张
+     */
+    private void rollAuto() {
+        Observable.interval(1, TimeUnit.SECONDS)
+                .take(SECOND) // up to SECOND items
+                .map(new Function<Long, Long>() {
+                    @Override
+                    public Long apply(Long v) throws Exception {
+                        return SECOND - v;
+                    }
+                })
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Long>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        mDisposable = d;
+                    }
+
+                    @Override
+                    public void onNext(Long value) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (mDisposable != null && mDisposable.isDisposed()) {
+                            mDisposable.dispose();
+                        }
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        destroy();
+                        LogUtil.i(TAG, "onComplete：-------------> 倒计时结束,切换下一张");
+                        int currPagerItem = viewPager.getCurrentItem();
+                        if (currPagerItem == (viewPagerAdapter.getCount() - 1)) {
+                            currPagerItem = 0;
+                        } else {
+                            currPagerItem++;
+                        }
+                        viewPager.setCurrentItem(currPagerItem);
+                        rollAuto(); // 轮播
+                    }
+                });
     }
 
     private String getLangType() {
@@ -251,7 +314,10 @@ public class MainViewModel {
     }
 
     private void showM2() {
-        if (!adHelper.isAdOpen() || Integer.valueOf(adObj.M2.version) <= 0) {
+        if (!adHelper.isAdOpen() || Integer.valueOf(adObj.M2.version) <= 0
+                || (App.mLanguage.get() == 0 && adObj.M2.action_companyID_tc.equals("0"))
+                || (App.mLanguage.get() == 1 && adObj.M2.action_companyID_en.equals("0"))
+                || (App.mLanguage.get() == 2 && adObj.M2.action_companyID_sc.equals("0"))) {
             adPic.setVisibility(View.INVISIBLE);
             return;
         }
@@ -261,6 +327,7 @@ public class MainViewModel {
         Glide.with(mContext).load(Uri.parse(m2Url.toString().concat(adObj.M2.version).concat(adObj.M2.format))).into(adPic);
         m2LargeUrl = m2Url.toString().concat(adObj.M2.image2).concat(adObj.M2.version).concat(adObj.M2.format);
         LogUtil.i(TAG, "m2LargeUrl=" + m2LargeUrl);
+        LogUtil.i(TAG, "m2Url=" + m2Url.toString());
 
         AppUtil.trackViewLog(202, "Ad", "M2", adObj.M2.getCompanyID(AppUtil.getCurLanguage()));
         AppUtil.setStatEvent(mContext, "ViewM2", "Ad_M2_" + adObj.M2.getCompanyID(AppUtil.getCurLanguage()));
@@ -336,6 +403,9 @@ public class MainViewModel {
 
         @Override
         public void onPageSelected(int position) {
+            int currPagerItem = viewPager.getCurrentItem();
+            LogUtil.i(TAG, "onPageSelected:currPagerItem=" + currPagerItem);
+
             int len = vpindicator.getChildCount();
             for (int i = 0; i < len; ++i)
                 vpindicator.getChildAt(i).setBackgroundResource(R.drawable.dot_normal);
@@ -347,6 +417,25 @@ public class MainViewModel {
 
         }
     };
+
+    public void destroy() {
+        LogUtil.i(TAG, "-------destroy()------");
+        if (mDisposable != null && mDisposable.isDisposed()) {
+            mDisposable.dispose();
+        }
+    }
+
+//    public void pasue() {
+//        LogUtil.i(TAG, "-------pasue()------");
+//        if (mDisposable != null && mDisposable.isDisposed()) {
+//            mDisposable.dispose();
+//        }
+//    }
+//
+//    public void resume() {
+//        LogUtil.i(TAG, "-------resume()------");
+//        rollAuto();
+//    }
 
 
 }

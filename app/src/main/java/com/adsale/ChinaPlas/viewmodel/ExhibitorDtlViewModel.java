@@ -96,7 +96,6 @@ public class ExhibitorDtlViewModel {
     private String M5Description;
     private adAdvertisementObj adObj;
     private int M5Index;
-    //    private TextView mAboutView;
     private AboutView mAboutView;
     private ArrayList<String> mPhotos = new ArrayList<>();
     private String mPhotoDir = "";

@@ -71,7 +71,7 @@ public class Exhibitor implements Parcelable {
     public String Sort;
     public String CountryName;
 
-    public ObservableBoolean isPhotoEmpty = new ObservableBoolean(true);
+    public ObservableBoolean isPhotoLogo = new ObservableBoolean(true);
     public final ObservableBoolean isCollected = new ObservableBoolean(false);
 
     public ObservableBoolean isTypeLabel = new ObservableBoolean();
@@ -86,7 +86,7 @@ public class Exhibitor implements Parcelable {
         this.CompanyID = CompanyID;
     }
 
-    public Exhibitor(String CompanyID, String CompanyNameEN, String CompanyNameTW, String CompanyNameCN, String AddressE, String AddressT, String AddressS, String Postal, String Tel, String Fax, String Email, String Website, String CountryID, String AddressE1, String AddressT1, String AddressS1, String AddressE2, String AddressT2, String AddressS2, String BoothNo, String StrokeEng, String StrokeTrad, String StrokeSimp, String PYSimp, String ImgFolder, String ExhibitNameE, String ExhibitNameS, String ExhibitNameT, String DescE, String DescS, String DescT, String PhotoFileName,String ConfArea,String FreeArea,String PillarArea,String NewTechUpdateDate, Integer SeqEN, Integer SeqTC, Integer SeqSC, String HallNo, Integer IsFavourite, String Note, Integer Rate) {
+    public Exhibitor(String CompanyID, String CompanyNameEN, String CompanyNameTW, String CompanyNameCN, String AddressE, String AddressT, String AddressS, String Postal, String Tel, String Fax, String Email, String Website, String CountryID, String AddressE1, String AddressT1, String AddressS1, String AddressE2, String AddressT2, String AddressS2, String BoothNo, String StrokeEng, String StrokeTrad, String StrokeSimp, String PYSimp, String ImgFolder, String ExhibitNameE, String ExhibitNameS, String ExhibitNameT, String DescE, String DescS, String DescT, String PhotoFileName, String ConfArea, String FreeArea, String PillarArea, String NewTechUpdateDate, Integer SeqEN, Integer SeqTC, Integer SeqSC, String HallNo, Integer IsFavourite, String Note, Integer Rate) {
         this.CompanyID = CompanyID;
         this.CompanyNameEN = CompanyNameEN;
         this.CompanyNameTW = CompanyNameTW;
@@ -119,10 +119,10 @@ public class Exhibitor implements Parcelable {
         this.DescS = DescS;
         this.DescT = DescT;
         this.PhotoFileName = PhotoFileName;
-        this.ConfArea=ConfArea;
-        this.FreeArea=FreeArea;
-        this.PillarArea=PillarArea;
-        this.NewTechUpdateDate=NewTechUpdateDate;
+        this.ConfArea = ConfArea;
+        this.FreeArea = FreeArea;
+        this.PillarArea = PillarArea;
+        this.NewTechUpdateDate = NewTechUpdateDate;
         this.SeqEN = SeqEN;
         this.SeqTC = SeqTC;
         this.SeqSC = SeqSC;
@@ -386,9 +386,7 @@ public class Exhibitor implements Parcelable {
 
     public void setPhotoFileName(String PhotoFileName) {
         this.PhotoFileName = PhotoFileName;
-        if (!TextUtils.isEmpty(PhotoFileName)) {
-            isPhotoEmpty.set(false);
-        }
+        isPhotoLogo.set(PhotoFileName != null && !PhotoFileName.isEmpty());
     }
 
     public void setConfArea(String confArea) {
@@ -662,11 +660,11 @@ public class Exhibitor implements Parcelable {
         this.FreeArea = csv[33];
         this.PillarArea = csv[34];
         this.NewTechUpdateDate = csv[35];
-        i=4;
-        this.SeqEN = Integer.valueOf(csv[32+i]);
-        this.SeqTC = Integer.valueOf(csv[33+i]);
-        this.SeqSC = Integer.valueOf(csv[34+i]);
-        this.HallNo = csv[35+i];
+        i = 4;
+        this.SeqEN = Integer.valueOf(csv[32 + i]);
+        this.SeqTC = Integer.valueOf(csv[33 + i]);
+        this.SeqSC = Integer.valueOf(csv[34 + i]);
+        this.HallNo = csv[35 + i];
     }
 
 
@@ -737,7 +735,7 @@ public class Exhibitor implements Parcelable {
         dest.writeString(this.CompanyName);
         dest.writeString(this.Sort);
         dest.writeString(this.CountryName);
-        dest.writeParcelable(this.isPhotoEmpty, 0);
+        dest.writeParcelable(this.isPhotoLogo, 0);
         dest.writeInt(this.percent);
     }
 
@@ -788,7 +786,7 @@ public class Exhibitor implements Parcelable {
         this.CompanyName = in.readString();
         this.Sort = in.readString();
         this.CountryName = in.readString();
-        this.isPhotoEmpty = in.readParcelable(ObservableBoolean.class.getClassLoader());
+        this.isPhotoLogo = in.readParcelable(ObservableBoolean.class.getClassLoader());
         this.percent = in.readInt();
     }
 

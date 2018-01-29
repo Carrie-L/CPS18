@@ -5,7 +5,7 @@ import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 
 import com.adsale.ChinaPlas.App;
-import com.adsale.ChinaPlas.adapter.ExhibitorAdapter;
+import com.adsale.ChinaPlas.adapter.ExhibitorListAdapter;
 import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.data.ExhibitorRepository;
 import com.adsale.ChinaPlas.data.OnIntentListener;
@@ -54,7 +54,7 @@ public class ExhibitorListViewModel {
     private int mType = 0;
     private String mId;
 
-    private ExhibitorAdapter adapter;
+    private ExhibitorListAdapter adapter;
     private SideDataView sideDataView;
     private ArrayList<Exhibitor> searchTemps = new ArrayList<>();
     private OnIntentListener mListener;
@@ -85,7 +85,7 @@ public class ExhibitorListViewModel {
         this.sideDataView = sideDataView;
     }
 
-    public void setAdapter(ExhibitorAdapter adapter) {
+    public void setAdapter(ExhibitorListAdapter adapter) {
         this.adapter = adapter;
     }
 
