@@ -47,7 +47,7 @@ public class SettingActivity extends BaseActivity {
         builder.setItems(languages, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                onChooseLanguage(i == 0 ? 1 : i == 1 ? 0 : i);
+                onChooseLanguage(i == 0 ? 1 : i == 1 ? 0 : 2);
             }
         }).create().show();
     }

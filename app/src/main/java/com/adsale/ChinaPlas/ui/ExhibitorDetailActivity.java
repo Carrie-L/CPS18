@@ -97,6 +97,8 @@ public class ExhibitorDetailActivity extends BaseActivity implements OnIntentLis
         }
         mViewModel.addToHistory();
         mViewModel.setActivity(this);
+        AppUtil.trackViewLog(198, "EPage", "", mViewModel.exhibitor.getCompanyID());
+        AppUtil.setStatEvent(getApplicationContext(), "EPage", "EPage_" + mViewModel.exhibitor.getCompanyID());
     }
 
     private void showHelpPage() {

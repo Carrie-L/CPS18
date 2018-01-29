@@ -1,6 +1,7 @@
 package com.adsale.ChinaPlas.ui.view;
 
 import android.app.DialogFragment;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -17,6 +18,7 @@ import android.widget.LinearLayout;
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.AdViewPagerAdapter;
+import com.adsale.ChinaPlas.ui.PadMainActivity;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.DisplayUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
@@ -25,6 +27,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -64,6 +67,7 @@ public class HelpView extends DialogFragment implements View.OnClickListener {
 
     private View.OnClickListener mCloseListener;
     private Window window;
+    private int language;
 
     public HelpView() {
     }
@@ -106,10 +110,10 @@ public class HelpView extends DialogFragment implements View.OnClickListener {
         List<View> helpPages = new ArrayList<>();
         LogUtil.i(TAG, "imageIds=" + imageIds.length);
         int length = imageIds.length;
-        /* 设置缓存策略为 不缓存，因为根据语言切换的不同，图片也不同，如果缓存了，切换语言后仍然会使用上一语言的图片 */
-        RequestOptions requestOptions = new RequestOptions();
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.NONE);
-        requestOptions.skipMemoryCache(true);
+//        /* 设置缓存策略为 不缓存，因为根据语言切换的不同，图片也不同，如果缓存了，切换语言后仍然会使用上一语言的图片 */
+        RequestOptions requestOptions = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.DATA);
+//        requestOptions.diskCacheStrategy(DiskCacheStrategy.NONE);
+//        requestOptions.skipMemoryCache(true);
         for (int i = 0; i < length; i++) {
             ImageView imageView = new ImageView(getActivity());
             imageView.setAdjustViewBounds(true);
@@ -144,44 +148,147 @@ public class HelpView extends DialogFragment implements View.OnClickListener {
         }
     }
 
-    private void getImageIds() {
-        LogUtil.i(TAG, "page=" + mPageType);
+    private void getImageIdsSC() {
+        if(AppUtil.isTablet()){
+            getImageIdsSCPad();
+            return;
+        }
         switch (mPageType) {
             case HELP_PAGE_MAIN:
                 getMenuImages();
                 break;
             case HELP_PAGE_EXHIBITOR_DTL:
-                imageIds = new Integer[]{R.drawable.help_exhibitordtl_0};
+                imageIds = new Integer[]{R.drawable.help_exhibitordtl_0_sc};
                 break;
             case HELP_PAGE_EVENT_DTL:
-                imageIds = new Integer[]{R.drawable.help_event_0};
+                imageIds = new Integer[]{R.drawable.help_event_0_sc};
                 break;
             case HELP_PAGE_FLOOR_OVERALL:
-                imageIds = new Integer[]{R.drawable.help_mapfloor_0};
+                imageIds = new Integer[]{R.drawable.help_mapfloor_0_sc};
                 break;
             case HELP_PAGE_FLOOR_DTL:
-                imageIds = new Integer[]{R.drawable.help_floordtl_0};
+                imageIds = new Integer[]{R.drawable.help_floordtl_0_sc};
                 break;
             case HELP_PAGE_MY_EXHIBITOR:
-                imageIds = new Integer[]{R.drawable.help_myexhibitor_0};
+                imageIds = new Integer[]{R.drawable.help_myexhibitor_0_sc};
                 break;
             case HELP_PAGE_SCANNER:
-                imageIds = new Integer[]{R.drawable.help_scanner_0};
+                imageIds = new Integer[]{R.drawable.help_scanner_0_sc};
                 break;
             case HELP_PAGE_SCHEDULE:
-                imageIds = new Integer[]{R.drawable.help_schedule_0};
+                imageIds = new Integer[]{R.drawable.help_schedule_0_sc};
                 break;
             case HELP_PAGE_SCHEDULE_DTL:
-                imageIds = new Integer[]{R.drawable.help_schedule_edit_0};
+                imageIds = new Integer[]{R.drawable.help_schedule_edit_0_sc};
                 break;
+        }
+    }
 
+    private void getImageIdsSCPad() {
+        switch (mPageType) {
+            case HELP_PAGE_MAIN:
+                getMenuImages();
+                break;
+            case HELP_PAGE_EXHIBITOR_DTL:
+                imageIds = new Integer[]{R.drawable.help_exhibitordtl_0_sc_pad};
+                break;
+            case HELP_PAGE_EVENT_DTL:
+                imageIds = new Integer[]{R.drawable.help_event_0_sc_pad};
+                break;
+            case HELP_PAGE_FLOOR_OVERALL:
+//                imageIds = new Integer[]{R.drawable.help_mapfloor_0_sc_pad};
+                break;
+            case HELP_PAGE_FLOOR_DTL:
+                imageIds = new Integer[]{R.drawable.help_floordtl_0_sc_pad};
+                break;
+            case HELP_PAGE_MY_EXHIBITOR:
+                imageIds = new Integer[]{R.drawable.help_myexhibitor_0_sc_pad};
+                break;
+            case HELP_PAGE_SCANNER:
+                imageIds = new Integer[]{R.drawable.help_scanner_0_sc_pad};
+                break;
+            case HELP_PAGE_SCHEDULE:
+                imageIds = new Integer[]{R.drawable.help_schedule_0_sc_pad};
+                break;
+            case HELP_PAGE_SCHEDULE_DTL:
+                imageIds = new Integer[]{R.drawable.help_schedule_edit_0_sc_pad};
+                break;
+        }
+    }
+
+    private void getImageIdsTC() {
+        switch (mPageType) {
+            case HELP_PAGE_MAIN:
+                getMenuImages();
+                break;
+            case HELP_PAGE_EXHIBITOR_DTL:
+                imageIds = new Integer[]{R.drawable.help_exhibitordtl_0_tc};
+                break;
+            case HELP_PAGE_EVENT_DTL:
+                imageIds = new Integer[]{R.drawable.help_event_0_tc};
+                break;
+            case HELP_PAGE_FLOOR_OVERALL:
+                imageIds = new Integer[]{R.drawable.help_mapfloor_0_tc};
+                break;
+            case HELP_PAGE_FLOOR_DTL:
+                imageIds = new Integer[]{R.drawable.help_floordtl_0_tc};
+                break;
+            case HELP_PAGE_MY_EXHIBITOR:
+                imageIds = new Integer[]{R.drawable.help_myexhibitor_0_tc};
+                break;
+            case HELP_PAGE_SCANNER:
+                imageIds = new Integer[]{R.drawable.help_scanner_0_tc};
+                break;
+            case HELP_PAGE_SCHEDULE:
+                imageIds = new Integer[]{R.drawable.help_schedule_0_tc};
+                break;
+            case HELP_PAGE_SCHEDULE_DTL:
+                imageIds = new Integer[]{R.drawable.help_schedule_edit_0_tc};
+                break;
+        }
+    }
+
+    private void getImageIdsEN() {
+        switch (mPageType) {
+            case HELP_PAGE_MAIN:
+                getMenuImages();
+                break;
+            case HELP_PAGE_EXHIBITOR_DTL:
+                imageIds = new Integer[]{R.drawable.help_exhibitordtl_0_en};
+                break;
+            case HELP_PAGE_EVENT_DTL:
+                imageIds = new Integer[]{R.drawable.help_event_0_en};
+                break;
+            case HELP_PAGE_FLOOR_OVERALL:
+                imageIds = new Integer[]{R.drawable.help_mapfloor_0_en};
+                break;
+            case HELP_PAGE_FLOOR_DTL:
+                imageIds = new Integer[]{R.drawable.help_floordtl_0_en};
+                break;
+            case HELP_PAGE_MY_EXHIBITOR:
+                imageIds = new Integer[]{R.drawable.help_myexhibitor_0_en};
+                break;
+            case HELP_PAGE_SCANNER:
+                imageIds = new Integer[]{R.drawable.help_scanner_0_en};
+                break;
+            case HELP_PAGE_SCHEDULE:
+                imageIds = new Integer[]{R.drawable.help_schedule_0_en};
+                break;
+            case HELP_PAGE_SCHEDULE_DTL:
+                imageIds = new Integer[]{R.drawable.help_schedule_edit_0_en};
+                break;
         }
     }
 
     private void getMenuImages() {
-        imageIds = new Integer[]{R.drawable.help_1, R.drawable.help_2, R.drawable.help_3, R.drawable.help_4, R.drawable.help_5, R.drawable.help_6};
+        if (language == 0) {
+            imageIds = new Integer[]{R.drawable.help_1_tc, R.drawable.help_2_tc, R.drawable.help_3_tc, R.drawable.help_4_tc, R.drawable.help_5_tc, R.drawable.help_6_tc};
+        } else if (language == 1) {
+            imageIds = new Integer[]{R.drawable.help_1_en, R.drawable.help_2_en, R.drawable.help_3_en, R.drawable.help_4_en, R.drawable.help_5_en, R.drawable.help_6_en};
+        } else {
+            imageIds = new Integer[]{R.drawable.help_1_sc, R.drawable.help_2_sc, R.drawable.help_3_sc, R.drawable.help_4_sc, R.drawable.help_5_sc, R.drawable.help_6_sc};
+        }
     }
-
 
     /**
      * 初次进入页面时，如果帮助页面没有显示过，则自动显示，否则要按？按钮才显示。
@@ -265,7 +372,14 @@ public class HelpView extends DialogFragment implements View.OnClickListener {
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         mView = LayoutInflater.from(getActivity()).inflate(R.layout.page_help, container, false);
         initView();
-        getImageIds();
+        language = AppUtil.getCurLanguage();
+        if (language == 0) {
+            getImageIdsTC();
+        } else if (language == 1) {
+            getImageIdsEN();
+        } else {
+            getImageIdsSC();
+        }
         generatePage();
         return mView;
     }

@@ -460,7 +460,7 @@ public class AppUtil {
             logJson.ActionGroup = 100;
 
             //189\190\191(newPhoto、newsLink、newsDetail的trackingName不加subType)
-            if (actionId == 189 || actionId == 190 || actionId == 191 || actionId == 192) {
+            if (actionId == 189 || actionId == 190 || actionId == 191 || actionId == 192 || actionId == 198) {
                 subType = "";
             }
 
