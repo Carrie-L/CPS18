@@ -35,6 +35,7 @@ public class WebContentActivity extends BaseActivity {
         TAG = "WebContentActivity";
 
         settings = webView.getSettings();
+        settings.setJavaScriptEnabled(true);
     }
 
     @Override

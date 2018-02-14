@@ -139,19 +139,10 @@ public class App extends MultiDexApplication {
         LogUtil.i("App_JPushInterface", "registrationID=" + registrationID);
         // 别名
         setJPushAlias();
+//        testJPush();
     }
 
     private void setJPushAlias() {
-        // test
-//        JPushInterface.setAlias(this, "Carrie180126", new TagAliasCallback() {
-//            @Override
-//            public void gotResult(int arg0, String arg1, Set<String> arg2) {
-//                // Toast.makeText(mContext, "JPushInterface.setAlias",
-//                // 1).show();
-//                LogUtil.i("App:JPushInterface", "返回状态码arg0=" + arg0 + ",别名arg1=" +
-//                        arg1 + ",标签arg2=" + arg2);
-//            }
-//        });
         int language = AppUtil.getCurLanguage();
         if (language == 0) {
             JPushInterface.setAlias(getApplicationContext(), 1, "TCUser");
@@ -162,6 +153,18 @@ public class App extends MultiDexApplication {
         }
 
 
+    }
+
+    private void testJPush() {
+        JPushInterface.setAlias(this, "Carrie180205", new TagAliasCallback() {
+            @Override
+            public void gotResult(int arg0, String arg1, Set<String> arg2) {
+                // Toast.makeText(mContext, "JPushInterface.setAlias",
+                // 1).show();
+                LogUtil.i("App:JPushInterface", "返回状态码arg0=" + arg0 + ",别名arg1=" +
+                        arg1 + ",标签arg2=" + arg2);
+            }
+        });
     }
 
     private String getProcessName() {

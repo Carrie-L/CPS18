@@ -298,6 +298,7 @@ public class HelpView extends DialogFragment implements View.OnClickListener {
      */
     public static boolean isFirstShow(int pageType) {
         LogUtil.i(TAG, "pageType=" + pageType + ",SP pageTyp=" + App.mSP_HP.getInt(HELP_PAGE + pageType, -1));
+//        App.mSP_Config.edit().putBoolean("isM2Popup",true).apply(); /*  第一次显示帮助页面，此时也会显示M2Big图片。因此在有更新且跳转到更新中心后，返回时将不再显示M2Big */
         return App.mSP_HP.getInt(HELP_PAGE + pageType, -1) != pageType;
     }
 
@@ -401,6 +402,8 @@ public class HelpView extends DialogFragment implements View.OnClickListener {
             setPhoneWindow();
         }
     }
+
+
 
     private void setPhoneWindow() {
         window = getDialog().getWindow();

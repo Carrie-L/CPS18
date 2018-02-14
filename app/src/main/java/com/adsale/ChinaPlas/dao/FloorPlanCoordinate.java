@@ -15,9 +15,9 @@ public class FloorPlanCoordinate {
 
     private Integer ExhibitionId;
     private String BoothNum;
-    private String Nav;
+    private String NewNav;
     private String Sharp;
-    private String SPC;
+    private String NewSPC;
     private String Hall;
     private String Fx;
 
@@ -29,12 +29,12 @@ public class FloorPlanCoordinate {
     public FloorPlanCoordinate() {
     }
 
-    public FloorPlanCoordinate(Integer exhibitionId, String boothNum, String nav, String sharp, String SPC, String hall, String fx, Integer x1, Integer Y1, Integer X2, Integer Y2) {
+    public FloorPlanCoordinate(Integer exhibitionId, String boothNum, String nav, String sharp, String NewSPC, String hall, String fx, Integer x1, Integer Y1, Integer X2, Integer Y2) {
         ExhibitionId = exhibitionId;
         BoothNum = boothNum;
-        Nav = nav;
+        NewNav = nav;
         Sharp = sharp;
-        this.SPC = SPC;
+        this.NewSPC = NewSPC;
         Hall = hall;
         Fx = fx;
         this.X1 = x1;
@@ -60,11 +60,11 @@ public class FloorPlanCoordinate {
     }
 
     public String getNav() {
-        return Nav;
+        return NewNav;
     }
 
     public void setNav(String Nav) {
-        this.Nav = Nav;
+        this.NewNav = Nav;
     }
 
     public String getSharp() {
@@ -75,12 +75,12 @@ public class FloorPlanCoordinate {
         this.Sharp = Sharp;
     }
 
-    public String getSPC() {
-        return SPC;
+    public String getNewSPC() {
+        return NewSPC;
     }
 
-    public void setSPC(String SPC) {
-        this.SPC = SPC;
+    public void setNewSPC(String NewSPC) {
+        this.NewSPC = NewSPC;
     }
 
     public String getHall() {
@@ -135,9 +135,9 @@ public class FloorPlanCoordinate {
     public void parser(String[] strings) {
         this.ExhibitionId = Integer.valueOf(strings[0]);
         this.BoothNum = strings[1];
-        this.Nav = strings[2];
+        this.NewNav = strings[2];
         this.Sharp = strings[3];
-        this.SPC = strings[4];
+        this.NewSPC = strings[4];
         this.Hall = strings[5];
         this.Fx = strings[6];
 
@@ -145,10 +145,10 @@ public class FloorPlanCoordinate {
     }
 
     private void separateNav() {
-        if (Sharp.equals("RECT")) {
-            String[] navToken = Nav.split(",");
+        if (Sharp.toLowerCase().equals("rect")) {
+            String[] navToken = NewNav.split(",");
 
-            if (navToken != null && navToken.length > 3) {
+            if (navToken.length > 3) {
                 X1 = Integer.parseInt(navToken[0]);
                 Y1 = Integer.parseInt(navToken[1]);
                 X2 = Integer.parseInt(navToken[2]);
@@ -156,7 +156,7 @@ public class FloorPlanCoordinate {
             }
         } else {
 
-            String[] navToken = Nav.split(",");
+            String[] navToken = NewNav.split(",");
             if (navToken != null && navToken.length > 3) {
                 ArrayList<Integer> xArray = new ArrayList<Integer>();
                 ArrayList<Integer> yArray = new ArrayList<Integer>();
@@ -185,9 +185,9 @@ public class FloorPlanCoordinate {
         return "FloorPlanCoordinate{" +
                 "ExhibitionId=" + ExhibitionId +
                 ", BoothNum='" + BoothNum + '\'' +
-                ", Nav='" + Nav + '\'' +
+                ", Nav='" + NewNav + '\'' +
                 ", Sharp='" + Sharp + '\'' +
-                ", SPC='" + SPC + '\'' +
+                ", NewSPC='" + NewSPC + '\'' +
                 ", Hall='" + Hall + '\'' +
                 ", Fx='" + Fx + '\'' +
                 ", X1=" + X1 +

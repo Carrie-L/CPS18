@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -29,8 +30,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Carrie on 2017/9/13.
@@ -74,9 +79,32 @@ public class ADHelper {
         String adStartTime = adObj.Common.time.split("-")[0];
         String adEndTime = adObj.Common.time.split("-")[1];
         LogUtil.i(TAG, "todayDate=" + todayDate + ".adStartTime=" + adStartTime + ".adEndTime=" + adEndTime);
-        int c1 = todayDate.compareTo(adStartTime);
-        int c2 = todayDate.compareTo(adEndTime);
-        LogUtil.i(TAG, "c1=" + c1 + ".c2=" + c2);
+
+        // todo ad time compare
+//        SimpleDateFormat format = new SimpleDateFormat("dd/mm/yy", Locale.CHINA);
+//        try {
+//            Date date1 = format.parse(adStartTime);
+//            Date date2 = format.parse(adEndTime);
+//            Date date0 = format.parse(todayDate);
+//            boolean b1 = date0.after(date1);  /* true  */
+//            boolean b2 = date0.before(date2);  /* false  */
+//            LogUtil.i(TAG,"b1="+b1);
+//            LogUtil.i(TAG,"b2="+b2);
+//            LogUtil.i(TAG,"date2="+date2.toString());
+//            LogUtil.i(TAG,"date0="+date0.toString());
+//            if(b1&&b2){
+//                App.mSP_Config.edit().putBoolean(Constant.IS_AD_OPEN, true).apply();
+//                LogUtil.e(TAG, "~~~ad opening~~");
+//                return true;
+//            }
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//
+//
+//        int c1 = todayDate.compareTo(adStartTime);
+//        int c2 = todayDate.compareTo(adEndTime);
+//        LogUtil.i(TAG, "c1=" + c1 + ".c2=" + c2);
         if (todayDate.compareTo(adStartTime) > 0 && todayDate.compareTo(adEndTime) < 0) {
             App.mSP_Config.edit().putBoolean(Constant.IS_AD_OPEN, true).apply();
             LogUtil.e(TAG, "~~~ad opening~~");

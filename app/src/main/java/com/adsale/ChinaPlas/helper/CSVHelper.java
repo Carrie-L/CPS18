@@ -8,10 +8,12 @@ import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.dao.ApplicationCompany;
 import com.adsale.ChinaPlas.dao.ApplicationIndustry;
 import com.adsale.ChinaPlas.dao.BussinessMapping;
+import com.adsale.ChinaPlas.dao.DBHelper;
 import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.dao.ExhibitorIndustryDtl;
 import com.adsale.ChinaPlas.dao.ExhibitorZone;
 import com.adsale.ChinaPlas.dao.Floor;
+import com.adsale.ChinaPlas.dao.FloorPlanCoordinate;
 import com.adsale.ChinaPlas.dao.Industry;
 import com.adsale.ChinaPlas.dao.NewProductAndCategory;
 import com.adsale.ChinaPlas.dao.NewProductInfo;
@@ -20,6 +22,7 @@ import com.adsale.ChinaPlas.dao.ProductApplication;
 import com.adsale.ChinaPlas.dao.ProductImage;
 import com.adsale.ChinaPlas.dao.Zone;
 import com.adsale.ChinaPlas.data.ExhibitorRepository;
+import com.adsale.ChinaPlas.data.FloorRepository;
 import com.adsale.ChinaPlas.data.NewTecRepository;
 import com.adsale.ChinaPlas.data.model.AgentInfo;
 import com.adsale.ChinaPlas.utils.AppUtil;
@@ -202,13 +205,13 @@ public class CSVHelper {
                         entity.setCompanyNameEN(entity.getCompanyNameEN().trim());
                         entity.setCompanyNameTW(entity.getCompanyNameTW().trim());
 
-                        if(entity.getStrokeEng().equals("#")){
+                        if (entity.getStrokeEng().equals("#")) {
                             entity.setStrokeEng("ZZZ#");
                         }
-                        if(entity.getStrokeTrad().equals("#")){
+                        if (entity.getStrokeTrad().equals("#")) {
                             entity.setStrokeTrad("999#");
                         }
-                        if(entity.getPYSimp().equals("#")){
+                        if (entity.getPYSimp().equals("#")) {
                             entity.setPYSimp("ZZZ#");
                         }
 
@@ -285,7 +288,7 @@ public class CSVHelper {
     private void combineExhibitorList(ArrayList<Exhibitor> list1, ArrayList<Exhibitor> listDes) {
         int size1 = list1.size();
         int size2 = listDes.size();
-        Exhibitor entity1 ;
+        Exhibitor entity1;
         Exhibitor entity2;
         for (int i = 0; i < size1; i++) {
             entity1 = list1.get(i);
@@ -417,9 +420,9 @@ public class CSVHelper {
                             enSort = enSort.replace(enSort.charAt(0), '#');
                         }
                         enSort = AppUtil.getFirstChar(enSort);
-                        if(enSort.contains("#")){
+                        if (enSort.contains("#")) {
                             entity.setEN_SORT("ZZZ".concat(enSort));
-                        }else{
+                        } else {
                             entity.setEN_SORT(enSort);
                         }
                         entities.add(entity);
@@ -530,49 +533,51 @@ public class CSVHelper {
         }
     }
 
-//    // ==========================FloorPlan || FloorPlan.csv===================================
+    /* ==========================FloorPlan || FloorPlan.csv===================================  */
 //
-//    /**
-//     * 读取FloorPlan.csv，且存入数据库表FLOOR_PLAN_COORDINATE 文件名也有可能加后缀，如：FloorPlan_0313V3.csv
-//     * <P>FloorPlan坐标信息
-//     */
-//    public  void readFloorPlanCSV(DBHelper InputStream is) {
-//        long startTime = System.currentTimeMillis();
-//        ArrayList<FloorPlanCoordinate> entities = new ArrayList<>();
-//        FloorPlanCoordinate entity;
-//        CSVReader reader;
-//        if (is != null) {
-//            try {
-//                reader = new CSVReader(new InputStreamReader(is, "UTF8"));
-//                String[] line = reader.readNext();
-//                if (line != null) {
-//                    while ((line = reader.readNext()) != null) {
-//                        entity = new FloorPlanCoordinate();
-//                        entity.parser(line);
-//                        entities.add(entity);
-//                    }
-//                }
-//            } catch (UnsupportedEncodingException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            } finally {
-//                try {
-//                    if (is != null) {
-//                        is.close();
-//                    }
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//            LogUtil.i(TAG, "SD卡：readFloorPlanCSV所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
-//
-//            long startTime2 = System.currentTimeMillis();
-//            dbHelper.deleteFloorPlanCordntAll();
-//            dbHelper.insertFloorPlanCordnt(entities);
-//            LogUtil.i(TAG, "存儲readFloorPlanCSV所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
-//        }
-//    }
+
+    /**
+     * 读取FloorPlan.csv，且存入数据库表FLOOR_PLAN_COORDINATE 文件名也有可能加后缀，如：FloorPlan_0313V3.csv
+     * <P>FloorPlan坐标信息
+     */
+    public void readFloorPlanCSV(InputStream is) {
+        long startTime = System.currentTimeMillis();
+        ArrayList<FloorPlanCoordinate> entities = new ArrayList<>();
+        FloorPlanCoordinate entity;
+        CSVReader reader;
+        if (is != null) {
+            try {
+                reader = new CSVReader(new InputStreamReader(is, "UTF8"));
+                String[] line = reader.readNext();
+                if (line != null) {
+                    while ((line = reader.readNext()) != null) {
+                        entity = new FloorPlanCoordinate();
+                        entity.parser(line);
+                        entities.add(entity);
+                    }
+                }
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (is != null) {
+                        is.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            LogUtil.i(TAG, "SD卡：readFloorPlanCSV所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
+
+            long startTime2 = System.currentTimeMillis();
+            FloorRepository repository = FloorRepository.getInstance();
+            repository.clearFloorCoordinate();
+            repository.insertFloorCoordinate(entities);
+            LogUtil.i(TAG, "存儲readFloorPlanCSV所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
+        }
+    }
 //
 //
 

@@ -93,7 +93,7 @@ public class FloorPlanCoordinateDao extends AbstractDao<FloorPlanCoordinate, Voi
             stmt.bindString(4, Sharp);
         }
 
-        String SPC = entity.getSPC();
+        String SPC = entity.getNewSPC();
         if (SPC != null) {
             stmt.bindString(5, SPC);
         }
@@ -161,7 +161,7 @@ public class FloorPlanCoordinateDao extends AbstractDao<FloorPlanCoordinate, Voi
         entity.setBoothNum(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setNav(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setSharp(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setSPC(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setNewSPC(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
         entity.setHall(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setFx(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
         entity.setX1(cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7));

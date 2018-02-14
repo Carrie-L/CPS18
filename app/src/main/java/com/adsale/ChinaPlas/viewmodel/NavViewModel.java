@@ -22,6 +22,8 @@ import com.adsale.ChinaPlas.ui.CommonListActivity;
 import com.adsale.ChinaPlas.ui.ConcurrentEventActivity;
 import com.adsale.ChinaPlas.ui.DocumentsDownCenterActivity;
 import com.adsale.ChinaPlas.ui.ExhibitorAllListActivity;
+import com.adsale.ChinaPlas.ui.FloorDetailActivity;
+import com.adsale.ChinaPlas.ui.FloorDtlActivity;
 import com.adsale.ChinaPlas.ui.MyExhibitorActivity;
 import com.adsale.ChinaPlas.ui.NCardActivity;
 import com.adsale.ChinaPlas.ui.NCardCreateEditActivity;
@@ -259,8 +261,14 @@ public class NavViewModel implements  OnIntentListener {
                 break;
             case Constant.BDTJ_HALL_MAP_TEXT:
             case Constant.BDTJ_HALL_MAP:
-                intent = new Intent(activity, WebContentActivity.class);
-                intent.putExtra(WEB_URL, Constant.DIR_WEB_CONTENT.concat(mainIcon.getIconID()));
+//                intent = new Intent(activity, WebContentActivity.class);
+//                intent.putExtra(WEB_URL, Constant.DIR_WEB_CONTENT.concat(mainIcon.getIconID()));
+
+
+                intent = new Intent(activity, FloorDetailActivity.class);
+//                intent = new Intent(activity, FloorDtlActivity.class);
+
+
                 break;
             case Constant.BDTJ_INTERESTED_EXHIBITOR:
 //                 intent = new Intent(context, FavouriteProductActivity.class);

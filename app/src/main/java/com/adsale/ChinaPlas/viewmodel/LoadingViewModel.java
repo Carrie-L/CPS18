@@ -361,22 +361,22 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
         LogUtil.i(TAG, "downTxt: fileName=" + fileName);
 
         //比较最后更新时间
-        if (isOneOfFiveTxt(fileName)) {
-            LogUtil.i(TAG, "~~isOneOfFiveTxt~~");
-            String localUT = mLoadRepository.getLocalTxtLUT(fileName);
-            String txtUT = updateCenter.FPDate.compareTo(updateCenter.FUDate) > 0 ? updateCenter.FPDate : updateCenter.FUDate;
-            int result = txtUT.compareTo(localUT);
-            if (result > 0) {// txtUT > localUT, update
-                LogUtil.e(TAG, fileName + " has update!! " + " @@@ compare update time: result= " + result + ", localUT=" + localUT + ", txtUT=" + AppUtil.GMT2UTC(txtUT));
-                updateCenter.setUCId();
-                updateCenter.setStatus(0);
-                updateCenter.setLUT(AppUtil.GMT2UTC(txtUT));
-                mLoadRepository.updateLocalLUT(updateCenter);
-                return getTxt(fileName);// has update, so download
-            }
-            LogUtil.i(TAG, "~~isOneOfFiveTxt, but no update.~~" + AppUtil.GMT2UTC(txtUT));
-            return Observable.just(fileName);// no update
-        }
+//        if (isOneOfFiveTxt(fileName)) {
+//            LogUtil.i(TAG, "~~isOneOfFiveTxt~~");
+//            String localUT = mLoadRepository.getLocalTxtLUT(fileName);
+//            String txtUT = updateCenter.FPDate.compareTo(updateCenter.FUDate) > 0 ? updateCenter.FPDate : updateCenter.FUDate;
+//            int result = txtUT.compareTo(localUT);
+//            if (result > 0) {// txtUT > localUT, update
+//                LogUtil.e(TAG, fileName + " has update!! " + " @@@ compare update time: result= " + result + ", localUT=" + localUT + ", txtUT=" + AppUtil.GMT2UTC(txtUT));
+//                updateCenter.setUCId();
+//                updateCenter.setStatus(0);
+//                updateCenter.setLUT(AppUtil.GMT2UTC(txtUT));
+//                mLoadRepository.updateLocalLUT(updateCenter);
+//                return getTxt(fileName);// has update, so download
+//            }
+//            LogUtil.i(TAG, "~~isOneOfFiveTxt, but no update.~~" + AppUtil.GMT2UTC(txtUT));
+//            return Observable.just(fileName);// no update
+//        }
         LogUtil.i(TAG, "!!~~isOneOfFiveTxt~~!!");
         return getTxt(fileName);// has network, download others txt. always download
     }

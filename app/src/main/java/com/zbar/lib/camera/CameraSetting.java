@@ -8,6 +8,7 @@ import android.hardware.Camera.AutoFocusCallback;
 import android.support.annotation.NonNull;
 import android.view.SurfaceHolder;
 
+import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.utils.LogUtil;
 
 import java.io.IOException;
@@ -31,24 +32,27 @@ public class CameraSetting {
     private final CameraConfigurationManager mConfigurationManager;
     private Camera.Parameters parameter;
 
-    public static CameraSetting getInstance(Context context,@NonNull PreviewCallback callback,@NonNull AutoFocusCallback focusCallback) {
+    public static CameraSetting getInstance(Context context, @NonNull PreviewCallback callback, @NonNull AutoFocusCallback focusCallback) {
         if (INSTANCE == null) {
-            return new CameraSetting(context, callback,focusCallback);
+            return new CameraSetting(context, callback, focusCallback);
         }
         return INSTANCE;
     }
 
-    public CameraSetting(Context context,  @NonNull PreviewCallback callback,AutoFocusCallback focusCallback) {
+    public CameraSetting(Context context, @NonNull PreviewCallback callback, AutoFocusCallback focusCallback) {
         mPreviewCallback = callback;
-        mFocusCallback=focusCallback;
+        mFocusCallback = focusCallback;
         mContext = context;
         mConfigurationManager = new CameraConfigurationManager(mContext);
     }
 
     public void openCamera(SurfaceHolder holder) {
+        App.mSP_Config.edit().putBoolean("isCameraClose", false).apply();
+        LogUtil.i("CameraSetting", "openCamera:isCameraClose=" + false);
+
         mHolder = holder;
         if (camera == null) {
-            previewing=false;
+            previewing = false;
             LogUtil.i(TAG, "openCamera: camera == null");
             camera = Camera.open();
             setPreviewDisplay();
@@ -88,7 +92,10 @@ public class CameraSetting {
     }
 
     public void requestPreviewFrame() {
-        if (camera != null && previewing) {
+        boolean isCameraClose = App.mSP_Config.getBoolean("isCameraClose", false);
+        LogUtil.i("CameraSetting", "requestPreviewFrame:isCameraClose=" + isCameraClose);
+
+        if (camera != null && previewing && !App.mSP_Config.getBoolean("isCameraClose", false)) {
             camera.setOneShotPreviewCallback(mPreviewCallback);
         }
     }

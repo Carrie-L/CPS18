@@ -15,7 +15,12 @@
     <dimen name="margin_bottom">32dp</dimen>
 
     <dimen name="item_photo_height">100dp</dimen>
-    <dimen name="item_photo_width">132dp</dimen>  <!--4:3-->
+    <dimen name="item_photo_width">132dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="nav_header_height">176dp</dimen>  <!--4:3-->
 
 
 </resources>

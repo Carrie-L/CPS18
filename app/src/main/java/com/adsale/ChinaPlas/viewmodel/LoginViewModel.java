@@ -79,7 +79,8 @@ public class LoginViewModel {
     }
 
     private RequestBody getRegRequestBody() {
-        return new FormBody.Builder().add("showid", "453").add("email", loginName.get()).build();
+//        return new FormBody.Builder().add("showid", "453").add("email", loginName.get()).build();
+        return new FormBody.Builder().add("showid", "479").add("email", loginName.get()).build();
     }
 
     private void loginRetrofit() {
@@ -110,6 +111,7 @@ public class LoginViewModel {
                 .flatMap(new Function<EmailVisitorData, Observable<Response<ResponseBody>>>() {//从EmailVisitorData 中得到 RegImageName ，根据名称下载图片
                     @Override
                     public Observable<Response<ResponseBody>> apply(@NonNull EmailVisitorData emailVisitorData) throws Exception {
+                        LogUtil.i(TAG,"emailVisitorData="+emailVisitorData.toString());
                         String picName = emailVisitorData.VisitorData.RegImageName;
                         LogUtil.i(TAG, "picName=" + picName);
                         return client.downImg(picName).subscribeOn(Schedulers.io());

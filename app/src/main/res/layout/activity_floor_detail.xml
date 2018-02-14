@@ -1,9 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.adsale.ChinaPlas.ui.FloorDetailActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-</android.support.constraint.ConstraintLayout>
+    <data>
+
+        <variable
+            name="model"
+            type="com.adsale.ChinaPlas.viewmodel.FloorDtlViewModel" />
+
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/floor_drawer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.adsale.ChinaPlas.ui.FloorDetailActivity">
+
+        <com.github.chrisbanes.photoview.PhotoView
+            android:id="@+id/iv_map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:scaleType="fitCenter" />
+
+
+        <!--<android.support.design.widget.NavigationView-->
+        <!--android:id="@+id/floor_nav"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--app:headerLayout="@layout/nav_view_floor_search"-->
+        <!--android:visibility="gone"-->
+        <!--android:background="#fff"-->
+        <!--/>-->
+
+      <FrameLayout
+          android:id="@+id/floor_nav"
+          android:layout_width="250dp"
+          android:layout_height="match_parent"
+          android:background="#fff"
+          android:visibility="gone"
+          />
+
+        <ImageView
+            android:id="@+id/btn_nav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@id/floor_nav"
+            android:background="@{model.isNavOpened?@drawable/btn_close_floor_nav:@drawable/btn_open_floor_nav}"
+            android:onClick="@{()->model.onClickDrawer()}" />
+
+    </RelativeLayout>
+</layout>

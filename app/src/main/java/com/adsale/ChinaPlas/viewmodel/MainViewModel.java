@@ -260,7 +260,7 @@ public class MainViewModel {
                     @Override
                     public void onComplete() {
                         destroy();
-                        LogUtil.i(TAG, "onComplete：-------------> 倒计时结束,切换下一张");
+//                        LogUtil.i(TAG, "onComplete：-------------> 倒计时结束,切换下一张");
                         int currPagerItem = viewPager.getCurrentItem();
                         if (currPagerItem == (viewPagerAdapter.getCount() - 1)) {
                             currPagerItem = 0;
@@ -403,9 +403,6 @@ public class MainViewModel {
 
         @Override
         public void onPageSelected(int position) {
-            int currPagerItem = viewPager.getCurrentItem();
-            LogUtil.i(TAG, "onPageSelected:currPagerItem=" + currPagerItem);
-
             int len = vpindicator.getChildCount();
             for (int i = 0; i < len; ++i)
                 vpindicator.getChildAt(i).setBackgroundResource(R.drawable.dot_normal);
@@ -419,7 +416,6 @@ public class MainViewModel {
     };
 
     public void destroy() {
-        LogUtil.i(TAG, "-------destroy()------");
         if (mDisposable != null && mDisposable.isDisposed()) {
             mDisposable.dispose();
         }

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="obj"
+            type="com.adsale.ChinaPlas.dao.Exhibitor" />
+
+        <variable
+            name="adapter"
+            type="com.adsale.ChinaPlas.adapter.FloorNavAdapter" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:onClick="@{()->adapter.onItemClick(obj.boothNo)}"
+        >
+
+        <ImageView
+            android:id="@+id/iv_collect"
+            android:layout_width="24dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:onClick="@{()->adapter.onCollect(obj)}"
+            android:scaleType="fitCenter"
+            android:src="@{obj.isCollected?@drawable/btn_star: @drawable/btn_unstar}" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/iv_collect"
+            android:text="@{obj.getCompanyName()}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textSize="16sp"
+
+            />
+
+        <TextView
+            android:id="@+id/tv_booth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_name"
+            android:layout_marginTop="12dp"
+            android:drawableLeft="@drawable/ic_event_location"
+            android:drawablePadding="12dp"
+            android:gravity="center_vertical"
+            android:text="@{obj.boothNo}"
+            android:textColor="@color/grey11"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+</layout>

@@ -129,11 +129,10 @@
 
         <TextView
             style="@style/no_data_style"
-            android:layout_toRightOf="@id/ll_date"
-            android:layout_toEndOf="@id/ll_date"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/line2"
             android:text="@string/no_schedule"
-            android:visibility="@{scheduleModel.isEmpty?View.VISIBLE:View.INVISIBLE}"
-            />
+            android:visibility="@{scheduleModel.isEmpty?View.VISIBLE:View.INVISIBLE}" />
 
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"

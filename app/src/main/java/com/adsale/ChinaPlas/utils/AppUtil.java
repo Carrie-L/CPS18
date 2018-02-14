@@ -76,8 +76,6 @@ public class AppUtil {
     private static String strLogJson;
     private static ArrayList<LogJson> logJsonArr;
 
-    private static final String ACCOUNT_NAME = "ChinaPlas@gmail.com";
-    private static final String CALENDAR_DISPLAY_NAME = "ChinaPlas18";
     private static final int YEAR = 2018;
     private static String LOG_APP_NAME = "CPS18v";
 
@@ -659,7 +657,7 @@ public class AppUtil {
     }
 
     private static void sendLog(LogJson logJson) {
-        LogUtil.i(TAG, "sendLog:logJson=" + logJson.toString());
+//        LogUtil.i(TAG, "sendLog:logJson=" + logJson.toString());
         LogUtil.i(TAG, "sendLog:logJsonArr=" + logJsonArr.size());
 
         //2016.6.23: 那你就每次寫入的時候加個簡單判斷，若時間、trackingname一致，就不重複寫入

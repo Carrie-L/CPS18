@@ -30,8 +30,8 @@ android {
         applicationId "com.adsale.ChinaPlas"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 115
-        versionName "8.1.0"
+        versionCode 116
+        versionName "8.1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
@@ -105,6 +105,7 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.1.1'
+//    implementation 'com.facebook.fresco:fresco:1.8.0'
     implementation files('libs/MobCommons-2017.1201.1507.jar')
     implementation files('libs/MobTools-2017.1201.1507.jar')
     implementation files('libs/Baidu_Mtj_3.8.1.1.jar')

@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.databinding.ViewExhiDtlInfoBinding;
+import com.adsale.ChinaPlas.ui.FloorDetailActivity;
 import com.adsale.ChinaPlas.ui.WebViewActivity;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
@@ -69,7 +70,15 @@ public class ExhiDtlInfoView extends RelativeLayout {
     }
 
     public void onBooth() {
-
+        Intent intent = new Intent(mContext, FloorDetailActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("BOOTH", mExhibitor.getBoothNo());
+        intent.putExtra("HALL", mExhibitor.getHallNo());
+        mContext.startActivity(intent);
+        if (AppUtil.isTablet()) {
+            ((Activity) mContext).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        }
     }
 
     public void onEmail() {

@@ -39,6 +39,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Response;
 
 import static com.adsale.ChinaPlas.App.rootDir;
+import static com.adsale.ChinaPlas.utils.AppUtil.getInputStream;
 import static com.adsale.ChinaPlas.utils.FileUtil.createFile;
 
 /**
@@ -106,11 +107,22 @@ public class UpdateCenterViewModel {
         LogUtil.i(TAG, "updateCount=" + updateCount);
         statusAll.set(updateCount > 0 && updateCount <= 5);
 
-        //just for test , update Exhibitor
-//        entity = list.get(0);
-//        entity.setStatus(0);
-//        list.set(0,entity);
+        // --- just for test
+        int index = 0; // [0,4]
+        entity = list.get(index);
+        entity.setStatus(0);
+        list.set(index,entity);
+        //---test end
+    }
 
+    /**
+     * just for test
+     */
+    private void testDownItem() {
+        int index = 0; // [0,4]
+//        entity = list.get(index);
+//        entity.setStatus(0);
+//        list.set(index,entity);
     }
 
     public void onUpdate(int index) {
@@ -286,6 +298,12 @@ public class UpdateCenterViewModel {
                                 FileOutputStream fos = new FileOutputStream(new File(mDir.concat(name)));
                                 fos.write(body.bytes());
                                 fos.close();
+
+                                if (name.toLowerCase().contains("floorplan")) {
+                                    LogUtil.i(TAG, "解析FloorPlan.csv:" + name);
+                                    CSVHelper csvHelper = new CSVHelper();
+                                    csvHelper.readFloorPlanCSV(getInputStream("FloorPlan/" + name));
+                                }
                             }
                             body.close();
                         }

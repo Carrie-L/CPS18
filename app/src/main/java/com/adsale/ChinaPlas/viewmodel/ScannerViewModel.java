@@ -16,6 +16,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.utils.AESCrypt;
 import com.adsale.ChinaPlas.utils.AppUtil;
@@ -313,6 +314,8 @@ public class ScannerViewModel implements Camera.PreviewCallback, Camera.AutoFocu
     }
 
     public void destroy() {
+        LogUtil.i("ScanViewModel","destroy()");
+        App.mSP_Config.edit().putBoolean("isCameraClose",true).apply();
         mCameraSetting.closeCamera();
     }
 

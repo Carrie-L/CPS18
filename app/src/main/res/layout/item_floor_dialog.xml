@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <data>
+
+        <variable
+            name="adapter"
+            type="com.adsale.ChinaPlas.ui.view.FloorDialogFragment.FloorDialogAdapter" />
+
+        <variable
+            name="obj"
+            type="com.adsale.ChinaPlas.dao.Exhibitor" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:onClick="@{()->adapter.onItemClick(obj)}"
+        >
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{obj.getCompanyName()}"
+            android:textColor="@color/grey11"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/iv_star"
+            android:layout_width="24dp"
+            android:layout_height="48dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:scaleType="fitCenter"
+            android:onClick="@{()->adapter.onCollect(obj)}"
+            android:src="@{obj.isCollected?@drawable/btn_star: @drawable/btn_unstar}"
+
+            />
+
+        <!--@drawable/btn_star
+        @drawable/btn_unstar
+        -->
+
+        <TextView
+            android:id="@+id/tv_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_name"
+            android:layout_marginTop="12dp"
+            android:layout_toLeftOf="@id/iv_star"
+            android:drawableLeft="@drawable/ic_at"
+            android:drawablePadding="16dp"
+            android:gravity="center_vertical"
+            android:text="@{obj.email}" />
+
+        <TextView
+            android:id="@+id/tv_tel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_email"
+            android:layout_marginTop="8dp"
+            android:layout_toLeftOf="@id/iv_star"
+            android:drawableLeft="@drawable/ic_tel"
+            android:drawablePadding="16dp"
+            android:gravity="center_vertical"
+            android:text="@{obj.tel}" />
+
+
+    </RelativeLayout>
+
+</layout>

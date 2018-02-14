@@ -188,6 +188,12 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
         mDBHelper.db.update("EXHIBITOR", cv, "COMPANY_ID=?", new String[]{companyID});
     }
 
+    public void updateIsFavourite(String companyID, Integer isFavourite) {
+        ContentValues cv = new ContentValues();
+        cv.put("IS_FAVOURITE", isFavourite);
+        mDBHelper.db.update("EXHIBITOR", cv, "COMPANY_ID=?", new String[]{companyID});
+    }
+
     @Override
     public ArrayList<Exhibitor> getData() {
         return null;
@@ -267,13 +273,12 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
                     sql = sql.concat(" and COMPANY_ID IN (%4$s)");
                 }
                 appStr.add(" select COMPANY_ID from APPLICATION_COMPANY where INDUSTRY_ID=" + filter.id);
-            }else if (index == 4) {
+            } else if (index == 4) {
                 if (zoneStr.size() == 0) {
                     sql = sql.concat(" and COMPANY_ID IN (%5$s)");
                 }
-                zoneStr.add(" select CompanyId from EXHIBITOR_ZONE where ThemeZoneCode='" + filter.id+"'");
-            }
-            else if (index == 6) {// new tec
+                zoneStr.add(" select CompanyId from EXHIBITOR_ZONE where ThemeZoneCode='" + filter.id + "'");
+            } else if (index == 6) {// new tec
                 if (newTecStr.size() == 0) {
                     sql = sql.concat(" and COMPANY_ID IN (%6$s)");
                 }
@@ -503,7 +508,7 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
         mExhibitorZoneDao.deleteAll();
     }
 
-    public void clearZone(){
+    public void clearZone() {
         mZoneDao.deleteAll();
     }
 

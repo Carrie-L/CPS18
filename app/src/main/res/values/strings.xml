@@ -448,4 +448,10 @@
     <string name="Share_success">分享成功 </string>
     <string name="Share_failed">分享失敗</string>
     <string name="Share_cancel">取消分享</string>
+    <string name="title_activity_floor_dtl">FloorDtlActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>

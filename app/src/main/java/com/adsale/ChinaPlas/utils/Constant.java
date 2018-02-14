@@ -142,7 +142,8 @@ public class Constant {
     public static final String BDTJ_NOTIFICATION_CENTER = "NotificationCenter";
     public static final String BDTJ_EVENTS = "CurrentEvents";
     public static final String BDTJ_EVENTS_TXT = "CurrentEventsText";
-    public static final String BDTJ_HALL_MAP_TEXT = "HallMapText";
+//    public static final String BDTJ_HALL_MAP_TEXT = "HallMapText";
+    public static final String BDTJ_HALL_MAP_TEXT = "FloorplanImage";
     public static final String BDTJ_HALL_MAP = "HallMap";
     public static final String BDTJ_INTERESTED_EXHIBITOR = "MyInterestedExhibitor";
     public static final String BDTJ_TRAVEL_INFO = "TravelInfo";
@@ -199,4 +200,23 @@ public class Constant {
     public static final String SHARE_IMAGE_URL = "http://www.chinaplasonline.com/apps/2016/images/icon.png";
 
 
+    /*  ----- 跳转到平面图的字段  ------    */
+    /**
+     * 兴趣产品
+     */
+    public static String InterestedExhibitor = "InterestedExhibitor";
+    /**
+     * 我的参展商
+     */
+    public static String MyExhibitor = "MyExhibitor";
+    /***/
+    public static String MapFloor = "MapFloor";
+    /**
+     * 展馆详情页
+     */
+    public static String ExhibitorDetail = "ExhibitorDetail";
+    /**
+     * 扫描二维码定位
+     */
+    public static String QRCODE_FLOOR = "QrcodeFloorPlan";
 }

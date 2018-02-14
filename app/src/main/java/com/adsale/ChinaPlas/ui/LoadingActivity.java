@@ -90,7 +90,6 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
         int memoryClass = am.getMemoryClass();
         LogUtil.i(TAG, "memoryClass=" + memoryClass);
 
-
         mConfigSP.edit().putBoolean("M1ShowFinish", false).putBoolean("txtDownFinish", false).putBoolean("webServicesDownFinish", false).putString("M1ClickId", "").apply();
         isFirstRunning = AppUtil.isFirstRunning();
         mConfigSP.edit().putBoolean("isFirstGetMaster", isFirstRunning).apply();
@@ -106,7 +105,6 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
         if (isFirstRunning) {
             loadingProgress.setVisibility(View.INVISIBLE);
             setDeviceType();
-            requestPermission();
             getDeviceInfo();
         } else {
             binding.lyLanguage.setVisibility(View.GONE);
@@ -155,6 +153,7 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
         binding.lyLanguage.setVisibility(View.GONE);
         mLoadingModel.showProgressBar.set(true);
         AppUtil.setNotFirstRunning();
+        requestPermission();
         initJpushAlias(language);
         isNetwork();
     }

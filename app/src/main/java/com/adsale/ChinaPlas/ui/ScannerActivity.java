@@ -1,5 +1,7 @@
 package com.adsale.ChinaPlas.ui;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -8,6 +10,7 @@ import android.view.SurfaceHolder;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.databinding.ActivityScannerBinding;
+import com.adsale.ChinaPlas.ui.view.HelpView;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.viewmodel.ScannerViewModel;
 
@@ -23,6 +26,8 @@ public class ScannerActivity extends BaseActivity implements SurfaceHolder.Callb
     protected void initView() {
         setBarTitle(R.string.qrcode_scanner);
         binding = ActivityScannerBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
+        binding.setView(this);
+        binding.executePendingBindings();
     }
 
     @Override
@@ -81,6 +86,18 @@ public class ScannerActivity extends BaseActivity implements SurfaceHolder.Callb
         startActivity(intent);
         overridePendingTransPad();
 //        finish();
+    }
+
+    public void onHelpPage() {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment fragment = getFragmentManager().findFragmentByTag("Dialog");
+        if (fragment != null) {
+            ft.remove(fragment);
+        }
+        ft.addToBackStack(null);
+
+        HelpView helpDialog = HelpView.newInstance(HelpView.HELP_PAGE_SCANNER);
+        helpDialog.show(ft, "Dialog");
     }
 
     @Override

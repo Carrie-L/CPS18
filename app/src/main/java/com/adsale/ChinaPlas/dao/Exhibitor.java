@@ -459,6 +459,7 @@ public class Exhibitor implements Parcelable {
 
     public void setIsFavourite(Integer IsFavourite) {
         this.IsFavourite = IsFavourite;
+        isCollected.set(IsFavourite == 1);
     }
 
     public String getNote() {

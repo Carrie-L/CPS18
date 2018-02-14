@@ -21,14 +21,14 @@ public class NetWorkHelper {
     // Test service
 //    public static final String DOWNLOAD_PATH = "https://eform.adsale.com.hk/AppCPS18Services/";
 //    public static final String WEBSERVICEURL = "https://eform.adsale.com.hk/AppCPS18Services/wsCLE15.asmx";
-
-    // release service
+//
+//     release service
     public static final String DOWNLOAD_PATH = "https://eform.adsale.com.hk/AppCPS2018Services/";
     public static final String WEBSERVICEURL = "https://eform.adsale.com.hk/AppCPS2018Services/wsCLE15.asmx";
 
     /* loading页的下载地址 */
-//    public static final String DOWN_TXT_URL = "https://forms.adsale.com.hk/VirtualDirectory/AppCPS18CMS/AppFiles/{fileName}";  /*  test url */
     public static final String DOWN_TXT_URL = "https://forms.adsale.com.hk/VirtualDirectory/AppCPS2018CMS/AppFiles/{fileName}";
+//    public static final String DOWN_TXT_URL = "https://forms.adsale.com.hk/VirtualDirectory/AppCPS18CMS/AppFiles/{fileName}";  /*  test url */
     public static final String DOWN_WEBCONTENT_URL = "WebContent/{fileName}";
 
     public static final String FULL_WEBSITE="http://www.chinaplasonline.com/CPS18/Home/%s/Information.aspx";
@@ -62,8 +62,7 @@ public class NetWorkHelper {
 
     /*订阅电子快讯*/
     public static final String Subscribe_BASE_URL = "https://eform.adsale.com.hk/FormR/ContactUs/";
-    public static final String Subscribe_LAST_URL = "EnewsSub.aspx?showid=430&device=app&WAct=9105";//&lang={langType}
-
+    public static final String Subscribe_LAST_URL = "EnewsSub.aspx?showid=479&device=app&WAct=9105";//&lang={langType}
 
 
     /*  内容更新中心baseUrl */

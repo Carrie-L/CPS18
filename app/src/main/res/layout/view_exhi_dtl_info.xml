@@ -13,7 +13,7 @@
 
         <variable
             name="view"
-            type="com.adsale.ChinaPlas.ui.view.ExhiDtlInfoView"/>
+            type="com.adsale.ChinaPlas.ui.view.ExhiDtlInfoView" />
 
     </data>
 
@@ -21,8 +21,7 @@
         android:id="@+id/exhi_info_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none"
-        >
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,11 +32,10 @@
             <TextView
                 style="@style/exhi_dtl_text_draw_style"
                 android:drawableLeft="@drawable/ic_booth"
+                android:onClick="@{()->view.onBooth()}"
                 android:text="@{obj.boothNo}"
-                android:textColor="@color/grey21"
-                />
-            <!--android:textColor="@color/link"-->
-            <!--android:onClick="@{()->view.onBooth()}"-->
+                android:textColor="@color/link" />
+
 
             <!-- address -->
             <TextView
@@ -55,8 +53,8 @@
             <TextView
                 style="@style/exhi_dtl_text_draw_style"
                 android:drawableLeft="@drawable/ic_email"
-                android:text="@{obj.email}"
                 android:onClick="@{()->view.onEmail()}"
+                android:text="@{obj.email}"
                 android:textColor="@color/link"
                 android:visibility="@{TextUtils.isEmpty(obj.email)?View.GONE:View.VISIBLE}" />
 
@@ -65,8 +63,8 @@
                 android:id="@+id/tv_tel"
                 style="@style/exhi_dtl_text_draw_style"
                 android:drawableLeft="@drawable/ic_phone"
-                android:text="@{obj.tel}"
                 android:onClick="@{()->view.onTel()}"
+                android:text="@{obj.tel}"
                 android:textColor="@color/link"
                 android:visibility="@{TextUtils.isEmpty(obj.tel)?View.GONE:View.VISIBLE}" />
 
@@ -75,9 +73,9 @@
             <TextView
                 style="@style/exhi_dtl_text_draw_style"
                 android:drawableLeft="@drawable/ic_website"
+                android:onClick="@{()->view.onWebsite()}"
                 android:text="@{obj.website}"
                 android:textColor="@color/link"
-                android:onClick="@{()->view.onWebsite()}"
                 android:visibility="@{TextUtils.isEmpty(obj.website)?View.GONE:View.VISIBLE}" />
 
             <!--<ImageView style="@style/horizontal_line" />-->
@@ -85,29 +83,25 @@
             <!-- description -->
             <RelativeLayout
                 style="@style/exhi_dtl_text_draw_style"
-                android:visibility="@{TextUtils.isEmpty(obj.getDescription())?View.GONE:View.VISIBLE}"
                 android:onClick="@{()->view.onDesc()}"
-                >
+                android:visibility="@{TextUtils.isEmpty(obj.getDescription())?View.GONE:View.VISIBLE}">
 
                 <TextView
                     style="@style/exhi_dtl_text_draw_style"
                     android:drawableLeft="@drawable/ic_description"
                     android:text="@string/description"
-                    android:textColor="@color/grey11"
-                   />
+                    android:textColor="@color/grey11" />
 
                 <ImageView
                     android:id="@+id/iv_arrow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_right_arrow"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:textColor="@color/grey11"
-                    />
+                    android:src="@drawable/ic_right_arrow"
+                    android:textColor="@color/grey11" />
 
             </RelativeLayout>
-
 
 
             <!--<ImageView style="@style/horizontal_line" />-->
@@ -118,13 +112,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginStart="16dp"
-                android:textColor="@color/grey11"
                 android:background="@color/gray_white"
                 android:lineSpacingExtra="5dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:paddingTop="3dp"
                 android:text="@{obj.getDescription()}"
+                android:textColor="@color/grey11"
                 android:visibility="@{TextUtils.isEmpty(obj.getDescription())||!view.arrowDown?View.GONE:View.VISIBLE}" />
 
 
