@@ -66,7 +66,7 @@ public class ExhibitorListAdapter extends CpsBaseAdapter<Exhibitor> {
         exhibitor.setIsFavourite(exhibitor.getIsFavourite() == 0 ? 1 : 0);
         exhibitor.isCollected.set(exhibitor.getIsFavourite() == 1);
         exhibitors.set(pos, exhibitor);
-        mRepository.updateItemData(exhibitor.getCompanyID(), exhibitor.getIsFavourite());
+        mRepository.updateIsFavourite(mContext,exhibitor.getCompanyID(), exhibitor.getIsFavourite());
         LogUtil.i(TAG, "pos=" + pos + "//isCollected=" + exhibitor.isCollected.get() + "//IsFavourite=" + exhibitor.getIsFavourite()
                 + "//IsFavourite2=" + exhibitors.get(pos).getIsFavourite() + ",logo=" + exhibitor.getPhotoFileName());
     }

@@ -22,5 +22,6 @@
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">176dp</dimen>  <!--4:3-->
 
+    <dimen name="floor_left_width">250dp</dimen>
 
 </resources>

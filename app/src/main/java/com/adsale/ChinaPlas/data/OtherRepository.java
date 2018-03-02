@@ -42,8 +42,6 @@ public class OtherRepository {
     }
 
 
-
-
     /* [News] */
 
     /* ```````````````[Technical Seminar]`````````````````````````````` */
@@ -164,9 +162,7 @@ public class OtherRepository {
      * @return ArrayList<SeminarSpeaker> may be null
      */
     public ArrayList<SeminarSpeaker> getSeminarSpeakerItem(String companyID, int langID) {
-        if (mSeminarSpeakerDao == null) {
-            throw new NullPointerException("mSeminarSpeakerDao cannot be null, please #initSeminarSpeakDao() first.");
-        }
+        checkSeminarSpeakerDao();
         return (ArrayList<SeminarSpeaker>) mSeminarSpeakerDao.queryBuilder().where(SeminarSpeakerDao.Properties.CompanyID.eq(companyID), SeminarSpeakerDao.Properties.LangID.eq(langID)).list();
     }
 
@@ -186,6 +182,31 @@ public class OtherRepository {
         }
     }
 
+    private void checkSeminarSpeakerDao() {
+        if (mSeminarSpeakerDao == null) {
+            initSeminarSpeakDao();
+        }
+    }
+
+    public void clearSeminarInfo() {
+        checkSeminarInfoDao();
+        mSeminarInfoDao.deleteAll();
+    }
+
+    public void clearSeminarSpeaker() {
+        checkSeminarSpeakerDao();
+        mSeminarSpeakerDao.deleteAll();
+    }
+
+    public void insertSeminarInfoAll(ArrayList<SeminarInfo> list){
+        checkSeminarInfoDao();
+        mSeminarInfoDao.insertInTx(list);
+    }
+
+    public void insertSeminarSpeakerAll(ArrayList<SeminarSpeaker> list){
+        checkSeminarSpeakerDao();
+        mSeminarSpeakerDao.insertInTx(list);
+    }
 
     /* ```````````````[Update Center]`````````````````````````````` */
     public void initUpdateCenterDao() {

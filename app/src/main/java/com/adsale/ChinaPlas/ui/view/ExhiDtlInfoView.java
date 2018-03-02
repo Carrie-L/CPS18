@@ -2,8 +2,10 @@ package com.adsale.ChinaPlas.ui.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.ObservableBoolean;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.RelativeLayout;
 
+import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.databinding.ViewExhiDtlInfoBinding;
@@ -19,7 +22,9 @@ import com.adsale.ChinaPlas.ui.FloorDetailActivity;
 import com.adsale.ChinaPlas.ui.WebViewActivity;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
+import com.adsale.ChinaPlas.utils.LogUtil;
 
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -70,15 +75,42 @@ public class ExhiDtlInfoView extends RelativeLayout {
     }
 
     public void onBooth() {
-        Intent intent = new Intent(mContext, FloorDetailActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra("BOOTH", mExhibitor.getBoothNo());
-        intent.putExtra("HALL", mExhibitor.getHallNo());
-        mContext.startActivity(intent);
-        if (AppUtil.isTablet()) {
-            ((Activity) mContext).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        String content = mExhibitor.getBoothNo();
+        if (content.contains("/")) {// W5K21/E7D05/N5S51
+            final String[] boothNos = content.split("/");
+            LogUtil.i("ExhibitorInfoView", "boothNos=" + Arrays.toString(boothNos));
+            // .Resources$NotFoundException: Resource ID #0x0
+//            AlertDialog.Builder builder = new AlertDialog.Builder(binding.getRoot().getContext());
+//            builder.setItems(boothNos, new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    LogUtil.i("ExhibitorInfoView", "click:" + boothNos[which] + "..getHallNo=" + mExhibitor.getHallNo()+", mExhibitor.getBoothNo()");
+//                    Intent intent = new Intent(mContext, FloorDetailActivity.class);
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    intent.putExtra("BOOTH",  boothNos[which]);
+//                    intent.putExtra("HALL", mExhibitor.getHallNo());
+//                    mContext.startActivity(intent);
+//                    if (AppUtil.isTablet()) {
+//                        ((Activity) mContext).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+//                    }
+//                }
+//            }).show();
+        }else{
+            Intent intent = new Intent(mContext, FloorDetailActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("BOOTH", mExhibitor.getBoothNo());
+            intent.putExtra("HALL", mExhibitor.getHallNo());
+            mContext.startActivity(intent);
+            if (AppUtil.isTablet()) {
+                ((Activity) mContext).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+            }
         }
+
+
+
+
     }
 
     public void onEmail() {

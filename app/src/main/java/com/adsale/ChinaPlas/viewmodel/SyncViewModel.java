@@ -13,6 +13,7 @@ import com.adsale.ChinaPlas.data.ExhibitorRepository;
 import com.adsale.ChinaPlas.data.LoginClient;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
+import com.adsale.ChinaPlas.utils.FileUtil;
 import com.adsale.ChinaPlas.utils.FileUtils;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.NetWorkHelper;
@@ -40,7 +41,7 @@ import okhttp3.ResponseBody;
  */
 public class SyncViewModel {
 
-    private static final String TAG = "SyncHelper";
+    private static final String TAG = "SyncViewModel";
     private Context mContext;
 
     private DBHelper dbHelper;
@@ -105,9 +106,12 @@ public class SyncViewModel {
                 .map(new Function<retrofit2.Response<ResponseBody>, Boolean>() {
                     @Override
                     public Boolean apply(@NonNull retrofit2.Response<ResponseBody> responseBodyResponse) throws Exception {
-                        if (responseBodyResponse.isSuccessful()) {
-                            return processSyncData(responseBodyResponse.body().string());
+                        ResponseBody body = responseBodyResponse.body();
+                        if (body != null) {
+                            LogUtil.i(TAG,"body != null");
+                            return processSyncData(body.string());
                         }
+                        LogUtil.i(TAG,"body == null");
                         return false;
                     }
                 }).subscribeOn(Schedulers.io())
@@ -147,16 +151,18 @@ public class SyncViewModel {
     }
 
     private boolean processSyncData(String data) {
+//        writeDataTo(data);
         /*  获取中间的值 <label id="KVal">   </label>   */
-        Matcher matcher = Pattern.compile("KVal\">(.*?)</label>").matcher(data);
+        Matcher matcher = Pattern.compile("KVal\"(.*?)/label").matcher(data);
         String responseSyncData = "";
         while (matcher.find()) {
-            responseSyncData = matcher.group(1);
+            responseSyncData = matcher.group(1).replaceAll("&gt;","").replace("&lt;","").replace("<","").replace(">","");
             LogUtil.e(TAG, "matcher : " + responseSyncData);
         }
         if (TextUtils.isEmpty(responseSyncData)) {
             return false;
         }
+
         saveDeleteData();
         saveUpdateData(responseSyncData);
         responseSyncData = "|" + responseSyncData;
@@ -166,7 +172,7 @@ public class SyncViewModel {
         ExhibitorRepository repo = ExhibitorRepository.getInstance();
         while (matcher1.find()) {
             LogUtil.i(TAG, "find=" + matcher1.group(1));
-            repo.updateIsFavourite(matcher1.group(1));
+            repo.updateFavourite(matcher1.group(1));
             hasMatcher = true;
         }
         return hasMatcher;

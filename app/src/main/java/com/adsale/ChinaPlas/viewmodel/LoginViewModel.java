@@ -13,6 +13,8 @@ import com.adsale.ChinaPlas.data.LoginClient;
 import com.adsale.ChinaPlas.data.model.EmailVisitorData;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
+import com.adsale.ChinaPlas.utils.FileUtil;
+import com.adsale.ChinaPlas.utils.FileUtils;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.NetWorkHelper;
 import com.adsale.ChinaPlas.utils.ReRxUtils;
@@ -79,7 +81,6 @@ public class LoginViewModel {
     }
 
     private RequestBody getRegRequestBody() {
-//        return new FormBody.Builder().add("showid", "453").add("email", loginName.get()).build();
         return new FormBody.Builder().add("showid", "479").add("email", loginName.get()).build();
     }
 
@@ -204,7 +205,6 @@ public class LoginViewModel {
         if (TextUtils.isEmpty(result)) {
             return null;
         }
-
         int vmidIndex = result.indexOf("vmid=");
         LogUtil.e(TAG, "getVmid::vmidIndex=" + vmidIndex);
         if (vmidIndex == -1) { // cannot find vmid

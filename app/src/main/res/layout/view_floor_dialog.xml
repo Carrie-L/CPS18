@@ -13,7 +13,7 @@
         android:id="@+id/rv_floor_dialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white_smoke"
+        android:background="#FFFAFA"
         />
 
 </layout>

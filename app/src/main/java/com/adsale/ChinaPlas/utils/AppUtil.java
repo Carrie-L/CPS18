@@ -602,7 +602,7 @@ public class AppUtil {
         logJson.TrackingOS = TRACKING_OS;
         logJson.Year = YEAR;
 
-        sendLog(logJson);
+//        sendLog(logJson);
 
     }
 
@@ -652,7 +652,7 @@ public class AppUtil {
         LogUtil.e(TAG, "visitorID=" + visitorID);
         LogUtil.i(TAG, "TrackingName=" + trackingNamePrefix + getLanguageType(curLang) + "_Android");
 
-        sendLog(logJson);
+//        sendLog(logJson);
 
     }
 
@@ -873,6 +873,72 @@ public class AppUtil {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, -1);
         return new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.getTime());
+    }
+
+    /**
+     * 比较两个String类型的日期大小（年月日）
+     *
+     * @param date1
+     * @param date2
+     * @return
+     */
+    public static int compareDate(String date1, String date2) {
+        LogUtil.d(TAG, "date1=" + date1 + ",date2=" + date2);
+        SimpleDateFormat sformat = new SimpleDateFormat("dd/MM/yyyy", Locale.CHINA);
+        try {
+            Date dt1 = sformat.parse(date1);
+            Date dt2 = sformat.parse(date2);
+            LogUtil.d(TAG, "dt1=" + dt1.getTime() + ",dt2=" + dt2.getTime());
+
+            if (dt1.getTime() > dt2.getTime()) {
+                LogUtil.i(TAG, date1 + ">" + date2);
+                return 1;
+            } else if (dt1.getTime() < dt2.getTime()) {
+                LogUtil.i(TAG, date1 + "<" + date2);
+                return -1;
+            } else {
+                LogUtil.i(TAG, "dt1=dt2");
+                return 0;
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return 0;
+    }
+
+    /**
+     * 比较三个date的值  ,是否 date1 < date < date2
+     * ad.txt
+     *
+     * @param date  current date
+     * @param date1 open date
+     * @param date2 close date
+     * @return
+     */
+    public static boolean compareDate(String date, String date1, String date2) {
+        SimpleDateFormat sformat = new SimpleDateFormat("dd/MM/yyyy", Locale.CHINA);
+        try {
+            Date dt = sformat.parse(date);
+            Date dt1 = sformat.parse(date1);
+            Date dt2 = sformat.parse(date2);
+            long l0 = dt.getTime();
+            long l1 = dt1.getTime();
+            long l2 = dt2.getTime();
+
+            long max = l2;
+            long min = l1;
+            if ((l1 > l2)) {
+                max = l1;
+                min = l2;
+            }
+
+            if (l0 > min && l0 < max) {
+                return true;
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return false;
     }
 
     /**
@@ -1202,6 +1268,10 @@ public class AppUtil {
             }
         }
 
+    }
+
+    public static StringBuilder clearSB(StringBuilder sb) {
+        return sb.delete(0, sb.length());
     }
 
 

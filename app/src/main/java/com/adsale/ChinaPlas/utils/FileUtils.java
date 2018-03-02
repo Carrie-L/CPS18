@@ -39,6 +39,8 @@ import android.os.StatFs;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.adsale.ChinaPlas.App;
+
 public class FileUtils {
     public static final String TAG = "FileUtils";
 
@@ -950,11 +952,10 @@ public class FileUtils {
         return size;
     }
 
-    public static void writeFileToRootDir(Context context,String fileName,String str){
+    public static void writeFileToRootDir(String fileName,String str){
         FileWriter writer=null;
         try {
-            File file = new File(FileUtils.getFileRootDir(context)
-                    + "/"+fileName);
+            File file = new File(App.rootDir + "/"+fileName);
             if (file.exists()) {
                 file.delete();
             }

@@ -1,6 +1,8 @@
 package com.adsale.ChinaPlas.data;
 
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 
 import com.adsale.ChinaPlas.App;
@@ -27,11 +29,15 @@ import com.adsale.ChinaPlas.dao.Zone;
 import com.adsale.ChinaPlas.dao.ZoneDao;
 import com.adsale.ChinaPlas.data.model.ExhibitorFilter;
 import com.adsale.ChinaPlas.utils.AppUtil;
+import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
+import com.adsale.ChinaPlas.viewmodel.SyncViewModel;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Locale;
+
+import de.greenrobot.dao.query.QueryBuilder;
 
 import static com.adsale.ChinaPlas.App.mDBHelper;
 import static com.adsale.ChinaPlas.utils.AppUtil.getName;
@@ -182,16 +188,22 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
         return exhibitors;
     }
 
-    public void updateIsFavourite(String companyID) {
+    public void updateFavourite(String companyID) {
         ContentValues cv = new ContentValues();
         cv.put("IS_FAVOURITE", 1);
         mDBHelper.db.update("EXHIBITOR", cv, "COMPANY_ID=?", new String[]{companyID});
     }
 
-    public void updateIsFavourite(String companyID, Integer isFavourite) {
+    public void updateIsFavourite(Context context,String companyID, Integer isFavourite) {
         ContentValues cv = new ContentValues();
         cv.put("IS_FAVOURITE", isFavourite);
         mDBHelper.db.update("EXHIBITOR", cv, "COMPANY_ID=?", new String[]{companyID});
+        SyncViewModel sync=new SyncViewModel(context);
+        if(isFavourite==1){
+            sync.add(companyID);
+        }else{
+            sync.remove(companyID);
+        }
     }
 
     @Override
@@ -207,12 +219,6 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
     @Override
     public void updateItemData(Exhibitor entity) {
         mExhibitorDao.update(entity);
-    }
-
-    public void updateItemData(String companyId, int isFavourite) {
-        ContentValues cv = new ContentValues();
-        cv.put("IS_FAVOURITE", isFavourite);
-        App.mDBHelper.db.update(ExhibitorDao.TABLENAME, cv, "COMPANY_ID=?", new String[]{companyId});
     }
 
     @Override
@@ -637,7 +643,7 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
     }
 
     /**
-     * 設置：重置所有設定 —— 清空我的參展商
+     * 設置：重置所有設定 —— 清空我的參展商（本地）
      */
     public void cancelMyExhibitor() {
         ContentValues contentValues = new ContentValues();

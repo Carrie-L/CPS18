@@ -35,6 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/iv_collect"
             android:text="@{obj.getCompanyName()}"
+            android:textColor="@color/grey11"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textSize="16sp"
 

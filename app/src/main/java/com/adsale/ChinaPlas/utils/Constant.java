@@ -50,6 +50,9 @@ public class Constant {
     public static final int M3_WIDTH = AppUtil.isTablet() ? 1636 : 1920;
     public static final int M3_HEIGHT = AppUtil.isTablet() ? 138 : 346;
 
+    public static final int M4_WIDTH = AppUtil.isTablet() ? 818 : 960;
+    public static final int M4_HEIGHT = AppUtil.isTablet() ? 138 : 346;
+
     public static final int M5_VIDEO_WIDTH = 1072;
     public static final int M5_VIDEO_HEIGHT = 822;
 
@@ -141,7 +144,7 @@ public class Constant {
     public static final String BDTJ_QR_SCANNER = "QRCodeScanner";
     public static final String BDTJ_NOTIFICATION_CENTER = "NotificationCenter";
     public static final String BDTJ_EVENTS = "CurrentEvents";
-    public static final String BDTJ_EVENTS_TXT = "CurrentEventsText";
+    public static final String BDTJ_EVENTS_TXT = "CurrentEventsTxt";
 //    public static final String BDTJ_HALL_MAP_TEXT = "HallMapText";
     public static final String BDTJ_HALL_MAP_TEXT = "FloorplanImage";
     public static final String BDTJ_HALL_MAP = "HallMap";

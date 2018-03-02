@@ -8,6 +8,10 @@ import android.support.annotation.NonNull;
 
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.adapter.EventAdapter;
+import com.adsale.ChinaPlas.dao.DBHelper;
+import com.adsale.ChinaPlas.dao.ExhibitorDao;
+import com.adsale.ChinaPlas.dao.SeminarInfo;
+import com.adsale.ChinaPlas.dao.SeminarInfoDao;
 import com.adsale.ChinaPlas.data.DownloadClient;
 import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.data.model.ConcurrentEvent;
@@ -77,6 +81,12 @@ public class EventModel {
     }
 
     private void addTech() {
+        // 隐藏技术交流会item：如果数据库里没有技术交流会数据
+        boolean isSeminarEmpty = App.mDBHelper.mSeminarInfoDao.loadAll().isEmpty();
+        if (isSeminarEmpty) {
+            return;
+        }
+
         for (int i = 0; i < events.size(); i++) {
             entity = events.get(i);
             if (i != 0 && !entity.date.equals(events.get(i - 1).date)) {
@@ -90,7 +100,7 @@ public class EventModel {
         /* all list; 前面的循环是在（第一个bar除外）每个bar的上方插入[技术交流会],因此只有3个。需要在最后再插入1个28日的。
         *  filter list: 最后一个不一定是最后一天，因此用 events.get(events.size() - 1).date .
         * */
-        if(events.size()==0){
+        if (events.size() == 0) {
             return;
         }
         tech = new ConcurrentEvent.Pages();
@@ -203,11 +213,11 @@ public class EventModel {
 
         for (int i = 0; i < size; i++) {
             appIds = mCacheList.get(i).applications;
-            for(int j=0;j<filterSize;j++){
-                if(!appIds.contains(filters.get(j))){ /* 有1个不满足就break */
+            for (int j = 0; j < filterSize; j++) {
+                if (!appIds.contains(filters.get(j))) { /* 有1个不满足就break */
                     break;
                 }
-                if(j==filterSize-1){ /* 说明 appIds 里包含 filters 里所有id */
+                if (j == filterSize - 1) { /* 说明 appIds 里包含 filters 里所有id */
                     events.add(mCacheList.get(i));
                 }
             }
@@ -278,7 +288,6 @@ public class EventModel {
 
 
     }
-
 
 
 }

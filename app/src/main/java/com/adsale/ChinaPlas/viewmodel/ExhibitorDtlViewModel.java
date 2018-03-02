@@ -227,7 +227,7 @@ public class ExhibitorDtlViewModel {
     public void onCollect() {
         isCollected.set(!isCollected.get());
         exhibitor.setIsFavourite(isCollected.get() ? 1 : 0);
-        mRepository.updateItemData(exhibitor);
+        mRepository.updateIsFavourite(mContext,exhibitor.getCompanyID(), exhibitor.getIsFavourite());
         if (isCollected.get()) { // 只有收藏展商时记录，取消展商不记录
             AppUtil.trackViewLog(414, "BE", "", exhibitor.getCompanyID());
             AppUtil.setStatEvent(mContext, "BookmarkExh", "BE_" + exhibitor.getCompanyID());

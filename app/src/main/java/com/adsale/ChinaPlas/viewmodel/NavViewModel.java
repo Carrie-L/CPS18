@@ -259,17 +259,10 @@ public class NavViewModel implements  OnIntentListener {
                     intent = new Intent(activity, NCardActivity.class);
                 }
                 break;
-            case Constant.BDTJ_HALL_MAP_TEXT:
-            case Constant.BDTJ_HALL_MAP:
+//            case Constant.BDTJ_HALL_MAP_TEXT:
+//            case Constant.BDTJ_HALL_MAP:
 //                intent = new Intent(activity, WebContentActivity.class);
-//                intent.putExtra(WEB_URL, Constant.DIR_WEB_CONTENT.concat(mainIcon.getIconID()));
-
-
-                intent = new Intent(activity, FloorDetailActivity.class);
-//                intent = new Intent(activity, FloorDtlActivity.class);
-
-
-                break;
+//                break;
             case Constant.BDTJ_INTERESTED_EXHIBITOR:
 //                 intent = new Intent(context, FavouriteProductActivity.class);
                 break;
@@ -277,7 +270,7 @@ public class NavViewModel implements  OnIntentListener {
                 intent = new Intent(activity, NewsActivity.class);
                 break;
             case Constant.BDTJ_EVENTS:  // 同期活动
-//            case Constant.BDTJ_EVENTS_TXT:
+            case Constant.BDTJ_EVENTS_TXT:
                 intent = new Intent(activity, ConcurrentEventActivity.class);
                 break;
             case Constant.BDTJ_TRAVEL_INFO:

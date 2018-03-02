@@ -45,5 +45,6 @@
     <color name="drawer_item_bg_color">#EEEEF0</color>
     <color name="drawer_arrow_color">#F04D22</color>
     <color name="filter_color">#E7380D</color>
+    <color name="grey_transparent">#B21C1C1C</color>
 
 </resources>

@@ -18,13 +18,13 @@ import com.adsale.ChinaPlas.utils.LogUtil;
 import java.io.File;
 
 /**
- * must intent data:
+ * must intent data: [Constant.WEB_URL]
  * [Url] : e.g.:【"ConcurrentEvent/001"】,内存中的文件夹名称需与asset目录下的一致，最后不需要[/]
  */
 public class WebContentActivity extends BaseActivity {
 
     private WebView webView;
-    private String webUrl;
+    private String mIntentUrl;
     private Intent mIntent;
     private WebSettings settings;
 
@@ -41,13 +41,13 @@ public class WebContentActivity extends BaseActivity {
     @Override
     protected void initData() {
         final Intent intent = getIntent();
-        webUrl = intent.getStringExtra("Url");
-        LogUtil.i(TAG, "webUrl=" + webUrl);
+        mIntentUrl = intent.getStringExtra("Url");
+        LogUtil.i(TAG, "mIntentUrl=" + mIntentUrl);
 
-        if ((webUrl.toLowerCase().startsWith("http") && !checkImageUrl(webUrl)) || webUrl.toLowerCase().startsWith("web:")) {
+        if ((mIntentUrl.toLowerCase().startsWith("http") && !checkImageUrl(mIntentUrl)) || mIntentUrl.toLowerCase().startsWith("web:")) {
             loadWebUrl();
         } else {
-            loadLocalHtml();
+            loadLocalHtml(getHtmName());
         }
 
         setWebViewClient();
@@ -58,28 +58,26 @@ public class WebContentActivity extends BaseActivity {
         return url.endsWith("jpg") || url.endsWith("png");
     }
 
-    private void loadLocalHtml() {
-        webUrl = webUrl.concat("/").concat(getHtmName());
-        if (new File(App.rootDir.concat(webUrl)).exists()) {
-            loadDataHtml();
+    private void loadLocalHtml(String htmlName) {
+        StringBuilder sb = new StringBuilder();
+        if (new File(App.rootDir.concat(mIntentUrl)).exists()) {
+            sb.append("file://").append(App.rootDir).append(mIntentUrl).append("/").append(htmlName);
         } else {
-            loadAssetHtml();
+            sb.append("file:///android_asset/").append(mIntentUrl).append("/").append(htmlName);
         }
-    }
+        webView.loadUrl(sb.toString());
+        LogUtil.i(TAG, "loadLocalHtml= " + sb.toString());
 
-    private void loadDataHtml() {
-        LogUtil.i(TAG, "loadDataHtml=" + "file://".concat(App.rootDir).concat(webUrl));
-        webView.loadUrl("file://".concat(App.rootDir).concat(webUrl));
-    }
-
-    private void loadAssetHtml() {
-        LogUtil.i(TAG, "loadAssetHtml= " + "/android_asset/".concat(webUrl));
-        webView.loadUrl("file:///android_asset/".concat(webUrl));
+        if(mIntentUrl.contains("FloorPlan")){ //平面总览图可以缩放
+            settings.setSupportZoom(true);
+            settings.setUseWideViewPort(true);
+            settings.setLoadWithOverviewMode(true);
+        }
     }
 
     private void loadWebUrl() {
         LogUtil.i(TAG, "-- loadWebUrl --");
-        webView.loadUrl(webUrl);
+        webView.loadUrl(mIntentUrl);
     }
 
     private String getHtmName() {
@@ -111,6 +109,12 @@ public class WebContentActivity extends BaseActivity {
                 } else if (startsWith("tel:")) {
                     callPhone();
                     return true;
+                } else if (url.startsWith("floor://")) { // 平面图总览 —— 点击楼层，显示相应html
+                    loadLocalHtml(url.replace("floor://", ""));
+                    return true;
+                } else if (url.startsWith("hall://")) {
+                    mIntent = new Intent(getApplicationContext(), FloorDetailActivity.class);
+                    mIntent.putExtra("HALL", url.replace("hall://", ""));
                 }
                 intent();
                 return true;

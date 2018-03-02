@@ -57,7 +57,7 @@ public class CommonListActivity extends BaseActivity {
         mBaiduTJ = gIntent.getStringExtra("baiduTJ");
         mContext = getApplicationContext();
 
-        ActivityCommonListBinding binding = ActivityCommonListBinding.inflate(getLayoutInflater(),mBaseFrameLayout,true);
+        ActivityCommonListBinding binding = ActivityCommonListBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         binding.setView(this);
         binding.executePendingBindings();
         recyclerView = binding.commomRecyclerView;
@@ -127,33 +127,33 @@ public class CommonListActivity extends BaseActivity {
     private void getMessages() {
         messages.clear();
         MessageCenter msgCenter = Parser.parseJsonFilesDirFile(MessageCenter.class, Constant.TXT_NOTIFICATION);
-        ArrayList<MessageCenter.Message> notifications = msgCenter.notifications;
-
-        String currTime = AppUtil.getCurrentTime();
-
-        size = notifications.size();
-        for (int i = 0; i < size; i++) {
-            message = notifications.get(i);
-            LogUtil.i(TAG, "currTime=" + currTime + ",date=" + message.date);
-            if (message.date.compareTo(currTime) <= 0) {
-                messages.add(message);
-            }
-        }
-        LogUtil.i(TAG, "messages before=" + messages.toString());
-
-        Collections.sort(messages, new Comparator<MessageCenter.Message>() {
-            @Override
-            public int compare(MessageCenter.Message lhs, MessageCenter.Message rhs) {
-                if (lhs.date.compareTo(rhs.date) < 0) {
-                    return 1;
+        ArrayList<MessageCenter.Message> notifications = msgCenter.getNotifications();
+        if (notifications != null && notifications.size() > 0) {
+            String currTime = AppUtil.getCurrentTime();
+            size = notifications.size();
+            for (int i = 0; i < size; i++) {
+                message = notifications.get(i);
+                LogUtil.i(TAG, "currTime=" + currTime + ",date=" + message.date);
+                if (message.date.compareTo(currTime) <= 0) {
+                    messages.add(message);
                 }
-                return -1;
             }
-        });
-        LogUtil.i(TAG, "messages after+++ " + messages.size());
+            LogUtil.i(TAG, "messages before=" + messages.toString());
 
-        recyclerView.setCpsAdapter(new MessageCenterAdapter(messages));
-        nodata.set(messages.isEmpty());
+            Collections.sort(messages, new Comparator<MessageCenter.Message>() {
+                @Override
+                public int compare(MessageCenter.Message lhs, MessageCenter.Message rhs) {
+                    if (lhs.date.compareTo(rhs.date) < 0) {
+                        return 1;
+                    }
+                    return -1;
+                }
+            });
+            LogUtil.i(TAG, "messages after+++ " + messages.size());
+
+            recyclerView.setCpsAdapter(new MessageCenterAdapter(messages));
+            nodata.set(messages.isEmpty());
+        }
     }
 
     private void messageCenter(int position) {

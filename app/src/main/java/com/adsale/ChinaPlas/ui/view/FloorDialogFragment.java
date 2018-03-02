@@ -79,7 +79,7 @@ public class FloorDialogFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         /* Make us non-modal, so that others can receive touch events.
-        说人话就是 取消默认的 对话框外部区域点击取消，而是换成响应事件，不能理解则注释下面两端代码运行看效果。 */
+        说人话就是 取消默认的 对话框外部区域点击取消对话框事件，而是换成响应事件，不能理解则注释下面两端代码运行看效果。 */
         getDialog().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL, WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
         // ...but notify us that it happened.
         getDialog().getWindow().setFlags(WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH, WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH);
@@ -99,30 +99,18 @@ public class FloorDialogFragment extends DialogFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (AppUtil.isTablet()) {
-            setPadWindow();
-        } else {
-            setPhoneWindow();
-        }
+        setWindow();
         initData();
-    }
-
-    private void setPadWindow() {
-        window = getDialog().getWindow();
-        WindowManager.LayoutParams wl = window.getAttributes();
-        wl.width = AppUtil.getScreenWidth();
-        wl.gravity = Gravity.BOTTOM;
-        window.setAttributes(wl);
     }
 
     /**
      * 关键是要设置style,继承 android:style/Theme.Dialog ，否则不会生效。
      * {@link #onCreate(Bundle)}
      */
-    private void setPhoneWindow() {
+    private void setWindow() {
         window = getDialog().getWindow();
         WindowManager.LayoutParams wl = window.getAttributes();
-        wl.width = WindowManager.LayoutParams.MATCH_PARENT;
+        wl.width = AppUtil.getScreenWidth(); //WindowManager.LayoutParams.MATCH_PARENT
         wl.height = WindowManager.LayoutParams.WRAP_CONTENT;
         wl.gravity = Gravity.BOTTOM;
         window.setAttributes(wl);
@@ -163,7 +151,7 @@ public class FloorDialogFragment extends DialogFragment {
         public void onCollect(Exhibitor exhibitor) {
             exhibitor.setIsFavourite(exhibitor.getIsFavourite() == 1 ? 0 : 1);
             ExhibitorRepository repository = ExhibitorRepository.getInstance();
-            repository.updateIsFavourite(exhibitor.getCompanyID(), exhibitor.getIsFavourite());
+            repository.updateIsFavourite(mContext,exhibitor.getCompanyID(), exhibitor.getIsFavourite());
         }
 
         @Override

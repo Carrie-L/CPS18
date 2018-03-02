@@ -1,5 +1,6 @@
 package com.adsale.ChinaPlas.ui;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -56,6 +57,10 @@ public class FloorDistributeActivity extends BaseActivity implements OnIntentLis
 
     @Override
     public <T> void onIntent(T entity, Class toCls) {
-
+        InterestedExhibitor ie = (InterestedExhibitor) entity;
+        Intent intent = new Intent(this,toCls);
+        intent.putExtra("HALL",ie.floorID);
+        startActivity(intent);
+        overridePendingTransPad();
     }
 }

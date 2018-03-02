@@ -20,10 +20,13 @@ import com.adsale.ChinaPlas.dao.NewProductInfo;
 import com.adsale.ChinaPlas.dao.NewProductsAndApplication;
 import com.adsale.ChinaPlas.dao.ProductApplication;
 import com.adsale.ChinaPlas.dao.ProductImage;
+import com.adsale.ChinaPlas.dao.SeminarInfo;
+import com.adsale.ChinaPlas.dao.SeminarSpeaker;
 import com.adsale.ChinaPlas.dao.Zone;
 import com.adsale.ChinaPlas.data.ExhibitorRepository;
 import com.adsale.ChinaPlas.data.FloorRepository;
 import com.adsale.ChinaPlas.data.NewTecRepository;
+import com.adsale.ChinaPlas.data.OtherRepository;
 import com.adsale.ChinaPlas.data.model.AgentInfo;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.CSVReader;
@@ -698,84 +701,91 @@ public class CSVHelper {
     }
 
     //
-//    // ==========================Technical Seminar===================================
-//    public  void readSeminarInfoCSV() {
-//        long startTime = System.currentTimeMillis();
-//        ArrayList<SeminarInfo> entities = new ArrayList<>();
-//        SeminarInfo entity = null;
-//        CSVReader reader;
-//        DBHelper dbHelper = App.dbHelper;
-//        InputStream is = AppUtil.getInputStream("TechnicalSeminar/SeminarInfo.csv");
-//        if (is != null) {
-//            dbHelper.deleteSeminarInfoAll();
-//            try {
-//                reader = new CSVReader(new InputStreamReader(is, "UTF8"));
-//                String[] line = reader.readNext();
-//                if (line != null) {
-//                    while ((line = reader.readNext()) != null) {
-//                        entity = new SeminarInfo();
-//                        entity.parser(line);
-//                        dbHelper.insertSeminarInfo(entity);
-//                    }
-//                }
-//            } catch (UnsupportedEncodingException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            } finally {
-//                try {
-//                    if (is != null) {
-//                        is.close();
-//                    }
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//            LogUtil.i(TAG, "SD卡：readSeminarInfoCSV所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
-//
-//            long startTime2 = System.currentTimeMillis();
-//            LogUtil.i(TAG, "存儲readSeminarInfoCSV所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
-//        }
-//    }
-//
-//    public  void readSeminarSpeakCSV() {
-//        long startTime = System.currentTimeMillis();
-//        ArrayList<SeminarSpeaker> entities = new ArrayList<>();
-//        SeminarSpeaker entity = null;
-//        CSVReader reader;
-//        DBHelper dbHelper = App.dbHelper;
-//        InputStream is = AppUtil.getInputStream("TechnicalSeminar/SeminarSpeaker.csv");
-//        if (is != null) {
-//            dbHelper.deleteSeminarSpeakerAll();
-//            try {
-//                reader = new CSVReader(new InputStreamReader(is, "UTF8"));
-//                String[] line = reader.readNext();
-//                if (line != null) {
-//                    while ((line = reader.readNext()) != null) {
-//                        entity = new SeminarSpeaker();
-//                        entity.parser(line);
-//                        dbHelper.insertSeminarSpeak(entity);
-//                    }
-//                }
-//            } catch (UnsupportedEncodingException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            } finally {
-//                try {
-//                    if (is != null) {
-//                        is.close();
-//                    }
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//            LogUtil.i(TAG, "SD卡：readSeminarSpeakCSV所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
-//            long startTime2 = System.currentTimeMillis();
-//            LogUtil.i(TAG, "存儲readSeminarSpeakCSV所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
-//        }
-//    }
-//
+    /* ==========================Technical Seminar=================================== */
+    public void readSeminarCSV() {
+        readSeminarInfoCSV(AppUtil.getInputStream("TechnicalSeminar/SeminarInfo.csv"));
+        readSeminarSpeakerCSV(AppUtil.getInputStream("TechnicalSeminar/SeminarSpeaker.csv"));
+    }
+
+    /**
+     * @param is SeminarInfo.csv
+     */
+    private void readSeminarInfoCSV(InputStream is) {
+        long startTime = System.currentTimeMillis();
+        ArrayList<SeminarInfo> entities = new ArrayList<>();
+        SeminarInfo entity;
+        CSVReader reader;
+        if (is != null) {
+            try {
+                reader = new CSVReader(new InputStreamReader(is, "UTF8"));
+                String[] line = reader.readNext();
+                if (line != null) {
+                    while ((line = reader.readNext()) != null) {
+                        entity = new SeminarInfo();
+                        entity.parser(line);
+                        entities.add(entity);
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            LogUtil.i(TAG, "SD卡：read SeminarInfo.csv 所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
+
+            long startTime2 = System.currentTimeMillis();
+            OtherRepository repository = OtherRepository.getInstance();
+            repository.clearSeminarInfo();
+            repository.insertSeminarInfoAll(entities);
+            LogUtil.i(TAG, "存儲 SeminarInfo.csv 所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
+        }
+    }
+
+    /**
+     * @param is SeminarSpeaker.csv
+     */
+    private void readSeminarSpeakerCSV(InputStream is) {
+        long startTime = System.currentTimeMillis();
+        ArrayList<SeminarSpeaker> entities = new ArrayList<>();
+        SeminarSpeaker entity;
+        CSVReader reader;
+        if (is != null) {
+            try {
+                reader = new CSVReader(new InputStreamReader(is, "UTF8"));
+                String[] line = reader.readNext();
+                if (line != null) {
+                    while ((line = reader.readNext()) != null) {
+                        entity = new SeminarSpeaker();
+                        entity.parser(line);
+                        entities.add(entity);
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            LogUtil.i(TAG, "SD卡：read SeminarSpeaker.csv 所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
+
+            long startTime2 = System.currentTimeMillis();
+            OtherRepository repository = OtherRepository.getInstance();
+            repository.clearSeminarSpeaker();
+            repository.insertSeminarSpeakerAll(entities);
+            LogUtil.i(TAG, "存儲 SeminarSpeaker.csv 所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
+        }
+    }
+
+
+
+    //
 //    public  void readBussinessMappingCSV(DBHelper InputStream is) {
 //        long startTime = System.currentTimeMillis();
 //        ArrayList<BussinessMapping> entities = new ArrayList<>();

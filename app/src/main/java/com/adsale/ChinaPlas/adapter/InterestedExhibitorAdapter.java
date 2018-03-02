@@ -6,6 +6,7 @@ import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.CpsBaseAdapter;
 import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.data.model.InterestedExhibitor;
+import com.adsale.ChinaPlas.ui.FloorDetailActivity;
 import com.android.databinding.library.baseAdapters.BR;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class InterestedExhibitorAdapter extends CpsBaseAdapter<InterestedExhibit
     }
 
     public void onItemClick(InterestedExhibitor entity){
-//        mListener.onIntent(entity,);
+        mListener.onIntent(entity, FloorDetailActivity.class);
     }
 
     @Override

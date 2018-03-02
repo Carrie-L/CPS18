@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.adsale.ChinaPlas.R;
-import com.github.chrisbanes.photoview.PhotoView;
 
 /**
  * Created by Carrie on 2018/2/6.

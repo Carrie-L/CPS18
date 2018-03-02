@@ -108,21 +108,24 @@ public class UpdateCenterViewModel {
         statusAll.set(updateCount > 0 && updateCount <= 5);
 
         // --- just for test
-        int index = 0; // [0,4]
-        entity = list.get(index);
-        entity.setStatus(0);
-        list.set(index,entity);
+//        testDownItem(2);
         //---test end
     }
 
     /**
      * just for test
+     *
+     * @param index [0,4]
+     *              0: 展商资料库
+     *              1：平面图
+     *              2：技术交流会
+     *              3：同期活动
+     *              4：酒店资料
      */
-    private void testDownItem() {
-        int index = 0; // [0,4]
-//        entity = list.get(index);
-//        entity.setStatus(0);
-//        list.set(index,entity);
+    private void testDownItem(int index) {
+        UpdateCenter entity = list.get(index);
+        entity.setStatus(0);
+        list.set(index, entity);
     }
 
     public void onUpdate(int index) {
@@ -290,7 +293,7 @@ public class UpdateCenterViewModel {
                                         csvHelper.processExhibitorCsv();
                                     } else if (mDir.toLowerCase().contains("seminar")) {
                                         CSVHelper csvHelper = new CSVHelper();
-
+                                        csvHelper.readSeminarCSV();
                                     }
                                 }
                             } else {

@@ -53,7 +53,7 @@ public class FloorNavAdapter extends CpsBaseAdapter<Exhibitor> {
     public void onCollect(Exhibitor exhibitor) {
         exhibitor.setIsFavourite(exhibitor.getIsFavourite() == 1 ? 0 : 1);
         ExhibitorRepository repository = ExhibitorRepository.getInstance();
-        repository.updateIsFavourite(exhibitor.getCompanyID(), exhibitor.getIsFavourite());
+        repository.updateIsFavourite(mContext,exhibitor.getCompanyID(), exhibitor.getIsFavourite());
     }
 
     public void onItemClick(String booth){

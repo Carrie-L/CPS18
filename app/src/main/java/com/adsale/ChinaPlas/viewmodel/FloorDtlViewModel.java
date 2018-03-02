@@ -6,31 +6,43 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.database.Cursor;
 import android.databinding.ObservableBoolean;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.support.design.widget.NavigationView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.adsale.ChinaPlas.App;
+import com.adsale.ChinaPlas.PhotoView.OnPhotoTapListener;
+import com.adsale.ChinaPlas.PhotoView.PhotoView;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.dao.FloorPlanCoordinate;
+import com.adsale.ChinaPlas.data.ExhibitorRepository;
 import com.adsale.ChinaPlas.data.FloorRepository;
 import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.ui.view.FloorDialogFragment;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.DisplayUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
-import com.github.chrisbanes.photoview.OnPhotoTapListener;
-import com.github.chrisbanes.photoview.PhotoView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+
+import static com.adsale.ChinaPlas.ui.FloorDetailActivity.BASE_SCALE;
 
 
 /**
@@ -74,7 +86,6 @@ public class FloorDtlViewModel implements FloorDialogFragment.OnDialogCancelList
     private ArrayList<Exhibitor> exhibitors;
     private PhotoView pvMap;
     private Canvas canvas;
-    private Bitmap blueBitmap;
     private Bitmap bitmap;
     private Bitmap bitmap1;
 
@@ -86,6 +97,23 @@ public class FloorDtlViewModel implements FloorDialogFragment.OnDialogCancelList
     public final ObservableBoolean isNavOpened = new ObservableBoolean(false);
     private String mHall;
     private int navWidth;
+    private Bitmap blueBitmap; // 普通 flag
+    private Bitmap adBitmap; // 广告 flag
+    private Bitmap favoBitmap; // 我的参展商 flag
+    private int adFlagX;
+    private int adFlagY;
+    /* 该展馆内是否有M4广告，有则显示ad flag，无则不显示 */
+    private boolean hasM4 = false;
+    private Bitmap newBitmap;
+    private RectF rectF;
+    /* item booth coordinate, values from table FLOOR_PLAN_COORDINATE  */
+    private int x1;
+    private int x2;
+    private int y1;
+    private int y2;
+    private int screenHeight;
+    private int flagX;
+    private int flagY;
 
 
     public FloorDtlViewModel(Context mContext, FloorRepository repository, FragmentManager fm, OnIntentListener listener, PhotoView pv, String hall) {
@@ -105,6 +133,7 @@ public class FloorDtlViewModel implements FloorDialogFragment.OnDialogCancelList
         bmWidth = bitmap.getWidth();
         bmHeight = bitmap.getHeight();
         screenWidth = AppUtil.getScreenWidth();
+        screenHeight = AppUtil.getScreenHeight();
         bmRatio = (float) bmWidth / (float) screenWidth;
         displayHeight = bmHeight / bmRatio;
         displayWidth = screenWidth;
@@ -117,6 +146,14 @@ public class FloorDtlViewModel implements FloorDialogFragment.OnDialogCancelList
 
         /* 修改图片，在原图上添加flag。 1.先创建一个原图大小的bitmap1 2.将原图绘制到新的bitmap1上 3.以副本形式修改图片 */
         bitmap1 = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_4444);
+        canvas = new Canvas(bitmap1);
+        canvas.drawBitmap(bitmap, 0, 0, null);
+
+        drawFavoFlagsOnMap();
+
+
+        newBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_4444);
+
 
         pvMap.setOnPhotoTapListener(new OnPhotoTapListener() {
 
@@ -137,6 +174,27 @@ public class FloorDtlViewModel implements FloorDialogFragment.OnDialogCancelList
                 onMapClick(Math.abs(x), Math.abs(y));
             }
         });
+
+    }
+
+    public void showBitmap() {
+        pvMap.setImageBitmap(bitmap1);
+        canvas.save();
+
+        //py
+        int scale = (int) pvMap.getScale();
+        if (hasM4) {
+            float dx = (Math.abs(left) * scale + screenWidth / 2) - flagX * scale;
+            float dy = (Math.abs(top) * scale + screenHeight / 2) - flagY * scale;
+            LogUtil.i(TAG, "left=" + left + ",top=" + top);
+            LogUtil.i(TAG, "dx=" + dx + ",dy=" + dy);
+            LogUtil.i(TAG, "scale=" + scale);
+
+//            Matrix matrix = pvMap.getImageMatrix();
+//            pvMap.getSuppMatrix(matrix);
+//            matrix.postTranslate(dx, dy);
+            pvMap.onDrag(dx, dy);
+        }
 
     }
 
@@ -221,94 +279,81 @@ public class FloorDtlViewModel implements FloorDialogFragment.OnDialogCancelList
         for (int i = 0; i < size; i++) {
             mFloorCoor = mFloorCoors.get(i);
 
-
-//            LogUtil.i(TAG,  x + "," + y + ")");
-//            LogUtil.i(TAG, "X1= " + mFloorCoor.getX1() + ",X2=" + mFloorCoor.getX2());
-//            LogUtil.i(TAG, "Y1= " + mFloorCoor.getY1() + ",Y2=" + mFloorCoor.getY2() + ",sharp=" + mFloorCoor.getSharp());
-
             if (mapX > mFloorCoor.getX1() && mapX < mFloorCoor.getX2()
                     && mapY > mFloorCoor.getY1() && mapY < mFloorCoor.getY2()) {
-
-                int x1 = mFloorCoor.getX1();
-                int x2 = mFloorCoor.getX2();
-                int y1 = mFloorCoor.getY1();
-                int y2 = mFloorCoor.getY2();
-
-                if (mFloorCoor.getSharp().equals("rect")) {
+                x1 = mFloorCoor.getX1();
+                x2 = mFloorCoor.getX2();
+                y1 = mFloorCoor.getY1();
+                y2 = mFloorCoor.getY2();
 
                      /*  显示flag */
+                // 为了让flag只显示一个
+                Canvas canvas = new Canvas(newBitmap);
+                canvas.drawBitmap(bitmap1, 0, 0, null);
 
-                    // 为了让flag只显示一个
-                    canvas = new Canvas(bitmap1);
-                    canvas.drawBitmap(bitmap, 0, 0, null);
+                if (blueBitmap == null) {
+                    blueBitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.flag_blue).copy(Bitmap.Config.ARGB_4444, true);
+                }
+                int flagWidth = blueBitmap.getWidth();
+                int flagHeight = blueBitmap.getHeight();
+                int centerX = (x2 - x1) / 2 + x1;
+                int centerY = (y2 - y1) / 2 + y1;
+                LogUtil.i(TAG, "centerX,centerY=" + centerX + "," + centerY);
 
-                    if (blueBitmap == null) {
-                        blueBitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.flag_blue).copy(Bitmap.Config.ARGB_4444, true);
-                    }
-                    int flagWidth = blueBitmap.getWidth();
-                    int flagHeight = blueBitmap.getHeight();
+                // 蓝色标记
+                int blueX = centerX - (flagWidth / 2);// 中心点坐标减去图片宽度的一半，得到marginLeftWidth
+                int blueY = centerY - flagHeight + 3; // 中心点坐标减去图片的高度，得到marginTopHeight
+                LogUtil.i(TAG, "blueX,blueY=" + blueX + "," + blueY);
+                canvas.drawBitmap(blueBitmap, blueX, blueY, null);
+                rectF = new RectF((float) blueX, (float) blueY, (float) (blueX + flagWidth), (float) (blueY + flagHeight));
+                canvas.saveLayer((float) blueX, (float) blueY, (float) (blueX + flagWidth), (float) (blueY + flagHeight), new Paint(), 0);
 
-//                    int centerX = (mFloorCoor.getX1() + (mFloorCoor.getX2() - mFloorCoor.getX1()) / 2) * (bmWidth < 2000 ? 1 : 2);// 中心点x
-//                    int centerY = (mFloorCoor.getY1() + (mFloorCoor.getY2() - mFloorCoor.getY1()) / 2) * (bmWidth < 2000 ? 1 : 2);// 中心点y
-
-                    int centerX = (x2 - x1) / 2 + x1;
-                    int centerY = (y2 - y1) / 2 + y1;
-                    LogUtil.i(TAG, "centerX,centerY=" + centerX + "," + centerY);
-
-                    // 蓝色标记
-                    int blueX = centerX - (flagWidth / 2);// 中心点坐标减去图片宽度的一半，得到marginLeftWidth
-                    int blueY = centerY - (flagHeight * 2 / 3); // 中心点坐标减去图片的高度，得到marginTopHeight
-                    LogUtil.i(TAG, "blueX,blueY=" + blueX + "," + blueY);
-                    canvas.drawBitmap(blueBitmap, blueX, blueY, null);
-
-
-                    // 没有这句flag就显示不出来
-                    pvMap.setImageBitmap(bitmap1);
+                // 没有这句flag就显示不出来
+                pvMap.setImageBitmap(newBitmap);
+                if (scale <= pvMap.getMinimumScale()) {
+                    LogUtil.i(TAG, "》》》放大到" + pvMap.getMediumScale());
+                    scale = pvMap.getMediumScale();
+                }
 //                    pvMap.setZoomable(true);
 
-                    float blueX1 = blueX / bmRatio;
-                    float blueY1 = blueY / bmRatio;
-                    LogUtil.i(TAG, "blueX,blueY转化为屏幕坐标点：blueX1=" + blueX1 + ",blueY1=" + blueY1);
+                float blueX1 = blueX / bmRatio;
+                float blueY1 = blueY / bmRatio;
+                LogUtil.i(TAG, "blueX,blueY转化为屏幕坐标点：blueX1=" + blueX1 + ",blueY1=" + blueY1);
 
-                    float swCenterX = displayWidth / 2;
-                    float swCenterY = displayHeight / 2;
-                    LogUtil.i(TAG, "swCenterX=" + swCenterX + ",swCenterY=" + swCenterY);
+                float swCenterX = displayWidth / 2;
+                float swCenterY = displayHeight / 2;
+                LogUtil.i(TAG, "swCenterX=" + swCenterX + ",swCenterY=" + swCenterY);
 
-                    float mcx = Math.abs(left / scale) + swCenterX / scale;
-                    float mcy = Math.abs(top / scale) + swCenterY / scale;
-                    LogUtil.i(TAG, ">findin: rectf.top=" + top + ",left=" + left);
-                    LogUtil.i(TAG, "要移到的点坐标C': mcx=" + mcx + ",mcy=" + mcy);
+                float mcx = Math.abs(left / scale) + swCenterX / scale;
+                float mcy = Math.abs(top / scale) + swCenterY / scale;
+                LogUtil.i(TAG, ">findin: rectf.top=" + top + ",left=" + left);
+                LogUtil.i(TAG, "要移到的点坐标C': mcx=" + mcx + ",mcy=" + mcy);
 
-                    float dx = mcx - blueX1;
-                    float dy = mcy - blueY1;
-                    LogUtil.i(TAG, "dx=" + dx + ",dy=" + dy);
+                float dx = bmWidth / 2 - blueX1;
+                float dy = bmHeight / 2 - blueY1;
+                LogUtil.i(TAG, "dx=" + dx + ",dy=" + dy);
 
-                    pvMap.setScale(scale, blueX1, blueY1, false);
+                pvMap.setScale(scale, touchX, touchY, false);
 //                    pvMap.setScale(scale);
 
-                    Matrix matrix = pvMap.getImageMatrix();
-                    matrix.postTranslate(dx * scale, dy * scale);
-
-
-//                    pvMap.setImageDrawable(new BitmapDrawable(mContext.getResources(), bitmap1));
-
+//                    Matrix matrix = pvMap.getImageMatrix();
+//                    matrix.postTranslate(dx * scale, dy * scale);
 
                     /*  弹出对话框  */
-                    LogUtil.i(TAG, "找到啦：booth=" + mFloorCoor.getBoothNum());
-                    exhibitors = mRepository.getBoothExhibitors(mFloorCoor.getBoothNum());
-                    if (exhibitors.isEmpty()) {
-                        break;
-                    }
-                    if (mFragment == null || isDialogCanceled) {
-                        initFloorDialogFragment();
-                    } else {
-//                        LogUtil.i(TAG, "mFragment setData");
-                        mFragment.setData(exhibitors);
-                    }
-                    isFind = true;
-
+                LogUtil.i(TAG, "找到啦：booth=" + mFloorCoor.getBoothNum());
+                exhibitors = mRepository.getBoothExhibitors(mFloorCoor.getBoothNum());
+                if (exhibitors.isEmpty()) {
                     break;
                 }
+                if (mFragment == null || isDialogCanceled) {
+                    initFloorDialogFragment();
+                } else {
+//                        LogUtil.i(TAG, "mFragment setData");
+                    mFragment.setData(exhibitors);
+                }
+                isFind = true;
+
+                break;
             }
         }
 
@@ -319,28 +364,6 @@ public class FloorDtlViewModel implements FloorDialogFragment.OnDialogCancelList
 
 
     }
-
-
-//    private void initMeshPostprocessor() {
-//        meshPostprocessor = new MeshPostprocessor(mContext, eachHallFloorData, resultList, points, clsType);
-//        ImageRequest imageRequest = ImageRequestBuilder.newBuilderWithSource(getImgUri()).setPostprocessor(meshPostprocessor)
-//                .build();
-//        PipelineDraweeControllerBuilder controller = Fresco.newDraweeControllerBuilder();
-//        controller.setImageRequest(imageRequest);
-//        controller.setOldController(pvMap.getController());
-//        // You need setControllerListener
-//        controller.setControllerListener(new BaseControllerListener<ImageInfo>() {
-//            @Override
-//            public void onFinalImageSet(String id, ImageInfo imageInfo, Animatable animatable) {
-//                super.onFinalImageSet(id, imageInfo, animatable);
-//                if (imageInfo == null || pvMap == null) {
-//                    return;
-//                }
-//                pvMap.update(imageInfo.getWidth(), imageInfo.getHeight());
-//            }
-//        });
-//        pvMap.setController(controller.build());
-//    }
 
     public void dismissDialogFragment() {
         if (!isDialogCanceled && mFragment != null) {
@@ -374,95 +397,227 @@ public class FloorDtlViewModel implements FloorDialogFragment.OnDialogCancelList
             return;
         }
         LogUtil.i(TAG, "booth=" + booth + "，mFloorCoor=" + mFloorCoor.getBoothNum());
-        int x1 = mFloorCoor.getX1();
-        int x2 = mFloorCoor.getX2();
-        int y1 = mFloorCoor.getY1();
-        int y2 = mFloorCoor.getY2();
+        x1 = mFloorCoor.getX1();
+        x2 = mFloorCoor.getX2();
+        y1 = mFloorCoor.getY1();
+        y2 = mFloorCoor.getY2();
 
-        if (mFloorCoor.getSharp().equals("rect")) {
                      /*  显示flag */
-            // 为了让flag只显示一个
-            canvas = new Canvas(bitmap1);
-            canvas.drawBitmap(bitmap, 0, 0, null);
+        // 为了让blue flag只显示一个
+        Canvas canvas = new Canvas(newBitmap);
+        canvas.drawBitmap(bitmap1, 0, 0, null);
 
-            if (blueBitmap == null) {
-                blueBitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.flag_blue).copy(Bitmap.Config.ARGB_4444, true);
-            }
-            int flagWidth = blueBitmap.getWidth();
-            int flagHeight = blueBitmap.getHeight();
+        if (blueBitmap == null) {
+            blueBitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.flag_blue).copy(Bitmap.Config.ARGB_4444, true);
+        }
 
-            int centerX = (x2 - x1) / 2 + x1;
-            int centerY = (y2 - y1) / 2 + y1;
-            LogUtil.i(TAG, "centerX,centerY=" + centerX + "," + centerY);
+        int flagWidth = blueBitmap.getWidth();
+        int flagHeight = blueBitmap.getHeight();
 
-            // 蓝色标记
-            int blueX = centerX - (flagWidth / 2);// 中心点坐标减去图片宽度的一半，得到marginLeftWidth
-            int blueY = centerY - (flagHeight * 2 / 3); // 中心点坐标减去图片的高度，得到marginTopHeight
-            LogUtil.i(TAG, "blueX,blueY=" + blueX + "," + blueY);
-            canvas.drawBitmap(blueBitmap, blueX, blueY, null);
+        int centerX = (x2 - x1) / 2 + x1;
+        int centerY = (y2 - y1) / 2 + y1;
+        LogUtil.i(TAG, "centerX,centerY=" + centerX + "," + centerY);
 
-            // 全部换算成在地图上的坐标位置
-            float blueX1 = blueX / bmRatio;
-            float blueY1 = blueY / bmRatio;
-            LogUtil.i(TAG, "blueX,blueY转化为屏幕坐标点：blueX1=" + blueX1 + ",blueY1=" + blueY1);
+        // 蓝色标记
+        int blueX = centerX - (flagWidth / 2);// 中心点坐标减去图片宽度的一半，得到marginLeftWidth
+        int blueY = centerY - flagHeight + 3; // 中心点坐标减去图片的高度，得到marginTopHeight
+        LogUtil.i(TAG, "blueX,blueY=" + blueX + "," + blueY);
+        canvas.drawBitmap(blueBitmap, blueX, blueY, null);
 
-            // 没有这句flag就显示不出来
-            pvMap.setImageBitmap(bitmap1);
-            pvMap.setScale(6, blueX1, blueY1, false);
-
-                    /*  弹出对话框  */
-            LogUtil.i(TAG, "找到啦：booth=" + mFloorCoor.getBoothNum());
-            exhibitors = mRepository.getBoothExhibitors(mFloorCoor.getBoothNum());
-            if (mFragment == null || isDialogCanceled) {
-                initFloorDialogFragment();
-            } else {
-                mFragment.setData(exhibitors);
-            }
-            isFind = true;
+        // 全部换算成在地图上的坐标位置
+        float blueX1 = blueX / bmRatio;
+        float blueY1 = blueY / bmRatio;
+        LogUtil.i(TAG, "blueX,blueY转化为屏幕坐标点：blueX1=" + blueX1 + ",blueY1=" + blueY1);
 
 
-            // 平移
-            RectF rectf = pvMap.getDisplayRect();
-            top = rectf.top;
-            left = rectf.left;
-            LogUtil.i(TAG, "drawSingleFlagOnMap.top=" + rectf.top + ",left=" + rectf.left);
-            LogUtil.i(TAG, "drawSingleFlagOnMap.width=" + rectf.width() + ",height=" + rectf.height());
+        // 没有这句flag就显示不出来
+        pvMap.setImageBitmap(newBitmap);
 
-            float swCenterX = displayWidth / 2;
-            float swCenterY = displayHeight / 2;
-            float scale = pvMap.getScale();
-            LogUtil.i(TAG, "swCenterX=" + swCenterX + ",swCenterY=" + swCenterY + ",scale=" + scale);
 
-            float mcx = Math.abs(left) + swCenterX / scale;
-            float mcy = Math.abs(top) + swCenterY / scale;
-            LogUtil.i(TAG, ">findin: rectf.top=" + top + ",left=" + left);
-            LogUtil.i(TAG, "要移到的点坐标C': mcx=" + mcx + ",mcy=" + mcy);
+//        pvMap.setScale(pvMap.getMediumScale());
+//        pvMap.setScale(4, blueX1, blueY1, false);
 
-            float dx = mcx - blueX1;
-            float dy = mcy - blueY1;
-            LogUtil.i(TAG, "dx=" + dx + ",dy=" + dy);
+//        float dx = mapCenterX - blueX1;
+//        float dy = mapCenterY - blueY1;
+//        Matrix matrix = pvMap.getImageMatrix();
+//        pvMap.getSuppMatrix(matrix);
+//        matrix.postTranslate(dx, dy);
+//        pvMap.setImageMatrix(matrix);
 
-            pvMap.setScale(scale, blueX1, blueY1, false);
+
+
+
+
+
+        /*  弹出对话框 (广告不弹出) */
+        LogUtil.i(TAG, "找到啦：booth=" + mFloorCoor.getBoothNum());
+        exhibitors = mRepository.getBoothExhibitors(mFloorCoor.getBoothNum());
+        if (mFragment == null || isDialogCanceled) {
+            initFloorDialogFragment();
+        } else {
+            mFragment.setData(exhibitors);
+        }
+        isFind = true;
+
+        float scale = pvMap.getMediumScale();
+
+        pvMap.setScale(scale, blueX1, blueY1, false);
+
+        // 平移
+        RectF rectf = pvMap.getDisplayRect();
+        top = rectf.top;
+        left = rectf.left;
+        LogUtil.i(TAG, "drawSingleFlagOnMap.top=" + rectf.top + ",left=" + rectf.left);
+        LogUtil.i(TAG, "drawSingleFlagOnMap.width=" + rectf.width() + ",height=" + rectf.height());
+
+        float swCenterX = displayWidth / 2;
+        float swCenterY = displayHeight / 2;
+
+        LogUtil.i(TAG, "swCenterX=" + swCenterX + ",swCenterY=" + swCenterY + ",scale=" + scale);
+
+        float mcx = Math.abs(left) + swCenterX / scale;
+        float mcy = Math.abs(top) + swCenterY / scale;
+        LogUtil.i(TAG, ">findin: rectf.top=" + top + ",left=" + left);
+        LogUtil.i(TAG, "要移到的点坐标C': mcx=" + mcx + ",mcy=" + mcy);
+
+        float dx = bmWidth / 2 - blueX;
+//        float dy = bmHeight / 2 - blueY;
+        float dy = screenHeight / 2 - blueY;
+        LogUtil.i(TAG, "drawSingleFlagOnMap： dx=" + dx + ",dy=" + dy);
+
+
+
+
+        //-------- pad 可用 -----
+//        float dx = bmWidth / 2 - blueX;
+//        float dy = bmHeight / 2 - blueY;
+//        float dy = screenHeight / 2 - blueY;
+        //-------- ----- --------
+
+
+
+
+
+
+
+//        pvMap.onDrag(dx / 4, dy / 4);
 //                    pvMap.setScale(scale);
 
-            Matrix matrix = pvMap.getImageMatrix();
-            matrix.postTranslate(dx * scale, dy * scale);
+//        Matrix matrix = pvMap.getImageMatrix();
+//        matrix.postTranslate(dx * scale, dy * scale);
+
+
+        //--------------------------------
+
+
+//        float dx = (Math.abs(left) * 4 + screenWidth / 2) - blueX * 4;
+//        float dy = (Math.abs(top) * 4 + screenHeight / 2) - blueY * 4;
+        pvMap.onDrag(dx, dy);
+//        LogUtil.i(TAG, "left=" + left + ",top=" + top);
+//        LogUtil.i(TAG, "dx=" + dx + ",dy=" + dy);
+//        LogUtil.i(TAG, "scale=" + scale);
+//        Matrix matrix = pvMap.getImageMatrix();
+//        pvMap.getSuppMatrix(matrix);
+//        matrix.postTranslate(dx, dy);
+
+
+    }
+
+
+    /**
+     * 显示[我的参展商] flag
+     * <p>
+     * SELECT * FROM FLOOR_PLAN_COORDINATE WHERE BOOTH_NUM IN
+     * (select BOOTH_NO FROM EXHIBITOR WHERE COMPANY_ID in ( '234068','234322','234440','234398') and HALL_NO='1H')
+     * <p>
+     * SELECT * FROM FLOOR_PLAN_COORDINATE WHERE BOOTH_NUM IN (select BOOTH_NO FROM EXHIBITOR WHERE HALL_NO='1H' AND IS_FAVOURITE=1 )
+     */
+    public void drawFavoFlagsOnMap() {
+        StringBuilder sbSql = new StringBuilder();
+        sbSql.append("SELECT * FROM FLOOR_PLAN_COORDINATE WHERE BOOTH_NUM IN (select BOOTH_NO FROM EXHIBITOR WHERE HALL_NO='").append(mHall).append("' AND IS_FAVOURITE=1)");
+
+        Cursor cursor = App.mDBHelper.db.rawQuery(sbSql.toString(), null);
+        if (cursor == null) {
+            return;
+        }
+        while (cursor.moveToNext()) {
+//            String shape = cursor.getString(cursor.getColumnIndex("SHARP"));
+            x1 = cursor.getInt(cursor.getColumnIndex("X1"));
+            x2 = cursor.getInt(cursor.getColumnIndex("X2"));
+            y1 = cursor.getInt(cursor.getColumnIndex("Y1"));
+            y2 = cursor.getInt(cursor.getColumnIndex("Y2"));
+
+            if (favoBitmap == null) {
+                favoBitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.flag_red).copy(Bitmap.Config.ARGB_4444, true);
+            }
+            drawBoothBitmap(favoBitmap);
+
+            // py
 
 
         }
+        cursor.close();
+
 
     }
 
-    private void drawSomeFlagsOnMap() {
+    private void drawBoothBitmap(Bitmap bm) {
+        int flagWidth = bm.getWidth();
+        int flagHeight = bm.getHeight();
+
+        int centerX = (x2 - x1) / 2 + x1;
+        int centerY = (y2 - y1) / 2 + y1;
+
+        // 中心点坐标减去图片宽度的一半，得到marginLeftWidth
+        flagX = centerX - (flagWidth / 2);
+        // 中心点坐标减去图片的高度，得到marginTopHeight
+        flagY = centerY - flagHeight + 3;
+        canvas.drawBitmap(bm, flagX, flagY, null);
+
 
     }
 
+    /**
+     * SELECT * FROM FLOOR_PLAN_COORDINATE WHERE BOOTH_NUM IN (select BOOTH_NO FROM EXHIBITOR WHERE COMPANY_ID='237979' )
+     *
+     * @param companyId
+     */
+    public void drawAdFlagOnMap(String companyId) {
+        hasM4 = true;
+        LogUtil.i(TAG, "companyId=" + companyId);
+        Cursor cursor = App.mDBHelper.db.rawQuery("SELECT * FROM FLOOR_PLAN_COORDINATE WHERE BOOTH_NUM IN (select BOOTH_NO FROM EXHIBITOR WHERE COMPANY_ID = '" + companyId + "')", null);
+        if (cursor == null) {
+            return;
+        }
+        while (cursor.moveToNext()) {
+            x1 = cursor.getInt(cursor.getColumnIndex("X1"));
+            x2 = cursor.getInt(cursor.getColumnIndex("X2"));
+            y1 = cursor.getInt(cursor.getColumnIndex("Y1"));
+            y2 = cursor.getInt(cursor.getColumnIndex("Y2"));
+
+            if (adBitmap == null) {
+                adBitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.flag_star).copy(Bitmap.Config.ARGB_4444, true);
+            }
+            drawBoothBitmap(adBitmap);
+
+
+//            int flagWidth = adBitmap.getWidth();
+//            int flagHeight = adBitmap.getHeight();
+//
+//            int centerX = (x2 - x1) / 2 + x1;
+//            int centerY = (y2 - y1) / 2 + y1;
+//
+//            int redX = centerX - (flagWidth / 2);// 中心点坐标减去图片宽度的一半，得到marginLeftWidth
+//            int redY = centerY - (flagHeight * 2 / 3); // 中心点坐标减去图片的高度，得到marginTopHeight
+//            canvas.drawBitmap(adBitmap, redX, redY, null);
+        }
+        cursor.close();
+    }
 
     @Override
     public void onCancel() {
         isDialogCanceled = true;
     }
-
 
     private OnDrawerListener mDrawerListener;
 
@@ -489,6 +644,10 @@ public class FloorDtlViewModel implements FloorDialogFragment.OnDialogCancelList
             blueBitmap.recycle();
             blueBitmap = null;
         }
+    }
+
+    public void onM4Click(int pos) {
+        mIntentListener.onIntent(pos + "", null);
     }
 
 }

@@ -37,6 +37,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.xml.parsers.SAXParser;
+
 /**
  * Created by Carrie on 2017/9/13.
  */
@@ -68,52 +70,13 @@ public class ADHelper {
         return adObj;
     }
 
-    /**
-     * todo 每次进入app时都判断 isAdOpen ,然后将结果存到App里。其他广告就直接访问值就可以了。
-     *
-     * @return
-     */
     public boolean setIsAdOpen() {
         getAdObj();
-        String todayDate = AppUtil.getCurrentDate();
-        String adStartTime = adObj.Common.time.split("-")[0];
-        String adEndTime = adObj.Common.time.split("-")[1];
-        LogUtil.i(TAG, "todayDate=" + todayDate + ".adStartTime=" + adStartTime + ".adEndTime=" + adEndTime);
-
-        // todo ad time compare
-//        SimpleDateFormat format = new SimpleDateFormat("dd/mm/yy", Locale.CHINA);
-//        try {
-//            Date date1 = format.parse(adStartTime);
-//            Date date2 = format.parse(adEndTime);
-//            Date date0 = format.parse(todayDate);
-//            boolean b1 = date0.after(date1);  /* true  */
-//            boolean b2 = date0.before(date2);  /* false  */
-//            LogUtil.i(TAG,"b1="+b1);
-//            LogUtil.i(TAG,"b2="+b2);
-//            LogUtil.i(TAG,"date2="+date2.toString());
-//            LogUtil.i(TAG,"date0="+date0.toString());
-//            if(b1&&b2){
-//                App.mSP_Config.edit().putBoolean(Constant.IS_AD_OPEN, true).apply();
-//                LogUtil.e(TAG, "~~~ad opening~~");
-//                return true;
-//            }
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//
-//
-//        int c1 = todayDate.compareTo(adStartTime);
-//        int c2 = todayDate.compareTo(adEndTime);
-//        LogUtil.i(TAG, "c1=" + c1 + ".c2=" + c2);
-        if (todayDate.compareTo(adStartTime) > 0 && todayDate.compareTo(adEndTime) < 0) {
-            App.mSP_Config.edit().putBoolean(Constant.IS_AD_OPEN, true).apply();
-            LogUtil.e(TAG, "~~~ad opening~~");
-            return true;
-        }
-        App.mSP_Config.edit().putBoolean(Constant.IS_AD_OPEN, false).apply();
-        App.mSP_Config.edit().putBoolean("M1ShowFinish", true).apply();
-        LogUtil.e(TAG, "~~~ad closed~~");
-        return false;
+        boolean isAdOpen = AppUtil.compareDate(AppUtil.getCurrentDate(),
+                adObj.Common.time.split("-")[0], adObj.Common.time.split("-")[1]);
+        LogUtil.i(TAG, "isAdOpen=" + isAdOpen);
+        App.mSP_Config.edit().putBoolean(Constant.IS_AD_OPEN, isAdOpen).apply();
+        return isAdOpen;
     }
 
     public boolean isAdOpen() {
@@ -262,6 +225,40 @@ public class ADHelper {
             }
         });
         return true;
+    }
+
+    /**
+     * @param hall 展馆
+     * @return https://o97tbiy1f.qnssl.com/advertisement/M4/7.2H/phone_sc_left_1.jpg
+     */
+    public int showM4(String hall) {
+        getAdObj();
+
+        if (!isAdOpen()) {
+            return -1;
+        }
+        if (adObj.M4_left == null) {
+            return -1;
+        }
+        int length = adObj.M4_left.version.length;
+        if (length == 0) {
+            return -1;
+        }
+        int index = 0;
+        for (int i = 0; i < length; i++) {
+            LogUtil.i(TAG, i + "：version=" + adObj.M4_left.version[i]);
+            if (!adObj.M4_left.version[i].equals("0") && adObj.M4_left.floor[i].equals(hall)) {
+                LogUtil.i(TAG, "floor=" + adObj.M4_left.floor[i] + "," + "hall=" + hall);
+                index = i;
+                AppUtil.trackViewLog(204, "Ad", "M4", adObj.M4_left.action_companyID[index]);
+                AppUtil.setStatEvent(mContext, "ViewM4", "Ad_M4_" + adObj.M4_left.action_companyID[index]);
+                break;
+            } else {
+                index = -1;
+            }
+        }
+        LogUtil.e(TAG, "index=" + index);
+        return index;
     }
 
     public int isM5Show(String companyId) {

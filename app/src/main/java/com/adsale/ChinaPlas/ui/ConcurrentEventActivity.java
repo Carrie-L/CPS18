@@ -144,4 +144,8 @@ public class ConcurrentEventActivity extends BaseActivity implements OnIntentLis
         mEventModel.filterEvent(ids);
     }
 
+    private void downEventZips(){
+
+    }
+
 }
