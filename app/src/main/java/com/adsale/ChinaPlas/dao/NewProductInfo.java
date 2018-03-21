@@ -9,6 +9,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.adsale.ChinaPlas.utils.AppUtil;
+import com.adsale.ChinaPlas.utils.LogUtil;
 
 import java.util.ArrayList;
 
@@ -31,10 +32,12 @@ public class NewProductInfo implements Parcelable {
     private String Rroduct_Description_EN;
 
     // KEEP FIELDS - put your custom fields here
+    public String imageThumb; /* 完整url，list thumb  */
     public String image; /* 完整url，ad Product 的 FirstPageImage, 非 ad Product 的 imageFile  */
     public boolean adItem = false; /* is ad product */
     public ArrayList<String> imageLinks; /* ad product imageLinks, show in dtl */
     public String videoLink; /* ad product, show in dtl */
+    public String LogoImageLink; /* logo, now only ad has, show in dtl   */
     // KEEP FIELDS END
 
     public NewProductInfo() {
@@ -202,6 +205,11 @@ public class NewProductInfo implements Parcelable {
     }
 
     public String getDescription() {
+
+        if(Rroduct_Description_SC.contains("\\n")){
+            LogUtil.i("getDescription","包含nnn");
+        }
+
         if (AppUtil.getCurLanguage() == 0) {
             return Rroduct_Description_TC;
         } else if (AppUtil.getCurLanguage() == 1) {
@@ -209,6 +217,19 @@ public class NewProductInfo implements Parcelable {
         } else {
             return Rroduct_Description_SC;
         }
+
+
+//        if (AppUtil.getCurLanguage() == 0) {
+//            return Rroduct_Description_TC.replaceAll("\\n","\n");
+//        } else if (AppUtil.getCurLanguage() == 1) {
+//            return Rroduct_Description_EN.replaceAll("\\n","\n");
+//        } else {
+//            return Rroduct_Description_SC.replaceAll("\\n","\n");
+//        }
+
+
+
+
     }
 
     public NewProductInfo(String RID) {
@@ -222,6 +243,7 @@ public class NewProductInfo implements Parcelable {
                 ", BoothNo='" + BoothNo + '\'' +
                 ", adItem=" + adItem +
                 ", image=" + image +
+                ", LogoImageLink=" + LogoImageLink +
                 '}';
     }
 
@@ -247,9 +269,10 @@ public class NewProductInfo implements Parcelable {
         dest.writeString(this.Product_Name_EN);
         dest.writeString(this.Rroduct_Description_EN);
         dest.writeString(this.image);
-        dest.writeByte(this.adItem ? (byte) 1 : (byte) 0);
+        dest.writeByte(adItem ? (byte) 1 : (byte) 0);
         dest.writeStringList(this.imageLinks);
         dest.writeString(this.videoLink);
+        dest.writeString(this.LogoImageLink);
     }
 
     protected NewProductInfo(Parcel in) {
@@ -269,15 +292,14 @@ public class NewProductInfo implements Parcelable {
         this.adItem = in.readByte() != 0;
         this.imageLinks = in.createStringArrayList();
         this.videoLink = in.readString();
+        this.LogoImageLink = in.readString();
     }
 
     public static final Creator<NewProductInfo> CREATOR = new Creator<NewProductInfo>() {
-        @Override
         public NewProductInfo createFromParcel(Parcel source) {
             return new NewProductInfo(source);
         }
 
-        @Override
         public NewProductInfo[] newArray(int size) {
             return new NewProductInfo[size];
         }

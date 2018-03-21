@@ -52,7 +52,6 @@ import static com.adsale.ChinaPlas.helper.LoadingReceiver.LOADING_ACTION;
 import static com.adsale.ChinaPlas.utils.Constant.SCREEN_HEIGHT;
 import static com.adsale.ChinaPlas.utils.PermissionUtil.PMS_CODE_READ_PHONE_STATE;
 
-// TODO: 2017/10/30 down txt error, send broadcast 
 public class LoadingActivity extends AppCompatActivity implements LoadingReceiver.OnLoadFinishListener {
     private static final String TAG = "LoadingActivity";
     private SharedPreferences mConfigSP;
@@ -81,7 +80,7 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
         mConfigSP.edit().putLong("LoadingStartTime", loadingStartTime).apply();
 
         loadingProgress = binding.loadingProgress;
-        mLoadingModel = new LoadingViewModel(getApplicationContext(), loadingProgress);
+        mLoadingModel = new LoadingViewModel(getApplicationContext());
         binding.setLoadingModel(mLoadingModel);
         binding.setAty(this);
         binding.executePendingBindings();

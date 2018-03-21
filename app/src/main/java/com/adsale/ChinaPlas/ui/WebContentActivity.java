@@ -1,21 +1,52 @@
 package com.adsale.ChinaPlas.ui;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
+import com.adsale.ChinaPlas.dao.ScheduleInfo;
+import com.adsale.ChinaPlas.data.DownloadClient;
+import com.adsale.ChinaPlas.data.ListBindings;
+import com.adsale.ChinaPlas.data.LoginClient;
+import com.adsale.ChinaPlas.data.OtherRepository;
+import com.adsale.ChinaPlas.data.model.ConcurrentEvent;
+import com.adsale.ChinaPlas.ui.view.HelpView;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
+import com.adsale.ChinaPlas.utils.FileUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
+import com.adsale.ChinaPlas.utils.NetWorkHelper;
+import com.adsale.ChinaPlas.utils.Parser;
+import com.adsale.ChinaPlas.utils.ReRxUtils;
 
 import java.io.File;
+
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
+import retrofit2.Response;
+
+import static com.adsale.ChinaPlas.App.rootDir;
+import static com.adsale.ChinaPlas.utils.FileUtil.createFile;
 
 /**
  * must intent data: [Constant.WEB_URL]
@@ -27,6 +58,10 @@ public class WebContentActivity extends BaseActivity {
     private String mIntentUrl;
     private Intent mIntent;
     private WebSettings settings;
+    private HelpView helpDialog;
+    private Disposable mEventDisposable;
+    private String eventPageId;
+    private ConcurrentEvent mEventTxt;
 
     @Override
     protected void initView() {
@@ -36,22 +71,235 @@ public class WebContentActivity extends BaseActivity {
 
         settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
+        settings.setDefaultTextEncodingName("UTF-8");
+        webView.setHapticFeedbackEnabled(false);
     }
 
     @Override
     protected void initData() {
         final Intent intent = getIntent();
-        mIntentUrl = intent.getStringExtra("Url");
+        mIntentUrl = intent.getStringExtra(Constant.WEB_URL);
         LogUtil.i(TAG, "mIntentUrl=" + mIntentUrl);
 
         if ((mIntentUrl.toLowerCase().startsWith("http") && !checkImageUrl(mIntentUrl)) || mIntentUrl.toLowerCase().startsWith("web:")) {
             loadWebUrl();
-        } else {
+        } else if (!mIntentUrl.contains("ConcurrentEvent")) { // 同期活动的在onResume()里另外判断
             loadLocalHtml(getHtmName());
         }
 
         setWebViewClient();
 
+        mBaiduTJ = getIntent().getStringExtra(Constant.BAIDU_TJ);
+
+        // show help
+        if (mIntentUrl.contains("ConcurrentEvent")) {
+            showEventHelp();
+        } else if (mBaiduTJ != null && mBaiduTJ.toLowerCase().contains("hallmap")) {
+            showOverallHelp();
+        }
+    }
+
+    private void showOverallHelp() {
+        settings = webView.getSettings();
+        settings.setBuiltInZoomControls(true);// 一定要加这句，且一定要设置为true，才会放大
+        settings.setSupportZoom(true);
+        settings.setUseWideViewPort(true);
+        settings.setLoadWithOverviewMode(true);
+
+        LogUtil.i(TAG, "showOverallHelp");
+        if (mBaiduTJ.toLowerCase().contains("withouthelp")) {
+            return;
+        }
+
+        ImageView ivHelp = findViewById(R.id.iv_help);
+        ivHelp.setVisibility(View.VISIBLE);
+
+        if (HelpView.isFirstShow(HelpView.HELP_PAGE_FLOOR_OVERALL)) {
+            showOverallHelpPage();
+            App.mSP_HP.edit().putInt("HELP_PAGE_" + HelpView.HELP_PAGE_FLOOR_OVERALL, HelpView.HELP_PAGE_FLOOR_OVERALL).apply();
+        }
+
+        ivHelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showOverallHelpPage();
+            }
+        });
+    }
+
+    private void showEventHelp() {
+        ImageView ivHelp = findViewById(R.id.iv_help);
+        ivHelp.setVisibility(View.VISIBLE);
+        ImageView ivAdd = findViewById(R.id.fab_add);
+        ivAdd.setVisibility(View.VISIBLE);
+
+        if (HelpView.isFirstShow(HelpView.HELP_PAGE_EVENT_DTL)) {
+            showEventHelpPage();
+            App.mSP_HP.edit().putInt("HELP_PAGE_" + HelpView.HELP_PAGE_EVENT_DTL, HelpView.HELP_PAGE_EVENT_DTL).apply();
+        }
+
+        ivHelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showEventHelpPage();
+            }
+        });
+
+        ivAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ScheduleEditActivity.class);
+                LogUtil.i(TAG, "barTitle.get()=" + barTitle.get());
+                ScheduleInfo entity = new ScheduleInfo();
+                entity.setId(null);
+                entity.setTitle(barTitle.get());
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra(Constant.INTENT_SCHEDULE, entity);
+                intent.putExtra("title", getString(R.string.title_add_schedule));
+                startActivity(intent);
+                overridePendingTransPad();
+            }
+        });
+
+    }
+
+    private boolean isEventHasUpdate() {
+        OtherRepository repository = OtherRepository.getInstance();
+        return repository.isEventCanUpdate();
+    }
+
+    private void intentToUpdateCenter() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getString(R.string.dialog_update_event));
+        builder.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mIntent = new Intent(getApplicationContext(), UpdateCenterActivity.class);
+                startActivity(mIntent);
+                intent();
+            }
+        }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (mIntentUrl.contains("ConcurrentEvent")) {
+            // 如果是同期活动详情页，① 在sd/asset中存在，直接打开本地htm ② 本地没有，则下载数据包。
+            parseEvent();
+            LogUtil.i(TAG,"eventPageId="+eventPageId);
+            StringBuilder sbPath = new StringBuilder();
+            sbPath.append(rootDir).append(mIntentUrl).append("/").append(getHtmName());
+            if (new File(sbPath.toString()).exists()) {
+                LogUtil.i(TAG, "sd卡中存在：" + mIntentUrl);
+                loadLocalHtml(getHtmName());
+            } else if (AppUtil.isFileInAsset("ConcurrentEvent", eventPageId)) {
+                loadLocalHtml(getHtmName());
+            } else {
+                // 更新中心中是否有更新，有，跳转到更新中心，返回时resume里打开html；无，直接下载zip包
+                if (isEventHasUpdate()) {
+                    LogUtil.i(TAG, "跳转到更新中心");
+                    intentToUpdateCenter();
+                } else {
+                    LogUtil.i(TAG, "下载：" + mIntentUrl);
+                    downloadSingleEventZip();
+                }
+            }
+        }
+    }
+
+    private void parseEvent() {
+        mEventTxt = Parser.parseJsonFilesDirFile(ConcurrentEvent.class, Constant.TXT_CONCURRENT_EVENT);
+        int size = mEventTxt.pages.size();
+        eventPageId = "";
+        for (int i = 0; i < size; i++) {
+            if (mIntentUrl.contains(mEventTxt.pages.get(i).pageID)) {
+                eventPageId = mEventTxt.pages.get(i).pageID;
+                barTitle.set(mEventTxt.pages.get(i).getTitle());
+                LogUtil.i(TAG, "mIntentUrl=" + mIntentUrl + ",pageID=" + eventPageId);
+                break;
+            }
+        }
+    }
+
+    private void downloadSingleEventZip() {
+        if(mEventTxt==null){
+            parseEvent();
+        }
+        DownloadClient client = ReRxUtils.setupRxtrofit(DownloadClient.class, mEventTxt.htmlFilePath);
+        client.downloadFile(eventPageId + ".zip")
+                .map(new Function<Response<ResponseBody>, Boolean>() {
+                    @Override
+                    public Boolean apply(Response<ResponseBody> responseBodyResponse) throws Exception {
+                        ResponseBody body = responseBodyResponse.body();
+                        boolean isUnZiped = false;
+                        if (body != null) {
+                            LogUtil.i(TAG, "解压zip");
+                            StringBuilder sbDir = new StringBuilder();
+                            sbDir.append(rootDir).append(mIntentUrl).append("/");
+                            createFile(sbDir.toString());
+                            isUnZiped = FileUtil.unpackZip(eventPageId, body.byteStream(), sbDir.toString());
+                            sbDir = null;
+                        }
+                        return isUnZiped;
+                    }
+                }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Boolean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        mEventDisposable = d;
+                    }
+
+                    @Override
+                    public void onNext(Boolean value) {
+                        LogUtil.i(TAG, "zip解压结果：" + value);
+                        if (value) {
+                            loadLocalHtml(getHtmName());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+    }
+
+    private void showEventHelpPage() {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment fragment = getFragmentManager().findFragmentByTag("Dialog");
+        if (fragment != null) {
+            ft.remove(fragment);
+        }
+        ft.addToBackStack(null);
+
+        helpDialog = HelpView.newInstance(HelpView.HELP_PAGE_EVENT_DTL);
+        helpDialog.show(ft, "Dialog");
+    }
+
+    private void showOverallHelpPage() {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment fragment = getFragmentManager().findFragmentByTag("Dialog");
+        if (fragment != null) {
+            ft.remove(fragment);
+        }
+        ft.addToBackStack(null);
+
+        helpDialog = HelpView.newInstance(HelpView.HELP_PAGE_FLOOR_OVERALL);
+        helpDialog.show(ft, "Dialog");
     }
 
     private boolean checkImageUrl(String url) {
@@ -67,12 +315,6 @@ public class WebContentActivity extends BaseActivity {
         }
         webView.loadUrl(sb.toString());
         LogUtil.i(TAG, "loadLocalHtml= " + sb.toString());
-
-        if(mIntentUrl.contains("FloorPlan")){ //平面总览图可以缩放
-            settings.setSupportZoom(true);
-            settings.setUseWideViewPort(true);
-            settings.setLoadWithOverviewMode(true);
-        }
     }
 
     private void loadWebUrl() {
@@ -183,5 +425,11 @@ public class WebContentActivity extends BaseActivity {
         overridePendingTransPad();
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mEventDisposable != null && !mEventDisposable.isDisposed()) {
+            mEventDisposable.dispose();
+        }
+    }
 }

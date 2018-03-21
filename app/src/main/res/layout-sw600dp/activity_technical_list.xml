@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="techModel"
+            type="com.adsale.ChinaPlas.viewmodel.TechViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_ad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:onClick="@{()->techModel.onM6Click()}"
+            android:scaleType="fitXY" />
+
+        <ScrollView
+            android:id="@+id/scroll_left_tech"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_above="@id/iv_ad"
+            android:background="#fff"
+            android:padding="12dp"
+            android:scrollbars="none">
+
+            <RelativeLayout
+                android:id="@+id/ll_left_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="16dp"
+                >
+
+                <TextView
+                    android:id="@+id/tv_all"
+                    style="@style/tech_btn_style"
+                    android:background="@{techModel.mClickPos==0?@drawable/dot_focused:@drawable/dot_grey}"
+                    android:onClick="@{()->techModel.onDateClick(0,false)}"
+                    android:text="@string/event_btn_all"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="@dimen/text_size_normal"
+                    android:layout_marginBottom="24dp"
+                    android:layout_marginTop="24dp"
+                    android:textColor="#fff" />
+
+                <!-- day 1 -->
+                <TextView
+                    android:id="@+id/tv_day1"
+                    style="@style/tech_date_style"
+                    android:layout_below="@id/tv_all"
+                    android:text="@string/event_btn_24" />
+
+                <ImageView
+                    android:id="@+id/iv_line1"
+                    style="@style/tech_line_style"
+                    android:layout_alignStart="@id/tv_day1"
+                    android:layout_below="@id/tv_day1" />
+
+                <TextView
+                    android:id="@+id/tv_am1"
+                    style="@style/tech_rect_text_style"
+                    android:layout_alignStart="@id/tv_day1"
+                    android:layout_below="@id/iv_line1"
+                    android:background="@{techModel.mClickPos==1&amp;&amp;techModel.isAm?@color/home:@color/grey}"
+                    android:onClick="@{()->techModel.onDateClick(1,true)}"
+                    android:text="@string/tech_am" />
+
+                <TextView
+                    android:id="@+id/tv_pm1"
+                    style="@style/tech_rect_text_style"
+                    android:layout_alignStart="@id/tv_day1"
+                    android:layout_below="@id/tv_am1"
+                    android:background="@{techModel.mClickPos==1&amp;&amp;!techModel.isAm?@color/home:@color/grey}"
+                    android:onClick="@{()->techModel.onDateClick(1,false)}"
+                    android:text="@string/tech_pm" />
+
+                <!-- day 2 -->
+                <TextView
+                    android:id="@+id/tv_day2"
+                    style="@style/tech_date_style"
+                    android:layout_alignTop="@id/tv_day1"
+                    android:layout_toRightOf="@id/tv_day1"
+                    android:text="@string/event_btn_25" />
+
+                <ImageView
+                    android:id="@+id/iv_line2"
+                    style="@style/tech_line_style"
+                    android:layout_alignStart="@id/tv_day2"
+                    android:layout_below="@id/tv_day2" />
+
+                <TextView
+                    android:id="@+id/tv_am2"
+                    style="@style/tech_rect_text_style"
+                    android:layout_alignStart="@id/tv_day2"
+                    android:layout_below="@id/iv_line2"
+                    android:background="@{techModel.mClickPos==2&amp;&amp;techModel.isAm?@color/home:@color/grey}"
+                    android:onClick="@{()->techModel.onDateClick(2,true)}"
+                    android:text="@string/tech_am" />
+
+                <TextView
+                    android:id="@+id/tv_pm2"
+                    style="@style/tech_rect_text_style"
+                    android:layout_alignStart="@id/tv_day2"
+                    android:layout_below="@id/tv_am2"
+                    android:background="@{techModel.mClickPos==2&amp;&amp;!techModel.isAm?@color/home:@color/grey}"
+                    android:onClick="@{()->techModel.onDateClick(2,false)}"
+                    android:text="@string/tech_pm" />
+
+                <!-- day 3 -->
+                <TextView
+                    android:id="@+id/tv_day3"
+                    style="@style/tech_date_style"
+                    android:layout_below="@id/tv_pm1"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/event_btn_26" />
+
+                <ImageView
+                    android:id="@+id/tv_line3"
+                    style="@style/tech_line_style"
+                    android:layout_alignStart="@id/tv_day3"
+                    android:layout_below="@id/tv_day3" />
+
+                <TextView
+                    android:id="@+id/tv_am3"
+                    style="@style/tech_rect_text_style"
+                    android:layout_alignStart="@id/tv_day3"
+                    android:layout_below="@id/tv_line3"
+                    android:background="@{techModel.mClickPos==3&amp;&amp;techModel.isAm?@color/home:@color/grey}"
+                    android:onClick="@{()->techModel.onDateClick(3,true)}"
+                    android:text="@string/tech_am" />
+
+                <TextView
+                    android:id="@+id/tv_pm3"
+                    style="@style/tech_rect_text_style"
+                    android:layout_alignStart="@id/tv_day3"
+                    android:layout_below="@id/tv_am3"
+                    android:background="@{techModel.mClickPos==3&amp;&amp;!techModel.isAm?@color/home:@color/grey}"
+                    android:onClick="@{()->techModel.onDateClick(3,false)}"
+                    android:text="@string/tech_pm" />
+
+                <!-- day 4 -->
+                <TextView
+                    android:id="@+id/tv_day4"
+                    style="@style/tech_date_style"
+                    android:layout_toEndOf="@id/tv_day3"
+                    android:layout_alignTop="@id/tv_day3"
+                    android:text="@string/event_btn_27" />
+
+                <ImageView
+                    android:id="@+id/tv_line4"
+                    style="@style/tech_line_style"
+                    android:layout_alignStart="@id/tv_day4"
+                    android:layout_below="@id/tv_day4" />
+
+                <TextView
+                    android:id="@+id/tv_am4"
+                    style="@style/tech_rect_text_style"
+                    android:layout_alignStart="@id/tv_day4"
+                    android:layout_below="@id/tv_line4"
+                    android:background="@{techModel.mClickPos==4&amp;&amp;techModel.isAm?@color/home:@color/grey}"
+                    android:onClick="@{()->techModel.onDateClick(4,true)}"
+                    android:text="@string/tech_am" />
+
+                <ImageView
+                    android:id="@+id/tv_map"
+                    android:layout_width="56dp"
+                    android:layout_height="61dp"
+                    android:layout_below="@id/tv_pm3"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="32dp"
+                    android:background="@drawable/ic_location_map"
+                    android:onClick="@{()->techModel.onDateClick(5,false)}" />
+
+            </RelativeLayout>
+        </ScrollView>
+
+        <ImageView
+            android:id="@+id/line"
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="@color/grey500"
+            android:layout_toEndOf="@id/scroll_left_tech"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_seminar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/iv_ad"
+            android:layout_toRightOf="@id/line"
+            android:background="@color/white_smoke" />
+
+
+    </RelativeLayout>
+
+
+</layout>

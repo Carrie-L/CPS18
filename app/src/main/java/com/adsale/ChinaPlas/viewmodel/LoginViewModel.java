@@ -18,6 +18,9 @@ import com.adsale.ChinaPlas.utils.FileUtils;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.NetWorkHelper;
 import com.adsale.ChinaPlas.utils.ReRxUtils;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -52,6 +55,8 @@ public class LoginViewModel {
     private Context mContext;
     private String vmid;
     private boolean isSaveSuccess;
+    private LoginClient client;
+    private Disposable mImgDisposable;
 
     public LoginViewModel(Context context) {
         mContext = context.getApplicationContext();
@@ -81,61 +86,24 @@ public class LoginViewModel {
     }
 
     private RequestBody getRegRequestBody() {
-        return new FormBody.Builder().add("showid", "479").add("email", loginName.get()).build();
+        return new FormBody.Builder().add("showid", Constant.SHOW_ID).add("email", loginName.get()).build();
     }
 
     private void loginRetrofit() {
-        final LoginClient client = ReRxUtils.setupRxtrofit(LoginClient.class, NetWorkHelper.BASE_URL_CPS);
+        client = ReRxUtils.setupRxtrofit(LoginClient.class, NetWorkHelper.BASE_URL_CPS);
         client.loginRx(getLangStr(), getLoginRequestBody())
-                .map(new Function<Response<ResponseBody>, String>() {
+                .map(new Function<Response<ResponseBody>, Boolean>() {
 
                     @Override
-                    public String apply(@NonNull Response<ResponseBody> responseBodyResponse) throws Exception {
+                    public Boolean apply(@NonNull Response<ResponseBody> responseBodyResponse) throws Exception {
                         ResponseBody responseBody = responseBodyResponse.body();
                         if (responseBody != null) {
                             vmid = getVmid(responseBody.string());
                             LogUtil.i(TAG, "vm id String ----" + vmid);
                             responseBody.close();
                         }
-                        return vmid;
-                    }
-                })
-                .flatMap(new Function<String, Observable<EmailVisitorData>>() {//根据email得到 EmailVisitorData
-                    @Override
-                    public Observable<EmailVisitorData> apply(@NonNull String s) throws Exception {
-                        if (!TextUtils.isEmpty(vmid)) {
-                            saveLoginData();
-                        }
-                        return client.regGetData(getRegRequestBody()).subscribeOn(Schedulers.computation());
-                    }
-                })
-                .flatMap(new Function<EmailVisitorData, Observable<Response<ResponseBody>>>() {//从EmailVisitorData 中得到 RegImageName ，根据名称下载图片
-                    @Override
-                    public Observable<Response<ResponseBody>> apply(@NonNull EmailVisitorData emailVisitorData) throws Exception {
-                        LogUtil.i(TAG,"emailVisitorData="+emailVisitorData.toString());
-                        String picName = emailVisitorData.VisitorData.RegImageName;
-                        LogUtil.i(TAG, "picName=" + picName);
-                        return client.downImg(picName).subscribeOn(Schedulers.io());
-                    }
-                })
-                .flatMap(new Function<Response<ResponseBody>, Observable<Boolean>>() {
-
-                    @Override
-                    public Observable<Boolean> apply(@NonNull Response<ResponseBody> responseBodyResponse) throws Exception {
-                        //保存图片
-                        ResponseBody body = responseBodyResponse.body();
-                        if (body != null) {
-                            byte[] bytes = body.bytes();
-                            isSaveSuccess = AppUtil.saveFileOutput(mContext, Constant.REG_PNG, bytes);
-                            body.close();
-                        }
-                        return Observable.create(new ObservableOnSubscribe<Boolean>() {
-                            @Override
-                            public void subscribe(@NonNull ObservableEmitter<Boolean> subscriber) throws Exception {
-                                subscriber.onNext(isSaveSuccess);
-                                subscriber.onComplete();
-                            }
-                        });
+                        responseBody = null;
+                        return !TextUtils.isEmpty(vmid);
                     }
                 })
                 .subscribeOn(Schedulers.io())
@@ -148,9 +116,16 @@ public class LoginViewModel {
                     }
 
                     @Override
-                    public void onNext(@NonNull Boolean bool) {
-                        LogUtil.i(TAG, "onNext:  " + bool);
-                        App.mSP_Login.edit().putBoolean("LoginRegPicDownSuccess", bool).apply(); // 預登記圖片下載成功
+                    public void onNext(@NonNull Boolean login) {
+                        LogUtil.i(TAG, "onNext:  " + login);
+//                        App.mSP_Login.edit().putBoolean("LoginRegPicDownSuccess", bool).apply(); // 預登記圖片下載成功
+                        if (login) {
+                            saveLoginData();
+                            if (mLoginListener != null) {
+                                mLoginListener.login(true);
+                            }
+                            downRegImg();
+                        }
                     }
 
                     @Override
@@ -176,9 +151,6 @@ public class LoginViewModel {
                     public void onComplete() {
                         LogUtil.i(TAG, "onComplete");
                         isDialogShow.set(false);
-                        if (mLoginListener != null && !TextUtils.isEmpty(vmid)) {
-                            mLoginListener.login(true);
-                        }
                         mDisposable.dispose();
                     }
                 });
@@ -189,6 +161,36 @@ public class LoginViewModel {
         LogUtil.i(TAG, "NAME=" + loginName.get() + ",PWD=" + loginPwd.get());
         AppUtil.trackViewLog(429, "UserLogin", "", "");
         AppUtil.setStatEvent(mContext, "UserLogin", "UL");
+    }
+
+    private void downRegImg() {
+        client.regGetData(NetWorkHelper.getRegRequestBody())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<EmailVisitorData>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        mImgDisposable = d;
+                    }
+
+                    @Override
+                    public void onNext(EmailVisitorData value) {
+                        String imgUrl = value.VisitorData.RegImageName;
+                        LogUtil.i(TAG, "EmailVisitorData: " + imgUrl);
+                        AppUtil.setRegImgUrl(imgUrl);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtil.i(TAG, "onError:" + e.getMessage());
+                        mImgDisposable.dispose();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        mImgDisposable.dispose();
+                    }
+                });
     }
 
     public interface OnLoginFinishListener {

@@ -1,95 +1,69 @@
-{
-  "NewTechInfoLink":"https://o97tbiy1f.qnssl.com/ExhibitorInfo/newTech8-2.zip",
-  "imageLink":"https://www.chinaplasonline.com/CPS17/Files/FirstLaunchProduct/",
-  "adProduct":[
+﻿{
+  "NewTechInfoLink": "https://o97tbiy1f.qnssl.com/ExhibitorInfo/NewTech0306.zip",
+  "imageLink": "https://eform.adsale.com.hk/files/FirstLaunchProduct/CPS18/",
+  "listImageLink":"https://eform.adsale.com.hk/files/FirstLaunchProduct/CPS18/100/",
+  "adProduct": [
     {
-      "FirstPageImage":"http://www.umaki-style.com/wp-content/uploads/2013/06/BR618-4.jpg",
-      "ImageLinks":[
-        "http://gb.cri.cn/mmsource/images/2014/07/24/74/7123966770451318802.jpg",
-        "http://gb.cri.cn/mmsource/images/2014/07/24/43/14988648240611112275.jpg",
-        "http://gb.cri.cn/mmsource/images/2014/07/24/74/7123966770451318802.jpg"],
-      "ProductName_SC":"CHANGLONGXING SCIENCE & TECHNOLOGY (SHENZHEN) CO.,LTD",
-      "ProductName_EN":"CHANGLONGXING SCIENCE & TECHNOLOGY (SHENZHEN) CO.,LTD",
-      "ProductName_TC":"CHANGLONGXING SCIENCE & TECHNOLOGY (SHENZHEN) CO.,LTD",
-      "Description_SC":"1.Based on 30 years professional skills and continuous improvement, ChangLongXing Machine becomes a top tier technology products. 2.The multiple edge material will be successful recovered through a smoothly running recovery system of this high-speed unit, the recovery system have a high recovery rate. 3.Unwinding and wear paper tube to synchronize,shorten the time of change roll, for a time of about 28-30 seconds, 2-3KG small film volume can be produced in the case of high speed rolling. 4.Fully automatic four shafts to change rolls, high speed,high output. 5.The big cooling roller and strong double layers vacuum box ,the great combination to make good cooling ,to produce good high quality stretch film.",
-      "Description_EN":"1.Based on 30 years professional skills and continuous improvement, ChangLongXing Machine becomes a top tier technology products. 2.The multiple edge material will be successful recovered through a smoothly running recovery system of this high-speed unit, the recovery system have a high recovery rate. 3.Unwinding and wear paper tube to synchronize,shorten the time of change roll, for a time of about 28-30 seconds, 2-3KG small film volume can be produced in the case of high speed rolling. 4.Fully automatic four shafts to change rolls, high speed,high output. 5.The big cooling roller and strong double layers vacuum box ,the great combination to make good cooling ,to produce good high quality stretch film.",
-      "Description_TC":"1.Based on 30 years professional skills and continuous improvement, ChangLongXing Machine becomes a top tier technology products. 2.The multiple edge material will be successful recovered through a smoothly running recovery system of this high-speed unit, the recovery system have a high recovery rate. 3.Unwinding and wear paper tube to synchronize,shorten the time of change roll, for a time of about 28-30 seconds, 2-3KG small film volume can be produced in the case of high speed rolling. 4.Fully automatic four shafts to change rolls, high speed,high output. 5.The big cooling roller and strong double layers vacuum box ,the great combination to make good cooling ,to produce good high quality stretch film.",
-      "CompanyID":"226596",
-      "BoothNo":"7.1C61",
-      "vedioLink":"",
-	  "CompanyName_SC":"昌龙兴科技（深圳）有限公司",
-	  "CompanyName_TC":"昌龙兴科技（深圳）有限公司",
-	  "CompanyName_EN":"CHANGLONGXING SCIENCE & TECHNOLOGY (SHENZHEN) CO.,LTD"
+      "FirstPageImage": "https://o97tbiy1f.qnssl.com/NewtechAdInfo/zhongyang_1.jpg",
+      "LogoImageLink": "https://o97tbiy1f.qnssl.com/NewtechAdInfo/zhongyang_logo_2.jpg",
+      "ImageLinks": [
+        "https://o97tbiy1f.qnssl.com/NewtechAdInfo/zhongyang_1.jpg",
+        "https://o97tbiy1f.qnssl.com/NewtechAdInfo/zhonagyang_2.png",
+        "https://o97tbiy1f.qnssl.com/NewtechAdInfo/zhongyang_3.jpg"
+      ],
+      "ProductName_SC": "锥形双螺杆和机筒",
+      "ProductName_EN": "锥形双螺杆和机筒",
+      "ProductName_TC": "錐形雙螺杆和機筒",
+      "Description_SC": "锥形双螺杆和机筒    适用于PVC木塑， PE木塑， 超高分子板材， 免烧砖托板， 1 比2以上高钙扣板， 50 - 400 份以上高钙管材， 50 - 300 高钙型材， 软PVC片材， PVC发泡板等普通塑料、 PP、 PE、 ABS、 PVC、 原料造粒、 生产管材、 异型材、 片材等产品。  双合金螺杆  优势： 螺杆表面不易磨损， 对加30 % 一下玻纤及再生料特好。 皮肤特性 1. 超硬合金密度高、 气孔率低且硬度高。 2. 均匀的粉末加热， 残留的印张压力低。  3. 能有效的圆滑熔射。  4. 高动挚能量及均一的硬度。  5. 具有高耐腐蚀、 高耐磨耗与耐高温的特性。  6. 密著力高， 可厚度加工的皮膜。    挤出机单螺杆和机筒 规格： 螺杆直径： Φ15 - Φ300， 长径比： 15 - 46  最大长度： 不大于10000mm， 氮化处理， 表面硬度： HV≥ 900， 氮化深度： 0.5 - 0.8 mm  材质： 表面WC / Co整体喷焊， 能有效提高螺杆的使用寿命。  针对不同塑料产品螺杆可选用为普通型， 销钉型， 屏障型， 分离型， 排气型等。 ",
+      "Description_EN": "锥形双螺杆和机筒    适用于PVC木塑， PE木塑， 超高分子板材， 免烧砖托板， 1 比2以上高钙扣板， 50 - 400 份以上高钙管材， 50 - 300 高钙型材， 软PVC片材， PVC发泡板等普通塑料、 PP、 PE、 ABS、 PVC、 原料造粒、 生产管材、 异型材、 片材等产品。  双合金螺杆  优势： 螺杆表面不易磨损， 对加30 % 一下玻纤及再生料特好。 皮肤特性 1. 超硬合金密度高、 气孔率低且硬度高。 2. 均匀的粉末加热， 残留的印张压力低。  3. 能有效的圆滑熔射。  4. 高动挚能量及均一的硬度。  5. 具有高耐腐蚀、 高耐磨耗与耐高温的特性。  6. 密著力高， 可厚度加工的皮膜。    挤出机单螺杆和机筒 规格： 螺杆直径： Φ15 - Φ300， 长径比： 15 - 46  最大长度： 不大于10000mm， 氮化处理， 表面硬度： HV≥ 900， 氮化深度： 0.5 - 0.8 mm  材质： 表面WC / Co整体喷焊， 能有效提高螺杆的使用寿命。  针对不同塑料产品螺杆可选用为普通型， 销钉型， 屏障型， 分离型， 排气型等。  ",
+      "Description_TC": "錐形雙螺杆和機筒    適用於PVC木塑， PE木塑， 超高分子板材， 免燒磚托板， 1 比2以上高鈣扣板， 50 - 400 份以上高鈣管材， 50 - 300 高鈣型材， 軟PVC片材， PVC發泡板等普通塑料、 PP、 PE、 ABS、 PVC、 原料造粒、 生產管材、 異型材、 片材等產品。  雙合金螺杆  優勢： 螺杆表面不易磨損， 對加30 % 一下玻纖及再生料特好。 皮膚特性 1. 超硬合金密度高、 氣孔率低且硬度高。 2. 均勻的粉末加熱， 殘留的印張壓力低。  3. 能有效的圓滑熔射。  4. 高動摯能量及均一的硬度。  5. 具有高耐腐蝕、 高耐磨耗與耐高溫的特性。  6. 密著力高， 可厚度加工的皮膜。    擠出機單螺杆和機筒 規格： 螺杆直徑： Φ15 - Φ300， 長徑比： 15 - 46  最大長度： 不大於10000mm， 氮化處理， 表面硬度： HV≧ 900， 氮化深度： 0.5 - 0.8 mm  材質： 表面WC / Co整體噴焊， 能有效提高螺杆的使用壽命。  針對不同塑料產品螺杆可選用為普通型， 銷釘型， 屏障型， 分離型， 排氣型等。 ",
+      "CompanyID": "238101",
+      "BoothNo": "6.1A19",
+      "vedioLink": "",
+      "CompanyName_SC": "江苏省张家港市港塑机械有限公司",
+      "CompanyName_TC": "江蘇省張家港市港塑機械有限公司",
+      "CompanyName_EN": "ZHANGJIAGANG GANGSU MACHINERY CO.,LTD"
     },
     {
-      "FirstPageImage":"http://www.umaki-style.com/wp-content/uploads/2013/06/BR618-4.jpg",
-      "ImageLinks":[],
-      "ProductName_SC":"CHANGLONGXING SCIENCE & TECHNOLOGY (SHENZHEN) CO.,LTD",
-      "ProductName_EN":"CHANGLONGXING SCIENCE & TECHNOLOGY (SHENZHEN) CO.,LTD",
-      "ProductName_TC":"CHANGLONGXING SCIENCE & TECHNOLOGY (SHENZHEN) CO.,LTD",
-      "Description_SC":"1.Based on 30 years professional skills and continuous improvement, ChangLongXing Machine becomes a top tier technology products. 2.The multiple edge material will be successful recovered through a smoothly running recovery system of this high-speed unit, the recovery system have a high recovery rate. 3.Unwinding and wear paper tube to synchronize,shorten the time of change roll, for a time of about 28-30 seconds, 2-3KG small film volume can be produced in the case of high speed rolling. 4.Fully automatic four shafts to change rolls, high speed,high output. 5.The big cooling roller and strong double layers vacuum box ,the great combination to make good cooling ,to produce good high quality stretch film.",
-      "Description_EN":"1.Based on 30 years professional skills and continuous improvement, ChangLongXing Machine becomes a top tier technology products. 2.The multiple edge material will be successful recovered through a smoothly running recovery system of this high-speed unit, the recovery system have a high recovery rate. 3.Unwinding and wear paper tube to synchronize,shorten the time of change roll, for a time of about 28-30 seconds, 2-3KG small film volume can be produced in the case of high speed rolling. 4.Fully automatic four shafts to change rolls, high speed,high output. 5.The big cooling roller and strong double layers vacuum box ,the great combination to make good cooling ,to produce good high quality stretch film.",
-      "Description_TC":"1.Based on 30 years professional skills and continuous improvement, ChangLongXing Machine becomes a top tier technology products. 2.The multiple edge material will be successful recovered through a smoothly running recovery system of this high-speed unit, the recovery system have a high recovery rate. 3.Unwinding and wear paper tube to synchronize,shorten the time of change roll, for a time of about 28-30 seconds, 2-3KG small film volume can be produced in the case of high speed rolling. 4.Fully automatic four shafts to change rolls, high speed,high output. 5.The big cooling roller and strong double layers vacuum box ,the great combination to make good cooling ,to produce good high quality stretch film.",
-      "CompanyID":"226596",
-      "BoothNo":"7.1C61",
-      "vedioLink":"https://dn-adsale-dn.qbox.me/Award_MrChu.mp4",
-	  "CompanyName_SC":"昌龙兴科技（深圳）有限公司",
-	  "CompanyName_TC":"昌龙兴科技（深圳）有限公司",
-	  "CompanyName_EN":"CHANGLONGXING SCIENCE & TECHNOLOGY (SHENZHEN) CO.,LTD"
-    },{
-      "FirstPageImage":"http://www.umaki-style.com/wp-content/uploads/2013/06/BR618-4.jpg",
-      "ImageLinks":[
-        "http://i2.chinanews.com/simg/hd/2014/07/24/ea4058f8e180409c8c60087659718235.jpg",
-        "http://gb.cri.cn/mmsource/images/2014/07/24/43/14988648240611112275.jpg",
-        "http://gb.cri.cn/mmsource/images/2014/07/24/74/7123966770451318802.jpg"],
-      "ProductName_SC":"CHANGLONGXING SCIENCE & TECHNOLOGY (SHENZHEN) CO.,LTD",
-      "ProductName_EN":"CHANGLONGXING SCIENCE & TECHNOLOGY (SHENZHEN) CO.,LTD",
-      "ProductName_TC":"CHANGLONGXING SCIENCE & TECHNOLOGY (SHENZHEN) CO.,LTD",
-      "Description_SC":"1.Based on 30 years professional skills and continuous improvement, ChangLongXing Machine becomes a top tier technology products. 2.The multiple edge material will be successful recovered through a smoothly running recovery system of this high-speed unit, the recovery system have a high recovery rate. 3.Unwinding and wear paper tube to synchronize,shorten the time of change roll, for a time of about 28-30 seconds, 2-3KG small film volume can be produced in the case of high speed rolling. 4.Fully automatic four shafts to change rolls, high speed,high output. 5.The big cooling roller and strong double layers vacuum box ,the great combination to make good cooling ,to produce good high quality stretch film.",
-      "Description_EN":"1.Based on 30 years professional skills and continuous improvement, ChangLongXing Machine becomes a top tier technology products. 2.The multiple edge material will be successful recovered through a smoothly running recovery system of this high-speed unit, the recovery system have a high recovery rate. 3.Unwinding and wear paper tube to synchronize,shorten the time of change roll, for a time of about 28-30 seconds, 2-3KG small film volume can be produced in the case of high speed rolling. 4.Fully automatic four shafts to change rolls, high speed,high output. 5.The big cooling roller and strong double layers vacuum box ,the great combination to make good cooling ,to produce good high quality stretch film.",
-      "Description_TC":"1.Based on 30 years professional skills and continuous improvement, ChangLongXing Machine becomes a top tier technology products. 2.The multiple edge material will be successful recovered through a smoothly running recovery system of this high-speed unit, the recovery system have a high recovery rate. 3.Unwinding and wear paper tube to synchronize,shorten the time of change roll, for a time of about 28-30 seconds, 2-3KG small film volume can be produced in the case of high speed rolling. 4.Fully automatic four shafts to change rolls, high speed,high output. 5.The big cooling roller and strong double layers vacuum box ,the great combination to make good cooling ,to produce good high quality stretch film.",
-      "CompanyID":"226596",
-      "BoothNo":"7.1C61",
-      "vedioLink":"",
-	  "CompanyName_SC":"昌龙兴科技（深圳）有限公司",
-	  "CompanyName_TC":"昌龙兴科技（深圳）有限公司",
-	  "CompanyName_EN":"CHANGLONGXING SCIENCE & TECHNOLOGY (SHENZHEN) CO.,LTD"
-    },{
-      "FirstPageImage":"http://www.umaki-style.com/wp-content/uploads/2013/06/BR618-4.jpg",
-      "ImageLinks":[
-        "http://gb.cri.cn/mmsource/images/2014/07/24/43/14988648240611112275.jpg",
-        "http://gb.cri.cn/mmsource/images/2014/07/24/43/14988648240611112275.jpg",
-        "http://gb.cri.cn/mmsource/images/2014/07/24/74/7123966770451318802.jpg"],
-      "ProductName_SC":"CHANGLONGXING SCIENCE & TECHNOLOGY (SHENZHEN) CO.,LTD",
-      "ProductName_EN":"CHANGLONGXING SCIENCE & TECHNOLOGY (SHENZHEN) CO.,LTD",
-      "ProductName_TC":"CHANGLONGXING SCIENCE & TECHNOLOGY (SHENZHEN) CO.,LTD",
-      "Description_SC":"1.Based on 30 years professional skills and continuous improvement, ChangLongXing Machine becomes a top tier technology products. 2.The multiple edge material will be successful recovered through a smoothly running recovery system of this high-speed unit, the recovery system have a high recovery rate. 3.Unwinding and wear paper tube to synchronize,shorten the time of change roll, for a time of about 28-30 seconds, 2-3KG small film volume can be produced in the case of high speed rolling. 4.Fully automatic four shafts to change rolls, high speed,high output. 5.The big cooling roller and strong double layers vacuum box ,the great combination to make good cooling ,to produce good high quality stretch film.",
-      "Description_EN":"1.Based on 30 years professional skills and continuous improvement, ChangLongXing Machine becomes a top tier technology products. 2.The multiple edge material will be successful recovered through a smoothly running recovery system of this high-speed unit, the recovery system have a high recovery rate. 3.Unwinding and wear paper tube to synchronize,shorten the time of change roll, for a time of about 28-30 seconds, 2-3KG small film volume can be produced in the case of high speed rolling. 4.Fully automatic four shafts to change rolls, high speed,high output. 5.The big cooling roller and strong double layers vacuum box ,the great combination to make good cooling ,to produce good high quality stretch film.",
-      "Description_TC":"1.Based on 30 years professional skills and continuous improvement, ChangLongXing Machine becomes a top tier technology products. 2.The multiple edge material will be successful recovered through a smoothly running recovery system of this high-speed unit, the recovery system have a high recovery rate. 3.Unwinding and wear paper tube to synchronize,shorten the time of change roll, for a time of about 28-30 seconds, 2-3KG small film volume can be produced in the case of high speed rolling. 4.Fully automatic four shafts to change rolls, high speed,high output. 5.The big cooling roller and strong double layers vacuum box ,the great combination to make good cooling ,to produce good high quality stretch film.",
-      "CompanyID":"226596",
-      "BoothNo":"7.1C61",
-      "vedioLink":"",
-	  "CompanyName_SC":"昌龙兴科技（深圳）有限公司",
-	  "CompanyName_TC":"昌龙兴科技（深圳）有限公司",
-	  "CompanyName_EN":"CHANGLONGXING SCIENCE & TECHNOLOGY (SHENZHEN) CO.,LTD"
-    },{
-      "FirstPageImage":"http://www.umaki-style.com/wp-content/uploads/2013/06/BR618-4.jpg",
-      "ImageLinks":[
-        "http://i2.chinanews.com/simg/hd/2014/07/24/ea4058f8e180409c8c60087659718235.jpg",
-        "http://gb.cri.cn/mmsource/images/2014/07/24/43/14988648240611112275.jpg",
-        "http://gb.cri.cn/mmsource/images/2014/07/24/74/7123966770451318802.jpg"],
-      "ProductName_SC":"CHANGLONGXING SCIENCE & TECHNOLOGY (SHENZHEN) CO.,LTD",
-      "ProductName_EN":"CHANGLONGXING SCIENCE & TECHNOLOGY (SHENZHEN) CO.,LTD",
-      "ProductName_TC":"CHANGLONGXING SCIENCE & TECHNOLOGY (SHENZHEN) CO.,LTD",
-      "Description_SC":"1.Based on 30 years professional skills and continuous improvement, ChangLongXing Machine becomes a top tier technology products. 2.The multiple edge material will be successful recovered through a smoothly running recovery system of this high-speed unit, the recovery system have a high recovery rate. 3.Unwinding and wear paper tube to synchronize,shorten the time of change roll, for a time of about 28-30 seconds, 2-3KG small film volume can be produced in the case of high speed rolling. 4.Fully automatic four shafts to change rolls, high speed,high output. 5.The big cooling roller and strong double layers vacuum box ,the great combination to make good cooling ,to produce good high quality stretch film.",
-      "Description_EN":"1.Based on 30 years professional skills and continuous improvement, ChangLongXing Machine becomes a top tier technology products. 2.The multiple edge material will be successful recovered through a smoothly running recovery system of this high-speed unit, the recovery system have a high recovery rate. 3.Unwinding and wear paper tube to synchronize,shorten the time of change roll, for a time of about 28-30 seconds, 2-3KG small film volume can be produced in the case of high speed rolling. 4.Fully automatic four shafts to change rolls, high speed,high output. 5.The big cooling roller and strong double layers vacuum box ,the great combination to make good cooling ,to produce good high quality stretch film.",
-      "Description_TC":"1.Based on 30 years professional skills and continuous improvement, ChangLongXing Machine becomes a top tier technology products. 2.The multiple edge material will be successful recovered through a smoothly running recovery system of this high-speed unit, the recovery system have a high recovery rate. 3.Unwinding and wear paper tube to synchronize,shorten the time of change roll, for a time of about 28-30 seconds, 2-3KG small film volume can be produced in the case of high speed rolling. 4.Fully automatic four shafts to change rolls, high speed,high output. 5.The big cooling roller and strong double layers vacuum box ,the great combination to make good cooling ,to produce good high quality stretch film.",
-      "CompanyID":"226596",
-      "BoothNo":"7.1C61",
-      "vedioLink":"",
-	  "CompanyName_SC":"昌龙兴科技（深圳）有限公司",
-	  "CompanyName_TC":"昌龙兴科技（深圳）有限公司",
-	  "CompanyName_EN":"CHANGLONGXING SCIENCE & TECHNOLOGY (SHENZHEN) CO.,LTD"
+      "FirstPageImage": "https://o97tbiy1f.qnssl.com/NewtechAdInfo/litai_01.jpg",
+      "LogoImageLink": "https://o97tbiy1f.qnssl.com/NewtechAdInfo/litai_logo_2.jpg",
+      "ImageLinks": [
+        "https://o97tbiy1f.qnssl.com/NewtechAdInfo/litai_01.jpg",
+        "https://o97tbiy1f.qnssl.com/NewtechAdInfo/litai_02.jpg"
+      ],
+      "ProductName_SC": "TTF-520A Full-Automatic Four-station Plastic Thermoforming Machine",
+      "ProductName_EN": "TTF-520A Full-Automatic Four-station Plastic Thermoforming Machine",
+      "ProductName_TC": "TTF-520A Full-Automatic Four-station Plastic Thermoforming Machine",
+      "Description_SC": "TTF-520A Full-Automatic Four-station Plastic Thermoforming Machine is forming, punching, cutting and stacking in one line. It is completely driven by servo motor, stable operation, low noise, high efficiency, suitable for producing plastic trays, containers, boxes, lids, etc.",
+      "Description_EN": "TTF-520A Full-Automatic Four-station Plastic Thermoforming Machine is forming, punching, cutting and stacking in one line. It is completely driven by servo motor, stable operation, low noise, high efficiency, suitable for producing plastic trays, containers, boxes, lids, etc.",
+      "Description_TC": "TTF-520A Full-Automatic Four-station Plastic Thermoforming Machine is forming, punching, cutting and stacking in one line. It is completely driven by servo motor, stable operation, low noise, high efficiency, suitable for producing plastic trays, containers, boxes, lids, etc.",
+      "CompanyID": "234280",
+      "BoothNo": "8.1J71",
+      "vedioLink": "",
+      "CompanyName_SC": "瑞安市力泰机械有限公司",
+      "CompanyName_TC": "瑞安市力泰機械有限公司",
+      "CompanyName_EN": "RUIAN LITAI MACHINERY CO., LTD"
+    },
+    {
+      "FirstPageImage": "https://o97tbiy1f.qnssl.com/NewtechAdInfo/jutai_1.jpg",
+      "LogoImageLink": "https://o97tbiy1f.qnssl.com/NewtechAdInfo/jutai_logo_2.jpg",
+      "ImageLinks": [
+        "https://o97tbiy1f.qnssl.com/NewtechAdInfo/jutai_1.jpg",
+        "https://o97tbiy1f.qnssl.com/NewtechAdInfo/jutai_2.jpg",
+        "https://o97tbiy1f.qnssl.com/NewtechAdInfo/jutai_3.jpg"
+      ],
+      "ProductName_SC": "工程塑料辅机系统和干燥技术",
+      "ProductName_EN": "High efficient drying process & Engineering plastics compounding",
+      "ProductName_TC": "工程塑料輔機系統和干燥技術",
+      "Description_SC": "聚泰机械是一家致力于改性工程塑料辅机系统和干燥领域创新研究的技术开发型公司。关注客户成长及持续满足客户潜在需求，定制开发各类高效率，低能耗和低噪音的新型装备，并按德国工艺标准进行精密制造。  公司产品有：连续真空干燥机、振动圆盘干燥机、螺旋振动提升机、水平往复筛、吸水空气刀等20多种成套装备和特殊定制设备，集工厂规划、流程优化等系统化解决方案，广泛应用于高分子材料、改性工程塑料、化工等行业。",
+      "Description_EN": "Plastiger is a technology-developing manufacturer dedicated to the innovation research of the engineering plastics compounding auxiliary systems and drying technology field. We have over 20 kinds of equipments and special customizing equipments, such as vacuum dryer, vibrating disc drying machine, spiral vibration conveyor, resonance classifier, dewater air knife, etc, which are extensively applied to polymer industry, engineering plastics compounding, chemical industry and so on, with the systematic solutions of plant planning, flow optimization and equipment selection.",
+      "Description_TC": "聚泰機械是一家致力於改性工程塑料輔機系統和干燥領域創新研究的技術開發型公司。關注客戶成長及持續滿足客戶潛在需求，定制開發各類高效率，低能耗和低噪音的新型裝備，並按德國工藝標准進行精密制造。  公司產品有：連續真空干燥機、振動圓盤干燥機、螺旋振動提升機、水平往復篩、吸水空氣刀等20多種成套裝備和特殊定制設備，集工廠規劃、流程優化等系統化解決方案，廣泛應用於高分子材料、改性工程塑料、化工等行業。",
+      "CompanyID": "239055",
+      "BoothNo": "7.1Q19",
+      "vedioLink": "",
+      "CompanyName_SC": "江阴市聚泰机械设备有限公司",
+      "CompanyName_TC": "江陰市聚泰機械設備有限公司",
+      "CompanyName_EN": "JIANGYIN PLASTIGER MACHINERY CO.,LTD"
     }
-    ]
+  ]
 }

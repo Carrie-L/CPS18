@@ -2,6 +2,7 @@ package com.adsale.ChinaPlas.data;
 
 
 import com.adsale.ChinaPlas.data.model.EmailVisitorData;
+import com.adsale.ChinaPlas.utils.NetWorkHelper;
 
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
@@ -21,7 +22,7 @@ public interface LoginClient {
     @POST("Membership/{lang}/MyExhibitor.aspx?istest=321")
     Observable<Response<ResponseBody>> loginRx(@Path("lang") String lang, @Body RequestBody body);
 
-    @POST("http://eform.adsale.com.hk/GeniusAnalyst/api/appapi/GetVisitorDataByEmail")
+    @POST(NetWorkHelper.REGISTER_EMAIL_DATA)
     Observable<EmailVisitorData> regGetData(@Body RequestBody body);
 
     @GET

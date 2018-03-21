@@ -175,11 +175,11 @@
     </style>
 
     <style name="tech_btn_style">
-        <item name="android:layout_width">48dp</item>
-        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_width">@dimen/seminar_circle_size</item>
+        <item name="android:layout_height">@dimen/seminar_circle_size</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_gravity">center_horizontal</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">@dimen/text_size_normal</item>
     </style>
 
     <style name="btn_grey_style">
@@ -214,9 +214,7 @@
         <item name="android:textColor">@color/home</item>
         <item name="android:textSize">20sp</item>
         <item name="android:padding">1dp</item>
-
     </style>
-
 
     <style name="tech_rect_text_style">
         <item name="android:layout_width">36dp</item>
@@ -435,6 +433,16 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:background">@color/grey700</item>
         <item name="android:padding">4dp</item>
+    </style>
+
+    <style name="new_tec_booth_style_item">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#fff</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@color/grey700</item>
+        <item name="android:padding">3dp</item>
+        <item name="android:textSize">@dimen/text_size_small</item>
     </style>
 
 

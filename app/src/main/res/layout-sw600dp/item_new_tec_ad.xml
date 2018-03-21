@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="obj"
+            type="com.adsale.ChinaPlas.dao.NewProductInfo" />
+
+        <variable
+            name="adapter"
+            type="com.adsale.ChinaPlas.adapter.NewTecListAdapter" />
+
+        <variable
+            name="options"
+            type="com.bumptech.glide.request.RequestOptions" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:background="#fff"
+        android:gravity="center_vertical"
+        android:onClick="@{()->adapter.onItemClick(obj)}"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/ad_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/new_tec_ad"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="3dp"
+            android:background="@color/colorPrimary" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="114dp">
+
+            <ImageView
+                android:id="@+id/arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="56dp"
+                android:background="@drawable/ic_arrow_right" />
+
+            <TextView
+                android:id="@+id/tv_product_booth"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="16dp"
+                android:layout_toStartOf="@id/arrow"
+                android:background="@color/home"
+                android:gravity="center_vertical"
+                android:padding="4dp"
+                android:text="@{String.format(@string/new_tec_booth,obj.boothNo)}"
+                android:textColor="#fff" />
+
+            <ImageView
+                android:id="@+id/iv_product_pic"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_toStartOf="@id/tv_product_booth"
+                android:layout_marginEnd="96dp"
+                android:layout_centerVertical="true"
+                android:scaleType="fitCenter"
+                app:imageUrl="@{obj.image}"
+                app:requestOptions="@{options}" />
+
+            <ImageView
+                android:id="@+id/center_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_centerVertical="true" />
+
+            <TextView
+                android:id="@+id/tv_product_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/center_line"
+                android:layout_marginBottom="8dp"
+                android:layout_toStartOf="@id/iv_product_pic"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:text="@{obj.getProductName()}"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textColor="@color/grey11"
+                android:textSize="18sp" />
+
+
+
+            <TextView
+                android:id="@+id/tv_product_company"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@id/tv_product_title"
+                android:layout_below="@id/center_line"
+                android:layout_marginTop="8dp"
+                android:layout_toStartOf="@id/iv_product_pic"
+                android:drawablePadding="8dp"
+                android:drawableStart="@drawable/ic_new_tec_company"
+                android:text="@{obj.companyName}"
+                android:textColor="@color/grey500"
+                android:textSize="15sp" />
+
+        </RelativeLayout>
+    </LinearLayout>
+</layout>

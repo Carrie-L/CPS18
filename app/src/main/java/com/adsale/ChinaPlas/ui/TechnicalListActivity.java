@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 
+import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.TechAdapter;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.dao.SeminarInfo;
@@ -29,7 +30,6 @@ import com.adsale.ChinaPlas.viewmodel.TechViewModel;
  * SystemMethod.setStatEvent(getActivity(), "ViewM6", "M6" + "_Date" + (16 + index) + m6B.companyID[index], currLang);
  */
 public class TechnicalListActivity extends BaseActivity implements OnIntentListener {
-
     private TechViewModel model;
     private RecyclerView recyclerView;
 
@@ -47,8 +47,9 @@ public class TechnicalListActivity extends BaseActivity implements OnIntentListe
     @Override
     protected void initData() {
         String date = getIntent().getStringExtra("index");
+        LogUtil.i(TAG,"");
         TechAdapter adapter;
-        if (!TextUtils.isEmpty(date)) {
+        if (!TextUtils.isEmpty(date)&&!date.equals("0")) {
             LogUtil.i(TAG, "DATE=" + date);
             int pos = Integer.valueOf(date);
             model.getPartList(pos, true);
@@ -68,13 +69,17 @@ public class TechnicalListActivity extends BaseActivity implements OnIntentListe
         if (toCls == null) {
             intent = new Intent(this, TechSeminarDtlActivity.class);
             intent.putExtra("ID", (String) entity);
-        } else {
+        } else if(toCls.getSimpleName().equals("WebContentActivity")){
+            intent = new Intent(getApplicationContext(), WebContentActivity.class);
+            intent.putExtra(Constant.WEB_URL, "WebContent/MI00000064");
+        }
+        else {
             intent = new Intent(this, toCls);
             intent.putExtra("Info", (SeminarInfo) entity);
+            intent.putExtra("title",getString(R.string.uc_floorplan));
         }
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         overridePendingTransPad();
-
     }
 }

@@ -25,7 +25,6 @@ public class DocumentsDownCenterActivity extends BaseActivity {
 
     private RecyclerView recyclerView;
 
-
     @Override
     protected void initView() {
         ActivityDocumentsDownCenterBinding binding = ActivityDocumentsDownCenterBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);

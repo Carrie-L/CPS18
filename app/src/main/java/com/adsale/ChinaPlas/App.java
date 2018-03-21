@@ -28,6 +28,7 @@ import com.adsale.ChinaPlas.utils.ReleaseHelper;
 import com.baidu.mobstat.StatService;
 import com.crashlytics.android.Crashlytics;
 import com.mob.MobSDK;
+import com.squareup.leakcanary.LeakCanary;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -102,6 +103,14 @@ public class App extends MultiDexApplication {
         initCrashHandle();
         resources = getResources();
 
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
+        // Normal app init code...
+
         DB_PATH = "/data" + Environment.getDataDirectory().getAbsolutePath() + "/" + getPackageName() + "/databases";
 
         mConnectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -152,16 +161,12 @@ public class App extends MultiDexApplication {
         } else {
             JPushInterface.setAlias(getApplicationContext(), 1, "SCUser");
         }
-
-
     }
 
     private void testJPush() {
-        JPushInterface.setAlias(this, "Carrie180205", new TagAliasCallback() {
+        JPushInterface.setAlias(this, "Carrie180320", new TagAliasCallback() {
             @Override
             public void gotResult(int arg0, String arg1, Set<String> arg2) {
-                // Toast.makeText(mContext, "JPushInterface.setAlias",
-                // 1).show();
                 LogUtil.i("App:JPushInterface", "返回状态码arg0=" + arg0 + ",别名arg1=" +
                         arg1 + ",标签arg2=" + arg2);
             }

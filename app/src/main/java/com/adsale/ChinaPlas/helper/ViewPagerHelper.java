@@ -27,6 +27,7 @@ public class ViewPagerHelper {
     private ViewPager mViewPager;
     private List<View> views = new ArrayList<>();
     private boolean isDotFocus;
+    private int index;
 
     public ViewPagerHelper(Context mContext, LinearLayout mLlPoint, ViewPager mViewPager, List<View> views) {
         this.mContext = mContext;
@@ -79,19 +80,50 @@ public class ViewPagerHelper {
         ind_params.setMargins(5, width, 0, 0);
         TextView textView;
         mLlPoint.removeAllViews();
-
         for (int i = 0; i < length; ++i) {
             textView = new TextView(mContext);
             if (i == 0) {
                 textView.setBackgroundColor(mContext.getResources().getColor(R.color.dark_gray));
             } else
                 textView.setBackgroundColor(mContext.getResources().getColor(R.color.grey));
-            textView.setText((i+1) + "");
+            textView.setText((i + 1) + "");
             textView.setTextColor(Color.WHITE);
             textView.setGravity(Gravity.CENTER);
             textView.setLayoutParams(ind_params);
             mLlPoint.addView(textView);
+            index = i;
         }
+        setDotClick(length);
+    }
+
+    private void setDotClick(int length) {
+        if (length == 0) {
+            return;
+        }
+        mLlPoint.getChildAt(0).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mViewPager.setCurrentItem(0);
+            }
+        });
+        if (length < 2) {
+            return;
+        }
+        mLlPoint.getChildAt(1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mViewPager.setCurrentItem(1);
+            }
+        });
+        if (length < 3) {
+            return;
+        }
+        mLlPoint.getChildAt(2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mViewPager.setCurrentItem(2);
+            }
+        });
     }
 
     private class ViewPagerChangeListener implements ViewPager.OnPageChangeListener {

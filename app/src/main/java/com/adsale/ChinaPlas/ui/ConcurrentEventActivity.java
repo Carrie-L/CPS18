@@ -2,10 +2,12 @@ package com.adsale.ChinaPlas.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -20,6 +22,7 @@ import com.adsale.ChinaPlas.databinding.ActivityEventBinding;
 import com.adsale.ChinaPlas.helper.ADHelper;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
+import com.adsale.ChinaPlas.utils.DisplayUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.viewmodel.EventModel;
 import com.bumptech.glide.Glide;
@@ -40,6 +43,7 @@ public class ConcurrentEventActivity extends BaseActivity implements OnIntentLis
     private EventModel mEventModel;
     private ActivityEventBinding binding;
     private ConcurrentEvent.AdInfo adInfo;
+    private int adHeight;
 
     @Override
     protected void initView() {
@@ -63,16 +67,27 @@ public class ConcurrentEventActivity extends BaseActivity implements OnIntentLis
 
         showAd();
 
+        CardView cardView = binding.llLeftBtn;
+        int cardWidth = AppUtil.isTablet() ? AppUtil.getScreenWidth() - (765 * DisplayUtil.dip2px(getApplicationContext(), 89) / 89) :
+                AppUtil.getScreenWidth() - (520 * DisplayUtil.dip2px(getApplicationContext(), 140) / 232);
+        LogUtil.i(TAG, "cardWidth=" + cardWidth);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(cardWidth, RelativeLayout.LayoutParams.MATCH_PARENT);
+        params.topMargin = DisplayUtil.dip2px(getApplicationContext(), 48) + 2;
+        params.bottomMargin = adHeight;
+        cardView.setLayoutParams(params);
     }
 
     public void showAd() {
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) binding.ivAd.getLayoutParams();
-        int screenWidth = App.mSP_Config.getInt(Constant.SCREEN_WIDTH, 0);
-        params.width = screenWidth;
-        params.height = AppUtil.getCalculatedHeight(Constant.M3_WIDTH, Constant.M3_HEIGHT);
-        binding.ivAd.setLayoutParams(params);
-
         adInfo = mEventModel.event.AdInfo;
+        if (adInfo.version.equals("0")) {
+            binding.ivAd.setVisibility(View.GONE);
+            return;
+        }
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) binding.ivAd.getLayoutParams();
+        params.width = RelativeLayout.LayoutParams.MATCH_PARENT;
+        adHeight = AppUtil.getCalculatedHeight(Constant.M3_WIDTH, Constant.M3_HEIGHT);
+        params.height = adHeight;
+        binding.ivAd.setLayoutParams(params);
         Glide.with(getApplicationContext()).load(adInfo.getImageUrl()).into(binding.ivAd);
     }
 
@@ -86,9 +101,9 @@ public class ConcurrentEventActivity extends BaseActivity implements OnIntentLis
             ConcurrentEvent.Pages pages = (ConcurrentEvent.Pages) entity;
             toEventDtl(pages.pageID, pages.getTitle());
         } else if (toCls.getSimpleName().equals("TechnicalListActivity")) {
-            Intent intent = new Intent(this, toCls);
+            Intent intent = new Intent(this, TechnicalListActivity.class);
             intent.putExtra("title", getString(R.string.title_technical_seminar));
-            intent.putExtra("index", (String) entity);
+            intent.putExtra("index", mEventModel.mClickPos.get()==0?"0":mEventModel.convertToTechDateIndex(((ConcurrentEvent.Pages) entity).date));
             startActivity(intent);
             overridePendingTransPad();
         } else if (toCls.getSimpleName().equals("FilterApplicationListActivity")) {
@@ -104,18 +119,6 @@ public class ConcurrentEventActivity extends BaseActivity implements OnIntentLis
         LogUtil.i(TAG, "onItemClick: id= " + eventId);
         Intent intent = new Intent(this, WebContentActivity.class);
         intent.putExtra(Constant.WEB_URL, "ConcurrentEvent/".concat(eventId));
-        if (TextUtils.isEmpty(title)) {
-            ArrayList<ConcurrentEvent.Pages> pages = mEventModel.event.pages;
-            int size = pages.size();
-            for (int i = 0; i < size; i++) {
-                if (pages.get(i).pageID.equals(eventId)) {
-                    title = pages.get(i).getTitle();
-                    break;
-                }
-            }
-        }
-        intent.putExtra("title", title);
-        LogUtil.i(TAG, "title=" + title);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         overridePendingTransPad();
@@ -130,6 +133,9 @@ public class ConcurrentEventActivity extends BaseActivity implements OnIntentLis
         LogUtil.i(TAG, "onActivityResult::filters=" + filters.size() + "," + filters.toString());
 
         int size = filters.size();
+        if (size == 0) {
+            return;
+        }
         String words = "";
         ArrayList<String> ids = new ArrayList<>();
         for (int i = 0; i < size; i++) {
@@ -144,7 +150,7 @@ public class ConcurrentEventActivity extends BaseActivity implements OnIntentLis
         mEventModel.filterEvent(ids);
     }
 
-    private void downEventZips(){
+    private void downEventZips() {
 
     }
 

@@ -214,7 +214,7 @@ public class ExhibitorDtlViewModel {
         if (mNewTecRV == null) {
             mNewTecRV = new RecyclerView(mContext);
             setRecyclerView(mNewTecRV);
-            NewTecListAdapter mTecAdapter = new NewTecListAdapter(mContext, newProductInfos, mListener);
+            NewTecListAdapter mTecAdapter = new NewTecListAdapter( newProductInfos, mListener);
             mNewTecRV.setAdapter(mTecAdapter);
         }
         mInfoFrameLayout.removeAllViews();

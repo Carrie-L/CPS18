@@ -52,11 +52,10 @@ public class NewTecActivity extends BaseActivity implements OnIntentListener {
     protected void initData() {
         mSideDataView.initRecyclerView(recyclerView);
         getList();
-//        mSideDataView.initNewTecProducts(list,letters);
         generateAdList();
         insertAdList();
         listCaches.addAll(list);
-        adapter = new NewTecListAdapter(getApplicationContext(), list, this);
+        adapter = new NewTecListAdapter(list, this);
         recyclerView.setAdapter(adapter);
         recyclerView.requestFocus();
         search();
@@ -80,6 +79,7 @@ public class NewTecActivity extends BaseActivity implements OnIntentListener {
         if (adSize == 0) {
             return;
         }
+        LogUtil.i(TAG, "adProducts=" + adProducts.toString());
 
         /*  更换广告顺序 */
         SharedPreferences spConfig = App.mSP_Config;
@@ -111,6 +111,9 @@ public class NewTecActivity extends BaseActivity implements OnIntentListener {
                     entity.image = adProduct.FirstPageImage;
                     entity.imageLinks = adProduct.ImageLinks;
                     entity.videoLink = adProduct.vedioLink;
+                    entity.LogoImageLink = adProduct.LogoImageLink;
+                    LogUtil.i(TAG, "adProduct.LogoImageLink=" + adProduct.LogoImageLink);
+                    LogUtil.i(TAG, "entity.LogoImageLink=" + entity.LogoImageLink);
                     list.add(i, entity);
                 }
             } else {

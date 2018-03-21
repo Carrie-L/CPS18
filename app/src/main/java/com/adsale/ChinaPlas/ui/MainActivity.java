@@ -51,7 +51,7 @@ public class MainActivity extends BaseActivity {
         spHelpPage = getSharedPreferences("HelpPage", MODE_PRIVATE);
         int language = AppUtil.getCurLanguage();
         AppUtil.switchLanguage(getApplicationContext(), language);
-        AppUtil.trackViewLog( 185, "Page", "", "Menu");
+        AppUtil.trackViewLog(185, "Page", "", "Menu");
     }
 
     @Override
@@ -74,7 +74,7 @@ public class MainActivity extends BaseActivity {
             getFragmentManager().beginTransaction().add(R.id.contentFrame, mainFragment).commit();
             mainFragment.setNavViewModel(mNavViewModel);
         }
-        App.mSP_Config.edit().putBoolean("isM2Popup",false).apply();
+        App.mSP_Config.edit().putBoolean("isM2Popup", false).apply();
     }
 
     private void permissionSD() {
@@ -96,6 +96,7 @@ public class MainActivity extends BaseActivity {
 
         if (mNavViewModel.isLoginSuccess.get() != AppUtil.isLogin()) { // 做一个登陆状态的判断，只有在登陆状态改变时才执行以下操作
             mNavViewModel.isLoginSuccess.set(AppUtil.isLogin()); /* 改变Menu的文字 */
+            mNavViewModel.setUpHeader();
         }
 
         LogUtil.i(TAG, "onResume: App.mLanguage=" + AppUtil.getCurLanguage());
@@ -141,7 +142,7 @@ public class MainActivity extends BaseActivity {
     private void helpPage() {
         if (HelpView.isFirstShow(HELP_PAGE_MAIN)) {
             showHelpPage();
-            isShowPage=true;
+            isShowPage = true;
             App.mSP_HP.edit().putInt("HELP_PAGE_" + HelpView.HELP_PAGE_MAIN, HelpView.HELP_PAGE_MAIN).apply();
         }
     }
@@ -163,6 +164,7 @@ public class MainActivity extends BaseActivity {
         @Override
         public void onClick(View v) {
             helpDialog.dismiss();
+
             intentToUpdateCenter();
         }
     };
@@ -172,12 +174,13 @@ public class MainActivity extends BaseActivity {
      */
     private void intentToUpdateCenter() {
         LogUtil.i(TAG, "intentToUpdateCenter");
-        if (uc_count > 0) {
+        if (uc_count > 0 && !App.mSP_Config.getBoolean("intentToUpdateCenter", false)) {
             Intent intent = new Intent(this, UpdateCenterActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra("FromMain",true);
+            intent.putExtra("FromMain", true);
             startActivity(intent);
             overridePendingTransPad();
+            App.mSP_Config.edit().putBoolean("intentToUpdateCenter", true).apply();
         }
     }
 

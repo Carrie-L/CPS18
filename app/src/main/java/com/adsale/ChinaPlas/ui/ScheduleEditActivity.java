@@ -2,6 +2,7 @@ package com.adsale.ChinaPlas.ui;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.View;
 
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
@@ -20,11 +21,12 @@ import com.adsale.ChinaPlas.viewmodel.ScheduleEditViewModel;
 public class ScheduleEditActivity extends BaseActivity implements ScheduleEditViewModel.ScheduleEditListener {
 
     private ScheduleEditViewModel mEditModel;
+    private ActivityScheduleItemBinding binding;
 
     @Override
     protected void initView() {
-        mTypePrefix="Page_ScheduleInfo";
-        ActivityScheduleItemBinding binding = ActivityScheduleItemBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
+        mTypePrefix = "Page_ScheduleInfo";
+        binding = ActivityScheduleItemBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         mEditModel = new ScheduleEditViewModel(getApplicationContext());
         binding.setScheduleModel(mEditModel);
         mEditModel.setScheduleEditListener(this);
@@ -46,7 +48,7 @@ public class ScheduleEditActivity extends BaseActivity implements ScheduleEditVi
         ScheduleInfo scheduleInfo = getIntent().getParcelableExtra(Constant.INTENT_SCHEDULE);
         if (scheduleInfo != null) {
             mEditModel.isEdit.set(true);
-            mEditModel.setId(scheduleInfo.getId());
+            mEditModel.setId(scheduleInfo.getId() == null ? mEditModel.getId() : scheduleInfo.getId());
             mEditModel.setCompanyId(scheduleInfo.getCompanyID());
             mEditModel.etTitle.set(scheduleInfo.getTitle());
             mEditModel.etLocation.set(scheduleInfo.getLocation());
@@ -55,7 +57,12 @@ public class ScheduleEditActivity extends BaseActivity implements ScheduleEditVi
             mEditModel.etMinute.set(String.valueOf(scheduleInfo.getMinute()));
             mEditModel.etStartDate.set(scheduleInfo.getStartDate());
             mEditModel.etStartTime.set(scheduleInfo.getStartTime());
+
+            if (scheduleInfo.getCompanyID() == null) {
+                binding.imgExhibitor.setVisibility(View.GONE);
+            }
         }
+
 
         mEditModel.setFragmentManager(getFragmentManager());
         if (HelpView.isFirstShow(HelpView.HELP_PAGE_SCHEDULE_DTL)) {

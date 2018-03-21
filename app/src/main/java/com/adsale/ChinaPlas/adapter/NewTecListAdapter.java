@@ -8,6 +8,8 @@ import com.adsale.ChinaPlas.base.CpsBaseAdapter;
 import com.adsale.ChinaPlas.dao.NewProductInfo;
 import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.ui.NewTecDtlActivity;
+import com.adsale.ChinaPlas.utils.AppUtil;
+import com.adsale.ChinaPlas.utils.LogUtil;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
@@ -24,12 +26,11 @@ public class NewTecListAdapter extends CpsBaseAdapter<NewProductInfo> {
     private OnIntentListener mListener;
     private RequestOptions options;
 
-
-    public NewTecListAdapter(Context mContext, ArrayList<NewProductInfo> list, OnIntentListener listener) {
+    public NewTecListAdapter( ArrayList<NewProductInfo> list, OnIntentListener listener) {
         this.list = list;
         this.mListener = listener;
 
-        options = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE);
+        options = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE).placeholder(R.drawable.place_holder).error(R.drawable.place_holder);
     }
 
     public void setList(ArrayList<NewProductInfo> list){

@@ -1,5 +1,44 @@
 {
-  "notifications": [
-    
+  "notifications_en": [
+    {
+      "Message": "Pre-register by Feb 11, 2018 to receive a badge!",
+      "date": "2018-02-05 10:00:00",
+      "function": "5",
+      "ID": ""
+    },
+    {
+      "Message": "Pre-register by Feb 11, 2018 to receive a badge!",
+      "date": "2018-02-09 16:00:00",
+      "function": "5",
+      "ID": ""
+    }
+  ],
+"notifications_sc": [
+    {
+      "Message": "2月11日前预登记可获寄参观证，免排队快速入场， 立即行动！",
+      "date": "2018-02-05 10:00:00",
+      "function": "5",
+      "ID": ""
+    },
+    {
+      "Message": "2月11日前预登记可获寄参观证，免排队快速入场， 立即行动！",
+      "date": "2018-02-09 16:00:00",
+      "function": "5",
+      "ID": ""
+    }
+  ],
+"notifications_tc": [
+    {
+      "Message": "2月11日前預登記可獲寄參觀證，免排隊快速入場， 立即行動！",
+      "date": "2018-02-05 10:00:00",
+      "function": "5",
+      "ID": ""
+    },
+    {
+      "Message": "2月11日前預登記可獲寄參觀證，免排隊快速入場， 立即行動！",
+      "date": "2018-02-09 16:00:00",
+      "function": "5",
+      "ID": ""
+    }
   ]
 }

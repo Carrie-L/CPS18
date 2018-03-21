@@ -148,6 +148,7 @@ public class MainViewModel {
             params.topMargin = 0;
             viewPager.setLayoutParams(params);
         }
+        App.mSP_Config.edit().putInt("topHeight",topHeight).apply();
 
         if (topBannerSize > 1) {
              /* 设置单个小圆点尺寸 */
@@ -368,6 +369,7 @@ public class MainViewModel {
         if (function < 5) {
             adHelper.intentAd(function, property.companyID,
                     property.eventID, property.seminarID, property.newsID);
+            return;
         } else if (function == 5) {  // function = 5, 根據 baiduTJ 值跳轉
             if (allIcons.isEmpty()) {
                 allIcons = mRepository.getAllIcons();

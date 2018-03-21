@@ -1,6 +1,7 @@
 package com.adsale.ChinaPlas.viewmodel;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
@@ -16,7 +17,12 @@ import android.widget.VideoView;
 
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.dao.NewProductInfo;
+import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.helper.ViewPagerHelper;
+import com.adsale.ChinaPlas.ui.ExhibitorDetailActivity;
+import com.adsale.ChinaPlas.ui.FloorDetailActivity;
+import com.adsale.ChinaPlas.ui.ImageActivity;
+import com.adsale.ChinaPlas.utils.LogUtil;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
@@ -37,15 +43,17 @@ public class NewTecViewModel {
     private LinearLayout mLlPoint;
     private VideoView videoView;
     private Bitmap bitmap;
+    private OnIntentListener mListener;
 
-    public NewTecViewModel(Context mContext, FrameLayout frameLayout, NewProductInfo entity) {
+    public NewTecViewModel(Context mContext, FrameLayout frameLayout, NewProductInfo entity, OnIntentListener listener) {
         this.mContext = mContext;
         this.entity = entity;
         this.mTopFrame = frameLayout;
+        this.mListener = listener;
     }
 
     public void setupTop() {
-        requestOptions = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE).fitCenter();
+        requestOptions = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE).placeholder(R.drawable.place_holder_grey).error(R.drawable.place_holder_grey).fitCenter();
         if (entity.adItem) {
             if (TextUtils.isEmpty(entity.videoLink)) {
                 showProductViewPager();
@@ -64,6 +72,12 @@ public class NewTecViewModel {
         ImageView imageView = new ImageView(mContext);
         Glide.with(mContext).load(Uri.parse(entity.image)).apply(requestOptions).into(imageView);
         mTopFrame.addView(imageView);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onIntent(entity.image, null);
+            }
+        });
     }
 
     /**
@@ -75,20 +89,35 @@ public class NewTecViewModel {
         mLlPoint = topView.findViewById(R.id.vpindicator);
         mTopFrame.addView(topView);
 
-        List<View> images = new ArrayList<>();
-        int size = entity.imageLinks.size();
+        final List<View> images = new ArrayList<>();
+        final int size = entity.imageLinks.size();
         for (int i = 0; i < size; i++) {
             ImageView imageView = new ImageView(mContext);
             imageView.setAdjustViewBounds(true);
             Glide.with(mContext).load(entity.imageLinks.get(i)).apply(requestOptions).into(imageView);
             images.add(imageView);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    LogUtil.i("showProductViewPager", "V=" + v.toString() + ",v.id=" + v.getId());
+                    if (v == images.get(0)) {
+                        LogUtil.i("", "v==images.get(1)");
+                        mListener.onIntent(entity.imageLinks.get(0), null);
+                    } else if (size > 1 && v == images.get(1)) {
+                        LogUtil.i("", "v==images.get(1)");
+                        mListener.onIntent(entity.imageLinks.get(1), null);
+                    } else if (size > 2 && v == images.get(2)) {
+                        LogUtil.i("", "v==images.get(1)");
+                        mListener.onIntent(entity.imageLinks.get(2), null);
+                    }
+                }
+            });
         }
 
         ViewPagerHelper viewPagerHelper = new ViewPagerHelper(mContext, mLlPoint, viewPager, images);
         viewPagerHelper.generateView(false);
 
     }
-
 
     /**
      * product video，only ad product
@@ -123,6 +152,14 @@ public class NewTecViewModel {
             }
         });
 
+    }
+
+    public void onBoothClick(String booth) {
+        mListener.onIntent(booth, FloorDetailActivity.class);
+    }
+
+    public void onCompanyClick(String companyId) {
+        mListener.onIntent(companyId, ExhibitorDetailActivity.class);
     }
 
     private Bitmap getBm(String url) {

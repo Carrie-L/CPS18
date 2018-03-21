@@ -20,8 +20,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginStart="12dp"
         android:background="#fff"
         android:gravity="center_vertical"
         android:onClick="@{()->adapter.onItemClick(obj)}"
@@ -31,8 +31,8 @@
             android:id="@+id/ad_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/new_tec_ad"
             android:layout_marginTop="8dp"
+            android:text="@string/new_tec_ad"
             android:textColor="@color/colorPrimary"
             android:textSize="18sp" />
 
@@ -49,12 +49,12 @@
             android:id="@+id/iv_product_pic"
             android:layout_width="96dp"
             android:layout_height="96dp"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_below="@id/line"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="5dp"
             android:layout_marginBottom="8dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="5dp"
             android:scaleType="fitCenter"
             app:imageUrl="@{obj.image}"
             app:requestOptions="@{options}" />
@@ -65,7 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_below="@id/line"
-            android:layout_toLeftOf="@id/iv_product_pic"
+            android:layout_toStartOf="@id/iv_product_pic"
             android:gravity="center_vertical"
             android:singleLine="true"
             android:text="@{obj.getProductName()}"
@@ -73,30 +73,44 @@
             android:textColor="@color/grey11"
             android:textSize="16sp" />
 
+        <ImageView
+            android:id="@+id/iv_booth"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignStart="@id/tv_product_title"
+            android:layout_below="@id/tv_product_title"
+            android:gravity="center_vertical"
+            android:background="@drawable/flag_end_pt_little" />
+
         <TextView
             android:id="@+id/tv_product_booth"
             android:layout_width="wrap_content"
-            android:layout_height="28dp"
-            android:textColor="#fff"
-            android:gravity="center_vertical"
-            android:padding="4dp"
-            android:layout_alignLeft="@id/tv_product_title"
+            android:layout_height="24dp"
             android:layout_below="@id/tv_product_title"
+            android:layout_marginLeft="12dp"
+            android:layout_toEndOf="@id/iv_booth"
             android:background="@color/home"
-            android:text="@{String.format(@string/new_tec_booth,obj.boothNo)}" />
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:padding="3dp"
+            android:textSize="@dimen/text_size_small"
+            android:text="@{String.format(@string/new_tec_booth,obj.boothNo)}"
+            android:textColor="#fff" />
 
         <TextView
             android:id="@+id/tv_product_company"
             android:layout_width="wrap_content"
             android:layout_height="24dp"
-            android:layout_alignLeft="@id/tv_product_title"
+            android:layout_alignStart="@id/tv_product_title"
             android:layout_below="@id/tv_product_booth"
-            android:gravity="center_vertical"
-            android:drawableLeft="@drawable/ic_new_tec_company"
-            android:drawablePadding="8dp"
             android:layout_marginTop="8dp"
+            android:layout_toStartOf="@id/iv_product_pic"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
             android:text="@{obj.companyName}"
             android:textColor="@color/grey500" />
+        <!--android:drawableStart="@drawable/ic_new_tec_company"-->
 
 
     </RelativeLayout>

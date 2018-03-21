@@ -149,7 +149,7 @@ public class HelpView extends DialogFragment implements View.OnClickListener {
     }
 
     private void getImageIdsSC() {
-        if(AppUtil.isTablet()){
+        if (AppUtil.isTablet()) {
             getImageIdsSCPad();
             return;
         }
@@ -196,7 +196,7 @@ public class HelpView extends DialogFragment implements View.OnClickListener {
                 imageIds = new Integer[]{R.drawable.help_event_0_sc_pad};
                 break;
             case HELP_PAGE_FLOOR_OVERALL:
-//                imageIds = new Integer[]{R.drawable.help_mapfloor_0_sc_pad};
+//                imageIds = new Integer[]{R.drawable.help_ma};
                 break;
             case HELP_PAGE_FLOOR_DTL:
                 imageIds = new Integer[]{R.drawable.help_floordtl_0_sc_pad};
@@ -249,6 +249,7 @@ public class HelpView extends DialogFragment implements View.OnClickListener {
     }
 
     private void getImageIdsEN() {
+        LogUtil.i(TAG, "getImageIdsEN");
         switch (mPageType) {
             case HELP_PAGE_MAIN:
                 getMenuImages();
@@ -278,6 +279,7 @@ public class HelpView extends DialogFragment implements View.OnClickListener {
                 imageIds = new Integer[]{R.drawable.help_schedule_edit_0_en};
                 break;
         }
+        LogUtil.i(TAG, "imageIds=" + imageIds.length+","+ Arrays.toString(imageIds));
     }
 
     private void getMenuImages() {
@@ -402,7 +404,6 @@ public class HelpView extends DialogFragment implements View.OnClickListener {
             setPhoneWindow();
         }
     }
-
 
 
     private void setPhoneWindow() {

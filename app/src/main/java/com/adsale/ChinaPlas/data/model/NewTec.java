@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class NewTec {
     public String NewTechInfoLink;
     public String imageLink;
+    public String listImageLink;
 
     public ArrayList<ADProduct> adProduct;
 
@@ -25,6 +26,7 @@ public class NewTec {
 
     public static class ADProduct{
         public String FirstPageImage;
+        public String LogoImageLink;
         public ArrayList<String> ImageLinks;
         public String ProductName_SC;
         public String ProductName_EN;
@@ -43,6 +45,7 @@ public class NewTec {
         public String toString() {
             return "AD{" +
                     " BoothNo='" + BoothNo + '\'' +
+                    " LogoImageLink='" + LogoImageLink + '\'' +
                     '}';
         }
 

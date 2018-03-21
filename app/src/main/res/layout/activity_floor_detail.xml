@@ -54,8 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/skip_transparent"
-            android:visibility="gone"
-            />
+            android:visibility="gone" />
 
         <FrameLayout
             android:id="@+id/floor_nav"
@@ -72,6 +71,7 @@
             android:layout_toRightOf="@id/floor_nav"
             android:background="@{model.isNavOpened?@drawable/btn_close_floor_nav:@drawable/btn_open_floor_nav}"
             android:onClick="@{()->model.onClickDrawer()}" />
+        <!---->
 
         <TextView
             android:id="@+id/tv_nodata"
@@ -80,6 +80,10 @@
             android:layout_centerInParent="true"
             android:text="@string/nodata"
             android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/iv_help"
+            style="@style/help_btn_style" />
 
     </RelativeLayout>
 </layout>

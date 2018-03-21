@@ -83,6 +83,7 @@ public class NewTecRepository {
                 info = new NewProductInfo(cursor.getString(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getString(4),
                         cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9), cursor.getString(10), cursor.getString(11));
                 info.image = newTec.imageLink.concat(cursor.getString(cursor.getColumnIndex("IMAGE")));
+                info.imageThumb = newTec.listImageLink.concat(cursor.getString(cursor.getColumnIndex("IMAGE")));
                 list.add(info);
             }
             cursor.close();

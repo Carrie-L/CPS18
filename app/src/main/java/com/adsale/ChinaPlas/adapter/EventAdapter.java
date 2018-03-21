@@ -23,6 +23,7 @@ public class EventAdapter extends CpsBaseAdapter<ConcurrentEvent.Pages> {
     private ArrayList<ConcurrentEvent.Pages> list;
     private ConcurrentEvent.Pages entity;
     private OnIntentListener mListener;
+//    private boolean isTechEmpty;
 
     public EventAdapter(ArrayList<ConcurrentEvent.Pages> list, OnIntentListener listener) {
         this.list = list;
@@ -36,7 +37,11 @@ public class EventAdapter extends CpsBaseAdapter<ConcurrentEvent.Pages> {
     }
 
     public void onItemClick(ConcurrentEvent.Pages entity) {
-        mListener.onIntent(entity, WebContentActivity.class);
+        if(entity.pageID.equals("TechnicalSeminar")){
+            mListener.onIntent(entity, TechnicalListActivity.class);
+        }else{
+            mListener.onIntent(entity, WebContentActivity.class);
+        }
     }
 
     @Override
@@ -47,21 +52,44 @@ public class EventAdapter extends CpsBaseAdapter<ConcurrentEvent.Pages> {
     @Override
     protected int getLayoutIdForPosition(int position) {
         entity = list.get(position);
-        if (entity.isTypeLabel.get() == 2) {
-            return R.layout.item_event_seminar;
+        if (position == 0) {
+            entity.isTypeLabel.set(1);
+        } else if (entity.date.equals(list.get(position - 1).date)) {
+            entity.isTypeLabel.set(0);
         } else {
-            if (position == 0) {
-                entity.isTypeLabel.set(1);
-            } else if (position == 1) {
-                entity.isTypeLabel.set(0);
-            } else if (list.get(position).date.equals(list.get(position - 2).date)) { /* 因为中间插了一个技术交流会，所以 -2，上上个 */
-                entity.isTypeLabel.set(0);
-            } else {
-                entity.isTypeLabel.set(1);
-            }
-            list.set(position, entity);
-            return R.layout.item_event;
+            entity.isTypeLabel.set(1);
         }
+        list.set(position, entity);
+        return R.layout.item_event;
+
+//        if (isTechEmpty) {
+//            if (position == 0) {
+//                entity.isTypeLabel.set(1);
+//            } else if (entity.date.equals(list.get(position - 1).date)) {
+//                entity.isTypeLabel.set(0);
+//            } else {
+//                entity.isTypeLabel.set(1);
+//            }
+//            list.set(position, entity);
+//            return R.layout.item_event;
+//        } else {
+//            if (entity.isTypeLabel.get() == 2) {
+//                return R.layout.item_event_seminar;
+//            } else {
+//                if (position == 0) {
+//                    entity.isTypeLabel.set(1);
+//                } else if (position == 1) {
+//                    entity.isTypeLabel.set(0);
+//                } else if (list.get(position).date.equals(list.get(position - 2).date)) { /* 因为中间插了一个技术交流会，所以 -2，上上个 */
+//                    entity.isTypeLabel.set(0);
+//                } else {
+//                    entity.isTypeLabel.set(1);
+//                }
+//                list.set(position, entity);
+//                return R.layout.item_event;
+//            }
+//        }
+
 
     }
 

@@ -14,7 +14,7 @@
 
         <variable
             name="options"
-            type="com.bumptech.glide.request.RequestOptions"/>
+            type="com.bumptech.glide.request.RequestOptions" />
     </data>
 
     <RelativeLayout
@@ -32,10 +32,10 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
             android:scaleType="fitCenter"
-            app:imageUrl="@{obj.image}"
+            app:imgUrl="@{obj.imageThumb}" />
+        <!--app:imageUrl="@{obj.imageThumb}"
             app:requestOptions="@{options}"
-            />
-        <!--app:imageUrl="@{obj.adItem?obj.image:baseUrl.concat(obj.image)}"-->
+        -->
 
         <TextView
             android:id="@+id/tv_product_title"
@@ -51,12 +51,22 @@
             android:textColor="@color/grey11"
             android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/tv_product_booth"
-            style="@style/new_tec_booth_style"
+        <ImageView
+            android:id="@+id/iv_booth"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_alignLeft="@id/tv_product_title"
             android:layout_below="@id/tv_product_title"
             android:layout_marginTop="8dp"
+            android:background="@drawable/flag_end_pt_little" />
+
+        <TextView
+            android:id="@+id/tv_product_booth"
+            style="@style/new_tec_booth_style_item"
+            android:layout_below="@id/tv_product_title"
+            android:layout_marginTop="8dp"
+            android:layout_toEndOf="@id/iv_booth"
+            android:layout_marginLeft="12dp"
             android:text="@{String.format(@string/new_tec_booth,obj.boothNo)}" />
 
         <TextView
@@ -68,8 +78,6 @@
             android:layout_marginBottom="16dp"
             android:layout_marginTop="8dp"
             android:text="@{obj.companyName}"
-            android:drawableLeft="@drawable/ic_new_tec_company"
-            android:drawablePadding="8dp"
             android:textColor="@color/grey500" />
 
 

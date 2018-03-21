@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.adsale.ChinaPlas"
-    android:versionCode="116"
-    android:versionName="8.1.1">
+    android:versionCode="124"
+    android:versionName="8.2.7">
 
     <!-- 声明APP版本信息，有助于百度移动进行版本统计 -->
 
@@ -341,6 +341,7 @@
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.FloorDetailActivity"
+            android:launchMode="singleTask"
             android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
@@ -349,7 +350,7 @@
         <!-- 您从百度网站获取的APP KEY -->
         <meta-data
             android:name="BaiduMobAd_STAT_ID"
-            android:value="5" />
+            android:value="5d50c2c821" />
         <!-- Release 5d50c2c821 -->
         <!-- 渠道商编号 -->
         <meta-data

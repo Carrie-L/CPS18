@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="obj"
+            type="com.adsale.ChinaPlas.dao.NewProductInfo" />
+
+        <variable
+            name="adapter"
+            type="com.adsale.ChinaPlas.adapter.NewTecListAdapter" />
+
+        <variable
+            name="options"
+            type="com.bumptech.glide.request.RequestOptions" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="114dp"
+        android:background="@color/new_tec_item_color"
+        android:gravity="center_vertical"
+        android:onClick="@{()->adapter.onItemClick(obj)}"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_product_pic"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="12dp"
+            android:scaleType="fitCenter"
+            app:imageUrl="@{obj.image}"
+            app:requestOptions="@{options}" />
+
+        <ImageView
+            android:id="@+id/arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/arrow" />
+
+        <TextView
+            android:id="@+id/tv_product_booth"
+            style="@style/new_tec_booth_style"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_toStartOf="@id/arrow"
+            android:text="@{String.format(@string/new_tec_booth,obj.boothNo)}" />
+
+        <ImageView
+            android:id="@+id/center_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_centerVertical="true" />
+
+        <TextView
+            android:id="@+id/tv_product_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/center_line"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginStart="16dp"
+            android:layout_toEndOf="@id/iv_product_pic"
+            android:layout_toStartOf="@id/tv_product_booth"
+            android:singleLine="true"
+            android:text="@{obj.getProductName()}"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:textColor="@color/grey11"
+            android:textSize="18sp" />
+
+
+        <TextView
+            android:id="@+id/tv_product_company"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/tv_product_title"
+            android:layout_below="@id/center_line"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_toStartOf="@id/tv_product_booth"
+            android:drawablePadding="8dp"
+            android:drawableStart="@drawable/ic_new_tec_company"
+            android:text="@{obj.companyName}"
+            android:textColor="@color/grey500"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+</layout>

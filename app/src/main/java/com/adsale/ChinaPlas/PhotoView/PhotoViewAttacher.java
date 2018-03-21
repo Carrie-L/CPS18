@@ -218,7 +218,7 @@ public class PhotoViewAttacher implements View.OnTouchListener,
                                 / displayRect.height();
 
                         if (mPhotoTapListener != null) {
-                            mPhotoTapListener.onPhotoTap(mImageView, xResult, yResult);
+                            mPhotoTapListener.onPhotoTap(mImageView, x - displayRect.left, y - displayRect.top);
                         }
                         return true;
                     } else {

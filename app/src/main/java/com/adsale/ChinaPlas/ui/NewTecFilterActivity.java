@@ -31,7 +31,6 @@ public class NewTecFilterActivity extends BaseActivity implements OnIntentListen
         industryFilterView = binding.industryFilterView;
         applicationFilterView = binding.applicationFilterView;
         switchNewTec = binding.switchNewTec;
-
     }
 
     @Override

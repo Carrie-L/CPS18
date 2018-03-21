@@ -4,6 +4,7 @@ import com.adsale.ChinaPlas.dao.ScheduleInfo;
 import com.adsale.ChinaPlas.dao.ScheduleInfoDao;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.adsale.ChinaPlas.App.mDBHelper;
 
@@ -75,8 +76,13 @@ public class ScheduleRepository implements DataSource<ScheduleInfo> {
         return !mScheduleInfoDao.queryBuilder().where(ScheduleInfoDao.Properties.StartDate.eq(date), ScheduleInfoDao.Properties.StartTime.like("%" + time + "%")).limit(1).list().isEmpty();
     }
 
-    public void clearAll(){
+    public void clearAll() {
         mScheduleInfoDao.deleteAll();
+    }
+
+    public int getScheduleCounts() {
+//        List<ScheduleInfo> list=
+        return mScheduleInfoDao.loadAll().size();
     }
 
 }

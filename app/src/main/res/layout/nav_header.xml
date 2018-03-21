@@ -51,11 +51,13 @@
                 android:background="@drawable/ic_drawer_logout"
                 android:gravity="center"
                 android:onClick="logout"
-                android:text="@{navModel.drawerLogout.get()}"
+                android:text="@string/left_menu_logout"
                 android:textColor="#fff"
                 android:textSize="14sp"
                 android:visibility="@{navModel.isLoginSuccess.get()?View.VISIBLE:View.GONE}" />
-            <!-- 注意：此处特设android:textSize="14sp".若为16sp，平板文字会显示不全  -->
+            <!-- 注意：此处特设android:textSize="14sp".若为16sp，平板文字会显示不全
+             navModel.drawerLogout.get()
+             -->
             <Button
                 android:id="@+id/btn_login"
                 android:layout_width="163dp"
@@ -65,9 +67,11 @@
                 android:background="@{navModel.isLoginSuccess.get()?@drawable/ic_drawer_sync:@drawable/ic_drawer_login}"
                 android:gravity="center"
                 android:onClick="@{navModel.isLoginSuccess.get()?navModel::sync:navModel::login}"
-                android:text="@{navModel.drawerLoginOrSync.get()}"
+                android:text="@{navModel.isLoginSuccess.get()?@string/drawer_sync:@string/left_menu_login}"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
+
+            <!--navModel.drawerLoginOrSync.get()-->
 
         </RelativeLayout>
 

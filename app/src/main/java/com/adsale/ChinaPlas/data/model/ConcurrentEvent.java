@@ -93,6 +93,7 @@ public class ConcurrentEvent implements Parcelable {
     }
 
     public static class AdInfo {
+        public String version;
         public String Image_SC;
         public String Image_TC;
         public String Image_EN;

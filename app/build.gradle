@@ -3,8 +3,6 @@ buildscript {
         mavenCentral()
         maven { url 'https://maven.google.com' }
         maven { url 'https://maven.fabric.io/public' }
-
-
     }
 
     dependencies {
@@ -22,7 +20,6 @@ repositories {
     maven { url 'https://maven.fabric.io/public' }
 }
 
-
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.2"
@@ -30,8 +27,8 @@ android {
         applicationId "com.adsale.ChinaPlas"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 116
-        versionName "8.1.1"
+        versionCode 124
+        versionName "8.2.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
@@ -49,6 +46,7 @@ android {
 
 
     }
+
     buildTypes {
         release {
             minifyEnabled true
@@ -115,6 +113,9 @@ dependencies {
     }
     implementation 'cn.jiguang.sdk:jpush:3.1.1'  // 此处以JPush 3.1.1 版本为例。
     implementation 'cn.jiguang.sdk:jcore:1.1.9'  // 此处以JCore 1.1.9 版本为例。
+
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
 
 //    MobSDK {
 //        appKey "90f2da741a6c"

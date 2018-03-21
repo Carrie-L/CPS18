@@ -51,7 +51,9 @@ public class EventModel {
     public ConcurrentEvent event;
     private DownloadClient mDownClient;
     private EventAdapter adapter;
+    // 同期活动数组
     private ArrayList<ConcurrentEvent.Pages> mCacheList = new ArrayList<>();
+    // 同期活动+技术交流会数组，全部列表
     private ArrayList<ConcurrentEvent.Pages> mCacheList0 = new ArrayList<>();
     private ArrayList<ConcurrentEvent.Pages> mCacheList1;
     private ArrayList<ConcurrentEvent.Pages> mCacheList2;
@@ -60,6 +62,7 @@ public class EventModel {
     private OnIntentListener mListener;
     private ConcurrentEvent.Pages tech;
     private ConcurrentEvent.Pages entity;
+//    public boolean isSeminarEmpty;
 
     public EventModel() {
         mCacheList1 = new ArrayList<>();
@@ -76,17 +79,16 @@ public class EventModel {
     public void getList() {
         parseEvents();
         mCacheList.addAll(events);
-        addTech();
+//        addTech();
         mCacheList0.addAll(events);
     }
 
     private void addTech() {
         // 隐藏技术交流会item：如果数据库里没有技术交流会数据
-        boolean isSeminarEmpty = App.mDBHelper.mSeminarInfoDao.loadAll().isEmpty();
-        if (isSeminarEmpty) {
-            return;
-        }
-
+//        isSeminarEmpty = App.mDBHelper.mSeminarInfoDao.loadAll().isEmpty();
+//        if (isSeminarEmpty) {
+//            return;
+//        }
         for (int i = 0; i < events.size(); i++) {
             entity = events.get(i);
             if (i != 0 && !entity.date.equals(events.get(i - 1).date)) {
@@ -114,7 +116,7 @@ public class EventModel {
     /**
      * @param date 实际是 技术交流会的 date index
      */
-    private String convertToTechDateIndex(String date) {
+    public String convertToTechDateIndex(String date) {
         if (date.equals("24")) {
             return "1";
         } else if (date.equals("25")) {

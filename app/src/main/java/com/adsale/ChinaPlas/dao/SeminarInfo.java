@@ -9,6 +9,8 @@ import android.databinding.ObservableBoolean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.adsale.ChinaPlas.utils.LogUtil;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -148,7 +150,7 @@ public class SeminarInfo implements Parcelable {
     }
 
     public String getTopic() {
-        return Topic;
+        return Topic.replaceAll("<br />", "\n");
     }
 
     public void setTopic(String Topic) {
@@ -188,7 +190,30 @@ public class SeminarInfo implements Parcelable {
     }
 
     // KEEP METHODS - put your custom methods here
+    public int indicate=1;
 
+    public int getIndicate(){
+        LogUtil.i("Senimar","getIndicate:"+indicate);
+        return indicate;
+    }
+
+    public String getM() {
+        LogUtil.i("Senimar","getM()------"+Hall);
+        if (Hall.equals("1H") || Hall.equals("2H")) {
+            indicate=1;
+            return "M1/M2";
+        } else if (Hall.equals("3H") || Hall.equals("4.1H") || Hall.equals("4.2H")) {
+            indicate=2;
+            return "M3/M4";
+        } else if (Hall.equals("5.1H") || Hall.equals("6.1H") || Hall.equals("5.2H") || Hall.equals("6.2H")) {
+            indicate=3;
+            return "M5/M6";
+        } else if (Hall.equals("7.1H") || Hall.equals("8.1H") || Hall.equals("7.2H") || Hall.equals("8.2H")) {
+            indicate=4;
+            return "M7/M8";
+        }
+        return "";
+    }
 
     @Override
     public String toString() {
@@ -333,7 +358,7 @@ public class SeminarInfo implements Parcelable {
         this.colorCode = in.readInt();
         this.zone = in.readString();
         this.timeStatus = in.readString();
-        this.isADer.set(in.readByte() != 0) ;
+        this.isADer.set(in.readByte() != 0);
         this.adLogoUrl = in.readString();
         this.adHeaderUrl = in.readString();
         this.isTypeLabel = in.readByte() != 0;

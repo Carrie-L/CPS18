@@ -53,6 +53,7 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
@@ -88,14 +89,13 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
     private ArrayList<WebContent> webContents;
     private ArrayList<MainIcon> mainIcons;
     private adAdvertisementObj adObj;
-    private Disposable mTxtDisposable, mWCDisposable, mAdDisposable;
+    private Disposable mAdDisposable;
+    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     private SQLiteDatabase mTempDB;
     private boolean isM1Showing = false;
-    private ProgressBar progressBar;
 
-    public LoadingViewModel(Context mContext, ProgressBar progressBar) {
+    public LoadingViewModel(Context mContext) {
         this.mContext = mContext;
-        this.progressBar = progressBar;
         mConfigSP = mContext.getSharedPreferences(Constant.SP_CONFIG, MODE_PRIVATE);
         mLoadRepository = LoadRepository.getInstance(mContext);
     }
@@ -107,7 +107,7 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
 //        LogUtil.e(TAG, "????? isNetworkAvailable=" + isNetworkAvailable);
         setupDownload();
         loadingData();
-//        downNewTecZip();
+        downNewTecZip();
         if (!isFirstRunning) {
             getUpdateInfo();
         }
@@ -178,7 +178,8 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
                         mStartTime = System.currentTimeMillis();
-                        mWCDisposable = d;
+//                        mWCDisposable = d;
+                        mCompositeDisposable.add(d);
                     }
 
                     @Override
@@ -319,7 +320,8 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
                 .subscribe(new Observer<String>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
-                        mTxtDisposable = d;
+//                        mTxtDisposable = d;
+                        mCompositeDisposable.add(d);
                     }
 
                     @Override
@@ -361,22 +363,22 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
         LogUtil.i(TAG, "downTxt: fileName=" + fileName);
 
         //比较最后更新时间
-//        if (isOneOfFiveTxt(fileName)) {
-//            LogUtil.i(TAG, "~~isOneOfFiveTxt~~");
-//            String localUT = mLoadRepository.getLocalTxtLUT(fileName);
-//            String txtUT = updateCenter.FPDate.compareTo(updateCenter.FUDate) > 0 ? updateCenter.FPDate : updateCenter.FUDate;
-//            int result = txtUT.compareTo(localUT);
-//            if (result > 0) {// txtUT > localUT, update
-//                LogUtil.e(TAG, fileName + " has update!! " + " @@@ compare update time: result= " + result + ", localUT=" + localUT + ", txtUT=" + AppUtil.GMT2UTC(txtUT));
-//                updateCenter.setUCId();
-//                updateCenter.setStatus(0);
-//                updateCenter.setLUT(AppUtil.GMT2UTC(txtUT));
-//                mLoadRepository.updateLocalLUT(updateCenter);
-//                return getTxt(fileName);// has update, so download
-//            }
-//            LogUtil.i(TAG, "~~isOneOfFiveTxt, but no update.~~" + AppUtil.GMT2UTC(txtUT));
-//            return Observable.just(fileName);// no update
-//        }
+        if (isOneOfFiveTxt(fileName)) {
+            LogUtil.i(TAG, "~~isOneOfFiveTxt~~");
+            String localUT = mLoadRepository.getLocalTxtLUT(fileName);
+            String txtUT = updateCenter.FPDate.compareTo(updateCenter.FUDate) > 0 ? updateCenter.FPDate : updateCenter.FUDate;
+            int result = txtUT.compareTo(localUT);
+            if (result > 0) {// txtUT > localUT, update
+                LogUtil.e(TAG, fileName + " has update!! " + " @@@ compare update time: result= " + result + ", localUT=" + localUT + ", txtUT=" + AppUtil.GMT2UTC(txtUT));
+                updateCenter.setUCId();
+                updateCenter.setStatus(0);
+                updateCenter.setLUT(AppUtil.GMT2UTC(txtUT));
+                mLoadRepository.updateLocalLUT(updateCenter);
+                return getTxt(fileName);// has update, so download
+            }
+            LogUtil.i(TAG, "~~isOneOfFiveTxt, but no update.~~" + AppUtil.GMT2UTC(txtUT));
+            return Observable.just(fileName);// no update
+        }
         LogUtil.i(TAG, "!!~~isOneOfFiveTxt~~!!");
         return getTxt(fileName);// has network, download others txt. always download
     }
@@ -446,7 +448,9 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
                     mSP_Config.edit().putBoolean("M1ShowFinish", true).apply();
                     mContext.sendBroadcast(intent);
                     LogUtil.i(TAG, "))))) skip, send broadcast");
-                    mAdDisposable.dispose();//停止倒计时
+                    if (mAdDisposable != null && !mAdDisposable.isDisposed()) {
+                        mAdDisposable.dispose();//停止倒计时
+                    }
                 }
             });
 
@@ -465,6 +469,7 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
                         public void onSubscribe(@NonNull Disposable d) {
                             isM1Showing = true;
                             mAdDisposable = d;
+                            mCompositeDisposable.add(mAdDisposable);
                             Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.bottom_to_top);
                             m1Frame.startAnimation(animation);
                         }
@@ -545,9 +550,16 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
     }
 
     public void unSubscribe() {
-        dispose(mWCDisposable);
-        dispose(mTxtDisposable);
-        dispose(mAdDisposable);
+//        dispose(mWCDisposable);
+//        dispose(mTxtDisposable);
+//        dispose(mAdDisposable);
+
+        if (!mCompositeDisposable.isDisposed()) {
+            mCompositeDisposable.dispose();
+            mCompositeDisposable.clear();
+        }
+
+
     }
 
     private void dispose(Disposable disposable) {

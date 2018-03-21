@@ -2,6 +2,8 @@ package com.adsale.ChinaPlas.ui;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
@@ -36,6 +38,7 @@ import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.data.model.adAdvertisementObj;
 import com.adsale.ChinaPlas.databinding.ActivityFloorDetailBinding;
 import com.adsale.ChinaPlas.helper.ADHelper;
+import com.adsale.ChinaPlas.ui.view.HelpView;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.DisplayUtil;
@@ -50,10 +53,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
+import io.reactivex.observers.DisposableObserver;
+
 /**
  * todo   mTypePrefix = "FPage_" + gIntent.getStringExtra("FloorID");
  * <p>
- * intent:【BOOTH & HALL】 / 【HALL】
+ * intent:【BOOTH & HALL】 [FromCls(ExhibitorDelAty must)] / 【HALL】
  */
 public class FloorDetailActivity extends BaseActivity implements OnIntentListener, FloorDtlViewModel.OnDrawerListener {
     private final String TAG = "FloorDetailActivity";
@@ -74,11 +79,16 @@ public class FloorDetailActivity extends BaseActivity implements OnIntentListene
     private adAdvertisementObj adObj;
     private View navView;
     private ImageView ivShade;
-
+    /**
+     * 从哪个类跳转而来，1：展商详情
+     */
+    private int fromCls;
+    private HelpView helpDialog;
 
     @Override
     protected void initView() {
         mHall = getIntent().getStringExtra("HALL");
+        fromCls = getIntent().getIntExtra("FromCls", 0);
         barTitle.set(mHall);
         binding = ActivityFloorDetailBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
 
@@ -88,7 +98,7 @@ public class FloorDetailActivity extends BaseActivity implements OnIntentListene
         }
 
         FloorRepository repository = FloorRepository.getInstance();
-        mFloorModel = new FloorDtlViewModel(getApplicationContext(), repository, getFragmentManager(), this, binding.ivMap, mHall);
+        mFloorModel = new FloorDtlViewModel(getApplicationContext(), repository, getFragmentManager(), this, binding.ivMap, mHall, fromCls);
         binding.setModel(mFloorModel);
         binding.executePendingBindings();
 
@@ -182,24 +192,18 @@ public class FloorDetailActivity extends BaseActivity implements OnIntentListene
             binding.tvNodata.setVisibility(View.VISIBLE);
             return;
         }
-        Bitmap bitmap = BitmapFactory.decodeStream(AppUtil.getInputStream("FloorPlan/" + imgName));
-        binding.ivMap.setImageBitmap(bitmap);
-        mFloorModel.startMap(bitmap);
-
-        int width = (2000 * AppUtil.getScreenHeight()) / 1575;
-        LogUtil.i(TAG, "width=" + width);
-        binding.ivMap.setZoomable(true);
-        binding.ivMap.setMaximumScale(4 * BASE_SCALE);
-        binding.ivMap.setMediumScale(3 * BASE_SCALE);
-        binding.ivMap.setMinimumScale(BASE_SCALE);
-        binding.ivMap.setScale(BASE_SCALE, AppUtil.getScreenWidth() / 2, AppUtil.getScreenHeight() / 2, true);
-
         mFloorModel.setOnDrawerListener(this);
+
+        Bitmap bitmap = BitmapFactory.decodeStream(AppUtil.getInputStream("FloorPlan/" + imgName));
+//        binding.ivMap.setImageBitmap(bitmap);
+        binding.ivMap.setZoomable(true);
+        mFloorModel.startMap(bitmap);
 
         if (index != -1) {
             showM4Flag();
+        } else {
+            mFloorModel.showBitmap();
         }
-        mFloorModel.showBitmap();
 
         Intent intent = getIntent();
         String booth = intent.getStringExtra("BOOTH");
@@ -207,7 +211,57 @@ public class FloorDetailActivity extends BaseActivity implements OnIntentListene
             mFloorModel.drawSingleFlagOnMap(booth);
         }
 
+        if (HelpView.isFirstShow(HelpView.HELP_PAGE_FLOOR_DTL)) {
+            showHelpPage();
+            App.mSP_HP.edit().putInt("HELP_PAGE_" + HelpView.HELP_PAGE_FLOOR_DTL, HelpView.HELP_PAGE_FLOOR_DTL).apply();
+        }
+
+        binding.ivHelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showHelpPage();
+            }
+        });
+
     }
+
+    private void showHelpPage() {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment fragment = getFragmentManager().findFragmentByTag("Dialog");
+        if (fragment != null) {
+            ft.remove(fragment);
+        }
+        ft.addToBackStack(null);
+
+        helpDialog = HelpView.newInstance(HelpView.HELP_PAGE_FLOOR_DTL);
+        helpDialog.show(ft, "Dialog");
+    }
+
+//    DisposableObserver observer = new DisposableObserver() {
+//        @Override
+//        public void onNext(Object value) {
+//            LogUtil.i(TAG, "DisposableObserver:onNext");
+//            binding.ivMap.setImageBitmap((Bitmap) value);
+////            binding.ivMap.setScale(4);
+//        }
+//
+//        @Override
+//        public void onError(Throwable e) {
+//
+//        }
+//
+//        @Override
+//        public void onComplete() {
+//            LogUtil.i(TAG, "DisposableObserver:onComplete");
+////            mFloorModel.showBitmap();
+//
+//            if (mFloorModel.isNeedScale) {
+//                binding.ivMap.setScale(4, mFloorModel.flagX, mFloorModel.flagY, false);
+//                mFloorModel.translate();
+//            }
+//
+//        }
+//    };
 
 
     private void showM4() {
@@ -251,21 +305,25 @@ public class FloorDetailActivity extends BaseActivity implements OnIntentListene
         LogUtil.i(TAG, "M4_rightUrl=" + m4Url.toString());
         ivRight.setLayoutParams(params);
         Glide.with(getApplicationContext()).load(m4Url.toString()).into(ivRight);
+
+
     }
 
     private void showM4Flag() {
         String m4RightCompanyId = adObj.M4_right.action_companyID[index];
         String m4LeftCompanyId = adObj.M4_left.action_companyID[index];
-        if (TextUtils.isEmpty(m4RightCompanyId.trim())) {
+        if(TextUtils.isEmpty(m4LeftCompanyId.trim())&&TextUtils.isEmpty(m4RightCompanyId.trim())){ // 左右两个广告都没有companyId
+            mFloorModel.showBitmap();
+        }else if (TextUtils.isEmpty(m4RightCompanyId.trim())) {
             mFloorModel.drawAdFlagOnMap(m4LeftCompanyId);
         } else {
-            Random random = new Random();
-            int number = random.nextInt(1); // 随机数0或1
-            LogUtil.i(TAG, "random number=" + number);
-            if (number == 0) {
+            // 左右两边轮流显示大头针
+            if( App.mSP_Config.getInt("M4_RANDOM",0)==1){
                 mFloorModel.drawAdFlagOnMap(m4LeftCompanyId);
-            } else {
+                App.mSP_Config.edit().putInt("M4_RANDOM",2).apply();
+            }else{
                 mFloorModel.drawAdFlagOnMap(m4RightCompanyId);
+                App.mSP_Config.edit().putInt("M4_RANDOM",1).apply();
             }
         }
     }
@@ -308,7 +366,7 @@ public class FloorDetailActivity extends BaseActivity implements OnIntentListene
                 return;
             }
             Intent intent = new Intent(this, WebContentActivity.class);
-            intent.putExtra(Constant.WEB_URL, adM4.action_eventID[index]);
+            intent.putExtra(Constant.WEB_URL, "ConcurrentEvent/"+adM4.action_eventID[index]);
             startActivity(intent);
             overridePendingTransPad();
         }
@@ -415,5 +473,9 @@ public class FloorDetailActivity extends BaseActivity implements OnIntentListene
             mFloorModel.onDestroy();
             mFloorModel = null;
         }
+
+//        if (observer != null && !observer.isDisposed()) {
+//            observer.dispose();
+//        }
     }
 }

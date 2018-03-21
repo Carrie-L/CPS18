@@ -34,6 +34,7 @@ import com.adsale.ChinaPlas.ui.ScannerActivity;
 import com.adsale.ChinaPlas.ui.ScheduleActivity;
 import com.adsale.ChinaPlas.ui.SettingActivity;
 import com.adsale.ChinaPlas.ui.SubscribeActivity;
+import com.adsale.ChinaPlas.ui.TechnicalListActivity;
 import com.adsale.ChinaPlas.ui.TravelInfoActivity;
 import com.adsale.ChinaPlas.ui.UpdateCenterActivity;
 import com.adsale.ChinaPlas.ui.UserInfoActivity;
@@ -57,7 +58,7 @@ import static com.adsale.ChinaPlas.utils.PermissionUtil.PMS_CODE_CAMERA;
  * 侧边栏
  */
 
-public class NavViewModel implements  OnIntentListener {
+public class NavViewModel implements OnIntentListener {
     //drawer
     public final ObservableField<String> drawerLoginTitle = new ObservableField<>();
     public final ObservableField<String> drawerLoginOrSync = new ObservableField<>();
@@ -211,7 +212,7 @@ public class NavViewModel implements  OnIntentListener {
         if (intent != null) {
             intent.putExtra(Constant.TITLE, mainIcon.getTitle(AppUtil.getCurLanguage()));
             intent.putExtra(Constant.BAIDU_TJ, mainIcon.getBaiDu_TJ());
-            LogUtil.i(TAG,"Constant.BAIDU_TJ="+mainIcon.getBaiDu_TJ());
+            LogUtil.i(TAG, "Constant.BAIDU_TJ=" + mainIcon.getBaiDu_TJ());
             activity.startActivity(intent);
             if (AppUtil.isTablet()) {
                 activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -225,10 +226,10 @@ public class NavViewModel implements  OnIntentListener {
         if (iconID.startsWith("MI")) {
             if (iconID.length() > 2) {
                 String subIconId = iconID.substring(iconID.length() - 2, iconID.length());
-                AppUtil.trackViewLog( 100 + Integer.valueOf(subIconId), "Page", "", mainIcon.getBaiDu_TJ());
+                AppUtil.trackViewLog(100 + Integer.valueOf(subIconId), "Page", "", mainIcon.getBaiDu_TJ());
             }
         } else
-            AppUtil.trackViewLog( 100 + Integer.valueOf(iconID), "Page", "", mainIcon.getBaiDu_TJ());
+            AppUtil.trackViewLog(100 + Integer.valueOf(iconID), "Page", "", mainIcon.getBaiDu_TJ());
 
         switch (mainIcon.getBaiDu_TJ()) {
             case Constant.BDTJ_VISITOR_REG://预登记
@@ -239,12 +240,13 @@ public class NavViewModel implements  OnIntentListener {
                 break;
             case Constant.BDTJ_MY_ACCOUNT://用户资料
                 intent = new Intent(activity, UserInfoActivity.class);
+//                intent = new Intent(activity, TechnicalListActivity.class);
                 break;
-            case Constant.BDTJ_EXHIBITOR_LIST://展商名单
+            case Constant.BDTJ_EXHIBITOR_LIST:// 展商名单
                 LogUtil.i(TAG, "BDTJ_EXHIBITOR_LIST");
                 intent = new Intent(activity, ExhibitorAllListActivity.class);
                 break;
-            case Constant.BDTJ_SCHEDULE://我的日程
+            case Constant.BDTJ_SCHEDULE:// 我的日程
                 intent = new Intent(activity, ScheduleActivity.class);
                 break;
             case Constant.BDTJ_CONTENT_UPDATE:
@@ -302,7 +304,7 @@ public class NavViewModel implements  OnIntentListener {
                 intent.putExtra(INTENT_COMMON_TYPE, CommonListActivity.TYPE_MSG_CENTER);
                 break;
             case Constant.BDTJ_NEW_TEC: /* 新技术产品 */
-//            case Constant.BDTJ_NEW_TEC_TXT: /* test */
+            case Constant.BDTJ_NEW_TEC_TXT: /* formal */
                 intent = new Intent(activity, NewTecActivity.class);
                 break;
             default:
@@ -322,6 +324,8 @@ public class NavViewModel implements  OnIntentListener {
 //        if(intent!= null && !(mContext instanceof MainActivity)){
 //            ((Activity) mContext).finish();
 //        }
+
+
     }
 
     public interface OnDrawerClickListener {

@@ -102,6 +102,7 @@ public class ExhiDtlInfoView extends RelativeLayout {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra("BOOTH", mExhibitor.getBoothNo());
             intent.putExtra("HALL", mExhibitor.getHallNo());
+            intent.putExtra("FromCls", 1);
             mContext.startActivity(intent);
             if (AppUtil.isTablet()) {
                 ((Activity) mContext).overridePendingTransition(R.anim.fade_in, R.anim.fade_out);

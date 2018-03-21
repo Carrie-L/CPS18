@@ -53,11 +53,11 @@
 
                 <ImageView
                     android:id="@+id/iv_registed"
-                    android:layout_width="300dp"
-                    android:layout_height="620dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_below="@id/tv_register_info1"
                     android:layout_centerHorizontal="true"
-                    android:scaleType="fitXY"
+                    android:onClick="@{()->regModel.onImageClick()}"
                     />
 
                 <Button

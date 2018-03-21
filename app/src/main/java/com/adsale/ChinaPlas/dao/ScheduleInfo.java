@@ -23,13 +23,15 @@ public class ScheduleInfo implements Parcelable {
     private String Note;
     private String Location;
     private String CompanyID;
-    private String StartDate;
-    private String StartTime;
-    private Integer Hour;
-    private Integer Minute;
+
+
     private String Event_CId;
 
     // KEEP FIELDS - put your custom fields here
+    private String StartDate = "2018-04-24";
+    private String StartTime = "09:00";
+    private Integer Hour=0;
+    private Integer Minute=15;
     // KEEP FIELDS END
 
     public ScheduleInfo() {

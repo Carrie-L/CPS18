@@ -63,6 +63,14 @@ public class ScheduleEditViewModel {
         LogUtil.i(TAG, "mId=" + mId);
     }
 
+    /**
+     * 当 scheduleInfo.getId() 为空时，返回一个数值
+     * @return
+     */
+    public int getId() {
+        return mRepository.getScheduleCounts() + 1;
+    }
+
     public void onDelete() {
         mRepository.deleteItemData(mId);
         if (mEditListener != null) {

@@ -1,0 +1,98 @@
+﻿{
+  "htmlFilePath": "https://o97tbiy1f.qnssl.com/events/htmlFile/",
+  "pages": [
+    {
+      "version": "1",
+      "title_en": "3rd Industry 4.0 Conference",
+      "title_cn": "第三届工业4.0论坛",
+      "title_tc": "第三屆工業4.0論壇",
+      "pageID": "IndustryConference"
+    },
+    {
+      "version": "4",
+      "title_en": "CMF Inspiration for Design x Innovation",
+      "title_cn": "设计 x 创新：CMF 灵感之源",
+      "title_tc": "設計 x 創新：CMF 靈感之源",
+      "pageID": "DesignInnovationCMF"
+    },
+    {
+      "version": "1",
+      "title_en": "China Automotive Seating Industry Innovation Development Summit",
+      "title_cn": "2018 汽车座椅系统产业创新发展论坛",
+      "title_tc": "2018 汽車座椅系統產業創新發展論壇",
+      "pageID": "ChinaAutomotiveSeatingIndustry"
+    },
+    {
+      "version": "1",
+      "title_en": "Forum & Business Matching on New Materials and Technology in Household Appliance Industry",
+      "title_cn": "2018 家电行业新材料新工艺发展论坛暨供需对接会",
+      "title_tc": "2018 家電行業新材料新工藝發展論壇暨供需對接會",
+      "pageID": "HouseholdApplianceIndustry"
+    },
+{
+      "version": "1",
+      "title_en": "Automotive Lightweight Materials and Technology Applications Seminar",
+      "title_cn": "汽车轻量化材料与应用技术研讨会",
+      "title_tc": "汽車輕量化材料與應用技術研討會",
+      "pageID": "AutoLightweightMaterialsSeminar"
+    },
+{
+      "version": "1",
+      "title_en": "Automotive Low VOCs Materials Technology and Applications Seminar",
+      "title_cn": "汽车材料低VOC技术与应用研讨会",
+      "title_tc": "汽車材料低VOC技術與應用研討會",
+      "pageID": "AutoLowVOCsMaterialsSeminar"
+    },
+{
+      "version": "1",
+      "title_en": "Application of Plastics in Transportation Protection Packaging Technology Summit",
+      "title_cn": "塑料在运输保护包装领域应用技术高峰论坛",
+      "title_tc": "塑料在運輸保護包裝領域應用技術高峰論壇",
+      "pageID": "PlasticsTransportationPackagingSummit"
+    }
+,
+
+{
+      "version": "1",
+      "title_en": "International Summit for The Development of Flexible Packaging Industry",
+      "title_cn": "软包装行业发展国际论坛",
+      "title_tc": "軟包裝行業發展國際論壇",
+      "pageID": "FlexiblePackagingIndustry"
+    },
+{
+      "version": "1",
+      "title_en": "Finding CHINAPLAS Enigma",
+      "title_cn": "探索CHINAPLAS展馆之谜",
+      "title_tc": "探索CHINAPLAS展館之謎",
+      "pageID": "BoostVisitorFlow"
+    },
+{
+      "version": "1",
+      "title_en": "Guided Technology Tour",
+      "title_cn": "科技导赏团",
+      "title_tc": "科技導賞團",
+      "pageID": "GuidedTechnicalTour"
+    },
+{
+      "version": "1",
+      "title_en": "Day 4 Specials",
+      "title_cn": "第四天参观礼遇",
+      "title_tc": "第四天參觀禮遇",
+      "pageID": "Day4specials"
+    },
+{
+      "version": "2",
+	     "title_en": "Medical Plastics Open Forum",
+            "title_cn": "医用塑料公开论坛",
+            "title_tc": "醫用塑料公開論壇",
+      "pageID": "MedicalPlastics"
+    },
+{
+      "version": "1",
+            "title_en": "Bottles Recycle Program: Re-Create Together",
+            "title_cn": "「瓶安中国‧塑造新生」回收行动",
+            "title_tc": "「瓶安中國‧塑造新生」回收行動",
+      "pageID": "RecycleProgram"
+    }
+  ]
+}

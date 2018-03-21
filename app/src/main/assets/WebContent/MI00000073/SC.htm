@@ -1,242 +1,43 @@
-<!doctype html>
+﻿<!DOCTYPE HTML>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=yes" />
-
-<title>1F Overall Floorplan</title>
-<style type="text/css">  
-body{  
-    background-color:white;  
-	width:100%;
-    margin:0;
-    padding:0;
-	background-color:#FFFFFF;
-	-webkit-text-size-adjust: 100%;	/*for the shit iphone*/
-	-webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
-    -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
-	-o-user-select:none;
-	-moz-user-select: none;
-	-khtml-user-select: none;
-}  
-#myBackground
-{
-	width:100%;
-	height:100%;
-	position:absolute;
-}
-#myFloorplan
-{
-	margin-left: auto;
-	margin-right: auto;
-	width:320px;
-}
-#myIcon
-{
-	margin-left: 0px;
-	margin-top: 37px;
-	margin-bottom:0px;
-	width: 138px;
-	height: 41px;
-	float: left;
-	position: absolute;
-}
-#myHall
-{
-	margin-left: 0px;
-	margin-top: 78px;
-	width: 320px;
-	height: 320px;
-	position: absolute;
-
-}  
-#myZone
-{
-	margin-left: 15px;
-	margin-top:400px;
-	width:290px;
-	height:40px;
-	position:absolute;
-
-}	
-.WhiteOneLine
-{
-	font-size: 20px;
-	color:white;
-	line-height:40px;
-	text-align:center;
-	word-break:keep-all;/* 不换行 */ 
-	white-space:nowrap;/* 不换行 */ 
-	overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */ 
-	text-overflow:ellipsis;/* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/ 
-	position:absolute;
-}	
-#myZoneArea
-{
-	margin-left: 122px;
-	margin-top:0px;
-	width:198px;
-	height:493px;
-	display:none;
-	z-index:10;
-	position:absolute;
-}
-#myIconArea
-{
-	margin-left: 0px;
-	margin-top:0px;
-	width:199px;
-	height:493px;
-	display:none;
-	z-index:10;
-	position:absolute;
-}	
-.hidePage
-{
-	margin-left: 0px;
-	margin-top:0px;	
-	width:320px;
-	height:568px;
-	display:none;
-	z-index:5;
-	position:absolute;
-	}
-	
-.halllocation
-{
-	
-	width: 28px;
-	height: 35px;
-	display:none;
-	position: absolute;
-
-			}
-    </style>  
+    <meta charset="utf-8">
+    <style>
+        *
+        {
+            margin: 0;
+            padding: 0;
+        }
+        .headCss1
+        {
+            background: #959595;
+            color: #ffffff;
+            padding: 10px;
+        }
+        .headCss2
+        {
+            background: #e2e0e1;
+            color: #4a484b;
+            padding: 10px;
+        }
+        .contentCsss
+        {
+            padding: 10px;
+        }
+        .footCss
+        {
+            padding: 10px;
+        }
+        .footCss a
+        {
+            display: block;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
-<div id = "myBackground">
-	<div id = "myFloorplan">
-    	<div>
-			<img id = "myIcon" src="images/bttn_IconDes.png" >
-		</div>
-	  <div>
-			<img id = "myHall" src="images/map1F.png" >
-      </div>
-        <div>
-			<img id="myZone" src="images/bttn_ZoneDes.png">
-        </div>
-      <div>
-        <p class = "WhiteOneLine" id ="ZoneAreaText" style = "margin-left: 30px;margin-top:400px;width: 257px;height: 39px;"  onclick="zoneAreaDisplay()">专区说明SC</p>
-      </div>
-		<div>
-        <p class = "WhiteOneLine" style = "margin-left: 0px;margin-top:37px;width: 138px;height: 39px;" onclick="iconAreaDisplay()">标示说明</p>
-        </div>
-<div>
-<img id= "greyBg" class ="hidePage" src="images/BG-13.png"  onclick="hideArea()">
-</div>
-<div>
-<img id= "myZoneArea" usemap="#zoneAreamap" src="images/ZoneListIn1F.png">
-</div>
-<div>
-<img id= "myIconArea" usemap="#iconAreamap" src="images/IconListIn1F.png">
-</div>
-<!-- Halls Locations -->
-<div>
-<img id= "1H" class = "halllocation"  style = "margin-top: 195px; margin-left: 215px;" src="images/bttn_ZoneLocation.png">
-</div>
-<div>
-<img id= "2H" class = "halllocation"  style = "margin-top: 160px; margin-left: 185px;" src="images/bttn_ZoneLocation.png">
-</div>
-<div>
-<img id= "3H" class = "halllocation"  style = "margin-top: 160px; margin-left: 100px;" src="images/bttn_ZoneLocation.png">
-</div>
-<div>
-<img id= "4.1H" class = "halllocation"  style = "margin-top: 195px; margin-left: 75px;" src="images/bttn_ZoneLocation.png">
-</div>
-<div>
-<img id= "5.1H" class = "halllocation"  style = "margin-top: 270px; margin-left: 75px;" src="images/bttn_ZoneLocation.png">
-</div>
-<div>
-<img id= "6.1H" class = "halllocation"  style = "margin-top: 305px; margin-left: 100px;" src="images/bttn_ZoneLocation.png">
-</div>
-<div>
-<img id= "7.1H" class = "halllocation"  style = "margin-top: 305px; margin-left: 185px;" src="images/bttn_ZoneLocation.png">
-</div>
-<div>
-<img id= "8.1H" class = "halllocation"  style = "margin-top: 270px; margin-left: 215px;" src="images/bttn_ZoneLocation.png">
-</div>
-<!---->
-<map name="zoneAreamap">
-<area shape="rect" coords="0,161,200,200" onclick = "clickZoneMap('1H,4.1H,5.1H')" >
-<area shape="rect" coords="0,119,200,145" onclick="clickZoneMap('2H,8.1H')" >
-<area shape="rect" coords="0,216,200,242" onclick="clickZoneMap('2H,8.1H')">
-<area shape="rect" coords="0,259,200,285" onclick="clickZoneMap('2H,8.1H')">
-<area shape="rect" coords="0,302,200,328" onclick="clickZoneMap('2H,8.1H')">
-<area shape="rect" coords="0,344,200,370" onclick="clickZoneMap('2H,8.1H')">
-<area shape="rect" coords="0,387,200,413" onclick="clickZoneMap('2H,8.1H')">
-<area shape="rect" coords="0,82,200,108" onclick="clickZoneMap('2H,8.1H')">
-
-</map>
-  </div>
-</div>
-<script>
-var hidepageStatus = 0;
-function zoneAreaDisplay() {
-	var myZoneArea = document.getElementById("myZoneArea");  
-	myZoneArea.style.display="block"; 
-	var myGreyBg = document.getElementById("greyBg");  
-	myGreyBg.style.display="block";  
-	hidepageStatus = 1;
-}
-
-function hideArea() {
-	if(hidepageStatus == 1)
-	{
-	var myZoneArea = document.getElementById("myZoneArea");  
-	myZoneArea.style.display="none";  
-	}
-	else
-	{
-		var myIconArea = document.getElementById("myIconArea");  
-	myIconArea.style.display="none";  
-		}
-	var myGreyBg = document.getElementById("greyBg");  
-	myGreyBg.style.display="none";  
-	hidepageStatus = 0;
-
-}
-
-function iconAreaDisplay() {
-	var myIconArea = document.getElementById("myIconArea");  
-	myIconArea.style.display="block"; 
-	var myGreyBg = document.getElementById("greyBg");  
-	myGreyBg.style.display="block";  
-	hidepageStatus = 2;
-}
-
-function clickZoneMap(value) 
-{
-	
-	var myAllhallLocation = document.getElementsByClassName("halllocation");  
-	for (var y = 0;y<myAllhallLocation.length;y++)
-	{
-		var theLocation = myAllhallLocation[y];
-		theLocation.style.display="none";  
-	}
-	 
-	var myZonelist = value.split(",");
-	for (var i = 0;i<myZonelist.length;i++)
-	{
-		var hallnum = myZonelist[i];
-		var myhallIcon = document.getElementById(hallnum);  
-		myhallIcon.style.display="block";  
-	}
-		var ZoneAreaText = document.getElementById("ZoneAreaText");  
-	ZoneAreaText.innerHTML=value;
-	hideArea();
- 
-}
-
-</script>
+<div class="contentCsss"><div id="MContent"><img src="Image/to_be_announced_sc.jpg" alt="" /></div></div>
+<br>
+<br>
 </body>
 </html>

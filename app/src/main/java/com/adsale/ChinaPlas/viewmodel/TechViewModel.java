@@ -14,6 +14,8 @@ import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.data.OtherRepository;
 import com.adsale.ChinaPlas.data.model.adAdvertisementObj;
 import com.adsale.ChinaPlas.helper.ADHelper;
+import com.adsale.ChinaPlas.ui.WebContentActivity;
+import com.adsale.ChinaPlas.ui.WebViewActivity;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
@@ -30,10 +32,10 @@ import cn.sharesdk.framework.authorize.ResizeLayout;
 
 public class TechViewModel {
     private static final String TAG = "TechViewModel";
-    public static final String DATE1 = "5.16";
-    public static final String DATE2 = "5.17";
-    public static final String DATE3 = "5.18";
-    public static final String DATE4 = "5.19";
+    public static final String DATE1 = "4.24";
+    public static final String DATE2 = "4.25";
+    public static final String DATE3 = "4.26";
+    public static final String DATE4 = "4.27";
     private Context mContext;
     public final ObservableInt mClickPos = new ObservableInt(0);
     /**
@@ -95,7 +97,7 @@ public class TechViewModel {
     public void onDateClick(int index, boolean am) {
         mIndex = index;
         if (index == 5) {//平面图
-
+            mListener.onIntent(null, WebContentActivity.class);
         } else {
             getPartList(index, am);
             adapter.setList(mSeminars);

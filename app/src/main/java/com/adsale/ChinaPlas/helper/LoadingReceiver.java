@@ -29,7 +29,7 @@ public class LoadingReceiver extends BroadcastReceiver {
         if (isM1ShowFinish && isTxtDownFinish && isWebServicesDownFinish) {
             String companyId = sp.getString("M1ClickId", "");
             LogUtil.i(TAG, "companyId=" + companyId);
-            mListener.intent(companyId);
+            mListener.intent(companyId); //todo zszs
         }
     }
 

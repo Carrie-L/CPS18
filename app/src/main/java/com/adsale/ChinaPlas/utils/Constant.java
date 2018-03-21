@@ -6,6 +6,7 @@ package com.adsale.ChinaPlas.utils;
  */
 
 public class Constant {
+    public static final String SHOW_ID="479";
 
     /**
      * --------------------- 图片尺寸---------------------------------------
@@ -44,7 +45,6 @@ public class Constant {
     public static final int M1_HEIGHT_TABLET = 1536;
 
     public static final int M2_WIDTH = AppUtil.isTablet() ? 1636 : 1920;
-    public static final int M2_HEIGHT = AppUtil.isTablet() ? 138 : 346;
     public static final int M2_HEIGHT_BIG = AppUtil.isTablet() ? 768 : 1704;
 
     public static final int M3_WIDTH = AppUtil.isTablet() ? 1636 : 1920;

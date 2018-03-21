@@ -1,43 +1,391 @@
-﻿<!DOCTYPE HTML>
+<!doctype html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <style>
-        *
-        {
-            margin: 0;
-            padding: 0;
-        }
-        .headCss1
-        {
-            background: #959595;
-            color: #ffffff;
-            padding: 10px;
-        }
-        .headCss2
-        {
-            background: #e2e0e1;
-            color: #4a484b;
-            padding: 10px;
-        }
-        .contentCsss
-        {
-            padding: 10px;
-        }
-        .footCss
-        {
-            padding: 10px;
-        }
-        .footCss a
-        {
-            display: block;
-            margin-bottom: 10px;
-        }
-    </style>
-</head>
-<body>
-<div class="contentCsss"><div id="MContent" style="font-family:'Helvetica'"><div><table width="100%" cellspacing="0" cellpadding="0" border="0" style="color:#615f61; line-height:22px"> <tbody> <tr> <td valign="top" align="left"> <table width="100%" cellspacing="0" cellpadding="0" border="0"> <tbody> <tr> <td valign="middle" align="left"><font style="font-size:18px; color: #e8340c;"><strong>NECC Layout Plan</strong></font></td> </tr> <tr> <td valign="middle" align="left">&nbsp;</td> </tr> </tbody> </table> <table width="100%" border="0" cellpadding="0" cellspacing="0"> <tbody> <tr> <td style="text-align:center;"><a target="_blank" t_label="CPS18_mob_floorplan" href="https://www.chinaplasonline.com/CPS18/Files/Image/Content/CPS18_floorplan_large4.jpg"><img src="Image/CPS18_floorplan_s4.jpg" alt="" border="0" style="border:1px solid #dcdcdc;" width="200" /></a></td> </tr> <tr> <td>&nbsp;</td> </tr> <tr> <td><center> <table width="80%" border="0" cellspacing="0" cellpadding="0"> <tbody> <tr> <td align="center" style="text-align:center; padding:10px; color:#FFF; background-color:#e8340c; font-size:16px;"><img alt="" src="Image/icon_enlarge.png" align="absmiddle" />&nbsp;<a target="_blank" t_label="CPS18_mob_floorplan" href="https://www.chinaplasonline.com/CPS18/Files/Image/Content/CPS18_floorplan_large4.jpg" style="text-decoration:none; color:#FFF;">Click to enlarge</a></td> </tr> </tbody> </table> </center></td> </tr> </tbody> </table> </td> </tr> </tbody> </table> <table width="100%" cellspacing="0" cellpadding="0" border="0" style="color:#615f61; line-height:22px"> <tbody> <tr> <td valign="top" align="left"> <table width="100%" cellspacing="0" cellpadding="0" border="0"> <tbody> <tr> <td>&nbsp;</td> </tr> <tr> <td><font style="font-size:18px; color: #e8340c; "><strong>Theme Zones / Pavilions Plan</strong></font></td> </tr> <tr> <td>&nbsp;</td> </tr> </tbody> </table> <table width="100%" border="0" cellpadding="0" cellspacing="0"> <tbody> <tr> <td style="text-align:center;"><a target="_blank" t_label="CPS18_mob_themezone" href="https://www.chinaplasonline.com/CPS18/Files/Image/Content/CPS18_themezone_large2.jpg"><img src="Image/CPS18_themezone_s2.jpg" alt="" border="0" style="border:1px solid #dcdcdc;" width="200" /></a></td> </tr> <tr> <td>&nbsp;</td> </tr> <tr> <td><center> <table width="80%" border="0" cellspacing="0" cellpadding="0"> <tbody> <tr> <td align="center" style="text-align:center; padding:10px; color:#FFF; background-color:#e8340c; font-size:16px;"><img alt="" src="Image/icon_enlarge.png" align="absmiddle" />&nbsp;<a target="_blank" t_label="CPS18_mob_themezone" href="https://www.chinaplasonline.com/CPS18/Files/Image/Content/CPS18_themezone_large2.jpg" style="text-decoration:none; color:#FFF;">Click to enlarge</a></td> </tr> </tbody> </table> </center></td> </tr> <tr> <td style="font-size:16px">&nbsp;</td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </div></div></div>
-<br>
-<br>
-</body>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=3.0; user-scalable=yes" />
+		<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="css/style.css" media="screen" type="text/css" />
+		<title>1F Overall Floorplan</title>
+		<style type="text/css">
+			body {
+				background-color: white;
+				width: 100%;
+				margin: 0;
+				padding: 0;
+				background-color: #FFFFFF;
+				-webkit-text-size-adjust: 100%;
+				/*for the shit iphone*/
+				-webkit-touch-callout: none;
+				/* prevent callout to copy image, etc when tap to hold */
+				-webkit-user-select: none;
+				/* prevent copy paste, to allow, change 'none' to 'text' */
+				-o-user-select: none;
+				-moz-user-select: none;
+				-khtml-user-select: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<script src='js/jquery.js'></script>
+		<script src="js/index.js"></script>
+
+		<div id="myBackground">
+			<div id="myFloorplan">
+
+<div id="icon_button" class="class_button" onclick="iconAreaDisplay()" style= "font-size:15px">
+					Legend
+				</div>
+				<div id="floor_overview">
+					<img id="floor_icon" usemap="#floor_click_layer" src="images/en-level-0.jpg">
+
+<img id="floor_zone_sign_1" class="location_icon" style="margin-top: -3px; margin-left: 28px;" src="images/bttn_ZoneLocation.png">
+    <img id="floor_sign_1" class="location_icon" style="margin-top: -3px; margin-left: 28px;" src="images/bttn_IconLocation.png">
+        
+        <img id="floor_zone_sign_2" class="location_icon" style="margin-top: 22px; margin-left: 28px;" src="images/bttn_ZoneLocation.png">
+            <img id="floor_sign_2" class="location_icon" style="margin-top: 22px; margin-left: 28px;" src="images/bttn_IconLocation.png">
+                
+                <img id="floor_zone_sign_3" class="location_icon" style="margin-top: 47px; margin-left: 28px;" src="images/bttn_ZoneLocation.png">
+                    <img id="floor_sign_3" class="location_icon" style="margin-top: 47px; margin-left: 28px;" src="images/bttn_IconLocation.png">
+
+					<map name="floor_click_layer">
+					   <area shape="rect" coords="0,0,166,33" href="floor://EN_2.htm">
+					   <area shape="rect" coords="0,33,166,66" href="floor://EN_M.htm">
+					</map>
+				</div>
+				<div id="myHall" style="background: url(images/en-0.jpg); background-size: 100% 100%;">
+					<img usemap="#click_layer" style="position: absolute;height: 100%;width: 100%;" src="images/en-0.jpg" draggable="false" />
+
+					<img id="Organizer_Office" class="location_icon" style="margin-top: 76px; margin-left: 132px;" src="images/bttn_IconLocation.png">
+
+					<img id="Information_Counter1" class="location_icon" style="margin-top: 149px; margin-left: 116px;" src="images/bttn_IconLocation.png">
+					<img id="Information_Counter2" class="location_icon" style="margin-top: 210px; margin-left: 125px;" src="images/bttn_IconLocation.png">
+					<img id="Information_Counter3" class="location_icon" style="margin-top: 200px; margin-left: 185px;" src="images/bttn_IconLocation.png">
+					<img id="Information_Counter4" class="location_icon" style="margin-top: 140px; margin-left: 178px;" src="images/bttn_IconLocation.png">
+					<img id="Information_Counter5" class="location_icon" style="margin-top: 95px; margin-left: 150px;" src="images/bttn_IconLocation.png">
+
+					<img id="Luggage_Storage1" class="location_icon" style="margin-top: 76px; margin-left: 135px;" src="images/bttn_IconLocation.png">
+					<img id="Luggage_Storage2" class="location_icon" style="margin-top: 113px; margin-left: 153px;" src="images/bttn_IconLocation.png">
+
+					<img id="Show_Catalogue_Sales_Counter" class="location_icon" style="margin-top: 103px; margin-left: 158px;" src="images/bttn_IconLocation.png">
+
+					<img id="Wechat_Activity_Zone" class="location_icon" style="margin-top: 105px; margin-left: 145px;" src="images/bttn_IconLocation.png">
+
+					<img id="Visitor_Registration" class="location_icon" style="margin-top: 88px; margin-left: 165px;" src="images/bttn_IconLocation.png">
+
+					<img id="Overseas_Delegation_Registration" class="location_icon" style="margin-top: 75px; margin-left: 171px;" src="images/bttn_IconLocation.png">
+
+					<img id="Show_Catalogue_Redemption_Counter" class="location_icon" style="margin-top: 115px; margin-left: 262px;" src="images/bttn_IconLocation.png">
+
+					<img id="Line_2_East_Xujing_Metro_Station" class="location_icon" style="margin-top: 160px; margin-left: 15px;" src="images/bttn_IconLocation.png">
+
+					<img id="Line_17_Zhuguang_Road_Metro_Station" class="location_icon" style="margin-top: 23px; margin-left: 35px;" src="images/bttn_IconLocation.png">
+
+					<img id="Taxi" class="location_icon" style="margin-top: 175px; margin-left: 198px;" src="images/bttn_IconLocation.png">
+					
+					<img id="Medical_Plastics_Product_Popup_Kiosk" class="location_icon" style="margin-top: 205px; margin-left: 95px;" src="images/bttn_IconLocation.png">
+
+					<img id="Hall_1H" class="location_icon" style="margin-top: 130px; margin-left: 230px;" src="images/bttn_ZoneLocation.png">
+
+					<img id="Hall_2H" class="location_icon" style="margin-top: 100px; margin-left: 200px;" src="images/bttn_ZoneLocation.png">
+
+					<img id="Hall_3H" class="location_icon" style="margin-top: 100px; margin-left: 100px;" src="images/bttn_ZoneLocation.png">
+
+					<img id="Hall_41H" class="location_icon" style="margin-top: 130px; margin-left: 70px;" src="images/bttn_ZoneLocation.png">
+
+					<img id="Hall_51H" class="location_icon" style="margin-top: 220px; margin-left: 70px;" src="images/bttn_ZoneLocation.png">
+
+					<img id="Hall_61H" class="location_icon" style="margin-top: 255px; margin-left: 110px;" src="images/bttn_ZoneLocation.png">
+
+					<img id="Hall_71H" class="location_icon" style="margin-top: 255px; margin-left: 200px;" src="images/bttn_ZoneLocation.png">
+
+					<img id="Hall_81H" class="location_icon" style="margin-top: 225px; margin-left: 230px;" src="images/bttn_ZoneLocation.png">
+
+					<img class="icon_click_layer" style="margin-left: 129px; margin-top: 91px;" src="" onclick="show_list_item_by_id('Organizer_Office_List')">
+					<img class="icon_click_layer" style="margin-left: 140px; margin-top: 92px;" src="images/26.png" onclick="show_list_item_by_id('Luggage_Storage_List')">
+					<img class="icon_click_layer" style="margin-left: 168px; margin-top: 101px;" src="images/26.png" onclick="show_list_item_by_id('Visitor_Registration_List')">
+					<img class="icon_click_layer" style="margin-left: 175px; margin-top: 91px;" src="images/26.png" onclick="show_list_item_by_id('Overseas_Delegation_Registration_List')">
+					<img class="icon_click_layer" style="margin-left: 155px; margin-top: 108px;" src="images/26.png" onclick="show_list_item_by_id('Information_Counter_List')">
+					<img class="icon_click_layer" style="margin-left: 151px; margin-top: 118px;" src="images/26.png" onclick="show_list_item_by_id('Wechat_Activity_Zone_List')">
+					<img class="icon_click_layer" style="margin-left: 158px; margin-top: 126px; " src="images/26.png" onclick="show_list_item_by_id('Luggage_Storage_List')">
+					<img class="icon_click_layer" style="margin-left: 162px; margin-top: 116px; " src="images/26.png" onclick="show_list_item_by_id('Show_Catalogue_Sales_Counter_List')">
+					<img class="icon_click_layer" style=" margin-left: 182px; margin-top: 155px; " src="images/26.png" onclick="show_list_item_by_id('Information_Counter_List')">
+					<img class="icon_click_layer" style=" margin-left: 121px; margin-top: 162px; " src="images/26.png" onclick="show_list_item_by_id('Information_Counter_List')">
+					<img class="icon_click_layer" style="margin-left: 130px; margin-top: 223px; " src="images/26.png" onclick="show_list_item_by_id('Information_Counter_List')">
+					<img class="icon_click_layer" style="margin-left: 190px; margin-top: 213px; " src="images/26.png" onclick="show_list_item_by_id('Information_Counter_List')">
+					<img class="icon_click_layer" style="margin-left: 267px; margin-top: 130px; " src="images/26.png" onclick="show_list_item_by_id('Show_Catalogue_Redemption_Counter_List')">
+					<img class="icon_click_layer" style=" margin-left: 203px; margin-top: 189px; " src="images/26.png" onclick="show_list_item_by_id('Taxi_List')">
+					<img class="icon_click_layer" style="margin-left: 21px; margin-top: 174px; " src="images/26.png" onclick="show_list_item_by_id('Line_2_East_Xujing_Metro_Station_List')">
+					<img class="icon_click_layer" style=" margin-left: 39px; margin-top: 36px; " src="images/26.png" onclick="show_list_item_by_id('Line_17_Zhuguang_Road_Metro_Station_List')">
+					<map  name="click_layer">
+					   <area shape="poly" coords="41,252,92,206,123,203,133,216,66,278" href="hall://5.1H">
+					 
+					  <area shape="poly" coords="75,287,132,232,151,239,150,261,103,313" href="hall://6.1H">
+					 
+					  <area shape="poly" coords="222,311,169,263,171,229,181,222,248,288" href="hall://7.1H">
+					  
+					  <area shape="poly" coords="254,280,191,219,197,204,232,203,280,256" href="hall://8.1H">
+					 
+					  <area shape="poly" coords="231,185,198,187,192,173,257,108,281,136" href="hall://1H">
+					 
+					  <area shape="poly" coords="191,155,170,150,172,126,222,78,248,101" href="hall://2H">
+					  
+					  <area shape="poly" coords="132,159,77,102,101,78,152,129,152,152" href="hall://3H">
+					 
+					  <area shape="poly" coords="92,181,41,133,67,107,123,164,102,183" href="hall://4.1H">
+					</map>
+				</div>
+                <div id="zone_button" class="class_button" onclick="zoneAreaDisplay()" style= "font-size:13px">
+					Please select a Theme Zone or Pavilion here
+				</div>
+			</div>
+		</div>
+
+		<div id="grey_background" onclick="hideArea()">
+		</div>
+
+		<div id="test_list">
+
+			<ul id="accordion" class="accordion">
+				<li>
+                    <img class="parent_img" src="images/icon_arrow_down.png" />
+                    <div class="link" style="padding-left: 40px;">Registration Facilities</div>
+					<ul class="submenu">
+						<li>
+							<img src="images/1.png" />
+							<a href="#" id="Visitor_Registration_List" onclick="show_location('Visitor_Registration')">Visitor Registration</a>
+							
+						</li>
+						<li>
+							<img src="images/2.png" />
+							<a href="#" id="Chinese_Delegation_Registration_List" onclick="show_location('floor_sign_2')">Chinese Delegation Registration</a>
+						</li>
+						<li>
+							<img src="images/3.png" />
+							<a href="#" id="Overseas_Delegation_Registration_List" onclick="show_location('Overseas_Delegation_Registration')">Overseas Delegation Registration</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+                    <img class="parent_img" src="images/icon_arrow_down.png" />
+                    <div class="link" style="padding-left: 40px;">Show Facilities</div>
+					<ul class="submenu">
+						<li>
+							<img src="images/4.png" />
+							<a href="#" id="Organizer_Office_List" onclick="show_location('Organizer_Office','floor_sign_2')">Organizer’s Office</a>
+						</li>
+						<li>
+							<img src="images/5.png" />
+							<a href="#" id="Information_Counter_List" onclick="show_location('Information_Counter1','Information_Counter2','Information_Counter3','Information_Counter4','Information_Counter5','floor_sign_2','floor_sign_1')">Information Counter</a>
+						</li>
+						<li>
+							<img src="images/6.png" />
+							<a href="#" id="Press_Centre_List" onclick="show_location('floor_sign_2')">Press Centre</a>
+						</li>
+						<li>
+							<img src="images/7.png" />
+							<a href="#" id="VIP_Lounge_List" onclick="show_location('floor_sign_2')">VIP Lounge</a>
+						</li>
+						<li>
+							<img src="images/8.png" />
+							<a href="#" id="Show_Catalogue_Sales_Counter_List" onclick="show_location('Show_Catalogue_Sales_Counter','floor_sign_1','floor_sign_2')">Show Catalogue Sales Counter</a>
+						</li>
+						<li>
+							<img src="images/9.png" />
+							<a href="#" id="Show_Catalogue_Redemption_Counter_List" onclick="show_location('Show_Catalogue_Redemption_Counter','floor_sign_1')">Show Catalogue Redemption Counter</a>
+						</li>
+						<li>
+							<img src="images/10.png" />
+							<a href="#" id='Luggage_Storage_List' onclick="show_location('Luggage_Storage1','Luggage_Storage2','floor_sign_2')">Luggage Storage</a>
+						</li>
+						<li>
+							<img src="images/11.png" />
+							<a href="#" id='Prayer_Room_List' onclick="show_location('floor_sign_1')">Prayer Room</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+                    <img class="parent_img" src="images/icon_arrow_down.png" />
+                    <div class="link" style="padding-left: 40px;">Conference/Activities</div>
+					<ul class="submenu">
+						<li>
+							<img src="images/12.png" />
+							<a href="#" id='3rd_Industry_Conference_List' onclick="show_location('floor_sign_2')">3rd Industry 4.0 Conference</a>
+						</li>
+						<li>
+							<img src="images/13.png" />
+							<a href="#" id='Guided_Technology_Tour_List' onclick="show_location('floor_sign_2')">Guided Technology Tour</a>
+						</li>
+						<li>
+							<img src="images/14.png" />
+							<a href="#" id='Tech_Talk_List' onclick="show_location('floor_sign_2')">Tech Talk</a>
+						</li>
+						<li>
+							<img src="images/15.png" />
+							<a href="#" id='CMF_Inspiration_for_Design_x_Innovation_List' onclick="show_location('floor_sign_2')">CMF Inspiration for Design x Innovation</a>
+						</li>
+
+						<li>
+							<img src="images/30.png" />
+							<a href="#" id='Medical_Plastics_Product_Popup_Kiosk_List' onclick="show_location('Medical_Plastics_Product_Popup_Kiosk','floor_sign_1')">Medical Plastic Product Pop-up Kiosk</a>
+						</li>
+						<li>
+							<img src="images/31.png" />
+							<a href="#" id='Medical_Plastics_Open_Forum_List' onclick="show_location('floor_sign_1')">Medical Plastics Open Forum</a>
+						</li>
+						<li>
+							<img src="images/32.png" />
+							<a href="#" id='Application_Industry_Conference_List' onclick="show_location('floor_sign_2')">Application Industry Conference</a>
+						</li>
+						<li>
+							<img src="images/16.png" />
+							<a href="#" id="Wechat_Activity_Zone_List" onclick="show_location('Wechat_Activity_Zone','floor_sign_2')">Wechat Activity Zone</a>
+						</li>
+						<li>
+							<img src="images/17.png" />
+							<a href="#" id="The_Fantasy_Horizon_List" onclick="show_location('floor_sign_1')">The Fantasy Horizon</a>
+						</li>
+						<li>
+							<img src="images/18.png" />
+							<a href="#" id="Grab_a_Coffee_Bar_List" onclick="show_location('floor_sign_1')">“Grab a Coffee” Bar</a>
+						</li>
+						<li>
+							<img src="images/19.png" />
+							<a href="#" id="The_Treasure_Mine_List" onclick="show_location('floor_sign_1')">The Treasure Mine</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+                    <img class="parent_img" src="images/icon_arrow_down.png" />
+                    <div class="link" style="padding-left: 40px;">Transportation Services</div>
+					<ul class="submenu">
+						<li>
+							<img src="images/20.png" />
+							<a href="#" id="Taxi_List" onclick="show_location('Taxi')">Taxi</a>
+						</li>
+						<li>
+							<img src="images/21.png" />
+							<a href="#" id="Line_2_East_Xujing_Metro_Station_List" onclick="show_location('Line_2_East_Xujing_Metro_Station')">Line 2 East Xujing Metro Station</a>
+						</li>
+						<li>
+							<img src="images/22.png" />
+							<a href="#" id="Line_17_Zhuguang_Road_Metro_Station_List" onclick="show_location('Line_17_Zhuguang_Road_Metro_Station')">Line 17 Zhuguang Road Metro Station</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<img class="parent_img" src="images/23.png" />
+					<div class="link" style="padding-left: 50px;">Chemicals & Raw Materials Halls</div>
+				</li>
+				<li>
+					<img class="parent_img" src="images/24.png" />
+					<div class="link" style="padding-left: 50px;">Machinery Halls</div>
+				</li>
+				<li>
+					<img class="parent_img" src="images/25.png" />
+					<div class="link" style="padding-left: 50px;">Country/Region Pavilions</div>
+				</li>
+				<li>
+					<img class="parent_img" src="images/26.png" />
+					<div class="link" style="padding-left: 50px;">Exhibition Avenue</div>
+				</li>
+				<li>
+					<img class="parent_img" src="images/27.png" />
+					<div class="link" style="padding-left: 50px;">Meeting Rooms</div>
+				</li>
+				<li>
+					<img class="parent_img" src="images/28.png" />
+					<div class="link" style="padding-left: 50px;">Cafeteria</div>
+				</li>
+			</ul>
+		</div>
+
+		<div id="zone_list">
+            <div class="zone_header">
+                --Country/Region Pavilions--
+            </div>
+            <div class="zone_item text_lightgreen_color" onclick="show_location('Hall_2H')">
+                Austrian, French, German, Italian, Swiss & UK Pavilions (2H)
+                </div>
+                <div class="zone_item text_lightgreen_color" onclick="show_location('Hall_41H')">
+                Canadian, Korean & USA Pavilions (4.1H)
+                </div>
+                <div class="zone_item text_lightgreen_color" onclick="show_location('floor_zone_sign_1')">
+                Iranian & Turkish Pavilion (6.2H)
+                </div>
+                <div class="zone_item text_lightgreen_color" onclick="show_location('Hall_3H')">
+                Japanese & Taiwan Pavilions (3H)
+                </div>
+                <div class="zone_item text_lightgreen_color" onclick="show_location('floor_zone_sign_1','Hall_41H')">
+                Korean Pavilion (7.2H, 4.1H)
+                </div>
+			<div class="zone_header">
+				---Theme Zones---
+			</div>
+			<div class="zone_item text_purple_color" onclick="show_location('floor_zone_sign_1')">
+				3D Technology Zone (5.2H)
+			</div>
+			<div class="zone_item text_purple_color" onclick="show_location('floor_zone_sign_1')">
+				Auxiliary & Testing Equipment Zone (5.2H)
+			</div>
+			<div class="zone_item text_purple_color" onclick="show_location('Hall_51H','floor_zone_sign_1');">
+				Auxiliary Equipment Zone (5.1H, 5.2)
+			</div>
+			<div class="zone_item text_purple_color" onclick="show_location('Hall_71H','Hall_81H')">
+				Chinese Export Machinery & Materials Zone (7.1H, 8.1H)
+			</div>
+			<div class="zone_item text_purple_color" onclick="show_location('floor_zone_sign_1')">
+				Die & Mould Zone (5.2H, 4.2H)
+			</div>
+			<div class="zone_item text_purple_color" onclick="show_location('floor_zone_sign_1','Hall_2H','Hall_61H','Hall_71H')">
+				Extrusion Machinery Zone (2H, 6.1H, 7.1H, 4.2H)
+			</div>
+			<div class="zone_item text_purple_color" onclick="show_location('floor_zone_sign_1','Hall_1H')">
+				Film Technology & Plastic Packaging Machinery Zone (1H, 4.2H)
+			</div>
+			<div class="zone_item text_purple_color" onclick="show_location('floor_zone_sign_1','Hall_41H','Hall_51H')">
+				Injection Molding & Smart Manufacturing Technology Zone (4.1H, 5.1H, 4.2H)
+			</div>
+			<div class="zone_item text_purple_color" onclick="show_location('Hall_3H','Hall_41H','Hall_51H')">
+				Injection Molding Machinery Zone (3H, 4.1H, 5.1H)
+			</div>
+			<div class="zone_item text_purple_color" onclick="show_location('Hall_1H','Hall_81H','floor_zone_sign_1')">
+				Plastic Packaging Machinery Zone (8.1H, 1H, 4.2H)
+			</div>
+			<div class="zone_item text_purple_color" onclick="show_location('Hall_61H')">
+				Recycling Technology Zone (6.1H)
+			</div>
+			<div class="zone_item text_purple_color" onclick="show_location('Hall_3H')">
+				Rubber Machinery Zone (3H)
+			</div>
+			<div class="zone_item text_peachred_color" onclick="show_location('floor_zone_sign_1')">
+				Young Tech Hall (4.2H)
+			</div>
+			<div class="zone_item text_greenyellow_color" onclick="show_location('floor_zone_sign_1')">
+				Additives Zone (8.2H)
+			</div>
+			<div class="zone_item text_greenyellow_color" onclick="show_location('floor_zone_sign_1')">
+				Bioplastics Zone (7.2H)
+			</div>
+			<div class="zone_item text_greenyellow_color" onclick="show_location('floor_zone_sign_1')">
+				Chemicals & Raw Materials Zone (6.2H, 7.2H, 4.2H)
+			</div>
+			<div class="zone_item text_greenyellow_color" onclick="show_location('floor_zone_sign_1')">
+				Colour Pigment & Masterbatch Zone (8.2H)
+			</div>
+			<div class="zone_item text_greenyellow_color" onclick="show_location('floor_zone_sign_1')">
+				Composites & High Performance Materials Zone (7.2H)
+			</div>
+			<div class="zone_item text_greenyellow_color" onclick="show_location('floor_zone_sign_1')">
+				Semi-Finished Products Zone (6.2H)
+			</div>
+			<div class="zone_item text_greenyellow_color" onclick="show_location('floor_zone_sign_1')">
+				Thermoplastic Elastomers & Rubber Zone (6.2H)
+			</div>
+			
+
+		</div>
+	</body>
+
 </html>

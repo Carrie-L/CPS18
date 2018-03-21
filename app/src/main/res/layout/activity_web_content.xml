@@ -9,6 +9,23 @@
     <WebView
         android:id="@+id/web_content_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
+
+    <ImageView
+        android:id="@+id/iv_help"
+        style="@style/help_btn_style"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/fab_add"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="16dp"
+        android:background="@drawable/fab_add_schedule"
+        android:visibility="gone"
+        />
+
 
 </RelativeLayout>

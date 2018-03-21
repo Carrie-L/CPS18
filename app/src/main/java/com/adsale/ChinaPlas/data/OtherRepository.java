@@ -54,9 +54,6 @@ public class OtherRepository {
     }
 
     public ArrayList<SeminarInfo> getAllSeminars(int langId, ADHelper adHelper) {
-//        if (mSeminarInfoDao == null) {
-//            throw new NullPointerException("mSeminarInfoDao cannot be null, please #initTechSeminarDao() first.");
-//        }
         checkSeminarInfoDao();
         ArrayList<SeminarInfo> list = new ArrayList<>();
         Cursor cursor = App.mDBHelper.db.rawQuery("select * from SEMINAR_INFO where LANG_ID=" + langId + " order by DATE,TIME,ORDER_MOB", null);
@@ -133,11 +130,16 @@ public class OtherRepository {
             LogUtil.i(TAG, "adList=" + adList.size() + "," + adList.toString());
 
             list.add(0, adList.get(0));
-            list.add(d0 + 1, adList.get(1));
-            list.add(d0 + d1 + 1, adList.get(2));
-            list.add(d0 + d1 + d2 + 1, adList.get(3));
+            if (adList.size() > 1) {
+                list.add(d0 + 1, adList.get(1));
+            }
+            if (adList.size() > 2) {
+                list.add(d0 + d1 + 1, adList.get(2));
+            }
+            if (adList.size() > 3) {
+                list.add(d0 + d1 + d2 + 1, adList.get(3));
+            }
             LogUtil.i(TAG, "list  >>>> " + list.size() + "," + list.toString());
-
         }
         return list;
 //        return (ArrayList<SeminarInfo>) mSeminarInfoDao.queryBuilder().where(SeminarInfoDao.Properties.LangID.eq(langId)).orderAsc(SeminarInfoDao.Properties.Date).orderAsc(SeminarInfoDao.Properties.Time).orderAsc(SeminarInfoDao.Properties.OrderMob).list();
@@ -198,12 +200,12 @@ public class OtherRepository {
         mSeminarSpeakerDao.deleteAll();
     }
 
-    public void insertSeminarInfoAll(ArrayList<SeminarInfo> list){
+    public void insertSeminarInfoAll(ArrayList<SeminarInfo> list) {
         checkSeminarInfoDao();
         mSeminarInfoDao.insertInTx(list);
     }
 
-    public void insertSeminarSpeakerAll(ArrayList<SeminarSpeaker> list){
+    public void insertSeminarSpeakerAll(ArrayList<SeminarSpeaker> list) {
         checkSeminarSpeakerDao();
         mSeminarSpeakerDao.insertInTx(list);
     }
@@ -213,10 +215,14 @@ public class OtherRepository {
         mUpdateCenterDao = App.mDBHelper.mUpdateCenterDao;
     }
 
-    public ArrayList<UpdateCenter> getUpdateCenters() {
+    private void checkUpdateCenterDao() {
         if (mUpdateCenterDao == null) {
-            throw new NullPointerException("mUpdateCenterDao cannot be null, please #initUpdateCenterDao() first.");
+            initUpdateCenterDao();
         }
+    }
+
+    public ArrayList<UpdateCenter> getUpdateCenters() {
+        checkUpdateCenterDao();
         return (ArrayList<UpdateCenter>) mUpdateCenterDao.queryBuilder().orderAsc(UpdateCenterDao.Properties.Id).list();
     }
 
@@ -234,6 +240,16 @@ public class OtherRepository {
     public int getNeedUpdatedCount() {
         LogUtil.i(TAG, "getNeedUpdatedCount_" + mUpdateCenterDao.queryBuilder().where(UpdateCenterDao.Properties.Status.eq(0)).list().toString());
         return mUpdateCenterDao.queryBuilder().where(UpdateCenterDao.Properties.Status.eq(0)).list().size();
+    }
+
+    /**
+     * 同期活动是否有更新
+     *
+     * @return
+     */
+    public boolean isEventCanUpdate() {
+        checkUpdateCenterDao();
+        return !mUpdateCenterDao.queryBuilder().where(UpdateCenterDao.Properties.Id.eq(4),UpdateCenterDao.Properties.Status.eq(0)).list().isEmpty();
     }
 
     /* ```````````````[ Register]`````````````````````````````` */

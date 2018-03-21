@@ -1,5 +1,6 @@
 package com.adsale.ChinaPlas.data;
 
+import com.adsale.ChinaPlas.data.model.EmailVisitorData;
 import com.adsale.ChinaPlas.utils.NetWorkHelper;
 
 import io.reactivex.Flowable;
@@ -59,6 +60,12 @@ public interface DownloadClient {
 
     @GET
     Observable<ResponseBody> downConfirmImg(@Url String url);
+
+    @POST(NetWorkHelper.REGISTER_CONFIRM_PAY)
+    Observable<ResponseBody> confirmPay(@Body RequestBody body);
+
+    @POST(NetWorkHelper.REGISTER_EMAIL_DATA)
+    Observable<EmailVisitorData> regGetData(@Body RequestBody body);
 
  /*  ``````````````````````````````    `````````````````````````````````````  */
 

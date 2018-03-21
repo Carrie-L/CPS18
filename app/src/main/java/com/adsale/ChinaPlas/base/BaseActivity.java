@@ -46,6 +46,8 @@ import com.adsale.ChinaPlas.viewmodel.NavViewModel;
 import com.adsale.ChinaPlas.viewmodel.SyncViewModel;
 import com.baidu.mobstat.StatService;
 
+import io.reactivex.disposables.Disposable;
+
 /**
  * todo [LinearLayout   android:id="@+id/language"] 一删掉，Databinding 就报错。
  */
@@ -76,6 +78,7 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
     protected String mTypePrefix;
     private Window window;
     protected boolean isChangeTitleHomeIcon = false;
+
 //    protected int mHomeIconRes = R.drawable.ic_home;
 
     @Override

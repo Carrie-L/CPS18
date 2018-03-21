@@ -11,6 +11,7 @@ import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.data.model.AgentInfo;
 import com.adsale.ChinaPlas.helper.CSVHelper;
 import com.adsale.ChinaPlas.utils.AppUtil;
+import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.RecyclerItemClickListener;
 
 import java.util.ArrayList;
@@ -41,14 +42,12 @@ public class TravelInfoActivity extends BaseActivity {
         hrInfos = csvHelper.getHrHotelDetailCSV();
 
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
-
-
             @Override
             public void onItemClick(View view, int position) {
                 if (AppUtil.getCurLanguage() == 1 && list.get(position).titleENG.contains("Endorsed")) {
                     intent = new Intent(getApplicationContext(), WebViewActivity.class);
                     intent.putExtra("title", list.get(position).titleENG);
-                    intent.putExtra("WebUrl", list.get(position).getWebsiteENG());
+                    intent.putExtra(Constant.WEB_URL, list.get(position).getWebsiteENG());
                 } else {
                     intent = new Intent(getApplicationContext(), TravelDetailActivity.class);
                     intent.putExtra("title", getString(R.string.title_travel_info));

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="obj"
+            type="com.adsale.ChinaPlas.dao.SeminarInfo" />
+
+        <variable
+            name="adapter"
+            type="com.adsale.ChinaPlas.adapter.TechAdapter" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/inner_bar"
+        android:onClick="@{()->adapter.onItemClick(obj)}">
+
+        <ImageView
+            android:id="@+id/iv_arrow"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/ic_right_arrow2" />
+
+        <TextView
+            android:id="@+id/tv_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="160dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_toLeftOf="@id/iv_arrow"
+            android:drawableLeft="@drawable/ic_event_location"
+            android:drawablePadding="8dp"
+            android:text="@{obj.roomNo}" />
+
+        <TextView
+            android:id="@+id/tv_tech_zone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_location"
+            android:layout_below="@id/tv_location"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="12dp"
+            android:drawableStart="@{obj.getIndicate()==1?@drawable/ic_tech_m1m2:obj.getIndicate()==2?@drawable/ic_tech_m3m4:obj.getIndicate()==3?@drawable/ic_tech_m5m6:@drawable/ic_tech_m7m8}"
+            android:drawablePadding="8dp"
+            android:text="@{obj.getM()}"
+            android:textColor="@color/home" />
+        <!--@drawable/ic_tech_m1m2
+        @drawable/ic_tech_m3m4
+        ic_tech_m5m6
+        ic_tech_m7m8
+        -->
+
+        <ImageView
+            android:id="@+id/iv_logo"
+            android:layout_width="match_parent"
+            android:layout_height="96dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_toStartOf="@id/tv_location"
+            android:scaleType="fitCenter"
+            android:visibility="@{obj.isADer?View.VISIBLE:View.GONE}"
+            app:imgUrl="@{obj.adLogoUrl}" />
+
+        <TextView
+            android:id="@+id/tv_seminar_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_logo"
+            android:layout_marginEnd="32dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_toStartOf="@id/tv_location"
+            android:ellipsize="end"
+            android:lineSpacingExtra="1.8dp"
+            android:maxLines="@{obj.isADer?1:2}"
+            android:text="@{obj.topic}"
+            android:textSize="16sp" />
+        <!--.replaceAll(&quot;<br />&quot;, &quot;\n&quot;)-->
+
+    </RelativeLayout>
+
+</layout>

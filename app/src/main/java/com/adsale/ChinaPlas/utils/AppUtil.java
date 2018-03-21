@@ -127,6 +127,10 @@ public class AppUtil {
         return App.mSP_Config.getInt("ScreenHeight", 0);
     }
 
+    public static int getTopHeight() {
+        return App.mSP_Config.getInt("topHeight", 0);
+    }
+
     public static boolean isTablet() {
         return App.mSP_Config.getBoolean("isTablet", false);
     }
@@ -196,6 +200,14 @@ public class AppUtil {
         return App.mSP_Login.getString(Constant.USER_EMAIL, "");
     }
 
+    public static void setRegImgUrl(String imgUrl){
+        App.mSP_Login.edit().putString("RegImageUrl",imgUrl).apply();
+    }
+
+    public static String getRegImgUrl(){
+        return   App.mSP_Login.getString("RegImageUrl","");
+    }
+
     public static void setJPUSHRegId(String regId) {
         App.mSP_Config.edit().putString(JPushInterface.EXTRA_REGISTRATION_ID, regId).apply();
     }
@@ -224,8 +236,19 @@ public class AppUtil {
         Resources resources = mContext.getResources();
         Configuration config = resources.getConfiguration();
         DisplayMetrics dm = resources.getDisplayMetrics();
-        config.setLocale(getLocale(language));
+        Locale locale = getLocale(language);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            LocaleList localeList = new LocaleList(locale);
+            LocaleList.setDefault(localeList);
+            config.setLocales(localeList);
+            mContext.createConfigurationContext(config);
+        } else {
+            config.setLocale(locale);
+        }
+        Locale.setDefault(locale);
         resources.updateConfiguration(config, dm);
+
         App.mLanguage.set(language);
     }
 
@@ -239,10 +262,12 @@ public class AppUtil {
     @TargetApi(Build.VERSION_CODES.N)
     private static Context updateResources(Context context) {
         Resources resources = context.getResources();
-        Locale locale = getLocale(context.getSharedPreferences(Constant.SP_CONFIG, MODE_PRIVATE).getInt("CUR_LANGUAGE", 0));
+        Locale locale = getLocale(context.getSharedPreferences(Constant.SP_CONFIG,MODE_PRIVATE).getInt("CUR_LANGUAGE", 0));
         Configuration configuration = resources.getConfiguration();
         configuration.setLocale(locale);
-        configuration.setLocales(new LocaleList(locale));
+        LocaleList localeList = new LocaleList(locale);
+        LocaleList.setDefault(localeList);
+        configuration.setLocales(localeList);
         return context.createConfigurationContext(configuration);
     }
 
@@ -295,14 +320,14 @@ public class AppUtil {
             for (String str : names) {
                 LogUtil.i(TAG, "names=" + str);
                 if (str.equals(name)) {
-                    LogUtil.i(TAG, name + "文件存在！！！！");
+                    LogUtil.i(TAG, name + "文件存在asset中！！！！");
                     return true;
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        LogUtil.e(TAG, name + "不存在啦！！！！");
+        LogUtil.e(TAG, name + " asset中不存在啦！！！！");
         return false;
     }
 
@@ -602,7 +627,7 @@ public class AppUtil {
         logJson.TrackingOS = TRACKING_OS;
         logJson.Year = YEAR;
 
-//        sendLog(logJson);
+        sendLog(logJson);
 
     }
 
@@ -652,7 +677,7 @@ public class AppUtil {
         LogUtil.e(TAG, "visitorID=" + visitorID);
         LogUtil.i(TAG, "TrackingName=" + trackingNamePrefix + getLanguageType(curLang) + "_Android");
 
-//        sendLog(logJson);
+        sendLog(logJson);
 
     }
 
@@ -681,7 +706,7 @@ public class AppUtil {
         }
         strLogJson = new Gson().toJson(logJsonArr);
 
-        LogUtil.i(TAG, "sendLog:strLogJson=" + strLogJson);
+//        LogUtil.i(TAG, "sendLog:strLogJson=" + strLogJson);
 
         // 目的是为了退出之后再打开app还是会记得退出之前的事件
 //        writeFileToSD(strLogJson, LOG_JSON_STR_KEY);

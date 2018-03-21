@@ -1,10 +1,12 @@
 package com.adsale.ChinaPlas.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableInt;
 import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
+import android.webkit.WebView;
 import android.widget.ProgressBar;
 
 import com.adsale.ChinaPlas.App;
@@ -18,6 +20,7 @@ import com.adsale.ChinaPlas.helper.ProgressCallback;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.NetWorkHelper;
+import com.adsale.ChinaPlas.utils.OpenFileUtil;
 import com.adsale.ChinaPlas.utils.ReRxUtils;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
@@ -113,8 +116,10 @@ public class PDFDownloadAdapter extends CpsBaseAdapter<DocumentsCenter.Child> {
 
     public void onDownload(DocumentsCenter.Child entity) {
         if (entity.downloadStatus.get() == STATUS_FINISHED) {
+            LogUtil.i(TAG, "openFile");
             openFile(entity);
         } else {
+            LogUtil.i(TAG, "download");
             entity.mProgress.set(0);
             entity.max.set(0);
             download(entity);
@@ -123,7 +128,10 @@ public class PDFDownloadAdapter extends CpsBaseAdapter<DocumentsCenter.Child> {
     }
 
     private void openFile(DocumentsCenter.Child entity) {
-
+        String path = mDir + AppUtil.subStringLast(entity.getFileLink(), '/');
+        LogUtil.i(TAG, "path=" + path);
+      Intent intent= OpenFileUtil.openFile(path);
+      mContext.startActivity(intent);
     }
 
     public void onRestart(DocumentsCenter.Child entity, int pos) {
