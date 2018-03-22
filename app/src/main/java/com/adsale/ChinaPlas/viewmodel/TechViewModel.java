@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.adsale.ChinaPlas.App;
+import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.TechAdapter;
 import com.adsale.ChinaPlas.dao.SeminarInfo;
 import com.adsale.ChinaPlas.data.OnIntentListener;
@@ -20,6 +21,7 @@ import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 
@@ -55,6 +57,7 @@ public class TechViewModel {
     private ImageView ivM6;
     private boolean isCalM6;
     private int mIndex;
+    private ArrayList<SeminarInfo> adList;
 
     public TechViewModel(Context mContext, ImageView iv) {
         this.mContext = mContext;
@@ -67,8 +70,61 @@ public class TechViewModel {
         mRepository = OtherRepository.getInstance();
         mRepository.initTechSeminarDao();
         adHelper = new ADHelper(mContext);
-        allSeminarCaches = mRepository.getAllSeminars(getCurrLangId(), adHelper);
+        adList = new ArrayList<>();
+        mSeminars = mRepository.getAllSeminars(getCurrLangId(), adHelper, adList);
+        allSeminarCaches.addAll(mSeminars);
+
+
+        insertHeaderItems();
         showM6(0);
+    }
+
+    private void insertHeaderItems() {
+        int size = mSeminars.size();
+        SeminarInfo entity;
+        int adCount = 0;
+        int index=0;
+        for (int i = 0; i < size; i++) {
+            entity = mSeminars.get(i);
+            if (i == 0) { // header
+                entity.isTypeLabel = true;
+            } else if (entity.getDate().equals(mSeminars.get(i - 1).getDate())) {
+                if (entity.getTime().equals(mSeminars.get(i - 1).getTime())) {
+                    entity.isTypeLabel = false;
+                } else {
+                    entity.isTypeLabel = true;
+                }
+            } else {
+                entity.isTypeLabel = true;
+            }
+
+            if(entity.isTypeLabel){
+                index = convertDateToIndex(entity.getDate());
+                    entity.headerStr=String.format(compareTime(entity.getTime())?
+                            mContext.getString(R.string.seminar_time_pm):mContext.getString(R.string.seminar_time_am),
+                            indexToDate(index)); //index==0?"24":index==1?"25":index==2?"26":"27"
+
+                if(adList.get(index).isADer.get() && adList.get(index).getTime().equals(entity.getTime())){ // entity 是header，且这个时间段里有ad,则将那个ad seminar 置顶
+                    adCount++;
+                    allSeminarCaches.add(i + adCount, adList.get(index));
+                }
+            }
+        }
+
+
+    }
+
+    private int convertDateToIndex(String date) {
+        if (date.contains(DATE1)) {
+            return 0;
+        } else if (date.contains(DATE2)) {
+            return 1;
+        } else if (date.contains(DATE3)) {
+            return 2;
+        } else if (date.contains(DATE4)) {
+            return 3;
+        }
+        return 0;
     }
 
     public void onStart(OnIntentListener listener, TechAdapter adapter) {
@@ -124,11 +180,10 @@ public class TechViewModel {
             seminarInfo = allSeminarCaches.get(i);
             if (seminarInfo.getDate().contains(getCurrDate()) && seminarInfo.getLangID().equals(getCurrLangId()) && compareTime(seminarInfo.getTime())) {
                 mSeminars.add(seminarInfo);
-//                if (seminarInfo.isADer.get()) {
-//                    mSeminars.add(0, seminarInfo);
-//                }
             }
         }
+
+
     }
 
     private boolean compareTime(String time) {
@@ -138,18 +193,19 @@ public class TechViewModel {
         return time.compareTo("12:00") > 0;
     }
 
-    private int getCurrIndex() {
-        LogUtil.i(TAG, "seminarInfo.getDate()=" + seminarInfo.getDate());
-        if (seminarInfo.getDate().contains(DATE1)) {
-            return 0;
-        } else if (seminarInfo.getDate().contains(DATE2)) {
-            return 1;
-        } else if (seminarInfo.getDate().contains(DATE3)) {
-            return 2;
-        } else if (seminarInfo.getDate().contains(DATE4)) {
-            return 3;
+    private String indexToDate(int index) {
+        if (index==0) {
+            return DATE1;
+        } else  if (index==1) {
+            return DATE2;
         }
-        return 0;
+        else  if (index==2) {
+        return DATE3;
+    } else  if (index==3) {
+            return DATE4;
+        }
+        return DATE1;
+
     }
 
     public void showM6(int index) {
@@ -159,21 +215,24 @@ public class TechViewModel {
         mIndex = index;
         LogUtil.i(TAG, "showM6:index=" + index);
         if (adHelper.isAdOpen() && adHelper.isM6Open(index)) {
-//            calculateM6Size();
+            LogUtil.i(TAG, "showM6:VISIBLE");
             ivM6.setVisibility(View.VISIBLE);
             adHelper.getM6HeaderUrl(index);
-            Glide.with(mContext).load(adHelper.getM6HeaderUrl(index)).into(ivM6);
+
+            RequestOptions options = new RequestOptions().override(AppUtil.getScreenWidth(), AppUtil.getCalculatedHeight(Constant.M6_BANNER_WIDTH, Constant.M6_BANNER_HEIGHT));
+            Glide.with(mContext).load(adHelper.getM6HeaderUrl(index)).apply(options).into(ivM6);
             adObj = adHelper.getAdObj();
             AppUtil.trackViewLog(206, "Ad", "M6" + "_Date" + (16 + index), adObj.M6.companyID[index]);// 统计广告出现次数
             AppUtil.setStatEvent(mContext, "ViewM6", "M6" + "_Date" + (16 + index) + adObj.M6.companyID[index]);
         } else {
             ivM6.setVisibility(View.GONE);
+            LogUtil.i(TAG, "showM6:GONE");
         }
     }
 
-    public void onM6Click(){
-        LogUtil.i(TAG,"onM6Click:mIndex="+mIndex+",id="+adObj.M6.topics.get(mIndex).id);
-        mListener.onIntent(adObj.M6.topics.get(mIndex).id,null);
+    public void onM6Click() {
+        LogUtil.i(TAG, "onM6Click:mIndex=" + mIndex + ",id=" + adObj.M6.topics.get(mIndex).id);
+        mListener.onIntent(adObj.M6.topics.get(mIndex).id, null);
     }
 
     private void calculateM6Size() {

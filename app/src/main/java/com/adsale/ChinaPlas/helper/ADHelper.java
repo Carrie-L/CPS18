@@ -47,6 +47,7 @@ public class ADHelper {
     public final String TAG = "ADHelper";
     private Context mContext;
     private static ADHelper INSTANCE;
+//    private final String AD_TXT = "advertisement.txt";
     private final String AD_TXT = "advertisement.txt";
     private Intent intent;
     private int mLanguage;
@@ -334,7 +335,7 @@ public class ADHelper {
 
     public boolean isM6Open(int index) {
         getAdObj();
-        return Integer.valueOf(adObj.M6.version[index]) > 0;
+        return !adObj.M6.version[index].equals("0");
     }
 
     public boolean isShowM6anner(String id) {
@@ -362,7 +363,9 @@ public class ADHelper {
                 .append(AppUtil.isTablet() ? adObj.Common.tablet : adObj.Common.phone).append(adObj.M6.logo).append("_").append(adObj.M6.version[index])
                 .append(adObj.M6.format);
         LogUtil.i(TAG, "getM6LogoUrl= " + sbUrl.toString());
-        return sbUrl.toString();
+//        return sbUrl.toString();
+
+        return "https://o97tbiy1f.qnssl.com/advertisement/M6/230525/tablet_logo_1.jpg";
     }
 
     public String getM6HeaderUrl(int index) {

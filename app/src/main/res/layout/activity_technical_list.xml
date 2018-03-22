@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:scaleType="fitXY"
+            android:background="@drawable/item_event_bg"
             android:onClick="@{()->techModel.onM6Click()}"
             />
 
@@ -124,13 +125,22 @@
             </LinearLayout>
         </ScrollView>
 
+        <ImageView
+            android:id="@+id/line"
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="@color/grey500"
+            android:layout_toEndOf="@id/scroll_left_tech"
+            android:layout_above="@id/iv_ad"
+            />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_seminar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/iv_ad"
-            android:layout_toRightOf="@id/scroll_left_tech"
-            android:background="@color/white_smoke" />
+            android:layout_toRightOf="@id/line"
+           />
 
 
     </RelativeLayout>

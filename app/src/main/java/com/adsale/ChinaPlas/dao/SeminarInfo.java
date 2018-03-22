@@ -50,6 +50,7 @@ public class SeminarInfo implements Parcelable {
     private String adHeaderUrl = "";
 
     public boolean isTypeLabel = false;
+    public String headerStr = "";
 
     // KEEP FIELDS END
 
@@ -193,12 +194,10 @@ public class SeminarInfo implements Parcelable {
     public int indicate=1;
 
     public int getIndicate(){
-        LogUtil.i("Senimar","getIndicate:"+indicate);
         return indicate;
     }
 
     public String getM() {
-        LogUtil.i("Senimar","getM()------"+Hall);
         if (Hall.equals("1H") || Hall.equals("2H")) {
             indicate=1;
             return "M1/M2";

@@ -53,92 +53,108 @@ public class OtherRepository {
         mSeminarSpeakerDao = App.mDBHelper.mSeminarSpeakerDao;
     }
 
-    public ArrayList<SeminarInfo> getAllSeminars(int langId, ADHelper adHelper) {
+    public ArrayList<SeminarInfo> getAllSeminars(int langId, ADHelper adHelper, ArrayList<SeminarInfo> adList) {
         checkSeminarInfoDao();
         ArrayList<SeminarInfo> list = new ArrayList<>();
         Cursor cursor = App.mDBHelper.db.rawQuery("select * from SEMINAR_INFO where LANG_ID=" + langId + " order by DATE,TIME,ORDER_MOB", null);
         SeminarInfo entity;
         adAdvertisementObj adObj = adHelper.getAdObj();
-        SeminarInfo newEntity;
-        int d0 = 0, d1 = 0, d2 = 0;
-        ArrayList<SeminarInfo> adList = new ArrayList<>();
+
+        SeminarInfo entity1 = new SeminarInfo();
+        adList.add(entity1);
+        adList.add(entity1);
+        adList.add(entity1);
+        adList.add(entity1);
+
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 entity = mSeminarInfoDao.readEntity(cursor, 0);
                 int index = convertDateToIndex(entity.getDate());
-                if (!adObj.M6.version[index].equals("0") && adObj.M6.companyID[index].equals(entity.getCompanyID())) {
+//                if (!adObj.M6.version[index].equals("0") && adObj.M6.companyID[index].equals("237479")) {//entity.getCompanyID()
+//                    entity.isADer.set(true);
+//                    entity.setAdLogoUrl(adHelper.getM6LogoUrl(index));
+//                    entity.setAdHeaderUrl(adHelper.getM6HeaderUrl(index));
+//                    adList.add(entity);
+//                }
+
+
+               if (!adObj.M6.version[index].equals("0") && String.valueOf(entity.getEventID()).equals(adObj.M6.EventID.getEventId(App.mLanguage.get())[index])) {
                     entity.isADer.set(true);
                     entity.setAdLogoUrl(adHelper.getM6LogoUrl(index));
                     entity.setAdHeaderUrl(adHelper.getM6HeaderUrl(index));
+                    adList.remove(index);
+                    adList.add(index,entity);
                 }
-                // am  entity.getTime().compareTo("12:00") < 0
-                /*  因为要在每个日期的bar下加一条广告图片，因此把每个日期中的ader（1个）加入到List，如果当天没有广告，则随便插入一个（因为只要日期） */
 
-                if (adList.size() == index) {
-                    LogUtil.i(TAG, "① adList.size() = " + adList.size() + ",isAder =" + entity.isADer.get());
 
-                    /*  不能直接用 newEntity=entity; 会数据混乱。 */
-                    newEntity = new SeminarInfo();
-                    newEntity.setDate(entity.getDate());
-                    newEntity.setTime(entity.getTime());
-                    newEntity.setID(entity.getID());
-                    newEntity.setLangID(entity.getLangID());
-                    newEntity.isTypeLabel = true;
-                    newEntity.setAdLogoUrl(entity.getAdLogoUrl());
-                    newEntity.isADer.set(entity.isADer.get());
-                    newEntity.setTopic(entity.getTopic());
-                    newEntity.setRoomNo(entity.getRoomNo());
-                    newEntity.setHall(entity.getHall());
-                    newEntity.setBooth(entity.getBooth());
-                    newEntity.setCompanyID(entity.getCompanyID());
-                    newEntity.setPresentCompany(entity.getPresentCompany());
-                    adList.add(newEntity);
-                } else if (adList.size() == (index + 1) && !adList.get(index).isADer.get() && entity.isADer.get()) {
-                    LogUtil.i(TAG, "② adList.size() = " + adList.size() + ",isAder =" + entity.isADer.get());
-                    newEntity = new SeminarInfo();
-                    newEntity.setDate(entity.getDate());
-                    newEntity.setTime(entity.getTime());
-                    newEntity.setID(entity.getID());
-                    newEntity.setLangID(entity.getLangID());
-                    newEntity.isTypeLabel = true;
-                    newEntity.isADer.set(entity.isADer.get());
-                    newEntity.setAdLogoUrl(entity.getAdLogoUrl());
-                    newEntity.isADer.set(entity.isADer.get());
-                    newEntity.setTopic(entity.getTopic());
-                    newEntity.setRoomNo(entity.getRoomNo());
-                    newEntity.setBooth(entity.getBooth());
-                    newEntity.setHall(entity.getHall());
-                    newEntity.setCompanyID(entity.getCompanyID());
-                    newEntity.setPresentCompany(entity.getPresentCompany());
-                    adList.set(index, newEntity);
-                }
+//                // am  entity.getTime().compareTo("12:00") < 0
+//                /*  因为要在每个日期的bar下加一条广告图片，因此把每个日期中的ader（1个）加入到List，如果当天没有广告，则随便插入一个（因为只要日期） */
+//
+//                if (adList.size() == index) {
+//                    LogUtil.i(TAG, "① adList.size() = " + adList.size() + ",isAder =" + entity.isADer.get());
+//
+//                    /*  不能直接用 newEntity=entity; 会数据混乱。 */
+//                    newEntity = new SeminarInfo();
+//                    newEntity.setDate(entity.getDate());
+//                    newEntity.setTime(entity.getTime());
+//                    newEntity.setID(entity.getID());
+//                    newEntity.setLangID(entity.getLangID());
+//                    newEntity.isTypeLabel = true;
+//                    newEntity.setAdLogoUrl(entity.getAdLogoUrl());
+//                    newEntity.isADer.set(entity.isADer.get());
+//                    newEntity.setTopic(entity.getTopic());
+//                    newEntity.setRoomNo(entity.getRoomNo());
+//                    newEntity.setHall(entity.getHall());
+//                    newEntity.setBooth(entity.getBooth());
+//                    newEntity.setCompanyID(entity.getCompanyID());
+//                    newEntity.setPresentCompany(entity.getPresentCompany());
+//                    adList.add(newEntity);
+//                } else if (adList.size() == (index + 1) && !adList.get(index).isADer.get() && entity.isADer.get()) {
+//                    LogUtil.i(TAG, "② adList.size() = " + adList.size() + ",isAder =" + entity.isADer.get());
+//                    newEntity = new SeminarInfo();
+//                    newEntity.setDate(entity.getDate());
+//                    newEntity.setTime(entity.getTime());
+//                    newEntity.setID(entity.getID());
+//                    newEntity.setLangID(entity.getLangID());
+//                    newEntity.isTypeLabel = true;
+//                    newEntity.isADer.set(entity.isADer.get());
+//                    newEntity.setAdLogoUrl(entity.getAdLogoUrl());
+//                    newEntity.isADer.set(entity.isADer.get());
+//                    newEntity.setTopic(entity.getTopic());
+//                    newEntity.setRoomNo(entity.getRoomNo());
+//                    newEntity.setBooth(entity.getBooth());
+//                    newEntity.setHall(entity.getHall());
+//                    newEntity.setCompanyID(entity.getCompanyID());
+//                    newEntity.setPresentCompany(entity.getPresentCompany());
+//                    adList.set(index, newEntity);
+//                }
 
                 entity.isTypeLabel = false;
                 list.add(entity);
 
-                if (index == 0) {
-                    d0++;
-                } else if (index == 1) {
-                    d1++;
-                } else if (index == 2) {
-                    d2++;
-                }
+//                if (index == 0) {
+//                    d0++;
+//                } else if (index == 1) {
+//                    d1++;
+//                } else if (index == 2) {
+//                    d2++;
+//                }
             }
             cursor.close();
 
             LogUtil.i(TAG, "list  //// " + list.size() + "," + list.toString());
             LogUtil.i(TAG, "adList=" + adList.size() + "," + adList.toString());
 
-            list.add(0, adList.get(0));
-            if (adList.size() > 1) {
-                list.add(d0 + 1, adList.get(1));
-            }
-            if (adList.size() > 2) {
-                list.add(d0 + d1 + 1, adList.get(2));
-            }
-            if (adList.size() > 3) {
-                list.add(d0 + d1 + d2 + 1, adList.get(3));
-            }
+//            list.add(0, adList.get(0));
+//            if (adList.size() > 1) {
+//                list.add(d0 + 1, adList.get(1));
+//            }
+//            if (adList.size() > 2) {
+//                list.add(d0 + d1 + 1, adList.get(2));
+//            }
+//            if (adList.size() > 3) {
+//                list.add(d0 + d1 + d2 + 1, adList.get(3));
+//            }
             LogUtil.i(TAG, "list  >>>> " + list.size() + "," + list.toString());
         }
         return list;
@@ -249,7 +265,7 @@ public class OtherRepository {
      */
     public boolean isEventCanUpdate() {
         checkUpdateCenterDao();
-        return !mUpdateCenterDao.queryBuilder().where(UpdateCenterDao.Properties.Id.eq(4),UpdateCenterDao.Properties.Status.eq(0)).list().isEmpty();
+        return !mUpdateCenterDao.queryBuilder().where(UpdateCenterDao.Properties.Id.eq(4), UpdateCenterDao.Properties.Status.eq(0)).list().isEmpty();
     }
 
     /* ```````````````[ Register]`````````````````````````````` */

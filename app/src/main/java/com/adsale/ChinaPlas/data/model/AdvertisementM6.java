@@ -1,5 +1,7 @@
 package com.adsale.ChinaPlas.data.model;
 
+import com.adsale.ChinaPlas.utils.AppUtil;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -18,8 +20,9 @@ public class AdvertisementM6 {
     public String banner;
     public String[] companyID;
     public ArrayList<Topic> topics;
+    public EventID EventID;
 
-     public static class Topic{
+    public static class Topic {
         public String id;
         public String image;
         public String description;
@@ -32,6 +35,23 @@ public class AdvertisementM6 {
                     ", description='" + description + '\'' +
                     '}';
         }
+    }
+
+    public static class EventID {
+        public String[] EN;
+        public String[] SC;
+        public String[] TC;
+
+        public String[] getEventId(int language) {
+            if (language == 0) {
+                return TC;
+            } else if (language == 1) {
+                return EN;
+            } else {
+                return SC;
+            }
+        }
+
     }
 
     @Override

@@ -166,8 +166,8 @@
     </style>
 
     <style name="event_btn_style">
-        <item name="android:layout_width">48dp</item>
-        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_width">@dimen/seminar_circle_size</item>
+        <item name="android:layout_height">@dimen/seminar_circle_size</item>
         <item name="android:gravity">center</item>
         <item name="android:layout_gravity">center_horizontal</item>
         <item name="android:layout_marginTop">16dp</item>

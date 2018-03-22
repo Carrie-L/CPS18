@@ -34,7 +34,6 @@
             android:id="@+id/iv_logo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:layout_toStartOf="@id/iv_arrow"
             android:scaleType="fitCenter"
             android:visibility="@{obj.isADer?View.VISIBLE:View.GONE}"
@@ -45,12 +44,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/iv_logo"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+             android:layout_margin="16dp"
             android:layout_toStartOf="@id/iv_arrow"
             android:ellipsize="end"
-            android:maxLines="2"
+            android:lineSpacingExtra="1.5dp"
+            android:maxLines="3"
             android:text="@{obj.topic.replaceAll(&quot;  &quot;, &quot;\n&quot;)}" />
 
         <TextView
@@ -58,12 +56,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_seminar_title"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="8dp"
             android:drawableLeft="@drawable/ic_event_location"
             android:drawablePadding="8dp"
-            android:text="@{obj.roomNo}" />
+            android:text="@{String.format(@string/seminar_room,obj.roomNo)}" />
 
         <TextView
             android:id="@+id/tv_tech_zone"
@@ -77,7 +74,9 @@
             android:drawableStart="@{obj.getIndicate()==1?@drawable/ic_tech_m1m2:obj.getIndicate()==2?@drawable/ic_tech_m3m4:obj.getIndicate()==3?@drawable/ic_tech_m5m6:@drawable/ic_tech_m7m8}"
             android:drawablePadding="8dp"
             android:text="@{obj.getM()}"
-            android:textColor="@color/home" />
+            android:textColor="@{obj.getIndicate()==1?@color/color_m1m2:obj.getIndicate()==2?@color/color_m3m4:obj.getIndicate()==3?@color/color_m5m6:@color/color_m7m8}"
+            />
+
     </RelativeLayout>
 
 </layout>

@@ -72,11 +72,12 @@ public class TechnicalListActivity extends BaseActivity implements OnIntentListe
         } else if(toCls.getSimpleName().equals("WebContentActivity")){
             intent = new Intent(getApplicationContext(), WebContentActivity.class);
             intent.putExtra(Constant.WEB_URL, "WebContent/MI00000064");
+            intent.putExtra(Constant.TITLE,getString(R.string.uc_floorplan));
         }
         else {
             intent = new Intent(this, toCls);
             intent.putExtra("Info", (SeminarInfo) entity);
-            intent.putExtra("title",getString(R.string.uc_floorplan));
+//            intent.putExtra(Constant.TITLE,getString(R.string.uc_floorplan));
         }
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);

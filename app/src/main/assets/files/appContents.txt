@@ -88,11 +88,18 @@
       "pageID": "MedicalPlastics"
     },
 {
-      "version": "1",
+      "version": "2",
             "title_en": "Bottles Recycle Program: Re-Create Together",
             "title_cn": "「瓶安中国‧塑造新生」回收行动",
             "title_tc": "「瓶安中國‧塑造新生」回收行動",
       "pageID": "RecycleProgram"
+    },
+{
+      "version": "2",
+            "title_en": "Tech Talk: Diversified Technologies Release",
+            "title_cn": "科技讲台 - 多元化科技产品发布",
+            "title_tc": "科技講台 - 多元化科技產品發佈",
+      "pageID": "TechTalk"
     }
   ]
 }

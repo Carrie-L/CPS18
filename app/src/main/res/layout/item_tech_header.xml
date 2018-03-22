@@ -24,7 +24,7 @@
         <TextView
             android:id="@+id/tv_tech_header"
             style="@style/tech_header_style"
-            android:text="@{obj.date}"
+            android:text="@{obj.headerStr}"
             android:visibility="@{obj.isTypeLabel?View.VISIBLE:View.GONE}" />
 
         <RelativeLayout

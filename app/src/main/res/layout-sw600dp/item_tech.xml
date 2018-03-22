@@ -41,7 +41,8 @@
             android:layout_toLeftOf="@id/iv_arrow"
             android:drawableLeft="@drawable/ic_event_location"
             android:drawablePadding="8dp"
-            android:text="@{obj.roomNo}" />
+            android:text="@{String.format(@string/seminar_room,obj.roomNo)}"
+           />
 
         <TextView
             android:id="@+id/tv_tech_zone"
@@ -55,7 +56,7 @@
             android:drawableStart="@{obj.getIndicate()==1?@drawable/ic_tech_m1m2:obj.getIndicate()==2?@drawable/ic_tech_m3m4:obj.getIndicate()==3?@drawable/ic_tech_m5m6:@drawable/ic_tech_m7m8}"
             android:drawablePadding="8dp"
             android:text="@{obj.getM()}"
-            android:textColor="@color/home" />
+            android:textColor="@{obj.getIndicate()==1?@color/color_m1m2:obj.getIndicate()==2?@color/color_m3m4:obj.getIndicate()==3?@color/color_m5m6:@color/color_m7m8}" />
         <!--@drawable/ic_tech_m1m2
         @drawable/ic_tech_m3m4
         ic_tech_m5m6
@@ -82,9 +83,10 @@
             android:layout_marginEnd="32dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:layout_toStartOf="@id/tv_location"
             android:ellipsize="end"
-            android:lineSpacingExtra="1.8dp"
+            android:lineSpacingExtra="2dp"
             android:maxLines="@{obj.isADer?1:2}"
             android:text="@{obj.topic}"
             android:textSize="16sp" />

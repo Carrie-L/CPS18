@@ -48,4 +48,9 @@
     <color name="filter_color">#E7380D</color>
     <color name="grey_transparent">#B21C1C1C</color>
 
+    <color name="color_m1m2">#f04e23</color>
+    <color name="color_m3m4">#0093d1</color>
+    <color name="color_m5m6">#07a074</color>
+    <color name="color_m7m8">#5f1985</color>
+
 </resources>

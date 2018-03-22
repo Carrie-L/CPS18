@@ -207,6 +207,10 @@
     <string name="nodata">暂无相关信息</string>
     <string name="no_keyword_result">如需获取所有展商列表，请前往內容更新中心更新展商资料库。</string>
 
+    <string name="seminar_room">会议室%s</string>
+    <string name="seminar_time_am">%s&#160;上午时段&#160;(10:00&#8211;12:00)</string>
+    <string name="seminar_time_pm">%s&#160;下午时段&#160;(14:00&#8211;16:00)</string>
+
     <!--  -->
     <string name="register_str004">电邮</string>
     <string name="register_msg001">请输入观众姓名！</string>
@@ -358,7 +362,7 @@
     <string name="seminar_tel">演讲者电话</string>
     <string name="seminar_date">日期：%s</string>
     <string name="seminar_time">时间：%s</string>
-    <string name="seminar_section">展馆：</string>
+    <string name="seminar_section">展馆：%s</string>
     <string name="seminar_zone">区：%s</string>
     <string name="seminar_roomNO">会议室房号：%s</string>
     <string name="seminar_booth">展馆号：%s</string>

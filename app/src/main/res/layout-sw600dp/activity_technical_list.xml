@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:onClick="@{()->techModel.onM6Click()}"
-            android:scaleType="fitXY" />
+            android:scaleType="fitCenter" />
 
         <ScrollView
             android:id="@+id/scroll_left_tech"
@@ -186,6 +186,7 @@
             android:layout_height="match_parent"
             android:background="@color/grey500"
             android:layout_toEndOf="@id/scroll_left_tech"
+            android:layout_above="@id/iv_ad"
             />
 
         <android.support.v7.widget.RecyclerView

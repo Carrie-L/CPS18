@@ -1,5 +1,6 @@
 package com.adsale.ChinaPlas.ui;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.view.View;
@@ -149,5 +150,13 @@ public class TechSeminarDtlActivity extends BaseActivity {
     private int getCurrLangId() {
         int currLang = AppUtil.getCurLanguage();
         return currLang == 0 ? 950 : currLang == 1 ? 1252 : 936;
+    }
+
+    public void onCompanyClick(String companyId){
+        Intent intent = new Intent(this,ExhibitorDetailActivity.class);
+        intent.putExtra(Constant.COMPANY_ID,companyId);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        overridePendingTransPad();
     }
 }

@@ -75,6 +75,8 @@
 
     <string name="nodata">沒有相關信息</string>
     <string name="no_keyword_result">如需獲取所有展商列表，請前往內容更新中心更新展商資料庫。</string>
+    
+    <string name="seminar_room">會議室%s</string>
 
     <string name="btnSave">儲存</string>
     <string name="btnClear">清除所有</string>
@@ -237,10 +239,13 @@
     <string name="seminar_tel">演講者電話</string>
     <string name="seminar_date">日期：%s</string>
     <string name="seminar_time">時間：%s</string>
-    <string name="seminar_section">展館：</string>
+    <string name="seminar_section">展館：%s</string>
     <string name="seminar_zone">區：%s</string>
     <string name="seminar_roomNO">會議室房號：%s</string>
     <string name="seminar_booth">展台號：%s</string>
+
+    <string name="seminar_time_am">%s上午時段&#160;(10:00&#8211;12:00)</string>
+    <string name="seminar_time_pm">%s下午時段&#160;(14:00&#8211;16:00)</string>
 
 
     <!--内容更新中心-->

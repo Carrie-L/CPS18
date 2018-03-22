@@ -108,7 +108,7 @@ public class UpdateCenterViewModel {
         statusAll.set(updateCount > 0 && updateCount <= 5);
 
         // --- just for test
-//        testDownItem(4);
+//        testDownItem(3);
         //---test end
     }
 

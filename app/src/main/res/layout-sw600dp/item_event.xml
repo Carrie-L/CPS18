@@ -30,7 +30,7 @@
         <RelativeLayout
             android:id="@+id/rl_event"
             android:layout_width="match_parent"
-            android:layout_height="89dp"
+            android:layout_height="wrap_content"
             android:onClick="@{() -> adapter.onItemClick(obj)}">
 
             <ImageView

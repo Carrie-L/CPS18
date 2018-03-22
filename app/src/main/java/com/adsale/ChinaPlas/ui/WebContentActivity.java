@@ -243,6 +243,7 @@ public class WebContentActivity extends BaseActivity {
                             LogUtil.i(TAG, "解压zip");
                             StringBuilder sbDir = new StringBuilder();
                             sbDir.append(rootDir).append(mIntentUrl).append("/");
+                            createFile(rootDir+"ConcurrentEvent/");
                             createFile(sbDir.toString());
                             isUnZiped = FileUtil.unpackZip(eventPageId, body.byteStream(), sbDir.toString());
                             sbDir = null;

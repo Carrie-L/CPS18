@@ -1,14 +1,19 @@
 package com.adsale.ChinaPlas.adapter;
 
+import android.content.Context;
 import android.databinding.ViewDataBinding;
+import android.widget.LinearLayout;
 
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.CpsBaseAdapter;
 import com.adsale.ChinaPlas.base.CpsBaseViewHolder;
 import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.data.model.ConcurrentEvent;
+import com.adsale.ChinaPlas.databinding.ItemEventBinding;
+import com.adsale.ChinaPlas.databinding.ItemEventBindingSw600dpImpl;
 import com.adsale.ChinaPlas.ui.TechnicalListActivity;
 import com.adsale.ChinaPlas.ui.WebContentActivity;
+import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.android.databinding.library.baseAdapters.BR;
 
@@ -23,11 +28,20 @@ public class EventAdapter extends CpsBaseAdapter<ConcurrentEvent.Pages> {
     private ArrayList<ConcurrentEvent.Pages> list;
     private ConcurrentEvent.Pages entity;
     private OnIntentListener mListener;
-//    private boolean isTechEmpty;
+    private LinearLayout.LayoutParams params;
+//    private ItemEventBindingSw600dpImpl eventBindingSw600dp;
+    private ItemEventBinding eventBinding;
+    //    private boolean isTechEmpty;
 
     public EventAdapter(ArrayList<ConcurrentEvent.Pages> list, OnIntentListener listener) {
         this.list = list;
         mListener = listener;
+    }
+
+    public void setItemSize(int itemWidth){
+        LogUtil.i("EventAdapter", "itemWidth=" + itemWidth);
+        params = new LinearLayout.LayoutParams(itemWidth, AppUtil.getCalculatedHeight(765,89));
+
     }
 
     @Override
@@ -102,12 +116,15 @@ public class EventAdapter extends CpsBaseAdapter<ConcurrentEvent.Pages> {
     protected void bindVariable(ViewDataBinding binding) {
         binding.setVariable(BR.adapter, this);
         super.bindVariable(binding);
+        eventBinding= (ItemEventBinding) binding;
     }
 
     @Override
     public void onBindViewHolder(CpsBaseViewHolder holder, int position) {
-//        Glide.with(eventBinding.getRoot()).load(Uri.parse(eventBinding.getObj().getImageLink())).into(eventBinding.rlEvent);
         super.onBindViewHolder(holder, position);
+        if(params!=null){
+            eventBinding.rlEvent.setLayoutParams(params);
+        }
     }
 
     public void onTechClick(ConcurrentEvent.Pages entity) {//String date

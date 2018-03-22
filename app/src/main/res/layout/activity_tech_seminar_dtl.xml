@@ -69,6 +69,8 @@
                     android:layout_below="@id/tv_seminardtl_topic"
                     android:layout_marginTop="8dp"
                     android:textStyle="bold"
+                    android:textColor="@color/link"
+                    android:onClick="@{()->view.onCompanyClick(info.CompanyID)}"
                     android:text="@{info.presentCompany}" />
 
                 <TextView
@@ -87,7 +89,8 @@
                     android:id="@+id/tv_seminardtl_section"
                     style="@style/seminaldtl_tv"
                     android:layout_below="@id/tv_seminardtl_time"
-                    android:text="@{String.format(@string/seminar_zone,info.hall)}" />
+                    android:text="@{String.format(@string/seminar_section,info.hall)}"
+                  />
 
                 <TextView
                     android:id="@+id/tv_seminardtl_roomNO"

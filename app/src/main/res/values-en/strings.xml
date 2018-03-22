@@ -101,6 +101,10 @@
     <string name="nodata">No related information</string>
     <string name="no_keyword_result">If you want to get the full exhibitor list, please visit Update Center to update the exhibitor data</string>
 
+    <string name="seminar_room">Room %s</string>
+    <string name="seminar_time_am">%s&#160;AM Session&#160;(10:00&#8211;12:00)</string>
+    <string name="seminar_time_pm">%s&#160;PM Session&#160;(14:00&#8211;16:00)</string>
+
 
     <!--  -->
     <string name="title_news">News</string>
@@ -288,7 +292,7 @@
     <string name="seminar_tel">Tel</string>
     <string name="seminar_date">Date：%s</string>
     <string name="seminar_time">Time：%s</string>
-    <string name="seminar_section">Hall：</string>
+    <string name="seminar_section">Hall：%s</string>
     <string name="seminar_zone">Zone：%s</string>
     <string name="seminar_roomNO">RoomNO：%s</string>
     <string name="seminar_booth">Booth：%s</string>

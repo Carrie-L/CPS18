@@ -61,20 +61,32 @@ public class ConcurrentEventActivity extends BaseActivity implements OnIntentLis
         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayout.VERTICAL));
 
         mEventModel.getList();
-        EventAdapter adapter = new EventAdapter(mEventModel.events, this);
-        recyclerView.setAdapter(adapter);
-        mEventModel.onStart(this, adapter);
-
-        showAd();
 
         CardView cardView = binding.llLeftBtn;
-        int cardWidth = AppUtil.isTablet() ? AppUtil.getScreenWidth() - (765 * DisplayUtil.dip2px(getApplicationContext(), 89) / 89) :
-                AppUtil.getScreenWidth() - (520 * DisplayUtil.dip2px(getApplicationContext(), 140) / 232);
+//        int cardWidth = AppUtil.isTablet() ? AppUtil.getScreenWidth() - (765 * DisplayUtil.dip2px(getApplicationContext(), 104) / 89) :
+//                AppUtil.getScreenWidth() - (520 * DisplayUtil.dip2px(getApplicationContext(), 140) / 232);
+        int cardWidth = 0;
+        if (AppUtil.isTablet()) {
+            cardWidth = (int) (AppUtil.getScreenWidth() * 0.17f);
+        } else {
+            cardWidth = AppUtil.getScreenWidth() - (520 * DisplayUtil.dip2px(getApplicationContext(), 140) / 232);
+        }
         LogUtil.i(TAG, "cardWidth=" + cardWidth);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(cardWidth, RelativeLayout.LayoutParams.MATCH_PARENT);
         params.topMargin = DisplayUtil.dip2px(getApplicationContext(), 48) + 2;
         params.bottomMargin = adHeight;
         cardView.setLayoutParams(params);
+
+        EventAdapter adapter = new EventAdapter(mEventModel.events, this);
+        if(AppUtil.isTablet()){
+            adapter.setItemSize(AppUtil.getScreenWidth()-cardWidth);
+        }
+        recyclerView.setAdapter(adapter);
+        mEventModel.onStart(this, adapter);
+
+        showAd();
+
+
     }
 
     public void showAd() {
@@ -103,7 +115,7 @@ public class ConcurrentEventActivity extends BaseActivity implements OnIntentLis
         } else if (toCls.getSimpleName().equals("TechnicalListActivity")) {
             Intent intent = new Intent(this, TechnicalListActivity.class);
             intent.putExtra("title", getString(R.string.title_technical_seminar));
-            intent.putExtra("index", mEventModel.mClickPos.get()==0?"0":mEventModel.convertToTechDateIndex(((ConcurrentEvent.Pages) entity).date));
+            intent.putExtra("index", mEventModel.mClickPos.get() == 0 ? "0" : mEventModel.convertToTechDateIndex(((ConcurrentEvent.Pages) entity).date));
             startActivity(intent);
             overridePendingTransPad();
         } else if (toCls.getSimpleName().equals("FilterApplicationListActivity")) {

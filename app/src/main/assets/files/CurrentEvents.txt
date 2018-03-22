@@ -1,6 +1,37 @@
 ﻿{
     "htmlFilePath": "https://o97tbiy1f.qnssl.com/events/htmlFile/",
     "pages": [
+{
+            "title_en": "Tech Talk: Diversified Technologies Release",
+            "title_cn": "科技讲台 - 多元化科技产品发布",
+            "title_tc": "科技講台 - 多元化科技產品發佈",
+            "pre_reg": "0",
+            "entrance_fee": "1",
+            "date": "24",
+            "applications": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "999"
+            ],
+            "location": "4.2T51, 8.2S71",
+            "duration": "10:30-13:30, 13:00-16:00",
+            "sort": "1",
+            "pageID": "TechTalk",
+            "imageLink": "https://o97tbiy1f.qnssl.com/currentEventImages/phone_TechTalk.jpg",
+            "imageLink_Pad": "https://o97tbiy1f.qnssl.com/currentEventImages/tablet_TechTalk.jpg"
+        },
  {
             "title_en": "Bottles Recycle Program: Re-Create Together",
             "title_cn": "「瓶安中国‧塑造新生」回收行动",
@@ -29,8 +60,8 @@
             "duration": "-",
             "sort": "9",
             "pageID": "RecycleProgram",
-            "imageLink": "https://o97tbiy1f.qnssl.com/currentEventImages/phone_RecyclingActivity.jpg",
-            "imageLink_Pad": "https://o97tbiy1f.qnssl.com/currentEventImages/tablet_RecyclingActivity.jpg"
+            "imageLink": "https://o97tbiy1f.qnssl.com/currentEventImages/phone_RecyclingActivity_1.jpg",
+            "imageLink_Pad": "https://o97tbiy1f.qnssl.com/currentEventImages/tablet_RecyclingActivity_1.jpg"
         },
         {
             "title_en": "Finding CHINAPLAS Enigma",
@@ -125,6 +156,37 @@
             "imageLink": "https://o97tbiy1f.qnssl.com/currentEventImages/phone_IndustryConference.jpg",
             "imageLink_Pad": "https://o97tbiy1f.qnssl.com/currentEventImages/tablet_IndustryConference.jpg"
         },
+{
+            "title_en": "Tech Talk: Diversified Technologies Release",
+            "title_cn": "科技讲台 - 多元化科技产品发布",
+            "title_tc": "科技講台 - 多元化科技產品發佈",
+            "pre_reg": "0",
+            "entrance_fee": "1",
+            "date": "25",
+            "applications": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "999"
+            ],
+            "location": "4.2T51, 8.2S71",
+            "duration": "10:30-13:30, 13:00-16:00",
+            "sort": "2",
+            "pageID": "TechTalk",
+            "imageLink": "https://o97tbiy1f.qnssl.com/currentEventImages/phone_TechTalk.jpg",
+            "imageLink_Pad": "https://o97tbiy1f.qnssl.com/currentEventImages/tablet_TechTalk.jpg"
+        },
  {
             "title_en": "Medical Plastics Open Forum",
             "title_cn": "医用塑料公开论坛",
@@ -137,7 +199,7 @@
             ],
             "location": "4.2T51",
             "duration": "10:30-13:30",
-            "sort": "2",
+            "sort": "3",
             "pageID": "MedicalPlastics",
             "imageLink": "https://o97tbiy1f.qnssl.com/currentEventImages/MedicalPlastics_phone_sc.jpg",
             "imageLink_Pad": "https://o97tbiy1f.qnssl.com/currentEventImages/MedicalPlastics_tablet_sc.jpg"
@@ -170,8 +232,8 @@
             "duration": "-",
             "sort": "10",
             "pageID": "RecycleProgram",
-            "imageLink": "https://o97tbiy1f.qnssl.com/currentEventImages/phone_RecyclingActivity.jpg",
-            "imageLink_Pad": "https://o97tbiy1f.qnssl.com/currentEventImages/tablet_RecyclingActivity.jpg"
+            "imageLink": "https://o97tbiy1f.qnssl.com/currentEventImages/phone_RecyclingActivity_1.jpg",
+            "imageLink_Pad": "https://o97tbiy1f.qnssl.com/currentEventImages/tablet_RecyclingActivity_1.jpg"
         },
         {
             "title_en": "Finding CHINAPLAS Enigma",
@@ -266,6 +328,37 @@
             "imageLink": "https://o97tbiy1f.qnssl.com/currentEventImages/phone_IndustryConference.jpg",
             "imageLink_Pad": "https://o97tbiy1f.qnssl.com/currentEventImages/tablet_IndustryConference.jpg"
         },
+{
+            "title_en": "Tech Talk: Diversified Technologies Release",
+            "title_cn": "科技讲台 - 多元化科技产品发布",
+            "title_tc": "科技講台 - 多元化科技產品發佈",
+            "pre_reg": "0",
+            "entrance_fee": "1",
+            "date": "26",
+            "applications": [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12",
+                "13",
+                "14",
+                "999"
+            ],
+            "location": "4.2T51, 8.2S71",
+            "duration": "10:30-13:30, 13:00-16:00",
+            "sort": "3",
+            "pageID": "TechTalk",
+            "imageLink": "https://o97tbiy1f.qnssl.com/currentEventImages/phone_TechTalk.jpg",
+            "imageLink_Pad": "https://o97tbiy1f.qnssl.com/currentEventImages/tablet_TechTalk.jpg"
+        },
         {
             "title_en": "CMF Inspiration for Design x Innovation: CMF Design Forum",
             "title_cn": "设计 x 创新：CMF 灵感之源 - CMF 设计论坛",
@@ -292,7 +385,7 @@
             ],
             "location": "8.2S71",
             "duration": "10:00-12:30",
-            "sort": "3",
+            "sort": "4",
             "pageID": "DesignInnovationCMF",
             "imageLink": "https://o97tbiy1f.qnssl.com/currentEventImages/phone_DesignInnovationCMF.jpg",
             "imageLink_Pad": "https://o97tbiy1f.qnssl.com/currentEventImages/tablet_DesignInnovationCMF.jpg"
@@ -323,10 +416,10 @@
             ],
             "location": "6.1U02",
             "duration": "-",
-            "sort": "4",
+            "sort": "5",
             "pageID": "RecycleProgram",
-            "imageLink": "https://o97tbiy1f.qnssl.com/currentEventImages/phone_RecyclingActivity.jpg",
-            "imageLink_Pad": "https://o97tbiy1f.qnssl.com/currentEventImages/tablet_RecyclingActivity.jpg"
+            "imageLink": "https://o97tbiy1f.qnssl.com/currentEventImages/phone_RecyclingActivity_1.jpg",
+            "imageLink_Pad": "https://o97tbiy1f.qnssl.com/currentEventImages/tablet_RecyclingActivity_1.jpg"
         },
         {
             "title_en": "China Automotive Seating Industry Innovation Development Summit",
@@ -340,7 +433,7 @@
             ],
             "location": "M404",
             "duration": "09:30-12:30",
-            "sort": "5",
+            "sort": "6",
             "pageID": "ChinaAutomotiveSeatingIndustry",
             "imageLink": "https://o97tbiy1f.qnssl.com/currentEventImages/phone_AutomotiveSeatingIndustry.jpg",
             "imageLink_Pad": "https://o97tbiy1f.qnssl.com/currentEventImages/tablet_AutomotiveSeatingIndustry.jpg"
@@ -357,7 +450,7 @@
             ],
             "location": "M704",
             "duration": "13:00-17:00",
-            "sort": "6",
+            "sort": "7",
             "pageID": "AutoLightweightMaterialsSeminar",
             "imageLink": "https://o97tbiy1f.qnssl.com/currentEventImages/phone_AutoLightweightMaterialsSeminar.jpg",
             "imageLink_Pad": "https://o97tbiy1f.qnssl.com/currentEventImages/tablet_AutoLightweightMaterialsSeminar.jpg"
@@ -374,7 +467,7 @@
             ],
             "location": "M804",
             "duration": "13:00-17:00",
-            "sort": "7",
+            "sort": "8",
             "pageID": "AutoLowVOCsMaterialsSeminar",
             "imageLink": "https://o97tbiy1f.qnssl.com/currentEventImages/phone_AutoLowVOCsMaterialsSeminar.jpg",
             "imageLink_Pad": "https://o97tbiy1f.qnssl.com/currentEventImages/tablet_AutoLowVOCsMaterialsSeminar.jpg"
@@ -391,7 +484,7 @@
             ],
             "location": "M302",
             "duration": "13:00-17:00",
-            "sort": "8",
+            "sort": "9",
             "pageID": "PlasticsTransportationPackagingSummit",
             "imageLink": "https://o97tbiy1f.qnssl.com/currentEventImages/phone_PlasticsTransportationPackagingSummit.jpg",
             "imageLink_Pad": "https://o97tbiy1f.qnssl.com/currentEventImages/tablet_PlasticsTransportationPackagingSummit.jpg"
@@ -408,7 +501,7 @@
             ],
             "location": "M402",
             "duration": "13:30-17:00",
-            "sort": "9",
+            "sort": "10",
             "pageID": "FlexiblePackagingIndustry",
             "imageLink": "https://o97tbiy1f.qnssl.com/currentEventImages/phone_FlexiblePackagingIndustry.jpg",
             "imageLink_Pad": "https://o97tbiy1f.qnssl.com/currentEventImages/tablet_FlexiblePackagingIndustry.jpg"
@@ -503,8 +596,8 @@
             "duration": "-",
             "sort": "6",
             "pageID": "RecycleProgram",
-            "imageLink": "https://o97tbiy1f.qnssl.com/currentEventImages/phone_RecyclingActivity.jpg",
-            "imageLink_Pad": "https://o97tbiy1f.qnssl.com/currentEventImages/tablet_RecyclingActivity.jpg"
+            "imageLink": "https://o97tbiy1f.qnssl.com/currentEventImages/phone_RecyclingActivity_1.jpg",
+            "imageLink_Pad": "https://o97tbiy1f.qnssl.com/currentEventImages/tablet_RecyclingActivity_1.jpg"
         },
         {
             "title_en": "Forum & Business Matching on New Materials and Technology in Household Appliance Industry",

@@ -2,7 +2,6 @@ package com.adsale.ChinaPlas.adapter;
 
 import android.content.Context;
 import android.databinding.ViewDataBinding;
-import android.widget.RelativeLayout;
 
 import com.adsale.ChinaPlas.BR;
 import com.adsale.ChinaPlas.R;
@@ -11,8 +10,6 @@ import com.adsale.ChinaPlas.base.CpsBaseViewHolder;
 import com.adsale.ChinaPlas.dao.SeminarInfo;
 import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.ui.TechSeminarDtlActivity;
-import com.adsale.ChinaPlas.utils.Constant;
-
 import java.util.ArrayList;
 
 /**
@@ -22,8 +19,6 @@ import java.util.ArrayList;
 
 public class TechAdapter extends CpsBaseAdapter<SeminarInfo> {
     private ArrayList<SeminarInfo> list;
-    private SeminarInfo entity;
-    private Context mContext;
     private OnIntentListener mListener;
 
     public TechAdapter(Context context, ArrayList<SeminarInfo> list, OnIntentListener listener) {
