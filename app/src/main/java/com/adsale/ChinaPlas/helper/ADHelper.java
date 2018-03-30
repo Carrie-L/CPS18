@@ -47,8 +47,8 @@ public class ADHelper {
     public final String TAG = "ADHelper";
     private Context mContext;
     private static ADHelper INSTANCE;
-//    private final String AD_TXT = "advertisement.txt";
     private final String AD_TXT = "advertisement.txt";
+//    private final String AD_TXT = "advertisement2.txt";
     private Intent intent;
     private int mLanguage;
     private String mRightUrl;
@@ -67,7 +67,7 @@ public class ADHelper {
             return adObj;
         }
         adObj = Parser.parseJsonFilesDirFile(adAdvertisementObj.class, AD_TXT);
-        LogUtil.i(TAG, "adObj=" + adObj.toString());
+//        LogUtil.i(TAG, "adObj=" + adObj.toString());
         return adObj;
     }
 
@@ -363,9 +363,7 @@ public class ADHelper {
                 .append(AppUtil.isTablet() ? adObj.Common.tablet : adObj.Common.phone).append(adObj.M6.logo).append("_").append(adObj.M6.version[index])
                 .append(adObj.M6.format);
         LogUtil.i(TAG, "getM6LogoUrl= " + sbUrl.toString());
-//        return sbUrl.toString();
-
-        return "https://o97tbiy1f.qnssl.com/advertisement/M6/230525/tablet_logo_1.jpg";
+        return sbUrl.toString();
     }
 
     public String getM6HeaderUrl(int index) {

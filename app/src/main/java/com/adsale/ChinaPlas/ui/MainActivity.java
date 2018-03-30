@@ -33,8 +33,16 @@ public class MainActivity extends BaseActivity {
     private SharedPreferences spHelpPage;
     private boolean isLogin = false;
     private int uc_count;
+
+    /**
+     * 1. 第一次启动，打开helpPage，关闭后，Step2
+     * 2. 如果有更新，则-》更新中心；
+     * 3. 其他次启动，Step2
+     */
+
     private boolean isShowPage;
     private HelpView helpDialog;
+    private boolean isFirstShowMainHelp;
 
     @Override
     protected void preView() {
@@ -60,9 +68,10 @@ public class MainActivity extends BaseActivity {
         setFragment();
         helpPage();
 
-        OtherRepository repository = OtherRepository.getInstance();
+        OtherRepository   repository = OtherRepository.getInstance();
         repository.initUpdateCenterDao();
         uc_count = repository.getNeedUpdatedCount();
+        App.mSP_Config.edit().putInt("UC_COUNT", uc_count).apply();
         if (!isShowPage) {
             intentToUpdateCenter();
         }
@@ -140,7 +149,8 @@ public class MainActivity extends BaseActivity {
      * 显示帮助页面
      */
     private void helpPage() {
-        if (HelpView.isFirstShow(HELP_PAGE_MAIN)) {
+        isFirstShowMainHelp = HelpView.isFirstShow(HELP_PAGE_MAIN);
+        if (isFirstShowMainHelp) {
             showHelpPage();
             isShowPage = true;
             App.mSP_HP.edit().putInt("HELP_PAGE_" + HelpView.HELP_PAGE_MAIN, HelpView.HELP_PAGE_MAIN).apply();
@@ -164,8 +174,10 @@ public class MainActivity extends BaseActivity {
         @Override
         public void onClick(View v) {
             helpDialog.dismiss();
-
-            intentToUpdateCenter();
+            if (isFirstShowMainHelp) {
+                isFirstShowMainHelp = false;
+                intentToUpdateCenter();
+            }
         }
     };
 
@@ -174,13 +186,13 @@ public class MainActivity extends BaseActivity {
      */
     private void intentToUpdateCenter() {
         LogUtil.i(TAG, "intentToUpdateCenter");
-        if (uc_count > 0 && !App.mSP_Config.getBoolean("intentToUpdateCenter", false)) {
+        if (uc_count > 0) { //&& !App.mSP_Config.getBoolean("intentToUpdateCenter", false)
             Intent intent = new Intent(this, UpdateCenterActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.putExtra("FromMain", true);
             startActivity(intent);
             overridePendingTransPad();
-            App.mSP_Config.edit().putBoolean("intentToUpdateCenter", true).apply();
+//            App.mSP_Config.edit().putBoolean("intentToUpdateCenter", true).apply();
         }
     }
 

@@ -157,7 +157,7 @@
     <string name="filter_hall">展馆</string>
     <string name="filter_booth">专区</string>
     <string name="filter_keyword">关键字</string>
-    <string name="filter_new_tec">首发技术</string>
+    <string name="filter_new_tec">主题专集</string>
     <string name="filter_keyword_hint">输入关键字</string>
 
     <string name="filter_clear_all">清空筛选条件</string>
@@ -210,6 +210,9 @@
     <string name="seminar_room">会议室%s</string>
     <string name="seminar_time_am">%s&#160;上午时段&#160;(10:00&#8211;12:00)</string>
     <string name="seminar_time_pm">%s&#160;下午时段&#160;(14:00&#8211;16:00)</string>
+
+    <string name="apk_update_msg">检测到新版本，是否更新？</string>
+
 
     <!--  -->
     <string name="register_str004">电邮</string>
@@ -365,7 +368,7 @@
     <string name="seminar_section">展馆：%s</string>
     <string name="seminar_zone">区：%s</string>
     <string name="seminar_roomNO">会议室房号：%s</string>
-    <string name="seminar_booth">展馆号：%s</string>
+    <string name="seminar_booth">展台号：%s</string>
 
     <!-- 二維碼 -->
     <string name="scanner_tips">将二维码放入框内,即可自动扫描</string>

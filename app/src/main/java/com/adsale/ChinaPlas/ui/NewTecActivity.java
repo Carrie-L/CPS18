@@ -2,6 +2,7 @@ package com.adsale.ChinaPlas.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.databinding.ObservableBoolean;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -30,6 +31,7 @@ public class NewTecActivity extends BaseActivity implements OnIntentListener {
     private ArrayList<NewProductInfo> productCaches = new ArrayList<>(); /*  没有广告的、从数据库取出的 产品列表缓存，当返回筛选结果时，在这个列表里选择符合条件的数据 */
     private ArrayList<NewProductInfo> listCaches = new ArrayList<>();  /* 包含产品和广告的全部列表缓存，用于清空搜索时还原列表 */
     private ArrayList<NewProductInfo> list = new ArrayList<>(); /*  交给adapter的列表（可能有产品和广告） */
+    public final ObservableBoolean isEmpty = new ObservableBoolean();
 
     private RecyclerView recyclerView;
     private NewTecListAdapter adapter;
@@ -195,6 +197,7 @@ public class NewTecActivity extends BaseActivity implements OnIntentListener {
         insertAdList();
         adapter.setList(list);
         listCaches.addAll(list);
+        isEmpty.set(list.isEmpty());
         LogUtil.i(TAG, "list= " + list.size() + "," + list.toString());
     }
 }

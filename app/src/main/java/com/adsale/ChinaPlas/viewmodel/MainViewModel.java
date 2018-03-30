@@ -287,7 +287,7 @@ public class MainViewModel {
 
     public void getMainIcons(ArrayList<MainIcon> largeIcons, ArrayList<MainIcon> littleIcons) {
         icons = mRepository.getMenus();
-        LogUtil.i(TAG, "icons=" + icons.size() + "," + icons.toString());
+//        LogUtil.i(TAG, "icons=" + icons.size() + "," + icons.toString());
         int size = icons.size();
         for (int i = 0; i < size; i++) {
             mainIcon = icons.get(i);

@@ -1,10 +1,13 @@
 package com.adsale.ChinaPlas.viewmodel;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.databinding.ObservableBoolean;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
 import android.text.Html;
@@ -29,6 +32,8 @@ import com.adsale.ChinaPlas.data.ExhibitorRepository;
 import com.adsale.ChinaPlas.data.LoadRepository;
 import com.adsale.ChinaPlas.data.LoadTransferTempDB;
 import com.adsale.ChinaPlas.data.LoadingClient;
+import com.adsale.ChinaPlas.data.OnIntentListener;
+import com.adsale.ChinaPlas.data.model.ApkVersion;
 import com.adsale.ChinaPlas.data.model.LoadUrl;
 import com.adsale.ChinaPlas.data.model.adAdvertisementObj;
 import com.adsale.ChinaPlas.helper.ADHelper;
@@ -36,14 +41,19 @@ import com.adsale.ChinaPlas.helper.NewTecHelper;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.FileUtil;
+import com.adsale.ChinaPlas.utils.FileUtils;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.NetWorkHelper;
+import com.adsale.ChinaPlas.utils.Parser;
 import com.adsale.ChinaPlas.utils.ReRxUtils;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +61,7 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -94,8 +105,12 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
     private SQLiteDatabase mTempDB;
     private boolean isM1Showing = false;
 
-    public LoadingViewModel(Context mContext) {
+    private OnIntentListener mIntentListener;
+    private int localVersion;
+
+    public LoadingViewModel(Context mContext, OnIntentListener listener) {
         this.mContext = mContext;
+        this.mIntentListener = listener;
         mConfigSP = mContext.getSharedPreferences(Constant.SP_CONFIG, MODE_PRIVATE);
         mLoadRepository = LoadRepository.getInstance(mContext);
     }
@@ -103,15 +118,96 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
     public final ObservableBoolean showProgressBar = new ObservableBoolean();
 
     public void run(boolean isFirstRunning) {
-//        boolean isNetworkAvailable = App.isNetworkAvailable;
-//        LogUtil.e(TAG, "????? isNetworkAvailable=" + isNetworkAvailable);
         setupDownload();
         loadingData();
-        downNewTecZip();
         if (!isFirstRunning) {
             getUpdateInfo();
         }
     }
+
+    /**
+     * 本地app的version code (info.getVersionCode()) 和存储在sp中的service version code 比较。
+     * 如果 SVC > AVC，说明有更新，直接弹出对话框；
+     * 否则（SVC=0 或 SVC == AVC），都下载apkVersion.txt比较version code.
+     * <p>
+     * ❤ apkDialogFinish ：为了避免弹出对话框时，还没有点击就已经进入主界面，在 LoadingReceiver 的判断中加入此字段，
+     * 如果对话框没有点击，则一直停留在对话框界面（false）；如果点击了[NO],则设为true，通知LoadingReceiver；
+     * 如果点击[YES],跳转到网页download，退出APP; 如果没有更新(vc相等),则设为true.
+     */
+    public void checkApkVersion() {
+        localVersion = AppUtil.getLocalApkVersion();
+        int spServiceVersionCode = AppUtil.getServiceApkVersionCode();
+        LogUtil.i(TAG, "version code 》 app:" + localVersion + ",spServiceVersionCode:" + spServiceVersionCode);
+        downloadApkVersionTxt();
+
+//        if (spServiceVersionCode > localVersion) {
+//            LogUtil.i(TAG, "有更新，弹出对话框");
+//            // has update, dialog
+//            mIntentListener.onIntent(null, null);
+//        } else {
+//            LogUtil.i(TAG, "下载ApkVersion.txt");
+//            downloadApkVersionTxt();
+//        }
+    }
+
+    private void downloadApkVersionTxt() {
+        setupDownload();
+        mClient.download(NetWorkHelper.APK_VERSION_TXT_URL)
+                .map(new Function<ResponseBody, Boolean>() {
+
+                    @Override
+                    public Boolean apply(ResponseBody responseBody) throws Exception {
+                        if (responseBody != null) {
+                            String content = responseBody.string();
+                            final ApkVersion apkVersion = Parser.parseJson(ApkVersion.class, content);
+                            responseBody.close();
+                            LogUtil.i(TAG, "version code 》 app:" + localVersion + ",service:" + apkVersion.versionCode);
+
+                            if (apkVersion.versionCode > localVersion) {
+                                AppUtil.setServiceApkVersion(apkVersion.versionCode, apkVersion.link);
+                                return true;
+                            } else {
+                                mSP_Config.edit().putBoolean("apkDialogFinish", true).apply();
+                            }
+                        }
+                        return false;
+                    }
+                }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Boolean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        mCompositeDisposable.add(d);
+                    }
+
+                    @Override
+                    public void onNext(final Boolean value) {
+                        LogUtil.i(TAG, "is apk has update? " + value);
+                        if (value) {
+                            mIntentListener.onIntent(null, null);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+//    private void updateApk() {
+//        if (new File(apkPath).exists()) {
+//            // 安装apk
+//            Intent install = new Intent(Intent.ACTION_VIEW);
+//            install.setDataAndType(Uri.fromFile(new File(apkPath)), "application/vnd.android.package-archive");
+//            install.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            mContext.startActivity(install);
+//        }
+//    }
 
     public void intent() {
         Intent intent = new Intent(LOADING_ACTION);
@@ -243,24 +339,6 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
         return urls;
     }
 
-//    private Observable<Boolean> downIconPic(final LoadUrl entity) {
-//        return mClient.downIcons(entity.urlName)
-//                .subscribeOn(Schedulers.io())
-//                .map(new Function<Response<ResponseBody>, Boolean>() {
-//                    @Override
-//                    public Boolean apply(@NonNull Response<ResponseBody> responseBodyResponse) throws Exception {
-//                        ResponseBody body = responseBodyResponse.body();
-//                        if (body != null) {
-//                            FileOutputStream fos = new FileOutputStream(new File(mMainIconDir.concat(AppUtil.subStringLast(entity.urlName, "/"))));
-//                            fos.write(body.bytes());
-//                            fos.close();
-//                            body.close();
-//                        }
-//                        return true;
-//                    }
-//                });
-//    }
-
     private Observable<Boolean> downZip(final String cFile, final String iconId) {
         return mClient.downWebContent(cFile)
                 .subscribeOn(Schedulers.io())
@@ -295,18 +373,11 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
                                 Type listType = new TypeToken<ArrayList<UpdateCenter>>() {
                                 }.getType();
                                 scanFiles = new Gson().fromJson(result, listType);
-
-                                //把ConcurrentEvent.txt手動加上去。。。
-                                UpdateCenter updateCenter = new UpdateCenter();
-                                updateCenter.setScanFile("CurrentEvents.txt");
-                                scanFiles.add(updateCenter);
-
-                                logListString(scanFiles);
+//                                logListString(scanFiles);
                             }
-                            result = null;
                             body.close();
                         }
-                        return Observable.fromIterable(scanFiles);
+                        return Observable.fromIterable(UpdateCenter.getUpdateFiles(scanFiles, mLoadRepository));
                     }
                 })
                 .flatMap(new Function<UpdateCenter, Observable<String>>() {
@@ -320,7 +391,6 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
                 .subscribe(new Observer<String>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
-//                        mTxtDisposable = d;
                         mCompositeDisposable.add(d);
                     }
 
@@ -355,32 +425,15 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
                 });
     }
 
-    /**
-     * 根据解析出来的ScanFileJson数据，判断哪些txt有更新，以及下载txt
-     */
     private Observable<String> downTxt(UpdateCenter updateCenter) {
         final String fileName = updateCenter.getScanFile().trim();
         LogUtil.i(TAG, "downTxt: fileName=" + fileName);
 
-        //比较最后更新时间
-        if (isOneOfFiveTxt(fileName)) {
-            LogUtil.i(TAG, "~~isOneOfFiveTxt~~");
-            String localUT = mLoadRepository.getLocalTxtLUT(fileName);
-            String txtUT = updateCenter.FPDate.compareTo(updateCenter.FUDate) > 0 ? updateCenter.FPDate : updateCenter.FUDate;
-            int result = txtUT.compareTo(localUT);
-            if (result > 0) {// txtUT > localUT, update
-                LogUtil.e(TAG, fileName + " has update!! " + " @@@ compare update time: result= " + result + ", localUT=" + localUT + ", txtUT=" + AppUtil.GMT2UTC(txtUT));
-                updateCenter.setUCId();
-                updateCenter.setStatus(0);
-                updateCenter.setLUT(AppUtil.GMT2UTC(txtUT));
-                mLoadRepository.updateLocalLUT(updateCenter);
-                return getTxt(fileName);// has update, so download
-            }
-            LogUtil.i(TAG, "~~isOneOfFiveTxt, but no update.~~" + AppUtil.GMT2UTC(txtUT));
-            return Observable.just(fileName);// no update
+        if (updateCenter.getScanFile().equals(Constant.TXT_NEW_TEC)) {
+            LogUtil.i(TAG, "downTxt: NewTechInfo 有更新，下载zip包");
+            downNewTecZip();
         }
-        LogUtil.i(TAG, "!!~~isOneOfFiveTxt~~!!");
-        return getTxt(fileName);// has network, download others txt. always download
+        return getTxt(fileName);// has network, download txt.
     }
 
     /**

@@ -3,35 +3,35 @@
   "TopBanners": [
     {
       "EN": {
-        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/techtalk_phone_eng.jpg",
-        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/techtalk_tablet_eng.jpg",
-        "Function": "6",
+        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/CMS_phone.jpg",
+        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/CMS_tablet.jpg",
+        "Function": "2",
         "InnerPage": "CurrentEventsTxt",
         "Link": "https://www.chinaplasonline.com/CPS18/Events/lang-eng/TechTalk.aspx",
         "companyID": "229048",
-        "eventID": "001",
+        "eventID": "DesignInnovationCMF",
         "seminarID": "15",
         "newsID": "0000000409"
       },
       "SC": {
-        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/techtalk_phone_sc.jpg",
-        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/techtalk_tablet_sc.jpg",
-        "Function": "6",
+        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/CMS_phone.jpg",
+        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/CMS_tablet.jpg",
+        "Function": "2",
         "InnerPage": "CurrentEventsTxt",
         "Link": "https://www.chinaplasonline.com/CPS18/Events/lang-simp/TechTalk.aspx",
         "companyID": "229048",
-        "eventID": "001",
+        "eventID": "DesignInnovationCMF",
         "seminarID": "15",
         "newsID": "0000000409"
       },
       "TC": {
-        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/techtalk_phone_tc.jpg",
-        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/techtalk_tablet_tc.jpg",
-        "Function": "6",
+        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/CMS_phone.jpg",
+        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/CMS_tablet.jpg",
+        "Function": "2",
         "InnerPage": "CurrentEventsTxt",
         "Link": "https://www.chinaplasonline.com/CPS18/Events/lang-trad/TechTalk.aspx",
         "companyID": "229048",
-        "eventID": "001",
+        "eventID": "DesignInnovationCMF",
         "seminarID": "15",
         "newsID": "0000000409"
       }
@@ -73,35 +73,35 @@
     },
  {
       "EN": {
-        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/boost_visitor_flow_phone_EN.jpg",
-        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/boost_visitor_flow_tablet_EN.jpg",
+        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/recycling_phone.jpg",
+        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/recycling_tablet.jpg",
         "Function": "2",
         "InnerPage": "BoostVisitorFlow",
         "Link": "baidu.com",
         "companyID": "229048",
-        "eventID": "BoostVisitorFlow",
+        "eventID": "RecycleProgram",
         "seminarID": "15",
         "newsID": "0000000409"
       },
       "SC": {
-        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/boost_visitor_flow_phone_SC.jpg",
-        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/boost_visitor_flow_tablet_SC.jpg",
+        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/recycling_phone.jpg",
+        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/recycling_tablet.jpg",
         "Function": "2",
         "InnerPage": "BoostVisitorFlow",
         "Link": "baidu.com",
         "companyID": "229048",
-        "eventID": "BoostVisitorFlow",
+        "eventID": "RecycleProgram",
         "seminarID": "15",
         "newsID": "0000000409"
       },
       "TC": {
-        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/boost_visitor_flow_phone_TC.jpg",
-        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/boost_visitor_flow_tablet_TC.jpg",
+        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/recycling_phone.jpg",
+        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/recycling_tablet.jpg",
         "Function": "2",
         "InnerPage": "BoostVisitorFlow",
         "Link": "baidu.com",
         "companyID": "229048",
-        "eventID": "BoostVisitorFlow",
+        "eventID": "RecycleProgram",
         "seminarID": "15",
         "newsID": "0000000409"
       }
@@ -109,45 +109,45 @@
   ],
   "LeftBottomBanner": {
  "EN": {
-      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/40_leftbutton_EN.png",
-      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/40_leftbutton_EN.png",
+      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/tech_talk_L_en.jpg",
+      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/tech_talk_L_en.jpg",
       "Function": "2",
       "InnerPage": "IndustryConference",
       "Link": "baidu.com",
       "companyID": "229048",
-      "eventID": "IndustryConference",
+      "eventID": "TechTalk",
       "seminarID": "15",
       "newsID": "0000000409"
     },
     "SC": {
-      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/40_leftbutton_CN.png",
-      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/40_leftbutton_CN.png",
+      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/tech_talk_L_sc.jpg",
+      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/tech_talk_L_sc.jpg",
       "Function": "2",
       "InnerPage": "IndustryConference",
       "Link": "baidu.com",
       "companyID": "229048",
-      "eventID": "IndustryConference",
+      "eventID": "TechTalk",
       "seminarID": "15",
       "newsID": "0000000409"
     },
     "TC": {
-      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/40_leftbutton_CN.png",
-      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/40_leftbutton_CN.png",
+      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/tech_talk_L_tc.jpg",
+      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/tech_talk_L_tc.jpg",
       "Function": "2",
       "InnerPage": "IndustryConference",
       "Link": "baidu.com",
       "companyID": "229048",
-      "eventID": "IndustryConference",
+      "eventID": "TechTalk",
       "seminarID": "15",
       "newsID": "0000000409"
     }
   },
  "RightBottomBanner": {
     "EN": {
-      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon7.png",
-      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon7.png",
+      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/BottomAdBanner2_en.png",
+      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/BottomAdBanner2_en.png",
       "Function": "5",
-      "InnerPage": "VisitorPreRegistrationText",
+      "InnerPage": "NewTechCollectionText",
       "Link": "baidu.com",
       "companyID": "229048",
       "eventID": "001",
@@ -155,10 +155,10 @@
       "newsID": "0000000409"
     },
     "SC": {
-      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon7_sc.png",
-      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon7_sc.png",
+      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/BottomAdBanner2_sc.png",
+      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/BottomAdBanner2_sc.png",
       "Function": "5",
-      "InnerPage": "VisitorPreRegistrationText",
+      "InnerPage": "NewTechCollectionText",
       "Link": "baidu.com",
       "companyID": "229048",
       "eventID": "001",
@@ -166,10 +166,10 @@
       "newsID": "0000000409"
     },
     "TC": {
-      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon7_tc.png",
-      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon7_tc.png",
+      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/BottomAdBanner2_tc.png",
+      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/BottomAdBanner2_tc.png",
       "Function": "5",
-      "InnerPage": "VisitorPreRegistrationText",
+      "InnerPage": "NewTechCollectionText",
       "Link": "baidu.com",
       "companyID": "229048",
       "eventID": "001",

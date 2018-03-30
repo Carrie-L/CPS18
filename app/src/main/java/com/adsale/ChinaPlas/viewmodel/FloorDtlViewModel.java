@@ -146,7 +146,7 @@ public class FloorDtlViewModel implements FloorDialogFragment.OnDialogCancelList
     public void startMap(Bitmap bitmap) {
         pvMap.setMaximumScale(4 * BASE_SCALE);
         pvMap.setMediumScale(3 * BASE_SCALE);
-        pvMap.setMinimumScale(BASE_SCALE);
+        pvMap.setMinimumScale(1);
         pvMap.setScale(BASE_SCALE, AppUtil.getScreenWidth() / 2, AppUtil.getScreenHeight() / 2, true);
 
         getFloorCoors(mHall);
@@ -204,6 +204,10 @@ public class FloorDtlViewModel implements FloorDialogFragment.OnDialogCancelList
     public void onClickDrawer() {
         isNavOpened.set(!isNavOpened.get());
         mDrawerListener.onDrawerClick(isNavOpened.get());
+    }
+
+    public void onMapMinimize(){
+        pvMap.setScale(1);
     }
 
     /**

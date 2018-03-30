@@ -15,10 +15,9 @@ import com.adsale.ChinaPlas.utils.LogUtil;
 import java.util.ArrayList;
 
 public class NewTecFilterActivity extends BaseActivity implements OnIntentListener {
-    public final ObservableField<String> etKeyword = new ObservableField<>("");
     private FilterView industryFilterView;
     private FilterView applicationFilterView;
-    private ArrayList<ExhibitorFilter> results;
+    private ArrayList<ExhibitorFilter> results=new ArrayList<>();
     private ArrayList<ExhibitorFilter> allFilters = new ArrayList<>();
     private SwitchCompat switchNewTec;
 
@@ -39,7 +38,6 @@ public class NewTecFilterActivity extends BaseActivity implements OnIntentListen
         applicationFilterView.initData(1, getString(R.string.filter_applications), getResources().getDrawable(R.drawable.ic_fiter_industry), this);
     }
 
-
     @Override
     public <T> void onIntent(T entity, Class toCls) {
         int index =  Integer.valueOf(entity.toString());
@@ -48,9 +46,11 @@ public class NewTecFilterActivity extends BaseActivity implements OnIntentListen
         if (index == 0) {
             LogUtil.i(TAG, "》产品");
             intent.putExtra("type", FilterApplicationListActivity.TYPE_NEW_TEC_PRODUCT);
+            intent.putExtra("title",getString(R.string.title_product_category));
         } else if (index == 1) {
             LogUtil.i(TAG, "》行业");
             intent.putExtra("type", FilterApplicationListActivity.TYPE_NEW_TEC_APPLICATIONS);
+            intent.putExtra("title",getString(R.string.title_application));
         }
         intent.putExtra("index", index);
         startActivityForResult(intent, (Integer) entity);

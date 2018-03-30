@@ -59,6 +59,7 @@ public class HelpView extends DialogFragment implements View.OnClickListener {
     public final static int HELP_PAGE_SCANNER = 6;
     public final static int HELP_PAGE_SCHEDULE = 7;
     public final static int HELP_PAGE_SCHEDULE_DTL = 8;
+    public final static int HELP_PAGE_EVENT_LIST = 9;
     public final static String HELP_PAGE = "HELP_PAGE_";
     /**
      * 是哪个HelpPage
@@ -163,6 +164,9 @@ public class HelpView extends DialogFragment implements View.OnClickListener {
             case HELP_PAGE_EVENT_DTL:
                 imageIds = new Integer[]{R.drawable.help_event_0_sc};
                 break;
+            case HELP_PAGE_EVENT_LIST:
+                imageIds = new Integer[]{R.drawable.help_eventlist_0_sc};
+                break;
             case HELP_PAGE_FLOOR_OVERALL:
                 imageIds = new Integer[]{R.drawable.help_mapfloor_0_sc};
                 break;
@@ -195,6 +199,9 @@ public class HelpView extends DialogFragment implements View.OnClickListener {
             case HELP_PAGE_EVENT_DTL:
                 imageIds = new Integer[]{R.drawable.help_event_0_sc_pad};
                 break;
+            case HELP_PAGE_EVENT_LIST:
+                imageIds = new Integer[]{R.drawable.help_eventlist_0_sc_pad};
+                break;
             case HELP_PAGE_FLOOR_OVERALL:
 //                imageIds = new Integer[]{R.drawable.help_ma};
                 break;
@@ -217,6 +224,12 @@ public class HelpView extends DialogFragment implements View.OnClickListener {
     }
 
     private void getImageIdsTC() {
+
+        if(AppUtil.isTablet()&& mPageType == HELP_PAGE_EVENT_LIST){
+            getImageIdsTCPad();
+            return;
+        }
+
         switch (mPageType) {
             case HELP_PAGE_MAIN:
                 getMenuImages();
@@ -226,6 +239,9 @@ public class HelpView extends DialogFragment implements View.OnClickListener {
                 break;
             case HELP_PAGE_EVENT_DTL:
                 imageIds = new Integer[]{R.drawable.help_event_0_tc};
+                break;
+            case HELP_PAGE_EVENT_LIST:
+                imageIds = new Integer[]{R.drawable.help_eventlist_0_tc};
                 break;
             case HELP_PAGE_FLOOR_OVERALL:
                 imageIds = new Integer[]{R.drawable.help_mapfloor_0_tc};
@@ -248,6 +264,19 @@ public class HelpView extends DialogFragment implements View.OnClickListener {
         }
     }
 
+    private void getImageIdsTCPad() {
+        switch (mPageType) {
+            case HELP_PAGE_MAIN:
+                getMenuImages();
+                break;
+
+            case HELP_PAGE_EVENT_LIST:
+                imageIds = new Integer[]{R.drawable.help_eventlist_0_tc_pad};
+
+                break;
+        }
+    }
+
     private void getImageIdsEN() {
         LogUtil.i(TAG, "getImageIdsEN");
         switch (mPageType) {
@@ -259,6 +288,9 @@ public class HelpView extends DialogFragment implements View.OnClickListener {
                 break;
             case HELP_PAGE_EVENT_DTL:
                 imageIds = new Integer[]{R.drawable.help_event_0_en};
+                break;
+            case HELP_PAGE_EVENT_LIST:
+                imageIds = new Integer[]{R.drawable.help_eventlist_0_en};
                 break;
             case HELP_PAGE_FLOOR_OVERALL:
                 imageIds = new Integer[]{R.drawable.help_mapfloor_0_en};

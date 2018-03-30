@@ -2,7 +2,11 @@ package com.adsale.ChinaPlas.ui;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.style.URLSpan;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,6 +30,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 // TODO: 2017/10/27  M6
 
@@ -42,6 +48,7 @@ public class TechSeminarDtlActivity extends BaseActivity {
     private String mBannerUrl;
     private View m6View;
     private String mUniqueID;
+    private String seminarsummary;
 
     @Override
     protected void initView() {
@@ -65,18 +72,23 @@ public class TechSeminarDtlActivity extends BaseActivity {
             SeminarSpeaker seminarSpeaker = speaker.get(0);
             binding.setSpeak(seminarSpeaker);
             LogUtil.i(TAG, "seminarSpeaker=" + seminarSpeaker.toString());
+            seminarsummary = seminarSpeaker.getSeminarsummary();
         }
         binding.executePendingBindings();
 
         showM6();
+
+        setSummaryUrlLink();
     }
+
+
 
     private void getSeminarInfo() {
         seminarInfo = getIntent().getParcelableExtra("Info");
         if (seminarInfo == null) {
             /*  seminar_info.id，唯一。ad.txt: M6.Topics.id  */
             mUniqueID = getIntent().getStringExtra("ID");
-            LogUtil.i(TAG,"mUniqueID="+mUniqueID);
+            LogUtil.i(TAG, "mUniqueID=" + mUniqueID);
             seminarInfo = repository.getItemSeminarInfo(mUniqueID);
             if (seminarInfo == null) {
                 Toast.makeText(this, getString(R.string.nodata), Toast.LENGTH_LONG).show();
@@ -152,11 +164,33 @@ public class TechSeminarDtlActivity extends BaseActivity {
         return currLang == 0 ? 950 : currLang == 1 ? 1252 : 936;
     }
 
-    public void onCompanyClick(String companyId){
-        Intent intent = new Intent(this,ExhibitorDetailActivity.class);
-        intent.putExtra(Constant.COMPANY_ID,companyId);
+    public void onCompanyClick(String companyId) {
+        Intent intent = new Intent(this, ExhibitorDetailActivity.class);
+        intent.putExtra(Constant.COMPANY_ID, companyId);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         overridePendingTransPad();
+    }
+
+    /**
+     * summary中给url设置超链接
+     */
+    private void setSummaryUrlLink() {
+        if (seminarsummary != null && seminarsummary.toLowerCase().contains("http")) {
+            Pattern p = Pattern.compile("((http|ftp|https)://)(([a-zA-Z0-9\\._-]+\\.[a-zA-Z]{2,6})|([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}))(:[0-9]{1,4})*(/[a-zA-Z0-9\\&%_\\./-~-]*)?", Pattern.CASE_INSENSITIVE);
+            Matcher matcher = p.matcher(seminarsummary);
+            while (matcher.find()) {
+                String url = matcher.group();
+                LogUtil.i("SeminarSpeaker", "url=" + url);
+
+                SpannableStringBuilder builder = new SpannableStringBuilder(seminarsummary);
+                builder.setSpan(new URLSpan(url), matcher.start(), matcher.end(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                binding.tvSummary.setText(builder);
+                // 在单击链接时凡是有要执行的动作，都必须设置MovementMethod对象
+                binding.tvSummary.setMovementMethod(LinkMovementMethod.getInstance());
+            }
+        } else {
+            binding.tvSummary.setText(seminarsummary);
+        }
     }
 }

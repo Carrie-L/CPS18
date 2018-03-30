@@ -19,7 +19,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:scaleType="fitXY"
-            android:background="@drawable/item_event_bg"
             android:onClick="@{()->techModel.onM6Click()}"
             />
 
@@ -137,7 +136,8 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_seminar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
             android:layout_above="@id/iv_ad"
             android:layout_toRightOf="@id/line"
            />

@@ -145,6 +145,7 @@ public class EventModel {
         }
     }
 
+
     private void filterList() {
         mCacheList1.clear();
         mCacheList2.clear();

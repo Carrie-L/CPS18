@@ -148,6 +148,32 @@ public class AppUtil {
         return App.mSP_Config.getBoolean("IsFirstGetData", true);
     }
 
+    public static void setServiceApkVersion(int version,String link) {
+        App.mSP_Config.edit().putInt("ServiceVersionCode", version)
+                .putString("ServiceVersionLink",link).apply();
+    }
+
+    /**
+     * ftp里的apk version
+     * @return
+     */
+    public static int getServiceApkVersionCode() {
+        return App.mSP_Config.getInt("ServiceVersionCode", 0);
+    }
+
+    public static String getServiceApkVersionLink() {
+        return App.mSP_Config.getString("ServiceVersionLink", "");
+    }
+
+    /**
+     * setting位置 的version code
+     * @return
+     */
+    public static int getLocalApkVersion() {
+        return App.mSP_Config.getInt("LocalVersionCode", 0);
+    }
+
+
     /**
      * 获取对应语言的列名
      *
@@ -200,12 +226,12 @@ public class AppUtil {
         return App.mSP_Login.getString(Constant.USER_EMAIL, "");
     }
 
-    public static void setRegImgUrl(String imgUrl){
-        App.mSP_Login.edit().putString("RegImageUrl",imgUrl).apply();
+    public static void setRegImgUrl(String imgUrl) {
+        App.mSP_Login.edit().putString("RegImageUrl", imgUrl).apply();
     }
 
-    public static String getRegImgUrl(){
-        return   App.mSP_Login.getString("RegImageUrl","");
+    public static String getRegImgUrl() {
+        return App.mSP_Login.getString("RegImageUrl", "");
     }
 
     public static void setJPUSHRegId(String regId) {
@@ -262,7 +288,7 @@ public class AppUtil {
     @TargetApi(Build.VERSION_CODES.N)
     private static Context updateResources(Context context) {
         Resources resources = context.getResources();
-        Locale locale = getLocale(context.getSharedPreferences(Constant.SP_CONFIG,MODE_PRIVATE).getInt("CUR_LANGUAGE", 0));
+        Locale locale = getLocale(context.getSharedPreferences(Constant.SP_CONFIG, MODE_PRIVATE).getInt("CUR_LANGUAGE", 0));
         Configuration configuration = resources.getConfiguration();
         configuration.setLocale(locale);
         LocaleList localeList = new LocaleList(locale);
@@ -435,9 +461,12 @@ public class AppUtil {
         }
     }
 
+
+
     public static String getAppVersion() {
         return App.mSP_Config.getString("AppVersion", "");
     }
+
 
     /**
      * <font color="#f97798"></font>

@@ -19,7 +19,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
 
         <TextView
             android:id="@+id/tv_event_header"
@@ -27,11 +28,13 @@
             android:text="@{String.format(@string/event_date_base,obj.date)}"
             android:visibility="@{obj.isTypeLabel==1?View.VISIBLE:View.GONE}" />
 
-        <RelativeLayout
-            android:id="@+id/rl_event"
-            android:layout_width="match_parent"
-            android:layout_height="140dp"
-            android:onClick="@{() -> adapter.onItemClick(obj)}">
+
+    <RelativeLayout
+        android:id="@+id/rl_event"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> adapter.onItemClick(obj)}"
+        >
 
             <ImageView
                 android:id="@+id/iv_event_bg"
@@ -51,64 +54,69 @@
             <TextView
                 android:id="@+id/tv_event_title"
                 android:layout_width="match_parent"
-                android:layout_height="44dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="12dp"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:text="@{obj.getTitle()}"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="16sp" />
-            <!---->
+                android:textSize="16sp"
+                android:text="@{obj.getTitle()}"
+                android:textColor="#000"
+                />
+            <!--android:text="@{obj.getTitle()}"-->
 
             <TextView
                 android:id="@+id/tv_event_time"
                 android:layout_width="wrap_content"
-                android:layout_height="24dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:layout_alignLeft="@id/tv_event_title"
                 android:layout_below="@id/tv_event_title"
                 android:drawableLeft="@drawable/ic_event_date"
                 android:drawablePadding="8dp"
+                android:textColor="@color/grey21"
                 android:gravity="center_vertical"
                 android:text="@{obj.duration}" />
 
             <TextView
                 android:id="@+id/tv_event_location"
                 android:layout_width="wrap_content"
-                android:layout_height="24dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:layout_alignLeft="@id/tv_event_title"
                 android:layout_below="@id/tv_event_time"
                 android:drawableLeft="@drawable/ic_event_location"
                 android:drawablePadding="8dp"
+                android:textColor="@color/grey21"
                 android:gravity="center_vertical"
                 android:text="@{obj.location}" />
 
             <ImageView
                 android:id="@+id/iv_event_prereg"
                 android:layout_width="wrap_content"
-                android:layout_height="24dp"
+                android:layout_height="18dp"
                 android:layout_below="@id/tv_event_location"
-                android:layout_marginBottom="8dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="6dp"
                 android:src="@drawable/ic_event_prereg"
                 android:visibility="@{obj.pre_reg!=null&amp;&amp;Integer.valueOf(obj.pre_reg)==0?View.VISIBLE:View.GONE}" />
 
             <ImageView
                 android:id="@+id/iv_event_pay"
                 android:layout_width="wrap_content"
-                android:layout_height="24dp"
+                android:layout_height="18dp"
                 android:layout_alignTop="@id/iv_event_prereg"
                 android:layout_below="@id/tv_event_location"
-                android:layout_marginBottom="8dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="1dp"
                 android:layout_toRightOf="@id/iv_event_prereg"
                 android:src="@drawable/ic_event_pay"
                 android:visibility="@{obj.entrance_fee!=null&amp;&amp;Integer.valueOf(obj.entrance_fee)==0?View.VISIBLE:View.GONE}" />
 
-        </RelativeLayout>
+
+    </RelativeLayout>
 
     </LinearLayout>
 </layout>

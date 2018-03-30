@@ -1,6 +1,5 @@
 package com.adsale.ChinaPlas.adapter;
 
-import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.widget.LinearLayout;
 
@@ -10,10 +9,10 @@ import com.adsale.ChinaPlas.base.CpsBaseViewHolder;
 import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.data.model.ConcurrentEvent;
 import com.adsale.ChinaPlas.databinding.ItemEventBinding;
-import com.adsale.ChinaPlas.databinding.ItemEventBindingSw600dpImpl;
 import com.adsale.ChinaPlas.ui.TechnicalListActivity;
 import com.adsale.ChinaPlas.ui.WebContentActivity;
 import com.adsale.ChinaPlas.utils.AppUtil;
+import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.android.databinding.library.baseAdapters.BR;
 
@@ -29,9 +28,7 @@ public class EventAdapter extends CpsBaseAdapter<ConcurrentEvent.Pages> {
     private ConcurrentEvent.Pages entity;
     private OnIntentListener mListener;
     private LinearLayout.LayoutParams params;
-//    private ItemEventBindingSw600dpImpl eventBindingSw600dp;
     private ItemEventBinding eventBinding;
-    //    private boolean isTechEmpty;
 
     public EventAdapter(ArrayList<ConcurrentEvent.Pages> list, OnIntentListener listener) {
         this.list = list;
@@ -39,8 +36,9 @@ public class EventAdapter extends CpsBaseAdapter<ConcurrentEvent.Pages> {
     }
 
     public void setItemSize(int itemWidth){
-        LogUtil.i("EventAdapter", "itemWidth=" + itemWidth);
-        params = new LinearLayout.LayoutParams(itemWidth, AppUtil.getCalculatedHeight(765,89));
+        int itemHeight = (itemWidth * Constant.EVENT_BG_HEIGHT)/Constant.EVENT_BG_WIDTH;
+        LogUtil.i("EventAdapter", "itemWidth=" + itemWidth+",itemHeight="+itemHeight);
+        params = new LinearLayout.LayoutParams(itemWidth, itemHeight);
 
     }
 
@@ -75,36 +73,6 @@ public class EventAdapter extends CpsBaseAdapter<ConcurrentEvent.Pages> {
         }
         list.set(position, entity);
         return R.layout.item_event;
-
-//        if (isTechEmpty) {
-//            if (position == 0) {
-//                entity.isTypeLabel.set(1);
-//            } else if (entity.date.equals(list.get(position - 1).date)) {
-//                entity.isTypeLabel.set(0);
-//            } else {
-//                entity.isTypeLabel.set(1);
-//            }
-//            list.set(position, entity);
-//            return R.layout.item_event;
-//        } else {
-//            if (entity.isTypeLabel.get() == 2) {
-//                return R.layout.item_event_seminar;
-//            } else {
-//                if (position == 0) {
-//                    entity.isTypeLabel.set(1);
-//                } else if (position == 1) {
-//                    entity.isTypeLabel.set(0);
-//                } else if (list.get(position).date.equals(list.get(position - 2).date)) { /* 因为中间插了一个技术交流会，所以 -2，上上个 */
-//                    entity.isTypeLabel.set(0);
-//                } else {
-//                    entity.isTypeLabel.set(1);
-//                }
-//                list.set(position, entity);
-//                return R.layout.item_event;
-//            }
-//        }
-
-
     }
 
     @Override
@@ -116,13 +84,15 @@ public class EventAdapter extends CpsBaseAdapter<ConcurrentEvent.Pages> {
     protected void bindVariable(ViewDataBinding binding) {
         binding.setVariable(BR.adapter, this);
         super.bindVariable(binding);
-        eventBinding= (ItemEventBinding) binding;
+        if(binding instanceof ItemEventBinding){
+            eventBinding= (ItemEventBinding) binding;
+        }
     }
 
     @Override
     public void onBindViewHolder(CpsBaseViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-        if(params!=null){
+        if(params!=null&&eventBinding!=null){
             eventBinding.rlEvent.setLayoutParams(params);
         }
     }

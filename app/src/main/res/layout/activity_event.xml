@@ -91,13 +91,13 @@
             android:layout_marginTop="1dp"
             app:cardElevation="2dp">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
+              >
 
                 <TextView
+                    android:id="@+id/btn0"
                     style="@style/event_btn_style"
                     android:layout_gravity="center_horizontal"
                     android:background="@{eventModel.mClickPos==0?@drawable/dot_focused:@drawable/dot_grey_event}"
@@ -106,6 +106,8 @@
                     android:textColor="@{eventModel.mClickPos==0?@color/white:@color/home}" />
 
                 <TextView
+                    android:id="@+id/btn1"
+                    android:layout_below="@id/btn0"
                     style="@style/event_btn_style"
                     android:background="@{eventModel.mClickPos==1?@drawable/dot_focused:@drawable/dot_grey_event}"
                     android:onClick="@{()->eventModel.chooseDate(1)}"
@@ -113,6 +115,8 @@
                     android:textColor="@{eventModel.mClickPos==1?@color/white:@color/home}" />
 
                 <TextView
+                    android:id="@+id/btn2"
+                    android:layout_below="@id/btn1"
                     style="@style/event_btn_style"
                     android:background="@{eventModel.mClickPos==2?@drawable/dot_focused:@drawable/dot_grey_event}"
                     android:onClick="@{()->eventModel.chooseDate(2)}"
@@ -120,6 +124,8 @@
                     android:textColor="@{eventModel.mClickPos==2?@color/white:@color/home}" />
 
                 <TextView
+                    android:id="@+id/btn3"
+                    android:layout_below="@id/btn2"
                     style="@style/event_btn_style"
                     android:background="@{eventModel.mClickPos==3?@drawable/dot_focused:@drawable/dot_grey_event}"
                     android:onClick="@{()->eventModel.chooseDate(3)}"
@@ -127,13 +133,26 @@
                     android:textColor="@{eventModel.mClickPos==3?@color/white:@color/home}" />
 
                 <TextView
+                    android:id="@+id/btn4"
+                    android:layout_below="@id/btn3"
                     style="@style/event_btn_style"
                     android:background="@{eventModel.mClickPos==4?@drawable/dot_focused:@drawable/dot_grey_event}"
                     android:onClick="@{()->eventModel.chooseDate(4)}"
                     android:text="@string/event_btn_27"
                     android:textColor="@{eventModel.mClickPos==4?@color/white:@color/home}" />
 
-            </LinearLayout>
+                <ImageView
+                    android:id="@+id/iv_help"
+                  android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="32dp"
+                    android:gravity="center"
+                    android:src="@drawable/ic_help" />
+
+
+            </RelativeLayout>
 
         </android.support.v7.widget.CardView>
 

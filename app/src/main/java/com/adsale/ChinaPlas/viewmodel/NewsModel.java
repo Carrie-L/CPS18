@@ -30,7 +30,7 @@ public class NewsModel {
     public ArrayList<News> getNewsList() {
         return (ArrayList<News>) mNewsDao.queryBuilder()
                 .where(NewsDao.Properties.LType.eq(AppUtil.getCurLanguage() == 0 ? 1 : AppUtil.getCurLanguage() == 2 ? 2 : 3))
-                .orderDesc(NewsDao.Properties.PublishDate).list();
+                .orderDesc(NewsDao.Properties.UpdateDateTime).list();
     }
 
     //select  * from NEWS_LINK NL,NEWS N where NL.NEWS_ID=N.NEWS_ID AND N.NEWS_ID="0000000668"

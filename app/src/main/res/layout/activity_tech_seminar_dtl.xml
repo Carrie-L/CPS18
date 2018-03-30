@@ -86,23 +86,24 @@
                     android:text="@{String.format(@string/seminar_time,info.time)}" />
 
                 <TextView
-                    android:id="@+id/tv_seminardtl_section"
+                    android:id="@+id/tv_seminardtl_roomNO"
                     style="@style/seminaldtl_tv"
                     android:layout_below="@id/tv_seminardtl_time"
+                    android:text="@{String.format(@string/seminar_roomNO,info.roomNo)}" />
+
+                <TextView
+                    android:id="@+id/tv_seminardtl_section"
+                    style="@style/seminaldtl_tv"
+                    android:layout_below="@id/tv_seminardtl_roomNO"
                     android:text="@{String.format(@string/seminar_section,info.hall)}"
                   />
 
                 <TextView
-                    android:id="@+id/tv_seminardtl_roomNO"
-                    style="@style/seminaldtl_tv"
-                    android:layout_below="@id/tv_seminardtl_section"
-                    android:text="@{String.format(@string/seminar_roomNO,info.roomNo)}" />
-
-                <TextView
                     android:id="@+id/tv_seminardtl_booth"
                     style="@style/seminaldtl_tv"
-                    android:layout_below="@id/tv_seminardtl_roomNO"
+                    android:layout_below="@id/tv_seminardtl_section"
                     android:text="@{String.format(@string/seminar_booth,info.booth)}" />
+
             </RelativeLayout>
 
             <LinearLayout
@@ -131,11 +132,12 @@
                     android:visibility="@{TextUtils.isEmpty(speak.seminarsummary)?View.GONE:View.VISIBLE}" />
 
                 <TextView
+                    android:id="@+id/tv_summary"
                     style="@style/seminaldtl_tv2"
                     android:layout_marginRight="5dp"
                     android:lineSpacingExtra="5dp"
-                    android:text="@{speak.seminarsummary.replaceAll(&quot;  &quot;, &quot;\n\n&quot;)}"
                     android:visibility="@{TextUtils.isEmpty(speak.seminarsummary)?View.GONE:View.VISIBLE}" />
+                <!--android:text="@{speak.seminarsummary.replaceAll(&quot;  &quot;, &quot;\n\n&quot;)}"-->
 
                 <TextView
                     style="@style/seminaldtl_tv1"

@@ -137,7 +137,7 @@
     <string name="filter_hall">展館</string>
     <string name="filter_booth">專區</string>
     <string name="filter_keyword">關鍵字</string>
-    <string name="filter_new_tec">首發技術</string>
+    <string name="filter_new_tec">主題專集</string>
     <string name="filter_keyword_hint">輸入關鍵字</string>
 
     <string name="filter_clear_all">清空篩選條件</string>
@@ -254,6 +254,8 @@
     <string name="uc_update">更新</string>
     <string name="uc_updated">已更新</string>
     <string name="uc_update_all">更新全部</string>
+
+    <string name="apk_update_msg">檢測到新版本，是否更新？</string>
 
 
     <!--文档下载中心-->

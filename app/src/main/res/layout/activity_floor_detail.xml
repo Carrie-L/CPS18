@@ -71,7 +71,16 @@
             android:layout_toRightOf="@id/floor_nav"
             android:background="@{model.isNavOpened?@drawable/btn_close_floor_nav:@drawable/btn_open_floor_nav}"
             android:onClick="@{()->model.onClickDrawer()}" />
-        <!---->
+
+        <ImageView
+            android:id="@+id/btn_minimize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_alignLeft="@id/btn_nav"
+            android:layout_below="@id/btn_nav"
+            android:background="@drawable/btn_floor_minimize"
+            android:onClick="@{()->model.onMapMinimize()}" />
 
         <TextView
             android:id="@+id/tv_nodata"

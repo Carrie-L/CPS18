@@ -102,12 +102,13 @@ public class UpdateCenterViewModel {
             if (entity.getStatus() == 0) {
                 updateCount++;
             }
-            LogUtil.i(TAG, "TIME= " + entity.getLUT());
         }
-        LogUtil.i(TAG, "updateCount=" + updateCount);
+//        LogUtil.i(TAG, "updateCount=" + updateCount);
         statusAll.set(updateCount > 0 && updateCount <= 5);
 
         // --- just for test
+//        testDownItem(1);
+//        testDownItem(2);
 //        testDownItem(3);
         //---test end
     }
@@ -297,9 +298,10 @@ public class UpdateCenterViewModel {
                                     }
                                 }
                             } else {
-                                LogUtil.i(TAG, "发射文件");
+                                LogUtil.i(TAG, "发射文件:"+name);
                                 FileOutputStream fos = new FileOutputStream(new File(mDir.concat(name)));
                                 fos.write(body.bytes());
+                                body.close();
                                 fos.close();
 
                                 if (name.toLowerCase().contains("floorplan")) {

@@ -1,5 +1,6 @@
 package com.adsale.ChinaPlas.data;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
@@ -63,8 +64,19 @@ public class LoadRepository {
         return mUpdateCenterDao.queryBuilder().where(UpdateCenterDao.Properties.ScanFile.eq(fileName)).list().get(0).getLUT();
     }
 
+    public void updateLocalLUT2(UpdateCenter entity) {
+        ContentValues cv = new ContentValues();
+        cv.put("LUT", entity.FUDate);
+        App.mDBHelper.db.update("UPDATE_CENTER", cv, "SCAN_FILE=?", new String[]{entity.getScanFile()});
+    }
+
+
     public void updateLocalLUT(UpdateCenter entity) {
         mUpdateCenterDao.update(entity);
+    }
+
+    public void insertLocalLUT(UpdateCenter entity) {
+        mUpdateCenterDao.insertOrReplace(entity);
     }
 
     void prepareInsertXmlData() {
@@ -142,6 +154,15 @@ public class LoadRepository {
      */
     private <T, String> T getMaxUT(Property property, AbstractDao<T, String> dao) {
         return dao.queryBuilder().orderDesc(property).limit(1).list().get(0);
+    }
+
+    public String getNewsLUT() {
+//        App.mDBHelper.mNewsDao.rawQuery("select UPDATE_DATE_TIME from NEWS ORDER BY UPDATE_DATE_TIME DESC LIMIT 1 ",null);
+        return App.mDBHelper.mNewsDao.queryBuilder().orderDesc(NewsDao.Properties.UpdateDateTime).limit(1).list().get(0).getUpdateDateTime();
+    }
+
+    public String getNewsLinkLUT() {
+        return App.mDBHelper.mLinkDao.queryBuilder().orderDesc(NewsLinkDao.Properties.UpdateDateTime).limit(1).list().get(0).getUpdateDateTime();
     }
 
 

@@ -4,6 +4,17 @@ package com.adsale.ChinaPlas.dao;
 
 // KEEP INCLUDES - put your custom includes here
 // KEEP INCLUDES END
+
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.TextAppearanceSpan;
+import android.text.style.URLSpan;
+
+import com.adsale.ChinaPlas.utils.LogUtil;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Entity mapped to table "SEMINAR_SPEAKER".
  */
@@ -64,6 +75,7 @@ public class SeminarSpeaker {
     }
 
     public String getSeminarsummary() {
+        Seminarsummary = Seminarsummary.replaceAll("  ", "\n\n");
         return Seminarsummary;
     }
 
@@ -172,8 +184,8 @@ public class SeminarSpeaker {
         this.FreeParticipation = strings[8];
         this.ContactPerson = strings[9];
         this.Email = strings[10];
-        this.Tel =strings[11];
-        this.LangID =strings[12];
+        this.Tel = strings[11];
+        this.LangID = strings[12];
         this.ID = Integer.valueOf(strings[13]);
     }
     // KEEP METHODS END

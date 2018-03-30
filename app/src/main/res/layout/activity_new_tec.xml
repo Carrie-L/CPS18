@@ -3,6 +3,7 @@
   >
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="view"
             type="com.adsale.ChinaPlas.ui.NewTecActivity"/>
@@ -48,6 +49,11 @@
             android:layout_height="match_parent"
             android:layout_below="@id/rl_search"
             />
+
+        <TextView
+            style="@style/no_data_style"
+            android:visibility="@{view.isEmpty?View.VISIBLE:View.GONE}"
+             />
 
       <com.adsale.ChinaPlas.ui.view.SideDataView
           android:id="@+id/view_side_data"

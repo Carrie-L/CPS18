@@ -1,0 +1,381 @@
+﻿{
+    "Common": {
+        "baseUrl": "https://o97tbiy1f.qnssl.com/advertisement/",
+        "time": "1/1/2018-4/12/2018",
+        "tablet": "tablet_",
+        "phone": "phone_"
+    },
+    "M1": {
+        "version": [
+            "1"
+        ],
+        "format": ".jpg",
+        "function": "1",
+        "filepath": "M1/",
+        "action_companyID": [
+            [
+                "236494"
+            ],
+            [
+                "236494"
+            ],
+            [
+                "236494"
+            ]
+        ],
+        "action_eventID": [
+            "001"
+        ],
+        "action_seminarID": [
+            "15"
+        ],
+        "action_newsID": [
+            "0000000409"
+        ],
+        "isChange": "1"
+    },
+    "M2": {
+        "version": "3",
+        "function": "1",
+        "filepath": "M2/",
+        "format": ".jpg",
+        "image2": "big_",
+        "action_companyID_sc": "236697",
+        "action_companyID_en": "234280",
+        "action_companyID_tc": "236697",
+        "action_eventID": "001",
+        "action_seminarID": "15",
+        "action_newsID": "0000000409",
+        "cmsID": "0"
+    },
+    "M3": {
+        "version": "2",
+        "function": "1",
+        "filepath": "M3/",
+        "format": ".jpg",
+        "action_companyID_sc": "234768",
+        "action_companyID_en": "234768",
+        "action_companyID_tc": "234768",
+        "action_eventID": "001",
+        "action_seminariD": "15",
+        "action_newsID": "0000000409",
+        "cmsID": "0"
+    },
+    "M4_left": {
+        "version": [
+            "1",
+	    "1"
+        ],
+        "function": [
+            "1",
+	    "2"
+        ],
+        "filepath": "M4/",
+        "format": ".jpg",
+        "floor": [
+            "7.2H",
+	    "5.1H"
+        ],
+        "action_companyID": [
+            "236027",
+	    ""
+        ],
+        "action_eventID": [
+            "",
+	    "MedicalPlastics"
+        ]
+    },
+    "M4_right": {
+        "version": [
+            "1",
+	    "1"
+        ],
+        "function": [
+            "1",
+	    "2"
+        ],
+        "filepath": "M4/",
+        "format": ".jpg",
+        "floor": [
+            "7.2H",
+	    "5.1H"
+        ],
+        "action_companyID": [
+            "238612",
+	    ""
+        ],
+        "action_eventID": [
+            "",
+	    "MedicalPlastics"
+        ]
+    },
+    "M5": {
+        "version": [
+            "1",
+            "1",
+            "1",
+            "1",
+	    "1",
+            "1"
+        ],
+        "function": "2",
+        "filepath": "M5/",
+        "format": ".jpg",
+        "logo": "logo",
+        "product": [
+            "left",
+            "center",
+            "right"
+        ],
+        "description": [
+            {
+                "descriptionEng": "SCG Chemicals is one of the largest integrated petrochemical companies in Thailand and a key industry leader in the Asia – Pacific region offers a full range of petrochemical products ranging from upstream production of olefins to downstream production of 3 main plastics resins; polyethylene, polypropylene and polyvinyl chloride. To better serve customers’ requirements, SCG Chemicals assigns prime importance to the development of new technology and innovation for the creation of high value-added products and services (HVA) in our main focus industries including food & beverage packaging, building & infrastructure, automotive, and home appliances.",
+                "descriptionTC": "暹羅化工集團 (SCG) 是泰國最大的綜合性石化企業之一，也是亞太地區石化行業的領先企業，擁有完整的化工原料供應鏈，產品系列包括從上游的乙烯單體到下游三種主要塑膠原料:聚乙烯，聚丙烯，聚氯乙烯，更好的服務於不同類型的客戶。暹羅化工集團 (SCG) 致力於技術創新和科技進步，為食品包裝，建築和基建材料，汽車和家庭用品等行業的客戶開發高附加值的塑膠原料。",
+                "descriptionSC": "暹罗化工集团 (SCG) 是泰国最大的综合性石化企业之一，也是亚太地区石化行业的领先企业，拥有完整的化工原料供应链，产品系列包括从上游的乙烯单体到下游三种主要塑胶原料:聚乙烯，聚丙烯，聚氯乙烯，更好的服务于不同类型的客户。暹罗化工集团 (SCG) 致力于技术创新和科技进步，为食品包装，建筑和基建材料，汽车和家庭用品等行业的客户开发高附加值的塑胶原料。"
+            },
+            {
+                "descriptionEng": "",
+                "descriptionTC": "",
+                "descriptionSC": ""
+            },
+	    {
+                "descriptionEng": "",
+                "descriptionTC": "",
+                "descriptionSC": ""
+            },
+            {
+                "descriptionEng": "Packaging and Specialty Plastics, a business unit of The Dow Chemical Company (Dow), combines core strengths of R&D, worldwide reach, broad product lines and industry expertise to deliver innovative and sustainable solutions for plastics. The business is one of the largest polyethylene producers in the world, and a leading collaborator across the value chain on the development of new technologies and applications for high growth markets in packaging, health & hygiene, transportation, consumer, and infrastructure.",
+                "descriptionTC": "陶氏包裝與特種塑料是陶氏化學公司（簡稱陶氏）旗下的事業部，擁有研發實力、全球覆蓋、廣泛的產品線及行業專長等核心優勢，為塑料市場提供可持續解決方案。陶氏包裝與特種塑料是全球最大的聚乙烯產品生產商之一，也是跨越產業價值鏈的領先創新者和協作者，專注於包裝、衛材與健康、交通運輸、消費者、以及基礎設施等高增長領域的應用。",
+                "descriptionSC": "陶氏包装与特种塑料是陶氏化学公司（简称陶氏）旗下的事业部，拥有研发实力、全球覆盖、广泛的产品线及行业专长等核心优势，为塑料市场提供可持续解决方案。陶氏包装与特种塑料是全球最大的聚乙烯产品生产商之一，也是跨越产业价值链的领先创新者和协作者，专注于包装、卫材与健康、交通运输、消费者、以及基础设施等高增长领域的应用。"
+            },
+            {
+                "descriptionEng": "",
+                "descriptionTC": "VAMP TECH （萬普特股份有限公司）成立於1988年，是一家私有的意大利企業。公司專注於開發和生產具有專利的高性能阻燃材料，產品範圍包括PA6，PA66，PP, PC，PC / ABS，PPS，PPA，PSU，PEEK和 各種合金等，而且這些產品共取得超過100個UL認證及多個VDE認證。VAMP TECH 材料的應用包括注塑和擠出成型的產品，廣泛應用於家用電器，電子電器，汽車，家居，公共建築和體育休閑等多個行業。",
+                "descriptionSC": "VAMP TECH （万普特股份有限公司）成立于1988年，是一家私有的意大利企业。公司专注于开发和生产具有专利的高性能阻燃材料，产品范围包括PA6，PA66，PP, PC，PC / ABS，PPS，PPA，PSU，PEEK和 各种合金等，而且这些产品共取得超过100个UL认证及多个VDE认证。VAMP TECH 材料的应用包括注塑和挤出成型的产品，广泛应用于家用电器，电子电器，汽车，家居，公共建筑和体育休闲等多个行业。"
+            },
+	    {
+                "descriptionEng": "PA, commonly known as nylon, is a type of engineering plastics, which possesses good mechanical properties, heat resistance, chemical resistance, abrasion resistance, self-lubricating features and good processing properties. PA is widely applied to automobiles, rail transits, engineering machinery, aerospace, ships, constructions, electronic electricity and textiles. CPP, also known as Casting Polypropylene Film, is a type of unstretched and non-oriented polypropylene film, which has no poisons, no tastes, no odors, good sanitation properties & transparencies, high glossiness & stiffness, good moisture resistance, fine heat resistance properties and good heat sealing properties.",
+                "descriptionTC": "PA（俗稱尼龍）工程塑料具有良好的機械性能、耐熱性、耐化學性、耐磨性和自潤滑性，易加工等，廣泛應用於汽車、軌道交通、工程機械、航空航天、船舶、建築、電子電氣、紡織等。CPP（流延聚丙烯薄膜）是一種無拉伸、非定向聚丙烯薄膜，其具有無毒、無味、無嗅、衛生性能好、透明性好、光澤度高、挺度好、阻濕性好、耐熱性能優良、易於熱封合等。",
+                "descriptionSC": "PA（俗称尼龙）工程塑料具有良好的机械性能、耐热性、耐化学性、耐磨性和自润滑性，易加工等，广泛应用于汽车、轨道交通、工程机械、航空航天、船舶、建筑、电子电气、纺织等。CPP（流延聚丙烯薄膜）是一种无拉伸、非定向聚丙烯薄膜，其具有无毒、无味、无嗅、卫生性能好、透明性好、光泽度高、挺度好、阻湿性好、耐热性能优良、易于热封合等。"
+            }
+        ],
+        "companyID": [
+            "235451",
+            "234768",
+            "236027",
+            "235494",
+            "238023",
+	    "238612"
+        ],
+        "website": [
+            "https://www.scgchemicals.com/en",
+            "http://www.topolymer.com/",
+            "http://www.sinochemplastics.com/",
+            "https://www.dow.com/en-us",
+            "http://www.vamptech.com/",
+	    "http://www.xinlip.com"
+        ],
+        "videos": [
+            {
+                "imagelinks": [
+                    "https://o97tbiy1f.qnssl.com/advertisement/M5/scg.png"
+                ],
+                "videolinks": [
+                    "https://o97tbiy1f.qnssl.com/advertisement/M5/SCG_Chemicals_1min_hires.mp4"
+                ]
+            },
+            {
+                "imagelinks": [
+                    ""
+                ],
+                "videolinks": [
+                    ""
+                ]
+            },
+            {
+                "imagelinks": [
+                    ""
+                ],
+                "videolinks": [
+                    ""
+                ]
+            },
+            {
+                "imagelinks": [
+                    ""
+                ],
+                "videolinks": [
+                    ""
+                ]
+            },
+            {
+                "imagelinks": [
+                    ""
+                ],
+                "videolinks": [
+                    ""
+                ]
+            },
+            {
+                "imagelinks": [
+                    "https://o97tbiy1f.qnssl.com/advertisement/M5/shiny.jpg"
+                ],
+                "videolinks": [
+                    "https://o97tbiy1f.qnssl.com/advertisement/M5/shiny.mp4"
+                ]
+            }
+        ]
+    },
+    "M6": {
+        "version": [
+            "1",
+            "1",
+            "0",
+            "0"
+        ],
+        "function": [
+            "0",
+            "0",
+            "0",
+            "0"
+        ],
+        "filepath": "M6/",
+        "format": ".jpg",
+        "header": "header",
+        "logo": "logo",
+        "banner": "banner/",
+        "companyID": [
+            "230525",
+            "230525",
+            "230525",
+            ""
+        ],
+        "EventID": {
+            "EN": [
+                "18038",
+                "18029",
+                "17003",
+                "17004"
+            ],
+            "SC": [
+                "18038",
+                "18029",
+                "17003",
+                "17004"
+            ],
+            "TC": [
+                "18038",
+                "18029",
+                "17003",
+                "17004"
+            ]
+        },
+        "topics": [
+            {
+                "id": "36",
+                "image": "17016en_20170413",
+                "description": ""
+            },
+            {
+                "id": "94",
+                "image": "17016cn_20170413",
+                "description": ""
+            },
+            {
+                "id": "152",
+                "image": "17016cn_20170413",
+                "description": ""
+            },
+            {
+                "id": "37",
+                "image": "17018en_20170413",
+                "description": ""
+            },
+            {
+                "id": "95",
+                "image": "17018cn_20170413",
+                "description": ""
+            },
+            {
+                "id": "153",
+                "image": "17018cn_20170413",
+                "description": ""
+            },
+            {
+                "id": "38",
+                "image": "17005en_20170413",
+                "description": ""
+            },
+            {
+                "id": "96",
+                "image": "17005cn_20170413",
+                "description": ""
+            },
+            {
+                "id": "154",
+                "image": "17005cn_20170413",
+                "description": ""
+            },
+            {
+                "id": "33",
+                "image": "17038en_20170413",
+                "description": ""
+            },
+            {
+                "id": "91",
+                "image": "17038cn_20170413",
+                "description": ""
+            },
+            {
+                "id": "149",
+                "image": "17038cn_20170413",
+                "description": ""
+            },
+            {
+                "id": "15",
+                "image": "17036en_20170413",
+                "description": ""
+            },
+            {
+                "id": "73",
+                "image": "17036cn_20170413",
+                "description": ""
+            },
+            {
+                "id": "131",
+                "image": "17036cn_20170413",
+                "description": ""
+            },
+            {
+                "id": "17",
+                "image": "17025en_20170413",
+                "description": ""
+            },
+            {
+                "id": "75",
+                "image": "17025cn_20170413",
+                "description": ""
+            },
+            {
+                "id": "133",
+                "image": "17025cn_20170413",
+                "description": ""
+            },
+            {
+                "id": "43",
+                "image": "17026en_20170413",
+                "description": ""
+            },
+            {
+                "id": "101",
+                "image": "17026cn_20170413",
+                "description": ""
+            },
+            {
+                "id": "159",
+                "image": "17026cn_20170413",
+                "description": ""
+            }
+        ]
+    }
+}

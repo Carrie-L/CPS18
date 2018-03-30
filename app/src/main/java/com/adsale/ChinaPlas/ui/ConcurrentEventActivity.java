@@ -1,5 +1,7 @@
 package com.adsale.ChinaPlas.ui;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
@@ -20,6 +22,7 @@ import com.adsale.ChinaPlas.data.model.ConcurrentEvent;
 import com.adsale.ChinaPlas.data.model.ExhibitorFilter;
 import com.adsale.ChinaPlas.databinding.ActivityEventBinding;
 import com.adsale.ChinaPlas.helper.ADHelper;
+import com.adsale.ChinaPlas.ui.view.HelpView;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.DisplayUtil;
@@ -44,6 +47,7 @@ public class ConcurrentEventActivity extends BaseActivity implements OnIntentLis
     private ActivityEventBinding binding;
     private ConcurrentEvent.AdInfo adInfo;
     private int adHeight;
+    private HelpView helpDialog;
 
     @Override
     protected void initView() {
@@ -63,13 +67,12 @@ public class ConcurrentEventActivity extends BaseActivity implements OnIntentLis
         mEventModel.getList();
 
         CardView cardView = binding.llLeftBtn;
-//        int cardWidth = AppUtil.isTablet() ? AppUtil.getScreenWidth() - (765 * DisplayUtil.dip2px(getApplicationContext(), 104) / 89) :
-//                AppUtil.getScreenWidth() - (520 * DisplayUtil.dip2px(getApplicationContext(), 140) / 232);
         int cardWidth = 0;
         if (AppUtil.isTablet()) {
             cardWidth = (int) (AppUtil.getScreenWidth() * 0.17f);
         } else {
-            cardWidth = AppUtil.getScreenWidth() - (520 * DisplayUtil.dip2px(getApplicationContext(), 140) / 232);
+//            cardWidth = AppUtil.getScreenWidth() - (520 * DisplayUtil.dip2px(getApplicationContext(), 140) / 232);
+            cardWidth = (int) (AppUtil.getScreenWidth() * 0.2f);
         }
         LogUtil.i(TAG, "cardWidth=" + cardWidth);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(cardWidth, RelativeLayout.LayoutParams.MATCH_PARENT);
@@ -78,15 +81,41 @@ public class ConcurrentEventActivity extends BaseActivity implements OnIntentLis
         cardView.setLayoutParams(params);
 
         EventAdapter adapter = new EventAdapter(mEventModel.events, this);
-        if(AppUtil.isTablet()){
-            adapter.setItemSize(AppUtil.getScreenWidth()-cardWidth);
-        }
+//        if(AppUtil.isTablet()){
+//            adapter.setItemSize(AppUtil.getScreenWidth()-cardWidth);
+//        }
+        adapter.setItemSize(AppUtil.getScreenWidth()-cardWidth);
+        adapter.setItemSize(AppUtil.getScreenWidth()-cardWidth);
         recyclerView.setAdapter(adapter);
         mEventModel.onStart(this, adapter);
 
         showAd();
 
+        if (HelpView.isFirstShow(HelpView.HELP_PAGE_EVENT_LIST)) {
+            showHelpPage();
+            App.mSP_HP.edit().putInt("HELP_PAGE_" + HelpView.HELP_PAGE_EVENT_LIST, HelpView.HELP_PAGE_EVENT_LIST).apply();
+        }
 
+        binding.ivHelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showHelpPage();
+            }
+        });
+
+
+    }
+
+    private void showHelpPage() {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment fragment = getFragmentManager().findFragmentByTag("Dialog");
+        if (fragment != null) {
+            ft.remove(fragment);
+        }
+        ft.addToBackStack(null);
+
+        helpDialog = HelpView.newInstance(HelpView.HELP_PAGE_EVENT_LIST);
+        helpDialog.show(ft, "Dialog");
     }
 
     public void showAd() {
@@ -115,7 +144,7 @@ public class ConcurrentEventActivity extends BaseActivity implements OnIntentLis
         } else if (toCls.getSimpleName().equals("TechnicalListActivity")) {
             Intent intent = new Intent(this, TechnicalListActivity.class);
             intent.putExtra("title", getString(R.string.title_technical_seminar));
-            intent.putExtra("index", mEventModel.mClickPos.get() == 0 ? "0" : mEventModel.convertToTechDateIndex(((ConcurrentEvent.Pages) entity).date));
+            intent.putExtra("index",  mEventModel.convertToTechDateIndex(((ConcurrentEvent.Pages) entity).date));
             startActivity(intent);
             overridePendingTransPad();
         } else if (toCls.getSimpleName().equals("FilterApplicationListActivity")) {

@@ -8,6 +8,7 @@ package com.adsale.ChinaPlas.dao;
 import android.databinding.ObservableBoolean;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.widget.Toast;
 
 import com.adsale.ChinaPlas.utils.LogUtil;
 
@@ -151,7 +152,7 @@ public class SeminarInfo implements Parcelable {
     }
 
     public String getTopic() {
-        return Topic.replaceAll("<br />", "\n");
+        return Topic.replace("\\n", "\n");
     }
 
     public void setTopic(String Topic) {
@@ -198,16 +199,16 @@ public class SeminarInfo implements Parcelable {
     }
 
     public String getM() {
-        if (Hall.equals("1H") || Hall.equals("2H")) {
+        if (RoomNo.contains("M1") || RoomNo.contains("M2")) {
             indicate=1;
             return "M1/M2";
-        } else if (Hall.equals("3H") || Hall.equals("4.1H") || Hall.equals("4.2H")) {
+        } else if (RoomNo.contains("M3") || RoomNo.contains("M4")) {
             indicate=2;
             return "M3/M4";
-        } else if (Hall.equals("5.1H") || Hall.equals("6.1H") || Hall.equals("5.2H") || Hall.equals("6.2H")) {
+        } else if (RoomNo.contains("M5") || RoomNo.contains("M6")) {
             indicate=3;
             return "M5/M6";
-        } else if (Hall.equals("7.1H") || Hall.equals("8.1H") || Hall.equals("7.2H") || Hall.equals("8.2H")) {
+        } else if (RoomNo.contains("M7") || RoomNo.contains("M8")) {
             indicate=4;
             return "M7/M8";
         }

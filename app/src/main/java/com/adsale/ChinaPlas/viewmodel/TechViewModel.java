@@ -71,25 +71,23 @@ public class TechViewModel {
         mRepository.initTechSeminarDao();
         adHelper = new ADHelper(mContext);
         adList = new ArrayList<>();
-        mSeminars = mRepository.getAllSeminars(getCurrLangId(), adHelper, adList);
+       mSeminars= mRepository.getAllSeminars(getCurrLangId(), adHelper);
         allSeminarCaches.addAll(mSeminars);
-
 
         insertHeaderItems();
         showM6(0);
     }
 
     private void insertHeaderItems() {
-        int size = mSeminars.size();
+        int size = allSeminarCaches.size();
         SeminarInfo entity;
-        int adCount = 0;
-        int index=0;
+        int index = 0;
         for (int i = 0; i < size; i++) {
-            entity = mSeminars.get(i);
+            entity = allSeminarCaches.get(i);
             if (i == 0) { // header
                 entity.isTypeLabel = true;
-            } else if (entity.getDate().equals(mSeminars.get(i - 1).getDate())) {
-                if (entity.getTime().equals(mSeminars.get(i - 1).getTime())) {
+            } else if (entity.getDate().equals(allSeminarCaches.get(i - 1).getDate())) {
+                if (entity.getTime().equals(allSeminarCaches.get(i - 1).getTime())) {
                     entity.isTypeLabel = false;
                 } else {
                     entity.isTypeLabel = true;
@@ -98,16 +96,16 @@ public class TechViewModel {
                 entity.isTypeLabel = true;
             }
 
-            if(entity.isTypeLabel){
+            if (entity.isTypeLabel) {
                 index = convertDateToIndex(entity.getDate());
-                    entity.headerStr=String.format(compareTime(entity.getTime())?
-                            mContext.getString(R.string.seminar_time_pm):mContext.getString(R.string.seminar_time_am),
-                            indexToDate(index)); //index==0?"24":index==1?"25":index==2?"26":"27"
+                entity.headerStr = String.format(compareTime(entity.getTime()) ?
+                                mContext.getString(R.string.seminar_time_pm) : mContext.getString(R.string.seminar_time_am),
+                        indexToDate(index)); //index==0?"24":index==1?"25":index==2?"26":"27"
 
-                if(adList.get(index).isADer.get() && adList.get(index).getTime().equals(entity.getTime())){ // entity 是header，且这个时间段里有ad,则将那个ad seminar 置顶
-                    adCount++;
-                    allSeminarCaches.add(i + adCount, adList.get(index));
-                }
+//                if(adList.get(index).isADer.get() && adList.get(index).getTime().equals(entity.getTime())){ // entity 是header，且这个时间段里有ad,则将那个ad seminar 置顶
+//                    adCount++;
+//                    allSeminarCaches.add(i + adCount, adList.get(index));
+//                }
             }
         }
 
@@ -170,6 +168,16 @@ public class TechViewModel {
             getAllSeminars();
         } else {
             getPartSeminars();
+//            mSeminars.clear();
+//            if (index == 1) {
+//                mSeminars.addAll(mSeminars1);
+//            } else if (index == 2) {
+//                mSeminars.addAll(mSeminars2);
+//            } else if (index == 3) {
+//                mSeminars.addAll(mSeminars3);
+//            } else if (index == 4) {
+//                mSeminars.addAll(mSeminars4);
+//            }
         }
     }
 
@@ -194,14 +202,13 @@ public class TechViewModel {
     }
 
     private String indexToDate(int index) {
-        if (index==0) {
+        if (index == 0) {
             return DATE1;
-        } else  if (index==1) {
+        } else if (index == 1) {
             return DATE2;
-        }
-        else  if (index==2) {
-        return DATE3;
-    } else  if (index==3) {
+        } else if (index == 2) {
+            return DATE3;
+        } else if (index == 3) {
             return DATE4;
         }
         return DATE1;

@@ -56,8 +56,13 @@ public class Constant {
     public static final int M5_VIDEO_WIDTH = 1072;
     public static final int M5_VIDEO_HEIGHT = 822;
 
-    public static final int M6_BANNER_WIDTH = AppUtil.isTablet() ? 1740 : 1754;
-    public static final int M6_BANNER_HEIGHT = AppUtil.isTablet() ? 212 : 538;
+//    public static final int M6_BANNER_WIDTH = AppUtil.isTablet() ? 1740 : 1754;
+//    public static final int M6_BANNER_HEIGHT = AppUtil.isTablet() ? 212 : 538;
+    public static final int M6_BANNER_WIDTH = AppUtil.isTablet() ? 1740 : 877;
+    public static final int M6_BANNER_HEIGHT = AppUtil.isTablet() ? 212 : 269;
+
+    public static final int EVENT_BG_WIDTH = AppUtil.isTablet() ? 765 : 520;
+    public static final int EVENT_BG_HEIGHT = AppUtil.isTablet() ? 89 : 232;
 
 
     /**
@@ -66,7 +71,9 @@ public class Constant {
     public static final String SP_CONFIG = "Config";
     public static final String SP_UPDATE_INFO = "UpdateInfo";
     public static final String SP_UPDATE_INFO_BEFORE = "UpdateInfoBefore";
+    /*  txt files:  FileSizeInfo.txt  NewTechInfo.txt ... */
     public static final String SP_LASTMODIFIED = "LastModified";
+    /* webservice：MainIcon WebContent News ...  */
     public static final String SP_LUT = "LastUpdateTime";
     public static final String SP_LOGIN = "Login";
     public static final String SP_HP = "HelpPage";
@@ -157,13 +164,17 @@ public class Constant {
 
     public static final String IS_AD_OPEN = "isADOpen";
 
+
     public static final String TXT_CONCURRENT_EVENT = "CurrentEvents.txt";
     public static final String TXT_MAIN_PIC_INFO = "MainMenuInfo.txt";
     public static final String TXT_PDF_CENTER_INFO = "PDFCenterInfos.txt";
     public static final String TXT_NOTIFICATION = "notification.txt";
     public static final String TXT_NEW_TEC = "NewTechInfo.txt";
     public static final String TXT_NEW_TEC_TEST = "NewTechInfoTest.txt";
-
+    public static final String TXT_AD = "advertisement.txt";
+    public static final String TXT_COORDINATE = "coordinate.txt";
+    public static final String TXT_FILE_SIZE = "FileSizeInfo.txt";
+    public static final String TXT_PREREG_INFO = "preregInfo.txt";
     public static final String UC_TXT_EXHIBITOR = "ExhibitorInfo.txt";
     public static final String UC_TXT_FLOOR_PLAN = "FloorPlan.txt";
     public static final String UC_TXT_SEMINAR = "SeminarInfo.txt";

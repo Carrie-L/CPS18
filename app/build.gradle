@@ -13,6 +13,7 @@ buildscript {
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 //apply plugin: 'com.mob.sdk'
+//apply plugin: 'com.tencent.tinker.patch'
 
 repositories {
     mavenCentral()
@@ -27,8 +28,8 @@ android {
         applicationId "com.adsale.ChinaPlas"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 124
-        versionName "8.2.7"
+        versionCode 127
+        versionName "8.3.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
@@ -116,6 +117,11 @@ dependencies {
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+
+    //optional, help to generate the final application
+//    provided('com.tencent.tinker:tinker-android-anno:1.9.1')
+//    //tinker's main Android lib
+//    compile('com.tencent.tinker:tinker-android-lib:1.9.1')
 
 //    MobSDK {
 //        appKey "90f2da741a6c"

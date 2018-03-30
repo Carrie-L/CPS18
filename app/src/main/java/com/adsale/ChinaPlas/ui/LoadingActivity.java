@@ -1,7 +1,9 @@
 package com.adsale.ChinaPlas.ui;
 
 import android.app.ActivityManager;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -29,6 +31,7 @@ import android.widget.ProgressBar;
 
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
+import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.databinding.ActivityLoadingBinding;
 import com.adsale.ChinaPlas.helper.LoadingReceiver;
 import com.adsale.ChinaPlas.utils.AppUtil;
@@ -48,11 +51,19 @@ import java.util.UUID;
 
 import cn.jpush.android.api.JPushInterface;
 
+import static com.adsale.ChinaPlas.App.mSP_Config;
 import static com.adsale.ChinaPlas.helper.LoadingReceiver.LOADING_ACTION;
 import static com.adsale.ChinaPlas.utils.Constant.SCREEN_HEIGHT;
 import static com.adsale.ChinaPlas.utils.PermissionUtil.PMS_CODE_READ_PHONE_STATE;
 
-public class LoadingActivity extends AppCompatActivity implements LoadingReceiver.OnLoadFinishListener {
+/**
+ * ❥❥ 更新apk版本：
+ * 1. 请求服务器版本号，与本地版本号比较，如果不相等，Step2, 如果相等, Step3，
+ * 2. 对话框提示是否下载更新apk，true，Step4; false，Step3
+ * 3. continue
+ * 4. 下载服务器apk包，安装新的apk，更新本地apk版本。
+ */
+public class LoadingActivity extends AppCompatActivity implements LoadingReceiver.OnLoadFinishListener, OnIntentListener {
     private static final String TAG = "LoadingActivity";
     private SharedPreferences mConfigSP;
     private boolean isFirstRunning;
@@ -80,7 +91,7 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
         mConfigSP.edit().putLong("LoadingStartTime", loadingStartTime).apply();
 
         loadingProgress = binding.loadingProgress;
-        mLoadingModel = new LoadingViewModel(getApplicationContext());
+        mLoadingModel = new LoadingViewModel(getApplicationContext(), this);
         binding.setLoadingModel(mLoadingModel);
         binding.setAty(this);
         binding.executePendingBindings();
@@ -89,7 +100,12 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
         int memoryClass = am.getMemoryClass();
         LogUtil.i(TAG, "memoryClass=" + memoryClass);
 
-        mConfigSP.edit().putBoolean("M1ShowFinish", false).putBoolean("txtDownFinish", false).putBoolean("webServicesDownFinish", false).putString("M1ClickId", "").apply();
+        mConfigSP.edit().putBoolean("M1ShowFinish", false)
+                .putBoolean("txtDownFinish", false)
+                .putBoolean("webServicesDownFinish", false)
+                .putBoolean("apkDialogFinish",false)
+                .putString("M1ClickId", "")
+                .apply();
         isFirstRunning = AppUtil.isFirstRunning();
         mConfigSP.edit().putBoolean("isFirstGetMaster", isFirstRunning).apply();
         LogUtil.i(TAG, "== isFirstRunning == " + isFirstRunning);
@@ -99,7 +115,6 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
         hideNavBar();
         getAppVersion();
         mLoadingModel.upgradeDB();
-
 
         if (isFirstRunning) {
             loadingProgress.setVisibility(View.INVISIBLE);
@@ -135,6 +150,7 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
         public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
             LogUtil.i(TAG, "_____________________requestListener: onResourceReady ");
             App.isNetworkAvailable = true;
+            mLoadingModel.checkApkVersion();
             if (isFirstRunning) {
                 mLoadingModel.getUpdateInfo();
                 mLoadingModel.run(true);
@@ -218,7 +234,7 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
                 .apply();
     }
 
-    private void initJpushAlias(int language){
+    private void initJpushAlias(int language) {
         if (language == 0) {
             JPushInterface.setAlias(getApplicationContext(), 1, "TCUser");
         } else if (language == 1) {
@@ -242,7 +258,7 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
         PackageManager pm = getPackageManager();
         try {
             PackageInfo info = pm.getPackageInfo(getPackageName(), 0);
-            App.mSP_Config.edit().putString("AppVersion", info.versionName).apply();
+            App.mSP_Config.edit().putString("AppVersion", info.versionName).putInt("LocalVersionCode", info.versionCode).apply();
             LogUtil.i("App", "mAppVersion=" + info.versionName + ",mVersionCode=" + info.versionCode);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
@@ -345,5 +361,35 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
             mLoadingModel.unSubscribe();
             mLoadingModel = null;
         }
+    }
+
+    @Override
+    public <T> void onIntent(final T entity, Class toCls) {
+        // 有更新，弹出对话框. Yes, update; NO, dismiss.
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getString(R.string.apk_update_msg))
+                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String url = AppUtil.getServiceApkVersionLink();
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+
+                        //还没去就退出了
+                        finish();
+//                        System.exit(0);
+                    }
+                })
+                .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mSP_Config.edit().putBoolean("apkDialogFinish", true).apply();
+                        Intent intent0 = new Intent(LOADING_ACTION);
+                        sendBroadcast(intent0);
+                        dialog.dismiss();
+                    }
+                }).show();
     }
 }

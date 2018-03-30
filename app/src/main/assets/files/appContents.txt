@@ -2,14 +2,14 @@
   "htmlFilePath": "https://o97tbiy1f.qnssl.com/events/htmlFile/",
   "pages": [
     {
-      "version": "1",
+      "version": "2",
       "title_en": "3rd Industry 4.0 Conference",
       "title_cn": "第三届工业4.0论坛",
       "title_tc": "第三屆工業4.0論壇",
       "pageID": "IndustryConference"
     },
     {
-      "version": "4",
+      "version": "6",
       "title_en": "CMF Inspiration for Design x Innovation",
       "title_cn": "设计 x 创新：CMF 灵感之源",
       "title_tc": "設計 x 創新：CMF 靈感之源",

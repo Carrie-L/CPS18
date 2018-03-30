@@ -79,7 +79,7 @@ public class MenuAdapter extends CpsBaseAdapter<MainIcon> {
         this.navViewModel = navViewModel;
         isTablet = AppUtil.isTablet();
 
-        LogUtil.i(TAG, "largeMenus=" + largeMenus.size() + "," + largeMenus.toString());
+//        LogUtil.i(TAG, "largeMenus=" + largeMenus.size() + "," + largeMenus.toString());
 
         mBaseUrl = NetWorkHelper.DOWNLOAD_PATH.concat("WebContent/");
 

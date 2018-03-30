@@ -101,10 +101,12 @@
     <string name="nodata">No related information</string>
     <string name="no_keyword_result">If you want to get the full exhibitor list, please visit Update Center to update the exhibitor data</string>
 
-    <string name="seminar_room">Room %s</string>
+    <string name="seminar_room">Seminar Room %s</string>
     <string name="seminar_time_am">%s&#160;AM Session&#160;(10:00&#8211;12:00)</string>
     <string name="seminar_time_pm">%s&#160;PM Session&#160;(14:00&#8211;16:00)</string>
 
+
+    <string name="apk_update_msg">New version released, update?</string>
 
     <!--  -->
     <string name="title_news">News</string>
@@ -173,7 +175,7 @@
     <string name="filter_hall">Hall</string>
     <string name="filter_booth">Theme Zones</string>
     <string name="filter_keyword">Keyword</string>
-    <string name="filter_new_tec">New Technology</string>
+    <string name="filter_new_tec">Thematic Showcase</string>
     <string name="filter_keyword_hint">Input keywords</string>
 
     <string name="filter_clear_all">Clear</string>
@@ -294,7 +296,7 @@
     <string name="seminar_time">Time：%s</string>
     <string name="seminar_section">Hall：%s</string>
     <string name="seminar_zone">Zone：%s</string>
-    <string name="seminar_roomNO">RoomNO：%s</string>
+    <string name="seminar_roomNO">Seminar Room：%s</string>
     <string name="seminar_booth">Booth：%s</string>
 
     <!-- 酒店资料 -->

@@ -347,6 +347,7 @@ public class ContentHandler extends DefaultHandler {
         logList(mMainIcons, "MainIcon");
         logList(mNewsArrayLists, "mNewsArrayLists");
         logList(mNewsLinks, "mNewsLinks");
+        logList(mNewsArrayLists, "mNewsArrayLists");
         logList(mWebContents, "mWebContents");
         logList(mMapFloors, "mMapFloors");
 
