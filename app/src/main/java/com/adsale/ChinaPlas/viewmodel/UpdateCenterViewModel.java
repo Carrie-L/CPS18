@@ -110,6 +110,8 @@ public class UpdateCenterViewModel {
 //        testDownItem(1);
 //        testDownItem(2);
 //        testDownItem(3);
+//        testDownItem(4);
+//        testDownItem(0);
         //---test end
     }
 

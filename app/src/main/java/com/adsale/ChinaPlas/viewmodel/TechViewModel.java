@@ -3,6 +3,7 @@ package com.adsale.ChinaPlas.viewmodel;
 import android.content.Context;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableInt;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -16,7 +17,6 @@ import com.adsale.ChinaPlas.data.OtherRepository;
 import com.adsale.ChinaPlas.data.model.adAdvertisementObj;
 import com.adsale.ChinaPlas.helper.ADHelper;
 import com.adsale.ChinaPlas.ui.WebContentActivity;
-import com.adsale.ChinaPlas.ui.WebViewActivity;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
@@ -55,9 +55,8 @@ public class TechViewModel {
     private ADHelper adHelper;
     private SeminarInfo seminarInfo;
     private ImageView ivM6;
-    private boolean isCalM6;
     private int mIndex;
-    private ArrayList<SeminarInfo> adList;
+    public ArrayList<Integer> headerItemPositions = new ArrayList<>();
 
     public TechViewModel(Context mContext, ImageView iv) {
         this.mContext = mContext;
@@ -70,12 +69,11 @@ public class TechViewModel {
         mRepository = OtherRepository.getInstance();
         mRepository.initTechSeminarDao();
         adHelper = new ADHelper(mContext);
-        adList = new ArrayList<>();
-       mSeminars= mRepository.getAllSeminars(getCurrLangId(), adHelper);
+        mSeminars = mRepository.getAllSeminars(getCurrLangId(), adHelper);
         allSeminarCaches.addAll(mSeminars);
 
         insertHeaderItems();
-        showM6(0);
+        showM6V2(0);
     }
 
     private void insertHeaderItems() {
@@ -97,32 +95,15 @@ public class TechViewModel {
             }
 
             if (entity.isTypeLabel) {
-                index = convertDateToIndex(entity.getDate());
-                entity.headerStr = String.format(compareTime(entity.getTime()) ?
-                                mContext.getString(R.string.seminar_time_pm) : mContext.getString(R.string.seminar_time_am),
-                        indexToDate(index)); //index==0?"24":index==1?"25":index==2?"26":"27"
-
-//                if(adList.get(index).isADer.get() && adList.get(index).getTime().equals(entity.getTime())){ // entity 是header，且这个时间段里有ad,则将那个ad seminar 置顶
-//                    adCount++;
-//                    allSeminarCaches.add(i + adCount, adList.get(index));
-//                }
+                index = convertDateTimeToIndex(entity.getDate(), entity.getTime());
+                entity.headerStr = String.format(compareTime(entity.getTime()) ? mContext.getString(R.string.seminar_time_pm)
+                        : mContext.getString(R.string.seminar_time_am), indexToDate(index));
+                LogUtil.i(TAG, "isTypeLabel:index=" + index + ",headerStr=" + entity.headerStr);
+                headerItemPositions.add(i);
             }
         }
 
 
-    }
-
-    private int convertDateToIndex(String date) {
-        if (date.contains(DATE1)) {
-            return 0;
-        } else if (date.contains(DATE2)) {
-            return 1;
-        } else if (date.contains(DATE3)) {
-            return 2;
-        } else if (date.contains(DATE4)) {
-            return 3;
-        }
-        return 0;
     }
 
     public void onStart(OnIntentListener listener, TechAdapter adapter) {
@@ -145,40 +126,62 @@ public class TechViewModel {
     }
 
     private String getCurrDate() {
-        return mClickPos.get() == 1 ? DATE1 : mClickPos.get() == 2 ? DATE2 : mClickPos.get() == 3 ? DATE3 : DATE4;
+        return mClickPos.get() == 1 || mClickPos.get() == 0 ? DATE1 : mClickPos.get() == 3 || mClickPos.get() == 2 ? DATE2 :
+                mClickPos.get() == 5 || mClickPos.get() == 4 ? DATE3 : mClickPos.get() == 6 ? DATE4 : DATE1;
     }
 
+    public int convertDateTimeToIndex(String Date, String Time) {
+        if (Date.contains("24") && Time.compareTo("12:00") < 0) {
+            return 0;  // 24 am
+        } else if (Date.contains("24") && Time.compareTo("12:00") > 0) {
+            return 1;  // 24 pm
+        } else if (Date.contains("25") && Time.compareTo("12:00") < 0) {
+            return 2;  // 25 am
+        } else if (Date.contains("25") && Time.compareTo("12:00") > 0) {
+            return 3;
+        } else if (Date.contains("26") && Time.compareTo("12:00") < 0) {
+            return 4;  // 26 am
+        } else if (Date.contains("26") && Time.compareTo("12:00") > 0) {
+            return 5;
+        } else if (Date.contains("27") && Time.compareTo("12:00") < 0) {
+            return 6;  // 27 am
+        }
+        return 0;
+    }
+
+    /**
+     * 左边按钮点击
+     *
+     * @param index [-1,7]
+     *              -1: all
+     *              0-6: 按上午下午依次排列
+     *              7：跳转平面图
+     * @param am
+     */
     public void onDateClick(int index, boolean am) {
-        mIndex = index;
-        if (index == 5) {//平面图
+        if (index == 7) {//平面图
             mListener.onIntent(null, WebContentActivity.class);
+        } else if (index == -1) {
+            mIndex = 0;
+            mClickPos.set(index);
+            showM6V2(0);
+            isAm.set(am);
+            getAllSeminars();
+            adapter.setList(mSeminars);
         } else {
+            mIndex = index;  // 因为Index=0为ALL，而M6[]从0开始，因此需要-1
             getPartList(index, am);
             adapter.setList(mSeminars);
         }
     }
 
     public void getPartList(int index, boolean am) {
-        mIndex = index;
         LogUtil.i(TAG, "onDateClick::index=" + index);
-        showM6(index);
-        mClickPos.set(index);
+        showM6V2(index);
         isAm.set(am);
-        if (index == 0) {
-            getAllSeminars();
-        } else {
-            getPartSeminars();
-//            mSeminars.clear();
-//            if (index == 1) {
-//                mSeminars.addAll(mSeminars1);
-//            } else if (index == 2) {
-//                mSeminars.addAll(mSeminars2);
-//            } else if (index == 3) {
-//                mSeminars.addAll(mSeminars3);
-//            } else if (index == 4) {
-//                mSeminars.addAll(mSeminars4);
-//            }
-        }
+        mClickPos.set(index);
+        getPartSeminars();
+        mIndex = index;
     }
 
     private void getPartSeminars() {
@@ -187,11 +190,10 @@ public class TechViewModel {
         for (int i = 0; i < size; i++) {
             seminarInfo = allSeminarCaches.get(i);
             if (seminarInfo.getDate().contains(getCurrDate()) && seminarInfo.getLangID().equals(getCurrLangId()) && compareTime(seminarInfo.getTime())) {
+                LogUtil.i(TAG, mClickPos.get() + ",getCurrDate()=" + getCurrDate());
                 mSeminars.add(seminarInfo);
             }
         }
-
-
     }
 
     private boolean compareTime(String time) {
@@ -202,53 +204,59 @@ public class TechViewModel {
     }
 
     private String indexToDate(int index) {
-        if (index == 0) {
+        LogUtil.i(TAG, "indexToDate:" + index);
+        if (index == 0 || index == 1) {
             return DATE1;
-        } else if (index == 1) {
+        } else if (index == 2 || index == 3) {
             return DATE2;
-        } else if (index == 2) {
+        } else if (index == 4 || index == 5) {
             return DATE3;
-        } else if (index == 3) {
+        } else if (index == 6 || index == 7) {
             return DATE4;
         }
         return DATE1;
-
     }
 
-    public void showM6(int index) {
-        if (index > 0) {  // 因为在侧边Index中，0表示all，1-4 表示4天，5表示Floor Plan，因此用在ad[]中需要-1.
-            index = index - 1;
-        }
-        mIndex = index;
-        LogUtil.i(TAG, "showM6:index=" + index);
-        if (adHelper.isAdOpen() && adHelper.isM6Open(index)) {
+    /**
+     * @param adIndex
+     */
+    public void showM6V2(int adIndex) {
+        mIndex = adIndex;
+        LogUtil.i(TAG, "showM6:index=" + adIndex);
+        if (adHelper.isAdOpen() && adHelper.isM6Open(adIndex)) {
             LogUtil.i(TAG, "showM6:VISIBLE");
             ivM6.setVisibility(View.VISIBLE);
-            adHelper.getM6HeaderUrl(index);
+            adHelper.getM6HeaderUrl(adIndex);
 
-            RequestOptions options = new RequestOptions().override(AppUtil.getScreenWidth(), AppUtil.getCalculatedHeight(Constant.M6_BANNER_WIDTH, Constant.M6_BANNER_HEIGHT));
-            Glide.with(mContext).load(adHelper.getM6HeaderUrl(index)).apply(options).into(ivM6);
+            RequestOptions options = new RequestOptions().override(AppUtil.getScreenWidth(), AppUtil.getCalculatedHeight(Constant.M3_WIDTH, Constant.M3_HEIGHT));
+            Glide.with(mContext).load(adHelper.getM6HeaderUrl(adIndex)).apply(options).into(ivM6);
             adObj = adHelper.getAdObj();
-            AppUtil.trackViewLog(206, "Ad", "M6" + "_Date" + (16 + index), adObj.M6.companyID[index]);// 统计广告出现次数
-            AppUtil.setStatEvent(mContext, "ViewM6", "M6" + "_Date" + (16 + index) + adObj.M6.companyID[index]);
+            LogUtil.i(TAG, "trackLog:" + "M6" + "_Date" + (adHelper.getM6TimeSession(adIndex)));
+            AppUtil.trackViewLog(206, "Ad", "M6" + "_Date" + (adHelper.getM6TimeSession(adIndex)), adObj.M6_V2.companyID.get(adIndex));// 统计广告出现次数
+            AppUtil.setStatEvent(mContext, "ViewM6", "M6" + "_Date" + (adHelper.getM6TimeSession(adIndex)) + adObj.M6_V2.companyID.get(adIndex));
         } else {
             ivM6.setVisibility(View.GONE);
             LogUtil.i(TAG, "showM6:GONE");
         }
+
+
     }
 
+    /**
+     * 处理后（-1，从0开始）的mIndex
+     */
     public void onM6Click() {
-        LogUtil.i(TAG, "onM6Click:mIndex=" + mIndex + ",id=" + adObj.M6.topics.get(mIndex).id);
-        mListener.onIntent(adObj.M6.topics.get(mIndex).id, null);
-    }
-
-    private void calculateM6Size() {
-        if (!isCalM6) {
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(AppUtil.getScreenWidth(),
-                    AppUtil.getCalculatedHeight(Constant.M6_BANNER_WIDTH, Constant.M6_BANNER_HEIGHT));
-            params.addRule(RelativeLayout.ALIGN_BOTTOM);
-            ivM6.setLayoutParams(params);
-            isCalM6 = true;
+        String eventId = adObj.M6_V2.EventID.getEventId(App.mLanguage.get())[mIndex];
+        LogUtil.i(TAG, "onM6Click:mIndex=" + mIndex + ",eventId=" + eventId);
+        if (TextUtils.isEmpty(eventId)) {
+            return;
+        }
+        int size = mSeminars.size();
+        for (int i = 0; i < size; i++) {
+            if (eventId.equals(String.valueOf(mSeminars.get(i).getEventID()))) {
+                mListener.onIntent(mSeminars.get(i).getEventID() + "", null);
+                break;
+            }
         }
     }
 

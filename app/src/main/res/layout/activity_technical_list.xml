@@ -39,8 +39,8 @@
 
                 <TextView
                     style="@style/tech_btn_style"
-                    android:background="@{techModel.mClickPos==0?@drawable/dot_focused:@drawable/dot_grey}"
-                    android:onClick="@{()->techModel.onDateClick(0,false)}"
+                    android:background="@{techModel.mClickPos==-1?@drawable/dot_focused:@drawable/dot_grey}"
+                    android:onClick="@{()->techModel.onDateClick(-1,false)}"
                     android:text="@string/event_btn_all"
                     android:textColor="#fff" />
 
@@ -53,13 +53,13 @@
 
                 <TextView
                     style="@style/tech_rect_text_style"
-                    android:background="@{techModel.mClickPos==1&amp;&amp;techModel.isAm?@color/home:@color/grey}"
-                    android:onClick="@{()->techModel.onDateClick(1,true)}"
+                    android:background="@{techModel.mClickPos==0?@color/home:@color/grey}"
+                    android:onClick="@{()->techModel.onDateClick(0,true)}"
                     android:text="@string/tech_am" />
 
                 <TextView
                     style="@style/tech_rect_text_style"
-                    android:background="@{techModel.mClickPos==1&amp;&amp;!techModel.isAm?@color/home:@color/grey}"
+                    android:background="@{techModel.mClickPos==1?@color/home:@color/grey}"
                     android:onClick="@{()->techModel.onDateClick(1,false)}"
                     android:text="@string/tech_pm" />
 
@@ -72,14 +72,14 @@
 
                 <TextView
                     style="@style/tech_rect_text_style"
-                    android:background="@{techModel.mClickPos==2&amp;&amp;techModel.isAm?@color/home:@color/grey}"
+                    android:background="@{techModel.mClickPos==2?@color/home:@color/grey}"
                     android:onClick="@{()->techModel.onDateClick(2,true)}"
                     android:text="@string/tech_am" />
 
                 <TextView
                     style="@style/tech_rect_text_style"
-                    android:background="@{techModel.mClickPos==2&amp;&amp;!techModel.isAm?@color/home:@color/grey}"
-                    android:onClick="@{()->techModel.onDateClick(2,false)}"
+                    android:background="@{techModel.mClickPos==3?@color/home:@color/grey}"
+                    android:onClick="@{()->techModel.onDateClick(3,false)}"
                     android:text="@string/tech_pm" />
 
                 <!-- day 3 -->
@@ -91,14 +91,14 @@
 
                 <TextView
                     style="@style/tech_rect_text_style"
-                    android:background="@{techModel.mClickPos==3&amp;&amp;techModel.isAm?@color/home:@color/grey}"
-                    android:onClick="@{()->techModel.onDateClick(3,true)}"
+                    android:background="@{techModel.mClickPos==4?@color/home:@color/grey}"
+                    android:onClick="@{()->techModel.onDateClick(4,true)}"
                     android:text="@string/tech_am" />
 
                 <TextView
                     style="@style/tech_rect_text_style"
-                    android:background="@{techModel.mClickPos==3&amp;&amp;!techModel.isAm?@color/home:@color/grey}"
-                    android:onClick="@{()->techModel.onDateClick(3,false)}"
+                    android:background="@{techModel.mClickPos==5?@color/home:@color/grey}"
+                    android:onClick="@{()->techModel.onDateClick(5,false)}"
                     android:text="@string/tech_pm" />
 
                 <!-- day 4 -->
@@ -110,15 +110,15 @@
 
                 <TextView
                     style="@style/tech_rect_text_style"
-                    android:background="@{techModel.mClickPos==4&amp;&amp;techModel.isAm?@color/home:@color/grey}"
-                    android:onClick="@{()->techModel.onDateClick(4,true)}"
+                    android:background="@{techModel.mClickPos==6?@color/home:@color/grey}"
+                    android:onClick="@{()->techModel.onDateClick(6,true)}"
                     android:text="@string/tech_am" />
 
                 <ImageView
                     style="@style/tech_rect_text_style"
                     android:layout_marginTop="16dp"
                     android:background="@drawable/ic_location_map"
-                    android:onClick="@{()->techModel.onDateClick(5,false)}"
+                    android:onClick="@{()->techModel.onDateClick(7,false)}"
                     android:text="@string/tech_pm" />
 
             </LinearLayout>

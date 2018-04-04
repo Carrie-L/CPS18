@@ -85,4 +85,8 @@ public class RecyclerViewScrollTo {
             }
         });
     }
+
+    public void clearOnScrollListeners(){
+        recyclerView.clearOnScrollListeners();
+    }
 }

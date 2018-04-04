@@ -175,8 +175,10 @@
     <string name="filter_hall">Hall</string>
     <string name="filter_booth">Theme Zones</string>
     <string name="filter_keyword">Keyword</string>
-    <string name="filter_new_tec">Thematic Showcase</string>
+    <string name="filter_topic_collection">Thematic Showcase</string>
+    <string name="filter_new_tec">New Tech</string>
     <string name="filter_keyword_hint">Input keywords</string>
+    <string name="filter_highlights">Exhibits Highlights</string>
 
     <string name="filter_clear_all">Clear</string>
     <string name="filter_ok">Filter</string>
@@ -293,7 +295,7 @@
     <string name="seminar_email">Email</string>
     <string name="seminar_tel">Tel</string>
     <string name="seminar_date">Date：%s</string>
-    <string name="seminar_time">Time：%s</string>
+    <string name="seminar_time">Session：%s</string>
     <string name="seminar_section">Hall：%s</string>
     <string name="seminar_zone">Zone：%s</string>
     <string name="seminar_roomNO">Seminar Room：%s</string>

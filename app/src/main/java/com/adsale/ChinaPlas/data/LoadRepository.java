@@ -70,13 +70,8 @@ public class LoadRepository {
         App.mDBHelper.db.update("UPDATE_CENTER", cv, "SCAN_FILE=?", new String[]{entity.getScanFile()});
     }
 
-
     public void updateLocalLUT(UpdateCenter entity) {
         mUpdateCenterDao.update(entity);
-    }
-
-    public void insertLocalLUT(UpdateCenter entity) {
-        mUpdateCenterDao.insertOrReplace(entity);
     }
 
     void prepareInsertXmlData() {

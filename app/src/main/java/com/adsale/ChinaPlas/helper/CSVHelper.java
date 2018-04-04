@@ -8,17 +8,17 @@ import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.dao.ApplicationCompany;
 import com.adsale.ChinaPlas.dao.ApplicationIndustry;
 import com.adsale.ChinaPlas.dao.BussinessMapping;
-import com.adsale.ChinaPlas.dao.DBHelper;
 import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.dao.ExhibitorIndustryDtl;
 import com.adsale.ChinaPlas.dao.ExhibitorZone;
 import com.adsale.ChinaPlas.dao.Floor;
 import com.adsale.ChinaPlas.dao.FloorPlanCoordinate;
 import com.adsale.ChinaPlas.dao.Industry;
-import com.adsale.ChinaPlas.dao.NewProductAndCategory;
+import com.adsale.ChinaPlas.dao.NewCategoryMaster;
+import com.adsale.ChinaPlas.dao.NewCategorySub;
+import com.adsale.ChinaPlas.dao.NewCategoryID;
 import com.adsale.ChinaPlas.dao.NewProductInfo;
-import com.adsale.ChinaPlas.dao.NewProductsAndApplication;
-import com.adsale.ChinaPlas.dao.ProductApplication;
+import com.adsale.ChinaPlas.dao.NewProductsID;
 import com.adsale.ChinaPlas.dao.ProductImage;
 import com.adsale.ChinaPlas.dao.SeminarInfo;
 import com.adsale.ChinaPlas.dao.SeminarSpeaker;
@@ -874,10 +874,10 @@ public class CSVHelper {
     }
 
     public boolean readNewTecCSV() {
-        if (readNewProductInfoCSV(getInputStream(Constant.CSV_NEWTEC_PRODUCT_INFO)) &&
-                readNewProductAndApplicationCSV(getInputStream(Constant.CSV_NEWTEC_PRODUCTS_AND_APPLICATION)) &&
-                readNewProductAndCateCSV(getInputStream(Constant.CSV_NEWTEC_PRODUCT_CATEGORY)) &&
-                readProductApplicationCSV(getInputStream(Constant.CSV_NEWTEC_PRODUCT_APPLICATION)) &&
+        if (    readNewProductInfoCSV(getInputStream(Constant.CSV_NEWTEC_PRODUCT_INFO)) &&
+                readNewProductIDCSV(getInputStream(Constant.CSV_NEWTEC_PRODUCTS_ID)) &&
+                readNewCategorySubCSV(getInputStream(Constant.CSV_NEWTEC_CATOGORY_SUB)) &&
+                readNewCategoryIDCSV(getInputStream(Constant.CSV_NEWTEC_CATEGORY_ID)) &&
                 readProductImageCSV(getInputStream(Constant.CSV_NEWTEC_PRODUCT_IMG))) {
             return true;
         }
@@ -924,10 +924,10 @@ public class CSVHelper {
         return true;
     }
 
-    private boolean readNewProductAndApplicationCSV(InputStream is) {
+    private boolean readNewProductIDCSV(InputStream is) {
         long startTime = System.currentTimeMillis();
-        ArrayList<NewProductsAndApplication> entities = new ArrayList<>();
-        NewProductsAndApplication entity;
+        ArrayList<NewProductsID> entities = new ArrayList<>();
+        NewProductsID entity;
         CSVReader reader;
         if (is == null) {
             return false;
@@ -937,7 +937,7 @@ public class CSVHelper {
             String[] line = reader.readNext();
             if (line != null) {
                 while ((line = reader.readNext()) != null) {
-                    entity = new NewProductsAndApplication();
+                    entity = new NewProductsID();
                     entity.parser(line);
                     entities.add(entity);
                 }
@@ -958,16 +958,16 @@ public class CSVHelper {
         if (mNewTecRepository == null) {
             throw new NullPointerException("mNewTecRepository cannot be null,please #initNewTec()");
         }
-        mNewTecRepository.clearNewProductAndApplication();
-        mNewTecRepository.insertNewProductsAndApplicationAll(entities);
+        mNewTecRepository.clearNewProductID();
+        mNewTecRepository.insertNewProductsIDAll(entities);
         LogUtil.i(TAG, "存儲 insertNewProductsAndApplicationAll 所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
         return true;
     }
 
-    private boolean readNewProductAndCateCSV(InputStream is) {
+    private boolean readNewCategoryIDCSV(InputStream is) {
         long startTime = System.currentTimeMillis();
-        ArrayList<NewProductAndCategory> entities = new ArrayList<>();
-        NewProductAndCategory entity;
+        ArrayList<NewCategoryID> entities = new ArrayList<>();
+        NewCategoryID entity;
         CSVReader reader;
         if (is == null) {
             return false;
@@ -977,7 +977,7 @@ public class CSVHelper {
             String[] line = reader.readNext();
             if (line != null) {
                 while ((line = reader.readNext()) != null) {
-                    entity = new NewProductAndCategory();
+                    entity = new NewCategoryID();
                     entity.parser(line);
                     entities.add(entity);
                 }
@@ -992,57 +992,19 @@ public class CSVHelper {
                 e.printStackTrace();
             }
         }
-        LogUtil.i(TAG, "SD卡：readNewProductAndCateCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
+        LogUtil.i(TAG, "SD卡：readNewCategoryIDCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms"+entities.size()+","+entities.toString());
 
         long startTime2 = System.currentTimeMillis();
         if (mNewTecRepository == null) {
             throw new NullPointerException("mNewTecRepository cannot be null,please #initNewTec()");
         }
-        mNewTecRepository.clearNewProductAndCate();
-        mNewTecRepository.insertNewProductAndCategoryAll(entities);
-        LogUtil.i(TAG, "存儲 insertNewProductAndCategoryAll 所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
+        mNewTecRepository.clearCategoryID();
+        mNewTecRepository.insertNewCategoryIDAll(entities);
+        LogUtil.i(TAG, "存儲 readNewCategoryIDCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
         return true;
     }
 
-    private boolean readProductApplicationCSV(InputStream is) {
-        long startTime = System.currentTimeMillis();
-        ArrayList<ProductApplication> entities = new ArrayList<>();
-        ProductApplication entity;
-        CSVReader reader;
-        if (is == null) {
-            return false;
-        }
-        try {
-            reader = new CSVReader(new InputStreamReader(is, "UTF8"));
-            String[] line = reader.readNext();
-            if (line != null) {
-                while ((line = reader.readNext()) != null) {
-                    entity = new ProductApplication();
-                    entity.parser(line);
-                    entities.add(entity);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        } finally {
-            try {
-                is.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        LogUtil.i(TAG, "SD卡：readProductApplicationCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
 
-        long startTime2 = System.currentTimeMillis();
-        if (mNewTecRepository == null) {
-            throw new NullPointerException("mNewTecRepository cannot be null,please #initNewTec()");
-        }
-        mNewTecRepository.clearProductApplication();
-        mNewTecRepository.insertProductApplicationAll(entities);
-        LogUtil.i(TAG, "存儲 insertProductApplicationAll 所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
-        return true;
-    }
 
     private boolean readProductImageCSV(InputStream is) {
         long startTime = System.currentTimeMillis();
@@ -1083,6 +1045,48 @@ public class CSVHelper {
         LogUtil.i(TAG, "存儲 insertProductImageAll 所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
         return true;
     }
+
+    private boolean readNewCategorySubCSV(InputStream is) {
+        long startTime = System.currentTimeMillis();
+        ArrayList<NewCategorySub> entities = new ArrayList<>();
+        NewCategorySub entity;
+        CSVReader reader;
+        if (is == null) {
+            return false;
+        }
+        try {
+            reader = new CSVReader(new InputStreamReader(is, "UTF8"));
+            String[] line = reader.readNext();
+            if (line != null) {
+                while ((line = reader.readNext()) != null) {
+                    entity = new NewCategorySub();
+                    entity.parser(line);
+                    entities.add(entity);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        LogUtil.i(TAG, "SD卡：NewCategorySubCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
+
+        long startTime2 = System.currentTimeMillis();
+        if (mNewTecRepository == null) {
+            throw new NullPointerException("mNewTecRepository cannot be null,please #initNewTec()");
+        }
+        mNewTecRepository.clearCategorySub();
+        mNewTecRepository.insertCategorySubAll(entities);
+        LogUtil.i(TAG, "存儲 NewCategorySubCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
+        return true;
+    }
+
+
 
 }
 //

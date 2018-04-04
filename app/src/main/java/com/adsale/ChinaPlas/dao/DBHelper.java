@@ -26,7 +26,6 @@ public class DBHelper {
     public NameCardDao mNameCardDao;
     public NewsDao mNewsDao;
     public NewsLinkDao mLinkDao;
-    public ProductIDDao mProductIDDao;
     public ScheduleInfoDao mScheduleInfoDao;
     public UpdateDateDao mUpdateDateDao;
     public WebContentDao mWebContentDao;
@@ -41,10 +40,10 @@ public class DBHelper {
     public NAME_CARD_TEMPDao mNameCardTempDao;
     public SCHEDULE_INFO_TEMPDao mScheduleTempDao;
     public NewProductInfoDao mNewProductInfoDao;
-    public NewProductAndCategoryDao mNewProductAndCategoryDao;
-    public NewProductsAndApplicationDao mNewProductsAndApplicationDao;
-    public ProductApplicationDao mProductApplicationDao;
+    public NewCategoryIDDao mNewCategoryIDDao;
+    public NewProductsIDDao mNewProductsIDDao;
     public ProductImageDao mProductImageDao;
+    public NewCategorySubDao mCategorySubDao;
     public ExhibitorZoneDao mExhibitorZoneDao;
     public ZoneDao mZoneDao;
 
@@ -86,7 +85,6 @@ public class DBHelper {
         mNameCardDao = mDaoSession.getNameCardDao();
         mLinkDao = mDaoSession.getNewsLinkDao();
         mNewsDao = mDaoSession.getNewsDao();
-        mProductIDDao = mDaoSession.getProductIDDao();
         mScheduleInfoDao = mDaoSession.getScheduleInfoDao();
         mUpdateDateDao = mDaoSession.getUpdateDateDao();
         mWebContentDao = mDaoSession.getWebContentDao();
@@ -97,10 +95,10 @@ public class DBHelper {
         mSeminarInfoDao = mDaoSession.getSeminarInfoDao();
         mSeminarSpeakerDao = mDaoSession.getSeminarSpeakerDao();
         mNewProductInfoDao=mDaoSession.getNewProductInfoDao();
-        mNewProductAndCategoryDao=mDaoSession.getNewProductAndCategoryDao();
-        mNewProductsAndApplicationDao=mDaoSession.getNewProductsAndApplicationDao();
+        mNewCategoryIDDao =mDaoSession.getNewCategoryIDDao();
+        mNewProductsIDDao =mDaoSession.getNewProductsIDDao();
         mProductImageDao=mDaoSession.getProductImageDao();
-        mProductApplicationDao=mDaoSession.getProductApplicationDao();
+        mCategorySubDao=mDaoSession.getCategorySubDao();
         mExhibitorZoneDao = mDaoSession.getExhibitorZoneDao();
         mZoneDao = mDaoSession.getZoneDao();
     }

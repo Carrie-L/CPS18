@@ -118,13 +118,13 @@ public class EventModel {
      */
     public String convertToTechDateIndex(String date) {
         if (date.equals("24")) {
-            return "1";
+            return "0";
         } else if (date.equals("25")) {
             return "2";
         } else if (date.equals("26")) {
-            return "3";
-        } else if (date.equals("27")) {
             return "4";
+        } else if (date.equals("27")) {
+            return "6";
         }
         return "0";
     }
@@ -189,7 +189,7 @@ public class EventModel {
     private void parseEvents() {
         event = Parser.parseJsonFilesDirFile(ConcurrentEvent.class, Constant.TXT_CONCURRENT_EVENT);
         events.addAll(event.pages);
-        LogUtil.i(TAG, "events1=" + events.size() + "," + events.toString());
+//        LogUtil.i(TAG, "events1=" + events.size() + "," + events.toString());
 
         AppUtil.sort(events, new Comparator<ConcurrentEvent.Pages>() {
             @Override
@@ -202,7 +202,7 @@ public class EventModel {
             }
         });
 
-        LogUtil.i(TAG, "events2=" + events.size() + "," + events.toString());
+//        LogUtil.i(TAG, "events2=" + events.size() + "," + events.toString());
     }
 
     /**

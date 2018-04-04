@@ -2,6 +2,8 @@ package com.adsale.ChinaPlas.adapter;
 
 import android.content.Context;
 import android.databinding.ViewDataBinding;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import com.adsale.ChinaPlas.BR;
 import com.adsale.ChinaPlas.R;
@@ -10,6 +12,8 @@ import com.adsale.ChinaPlas.base.CpsBaseViewHolder;
 import com.adsale.ChinaPlas.dao.SeminarInfo;
 import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.ui.TechSeminarDtlActivity;
+import com.adsale.ChinaPlas.utils.LogUtil;
+
 import java.util.ArrayList;
 
 /**
@@ -20,11 +24,12 @@ import java.util.ArrayList;
 public class TechAdapter extends CpsBaseAdapter<SeminarInfo> {
     private ArrayList<SeminarInfo> list;
     private OnIntentListener mListener;
+    private static final String TAG = "TechAdapter";
 
     public TechAdapter(Context context, ArrayList<SeminarInfo> list, OnIntentListener listener) {
         this.mContext = context;
         this.list = list;
-        this.mListener=listener;
+        this.mListener = listener;
     }
 
     public void setList(ArrayList<SeminarInfo> list) {
@@ -43,18 +48,13 @@ public class TechAdapter extends CpsBaseAdapter<SeminarInfo> {
     }
 
     @Override
-    public void onBindViewHolder(CpsBaseViewHolder holder, int position) {
-        super.onBindViewHolder(holder, position);
-    }
-
-    @Override
     protected Object getObjForPosition(int position) {
         return list.get(position);
     }
 
     @Override
     protected int getLayoutIdForPosition(int position) {
-        if(list.get(position).isTypeLabel){
+        if (list.get(position).isTypeLabel) {
             return R.layout.item_tech_header;
         }
         return R.layout.item_tech;

@@ -288,7 +288,7 @@ public class ExhibitorRepository implements DataSource<Exhibitor> {
                 if (newTecStr.size() == 0) {
                     sql = sql.concat(" and COMPANY_ID IN (%6$s)");
                 }
-                newTecStr.add(" SELECT COMPANY_ID FROM NEW_PRODUCT_INFO WHERE RID IN (select RID from NEW_PRODUCT_AND_CATEGORY where CATEGORY='C') ");
+                newTecStr.add(" SELECT COMPANY_ID FROM NEW_PRODUCT_INFO WHERE RID IN (select RID from NEW_CATEGORY_ID where CATEGORY='C') ");
             } else if (index == 5) { // keyword
                 keyword = filter.filter;
                 sql = sql.concat(" and (carriecps)");

@@ -18,16 +18,16 @@ public class NetWorkHelper {
     private static final MediaType MEDIA_TYPE_XML = MediaType.parse("text/xml; charset=UTF-8");
 
     /* Test service */
-    private static final String PROJECT_CODE = "CPS18";
-    public static final String DOWNLOAD_PATH = "https://eform.adsale.com.hk/AppCPS18Services/";
-    public static final String WEBSERVICEURL = "https://eform.adsale.com.hk/AppCPS18Services/wsCLE15.asmx";
-    public static final String DOWN_TXT_URL = "https://forms.adsale.com.hk/VirtualDirectory/AppCPS18CMS/AppFiles/{fileName}";  /*  test url */
+//    private static final String PROJECT_CODE = "CPS18";
+//    public static final String DOWNLOAD_PATH = "https://eform.adsale.com.hk/AppCPS18Services/";
+//    public static final String WEBSERVICEURL = "https://eform.adsale.com.hk/AppCPS18Services/wsCLE15.asmx";
+//    public static final String DOWN_TXT_URL = "https://forms.adsale.com.hk/VirtualDirectory/AppCPS18CMS/AppFiles/{fileName}";  /*  test url */
 
      /* release service */
-//    private static final String PROJECT_CODE = "CPS2018";// scanFile : normal
-//    public static final String DOWNLOAD_PATH = "https://eform.adsale.com.hk/AppCPS2018Services/";
-//    public static final String WEBSERVICEURL = "https://eform.adsale.com.hk/AppCPS2018Services/wsCLE15.asmx";
-//    public static final String DOWN_TXT_URL = "https://forms.adsale.com.hk/VirtualDirectory/AppCPS2018CMS/AppFiles/{fileName}";
+    private static final String PROJECT_CODE = "CPS2018";// scanFile : normal
+    public static final String DOWNLOAD_PATH = "https://eform.adsale.com.hk/AppCPS2018Services/";
+    public static final String WEBSERVICEURL = "https://eform.adsale.com.hk/AppCPS2018Services/wsCLE15.asmx";
+    public static final String DOWN_TXT_URL = "https://forms.adsale.com.hk/VirtualDirectory/AppCPS2018CMS/AppFiles/{fileName}";
 
     /* loading页的下载地址 */
     public static final String DOWN_WEBCONTENT_URL = "WebContent/{fileName}";
@@ -35,6 +35,8 @@ public class NetWorkHelper {
 
     public static final String FULL_WEBSITE="http://www.chinaplasonline.com/CPS18/Home/%s/Information.aspx";
     public static final String MOBILE_WEBSITE="http://www.chinaplasonline.com/CPS18/Mobile/%s/Home.aspx";
+
+    public static final String MOBILE_EXHI_HIGHLIGHTS="https://www.chinaplasonline.com/CPS18/Mobile/Home/%s/NewTechnologyeBook.aspx?eh=1";   //lang-trad
 
     //POST  BASE_URL IS DOWNLOAD_PATH
     public static final String GetFolderScanFilesJson = "wsCLE15.asmx?op=getFolderScanFilesJson";

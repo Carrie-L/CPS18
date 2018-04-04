@@ -192,7 +192,7 @@ public class NewTecActivity extends BaseActivity implements OnIntentListener {
         list.clear();
         listCaches.clear();
         products.clear();
-        list = mRepository.getFilterList(productCaches, filters);
+        list = mRepository.getFilterList(productCaches,filters);
         products.addAll(list);
         insertAdList();
         adapter.setList(list);

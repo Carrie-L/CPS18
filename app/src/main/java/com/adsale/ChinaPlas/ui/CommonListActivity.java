@@ -106,7 +106,7 @@ public class CommonListActivity extends BaseActivity {
 
     /**
      * ---------------------- 新技术产品 - 产品 ----------------------
-     * NewProductAndCategory.csv
+     * NewCategoryID.csv
      * 字段 Category: A- 机械及仪器；B- 化工及原料；C- 2017年首发技术
      */
     private void getNewTecProducts() {

@@ -1,5 +1,5 @@
 {
-  "link": "https://o97tbiy1f.qnssl.com/technicalSeminar/TechnicalSeminar_20180327.zip",
+  "link": "https://o97tbiy1f.qnssl.com/technicalSeminar/technical_20180403v6.zip",
   "AdInfo": {
     "Image_SC": "https://o97tbiy1f.qnssl.com/advertisement/M3/phone_sc_1.jpg",
     "Image_TC": "https://o97tbiy1f.qnssl.com/advertisement/M3/phone_sc_1.jpg",

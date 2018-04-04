@@ -64,11 +64,16 @@ public class WebContentActivity extends BaseActivity {
     private ConcurrentEvent mEventTxt;
 
     @Override
+    protected void preView() {
+        super.preView();
+        barTitle.set(getIntent().getStringExtra("title"));
+    }
+
+    @Override
     protected void initView() {
         getLayoutInflater().inflate(R.layout.activity_web_content, mBaseFrameLayout, true);
         webView = findViewById(R.id.web_content_view);
         TAG = "WebContentActivity";
-
         settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDefaultTextEncodingName("UTF-8");
@@ -149,10 +154,9 @@ public class WebContentActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ScheduleEditActivity.class);
-                LogUtil.i(TAG, "barTitle.get()=" + barTitle.get());
                 ScheduleInfo entity = new ScheduleInfo();
                 entity.setId(null);
-                entity.setTitle(barTitle.get());
+                entity.setTitle(getIntent().getStringExtra("title")); // 千万不能用barTitle.get() ，会错，虽然很奇怪。
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra(Constant.INTENT_SCHEDULE, entity);
                 intent.putExtra("title", getString(R.string.title_add_schedule));

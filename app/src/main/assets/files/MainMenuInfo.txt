@@ -38,35 +38,35 @@
     },
 {
       "EN": {
-        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/Medical_en-01.jpg",
-        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/Medical_tablet_en-01.jpg",
+        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/CPS18_guide_mobile_en.jpg",
+        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/CPS18_guide_tablet_en.jpg",
         "Function": "2",
         "InnerPage": "CurrentEventsTxt",
         "Link": "https://www.chinaplasonline.com/CPS18/Events/lang-eng/MedicalPlasticsConnect.aspx",
         "companyID": "229048",
-        "eventID": "MedicalPlastics",
+        "eventID": "GuidedTechnicalTour",
         "seminarID": "15",
         "newsID": "0000000409"
       },
       "SC": {
-        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/Medical_sc-01.jpg",
-        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/Medical_tablet_sc-01.jpg",
+        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/CPS18_guide_mobile_sc.jpg",
+        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/CPS18_guide_tablet_sc.jpg",
         "Function": "2",
         "InnerPage": "CurrentEventsTxt",
         "Link": "https://www.chinaplasonline.com/CPS18/Events/lang-simp/MedicalPlasticsConnect.aspx",
         "companyID": "229048",
-        "eventID": "MedicalPlastics",
+        "eventID": "GuidedTechnicalTour",
         "seminarID": "15",
         "newsID": "0000000409"
       },
       "TC": {
-        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/Medical_tc-01.jpg",
-        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/Medical_tablet_tc-01.jpg",
+        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/CPS18_guide_mobile_tc.jpg",
+        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/CPS18_guide_tablet_tc.jpg",
         "Function": "2",
         "InnerPage": "CurrentEventsTxt",
         "Link": "https://www.chinaplasonline.com/CPS18/Events/lang-trad/MedicalPlasticsConnect.aspx",
         "companyID": "229048",
-        "eventID": "MedicalPlastics",
+        "eventID": "GuidedTechnicalTour",
         "seminarID": "15",
         "newsID": "0000000409"
       }

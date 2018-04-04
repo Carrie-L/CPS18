@@ -97,7 +97,7 @@
     <string name="item_keyword_search">關鍵字搜索</string>
 
     <string name="title_sort">劃</string>
-    <string name="editFilter_hint">參展商名稱/展覽攤位</string>
+    <string name="editFilter_hint">展商公司名/展台號</string>
     <string name="editFilter_hint_category">产品名称</string>
 
     <string name="txtAddCollection">加入我的參展商</string>
@@ -137,15 +137,17 @@
     <string name="filter_hall">展館</string>
     <string name="filter_booth">專區</string>
     <string name="filter_keyword">關鍵字</string>
-    <string name="filter_new_tec">主題專集</string>
+    <string name="filter_topic_collection">主題專集</string>
+    <string name="filter_new_tec">首發技術</string>
     <string name="filter_keyword_hint">輸入關鍵字</string>
+    <string name="filter_highlights">展會亮點</string>
 
     <string name="filter_clear_all">清空篩選條件</string>
     <string name="filter_ok">篩選</string>
 
     <string name="filter_search">搜尋</string>
 
-    <string name="new_tec_booth">展臺號：%s</string>
+    <string name="new_tec_booth">展台號：%s</string>
     <string name="new_tec_ad">廣告商產品</string>
 
     <string name="filter_product">產品</string>
@@ -238,7 +240,7 @@
     <string name="seminar_email">演講者郵箱</string>
     <string name="seminar_tel">演講者電話</string>
     <string name="seminar_date">日期：%s</string>
-    <string name="seminar_time">時間：%s</string>
+    <string name="seminar_time">時段：%s</string>
     <string name="seminar_section">展館：%s</string>
     <string name="seminar_zone">區：%s</string>
     <string name="seminar_roomNO">會議室房號：%s</string>

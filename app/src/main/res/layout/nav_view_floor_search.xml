@@ -14,9 +14,10 @@
             android:layout_width="match_parent"
             android:layout_height="36dp"
             android:layout_margin="16dp"
-            android:textColor="@color/grey11"
             android:background="@drawable/oval_edit_bg"
-            android:drawableRight="@drawable/search_bar_icon_normal" />
+            android:drawableRight="@drawable/search_bar_icon_normal"
+            android:hint="@string/editFilter_hint"
+            android:textColor="@color/grey11" />
         <!--android:hint="搜寻展商名称、展台号"-->
 
         <ImageView

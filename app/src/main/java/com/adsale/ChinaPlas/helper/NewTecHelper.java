@@ -36,15 +36,18 @@ public class NewTecHelper {
     public void init() {
         mRepository = NewTecRepository.newInstance();
         mRepository.initDao();
+        LogUtil.i("NewTecHelper","init");
     }
 
     public NewTec parseNewTecJson() {
+        LogUtil.i("NewTecHelper","parseNewTecJson");
         return Parser.parseJsonFilesDirFile(NewTec.class, Constant.TXT_NEW_TEC);
     }
 
     public void downNewTecZip(LoadingClient client) {
         if (newTecEntity == null) {
             newTecEntity = parseNewTecJson();
+            LogUtil.i("NewTecHelper","newTecEntity == null");
         }
         final String name = AppUtil.subStringLast(newTecEntity.NewTechInfoLink, '/');
         if (!name.equals(App.mSP_Config.getString("NewTecZip", ""))) { /*  zip包名字不相同，说明有更新 */
@@ -55,6 +58,7 @@ public class NewTecHelper {
                             String dir = rootDir.concat(Constant.DIR_NEW_TEC);
                             dir = createFile(dir);
                             boolean isUnpackSuccess = FileUtil.unpackZip(name, response.byteStream(), dir);
+                            LogUtil.i("NewTecHelper","isUnpackSuccess");
                             if (isUnpackSuccess) {
                                  /*  解析csv，写入到数据库 (UpdateCenter也需要) */
                                 if(mRepository==null){

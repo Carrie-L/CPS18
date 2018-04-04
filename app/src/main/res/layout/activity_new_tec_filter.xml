@@ -2,6 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+
         <variable
             name="ui"
             type="com.adsale.ChinaPlas.ui.NewTecFilterActivity" />
@@ -30,15 +31,13 @@
 
             <TextView
                 style="@style/btn_grey_style"
-                android:text="@string/filter_clear_all"
                 android:onClick="@{()->ui.onClear()}"
-                />
+                android:text="@string/filter_clear_all" />
 
             <TextView
                 style="@style/btn_red_style"
-                android:text="@string/filter_ok"
                 android:onClick="@{()->ui.onFilter()}"
-                />
+                android:text="@string/filter_ok" />
         </LinearLayout>
 
         <!--篩選列表-->
@@ -64,37 +63,61 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
-                <!--首发技术-->
-                <RelativeLayout
+                <!--应用分类-->
+                <com.adsale.ChinaPlas.ui.view.FilterView
+                    android:id="@+id/thematic_filter_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <!--主题专集-->
+                <!--<RelativeLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="48dp"-->
+                    <!--android:layout_marginBottom="2dp"-->
+                    <!--android:layout_marginTop="1dp"-->
+                    <!--android:background="@color/white">-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/tv_new_tec"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="48dp"-->
+                        <!--android:drawableLeft="@drawable/ic_fiter_new_tec"-->
+                        <!--android:drawablePadding="8dp"-->
+                        <!--android:drawableStart="@drawable/ic_fiter_new_tec"-->
+                        <!--android:gravity="center_vertical"-->
+                        <!--android:paddingLeft="8dp"-->
+                        <!--android:paddingRight="8dp"-->
+                        <!--android:text="@string/filter_topic_collection"-->
+                        <!--android:textSize="16sp" />-->
+
+                    <!--<android.support.v7.widget.SwitchCompat-->
+                        <!--android:id="@+id/switch_new_tec"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_alignParentRight="true"-->
+                        <!--android:layout_centerVertical="true"-->
+                        <!--android:layout_marginRight="8dp"-->
+                        <!--android:checked="false" />-->
+
+                <!--</RelativeLayout>-->
+
+                <!--展会亮点-->
+                <TextView
+                    android:id="@+id/highLights"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
-                    android:layout_marginBottom="2dp"
-                    android:layout_marginTop="1dp"
-                    android:background="@color/white">
-
-                    <TextView
-                        android:id="@+id/tv_new_tec"
-                        android:layout_width="wrap_content"
-                        android:layout_height="48dp"
-                        android:drawableLeft="@drawable/ic_fiter_new_tec"
-                        android:drawablePadding="8dp"
-                        android:drawableStart="@drawable/ic_fiter_new_tec"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:text="@string/filter_new_tec"
-                        android:textSize="16sp" />
-
-                    <android.support.v7.widget.SwitchCompat
-                        android:id="@+id/switch_new_tec"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="8dp"
-                        android:checked="false" />
-
-                </RelativeLayout>
+                    android:drawableEnd="@drawable/arrow"
+                    android:drawablePadding="16dp"
+                    android:drawableRight="@drawable/arrow"
+                    android:drawableStart="@drawable/ic_highlights"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:text="@string/filter_highlights"
+                    android:textSize="16sp"
+                    android:background="@color/white"
+                    android:layout_marginTop="36dp"
+                    />
 
             </LinearLayout>
 

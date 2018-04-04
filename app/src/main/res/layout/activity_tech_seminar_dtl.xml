@@ -27,8 +27,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/iv_seminar_banner"
@@ -36,8 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:scaleType="fitCenter"
-                android:visibility="gone"
-                />
+                android:visibility="gone" />
 
             <!-- top info -->
             <RelativeLayout
@@ -50,7 +48,7 @@
                     android:id="@+id/iv_colorBar"
                     android:layout_width="8dp"
                     android:layout_height="match_parent"
-                    android:layout_alignBottom="@+id/tv_seminardtl_booth"
+                    android:layout_alignBottom="@+id/tv_seminardtl_roomNO"
                     android:layout_alignParentTop="true"
                     android:layout_centerVertical="true"
                     android:background="@color/blue" />
@@ -68,15 +66,21 @@
                     style="@style/seminaldtl_tv"
                     android:layout_below="@id/tv_seminardtl_topic"
                     android:layout_marginTop="8dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/link"
                     android:onClick="@{()->view.onCompanyClick(info.CompanyID)}"
-                    android:text="@{info.presentCompany}" />
+                    android:text="@{info.presentCompany}"
+                    android:textColor="@color/link"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_seminardtl_booth"
+                    style="@style/seminaldtl_tv"
+                    android:layout_below="@id/tv_seminardtl_company"
+                    android:text="@{String.format(@string/seminar_booth,info.booth)}" />
 
                 <TextView
                     android:id="@+id/tv_seminardtl_date"
                     style="@style/seminaldtl_tv"
-                    android:layout_below="@id/tv_seminardtl_company"
+                    android:layout_below="@id/tv_seminardtl_booth"
                     android:text="@{String.format(@string/seminar_date,info.date)}" />
 
                 <TextView
@@ -90,19 +94,6 @@
                     style="@style/seminaldtl_tv"
                     android:layout_below="@id/tv_seminardtl_time"
                     android:text="@{String.format(@string/seminar_roomNO,info.roomNo)}" />
-
-                <TextView
-                    android:id="@+id/tv_seminardtl_section"
-                    style="@style/seminaldtl_tv"
-                    android:layout_below="@id/tv_seminardtl_roomNO"
-                    android:text="@{String.format(@string/seminar_section,info.hall)}"
-                  />
-
-                <TextView
-                    android:id="@+id/tv_seminardtl_booth"
-                    style="@style/seminaldtl_tv"
-                    android:layout_below="@id/tv_seminardtl_section"
-                    android:text="@{String.format(@string/seminar_booth,info.booth)}" />
 
             </RelativeLayout>
 

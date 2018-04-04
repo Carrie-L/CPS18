@@ -18,6 +18,7 @@ import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.EventAdapter;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.data.OnIntentListener;
+import com.adsale.ChinaPlas.data.model.AppContent;
 import com.adsale.ChinaPlas.data.model.ConcurrentEvent;
 import com.adsale.ChinaPlas.data.model.ExhibitorFilter;
 import com.adsale.ChinaPlas.databinding.ActivityEventBinding;
@@ -27,6 +28,7 @@ import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.DisplayUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
+import com.adsale.ChinaPlas.utils.Parser;
 import com.adsale.ChinaPlas.viewmodel.EventModel;
 import com.bumptech.glide.Glide;
 
@@ -84,8 +86,8 @@ public class ConcurrentEventActivity extends BaseActivity implements OnIntentLis
 //        if(AppUtil.isTablet()){
 //            adapter.setItemSize(AppUtil.getScreenWidth()-cardWidth);
 //        }
-        adapter.setItemSize(AppUtil.getScreenWidth()-cardWidth);
-        adapter.setItemSize(AppUtil.getScreenWidth()-cardWidth);
+        adapter.setItemSize(AppUtil.getScreenWidth() - cardWidth);
+        adapter.setItemSize(AppUtil.getScreenWidth() - cardWidth);
         recyclerView.setAdapter(adapter);
         mEventModel.onStart(this, adapter);
 
@@ -144,7 +146,8 @@ public class ConcurrentEventActivity extends BaseActivity implements OnIntentLis
         } else if (toCls.getSimpleName().equals("TechnicalListActivity")) {
             Intent intent = new Intent(this, TechnicalListActivity.class);
             intent.putExtra("title", getString(R.string.title_technical_seminar));
-            intent.putExtra("index",  mEventModel.convertToTechDateIndex(((ConcurrentEvent.Pages) entity).date));
+            LogUtil.i(TAG, "跳入计较:" + mEventModel.convertToTechDateIndex(((ConcurrentEvent.Pages) entity).date));
+            intent.putExtra("index", mEventModel.convertToTechDateIndex(((ConcurrentEvent.Pages) entity).date));
             startActivity(intent);
             overridePendingTransPad();
         } else if (toCls.getSimpleName().equals("FilterApplicationListActivity")) {
@@ -157,8 +160,9 @@ public class ConcurrentEventActivity extends BaseActivity implements OnIntentLis
     }
 
     private void toEventDtl(String eventId, String title) {
-        LogUtil.i(TAG, "onItemClick: id= " + eventId);
+        LogUtil.i(TAG, "onItemClick: id= " + eventId + ",title=" + title);
         Intent intent = new Intent(this, WebContentActivity.class);
+        intent.putExtra("title", title);
         intent.putExtra(Constant.WEB_URL, "ConcurrentEvent/".concat(eventId));
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);

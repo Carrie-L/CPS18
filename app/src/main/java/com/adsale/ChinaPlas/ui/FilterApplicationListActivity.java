@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -29,14 +30,15 @@ public class FilterApplicationListActivity extends BaseActivity {
     private ArrayList<ApplicationIndustry> mList = new ArrayList<>();
     private ArrayList<ExhibitorFilter> filters;
 
-    public static final int TYPE_NEW_TEC_PRODUCT = 1001; /* 列表为 新技术产品 - 筛选 - 产品 */
-    public static final int TYPE_NEW_TEC_APPLICATIONS = 1002; /* 列表为 新技术产品 - 筛选 - 应用 */
+    public static final String TYPE_NEW_TEC_PRODUCT = "PRD"; /* 列表为 新技术产品 - 筛选 - 产品 */
+    public static final String TYPE_NEW_TEC_APPLICATIONS = "APT"; /* 列表为 新技术产品 - 筛选 - 应用 */
+    public static final String TYPE_NEW_TEC_THEMATIC = "THS"; /* 列表为 新技术产品 - 筛选 - 主题专集 */
 
     @Override
     protected void preView() {
         super.preView();
         isChangeTitleHomeIcon = true;
-        mTypePrefix="Page_SearchByApplication";
+        mTypePrefix = "Page_SearchByApplication";
     }
 
     @Override
@@ -50,15 +52,10 @@ public class FilterApplicationListActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        int type = getIntent().getIntExtra("type", 0);
         int index = getIntent().getIntExtra("index", 1);
-        LogUtil.i(TAG, "type=" + type);
-        if (getIntent().getIntExtra("type", 0) == TYPE_NEW_TEC_PRODUCT) {
-            mList.add(new ApplicationIndustry("A", getString(R.string.new_tec_Product_A)));
-            mList.add(new ApplicationIndustry("B", getString(R.string.new_tec_Product_B)));
-        } else if (getIntent().getIntExtra("type", 0) == TYPE_NEW_TEC_APPLICATIONS) {
+        if (!TextUtils.isEmpty(getIntent().getStringExtra("MainTypeId"))) {
             NewTecRepository repository = NewTecRepository.newInstance();
-            mList = repository.getApplications(mList);
+            mList = repository.getNewTecFilterList(mList, getIntent().getStringExtra("MainTypeId"));
         } else {
             FilterRepository mRepository = FilterRepository.getInstance();
             mRepository.initAppIndustryDao();

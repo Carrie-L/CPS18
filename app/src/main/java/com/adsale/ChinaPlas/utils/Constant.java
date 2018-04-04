@@ -111,6 +111,7 @@ public class Constant {
     public static final String INTENT_SCHEDULE = "Schedule";
     public static final String INTENT_EXHIBITOR = "Exhibitor";
     public static final String COMPANY_ID = "CompanyID";
+    public static final String INTENT_SEMINAR_DTL_ID = "SeminarDtlID";
 
     /* intent value */
     public static final String INTENT_BAIDU_TJ = "BaiDuTJ";
@@ -170,7 +171,7 @@ public class Constant {
     public static final String TXT_PDF_CENTER_INFO = "PDFCenterInfos.txt";
     public static final String TXT_NOTIFICATION = "notification.txt";
     public static final String TXT_NEW_TEC = "NewTechInfo.txt";
-    public static final String TXT_NEW_TEC_TEST = "NewTechInfoTest.txt";
+    public static final String TXT_NEW_TEC_TEST = "NewTechInfo_44.txt";
     public static final String TXT_AD = "advertisement.txt";
     public static final String TXT_COORDINATE = "coordinate.txt";
     public static final String TXT_FILE_SIZE = "FileSizeInfo.txt";
@@ -199,10 +200,10 @@ public class Constant {
 
     /*  new tec 的 csv 名称 */
     public static final String CSV_NEWTEC_PRODUCT_INFO = DIR_NEW_TEC.concat("NewProductInfo.csv");
-    public static final String CSV_NEWTEC_PRODUCT_CATEGORY = DIR_NEW_TEC.concat("NewProductAndCategory.csv");
-    public static final String CSV_NEWTEC_PRODUCTS_AND_APPLICATION = DIR_NEW_TEC.concat("NewProductsAndApplication.csv");
-    public static final String CSV_NEWTEC_PRODUCT_APPLICATION = DIR_NEW_TEC.concat("ProductApplication.csv");
+    public static final String CSV_NEWTEC_CATEGORY_ID = DIR_NEW_TEC.concat("CategoryID.csv");
+    public static final String CSV_NEWTEC_PRODUCTS_ID = DIR_NEW_TEC.concat("ProductID.csv");
     public static final String CSV_NEWTEC_PRODUCT_IMG = DIR_NEW_TEC.concat("ProductImage.csv");
+    public static final String CSV_NEWTEC_CATOGORY_SUB = DIR_NEW_TEC.concat("CategorySub.csv");
 
 
     /*  WebView */

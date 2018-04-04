@@ -13,6 +13,7 @@ import com.adsale.ChinaPlas.databinding.ActivityScheduleItemBinding;
 import com.adsale.ChinaPlas.ui.view.HelpView;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
+import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.viewmodel.ScheduleEditViewModel;
 
 /**
@@ -47,6 +48,7 @@ public class ScheduleEditActivity extends BaseActivity implements ScheduleEditVi
 
         ScheduleInfo scheduleInfo = getIntent().getParcelableExtra(Constant.INTENT_SCHEDULE);
         if (scheduleInfo != null) {
+            LogUtil.i(TAG,"scheduleInfo="+scheduleInfo.toString());
             mEditModel.isEdit.set(true);
             mEditModel.setId(scheduleInfo.getId() == null ? mEditModel.getId() : scheduleInfo.getId());
             mEditModel.setCompanyId(scheduleInfo.getCompanyID());

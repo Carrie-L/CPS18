@@ -119,6 +119,9 @@ public class FilterView extends LinearLayout {
         } else if (index == 4) {//展区
 //            intent = new Intent(mContext, FilterZoneListActivity.class);
             mListener.onIntent(index,FilterZoneListActivity.class);
+        }else if (index == 5) {// 主题专集
+            // 跳转到mobile web
+            mListener.onIntent(index,null);
         }
     }
 

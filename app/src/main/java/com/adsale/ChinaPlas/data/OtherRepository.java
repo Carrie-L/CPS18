@@ -12,6 +12,7 @@ import com.adsale.ChinaPlas.dao.UpdateCenterDao;
 import com.adsale.ChinaPlas.dao.WebContentDao;
 import com.adsale.ChinaPlas.data.model.adAdvertisementObj;
 import com.adsale.ChinaPlas.helper.ADHelper;
+import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 
 import java.util.ArrayList;
@@ -53,6 +54,13 @@ public class OtherRepository {
         mSeminarSpeakerDao = App.mDBHelper.mSeminarSpeakerDao;
     }
 
+    /**
+     * 广告鸡脚：  select * from SEMINAR_INFO where (LANG_ID=1252 or LANG_ID=950 or LANG_ID=936) and COMPANY_ID=237479 order by DATE,TIME,ORDER_MOB,ROOM_NO
+     *
+     * @param langId
+     * @param adHelper
+     * @return
+     */
     public ArrayList<SeminarInfo> getAllSeminars(int langId, ADHelper adHelper) {
         checkSeminarInfoDao();
         ArrayList<SeminarInfo> list = new ArrayList<>();
@@ -60,45 +68,67 @@ public class OtherRepository {
         SeminarInfo entity;
         adAdvertisementObj adObj = adHelper.getAdObj();
 
-         ArrayList<SeminarInfo> seminars1 = new ArrayList<>();
-         ArrayList<SeminarInfo> seminars2 = new ArrayList<>();
-         ArrayList<SeminarInfo> seminars3 = new ArrayList<>();
-         ArrayList<SeminarInfo> seminars4 = new ArrayList<>();
+        ArrayList<SeminarInfo> seminars1 = new ArrayList<>();
+        ArrayList<SeminarInfo> seminars2 = new ArrayList<>();
+        ArrayList<SeminarInfo> seminars3 = new ArrayList<>();
+        ArrayList<SeminarInfo> seminars4 = new ArrayList<>();
 
         if (cursor != null) {
+            StringBuilder sbUrl = new StringBuilder();
             while (cursor.moveToNext()) {
                 entity = mSeminarInfoDao.readEntity(cursor, 0);
                 entity.isTypeLabel = false;
-                int index = convertDateToIndex(entity.getDate());
+                int index = convertDateTimeToIndex(entity.getDate(), entity.getTime());
 
-                if (!adObj.M6.version[index].equals("0") && String.valueOf(entity.getEventID()).equals(adObj.M6.EventID.getEventId(App.mLanguage.get())[index])) {
+//                if (!adObj.M6_V2.version[index].equals("0") && String.valueOf(entity.getEventID()).equals(adObj.M6_V2.EventID.getEventId(App.mLanguage.get())[index])) {
+                if (!adObj.M6_V2.version[index].equals("0") && adObj.M6_V2.companyID.contains(entity.getCompanyID())) {
                     entity.isADer.set(true);
-                    entity.setAdLogoUrl(adHelper.getM6LogoUrl(index));
+
+                    sbUrl.delete(0, sbUrl.length());
+                    sbUrl.append(adObj.Common.baseUrl).append(adObj.M6_V2.filepath).append(entity.getCompanyID()).append("/")
+                            .append(AppUtil.isTablet() ? adObj.Common.tablet : adObj.Common.phone).append(adObj.M6_V2.logo).append("_").append(adObj.M6_V2.version[index])
+                            .append(adObj.M6_V2.format);
+                    entity.setAdLogoUrl(sbUrl.toString());
+                    LogUtil.i(TAG, "getM6_V2LogoUrl= " + sbUrl.toString());
                     entity.setAdHeaderUrl(adHelper.getM6HeaderUrl(index));
 
-                    if (index == 0) {
-                        seminars1.add(0,entity);
-                    } else if (index == 1) {
-                        seminars2.add(0,entity);
-                    } else if (index == 2) {
-                        seminars3.add(0,entity);
-                    } else if (index == 3) {
-                        seminars4.add(0,entity);
+                    //置顶一个广告  ()
+                    if (index == 0 || index == 1) {
+                        if (seminars1.size() > 0 && seminars1.get(0).isADer.get()) { // 当天置顶位已经有广告了,则不再置顶广告
+                            seminars1.add(entity);
+                        } else {  // 否则在第0位插入广告
+                            seminars1.add(0, entity);
+                        }
+                    } else if (index == 2 || index == 3) {
+                        if (seminars2.size() > 0 && seminars2.get(0).isADer.get()) { // 当天置顶位已经有广告了,则不再置顶广告
+                            seminars2.add(entity);
+                        } else {  // 否则在第0位插入广告
+                            seminars2.add(0, entity);
+                        }
+                    } else if (index == 4 || index == 5) {
+                        if (seminars3.size() > 0 && seminars3.get(0).isADer.get()) { // 当天置顶位已经有广告了,则不再置顶广告
+                            seminars3.add(entity);
+                        } else {  // 否则在第0位插入广告
+                            seminars3.add(0, entity);
+                        }
+                    } else if (index == 6) {
+                        if (seminars4.size() > 0 && seminars4.get(0).isADer.get()) { // 当天置顶位已经有广告了,则不再置顶广告
+                            seminars4.add(entity);
+                        } else {  // 否则在第0位插入广告
+                            seminars4.add(0, entity);
+                        }
                     }
-
-                } else{
-                    if (index == 0) {
+                } else {
+                    if (index == 0 || index == 1) {
                         seminars1.add(entity);
-                    } else if (index == 1) {
+                    } else if (index == 2 || index == 3) {
                         seminars2.add(entity);
-                    } else if (index == 2) {
+                    } else if (index == 4 || index == 5) {
                         seminars3.add(entity);
-                    } else if (index == 3) {
+                    } else if (index == 6 || index == 7) {
                         seminars4.add(entity);
                     }
                 }
-
-
 
 
             }
@@ -117,15 +147,21 @@ public class OtherRepository {
         return list;
     }
 
-    private int convertDateToIndex(String date) {
-        if (date.contains(DATE1)) {
-            return 0;
-        } else if (date.contains(DATE2)) {
-            return 1;
-        } else if (date.contains(DATE3)) {
-            return 2;
-        } else if (date.contains(DATE4)) {
+    private int convertDateTimeToIndex(String Date, String Time) {
+        if (Date.contains("24") && Time.compareTo("12:00") < 0) {
+            return 0;  // 24 am
+        } else if (Date.contains("24") && Time.compareTo("12:00") > 0) {
+            return 1;  // 24 pm
+        } else if (Date.contains("25") && Time.compareTo("12:00") < 0) {
+            return 2;  // 25 am
+        } else if (Date.contains("25") && Time.compareTo("12:00") > 0) {
             return 3;
+        } else if (Date.contains("26") && Time.compareTo("12:00") < 0) {
+            return 4;  // 26 am
+        } else if (Date.contains("26") && Time.compareTo("12:00") > 0) {
+            return 5;
+        } else if (Date.contains("27") && Time.compareTo("12:00") < 0) {
+            return 6;  // 27 am
         }
         return 0;
     }
@@ -140,9 +176,10 @@ public class OtherRepository {
         return (ArrayList<SeminarSpeaker>) mSeminarSpeakerDao.queryBuilder().where(SeminarSpeakerDao.Properties.CompanyID.eq(companyID), SeminarSpeakerDao.Properties.LangID.eq(langID)).list();
     }
 
-    public SeminarInfo getItemSeminarInfo(String id) {
+    public SeminarInfo getItemSeminarInfo(String eventId) {
         checkSeminarInfoDao();
-        List<SeminarInfo> list = mSeminarInfoDao.queryBuilder().where(SeminarInfoDao.Properties.ID.eq(id)).list();
+        List<SeminarInfo> list = mSeminarInfoDao.queryBuilder().where(SeminarInfoDao.Properties.EventID.eq(eventId)
+                ,SeminarInfoDao.Properties.LangID.eq(App.mLanguage.get()==0?950:App.mLanguage.get()==1?1252:936)).list();
         if (list.isEmpty()) {
             return null;
         } else {

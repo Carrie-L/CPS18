@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.data.ExhibitorRepository;
-import com.adsale.ChinaPlas.data.model.AdvertisementM6;
 import com.adsale.ChinaPlas.data.model.adAdvertisementObj;
 import com.adsale.ChinaPlas.ui.ExhibitorDetailActivity;
 import com.adsale.ChinaPlas.ui.NewsDtlActivity;
@@ -30,14 +29,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-
-import javax.xml.parsers.SAXParser;
 
 /**
  * Created by Carrie on 2017/9/13.
@@ -48,7 +41,7 @@ public class ADHelper {
     private Context mContext;
     private static ADHelper INSTANCE;
     private final String AD_TXT = "advertisement.txt";
-//    private final String AD_TXT = "advertisement2.txt";
+    //    private final String AD_TXT = "advertisement2.txt";
     private Intent intent;
     private int mLanguage;
     private String mRightUrl;
@@ -323,66 +316,64 @@ public class ADHelper {
 
     }
 
-//    public void showM6(int currIndex) {
+//    public void showM6_V2(int currIndex) {
 //        if (!isAdOpen()) {
 //            return;
 //        }
 //        getAdObj();
-//        String url = adObj.Common.baseUrl.concat(adObj.M6.filepath).concat(adObj.M6.companyID[currIndex]).concat("/").concat(AppUtil.isTablet() ? adObj.Common.tablet : adObj.Common.phone).concat(adObj.M6.logo).concat("_").concat(adObj.M6.version[currIndex])
-//                .concat(adObj.M6.format);
-//        LogUtil.i(TAG, "M6_url=" + url);
+//        String url = adObj.Common.baseUrl.concat(adObj.M6_V2.filepath).concat(adObj.M6_V2.companyID[currIndex]).concat("/").concat(AppUtil.isTablet() ? adObj.Common.tablet : adObj.Common.phone).concat(adObj.M6_V2.logo).concat("_").concat(adObj.M6_V2.version[currIndex])
+//                .concat(adObj.M6_V2.format);
+//        LogUtil.i(TAG, "M6_V2_url=" + url);
 //    }
 
     public boolean isM6Open(int index) {
         getAdObj();
-        return !adObj.M6.version[index].equals("0");
-    }
-
-    public boolean isShowM6anner(String id) {
-        getAdObj();
-        if (!isAdOpen()) {
-            return false;
-        }
-        ArrayList<AdvertisementM6.Topic> topics = adObj.M6.topics;
-        int size = topics.size();
-        for (int i = 0; i < size; i++) {
-            if (topics.get(i).id.equals(id)) {
-                return true;
-            }
-        }
-        return false;
+        return !adObj.M6_V2.version[index].equals("0");
     }
 
     /**
-     * @param index start from 0
+     * https://o97tbiy1f.qnssl.com/advertisement/M6/237479/phone_banner_1_sc.jpg   [sc||en]
+     * @param index
+     * @return
      */
-    public String getM6LogoUrl(int index) {
-        getAdObj();
-        StringBuilder sbUrl = new StringBuilder();
-        sbUrl.append(adObj.Common.baseUrl).append(adObj.M6.filepath).append(adObj.M6.companyID[index]).append("/")
-                .append(AppUtil.isTablet() ? adObj.Common.tablet : adObj.Common.phone).append(adObj.M6.logo).append("_").append(adObj.M6.version[index])
-                .append(adObj.M6.format);
-        LogUtil.i(TAG, "getM6LogoUrl= " + sbUrl.toString());
-        return sbUrl.toString();
-    }
-
     public String getM6HeaderUrl(int index) {
         getAdObj();
         StringBuilder sbUrl = new StringBuilder();
-        sbUrl.append(adObj.Common.baseUrl).append(adObj.M6.filepath).append(adObj.M6.companyID[index]).append("/")
-                .append(AppUtil.isTablet() ? adObj.Common.tablet : adObj.Common.phone).append(adObj.M6.header).append("_").append(adObj.M6.version[index])
-                .append(adObj.M6.format);
-        LogUtil.e(TAG, "getM6HeaderUrl=" + sbUrl.toString());
+        sbUrl.append(adObj.Common.baseUrl).append(adObj.M6_V2.filepath).append(adObj.M6_V2.companyID.get(index)).append("/")
+                .append(AppUtil.isTablet() ? adObj.Common.tablet : adObj.Common.phone).append(adObj.M6_V2.header).append("_").append(adObj.M6_V2.version[index]).append(App.mLanguage.get()==1?"_en":"_sc")
+                .append(adObj.M6_V2.format);
+        LogUtil.e(TAG, "getM6_V2HeaderUrl=" + sbUrl.toString());
         return sbUrl.toString();
     }
 
     public String getM6BannerUrl(int index) {
         StringBuilder sbUrl = new StringBuilder();
-        sbUrl.append(adObj.Common.baseUrl).append(adObj.M6.filepath).append(adObj.M6.companyID[index]).append("/")
-                .append(AppUtil.isTablet() ? adObj.Common.tablet : adObj.Common.phone).append(adObj.M6.header).append("_").append(adObj.M6.version[index])
-                .append(adObj.M6.format);
-        LogUtil.e(TAG, "getM6HeaderUrl=" + sbUrl.toString());
+        sbUrl.append(adObj.Common.baseUrl).append(adObj.M6_V2.filepath).append(adObj.M6_V2.companyID.get(index)).append("/")
+                .append(AppUtil.isTablet() ? adObj.Common.tablet : adObj.Common.phone).append(adObj.M6_V2.header).append("_").append(adObj.M6_V2.version[index])
+                .append(adObj.M6_V2.format);
+        LogUtil.e(TAG, "getM6_V2HeaderUrl=" + sbUrl.toString());
         return sbUrl.toString();
+    }
+
+    public String getM6TimeSession(int index) {
+        int date = 24;
+        if (index == 0 || index == 1) {
+            date = 24;
+        } else if (index == 2 || index == 3) {
+            date = 25;
+        } else if (index == 4 || index == 5) {
+            date = 26;
+        } else if (index == 6 || index == 7) {
+            date = 27;
+        }
+        if (index == 0) {
+            return date+" AM";
+        } else if (index % 2 == 0) {
+            return date+" AM";
+        } else if (index % 2 == 1) { //== 1 || index == 3 || index == 5
+            return date+" PM";
+        }
+        return date+"";
     }
 
     public void intentAd(int function, String companyId, String eventId, String seminarId, String newsId) {
@@ -427,7 +418,7 @@ public class ADHelper {
 
     private void intentToSeminar(String seminarId, String adCompanyId) {
         intent = new Intent(mContext, TechSeminarDtlActivity.class);
-        intent.putExtra("ID", seminarId);
+        intent.putExtra(Constant.INTENT_SEMINAR_DTL_ID, seminarId);
         LogUtil.i(TAG, "M:seminarID=" + seminarId);
         intent.putExtra("title", mContext.getString(R.string.title_technical_seminar));
         intent.putExtra("adCompanyID", adCompanyId);

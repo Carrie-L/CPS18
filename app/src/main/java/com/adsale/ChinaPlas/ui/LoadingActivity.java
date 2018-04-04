@@ -103,7 +103,7 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
         mConfigSP.edit().putBoolean("M1ShowFinish", false)
                 .putBoolean("txtDownFinish", false)
                 .putBoolean("webServicesDownFinish", false)
-                .putBoolean("apkDialogFinish",false)
+                .putBoolean("apkDialogFinish", false)
                 .putString("M1ClickId", "")
                 .apply();
         isFirstRunning = AppUtil.isFirstRunning();
@@ -313,7 +313,7 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
     @Override
     public void intent(String companyId) {
         LogUtil.i(TAG, ")))) ALL END ,GO AHEAD");
-        mConfigSP.edit().putBoolean("M1ShowFinish", false).putBoolean("txtDownFinish", false).putBoolean("webServicesDownFinish", false).putString("M1ClickId", "").apply();
+        mConfigSP.edit().putBoolean("M1ShowFinish", false).putBoolean("txtDownFinish", false).putBoolean("webServicesDownFinish", false).putBoolean("apkDialogFinish",false).putString("M1ClickId", "").apply();
         LogUtil.i(TAG, "isTablet=" + isTablet);
 
         if (!companyId.isEmpty()) {
@@ -366,30 +366,37 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
     @Override
     public <T> void onIntent(final T entity, Class toCls) {
         // 有更新，弹出对话框. Yes, update; NO, dismiss.
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(getString(R.string.apk_update_msg))
-                .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String url = AppUtil.getServiceApkVersionLink();
-                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
+        if ((Boolean) entity) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(getString(R.string.apk_update_msg))
+                    .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String url = AppUtil.getServiceApkVersionLink();
+                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
 
-                        //还没去就退出了
-                        finish();
+                            //还没去就退出了
+                            finish();
 //                        System.exit(0);
-                    }
-                })
-                .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                        }
+                    })
+                    .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mSP_Config.edit().putBoolean("apkDialogFinish", true).apply();
-                        Intent intent0 = new Intent(LOADING_ACTION);
-                        sendBroadcast(intent0);
-                        dialog.dismiss();
-                    }
-                }).show();
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mSP_Config.edit().putBoolean("apkDialogFinish", true).apply();
+                            Intent intent0 = new Intent(LOADING_ACTION);
+                            sendBroadcast(intent0);
+                            dialog.dismiss();
+                        }
+                    }).show();
+        } else {
+            mSP_Config.edit().putBoolean("apkDialogFinish", true).apply();
+            Intent intent0 = new Intent(LOADING_ACTION);
+            sendBroadcast(intent0);
+        }
+
     }
 }

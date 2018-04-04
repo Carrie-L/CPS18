@@ -215,6 +215,8 @@ public class SeminarInfo implements Parcelable {
         return "";
     }
 
+
+
     @Override
     public String toString() {
         return "SeminarInfo{" +

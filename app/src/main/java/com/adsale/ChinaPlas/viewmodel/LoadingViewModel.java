@@ -184,7 +184,12 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
                     public void onNext(final Boolean value) {
                         LogUtil.i(TAG, "is apk has update? " + value);
                         if (value) {
-                            mIntentListener.onIntent(null, null);
+                            mIntentListener.onIntent(true, null);
+                        }else{
+//                            mSP_Config.edit().putBoolean("apkDialogFinish", true).apply();
+//                            Intent intent0 = new Intent(LOADING_ACTION);
+//                            mContext.sendBroadcast(intent0);
+                            mIntentListener.onIntent(false, null);
                         }
                     }
 
@@ -211,7 +216,7 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
 
     public void intent() {
         Intent intent = new Intent(LOADING_ACTION);
-        mSP_Config.edit().putBoolean("webServicesDownFinish", true).putBoolean("txtDownFinish", true).apply();
+        mSP_Config.edit().putBoolean("webServicesDownFinish", true).putBoolean("txtDownFinish", true).putBoolean("apkDialogFinish", true).apply();
         mContext.sendBroadcast(intent);
         showM1();
     }
@@ -223,6 +228,7 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
     }
 
     private void downNewTecZip() {
+        LogUtil.i(TAG,"downNewTecZip");
         NewTecHelper newTecHelper = new NewTecHelper();
         newTecHelper.init();
         newTecHelper.downNewTecZip(mClient);
@@ -593,6 +599,9 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
             mTempDB.close();
             App.mSP_Config.edit().putBoolean(Constant.DB_UPGRADE, false).apply();
         }
+    }
+
+    private void updateDB(){
     }
 
     private void createTempDB() {

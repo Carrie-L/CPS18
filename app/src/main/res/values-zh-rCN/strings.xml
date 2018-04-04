@@ -115,8 +115,8 @@
 
     <!--  -->
     <string name="title_sort">划</string>
-    <string name="editFilter_hint">参展商名称/展览摊位</string>
-    <string name="editFilter_hint_category">產品名稱</string>
+    <string name="editFilter_hint">展商公司名/展台号</string>
+    <string name="editFilter_hint_category">产品名称</string>
 
     <!--  -->
     <string name="txtAddCollection">加入我的参展商</string>
@@ -157,8 +157,10 @@
     <string name="filter_hall">展馆</string>
     <string name="filter_booth">专区</string>
     <string name="filter_keyword">关键字</string>
-    <string name="filter_new_tec">主题专集</string>
+    <string name="filter_topic_collection">主题专集</string>
+    <string name="filter_new_tec">首发技术</string>
     <string name="filter_keyword_hint">输入关键字</string>
+    <string name="filter_highlights">展会亮点</string>
 
     <string name="filter_clear_all">清空筛选条件</string>
     <string name="filter_ok">筛选</string>
@@ -364,7 +366,7 @@
     <string name="seminar_email">演讲者邮箱</string>
     <string name="seminar_tel">演讲者电话</string>
     <string name="seminar_date">日期：%s</string>
-    <string name="seminar_time">时间：%s</string>
+    <string name="seminar_time">时段：%s</string>
     <string name="seminar_section">展馆：%s</string>
     <string name="seminar_zone">区：%s</string>
     <string name="seminar_roomNO">会议室房号：%s</string>

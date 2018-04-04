@@ -204,6 +204,30 @@ public class NewProductInfo implements Parcelable {
         }
     }
 
+    @Override
+    public String toString() {
+        return "NewProductInfo{" +
+                "RID='" + RID + '\'' +
+                ", CompanyID='" + CompanyID + '\'' +
+                ", BoothNo='" + BoothNo + '\'' +
+                ", CompanyNameEn='" + CompanyNameEn + '\'' +
+                ", CompanyNameSc='" + CompanyNameSc + '\'' +
+                ", CompanyNameTc='" + CompanyNameTc + '\'' +
+                ", Product_Name_SC='" + Product_Name_SC + '\'' +
+                ", Rroduct_Description_SC='" + Rroduct_Description_SC + '\'' +
+                ", Product_Name_TC='" + Product_Name_TC + '\'' +
+                ", Rroduct_Description_TC='" + Rroduct_Description_TC + '\'' +
+                ", Product_Name_EN='" + Product_Name_EN + '\'' +
+                ", Rroduct_Description_EN='" + Rroduct_Description_EN + '\'' +
+                ", imageThumb='" + imageThumb + '\'' +
+                ", image='" + image + '\'' +
+                ", adItem=" + adItem +
+                ", imageLinks=" + imageLinks +
+                ", videoLink='" + videoLink + '\'' +
+                ", LogoImageLink='" + LogoImageLink + '\'' +
+                '}';
+    }
+
     public String getDescription() {
 
         if(Rroduct_Description_SC.contains("\\n")){
@@ -217,6 +241,8 @@ public class NewProductInfo implements Parcelable {
         } else {
             return Rroduct_Description_SC;
         }
+
+
 
 
 //        if (AppUtil.getCurLanguage() == 0) {
@@ -234,17 +260,6 @@ public class NewProductInfo implements Parcelable {
 
     public NewProductInfo(String RID) {
         this.RID = RID;
-    }
-
-    @Override
-    public String toString() {
-        return "NewProductInfo{" +
-                "RID='" + RID + '\'' +
-                ", BoothNo='" + BoothNo + '\'' +
-                ", adItem=" + adItem +
-                ", image=" + image +
-                ", LogoImageLink=" + LogoImageLink +
-                '}';
     }
 
     // KEEP METHODS END
