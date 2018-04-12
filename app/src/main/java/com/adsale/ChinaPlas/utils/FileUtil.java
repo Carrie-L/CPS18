@@ -69,12 +69,47 @@ public class FileUtil {
             absPath += "/";
         }
         LogUtil.i(TAG, "absPath1=" + absPath);
+
+//       if(createDir(absPath)) {
+//           new File(absPath).mkdir();
+//       }
+
         File file = new File(absPath);
         if (!file.exists()) {
             boolean isCreateSuccess = file.mkdir();
             LogUtil.i(TAG, "createFile：isCreateSuccess=" + isCreateSuccess);
         }
         return absPath;
+    }
+
+    public static boolean createDir(String path) {
+        LogUtil.i(TAG, "old path=" + path);
+        if (!new File(path).exists()) {
+
+            if(new File(path).mkdir()){
+                return false;
+            }else{
+              boolean  mkdirs= new File(path).mkdirs();
+                LogUtil.i(TAG, "mkdirs=" + mkdirs);
+                return false;
+            }
+
+//            String path1 = AppUtil.subStringFront(path, "/");
+//            LogUtil.i(TAG, "path1=" + path1);
+//
+//            String newPath = AppUtil.subStringFront(path1, "/");
+//            LogUtil.i(TAG, "newPath=" + newPath);
+//
+//            // 看它的上一个文件夹是否存在
+//            if (new File(newPath).exists()) {
+//                (new File(path)).mkdir();
+//                return false;
+//            } else {
+//                createDir(newPath);
+//                return true;
+//            }
+        }
+        return false;
     }
 
     /**

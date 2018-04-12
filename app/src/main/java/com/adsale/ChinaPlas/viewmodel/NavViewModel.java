@@ -235,8 +235,12 @@ public class NavViewModel implements OnIntentListener {
             case Constant.BDTJ_VISITOR_REG://预登记
             case Constant.BDTJ_VISITOR_REG_TEXT://预登记
             case Constant.BDTJ_VISITO://预登记
-                intent = new Intent(activity, RegisterActivity.class);
-//                intent = new Intent(activity, DocumentsDownCenterActivity.class);
+//                intent = new Intent(activity, RegisterActivity.class);
+                intent = new Intent(activity, DocumentsDownCenterActivity.class);
+
+
+
+
                 break;
             case Constant.BDTJ_MY_ACCOUNT://用户资料
                 intent = new Intent(activity, UserInfoActivity.class);

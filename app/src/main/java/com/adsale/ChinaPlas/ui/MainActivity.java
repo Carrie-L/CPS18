@@ -86,15 +86,7 @@ public class MainActivity extends BaseActivity {
         App.mSP_Config.edit().putBoolean("isM2Popup", false).apply();
     }
 
-    private void permissionSD() {
-        boolean sdPermission = PermissionUtil.checkPermission(this, PermissionUtil.PERMISSION_WRITE_EXTERNAL_STORAGE);
-        LogUtil.i(TAG, "sdPermission=" + sdPermission);
 
-        if (!sdPermission) {
-            LogUtil.i(TAG, "请求权限");
-            PermissionUtil.requestPermission(this, PermissionUtil.PERMISSION_WRITE_EXTERNAL_STORAGE, PMS_CODE_WRITE_SD);
-        }
-    }
 
     @Override
     protected void onResume() {

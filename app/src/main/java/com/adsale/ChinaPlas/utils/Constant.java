@@ -77,6 +77,8 @@ public class Constant {
     public static final String SP_LUT = "LastUpdateTime";
     public static final String SP_LOGIN = "Login";
     public static final String SP_HP = "HelpPage";
+    public static final String SP_DOWNLOAD_CENTER = "DownloadCenter";
+
 
     /* property */
     public static final String SCREEN_WIDTH = "ScreenWidth";

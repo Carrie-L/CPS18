@@ -85,7 +85,6 @@ public final class AESCrypt {
         }
     }
 
-
     /**
      * More flexible AES encrypt that doesn't encode
      * @param key AES key typically 128, 192 or 256 bit

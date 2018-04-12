@@ -6,24 +6,20 @@ import android.databinding.ObservableBoolean;
 import android.databinding.ObservableInt;
 import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
-import android.webkit.WebView;
-import android.widget.ProgressBar;
 
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.BR;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.CpsBaseAdapter;
 import com.adsale.ChinaPlas.data.DownloadClient;
+import com.adsale.ChinaPlas.data.OnItemClickCallback;
 import com.adsale.ChinaPlas.data.model.DocumentsCenter;
-import com.adsale.ChinaPlas.databinding.ItemDocomentsChildBinding;
 import com.adsale.ChinaPlas.helper.ProgressCallback;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.NetWorkHelper;
 import com.adsale.ChinaPlas.utils.OpenFileUtil;
 import com.adsale.ChinaPlas.utils.ReRxUtils;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -38,10 +34,12 @@ import okhttp3.Headers;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 
-import static android.content.ContentValues.TAG;
+import static com.adsale.ChinaPlas.data.model.DocumentsCenter.Child.ACTION_OPEN;
 import static com.adsale.ChinaPlas.data.model.DocumentsCenter.Child.STATUS_DOWNLOADING;
 import static com.adsale.ChinaPlas.data.model.DocumentsCenter.Child.STATUS_FINISHED;
+import static com.adsale.ChinaPlas.data.model.DocumentsCenter.Child.STATUS_NS;
 import static com.adsale.ChinaPlas.data.model.DocumentsCenter.Child.STATUS_PAUSING;
+import static com.adsale.ChinaPlas.data.model.DocumentsCenter.Child.STATUS_RESTART;
 import static com.adsale.ChinaPlas.utils.FileUtil.createFile;
 
 /**
@@ -52,7 +50,7 @@ import static com.adsale.ChinaPlas.utils.FileUtil.createFile;
 
 public class PDFDownloadAdapter extends CpsBaseAdapter<DocumentsCenter.Child> {
     private final String TAG = "PDFDownloadAdapter";
-    private ArrayList<DocumentsCenter> docs = new ArrayList<>();
+    private  ArrayList<ArrayList<DocumentsCenter.Child>> docs = new ArrayList<>();
 
     /* 父与子共用一个列表 */
     private ArrayList<DocumentsCenter.Child> list = new ArrayList<>();
@@ -65,13 +63,16 @@ public class PDFDownloadAdapter extends CpsBaseAdapter<DocumentsCenter.Child> {
     private DownloadClient mClient;
     private final String mDir;
     private Disposable disposable;
+    private OnItemClickCallback mClickCallback;
 
-    public PDFDownloadAdapter(ArrayList<DocumentsCenter> docs, Context mContext) {
+    public PDFDownloadAdapter( ArrayList<ArrayList<DocumentsCenter.Child>> docs, ArrayList<DocumentsCenter.Child> children,Context mContext, OnItemClickCallback callback) {
         this.docs = docs;
         this.mContext = mContext;
+        this.mClickCallback = callback;
+        this.list = children;
         mDir = App.rootDir.concat("DocumentsPDF/");
         createFile(mDir);
-        generate();
+//        generate();
     }
 
     private void generate() {
@@ -79,9 +80,9 @@ public class PDFDownloadAdapter extends CpsBaseAdapter<DocumentsCenter.Child> {
         int size = docs.size();
         for (int i = 0; i < size; i++) {
             parent = new DocumentsCenter.Child();
-            parent.FileName_SC = docs.get(i).CategoryName_SC;
-            parent.FileName_EN = docs.get(i).CategoryName_EN;
-            parent.FileName_TC = docs.get(i).CategoryName_TC;
+//            parent.FileName_SC = docs.get(i).CategoryName_SC;
+//            parent.FileName_EN = docs.get(i).CategoryName_EN;
+//            parent.FileName_TC = docs.get(i).CategoryName_TC;
             parent.isParent.set(true);
             list.add(parent);
         }
@@ -102,7 +103,7 @@ public class PDFDownloadAdapter extends CpsBaseAdapter<DocumentsCenter.Child> {
     private void insertChild(int pos) {
         isExpand.set(true);
         mClickPos.set(pos);
-        children = docs.get(pos).Items;
+        children = docs.get(pos);
         list.addAll(pos + 1, children);
         notifyItemRangeInserted(pos + 1, children.size());//position + 1
     }
@@ -115,23 +116,29 @@ public class PDFDownloadAdapter extends CpsBaseAdapter<DocumentsCenter.Child> {
     }
 
     public void onDownload(DocumentsCenter.Child entity) {
+
         if (entity.downloadStatus.get() == STATUS_FINISHED) {
             LogUtil.i(TAG, "openFile");
-            openFile(entity);
+//            openFile(entity);
+            mClickCallback.onItemClick(entity, ACTION_OPEN);
+
         } else {
-            LogUtil.i(TAG, "download");
+            entity.downloadStatus.set(STATUS_DOWNLOADING);
             entity.mProgress.set(0);
             entity.max.set(0);
-            download(entity);
+            mClickCallback.onItemClick(entity, STATUS_DOWNLOADING);
+            LogUtil.i(TAG, "download");
+//            download(entity);
         }
 
     }
 
+
     private void openFile(DocumentsCenter.Child entity) {
         String path = mDir + AppUtil.subStringLast(entity.getFileLink(), '/');
         LogUtil.i(TAG, "path=" + path);
-      Intent intent= OpenFileUtil.openFile(path);
-      mContext.startActivity(intent);
+        Intent intent = OpenFileUtil.openFile(path);
+        mContext.startActivity(intent);
     }
 
     public void onRestart(DocumentsCenter.Child entity, int pos) {
@@ -139,18 +146,25 @@ public class PDFDownloadAdapter extends CpsBaseAdapter<DocumentsCenter.Child> {
         LogUtil.i(TAG, "onRestart: status=" + status);
         if (status == STATUS_DOWNLOADING) {
             // pause
-            disposable.dispose();
+//            disposable.dispose();
             entity.downloadStatus.set(STATUS_PAUSING);
+            mClickCallback.onItemClick(entity, STATUS_PAUSING);
+
         } else {
             // continue download
-            bpDownload(entity);
+//            bpDownload(entity);
+            entity.downloadStatus.set(STATUS_DOWNLOADING);
+            mClickCallback.onItemClick(entity, STATUS_RESTART);
+
+
         }
 
 
     }
 
-    public void onDelete(int pos) {
-
+    public void onDelete(DocumentsCenter.Child entity) {
+        entity.downloadStatus.set(STATUS_NS);
+        entity.cancel();
     }
 
 //    public final ObservableInt mProgress = new ObservableInt(0);
@@ -294,11 +308,20 @@ public class PDFDownloadAdapter extends CpsBaseAdapter<DocumentsCenter.Child> {
         super.bindVariable(binding);
     }
 
+    private DocumentsCenter.Child mEntity;
+
     @Override
     protected Object getObjForPosition(int position) {
         mBinding.setVariable(BR.pos, position);
         mBinding.executePendingBindings();
-        return list.get(position);
+        mEntity = list.get(position);
+        mEntity.mProgress.set(mEntity.getProgress(mEntity.getFileName()));
+        mEntity.max.set(mEntity.getMax(mEntity.getFileName()));
+        mEntity.downloadStatus.set(mEntity.getStatus(mEntity.getFileName()));
+
+        LogUtil.i(TAG,"downloadStatus="+mEntity.getStatus(mEntity.getFileName()));
+
+        return mEntity;
     }
 
     @Override
@@ -313,4 +336,6 @@ public class PDFDownloadAdapter extends CpsBaseAdapter<DocumentsCenter.Child> {
     public int getItemCount() {
         return list.size();
     }
+
+
 }

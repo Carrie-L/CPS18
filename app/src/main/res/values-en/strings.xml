@@ -23,6 +23,8 @@
     <string name="share_canceled">Operation canceled</string>
     <string name="share_failed">Operation failed</string>
 
+    <string name="dialog_go">GO</string>
+
 
 
     <!--  -->
@@ -496,6 +498,7 @@
     <!--文档下载中心-->
     <string name="dc_download">Download</string>
     <string name="dc_open">Open</string>
+    <string name="dc_downloading">Downloading</string>
 
     <!--exhibitor dtl-->
     <string name="exhi_dtl_note_comment">Comment</string>

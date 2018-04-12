@@ -496,6 +496,7 @@
     <!--文档下载中心-->
     <string name="dc_download">Download</string>
     <string name="dc_open">Open</string>
+    <string name="dc_downloading">下载中</string>
 
     <!--exhi dtl-->
     <string name="exhi_dtl_note_comment">展商评论</string>

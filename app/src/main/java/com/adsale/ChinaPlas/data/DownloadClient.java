@@ -1,5 +1,7 @@
 package com.adsale.ChinaPlas.data;
 
+import android.os.Environment;
+
 import com.adsale.ChinaPlas.data.model.EmailVisitorData;
 import com.adsale.ChinaPlas.utils.NetWorkHelper;
 
@@ -42,6 +44,10 @@ public interface DownloadClient {
     @Streaming  /* 大文件需要加入这个判断，防止下载过程中写入到内存中 */
     @GET
     Observable<Response<ResponseBody>> bpDownload(@Header("RANGE") String start, @Url String url);
+
+    @Streaming  /* 大文件需要加入这个判断，防止下载过程中写入到内存中 */
+    @GET
+    Observable<Response<ResponseBody>> largeDownload(@Url String url);
 
 //    @Streaming  /* 大文件需要加入这个判断，防止下载过程中写入到内存中 */
 

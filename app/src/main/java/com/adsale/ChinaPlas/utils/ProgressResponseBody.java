@@ -25,11 +25,13 @@ public class ProgressResponseBody<T> extends ResponseBody {
     private final ProgressCallback mCallback;
     private BufferedSource bufferedSource;
     private T entity;
+    private long downloadLength = 0;
 
-    public ProgressResponseBody(ResponseBody responseBody, ProgressCallback callback, T t) {
+    public ProgressResponseBody(ResponseBody responseBody, ProgressCallback callback, T t, long length) {
         this.responseBody = responseBody;
         this.mCallback = callback;
         this.entity = t;
+        this.downloadLength = length;
     }
 
     @Override
@@ -59,7 +61,7 @@ public class ProgressResponseBody<T> extends ResponseBody {
             public long read(Buffer sink, long byteCount) throws IOException {
                 long bytesRead = super.read(sink, byteCount);
                 totalBytesRead += bytesRead != -1 ? bytesRead : 0;
-                mCallback.onProgress(totalBytesRead, responseBody.contentLength(), bytesRead == -1,entity);
+                mCallback.onProgress(totalBytesRead + downloadLength, responseBody.contentLength() + downloadLength, bytesRead == -1, entity);
                 return bytesRead;
             }
         };

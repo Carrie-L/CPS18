@@ -63,6 +63,7 @@ public class App extends MultiDexApplication {
     public static SharedPreferences mSP_Login;
     public static SharedPreferences mSP_Sync;
     public static SharedPreferences mSP_HP;
+    public static SharedPreferences mSP_DownloadCenter;
 
     public static final String DATABASE_NAME = "cps18.db";
 
@@ -103,13 +104,7 @@ public class App extends MultiDexApplication {
         initCrashHandle();
         resources = getResources();
 
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
-            return;
-        }
-        LeakCanary.install(this);
-        // Normal app init code...
+//      initLeakCanary();
 
         DB_PATH = "/data" + Environment.getDataDirectory().getAbsolutePath() + "/" + getPackageName() + "/databases";
 
@@ -139,6 +134,15 @@ public class App extends MultiDexApplication {
 //        MobSDK.init(this);
 
 
+    }
+
+    private void initLeakCanary(){
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
     }
 
     private void initJPush() {
@@ -226,6 +230,7 @@ public class App extends MultiDexApplication {
         mSP_UpdateTime = getSharedPreferences(Constant.SP_LUT, MODE_PRIVATE);
         mSP_Login = getSharedPreferences(Constant.SP_LOGIN, MODE_PRIVATE);
         mSP_Sync = getSharedPreferences(Constant.SYNC_DATA, MODE_PRIVATE);
+        mSP_DownloadCenter = getSharedPreferences(Constant.SP_DOWNLOAD_CENTER, MODE_PRIVATE);
         mSP_HP = getSharedPreferences(Constant.SP_HP, MODE_PRIVATE);
     }
 

@@ -362,11 +362,66 @@ public class WebContentActivity extends BaseActivity {
                 } else if (url.startsWith("hall://")) {
                     mIntent = new Intent(getApplicationContext(), FloorDetailActivity.class);
                     mIntent.putExtra("HALL", url.replace("hall://", ""));
+                } else if(url.startsWith("events://")){
+                    mIntent = new Intent(getApplicationContext(),ConcurrentEventActivity.class);
+                }  else if(url.startsWith("eventinfo://")){
+                  eventPageId = url.replace("eventinfo://","");
+                  LogUtil.i(TAG,"eventinfo://eventPageId="+eventPageId);
+                     toEventDtl();
+                    return true;
+                }else if(url.startsWith("technical://")){
+                    mIntent = new Intent(getApplicationContext(),TechnicalListActivity.class);
+                }else if(url.startsWith("exhibitor://")){
+                    if(url.equals("exhibitor://0")){
+                        return false;
+                    }
+                    mIntent = new Intent(getApplicationContext(),ExhibitorDetailActivity.class);
+                    mIntent.putExtra(Constant.COMPANY_ID,url.replace("exhibitor://",""));
+                }else if(url.startsWith("floorplan://")){
+                    String floorId = url.replace("floorplan://","");
+                    mIntent = new Intent(getApplicationContext(),FloorDetailActivity.class);
+                    mIntent.putExtra("HALL",floorId);
+                }else if(url.startsWith("schedule://")){
+                    mIntent = new Intent(getApplicationContext(),ScheduleActivity.class);
+                }else if(url.startsWith("news://")){
+                    mIntent = new Intent(getApplicationContext(),NewsDtlActivity.class);
+                }else if(url.startsWith("travel://")){
+                    mIntent = new Intent(getApplicationContext(),TravelInfoActivity.class);
+                }else if(url.startsWith("login://0")){
+                    if(AppUtil.isLogin()){
+                        mIntent = new Intent(getApplicationContext(),UserInfoActivity.class);
+                    }else{
+                        mIntent = new Intent(getApplicationContext(),LoginActivity.class);
+                    }
+                }else if(url.startsWith("CMS://")){
+                    mIntentUrl="WebContent/"+url.replace("CMS://","");
+                    loadLocalHtml(getHtmName());
+                    return true;
                 }
                 intent();
                 return true;
             }
         });
+    }
+
+    private void toEventDtl(){
+        StringBuilder sbPath = new StringBuilder();
+        sbPath.append(rootDir).append("ConcurrentEvent/").append(eventPageId).append("/").append(getHtmName());
+        if (new File(sbPath.toString()).exists()) {
+            LogUtil.i(TAG, "sd卡中存在：" + mIntentUrl);
+            loadLocalHtml(getHtmName());
+        } else if (AppUtil.isFileInAsset("ConcurrentEvent", eventPageId)) {
+            loadLocalHtml(getHtmName());
+        } else {
+            // 更新中心中是否有更新，有，跳转到更新中心，返回时resume里打开html；无，直接下载zip包
+            if (isEventHasUpdate()) {
+                LogUtil.i(TAG, "跳转到更新中心");
+                intentToUpdateCenter();
+            } else {
+                LogUtil.i(TAG, "下载：" + mIntentUrl);
+                downloadSingleEventZip();
+            }
+        }
     }
 
     private boolean startsWith(String abc) {

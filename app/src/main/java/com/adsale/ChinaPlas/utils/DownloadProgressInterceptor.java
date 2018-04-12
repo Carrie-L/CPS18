@@ -19,6 +19,13 @@ public class DownloadProgressInterceptor<T> implements Interceptor {
 
     private T entity;
     private ProgressCallback callback;
+    private long downloadLength=0; // 已下载的长度，断点续传中
+
+    public DownloadProgressInterceptor(ProgressCallback callback, T t,long length) {
+        this.callback = callback;
+        this.downloadLength = length;
+        entity = t;
+    }
 
     public DownloadProgressInterceptor(ProgressCallback callback, T t) {
         this.callback = callback;
@@ -30,12 +37,13 @@ public class DownloadProgressInterceptor<T> implements Interceptor {
         // if you want to add headers
 //        Request original = chain.request();
 //        Request.Builder requestBuilder = original.newBuilder()
-//                .header("Range","bytes=10000000-21984951");
+//                .header("Content-Range","bytes="+downloadLength+"-"+);
 //        Request request = requestBuilder.build();
+
 
         Response originalResponse = chain.proceed(chain.request());
         return originalResponse.newBuilder()
-                .body(new ProgressResponseBody(originalResponse.body(), callback, entity))
+                .body(new ProgressResponseBody(originalResponse.body(), callback, entity,downloadLength))
                 .build();
     }
 }
