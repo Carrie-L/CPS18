@@ -494,8 +494,8 @@
     <string name="skip">跳过&#160;&#160;<![CDATA[<font color=#FF0000>%1$ds</font>]]></string>
 
     <!--文档下载中心-->
-    <string name="dc_download">Download</string>
-    <string name="dc_open">Open</string>
+    <string name="dc_download">下载</string>
+    <string name="dc_open">打开</string>
     <string name="dc_downloading">下载中</string>
 
     <!--exhi dtl-->

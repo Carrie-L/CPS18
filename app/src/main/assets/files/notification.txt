@@ -1,44 +1,188 @@
 {
-  "notifications_en": [
-    {
-      "Message": "Pre-register by Feb 11, 2018 to receive a badge!",
-      "date": "2018-02-05 10:00:00",
-      "function": "5",
-      "ID": ""
-    },
-    {
-      "Message": "Pre-register by Feb 11, 2018 to receive a badge!",
-      "date": "2018-02-09 16:00:00",
-      "function": "5",
-      "ID": ""
-    }
-  ],
-"notifications_sc": [
-    {
-      "Message": "2月11日前预登记可获寄参观证，免排队快速入场， 立即行动！",
-      "date": "2018-02-05 10:00:00",
-      "function": "5",
-      "ID": ""
-    },
-    {
-      "Message": "2月11日前预登记可获寄参观证，免排队快速入场， 立即行动！",
-      "date": "2018-02-09 16:00:00",
-      "function": "5",
-      "ID": ""
-    }
-  ],
-"notifications_tc": [
-    {
-      "Message": "2月11日前預登記可獲寄參觀證，免排隊快速入場， 立即行動！",
-      "date": "2018-02-05 10:00:00",
-      "function": "5",
-      "ID": ""
-    },
-    {
-      "Message": "2月11日前預登記可獲寄參觀證，免排隊快速入場， 立即行動！",
-      "date": "2018-02-09 16:00:00",
-      "function": "5",
-      "ID": ""
-    }
-  ]
+	"notifications_en": [{
+			"Message": "Pre-register by Feb 11, 2018 to receive a badge!",
+			"date": "2018-02-05 10:00:00",
+			"function": "5",
+			"ID": ""
+		},
+		{
+			"Message": "Pre-register by Feb 11, 2018 to receive a badge!",
+			"date": "2018-02-09 16:00:00",
+			"function": "5",
+			"ID": ""
+		}, {
+			"Message": "3rd Industry 4.0 Conference call for registration! Enjoy Early-bird Discount!",
+			"date": "2018-03-19 09:59:00",
+			"function": "3",
+			"ID": "IndustryConference"
+		}, {
+			"Message": "Register for Medical Plastics Open Forum now!",
+			"date": "2018-03-20 09:59:00",
+			"function": "3",
+			"ID": "MedicalPlastics"
+		}, {
+			"Message": "Follow CMF Inspiration for brilliant design ideas!",
+			"date": "2018-03-26 09:59:00",
+			"function": "3",
+			"ID": "DesignInnovationCMF"
+		}, {
+			"Message": "Register for Medical Plastics Open Forum now!",
+			"date": "2018-03-28 09:59:00",
+			"function": "3",
+			"ID": "MedicalPlastics"
+		}, {
+			"Message": "Hot Sale! Last call for registration!",
+			"date": "2018-04-03 15:59:00",
+			"function": "3",
+			"ID": "IndustryConference"
+		}
+	],
+	"notifications_sc": [{
+			"Message": "2月11日前预登记可获寄参观证，免排队快速入场， 立即行动！",
+			"date": "2018-02-05 10:00:00",
+			"function": "5",
+			"ID": ""
+		},
+		{
+			"Message": "2月11日前预登记可获寄参观证，免排队快速入场， 立即行动！",
+			"date": "2018-02-09 16:00:00",
+			"function": "5",
+			"ID": ""
+		}, {
+			"Message": "4月26日在上海举办2018汽车座椅系统产业创新发展论坛,如何实现汽车座椅的轻量化、智能化技术创新，要报名请猛戳！",
+			"date": "2018-03-13 13:59:00",
+			"function": "3",
+			"ID": "AutoLightweightMaterialsSeminar"
+		}, {
+			"Message": "4月26日在上海举办汽车材料低VOCs技术与应用研讨会，有效的解决方案等您来听，快快点击报名吧！",
+			"date": "2018-03-16 13:59:00",
+			"function": "3",
+			"ID": "AutoLowVOCsMaterialsSeminar"
+		}, {
+			"Message": "立即预登记第三届工业4.0论坛，享早鸟优惠！",
+			"date": "2018-03-19 09:59:00",
+			"function": "3",
+			"ID": "IndustryConference"
+		}, {
+			"Message": "医用塑料公开论坛已接受免费预登记，马上报名可现场下载演讲简报！",
+			"date": "2018-03-20 09:59:00",
+			"function": "3",
+			"ID": "MedicalPlastics"
+		}, {
+			"Message": "“CMF灵感之源”将于展会首次隆重亮相，在色彩、材料及表面处理工艺方面为您带来创新灵感，不容错过!",
+			"date": "2018-03-26 09:59:00",
+			"function": "3",
+			"ID": "DesignInnovationCMF"
+		}, {
+			"Message": "软包装行业如何实现创新、安全、可持续？4月26日软包装行业发展国际论坛进来看看吧！",
+			"date": "2018-03-27 13:59:00",
+			"function": "3",
+			"ID": "FlexiblePackagingIndustry"
+		}, {
+			"Message": "医用塑料公开论坛已接受免费预登记，马上报名可现场下载演讲简报！",
+			"date": "2018-03-28 09:59:00",
+			"function": "3",
+			"ID": "MedicalPlastics"
+		}, {
+			"Message": "科技讲台集中发布塑料橡胶行业最新、最热的科技产品，火速点击报名！",
+			"date": "2018-03-29 12:59:00",
+			"function": "3",
+			"ID": "TechTalk"
+
+		}, {
+			"Message": "4月26日软包装行业发展国际论坛报名猛戳！",
+			"date": "2018-04-03 14:59:00",
+			"function": "3",
+			"ID": "FlexiblePackagingIndustry"
+		}, {
+			"Message": "即将售罄！立即预定第三届工业4.0论坛坐席！",
+			"date": "2018-04-03 15:59:00",
+			"function": "3",
+			"ID": "IndustryConference"
+		}, {
+			"Message": "4月26日在上海举办塑料在运输保护包装领域应用技术高峰论坛，诚邀您与知名运输保护包装材料及运输包装行业专家一起探讨，快快点击报名吧！",
+			"date": "2018-04-04 13:59:00",
+			"function": "3",
+			"ID": "PlasticsTransportationPackagingSummit"
+		}, {
+			"Message": "4月27日在上海举办2018家电行业新材料新工艺发展论坛暨供需对接会，是企业产品对接的黄金机会，报名请点击！",
+			"date": "2018-04-06 13:59:00",
+			"function": "3",
+			"ID": "HouseholdApplianceIndustry"
+		}
+	],
+	"notifications_tc": [{
+			"Message": "2月11日前預登記可獲寄參觀證，免排隊快速入場， 立即行動！",
+			"date": "2018-02-05 10:00:00",
+			"function": "5",
+			"ID": ""
+		},
+		{
+			"Message": "2月11日前預登記可獲寄參觀證，免排隊快速入場， 立即行動！",
+			"date": "2018-02-09 16:00:00",
+			"function": "5",
+			"ID": ""
+		}, {
+			"Message": "4月26日在上海舉辦2018汽車座椅系統産業創新發展論壇,如何實現汽車座椅的輕量化、智能化技術創新，要報名請猛戳！",
+			"date": "2018-03-13 13:59:00",
+			"function": "3",
+			"ID": "AutoLightweightMaterialsSeminar"
+		}, {
+			"Message": "4月26日在上海舉辦汽車材料低VOCs技術與應用研討會，有效的解決方案等您來聽，快快點擊報名吧！",
+			"date": "2018-03-16 13:59:00",
+			"function": "3",
+			"ID": "AutoLowVOCsMaterialsSeminar"
+		}, {
+			"Message": "立即預登記第三屆工業4.0論壇，享早鳥優惠！",
+			"date": "2018-03-19 09:59:00",
+			"function": "3",
+			"ID": "IndustryConference"
+		}, {
+			"Message": "醫用塑料公開論壇已接受免費預登記，馬上報名可現場下載演講簡報！",
+			"date": "2018-03-20 09:59:00",
+			"function": "3",
+			"ID": "MedicalPlastics"
+		}, {
+			"Message": "“CMF靈感之源”將於展會首次隆重亮相，在色彩、材料及表面處理工藝方面為您帶來創新靈感，不容錯過!",
+			"date": "2018-03-26 09:59:00",
+			"function": "3",
+			"ID": "DesignInnovationCMF"
+		}, {
+			"Message": "軟包裝如何實現創新、安全、可持續？4月26日軟包裝行業發展國際論壇進來看看吧",
+			"date": "2018-03-27 13:59:00",
+			"function": "3",
+			"ID": "FlexiblePackagingIndustry"
+		}, {
+			"Message": "醫用塑料公開論壇已接受免費預登記，馬上報名可現場下載演講簡報！",
+			"date": "2018-03-28 09:59:00",
+			"function": "3",
+			"ID": "MedicalPlastics"
+		}, {
+			"Message": "科技講台集中發佈塑膠橡膠行業最新、最熱的科技產品，火速點擊報名！",
+			"date": "2018-03-29 12:59:00",
+			"function": "3",
+			"ID": "TechTalk"
+
+		}, {
+			"Message": "4月26日軟包裝行業發展國際論壇報名猛戳！",
+			"date": "2018-04-03 14:59:00",
+			"function": "3",
+			"ID": "FlexiblePackagingIndustry"
+		}, {
+			"Message": "即将售罄！立即预定第三届工业4.0论坛坐席！",
+			"date": "2018-04-03 15:59:00",
+			"function": "3",
+			"ID": "IndustryConference"
+		}, {
+			"Message": "4月26日在上海舉辦塑料在運輸保護包裝領域應用技術高峰論壇，誠邀您與知名運輸保護包裝材料及運輸包裝行業專家一起探討，快快點擊報名吧！",
+			"date": "2018-04-04 13:59:00",
+			"function": "3",
+			"ID": "PlasticsTransportationPackagingSummit"
+		}, {
+			"Message": "4月27日在上海舉辦2018家電行業新材料新工藝發展論壇暨供需對接會，是企業產品對接的黃金機會，報名請點擊！",
+			"date": "2018-04-06 13:59:00",
+			"function": "3",
+			"ID": "HouseholdApplianceIndustry"
+		}
+	]
 }

@@ -86,7 +86,10 @@ public class WebContentActivity extends BaseActivity {
         mIntentUrl = intent.getStringExtra(Constant.WEB_URL);
         LogUtil.i(TAG, "mIntentUrl=" + mIntentUrl);
 
-        if ((mIntentUrl.toLowerCase().startsWith("http") && !checkImageUrl(mIntentUrl)) || mIntentUrl.toLowerCase().startsWith("web:")) {
+        //open pdf
+        if (mIntentUrl.startsWith("PDF:")) {
+            openPDF();
+        } else if ((mIntentUrl.toLowerCase().startsWith("http") && !checkImageUrl(mIntentUrl)) || mIntentUrl.toLowerCase().startsWith("web:")) {
             loadWebUrl();
         } else if (!mIntentUrl.contains("ConcurrentEvent")) { // 同期活动的在onResume()里另外判断
             loadLocalHtml(getHtmName());
@@ -102,6 +105,14 @@ public class WebContentActivity extends BaseActivity {
         } else if (mBaiduTJ != null && mBaiduTJ.toLowerCase().contains("hallmap")) {
             showOverallHelp();
         }
+    }
+
+    private void openPDF() {
+        settings.setJavaScriptEnabled(true);
+        settings.setAllowFileAccess(true);
+        settings.setAllowFileAccessFromFileURLs(true);
+        settings.setAllowUniversalAccessFromFileURLs(true);
+        webView.loadUrl("file:///android_asset/pdfjs/web/viewer.html?file=" + mIntentUrl.replace("PDF:", ""));
     }
 
     private void showOverallHelp() {
@@ -197,7 +208,7 @@ public class WebContentActivity extends BaseActivity {
         if (mIntentUrl.contains("ConcurrentEvent")) {
             // 如果是同期活动详情页，① 在sd/asset中存在，直接打开本地htm ② 本地没有，则下载数据包。
             parseEvent();
-            LogUtil.i(TAG,"eventPageId="+eventPageId);
+            LogUtil.i(TAG, "eventPageId=" + eventPageId);
             StringBuilder sbPath = new StringBuilder();
             sbPath.append(rootDir).append(mIntentUrl).append("/").append(getHtmName());
             if (new File(sbPath.toString()).exists()) {
@@ -233,7 +244,7 @@ public class WebContentActivity extends BaseActivity {
     }
 
     private void downloadSingleEventZip() {
-        if(mEventTxt==null){
+        if (mEventTxt == null) {
             parseEvent();
         }
         DownloadClient client = ReRxUtils.setupRxtrofit(DownloadClient.class, mEventTxt.htmlFilePath);
@@ -247,7 +258,7 @@ public class WebContentActivity extends BaseActivity {
                             LogUtil.i(TAG, "解压zip");
                             StringBuilder sbDir = new StringBuilder();
                             sbDir.append(rootDir).append(mIntentUrl).append("/");
-                            createFile(rootDir+"ConcurrentEvent/");
+                            createFile(rootDir + "ConcurrentEvent/");
                             createFile(sbDir.toString());
                             isUnZiped = FileUtil.unpackZip(eventPageId, body.byteStream(), sbDir.toString());
                             sbDir = null;
@@ -362,39 +373,39 @@ public class WebContentActivity extends BaseActivity {
                 } else if (url.startsWith("hall://")) {
                     mIntent = new Intent(getApplicationContext(), FloorDetailActivity.class);
                     mIntent.putExtra("HALL", url.replace("hall://", ""));
-                } else if(url.startsWith("events://")){
-                    mIntent = new Intent(getApplicationContext(),ConcurrentEventActivity.class);
-                }  else if(url.startsWith("eventinfo://")){
-                  eventPageId = url.replace("eventinfo://","");
-                  LogUtil.i(TAG,"eventinfo://eventPageId="+eventPageId);
-                     toEventDtl();
+                } else if (url.startsWith("events://")) {
+                    mIntent = new Intent(getApplicationContext(), ConcurrentEventActivity.class);
+                } else if (url.startsWith("eventinfo://")) {
+                    eventPageId = url.replace("eventinfo://", "");
+                    LogUtil.i(TAG, "eventinfo://eventPageId=" + eventPageId);
+                    toEventDtl();
                     return true;
-                }else if(url.startsWith("technical://")){
-                    mIntent = new Intent(getApplicationContext(),TechnicalListActivity.class);
-                }else if(url.startsWith("exhibitor://")){
-                    if(url.equals("exhibitor://0")){
+                } else if (url.startsWith("technical://")) {
+                    mIntent = new Intent(getApplicationContext(), TechnicalListActivity.class);
+                } else if (url.startsWith("exhibitor://")) {
+                    if (url.equals("exhibitor://0")) {
                         return false;
                     }
-                    mIntent = new Intent(getApplicationContext(),ExhibitorDetailActivity.class);
-                    mIntent.putExtra(Constant.COMPANY_ID,url.replace("exhibitor://",""));
-                }else if(url.startsWith("floorplan://")){
-                    String floorId = url.replace("floorplan://","");
-                    mIntent = new Intent(getApplicationContext(),FloorDetailActivity.class);
-                    mIntent.putExtra("HALL",floorId);
-                }else if(url.startsWith("schedule://")){
-                    mIntent = new Intent(getApplicationContext(),ScheduleActivity.class);
-                }else if(url.startsWith("news://")){
-                    mIntent = new Intent(getApplicationContext(),NewsDtlActivity.class);
-                }else if(url.startsWith("travel://")){
-                    mIntent = new Intent(getApplicationContext(),TravelInfoActivity.class);
-                }else if(url.startsWith("login://0")){
-                    if(AppUtil.isLogin()){
-                        mIntent = new Intent(getApplicationContext(),UserInfoActivity.class);
-                    }else{
-                        mIntent = new Intent(getApplicationContext(),LoginActivity.class);
+                    mIntent = new Intent(getApplicationContext(), ExhibitorDetailActivity.class);
+                    mIntent.putExtra(Constant.COMPANY_ID, url.replace("exhibitor://", ""));
+                } else if (url.startsWith("floorplan://")) {
+                    String floorId = url.replace("floorplan://", "");
+                    mIntent = new Intent(getApplicationContext(), FloorDetailActivity.class);
+                    mIntent.putExtra("HALL", floorId);
+                } else if (url.startsWith("schedule://")) {
+                    mIntent = new Intent(getApplicationContext(), ScheduleActivity.class);
+                } else if (url.startsWith("news://")) {
+                    mIntent = new Intent(getApplicationContext(), NewsDtlActivity.class);
+                } else if (url.startsWith("travel://")) {
+                    mIntent = new Intent(getApplicationContext(), TravelInfoActivity.class);
+                } else if (url.startsWith("login://0")) {
+                    if (AppUtil.isLogin()) {
+                        mIntent = new Intent(getApplicationContext(), UserInfoActivity.class);
+                    } else {
+                        mIntent = new Intent(getApplicationContext(), LoginActivity.class);
                     }
-                }else if(url.startsWith("CMS://")){
-                    mIntentUrl="WebContent/"+url.replace("CMS://","");
+                } else if (url.startsWith("CMS://")) {
+                    mIntentUrl = "WebContent/" + url.replace("CMS://", "");
                     loadLocalHtml(getHtmName());
                     return true;
                 }
@@ -404,7 +415,7 @@ public class WebContentActivity extends BaseActivity {
         });
     }
 
-    private void toEventDtl(){
+    private void toEventDtl() {
         StringBuilder sbPath = new StringBuilder();
         sbPath.append(rootDir).append("ConcurrentEvent/").append(eventPageId).append("/").append(getHtmName());
         if (new File(sbPath.toString()).exists()) {

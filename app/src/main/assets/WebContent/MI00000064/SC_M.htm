@@ -34,7 +34,7 @@
 		<div id="myBackground">
 			<div id="myFloorplan">
 
-				<div id="icon_button" class="class_button" onclick="iconAreaDisplay()"  style= "font-size:18px">
+				<div id="icon_button" class="class_button" onclick="iconAreaDisplay()"  style= "font-size:16px">
 					图示
 				</div>
 				<div id="floor_overview">
@@ -83,7 +83,13 @@
 					<img id="Guided_Technology_Tour" class="location_icon" style="margin-left: 146px; margin-top: 222px;" src="images/bttn_IconLocation.png">
 					<img id="Show_Catalogue_Sales_Counter" class="location_icon" style="margin-left: 158px; margin-top: 225px;" src="images/bttn_IconLocation.png">
 					<img id="Chinese_Delegation_Registration" class="location_icon" style="margin-left: 139px; margin-top: 265px;" src="images/bttn_IconLocation.png">
-					
+                        <img id="Gift_from_the_East" class="location_icon" style="margin-left: 247px; margin-top: 156px;" src="images/bttn_IconLocation.png">
+                            
+                            <img id="Recycle_Program_1" class="location_icon" style="margin-left: 118px; margin-top: 166px;" src="images/bttn_IconLocation.png">
+                                <img id="Recycle_Program_2" class="location_icon" style="margin-left: 150px; margin-top: 196px;" src="images/bttn_IconLocation.png">
+                                    <img id="Recycle_Program_3" class="location_icon" style="margin-left: 182px; margin-top: 166px;" src="images/bttn_IconLocation.png">
+                                        <img id="Recycle_Program_4" class="location_icon" style="margin-left: 150px; margin-top: 136px;" src="images/bttn_IconLocation.png">
+                                            
                     <img id="Hall_M1" class="location_icon" style="margin-top: 140px; margin-left: 179px;" src="images/bttn_ZoneLocation.png">
                         
                         <!--img id="Hall_M2" class="location_icon" style="margin-top: 100px; margin-left: 200px;" src="images/bttn_ZoneLocation.png"-->
@@ -125,7 +131,8 @@
 					<img class="icon_click_layer" style="margin-left: 165px; margin-top: 280px;" src="images/26.png" onclick="show_list_item_by_id('Visitor_Registration_List')">
 					<img class="icon_click_layer" style="margin-left: 214px; margin-top: 286px;" src="images/26.png" onclick="show_list_item_by_id('Application_Industry_Conference_List')">
 					<img class="icon_click_layer" style="margin-left: 261px; margin-top: 237px;" src="images/26.png" onclick="show_list_item_by_id('Application_Industry_Conference_List')">
-					
+                        <img class="icon_click_layer" style="margin-left: 252px; margin-top: 172px;" src="images/26.png" onclick="show_list_item_by_id('Gift_from_the_East_List')">
+
 					
 				</div>
 				<div id="zone_button" class="class_button" onclick="zoneAreaDisplay()"  style= "font-size:18px">
@@ -201,6 +208,10 @@
                     <img class="parent_img" src="images/icon_arrow_down.png" />
                     <div class="link" style="padding-left: 40px;">会议/活动</div>
 					<ul class="submenu">
+                        <li>
+                            <img src="images/40.png" />
+                            <a href="#" id='40_adsale_event_List' onclick="show_location('floor_sign_3')">雅式40周年“尊贵合作伙伴”颁奖典礼</a>
+                        </li>
 						<li>
 							<img src="images/12.png" />
 							<a href="#" id='3rd_Industry_Conference_List' onclick="show_location('3rd_Industry_Conference','floor_sign_1')">第三届工业4.0论坛</a>
@@ -226,6 +237,10 @@
 							<img src="images/31.png" />
 							<a href="#" id='Medical_Plastics_Open_Forum_List' onclick="show_location('floor_sign_1')">医用塑料公开论坛</a>
 						</li>
+                        <li>
+                            <img src="images/35.png" />
+                            <a href="#" id="Recycle_Program_List" onclick="show_location('Recycle_Program_1','Recycle_Program_2','Recycle_Program_3','Recycle_Program_4')">「瓶安中国‧塑造新生」回收行动</a>
+                        </li>
 						<li>
 							<img src="images/32.png" />
 							<a href="#" id='Application_Industry_Conference_List' onclick="show_location('Application_Industry_Conference1','Application_Industry_Conference2','Application_Industry_Conference3','Application_Industry_Conference4','Application_Industry_Conference5')">应用行业研讨会</a>
@@ -244,8 +259,16 @@
 						</li>
 						<li>
 							<img src="images/19.png" />
-							<a href="#" id="The_Treasure_Mine_List" onclick="show_location('floor_sign_1')">淘宝区</a>
+							<a href="#" id="The_Treasure_Mine_List" onclick="show_location('floor_sign_1')">最大的宝藏</a>
 						</li>
+                        <li>
+                            <img src="images/33.png" />
+                            <a href="#" id="The_Treasure_Mine2_List" onclick="show_location('floor_sign_1','floor_sign_3')">淘宝区</a>
+                        </li>
+                        <li>
+                            <img src="images/34.png" />
+                            <a href="#" id="Gift_from_the_East_List" onclick="show_location('Gift_from_the_East')">迎东送礼</a>
+                        </li>
 					</ul>
 				</li>
 				<li>

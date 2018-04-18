@@ -110,9 +110,9 @@
             android:id="@+id/view_side_data"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
             android:layout_below="@id/rl_search"
+            android:layout_above="@id/iv_ad"
             />
 
     </RelativeLayout>

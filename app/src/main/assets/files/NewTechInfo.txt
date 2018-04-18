@@ -1,5 +1,5 @@
 ﻿{
-  "NewTechInfoLink": "https://o97tbiy1f.qnssl.com/ExhibitorInfo/NewTech0306.zip",
+  "NewTechInfoLink": "https://o97tbiy1f.qnssl.com/NewtechInfo/NewTech201804042.zip",
   "imageLink": "https://eform.adsale.com.hk/files/FirstLaunchProduct/CPS18/",
   "listImageLink":"https://eform.adsale.com.hk/files/FirstLaunchProduct/CPS18/100/",
   "adProduct": [

@@ -2,9 +2,11 @@ package com.adsale.ChinaPlas.utils;
 
 import com.adsale.ChinaPlas.data.model.DocumentsCenter;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
@@ -64,6 +66,11 @@ public class Parser {
     }
 
 
+    public static Gson getGson() {
+        GsonBuilder builder = new GsonBuilder();
+        builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC);
+        return builder.create();
+    }
 
 
 }

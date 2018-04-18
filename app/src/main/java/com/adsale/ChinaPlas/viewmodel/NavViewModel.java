@@ -1,6 +1,7 @@
 package com.adsale.ChinaPlas.viewmodel;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -58,7 +59,7 @@ import static com.adsale.ChinaPlas.utils.PermissionUtil.PMS_CODE_CAMERA;
  * 侧边栏
  */
 
-public class NavViewModel implements OnIntentListener {
+public class NavViewModel extends AndroidViewModel implements OnIntentListener {
     //drawer
     public final ObservableField<String> drawerLoginTitle = new ObservableField<>();
     public final ObservableField<String> drawerLoginOrSync = new ObservableField<>();
@@ -83,10 +84,22 @@ public class NavViewModel implements OnIntentListener {
     public final ObservableInt mCurrLang = new ObservableInt(AppUtil.getCurLanguage());
     private DrawerListAdapter drawerListAdapter;
 
-    public NavViewModel(Context context) {
+    public NavViewModel(Application application) {
+        super(application);
         LogUtil.i(TAG, "-- NavViewModel Construct--");
-        mContext = context.getApplicationContext();
+        mContext = application.getApplicationContext();
         isLoginSuccess.set(AppUtil.isLogin());
+    }
+
+    public static NavViewModel getInstance(Application mApplication) {
+        if (INSTANCE == null) {
+            synchronized (NavViewModel.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new NavViewModel(mApplication);
+                }
+            }
+        }
+        return INSTANCE;
     }
 
     public void onStart(RecyclerView recyclerView, DrawerLayout drawerLayout) {
@@ -235,16 +248,10 @@ public class NavViewModel implements OnIntentListener {
             case Constant.BDTJ_VISITOR_REG://预登记
             case Constant.BDTJ_VISITOR_REG_TEXT://预登记
             case Constant.BDTJ_VISITO://预登记
-//                intent = new Intent(activity, RegisterActivity.class);
-                intent = new Intent(activity, DocumentsDownCenterActivity.class);
-
-
-
-
+                intent = new Intent(activity, RegisterActivity.class);
                 break;
             case Constant.BDTJ_MY_ACCOUNT://用户资料
                 intent = new Intent(activity, UserInfoActivity.class);
-//                intent = new Intent(activity, TechnicalListActivity.class);
                 break;
             case Constant.BDTJ_EXHIBITOR_LIST:// 展商名单
                 LogUtil.i(TAG, "BDTJ_EXHIBITOR_LIST");
@@ -311,6 +318,10 @@ public class NavViewModel implements OnIntentListener {
             case Constant.BDTJ_NEW_TEC_TXT: /* formal */
                 intent = new Intent(activity, NewTecActivity.class);
                 break;
+            case Constant.BDTJ_PDF_CENTER: // 文档下载中心
+                intent = new Intent(activity, DocumentsDownCenterActivity.class);
+                break;
+
             default:
                 intent = new Intent(activity, WebContentActivity.class);
                 intent.putExtra("Url", "WebContent/".concat(mainIcon.getIconID()));

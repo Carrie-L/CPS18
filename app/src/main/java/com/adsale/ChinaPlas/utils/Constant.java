@@ -162,6 +162,7 @@ public class Constant {
     public static final String BDTJ_TRAVEL_INFO = "TravelInfo";
     public static final String BDTJ_NEW_TEC = "NewTechCollection";
     public static final String BDTJ_NEW_TEC_TXT = "NewTechCollectionText";
+    public static final String BDTJ_PDF_CENTER = "PDFCenter";
 
     public static final String DB_UPGRADE = "dbUpgrade";
 

@@ -148,13 +148,14 @@ public class AppUtil {
         return App.mSP_Config.getBoolean("IsFirstGetData", true);
     }
 
-    public static void setServiceApkVersion(int version,String link) {
+    public static void setServiceApkVersion(int version, String link) {
         App.mSP_Config.edit().putInt("ServiceVersionCode", version)
-                .putString("ServiceVersionLink",link).apply();
+                .putString("ServiceVersionLink", link).apply();
     }
 
     /**
      * ftp里的apk version
+     *
      * @return
      */
     public static int getServiceApkVersionCode() {
@@ -167,6 +168,7 @@ public class AppUtil {
 
     /**
      * setting位置 的version code
+     *
      * @return
      */
     public static int getLocalApkVersion() {
@@ -203,6 +205,14 @@ public class AppUtil {
         } else {
             return sc;
         }
+    }
+
+    public static void setPDFDownStatus(int id, int status) {
+        App.mSP_DownloadCenter.edit().putInt(id + "_status", status).apply();
+    }
+
+    public static int getPDFDownStatus(int id) {
+        return App.mSP_DownloadCenter.getInt(id + "_status", -1);
     }
 
     public static void putLoginTest() {
@@ -460,7 +470,6 @@ public class AppUtil {
             Toast.makeText(context, context.getString(R.string.exception_toast_phone), Toast.LENGTH_SHORT).show();
         }
     }
-
 
 
     public static String getAppVersion() {

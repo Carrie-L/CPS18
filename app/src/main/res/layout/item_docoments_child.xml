@@ -27,12 +27,14 @@
         android:paddingBottom="8dp"
         android:paddingTop="8dp">
 
+        <!--  17年的图片是 160*207,以此为比例  -->
         <ImageView
             android:id="@+id/iv_dc_cover"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="71dp"
+            android:layout_height="92dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            android:layout_centerVertical="true"
             android:scaleType="fitXY"
             app:thumbnailImage="@{obj.Cover_SC}" />
 
@@ -41,6 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/iv_dc_cover"
+            android:layout_alignTop="@id/iv_dc_cover"
             android:text="@{obj.fileName}" />
 
         <RelativeLayout
@@ -49,7 +52,7 @@
             android:layout_height="32dp"
             android:layout_alignLeft="@id/tv_dc_name"
             android:layout_alignParentBottom="true"
-            android:visibility="@{obj.downloadStatus==-1||obj.downloadStatus==2||obj.downloadStatus==5?View.GONE:View.VISIBLE}">
+            android:visibility="@{obj.downloadStatus==-1||obj.downloadStatus==2?View.GONE:View.VISIBLE}">
 
             <ImageView
                 android:id="@+id/iv_delete"
@@ -60,24 +63,15 @@
                 android:scaleType="center"
                 android:src="@drawable/ic_dc_delete" />
 
-            <ImageView
-                android:id="@+id/iv_restart"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_toLeftOf="@id/iv_delete"
-                android:onClick="@{()->pdfAdapter.onRestart(obj,pos)}"
-                android:scaleType="center"
-                android:src="@{obj.downloadStatus==0?@drawable/ic_dc_pause:@drawable/ic_dc_refresh}" />
-
             <ProgressBar
                 android:id="@+id/dc_progress_bar"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
-                android:layout_alignBaseline="@id/iv_restart"
+                android:layout_alignBaseline="@id/iv_delete"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="8dp"
-                android:layout_toLeftOf="@id/iv_restart"
+                android:layout_toLeftOf="@id/iv_delete"
                 android:max="@{obj.max}"
                 android:progress="@{obj.mProgress}"
                 android:progressDrawable="@drawable/pb_horizontal_style_red" />
@@ -94,28 +88,15 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="17dp"
             android:layout_marginRight="17dp"
-            android:background="@{obj.downloadStatus==5?@drawable/oval_grey_bg:@drawable/oval_red_bg}"
+            android:background="@drawable/oval_red_bg"
             android:drawableLeft="@{obj.downloadStatus==2?@drawable/ic_dc_dir:@drawable/ic_dc_down}"
             android:drawablePadding="8dp"
             android:gravity="center_vertical"
-            android:clickable="@{obj.downloadStatus==1||obj.downloadStatus==5?false:true}"
+            android:clickable="@{obj.downloadStatus==1?false:true}"
             android:onClick="@{()->pdfAdapter.onDownload(obj)}"
-            android:text="@{obj.downloadStatus==2?@string/dc_open:obj.downloadStatus==5?@string/dc_downloading:@string/dc_download}"
+            android:text="@{obj.downloadStatus==2?@string/dc_open:@string/dc_download}"
             android:textColor="#fff"
             android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tv_dc_size"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_alignLeft="@id/tv_dc_name"
-            android:layout_alignTop="@id/tv_dc_download"
-            android:layout_below="@id/tv_dc_name"
-            android:layout_marginRight="16dp"
-            android:layout_toLeftOf="@id/tv_dc_download"
-            android:gravity="center_vertical"
-            android:text="@{obj.fileSize}"
-            android:textColor="@color/home" />
 
 
     </RelativeLayout>
