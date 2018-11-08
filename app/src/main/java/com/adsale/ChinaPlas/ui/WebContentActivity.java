@@ -373,7 +373,7 @@ public class WebContentActivity extends BaseActivity {
                 } else if (url.startsWith("hall://")) {
                     mIntent = new Intent(getApplicationContext(), FloorDetailActivity.class);
                     mIntent.putExtra("HALL", url.replace("hall://", ""));
-                } else if (url.startsWith("events://")) {
+                } else if (url.startsWith("events://0")) {
                     mIntent = new Intent(getApplicationContext(), ConcurrentEventActivity.class);
                 } else if (url.startsWith("eventinfo://")) {
                     eventPageId = url.replace("eventinfo://", "");
@@ -383,15 +383,7 @@ public class WebContentActivity extends BaseActivity {
                 } else if (url.startsWith("technical://")) {
                     mIntent = new Intent(getApplicationContext(), TechnicalListActivity.class);
                 } else if (url.startsWith("exhibitor://")) {
-                    if (url.equals("exhibitor://0")) {
-                        return false;
-                    }
-                    mIntent = new Intent(getApplicationContext(), ExhibitorDetailActivity.class);
-                    mIntent.putExtra(Constant.COMPANY_ID, url.replace("exhibitor://", ""));
-                } else if (url.startsWith("floorplan://")) {
-                    String floorId = url.replace("floorplan://", "");
-                    mIntent = new Intent(getApplicationContext(), FloorDetailActivity.class);
-                    mIntent.putExtra("HALL", floorId);
+                    mIntent = new Intent(getApplicationContext(), ExhibitorAllListActivity.class);
                 } else if (url.startsWith("schedule://")) {
                     mIntent = new Intent(getApplicationContext(), ScheduleActivity.class);
                 } else if (url.startsWith("news://")) {

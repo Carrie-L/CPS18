@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
@@ -34,6 +36,11 @@ public class RegisterActivity extends BaseActivity implements RegisterViewModel.
         } else {
             setBarTitle(R.string.title_register);
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            android.webkit.WebView.enableSlowWholeDocumentDraw();
+        }
+
         binding = ActivityRegisterBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         mRegModel = new RegisterViewModel(this,new CalendarUtil(this),this);
         binding.setRegModel(mRegModel);
@@ -48,6 +55,16 @@ public class RegisterActivity extends BaseActivity implements RegisterViewModel.
         webView.getSettings().setDomStorageEnabled(true);
         mRegModel.setOnWebViewLoadCallback(this);
         mRegModel.start(webView, binding.ivRegisted, binding.progressBar);
+
+        String guid = getIntent().getStringExtra("guid");
+//        if(!TextUtils.isEmpty(guid)){
+//            mRegModel.showSmsLoginRegist(guid);
+//        }else{
+//            mRegModel.show();
+//        }
+
+        mRegModel.show();
+
         App.mSP_Config.edit().putBoolean("RegDestroy",false).apply();
     }
 
@@ -128,10 +145,10 @@ public class RegisterActivity extends BaseActivity implements RegisterViewModel.
 
     @Override
     public <T> void onIntent(T entity, Class toCls) {
-        Intent intent = new Intent(getApplicationContext(),ImageActivity.class);
-        intent.putExtra("url", (String) entity);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        overridePendingTransPad();
+//        Intent intent = new Intent(getApplicationContext(),ImageActivity.class);
+//        intent.putExtra("url", (String) entity);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        startActivity(intent);
+//        overridePendingTransPad();
     }
 }

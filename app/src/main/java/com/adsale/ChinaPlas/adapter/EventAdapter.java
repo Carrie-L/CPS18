@@ -97,7 +97,7 @@ public class EventAdapter extends CpsBaseAdapter<ConcurrentEvent.Pages> {
         }
     }
 
-    public void onTechClick(ConcurrentEvent.Pages entity) {//String date
+    public void onTechClick(ConcurrentEvent.Pages entity) {
         LogUtil.i("EventAdAPTER", "onTechClick:" + entity.toString());
         mListener.onIntent(entity.pageID, TechnicalListActivity.class);
     }

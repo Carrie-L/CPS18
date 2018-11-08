@@ -153,7 +153,7 @@
     <string name="title_filter">筛选</string>
     <string name="filter_industry">产品类别</string>
     <string name="filter_application">应用行业</string>
-    <string name="filter_country">国家</string>
+    <string name="filter_country">国家/ 地区</string>
     <string name="filter_hall">展馆</string>
     <string name="filter_booth">专区</string>
     <string name="filter_keyword">关键字</string>
@@ -324,6 +324,8 @@
     <string name="network_error">没有网络</string>
     <string name="check_account_pw_title">请到已登记的电子邮件检查登入帐号及密码:</string>
     <string name="check_account_pw_msg">帐号已申请</string>
+    <string name="data_bking">正在备份数据&#8230;</string>
+    <string name="data_bk_success">备份完成</string>
 
 
     <string name="login_first_add_exhibitor">需要登录后才能添加參展商，是否登录？</string>

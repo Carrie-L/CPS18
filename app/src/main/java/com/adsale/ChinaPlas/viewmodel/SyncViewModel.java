@@ -151,7 +151,7 @@ public class SyncViewModel {
     }
 
     private boolean processSyncData(String data) {
-//        writeDataTo(data);
+        writeDataTo(data);
         /*  获取中间的值 <label id="KVal">   </label>   */
         Matcher matcher = Pattern.compile("KVal\"(.*?)/label").matcher(data);
         String responseSyncData = "";

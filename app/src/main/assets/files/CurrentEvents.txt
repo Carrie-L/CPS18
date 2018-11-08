@@ -63,7 +63,7 @@
             "imageLink": "https://o97tbiy1f.qnssl.com/currentEventImages/phone_DesignInnovationCMF.jpg",
             "imageLink_Pad": "https://o97tbiy1f.qnssl.com/currentEventImages/tablet_DesignInnovationCMF.jpg"
         },
- {
+        {
             "title_en": "Bottles Recycle Program: Re-Create Together",
             "title_cn": "「瓶安中国‧塑造新生」回收行动",
             "title_tc": "「瓶安中國‧塑造新生」回收行動",
@@ -137,7 +137,7 @@
             "duration": "10:30-12:30",
             "sort": "11",
             "pageID": "GuidedTechnicalTour",
-            "imageLink": "https://o97tbiy1f.qnssl.com/currentEventImages/phone_GuidedTechnicalTour.jpg",
+            "imageLink": "-",
             "imageLink_Pad": "https://o97tbiy1f.qnssl.com/currentEventImages/tablet_GuidedTechnicalTour.jpg"
         },
         {

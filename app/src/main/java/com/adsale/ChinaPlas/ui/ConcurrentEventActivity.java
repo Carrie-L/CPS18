@@ -120,6 +120,9 @@ public class ConcurrentEventActivity extends BaseActivity implements OnIntentLis
         helpDialog.show(ft, "Dialog");
     }
 
+    /**
+     * ！！备注：同期活动没有广告 2018.0522
+     */
     public void showAd() {
         adInfo = mEventModel.event.AdInfo;
         if (adInfo.version.equals("0")) {

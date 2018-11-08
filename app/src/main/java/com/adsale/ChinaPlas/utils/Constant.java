@@ -6,7 +6,7 @@ package com.adsale.ChinaPlas.utils;
  */
 
 public class Constant {
-    public static final String SHOW_ID="479";
+    public static final String SHOW_ID = "479";
 
     /**
      * --------------------- 图片尺寸---------------------------------------
@@ -37,7 +37,6 @@ public class Constant {
     public static final int PAD_RIGHT_BANNER_WIDTH = 560;// 560*288
     public static final int PAD_TOP_MARGIN = 16;// 560*288
 
-
     /* 广告尺寸  */
     public static final int M1_WIDTH_PHONE = 1920;
     public static final int M1_HEIGHT_PHONE = 3408;
@@ -56,14 +55,13 @@ public class Constant {
     public static final int M5_VIDEO_WIDTH = 1072;
     public static final int M5_VIDEO_HEIGHT = 822;
 
-//    public static final int M6_BANNER_WIDTH = AppUtil.isTablet() ? 1740 : 1754;
+    //    public static final int M6_BANNER_WIDTH = AppUtil.isTablet() ? 1740 : 1754;
 //    public static final int M6_BANNER_HEIGHT = AppUtil.isTablet() ? 212 : 538;
     public static final int M6_BANNER_WIDTH = AppUtil.isTablet() ? 1740 : 877;
     public static final int M6_BANNER_HEIGHT = AppUtil.isTablet() ? 212 : 269;
 
     public static final int EVENT_BG_WIDTH = AppUtil.isTablet() ? 765 : 520;
     public static final int EVENT_BG_HEIGHT = AppUtil.isTablet() ? 89 : 232;
-
 
     /**
      * ---------------------Config 配置信息---------------------------------------
@@ -155,7 +153,7 @@ public class Constant {
     public static final String BDTJ_NOTIFICATION_CENTER = "NotificationCenter";
     public static final String BDTJ_EVENTS = "CurrentEvents";
     public static final String BDTJ_EVENTS_TXT = "CurrentEventsTxt";
-//    public static final String BDTJ_HALL_MAP_TEXT = "HallMapText";
+    //    public static final String BDTJ_HALL_MAP_TEXT = "HallMapText";
     public static final String BDTJ_HALL_MAP_TEXT = "FloorplanImage";
     public static final String BDTJ_HALL_MAP = "HallMap";
     public static final String BDTJ_INTERESTED_EXHIBITOR = "MyInterestedExhibitor";
@@ -176,6 +174,7 @@ public class Constant {
     public static final String TXT_NEW_TEC = "NewTechInfo.txt";
     public static final String TXT_NEW_TEC_TEST = "NewTechInfo_44.txt";
     public static final String TXT_AD = "advertisement.txt";
+    public static final String TXT_AD_TEST = "advertisement_19test.txt";
     public static final String TXT_COORDINATE = "coordinate.txt";
     public static final String TXT_FILE_SIZE = "FileSizeInfo.txt";
     public static final String TXT_PREREG_INFO = "preregInfo.txt";
@@ -208,15 +207,12 @@ public class Constant {
     public static final String CSV_NEWTEC_PRODUCT_IMG = DIR_NEW_TEC.concat("ProductImage.csv");
     public static final String CSV_NEWTEC_CATOGORY_SUB = DIR_NEW_TEC.concat("CategorySub.csv");
 
-
     /*  WebView */
     public static final String WEB_URL = "Url";
-
 
     /* ---- 分享 ---- **/
     public static final String SHARE_IMAGE_PATH = "file:///android_asset/icon.png";
     public static final String SHARE_IMAGE_URL = "http://www.chinaplasonline.com/apps/2016/images/icon.png";
-
 
     /*  ----- 跳转到平面图的字段  ------    */
     /**
@@ -237,4 +233,17 @@ public class Constant {
      * 扫描二维码定位
      */
     public static String QRCODE_FLOOR = "QrcodeFloorPlan";
+
+    /**
+     * 腾讯防水墙APP_ID
+     */
+    public static String TX_ID_EN = "2098446147";
+    public static String TX_KEY_EN = "0Cg9GJSGbTffnp-zLObrnhg**";
+    public static String TX_ID_CN = "2019984811";
+    public static String TX_KEY_CN = "03yepRDLXD14UyUCFbxSTXw**";
+    public static String TX_ID_TC = "2010013688";
+    public static String TX_KEY_TC = "0dCuA_mtsY50aQznFe3tZfg**";
+
+
+
 }

@@ -130,7 +130,6 @@ public final class AESCrypt {
             String message = new String(decryptedBytes, CHARSET);
             log("message", message);
 
-
             return message;
         } catch (UnsupportedEncodingException e) {
             if (DEBUG_LOG_ENABLED)
@@ -139,7 +138,6 @@ public final class AESCrypt {
             throw new GeneralSecurityException(e);
         }
     }
-
 
     /**
      * More flexible AES decrypt that doesn't encode

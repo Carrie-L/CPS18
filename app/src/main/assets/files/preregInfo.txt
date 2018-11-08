@@ -1,5 +1,5 @@
 ﻿{
-  "registration": "2017/05/09 17:00:00",
+  "registration": "2017/05/09 17:00:00",    // 预登记截止日期
   "openLink":"0",
   "regiterLink": {
     "tc": "http://www.chinaplasonline.com/CPS17/Mobile/lang-trad/Home.aspx",

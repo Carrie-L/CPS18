@@ -208,17 +208,16 @@ public class AppUtil {
     }
 
     public static void setPDFDownStatus(int id, int status) {
-        App.mSP_DownloadCenter.edit().putInt(id + "_status", status).apply();
+        App.mSP_DownloadCenter.edit().putInt(id + "_status_"+AppUtil.getLanguageType(), status).apply();
     }
 
     public static int getPDFDownStatus(int id) {
-        return App.mSP_DownloadCenter.getInt(id + "_status", -1);
+        return App.mSP_DownloadCenter.getInt(id + "_status_"+AppUtil.getLanguageType(), -1);
     }
 
     public static void putLoginTest() {
         App.mSP_Login.edit().putBoolean(Constant.IS_LOGIN, true).putString(Constant.USER_EMAIL, "894750Test@qq.com").apply();
     }
-
 
     public static boolean isLogin() {
         return App.mSP_Login.getBoolean(Constant.IS_LOGIN, false);

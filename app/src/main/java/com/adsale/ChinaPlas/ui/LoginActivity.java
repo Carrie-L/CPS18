@@ -11,7 +11,7 @@ import com.adsale.ChinaPlas.databinding.ActivityLoginBinding;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.viewmodel.LoginViewModel;
 
-public class LoginActivity extends BaseActivity implements LoginViewModel.OnLoginFinishListener {
+public class LoginActivity extends BaseActivity implements LoginViewModel.OnLoginFinishListener,LoginViewModel.OnLoginListener {
 
     private ActivityLoginBinding binding;
     private LoginViewModel viewModel;
@@ -20,6 +20,8 @@ public class LoginActivity extends BaseActivity implements LoginViewModel.OnLogi
     protected void initView() {
         setBarTitle(R.string.title_login);
         binding = ActivityLoginBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
+
+
     }
 
     @Override
@@ -45,12 +47,24 @@ public class LoginActivity extends BaseActivity implements LoginViewModel.OnLogi
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.toString().contains("894750416")) {
-                    viewModel.loginName.set("894750416@qq.com");
+                    viewModel.loginEmail.set("894750416@qq.com");
                     viewModel.loginPwd.set("ktdv4616KT");
                 }
             }
         });
 
+        getRegData();
+
+    }
+
+    private void getRegData() {
+        Intent intent = getIntent();
+        if (intent != null && !TextUtils.isEmpty(intent.getStringExtra("tel"))) {
+            viewModel.loginPhone.set(intent.getStringExtra("tel"));
+            viewModel.loginEmail.set(intent.getStringExtra("email"));
+            viewModel.loginLang.set(intent.getStringExtra("lang"));
+            viewModel.isSmsShow.set(true);
+        }
     }
 
     public void toRegister() {
@@ -77,5 +91,12 @@ public class LoginActivity extends BaseActivity implements LoginViewModel.OnLogi
         startActivity(intent);
         finish();
         overridePendingTransPad();
+    }
+
+    @Override
+    public void verificationCode() {
+
+
+
     }
 }

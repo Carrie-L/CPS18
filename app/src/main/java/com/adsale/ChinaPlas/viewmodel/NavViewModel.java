@@ -40,6 +40,7 @@ import com.adsale.ChinaPlas.ui.TravelInfoActivity;
 import com.adsale.ChinaPlas.ui.UpdateCenterActivity;
 import com.adsale.ChinaPlas.ui.UserInfoActivity;
 import com.adsale.ChinaPlas.ui.WebContentActivity;
+import com.adsale.ChinaPlas.ui.WebViewTestActivity;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
@@ -249,13 +250,22 @@ public class NavViewModel extends AndroidViewModel implements OnIntentListener {
             case Constant.BDTJ_VISITOR_REG_TEXT://预登记
             case Constant.BDTJ_VISITO://预登记
                 intent = new Intent(activity, RegisterActivity.class);
+//                intent = new Intent(activity, DocumentsDownCenterActivity.class);
                 break;
             case Constant.BDTJ_MY_ACCOUNT://用户资料
                 intent = new Intent(activity, UserInfoActivity.class);
                 break;
             case Constant.BDTJ_EXHIBITOR_LIST:// 展商名单
                 LogUtil.i(TAG, "BDTJ_EXHIBITOR_LIST");
-                intent = new Intent(activity, ExhibitorAllListActivity.class);
+//                intent = new Intent(activity, ExhibitorAllListActivity.class);
+
+
+
+                intent = new Intent(activity, WebViewTestActivity.class);
+                
+
+
+
                 break;
             case Constant.BDTJ_SCHEDULE:// 我的日程
                 intent = new Intent(activity, ScheduleActivity.class);

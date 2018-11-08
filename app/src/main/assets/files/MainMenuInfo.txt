@@ -3,10 +3,10 @@
   "TopBanners": [
     {
       "EN": {
-        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/phonefor-Visitor-Badge-ENv3.jpg",
-        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/tabletfor-Visitor-Badge-ENv3.jpg",
+        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/phone_allinone.jpg",
+        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/tablet_allinone.jpg",
         "Function": "5",
-        "InnerPage": "VisitorPreRegistrationText",
+        "InnerPage": "CurrentEventsTxt",
         "Link": "https://www.chinaplasonline.com/CPS18/Events/lang-eng/TechTalk.aspx",
         "companyID": "229048",
         "eventID": "DesignInnovationCMF",
@@ -14,10 +14,10 @@
         "newsID": "0000000409"
       },
       "SC": {
-        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/phonefor-Visitor-Badge-SCv3.jpg",
-        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/tabletfor-Visitor-Badge-SCv3.jpg",
+        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/phone_allinone.jpg",
+        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/tablet_allinone.jpg",
         "Function": "5",
-        "InnerPage": "VisitorPreRegistrationText",
+        "InnerPage": "CurrentEventsTxt",
         "Link": "https://www.chinaplasonline.com/CPS18/Events/lang-simp/TechTalk.aspx",
         "companyID": "229048",
         "eventID": "DesignInnovationCMF",
@@ -25,10 +25,10 @@
         "newsID": "0000000409"
       },
       "TC": {
-        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/phonefor-Visitor-Badge-TCv3.jpg",
-        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/tabletfor-Visitor-Badge-TCv3.jpg",
+        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/phone_allinone.jpg",
+        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/tablet_allinone.jpg",
         "Function": "5",
-        "InnerPage": "VisitorPreRegistrationText",
+        "InnerPage": "CurrentEventsTxt",
         "Link": "https://www.chinaplasonline.com/CPS18/Events/lang-trad/TechTalk.aspx",
         "companyID": "229048",
         "eventID": "DesignInnovationCMF",
@@ -38,8 +38,8 @@
     },
 {
       "EN": {
-        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/CPS18_Banner_WestCounter_phone_EN.jpg",
-        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/CPS18_Banner_WestCounter_tablet_EN.jpg",
+        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/phone_EastBenefits_EN.jpg",
+        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/tablet_EastBenefits_EN.jpg",
         "Function": "0",
         "InnerPage": "CurrentEventsTxt",
         "Link": "https://www.chinaplasonline.com/CPS18/Events/lang-eng/MedicalPlasticsConnect.aspx",
@@ -49,8 +49,8 @@
         "newsID": "0000000409"
       },
       "SC": {
-        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/CPS18_Banner_WestCounter_phone_SC.jpg",
-        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/CPS18_Banner_WestCounter_tablet_SC.jpg",
+        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/phone_EastBenefits_SC.jpg",
+        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/tablet_EastBenefits_SC.jpg",
         "Function": "0",
         "InnerPage": "CurrentEventsTxt",
         "Link": "https://www.chinaplasonline.com/CPS18/Events/lang-simp/MedicalPlasticsConnect.aspx",
@@ -60,8 +60,8 @@
         "newsID": "0000000409"
       },
       "TC": {
-        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/CPS18_Banner_WestCounter_phone_TC.jpg",
-        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/CPS18_Banner_WestCounter_tablet_TC.jpg",
+        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/phone_EastBenefits_TC.jpg",
+        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/tablet_EastBenefits_TC.jpg",
         "Function": "0",
         "InnerPage": "CurrentEventsTxt",
         "Link": "https://www.chinaplasonline.com/CPS18/Events/lang-trad/MedicalPlasticsConnect.aspx",
@@ -109,10 +109,10 @@
   ],
   "LeftBottomBanner": {
  "EN": {
-      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/phone_left_event.jpg",
-      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/tablet_top_event.jpg",
+      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon11_en.png",
+      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon11_en.png",
       "Function": "5",
-      "InnerPage": "CurrentEventsTxt",
+      "InnerPage": "VisitingTips",
       "Link": "baidu.com",
       "companyID": "229048",
       "eventID": "TechTalk",
@@ -120,10 +120,10 @@
       "newsID": "0000000409"
     },
     "SC": {
-      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/phone_left_event.jpg",
-      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/tablet_top_event.jpg",
+      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon11_sc.png",
+      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon11_sc.png",
       "Function": "5",
-      "InnerPage": "CurrentEventsTxt",
+      "InnerPage": "VisitingTips",
       "Link": "baidu.com",
       "companyID": "229048",
       "eventID": "TechTalk",
@@ -131,10 +131,10 @@
       "newsID": "0000000409"
     },
     "TC": {
-      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/phone_left_event.jpg",
-      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/tablet_top_event.jpg",
+      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon11_tc.png",
+      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon11_tc.png",
       "Function": "5",
-      "InnerPage": "CurrentEventsTxt",
+      "InnerPage": "VisitingTips",
       "Link": "baidu.com",
       "companyID": "229048",
       "eventID": "TechTalk",
@@ -144,10 +144,10 @@
   },
  "RightBottomBanner": {
     "EN": {
-      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/phone_right_event.jpg",
-      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/tablet_bottom_event.jpg",
+      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/BottomAdBanner1_en.png",
+      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/BottomAdBanner1_en.png",
       "Function": "5",
-      "InnerPage": "CurrentEventsTxt",
+      "InnerPage": "HallMapTextWithoutHelp",
       "Link": "baidu.com",
       "companyID": "229048",
       "eventID": "001",
@@ -155,10 +155,10 @@
       "newsID": "0000000409"
     },
     "SC": {
-      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/phone_right_event.jpg",
-      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/tablet_bottom_event.jpg",
+      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/BottomAdBanner1_sc.png",
+      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/BottomAdBanner1_sc.png",
       "Function": "5",
-      "InnerPage": "CurrentEventsTxt",
+      "InnerPage": "HallMapTextWithoutHelp",
       "Link": "baidu.com",
       "companyID": "229048",
       "eventID": "001",
@@ -166,10 +166,10 @@
       "newsID": "0000000409"
     },
     "TC": {
-      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/phone_right_event.jpg",
-      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/tablet_bottom_event.jpg",
+      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/BottomAdBanner1_tc.png",
+      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/BottomAdBanner1_tc.png",
       "Function": "5",
-      "InnerPage": "CurrentEventsTxt",
+      "InnerPage": "HallMapTextWithoutHelp",
       "Link": "baidu.com",
       "companyID": "229048",
       "eventID": "001",

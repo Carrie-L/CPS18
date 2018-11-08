@@ -64,6 +64,4 @@ public class DownloadCenterViewModel extends AndroidViewModel{
 
 
 
-
-
 }

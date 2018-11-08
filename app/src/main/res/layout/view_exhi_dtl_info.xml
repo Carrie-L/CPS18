@@ -56,7 +56,9 @@
                 android:onClick="@{()->view.onEmail()}"
                 android:text="@{obj.email}"
                 android:textColor="@color/link"
-                android:visibility="@{TextUtils.isEmpty(obj.email)?View.GONE:View.VISIBLE}" />
+                android:visibility="gone"
+                />
+            <!--android:visibility="@{TextUtils.isEmpty(obj.email)?View.GONE:View.VISIBLE}"-->
 
             <!-- tel -->
             <TextView

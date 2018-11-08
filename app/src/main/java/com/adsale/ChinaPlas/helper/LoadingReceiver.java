@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
 
@@ -24,15 +25,28 @@ public class LoadingReceiver extends BroadcastReceiver {
         boolean isM1ShowFinish = sp.getBoolean("M1ShowFinish", false);
         boolean isTxtDownFinish = sp.getBoolean("txtDownFinish", false);
         boolean isWebServicesDownFinish = sp.getBoolean("webServicesDownFinish", false);
-        boolean isApkDialogClicked = sp.getBoolean("apkDialogFinish",false); /* 1. 没有更新时，true； 2. 有更新，点击了（不管是yes or no），true; 3. 有更新，没有点击，false   */
+        boolean isApkDialogClicked = sp.getBoolean("apkDialogFinish", false); /* 1. 没有更新时，true； 2. 有更新，点击了（不管是yes or no），true; 3. 有更新，没有点击，false   */
 
-        LogUtil.i(TAG, "m1 = " + isM1ShowFinish + ", txt = " + isTxtDownFinish + ", wc =" + isWebServicesDownFinish);
+        LogUtil.i(TAG, "m1 = " + isM1ShowFinish + ", txt = " + isTxtDownFinish + ", wc =" + isWebServicesDownFinish + ",apkDialogFinish=" + isApkDialogClicked);
 
-        if (isM1ShowFinish && isTxtDownFinish && isWebServicesDownFinish && isApkDialogClicked) {
+        if (!App.isNetworkAvailable) {
+            isApkDialogClicked = true;
+        }
+
+//        if (isM1ShowFinish && isTxtDownFinish && isWebServicesDownFinish && isApkDialogClicked) {
+//            String companyId = sp.getString("M1ClickId", "");
+//            LogUtil.i(TAG, "companyId=" + companyId);
+//            mListener.intent(companyId); //todo zszs
+//        }
+
+
+        if(isM1ShowFinish){
             String companyId = sp.getString("M1ClickId", "");
             LogUtil.i(TAG, "companyId=" + companyId);
-            mListener.intent(companyId); //todo zszs
+            mListener.intent(companyId);
         }
+
+
     }
 
     public interface OnLoadFinishListener {

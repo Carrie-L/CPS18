@@ -362,6 +362,8 @@
     <string name="network_error">No network available</string>
     <string name="check_account_pw_title">Please check the login account and password from the registration email:</string>
     <string name="check_account_pw_msg">Account registered</string>
+    <string name="data_bking">Database backup&#8230;</string>
+    <string name="data_bk_success">backup completed</string>
 
 
     <string name="login_first_add_exhibitor">You must be logged in to add exhibitor</string>

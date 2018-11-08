@@ -151,12 +151,17 @@ public class ExhibitorDetailActivity extends BaseActivity implements OnIntentLis
     }
 
     public void onM5Click(int position) {
+        AppUtil.trackViewLog(415, "CA", "M5", mViewModel.exhibitor.getCompanyID());
+        AppUtil.setStatEvent(getApplicationContext(), "ClickM5", "CA_M5_" + mViewModel.exhibitor.getCompanyID());
+
         Intent intent = new Intent(this, ImageActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("url", adHelper.getM5ProductUrl(position));
         intent.putExtra("title",mViewModel.exhibitor.getCompanyName());
         startActivity(intent);
         overridePendingTransPad();
+
+
     }
 
     @Override

@@ -4,6 +4,7 @@ package com.adsale.ChinaPlas.ui;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -32,8 +33,21 @@ import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.viewmodel.MainViewModel;
 import com.adsale.ChinaPlas.viewmodel.NavViewModel;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobObject;
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 
 import static android.content.ContentValues.TAG;
 
@@ -53,6 +67,17 @@ public class MainFragment extends Fragment implements OnIntentListener {
     private int menuHeight;
     private int navHeight;
     private MenuAdapter adapter;
+
+    public void getMainData(){
+
+
+
+
+
+
+
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -75,6 +100,7 @@ public class MainFragment extends Fragment implements OnIntentListener {
     }
 
     public MainFragment() {
+
     }
 
     public void setNavViewModel(NavViewModel model) {
@@ -90,6 +116,32 @@ public class MainFragment extends Fragment implements OnIntentListener {
         setGridMenus();
         calNavigationBar();
         setBottomPics();
+
+        getMainIcon();
+    }
+
+    private void getMainIcon(){
+        BmobQuery<MainIcon> query = new BmobQuery<>();
+        query.addWhereGreaterThan("updatedAt","2018-09-11 14:43:52");
+        query.findObjects(new FindListener<MainIcon>() {
+            @Override
+            public void done(List<MainIcon> list, BmobException e) {
+                LogUtil.i(TAG,"getMainIcon::: list = "+list.size()+","+list.toString());
+
+
+
+            }
+        });
+
+
+
+
+
+
+
+
+
+
     }
 
     @Override
@@ -146,6 +198,10 @@ public class MainFragment extends Fragment implements OnIntentListener {
         setBottomImage();
     }
 
+
+
+
+
     private void setBottomImage() {
         LogUtil.i(TAG, "bottom banners =" + mainPic.LeftBottomBanner.EN.BannerImage + ", " + mainPic.RightBottomBanner.EN.BannerImage);
         LogUtil.i(TAG, "bottom banners =" + mainPic.LeftBottomBanner.EN.BannerImage_Pad + ", " + mainPic.RightBottomBanner.EN.BannerImage_Pad);
@@ -153,8 +209,8 @@ public class MainFragment extends Fragment implements OnIntentListener {
             Glide.with(getActivity()).load(Uri.parse(navViewModel.mCurrLang.get() == 0 ? mainPic.LeftBottomBanner.TC.BannerImage : navViewModel.mCurrLang.get() == 1 ? mainPic.LeftBottomBanner.EN.BannerImage : mainPic.LeftBottomBanner.SC.BannerImage)).into(leftPic);
             Glide.with(getActivity()).load(Uri.parse(navViewModel.mCurrLang.get() == 0 ? mainPic.RightBottomBanner.TC.BannerImage : navViewModel.mCurrLang.get() == 1 ? mainPic.RightBottomBanner.EN.BannerImage : mainPic.RightBottomBanner.SC.BannerImage)).into(rightPic);
         } else {
-            Glide.with(getActivity()).load(String.format("file:///android_asset/MainIcon/left_%s.png", getLangType())).into(leftPic);
-            Glide.with(getActivity()).load(String.format("file:///android_asset/MainIcon/right_%s.png", getLangType())).into(rightPic);
+            Glide.with(getActivity()).load(String.format("file:///android_asset/Menu/left_%s.png", getLangType())).into(leftPic);
+            Glide.with(getActivity()).load(String.format("file:///android_asset/Menu/right_%s.png", getLangType())).into(rightPic);
         }
     }
 
@@ -220,4 +276,7 @@ public class MainFragment extends Fragment implements OnIntentListener {
         super.onDestroy();
         mainViewModel.destroy();
     }
+
+
+
 }

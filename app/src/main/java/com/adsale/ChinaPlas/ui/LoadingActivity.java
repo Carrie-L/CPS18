@@ -11,6 +11,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
+import android.databinding.ObservableBoolean;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
@@ -28,9 +29,11 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
+import com.adsale.ChinaPlas.data.LoadTransferTempDB;
 import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.databinding.ActivityLoadingBinding;
 import com.adsale.ChinaPlas.helper.LoadingReceiver;
@@ -50,6 +53,9 @@ import java.lang.reflect.Field;
 import java.util.UUID;
 
 import cn.jpush.android.api.JPushInterface;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 import static com.adsale.ChinaPlas.App.mSP_Config;
 import static com.adsale.ChinaPlas.helper.LoadingReceiver.LOADING_ACTION;
@@ -72,6 +78,12 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
     private ActivityLoadingBinding binding;
     private boolean isTablet;
     private ProgressBar loadingProgress;
+
+    /**
+     * 在迁移数据库（备份）
+     */
+    public final ObservableBoolean isMigrateData = new ObservableBoolean(false);
+    public final ObservableBoolean isShowLanguage = new ObservableBoolean(false);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,21 +126,50 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
         registerBroadcastReceiver();
         hideNavBar();
         getAppVersion();
-        mLoadingModel.upgradeDB();
 
+        /*  当数据库版本增加时，升级数据库 */
+        boolean needUpdateDB = mConfigSP.getBoolean(Constant.DB_UPGRADE, false);
+        LogUtil.i(TAG, "needUpdateDB=" + needUpdateDB);
+        if (needUpdateDB) {
+            isMigrateData.set(true);
+            isShowLanguage.set(false);
+
+            final LoadTransferTempDB transferTempDB = LoadTransferTempDB.getInstance(getApplicationContext());
+            transferTempDB.processTempData()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<Boolean>() {
+                        @Override
+                        public void accept(Boolean aBoolean) throws Exception {
+                            LogUtil.i(TAG, "processTempData: aBoolean=" + aBoolean);
+                            App.mSP_Config.edit().putBoolean(Constant.DB_UPGRADE, false).apply();
+                            LoadTransferTempDB.destroyInstance();
+                            isMigrateData.set(false);
+                            Toast.makeText(getApplicationContext(), getString(R.string.data_bk_success), Toast.LENGTH_SHORT).show();
+
+                            initData();
+                        }
+                    });
+        } else {
+            initData();
+        }
+    }
+
+    private void initData() {
+        LogUtil.i(TAG, "~~~~~~~~ initData ~~~~~~~~~~~~~~");
         if (isFirstRunning) {
+            isShowLanguage.set(true);
             loadingProgress.setVisibility(View.INVISIBLE);
             setDeviceType();
             getDeviceInfo();
         } else {
-            binding.lyLanguage.setVisibility(View.GONE);
+            isShowLanguage.set(false);
             isTablet = AppUtil.isTablet();
             setRequestedOrientation();
             AppUtil.switchLanguage(getApplicationContext(), AppUtil.getCurLanguage());
             getDeviceInfo2();
             isNetwork();
         }
-
     }
 
     private void isNetwork() {
@@ -140,7 +181,7 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
     RequestListener<Drawable> requestListener = new RequestListener<Drawable>() {
         @Override
         public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-            LogUtil.i(TAG, "_____________________requestListener: onLoadFailed ");
+            LogUtil.i(TAG, "_____________________requestListener: onLoadFailed :"+e.getMessage());
             App.isNetworkAvailable = false;
             mLoadingModel.intent();
             return false;
@@ -165,7 +206,7 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
         AppUtil.switchLanguage(getApplicationContext(), language);
         LogUtil.i(TAG, "chooseLang:language=" + language);
         loadingProgress.setVisibility(View.VISIBLE);
-        binding.lyLanguage.setVisibility(View.GONE);
+        isShowLanguage.set(false);
         mLoadingModel.showProgressBar.set(true);
         AppUtil.setNotFirstRunning();
         requestPermission();
@@ -313,7 +354,7 @@ public class LoadingActivity extends AppCompatActivity implements LoadingReceive
     @Override
     public void intent(String companyId) {
         LogUtil.i(TAG, ")))) ALL END ,GO AHEAD");
-        mConfigSP.edit().putBoolean("M1ShowFinish", false).putBoolean("txtDownFinish", false).putBoolean("webServicesDownFinish", false).putBoolean("apkDialogFinish",false).putString("M1ClickId", "").apply();
+        mConfigSP.edit().putBoolean("M1ShowFinish", false).putBoolean("txtDownFinish", false).putBoolean("webServicesDownFinish", false).putBoolean("apkDialogFinish", false).putString("M1ClickId", "").apply();
         LogUtil.i(TAG, "isTablet=" + isTablet);
 
         if (!companyId.isEmpty()) {

@@ -24,8 +24,6 @@ public class UpdateCenterActivity extends BaseActivity {
         binding = ActivityUpdateCenterBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         model = new UpdateCenterViewModel();
         binding.setModel(model);
-
-
     }
 
     @Override

@@ -142,7 +142,7 @@ public class DocumentsDownCenterActivity extends BaseActivity implements OnItemC
     }
 
     private void openFile(DocumentsCenter.Child entity) {
-        String path = mDir + AppUtil.subStringLast(PDF_LINK, '/');
+        String path = mDir + AppUtil.subStringLast(entity.getFileLink(), '/');
         LogUtil.i(TAG, "path=" + path);
 
         Intent intent = new Intent(getApplicationContext(), WebContentActivity.class);

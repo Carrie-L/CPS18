@@ -2,13 +2,11 @@ package com.adsale.ChinaPlas.data;
 
 import android.util.Log;
 
-import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.dao.MainIcon;
 import com.adsale.ChinaPlas.dao.MapFloor;
 import com.adsale.ChinaPlas.dao.News;
 import com.adsale.ChinaPlas.dao.NewsLink;
 import com.adsale.ChinaPlas.dao.WebContent;
-import com.adsale.ChinaPlas.utils.FileUtils;
 import com.adsale.ChinaPlas.utils.LogUtil;
 
 import org.xml.sax.Attributes;
@@ -68,12 +66,11 @@ public class ContentHandler extends DefaultHandler {
      * @param xmlData
      * @return
      */
-    public boolean parseXmlWithSAX(String xmlData) {
+    public void parseXmlWithSAX(String xmlData) {
 //        FileUtils.writeFileToSD(xmlData, App.rootDir + "response.xml");
 
         if (xmlData == null) {
             LogUtil.e(TAG, "xmlData==null，直接返回");
-            return false;
         } else {
             long startTime = System.currentTimeMillis();
             try {
@@ -88,7 +85,6 @@ public class ContentHandler extends DefaultHandler {
             }
             long endTime = System.currentTimeMillis();
             LogUtil.i(TAG, "parseXmlWithSAX spend time: " + (endTime - startTime) + " ms");
-            return true;
         }
     }
 
@@ -156,7 +152,6 @@ public class ContentHandler extends DefaultHandler {
             throws SAXException {
         sb.append(ch, start, length);
         strData = sb.toString();
-
 
         // -----------------MainIcon--------------------
         if (isMainIcon) {
@@ -367,7 +362,7 @@ public class ContentHandler extends DefaultHandler {
 
     private <T> void logList(ArrayList<T> list, String tag) {
         if (list.size() > 0) {
-            LogUtil.i("ContentHandler", "解析完成！！！！！！！" + list.size() + ",,," + tag + " == ");//+ list.toString()
+            LogUtil.i("ContentHandler", "解析完成！！！！！！！" + list.size() + ",,," + tag + " == ");   //+ list.toString()
         }
     }
 

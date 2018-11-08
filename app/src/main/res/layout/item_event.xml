@@ -103,17 +103,15 @@
                 android:src="@drawable/ic_event_prereg"
                 android:visibility="@{obj.pre_reg!=null&amp;&amp;Integer.valueOf(obj.pre_reg)==0?View.VISIBLE:View.GONE}" />
 
-            <ImageView
-                android:id="@+id/iv_event_pay"
-                android:layout_width="wrap_content"
-                android:layout_height="18dp"
-                android:layout_alignTop="@id/iv_event_prereg"
-                android:layout_below="@id/tv_event_location"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="1dp"
-                android:layout_toRightOf="@id/iv_event_prereg"
-                android:src="@drawable/ic_event_pay"
-                android:visibility="@{obj.entrance_fee!=null&amp;&amp;Integer.valueOf(obj.entrance_fee)==0?View.VISIBLE:View.GONE}" />
+        <ImageView
+            android:id="@+id/iv_event_pay"
+            android:layout_width="wrap_content"
+            android:layout_height="18dp"
+            android:layout_alignTop="@+id/iv_event_prereg"
+            android:layout_marginStart="15dp"
+            android:layout_toEndOf="@+id/tv_event_location"
+            android:src="@drawable/ic_event_pay"
+            android:visibility="@{obj.entrance_fee!=null&amp;&amp;Integer.valueOf(obj.entrance_fee)==0?View.VISIBLE:View.GONE}" />
 
 
     </RelativeLayout>
