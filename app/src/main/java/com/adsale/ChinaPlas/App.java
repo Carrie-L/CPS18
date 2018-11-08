@@ -40,6 +40,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import cn.bmob.v3.Bmob;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 import cn.sharesdk.framework.ShareSDK;
@@ -126,12 +127,14 @@ public class App extends MultiDexApplication {
         builder.writeTimeout(15, TimeUnit.SECONDS);
         mOkHttpClient = builder.build();
 
-
         getDbHelper();
 
         StatService.setAppChannel(this, "RepleceWithYourChannel", true);
 
 //        MobSDK.init(this);
+
+        //第一：默认初始化
+        Bmob.initialize(this, "7fba88ccf93642ad18f878d23354a483");
 
 
     }

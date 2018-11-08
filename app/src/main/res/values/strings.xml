@@ -27,11 +27,12 @@
     <string name="network_error">沒有網路</string>
     <string name="check_account_pw_title">請到已登記的電子郵件檢查登入帳號及密碼:</string>
     <string name="check_account_pw_msg">賬號已申請</string>
+    <string name="data_bking">正在備份數據&#8230;</string>
+    <string name="data_bk_success">備份完成</string>
 
     <string name="login_first_add_exhibitor">需要登錄后才能添加參展商，是否登錄？</string>
     <string name="login_first_add_schedule">需要登錄后才能添加議程，是否登錄？</string>
     <string name="login_first_save_note">需要登錄后才能保存筆記，是否登錄？</string>
-
 
     <!--预登记-->
     <string name="reg_reset">重置</string>
@@ -75,7 +76,7 @@
 
     <string name="nodata">沒有相關信息</string>
     <string name="no_keyword_result">如需獲取所有展商列表，請前往內容更新中心更新展商資料庫。</string>
-    
+
     <string name="seminar_room">會議室%s</string>
 
     <string name="btnSave">儲存</string>
@@ -133,7 +134,7 @@
     <string name="title_filter">篩選</string>
     <string name="filter_industry">產品類別</string>
     <string name="filter_application">應用行業</string>
-    <string name="filter_country">國家</string>
+    <string name="filter_country">國家/ 地區</string>
     <string name="filter_hall">展館</string>
     <string name="filter_booth">專區</string>
     <string name="filter_keyword">關鍵字</string>
@@ -261,8 +262,8 @@
 
 
     <!--文档下载中心-->
-    <string name="dc_download">Download</string>
-    <string name="dc_open">Open</string>
+    <string name="dc_download">下載</string>
+    <string name="dc_open">打開</string>
     <string name="dc_downloading">下載中</string>
 
     <!-- subscribe -->

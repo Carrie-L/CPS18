@@ -28,8 +28,8 @@ android {
         applicationId "com.adsale.ChinaPlas"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 128
-        versionName "8.4.0"
+        versionCode 132
+        versionName "8.4.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
@@ -44,6 +44,16 @@ android {
                 JPUSH_APPKEY : "7a58ecac39c64a8dad0ee978", //JPush上注册的包名对应的appkey.
                 JPUSH_CHANNEL: "Google Market", //暂时填写默认值即可.
         ]
+
+        packagingOptions {
+            exclude 'META-INF/rxjava.properties'
+        }
+
+        repositories {
+            flatDir {
+                dirs 'libs'
+            }
+        }
 
 
     }
@@ -72,6 +82,8 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation(name: 'captchasdk-release-1.0.2', ext: 'aar')
+
     //混淆需要另外添加一些东西，见Retrofit官网
     implementation('com.squareup.retrofit2:converter-simplexml:2.3.0') {
         exclude module: 'stax-api'
@@ -87,9 +99,10 @@ dependencies {
     implementation 'org.greenrobot:greendao:2.2.0'
     implementation 'com.android.support:design:26.1.0'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
+
 //    implementation 'com.rengwuxian.materialedittext:library:2.1.4'
     implementation 'com.android.support:support-v4:26.1.0'
     implementation 'com.github.bumptech.glide:glide:4.1.1'
@@ -108,7 +121,7 @@ dependencies {
     implementation files('libs/MobCommons-2017.1201.1507.jar')
     implementation files('libs/MobTools-2017.1201.1507.jar')
     implementation files('libs/Baidu_Mtj_3.8.1.1.jar')
-    implementation 'com.android.support:multidex:1.0.2'
+    implementation 'com.android.support:multidex:1.0.3'
     implementation('com.crashlytics.sdk.android:crashlytics:2.8.0@aar') {
         transitive = true
     }
@@ -117,6 +130,18 @@ dependencies {
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+
+    implementation 'cn.bmob.android:bmob-sdk:3.6.3'
+    implementation 'cn.bmob.android:http-legacy:1.0'
+
+    configurations {
+        all*.exclude group: 'com.google.code.json'
+        all*.exclude group: 'com.squareup.okio'
+    }
+
+//    packagingOptions {
+//        exclude 'META-INF/rxjava.properties'
+//    }
 
     //optional, help to generate the final application
 //    provided('com.tencent.tinker:tinker-android-anno:1.9.1')

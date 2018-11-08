@@ -2,6 +2,7 @@ package com.adsale.ChinaPlas.utils;
 
 import android.os.Environment;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.adsale.ChinaPlas.App;
 
@@ -14,6 +15,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -271,6 +273,49 @@ public class FileUtil {
             e.printStackTrace();
         }
         return "";
+    }
+
+    public static File getPDFFile(){
+        return mPdfFile;
+    }
+
+    private static File mPdfFile;
+
+    public static boolean writeFile(ResponseBody body, String fileName) {
+        String sPath = Environment.getExternalStorageDirectory() + "/com.adsale.ChinaPlas/DocumentsPDF/" + fileName;
+        Log.d(TAG, "path:>>>>" + sPath);
+        mPdfFile = new File(sPath);
+
+        try {
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
+            try {
+                byte[] fileReader = new byte[8192];
+                inputStream = body.byteStream();
+                outputStream = new FileOutputStream(mPdfFile);
+
+                while (true) {
+                    int read = inputStream.read(fileReader);
+                    if (read == -1) {
+                        break;
+                    }
+                    outputStream.write(fileReader, 0, read);
+                }
+                outputStream.flush();
+                return true;
+            } catch (IOException e) {
+                return false;
+            } finally {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            }
+        } catch (IOException e) {
+            return false;
+        }
     }
 
 

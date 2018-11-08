@@ -48,6 +48,13 @@
             android:text="@string/logout"
             android:visibility="@{aty.isLogin.get()?View.VISIBLE:View.GONE}" />
 
+        <ImageView
+            android:id="@+id/ad_d6"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+
+            />
+
     </LinearLayout>
 
 </layout>

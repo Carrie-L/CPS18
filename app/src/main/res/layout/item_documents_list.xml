@@ -41,7 +41,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_toLeftOf="@id/iv_arrow"
-            android:drawableLeft="@drawable/ic_tech_m1m2"
             android:drawablePadding="16dp"
             android:gravity="center_vertical"
             android:paddingRight="8dp"

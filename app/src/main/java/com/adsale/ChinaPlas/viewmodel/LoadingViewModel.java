@@ -66,6 +66,7 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
@@ -119,10 +120,12 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
 
     public void run(boolean isFirstRunning) {
         setupDownload();
-        loadingData();
+//        loadingData();
         if (!isFirstRunning) {
-            getUpdateInfo();
+//            getUpdateInfo();
         }
+
+        showM1();
     }
 
     /**
@@ -195,6 +198,10 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
 
                     @Override
                     public void onError(Throwable e) {
+                        LogUtil.i(TAG, " downloadApkVersionTxt error" + e.getMessage());
+                        Intent intent = new Intent(LOADING_ACTION);
+                        mSP_Config.edit().putBoolean("apkDialogFinish", true).apply();
+                        mContext.sendBroadcast(intent);
                     }
 
                     @Override
@@ -578,50 +585,11 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
 
     }
 
-    /**
-     * 当数据库版本增加时，升级数据库
-     */
-    public void upgradeDB() {
-        boolean needUpdateDB = mConfigSP.getBoolean(Constant.DB_UPGRADE, false);
-        LogUtil.i(TAG, "needUpdateDB=" + needUpdateDB);
-        if (needUpdateDB) {
-            createTempDB();
-            LogUtil.e(TAG, "① 将数据存入临时表");
-            LoadTransferTempDB transferTempDB = LoadTransferTempDB.getInstance(mContext, mTempDB);
-            transferTempDB.saveTempData();
-            transferTempDB.deleteOldDB();
-            LogUtil.e(TAG, "② 导入新数据库");
-            transferTempDB.importNewDB();
-            LogUtil.e(TAG, "③ 从临时表中取出数据，插入新数据库中:");
-            transferTempDB.insertNewTable();
-            LogUtil.e(TAG, "④ 清空临时表");
-            transferTempDB.clearTemp();
-            mTempDB.close();
-            App.mSP_Config.edit().putBoolean(Constant.DB_UPGRADE, false).apply();
-        }
-    }
-
-    private void updateDB(){
-    }
-
-    private void createTempDB() {
-        LogUtil.i(TAG, "createTempDB");
-        TempOpenHelper mTempOpenHelper = new TempOpenHelper(mContext, "temp.db", null, 1);
-        mTempOpenHelper.getReadableDatabase();
-        mTempDB = mTempOpenHelper.getWritableDatabase();
-    }
-
     public void unSubscribe() {
-//        dispose(mWCDisposable);
-//        dispose(mTxtDisposable);
-//        dispose(mAdDisposable);
-
         if (!mCompositeDisposable.isDisposed()) {
             mCompositeDisposable.dispose();
             mCompositeDisposable.clear();
         }
-
-
     }
 
     private void dispose(Disposable disposable) {

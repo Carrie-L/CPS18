@@ -12,6 +12,7 @@ import android.view.View;
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
+import com.adsale.ChinaPlas.dao.MainIcon;
 import com.adsale.ChinaPlas.data.LoginClient;
 import com.adsale.ChinaPlas.data.OtherRepository;
 import com.adsale.ChinaPlas.databinding.ActivityMainBinding;
@@ -22,6 +23,18 @@ import com.adsale.ChinaPlas.utils.NetWorkHelper;
 import com.adsale.ChinaPlas.utils.PermissionUtil;
 import com.adsale.ChinaPlas.utils.ReRxUtils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.datatype.BmobDate;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
+
+import static android.content.ContentValues.TAG;
 import static com.adsale.ChinaPlas.ui.view.HelpView.HELP_PAGE_MAIN;
 import static com.adsale.ChinaPlas.utils.PermissionUtil.PMS_CODE_WRITE_SD;
 
@@ -75,7 +88,36 @@ public class MainActivity extends BaseActivity {
         if (!isShowPage) {
             intentToUpdateCenter();
         }
+
+        getMainIcon();
     }
+
+    private void getMainIcon(){
+        BmobQuery<MainIcon> query = new BmobQuery<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+        String localUpdateAt = "2018-09-15 14:43:52";
+        Date date = null;
+        try {
+            date = sdf.parse(localUpdateAt);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        query.addWhereGreaterThan("updatedAt",new BmobDate(date));
+        query.findObjects(new FindListener<MainIcon>() {
+            @Override
+            public void done(List<MainIcon> list, BmobException e) {
+                LogUtil.i(TAG,"getMainIcon::: list = "+list.size()+","+list.toString());
+            }
+        });
+
+
+
+
+
+
+    }
+
+
 
     private void setFragment() {
         if (mainFragment == null) {
@@ -177,15 +219,16 @@ public class MainActivity extends BaseActivity {
      * 如果有更新，跳转到更新中心页面
      */
     private void intentToUpdateCenter() {
-        LogUtil.i(TAG, "intentToUpdateCenter");
-        if (uc_count > 0) { //&& !App.mSP_Config.getBoolean("intentToUpdateCenter", false)
-            Intent intent = new Intent(this, UpdateCenterActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra("FromMain", true);
-            startActivity(intent);
-            overridePendingTransPad();
-//            App.mSP_Config.edit().putBoolean("intentToUpdateCenter", true).apply();
-        }
+        // 19年更改更新方式，不用这个了。
+//        LogUtil.i(TAG, "intentToUpdateCenter");
+//        if (uc_count > 0) { //&& !App.mSP_Config.getBoolean("intentToUpdateCenter", false)
+//            Intent intent = new Intent(this, UpdateCenterActivity.class);
+//            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            intent.putExtra("FromMain", true);
+//            startActivity(intent);
+//            overridePendingTransPad();
+////            App.mSP_Config.edit().putBoolean("intentToUpdateCenter", true).apply();
+//        }
     }
 
     private void sendCrashLog() {

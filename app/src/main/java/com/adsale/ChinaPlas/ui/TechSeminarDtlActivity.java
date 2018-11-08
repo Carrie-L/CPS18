@@ -65,7 +65,7 @@ public class TechSeminarDtlActivity extends BaseActivity {
         binding.setView(this);
         LogUtil.i(TAG, "seminarInfo=" + seminarInfo.toString());
 
-        ArrayList<SeminarSpeaker> speaker = repository.getSeminarSpeakerItem(seminarInfo.getCompanyID(), getCurrLangId());
+        ArrayList<SeminarSpeaker> speaker = repository.getSeminarSpeakerItem(seminarInfo.getEventID(), getCurrLangId());
         if (!speaker.isEmpty()) {
             SeminarSpeaker seminarSpeaker = speaker.get(0);
             binding.setSpeak(seminarSpeaker);
@@ -79,14 +79,12 @@ public class TechSeminarDtlActivity extends BaseActivity {
         setSummaryUrlLink();
     }
 
-
-
     private void getSeminarInfo() {
         seminarInfo = getIntent().getParcelableExtra("Info");
         if (seminarInfo == null) {
             /*  seminar_info.eventId。ad.txt: M6.Topics.EVENTID  */
             mEventID = getIntent().getStringExtra(Constant.INTENT_SEMINAR_DTL_ID);
-            LogUtil.i(TAG, "mEventID=" + mEventID);
+
             seminarInfo = repository.getItemSeminarInfo(mEventID);
             if (seminarInfo == null) {
                 Toast.makeText(this, getString(R.string.nodata), Toast.LENGTH_LONG).show();
@@ -94,6 +92,7 @@ public class TechSeminarDtlActivity extends BaseActivity {
         } else {
             mEventID = seminarInfo.getEventID() + "";
         }
+        LogUtil.i(TAG, "mEventID=" + mEventID);
     }
 
     /**

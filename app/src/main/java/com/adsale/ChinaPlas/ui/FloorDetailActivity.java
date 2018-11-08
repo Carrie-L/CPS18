@@ -357,6 +357,10 @@ public class FloorDetailActivity extends BaseActivity implements OnIntentListene
             if (TextUtils.isEmpty(adM4.action_companyID[index])) {
                 return;
             }
+
+            AppUtil.trackViewLog(415, "CA", "M4", adObj.M4.action_companyID[index]);
+            AppUtil.setStatEvent(getApplicationContext(), "ClickM4", "CA_M4_" + adObj.M4.action_companyID[index]);
+
             Intent intent = new Intent(this, ExhibitorDetailActivity.class);
             intent.putExtra(Constant.COMPANY_ID, adM4.action_companyID[index]);
             startActivity(intent);
@@ -365,6 +369,10 @@ public class FloorDetailActivity extends BaseActivity implements OnIntentListene
             if (TextUtils.isEmpty(adM4.action_eventID[index])) {
                 return;
             }
+
+            AppUtil.trackViewLog(415, "CA", "M4", adObj.M4.action_eventID[index]);
+            AppUtil.setStatEvent(getApplicationContext(), "ClickM4", "CA_M4_" + adObj.M4.action_eventID[index]);
+
             Intent intent = new Intent(this, WebContentActivity.class);
             intent.putExtra(Constant.WEB_URL, "ConcurrentEvent/"+adM4.action_eventID[index]);
             startActivity(intent);

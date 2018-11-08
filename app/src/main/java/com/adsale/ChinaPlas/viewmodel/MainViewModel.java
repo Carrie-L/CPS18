@@ -130,7 +130,6 @@ public class MainViewModel {
         return mainPic;
     }
 
-
     public void setTopPics() {
         topPics = new ArrayList<>();
         topBannerSize = mainPic.TopBanners.size();
@@ -148,7 +147,7 @@ public class MainViewModel {
             params.topMargin = 0;
             viewPager.setLayoutParams(params);
         }
-        App.mSP_Config.edit().putInt("topHeight",topHeight).apply();
+        App.mSP_Config.edit().putInt("topHeight", topHeight).apply();
 
         if (topBannerSize > 1) {
              /* 设置单个小圆点尺寸 */
@@ -177,11 +176,7 @@ public class MainViewModel {
             /* 小圆点 */
             if (topBannerSize > 1) {
                 ivPoint = new ImageView(mContext);
-                if (i == 0) {
-                    ivPoint.setBackgroundResource(R.drawable.dot_focused);
-                } else {
-                    ivPoint.setBackgroundResource(R.drawable.dot_normal);
-                }
+                ivPoint.setBackgroundResource(i == 0 ? R.drawable.dot_focused : R.drawable.dot_normal);
                 ivPoint.setLayoutParams(ind_params);
                 vpindicator.addView(ivPoint);
             }
@@ -203,25 +198,32 @@ public class MainViewModel {
                 if (App.isNetworkAvailable) {
                     Glide.with(mContext).load(Uri.parse(navViewModel.mCurrLang.get() == 0 ? banners.TC.BannerImage_Pad : navViewModel.mCurrLang.get() == 1 ? banners.EN.BannerImage_Pad : banners.SC.BannerImage_Pad)).into(ivTop);
                 } else {
-                    Glide.with(mContext).load(String.format(Locale.getDefault(), "file:///android_asset/MainIcon/pad_top_banner_%1s_%d.png", getLangType(), i)).into(ivTop);
-                    LogUtil.i(TAG, "TOP BANNER ASSET = " + String.format(Locale.getDefault(), "file:///android_asset/MainIcon/pad_top_banner_%s_%d.png", getLangType(), i));
+                    Glide.with(mContext).load(
+                            "file:///android_asset/Menu/tablet_top_" + i + "_.jpg"
+//                             + AppUtil.subStringLast(App.mLanguage.get() == 0 ? banners.TC.BannerImage_Pad : App.mLanguage.get() == 1 ? banners.EN.BannerImage_Pad : banners.SC.BannerImage_Pad, "/")
+                            ).into(ivTop);
+                    LogUtil.i(TAG, "TOP BANNER ASSET = " + String.format(Locale.getDefault(), "file:///android_asset/mENU/" + AppUtil.subStringLast(App.mLanguage.get() == 0 ? banners.TC.BannerImage_Pad : App.mLanguage.get() == 1 ? banners.EN.BannerImage_Pad : banners.SC.BannerImage_Pad, "/"), getLangType(), i));
                 }
             } else {
                 LogUtil.i(TAG, "banners.TC.BannerImage=" + banners.TC.BannerImage);
                 if (App.isNetworkAvailable) {
                     Glide.with(mContext).load(Uri.parse(navViewModel.mCurrLang.get() == 0 ? banners.TC.BannerImage : navViewModel.mCurrLang.get() == 1 ? banners.EN.BannerImage : banners.SC.BannerImage)).into(ivTop);
                 } else {
-                    Glide.with(mContext).load(String.format(Locale.getDefault(), "file:///android_asset/MainIcon/top_banner_%1s_%d.png", getLangType(), i)).into(ivTop);
-                    LogUtil.i(TAG, "TOP BANNER ASSET = " + String.format(Locale.getDefault(), "file:///android_asset/MainIcon/top_banner_%1s_%d.png", getLangType(), i));
+                    Glide.with(mContext).load(
+                            "file:///android_asset/Menu/phone_top_%d_.jpg"
+//                            "file:///android_asset/Menu/" + AppUtil.subStringLast(App.mLanguage.get() == 0 ? banners.TC.BannerImage : App.mLanguage.get() == 1 ? banners.EN.BannerImage : banners.SC.BannerImage, "/")
+                           ).into(ivTop);
+                    LogUtil.i(TAG, "TOP BANNER ASSET = " + String.format(Locale.getDefault(), "file:///android_asset/Menu/" + AppUtil.subStringLast(App.mLanguage.get() == 0 ? banners.TC.BannerImage : App.mLanguage.get() == 1 ? banners.EN.BannerImage : banners.SC.BannerImage, "/"), getLangType(), i));
                 }
             }
             if (i == 0) {// 第一张图加倒计时
-                TextView tvCDD = binding.tvCdd;
                 long diff = AppUtil.getShowCountDown();
-                tvCDD.setText(String.valueOf(diff));
-                binding.rvCountdown.setVisibility(View.VISIBLE);
+                if (diff > 0) {
+                    TextView tvCDD = binding.tvCdd;
+                    tvCDD.setText(String.valueOf(diff));
+                    binding.rvCountdown.setVisibility(View.VISIBLE);
+                }
             }
-//            isCountDownShow.set(viewPager.getCurrentItem()==0);
             topPics.add(rlTopBanner);
         }
     }

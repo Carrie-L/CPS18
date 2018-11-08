@@ -1,95 +1,58 @@
-[
-    {
-        "CategoryName_SC": "展会小册子",
-        "CategoryName_EN": "Brochures",
-        "CategoryName_TC": "展会小册子",
-        "Items": [
-            {
-                "FileName_SC": "小册子1",
-                "FileName_EN": "Brochure1",
-                "FileName_TC": "小册子1",
-                "Cover_SC": "https://o97tbiy1f.qnssl.com/PDFFileCenter/Covers/1.png",
-                "FileLink_EN": "http://7x2xn9.com1.z0.glb.clouddn.com//CPS15/Files/image/spacer.gif",
-                "FileLink_SC": "http://7x2xn9.com1.z0.glb.clouddn.com/CPS17_DxI_LKK.flv",
-                "FileLink_TC": "http://7x2xn9.com1.z0.glb.clouddn.com/CPS17_DxI_LKK.mp4",
-                "FileSize_SC": "2.1M",
-                "FileSize_TC": "2.2M",
-                "FileSize_EN": "2.3M"
-            },
-            {
-                "FileName_SC": "小册子2",
-                "FileName_EN": "Brochure2",
-                "FileName_TC": "小册子2",
-                "Cover_SC": "https://o97tbiy1f.qnssl.com/PDFFileCenter/Covers/1.png",
-                "FileLink_EN": "https://o97tbiy1f.qnssl.com/FloorPlan/3.2_20170313.jpg",
-                "FileLink_SC": "https://o97tbiy1f.qnssl.com/FloorPlan/3.2_20170420.jpg",
-                "FileLink_TC": "https://o97tbiy1f.qnssl.com/PDFFileCenter/Covers/5.png",
-                "FileSize_SC": "2.1M",
-                "FileSize_TC": "2.2M",
-                "FileSize_EN": "2.3M"
-            }
-        ]
-    },
-    {
-        "CategoryName_SC": "展报",
-        "CategoryName_EN": "News",
-        "CategoryName_TC": "展报",
-        "Items": [
-            {
-                "FileName_SC": "展报1",
-                "FileName_EN": "展报1",
-                "FileName_TC": "展报1",
-                "Cover_SC": "https://o97tbiy1f.qnssl.com/PDFFileCenter/Covers/1.png",
-                "FileLink_EN": "https://o97tbiy1f.qnssl.com/PDFFileCenter/Files/FloorPlan.pdf",
-                "FileLink_SC": "https://o97tbiy1f.qnssl.com/PDFFileCenter/Files/CPS17_Brochure_sc_old.pdf",
-                "FileLink_TC": "https://o97tbiy1f.qnssl.com/PDFFileCenter/Files/EPO_Brochure.pdf",
-                "FileSize_SC": "2.1M",
-                "FileSize_TC": "2.2M",
-                "FileSize_EN": "2.3M"
-            },
-            {
-                "FileName_SC": "展报2",
-                "FileName_EN": "展报2",
-                "FileName_TC": "展报2",
-                "Cover_SC": "https://o97tbiy1f.qnssl.com/PDFFileCenter/Covers/1.png",
-                "FileLink_EN": "http://7x2xn9.com1.z0.glb.clouddn.com/WMF16_Interview_02_Sandar.mp4",
-                "FileLink_SC": "https://o97tbiy1f.qnssl.com/PDFFileCenter/Files/CPS17_Brochure_sc_old.pdf",
-                "FileLink_TC": "https://o97tbiy1f.qnssl.com/PDFFileCenter/Files/EPO_Brochure.pdf",
-                "FileSize_SC": "2.1M",
-                "FileSize_TC": "2.2M",
-                "FileSize_EN": "2.3M"
-            }
-        ]
-    },
-    {
-        "CategoryName_SC": "CPRG",
-        "CategoryName_EN": "CPRG",
-        "CategoryName_TC": "CPRG",
-        "Items": [
-            {
-                "FileName_SC": "CPRG 1",
-                "FileName_EN": "CPRG 1",
-                "FileName_TC": "CPRG 2",
-                "Cover_SC": "https://o97tbiy1f.qnssl.com/PDFFileCenter/Covers/1.png",
-                "FileLink_EN": "https://o97tbiy1f.qnssl.com/PDFFileCenter/Files/FloorPlan.pdf",
-                "FileLink_SC": "https://o97tbiy1f.qnssl.com/PDFFileCenter/Files/CPS17_Brochure_sc_old.pdf",
-                "FileLink_TC": "https://o97tbiy1f.qnssl.com/PDFFileCenter/Files/EPO_Brochure.pdf",
-                "FileSize_SC": "2.1M",
-                "FileSize_TC": "2.2M",
-                "FileSize_EN": "2.3M"
-            },
-            {
-                "FileName_SC": "CPRG 2",
-                "FileName_EN": "CPRG 2",
-                "FileName_TC": "CPRG 2",
-                "Cover_SC": "https://o97tbiy1f.qnssl.com/PDFFileCenter/Covers/1.png",
-                "FileLink_EN": "http://7x2xn9.com1.z0.glb.clouddn.com/WMF16_All_Interview.mp4",
-                "FileLink_SC": "http://7x2xn9.com1.z0.glb.clouddn.com/WMF16_Interview_02_Sandar.mp4",
-                "FileLink_TC": "http://7x2xn9.com1.z0.glb.clouddn.com/WMF16_Interview_05_Weinig.mp4",
-                "FileSize_SC": "2.1M",
-                "FileSize_TC": "2.2M",
-                "FileSize_EN": "2.3M"
-            }
-        ]
-    }
-]
+﻿[{
+	"CategoryName_SC": "第一日",
+	"CategoryName_EN": "Day 1",
+	"CategoryName_TC": "第一日",
+	"Items": [{
+			"id": 1,
+			"FileName_SC": "化学品及原料报",
+			"FileName_EN": "Show Daily Chemical & Raw Materials",
+			"FileName_TC": "化學品及原料報",
+			"Cover_SC": "https://o97tbiy1f.qnssl.com/PDFs/CPS18_Chem_Day1.jpg",
+			"FileLink_EN": "https://o97tbiy1f.qnssl.com/PDFs/CPS18_Chem_Day1.pdf",
+			"FileLink_SC": "https://o97tbiy1f.qnssl.com/PDFs/CPS18_Chem_Day1.pdf",
+			"FileLink_TC": "https://o97tbiy1f.qnssl.com/PDFs/CPS18_Chem_Day1.pdf",
+			"FileSize_SC": "23.33M",
+			"FileSize_TC": "23.33M",
+			"FileSize_EN": "23.33M"
+		},
+		{
+			"id": 2,
+			"FileName_SC": "机械及仪器报",
+			"FileName_EN": "Show Daily Machinery & Equipment",
+			"FileName_TC": "機械及儀器報",
+			"Cover_SC": "https://o97tbiy1f.qnssl.com/PDFs/CPS18_Mach_Day1.jpg",
+			"FileLink_EN": "https://o97tbiy1f.qnssl.com/PDFs/CPS18_Mach_Day1.pdf",
+			"FileLink_SC": "https://o97tbiy1f.qnssl.com/PDFs/CPS18_Mach_Day1.pdf",
+			"FileLink_TC": "https://o97tbiy1f.qnssl.com/PDFs/CPS18_Mach_Day1.pdf",
+			"FileSize_SC": "22.83M",
+			"FileSize_TC": "22.83M",
+			"FileSize_EN": "22.83M"
+		},
+		{
+			"id": 3,
+			"FileName_SC": "国际英文报",
+			"FileName_EN": "Show Daily International Edition",
+			"FileName_TC": "國際英文報",
+			"Cover_SC": "https://o97tbiy1f.qnssl.com/PDFs/CPS18_Intl_Day1.jpg",
+			"FileLink_EN": "https://o97tbiy1f.qnssl.com/PDFs/CPS18_Intl_Day1.pdf",
+			"FileLink_SC": "https://o97tbiy1f.qnssl.com/PDFs/CPS18_Intl_Day1.pdf",
+			"FileLink_TC": "https://o97tbiy1f.qnssl.com/PDFs/CPS18_Intl_Day1.pdf",
+			"FileSize_SC": "28.36M",
+			"FileSize_TC": "28.36M",
+			"FileSize_EN": "28.36M"
+		}
+	]
+}, {
+
+	"CategoryName_SC": "第二日",
+	"CategoryName_EN": "Day 2",
+	"CategoryName_TC": "第二日",
+	"Items": [
+	]
+}, {
+	"CategoryName_SC": "第三日",
+	"CategoryName_EN": "Day 3",
+	"CategoryName_TC": "第三日",
+	"Items": [
+	]
+}]

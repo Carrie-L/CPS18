@@ -2,22 +2,22 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+
         <import type="android.view.View" />
+
         <variable
             name="loadingModel"
             type="com.adsale.ChinaPlas.viewmodel.LoadingViewModel" />
+
         <variable
             name="aty"
-            type="com.adsale.ChinaPlas.ui.LoadingActivity"/>
+            type="com.adsale.ChinaPlas.ui.LoadingActivity" />
     </data>
-
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/loading"
-        >
-
+        android:background="@drawable/loading">
         <!--语言按钮-->
         <LinearLayout
             android:id="@+id/lyLanguage"
@@ -25,10 +25,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:orientation="horizontal"
             android:layout_marginBottom="@dimen/loading_bottom"
-            android:visibility="visible"
-           >
+            android:orientation="horizontal"
+            android:visibility="@{aty.isShowLanguage?View.VISIBLE:View.GONE}">
 
             <Button
                 android:id="@+id/btnCN"
@@ -36,8 +35,7 @@
                 android:layout_height="38dp"
                 android:layout_weight="1"
                 android:background="@drawable/bttn_simp"
-                android:onClick="@{()->aty.chooseLang(2)}"
-                />
+                android:onClick="@{()->aty.chooseLang(2)}" />
 
             <Button
                 android:id="@+id/btnTW"
@@ -46,46 +44,53 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:onClick="@{()->aty.chooseLang(0)}"
-                android:background="@drawable/bttn_trad" />
+                android:background="@drawable/bttn_trad"
+                android:onClick="@{()->aty.chooseLang(0)}" />
 
             <Button
                 android:id="@+id/btnEN"
                 android:layout_width="0dp"
                 android:layout_height="38dp"
                 android:layout_weight="1"
-                android:onClick="@{()->aty.chooseLang(1)}"
-                android:background="@drawable/bttn_eng" />
+                android:background="@drawable/bttn_eng"
+                android:onClick="@{()->aty.chooseLang(1)}" />
         </LinearLayout>
 
         <ProgressBar
             android:id="@+id/loading_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/loading_progress"
             android:layout_centerInParent="true"
-            />
+            android:layout_marginTop="16dp"
+            android:text="@string/data_bking"
+            android:textStyle="bold"
+            android:textColor="@color/grey21"
+            android:visibility="@{aty.isMigrateData?View.VISIBLE:View.GONE}" />
 
         <ImageView
             android:id="@+id/iv_test_net"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_centerInParent="true"
-            android:visibility="invisible"
-            />
+            android:visibility="invisible" />
 
         <!-- M1	广告 -->
         <FrameLayout
             android:id="@+id/framelayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="@{loadingModel.isShowM1.get()?View.VISIBLE:View.GONE}"
-            >
+            android:visibility="@{loadingModel.isShowM1.get()?View.VISIBLE:View.GONE}">
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/autoVP"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
+                android:layout_height="match_parent" />
 
             <LinearLayout
                 android:id="@+id/vpindicator"
@@ -104,12 +109,10 @@
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                android:visibility="gone"
-                />
+                android:visibility="gone" />
 
 
         </FrameLayout>
-
 
 
     </RelativeLayout>

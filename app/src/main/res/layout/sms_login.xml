@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="loginViewModel"
+            type="com.adsale.ChinaPlas.viewmodel.LoginViewModel" />
+
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/tv_tel"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center_vertical"
+            android:hint="手机号码"
+            android:imeOptions="actionNext"
+            android:inputType="number"
+            android:nextFocusDown="@+id/btn_get_code"
+            android:text="@={loginViewModel.loginPhone}"
+            />
+
+
+        <Button
+            android:id="@+id/btn_get_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/tv_tel"
+            android:text="发送验证码" />
+
+
+        <EditText
+            android:id="@+id/tv_code"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_below="@id/tv_tel"
+            android:layout_toLeftOf="@id/btn_get_code"
+            android:gravity="center_vertical"
+            android:hint="验证码"
+            android:text="@={loginViewModel.loginCode}"
+            />
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="80dp"
+            android:layout_height="38dp"
+            android:layout_below="@id/tv_code"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/bttn_red"
+            android:onClick="@{() -> loginViewModel.sendCode()}"
+            android:text="@string/login_text4"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+
+
+    </RelativeLayout>
+
+</layout>

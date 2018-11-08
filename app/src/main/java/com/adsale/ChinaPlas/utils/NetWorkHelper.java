@@ -29,6 +29,8 @@ public class NetWorkHelper {
     public static final String WEBSERVICEURL = "https://eform.adsale.com.hk/AppCPS2018Services/wsCLE15.asmx";
     public static final String DOWN_TXT_URL = "https://forms.adsale.com.hk/VirtualDirectory/AppCPS2018CMS/AppFiles/{fileName}";
 
+    /* MainIcon 下載地址： https://eform.adsale.com.hk/AppCPS2018Services/WebContent/20180323092519267.png  */
+
     /* loading页的下载地址 */
     public static final String DOWN_WEBCONTENT_URL = "WebContent/{fileName}";
     public static final String APK_VERSION_TXT_URL = "https://eform.adsale.com.hk/AppCPS2018services/ApkVersion.txt";
@@ -57,19 +59,44 @@ public class NetWorkHelper {
     public static final String GET_VISITOR_DATA_URL = "http://eform.adsale.com.hk/GeniusAnalyst/api/appapi/GetVisitorDataByEmail";
 
     /*预登记*/
-    public static final String Register_URL = "https://www.chinaplasonline.com/CPS18/Mobile/Home/%s/QuickPreReg.aspx?device=mobileapp";
-    public static final String REGISTER_CHARGE="https://epayment.adsale-marketing.com.cn/vreg/PayMent/PayAPPjump";/* 获取charge数据 */
-    public static final String REGISTER_BASE_URL="https://epayment.adsale-marketing.com.cn/vreg/PayMent/";
+//    public static final String Register_URL = "https://www.chinaplasonline.com/CPS18/Mobile/Home/%s/QuickPreReg.aspx?device=mobileapp";
+    public static final String Register_URL = "https://www.chinaplasonline.com/CPS19/preregistration/simp?device=mobileapp";
+    public static final String MY_CHINAPLAS_URL = "https://www.chinaplasonline.com/CPS19/mychinaplas/simp/?device=APP";
+
+
+
+
+
+//    public static final String REGISTER_CHARGE="https://epayment.adsale-marketing.com.cn/vreg/PayMent/PayAPPjump";/* 获取charge数据 */
+    public static final String REGISTER_CHARGE="https://epayment.adsale-marketing.com.cn/vreg/PreregSubmitCloud/PayAPPjump";/* 获取charge数据 */
+    public static final String REGISTER_BASE_URL="https://epayment.adsale-marketing.com.cn/vreg/PreregSubmitCloud/";
     public static final String REGISTER_CONFIRM_PAY="https://epayment.adsale-marketing.com.cn/vreg/PreregMobileSMS/APPSelectPay"; /* 向服务器确认是否支付成功 */
+    public static final String CONFIRM_URL = "https://www.chinaplasonline.com/CPS19/PreregSuccess/simp/?device=mobileapp&guid=%s";
+
+
 //    public static final String REGISTER_CONFIRM_URL="https://www.chinaplasonline.com/CPS18/Mobile/Home/%1s/QuickPreRegResult.aspx?image=%2s";  /*  确认信链接 */
-    public static final String REGISTER_CONFIRM_IMG_URL="https://eform.adsale.com.hk/vreg/Files/Mobile/PreReg/479/";  /*  确认信图片链接 */
+//    public static final String REGISTER_CONFIRM_IMG_URL="https://eform.adsale.com.hk/vreg/Files/Mobile/PreReg/479/";  /*  确认信图片链接 */
+
+//    public static final String SMS_GET_CODE_URL0 = "https://eform.adsale.com.hk/vreg/Content/handler/MobileCode.ashx?Handler=GetCode&CellNum=%s&RLang=%s&showid=505"; /*  获取短信验证码的接口  */
+//    public static final String SMS_GET_CODE_URL = "https://eform.adsale.com.hk/vreg/Content/handler"; /*  获取短信验证码的接口  */
+//    public static final String SMS_LOGIN_URL = "https://eform.adsale.com.hk/vreg/Content/handler/MobileCode.ashx?Handler=SelectCode&Guid=%s&Code=%s&Url=APP"; // 验证码登录，guid是发送验证码时返回的值
+//    public static final String SMS_LOGIN_URL = "https://www.chinaplasonline.com/CPS19/CPSAPI/MembershipGenecral?Handler=GeValidateMembershipBySMS&userEmail=%s&userCell=%s&Code=%s&Guid=%s&clienurl=APP"; // 验证码登录，guid是发送验证码时返回的值
+
+//    public static final String PWD_LOGIN_URL = "https://www.chinaplasonline.com/CPS19/CPSAPI/MembershipGenecral?Handler=GeValidateMembership&userEmail=%s&userCell=%s&password=%s&lang=%s";
+
+
+
+
+
+    //   https://www.chinaplasonline.com/CPS19/PreregSuccess/simp/?device=mobileapp&guid=99DB247DA11F40C583D5A1CCFE81751F
+
+
     public static final String REGISTER_INVOICE_URL="https://www.chinaplasonline.com/CPS18/Mobile/Home/%1s/PreRegInvoice.aspx?image=%2s";  /*  发票链接 */
     public static final String REGISTER_EMAIL_DATA="http://eform.adsale.com.hk/GeniusAnalyst/api/appapi/GetVisitorDataByEmail";  /*  登录后返回预登记图片信息 */
 
     /*订阅电子快讯*/
     public static final String Subscribe_BASE_URL = "https://eform.adsale.com.hk/FormR/ContactUs/";
     public static final String Subscribe_LAST_URL = "EnewsSub.aspx?showid=479&device=app&WAct=9105";//&lang={langType}
-
 
     /*  内容更新中心baseUrl */
     public static final String UC_BASE_URL="https://o97tbiy1f.qnssl.com/";
@@ -134,5 +161,7 @@ public class NetWorkHelper {
         return new FormBody.Builder().add("showid", Constant.SHOW_ID).add("email", AppUtil.getUserEmail()).build();
     }
 
+    //----------CPS19 广告测试-----------
+    public static final String BASE_QINIU =  "";
 
 }

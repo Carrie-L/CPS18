@@ -167,10 +167,15 @@ public class CrashHandler implements UncaughtExceptionHandler {
 		Writer writer = new StringWriter();
 		PrintWriter printWriter = new PrintWriter(writer);
 		ex.printStackTrace(printWriter);
+
+		LogUtil.i(TAG,"printWriter0="+printWriter.toString());
+		LogUtil.i(TAG,"writer0="+writer.toString());
+
 		Throwable cause = ex.getCause();
 		while (cause != null) {
 			cause.printStackTrace(printWriter);
 			cause = cause.getCause();
+			LogUtil.i(TAG,"\n writer ="+writer.toString());
 		}
 		printWriter.close();
 		Log.e(TAG,"CPS=============================================\n\n\n"+writer.toString());

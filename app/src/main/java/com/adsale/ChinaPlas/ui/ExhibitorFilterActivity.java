@@ -99,8 +99,8 @@ public class ExhibitorFilterActivity extends BaseActivity implements OnIntentLis
         if (!TextUtils.isEmpty(etKeyword.get().trim())) {
             newTecFilter = new ExhibitorFilter(5, "", etKeyword.get().trim());
             allFilters.add(newTecFilter);
-            AppUtil.setStatEvent(getApplicationContext(), "KeySearch", "Page_KeySearch");
-            AppUtil.trackViewLog( 188, "Page", "", "KeywordSearch");
+            AppUtil.setStatEvent(getApplicationContext(), "KeySearch", "Page_KeySearch_"+etKeyword.get().trim());
+            AppUtil.trackViewLog( 188, "Page", "", "KeywordSearch_"+etKeyword.get().trim());
         }
 
         if (switchNewTec.isChecked()) {

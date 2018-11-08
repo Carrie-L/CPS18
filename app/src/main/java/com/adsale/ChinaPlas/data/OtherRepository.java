@@ -171,9 +171,9 @@ public class OtherRepository {
      *
      * @return ArrayList<SeminarSpeaker> may be null
      */
-    public ArrayList<SeminarSpeaker> getSeminarSpeakerItem(String companyID, int langID) {
+    public ArrayList<SeminarSpeaker> getSeminarSpeakerItem(int eventID, int langID) {
         checkSeminarSpeakerDao();
-        return (ArrayList<SeminarSpeaker>) mSeminarSpeakerDao.queryBuilder().where(SeminarSpeakerDao.Properties.CompanyID.eq(companyID), SeminarSpeakerDao.Properties.LangID.eq(langID)).list();
+        return (ArrayList<SeminarSpeaker>) mSeminarSpeakerDao.queryBuilder().where(SeminarSpeakerDao.Properties.EventID.eq(eventID), SeminarSpeakerDao.Properties.LangID.eq(langID)).list();
     }
 
     public SeminarInfo getItemSeminarInfo(String eventId) {
