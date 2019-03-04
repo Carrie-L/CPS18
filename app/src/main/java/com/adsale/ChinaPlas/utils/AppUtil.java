@@ -62,6 +62,7 @@ import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -72,12 +73,12 @@ import static android.content.Context.MODE_PRIVATE;
 public class AppUtil {
     private static final String TAG = "AppUtil";
     private static final String isTesting = ReleaseHelper.TRACK_IS_TEST;//上线版本则改为false
-    private static final String TRACKING_OS = "Android_CPS18";
+    private static final String TRACKING_OS = "Android_CPS19";
     private static String strLogJson;
     private static ArrayList<LogJson> logJsonArr;
 
-    private static final int YEAR = 2018;
-    private static String LOG_APP_NAME = "CPS18v";
+    private static final int YEAR = 2019;
+    private static String LOG_APP_NAME = "CPS19v";
 
     public static boolean isFirstRunning() {
         return App.mSP_Config.getBoolean("isFirstRunning", true);
@@ -175,6 +176,10 @@ public class AppUtil {
         return App.mSP_Config.getInt("LocalVersionCode", 0);
     }
 
+    public static void putEventPageZipName(String pageID, String fileName) {
+
+    }
+
 
     /**
      * 获取对应语言的列名
@@ -207,12 +212,23 @@ public class AppUtil {
         }
     }
 
+    public static int getNameInt(int tcNum, int enNum, int scNum) {
+        int language = AppUtil.getCurLanguage();
+        if (language == 0) {
+            return tcNum;
+        } else if (language == 1) {
+            return enNum;
+        } else {
+            return scNum;
+        }
+    }
+
     public static void setPDFDownStatus(int id, int status) {
-        App.mSP_DownloadCenter.edit().putInt(id + "_status_"+AppUtil.getLanguageType(), status).apply();
+        App.mSP_DownloadCenter.edit().putInt(id + "_status_" + AppUtil.getLanguageType(), status).apply();
     }
 
     public static int getPDFDownStatus(int id) {
-        return App.mSP_DownloadCenter.getInt(id + "_status_"+AppUtil.getLanguageType(), -1);
+        return App.mSP_DownloadCenter.getInt(id + "_status_" + AppUtil.getLanguageType(), -1);
     }
 
     public static void putLoginTest() {
@@ -223,12 +239,24 @@ public class AppUtil {
         return App.mSP_Login.getBoolean(Constant.IS_LOGIN, false);
     }
 
+    public static void setLogin(boolean isLogin) {
+        App.mSP_Login.edit().putBoolean(Constant.IS_LOGIN, isLogin).apply();
+    }
+
     public static void putLogout() {
         App.mSP_Login.edit().putBoolean(Constant.IS_LOGIN, false).apply();
     }
 
     public static void putLogin() {
         App.mSP_Login.edit().putBoolean(Constant.IS_LOGIN, true).apply();
+    }
+
+    public static void setToken(String token) {
+        App.mSP_Login.edit().putString("Token", token).apply();
+    }
+
+    public static String getToken() {
+        return App.mSP_Login.getString("Token", "");
     }
 
     public static String getUserEmail() {
@@ -260,6 +288,10 @@ public class AppUtil {
 
     public static String getLanguageType() {
         return getName("tc", "en", "sc");
+    }
+
+    public static String getLanguageUrlType() {
+        return getName("trad", "eng", "simp");
     }
 
     /**
@@ -344,6 +376,15 @@ public class AppUtil {
     }
 
     /**
+     * 在第一次建立ConcurrentEvent文件夹时
+     * 把css从webContent中复制到SD卡的ConcurrentEvent文件夹下去。
+     */
+    public static void copyCSSToConcurrent(){
+        FileUtil.copyFile(AppUtil.getInputStreamFromSdOrAsset("WebContent/bootstrap.css"), "ConcurrentEvent/bootstrap.css");
+        FileUtil.copyFile(AppUtil.getInputStreamFromSdOrAsset("WebContent/style.css"), "ConcurrentEvent/style.css");
+    }
+
+    /**
      * @param dir  文件夹名称，如ConcurrentEvent
      * @param name 文件夹中的文件名
      * @return
@@ -374,6 +415,7 @@ public class AppUtil {
      * @version 创建时间：2016年4月12日 下午7:24:56
      */
     public static InputStream getAssetInputStream(String fileName) {
+        LogUtil.i(TAG, "asset中getInputStream:" + fileName);
         try {
             return App.mAssetManager.open(fileName);
         } catch (IOException e) {
@@ -383,27 +425,99 @@ public class AppUtil {
     }
 
     /**
-     * @param fileName rootDir/  e.g:"FloorPlan/FloorPlan.csv" 确保SD下的文件夹、文件名 和 Asset目录下一样
+     * fileName rootDir/  e.g:"FloorPlan/FloorPlan.csv" 确保SD下的文件夹、文件名 和 Asset目录下一样
+     *
      * @return InputStream
      */
-    public static InputStream getInputStream(String fileName) {
-        if (new File(App.rootDir.concat(fileName)).exists()) {
+//    public static InputStream getInputStreamBK(String fileName) {
+//        if (new File(App.rootDir.concat(fileName)).exists()) {
+//            try {
+//                LogUtil.i(TAG, "sd卡中getInputStream:" + fileName);
+//                return new FileInputStream(new File(App.rootDir.concat(fileName)));
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//                LogUtil.i(TAG, "asset中getInputStream:" + fileName);
+//                return getAssetInputStream(fileName);
+//            }
+//        } else {
+//            LogUtil.i(TAG, "asset中getInputStream:" + fileName);
+//            return getAssetInputStream(fileName);
+//        }
+//    }
+    public static boolean isUpdateExhibitorSuccess() {
+        return App.mSP_UpdateInfo.getBoolean("UpdateExhibitorSuccess", false);
+    }
+
+    public static boolean isExhibitorHasUpdate() {
+        return App.mSP_UpdateInfo.getBoolean("isExhibitorHasUpdate", false);
+    }
+
+    public static void setUpdateExhibitorSuccess(boolean bool) {
+        App.mSP_UpdateInfo.edit().putBoolean("UpdateExhibitorSuccess", bool).apply();
+    }
+
+    public static void setExhibitorHasUpdate(boolean bool) {
+        App.mSP_UpdateInfo.edit().putBoolean("isExhibitorHasUpdate", bool).apply();
+    }
+
+    /**
+     * @param absolutePath 绝对路径
+     * @return InputStream
+     */
+    public static InputStream getInputStream(String absolutePath) {
+        try {
+            LogUtil.i(TAG, "sd卡中getInputStream:" + absolutePath);
+            return new FileInputStream(new File(absolutePath));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            LogUtil.i(TAG, absolutePath + " FileNotFoundException");
+            return null;
+        }
+    }
+
+    /**
+     * @param fileName 文件名和上一个文件夹，如 FloorPlan/1.1.jpg
+     * @return InputStream
+     */
+    public static InputStream getInputStreamFromSdOrAsset(String fileName) {
+        File file = new File(App.rootDir + fileName);
+        if (file.exists()) {
             try {
                 LogUtil.i(TAG, "sd卡中getInputStream:" + fileName);
-                return new FileInputStream(new File(App.rootDir.concat(fileName)));
+                return new FileInputStream(file);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
-                LogUtil.i(TAG, "asset中getInputStream:" + fileName);
                 return getAssetInputStream(fileName);
             }
         } else {
-            LogUtil.i(TAG, "asset中getInputStream:" + fileName);
             return getAssetInputStream(fileName);
         }
+
+    }
+
+    /**
+     * @param fileName 文件名和上一个文件夹，如 FloorPlan/1.1.jpg
+     * @return InputStream
+     */
+    public static InputStream getInputStreamFromSd(String fileName) {
+        File file = new File(App.rootDir + fileName);
+        if (file.exists()) {
+            try {
+                LogUtil.i(TAG, "sd卡中getInputStream:" + fileName);
+                return new FileInputStream(file);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 
     public static String getUrlLangType(int language) {
         return language == 0 ? "lang-trad" : language == 1 ? "lang-eng" : "lang-simp";
+    }
+
+    public static String getUrlLangType2(int language) {
+        return language == 0 ? "trad" : language == 1 ? "eng" : "simp";
     }
 
     /**
@@ -719,8 +833,8 @@ public class AppUtil {
     }
 
     private static void sendLog(LogJson logJson) {
-//        LogUtil.i(TAG, "sendLog:logJson=" + logJson.toString());
-        LogUtil.i(TAG, "sendLog:logJsonArr=" + logJsonArr.size());
+        LogUtil.i(TAG, "sendLog:logJson=" + logJson.toString());
+//        LogUtil.i(TAG, "sendLog:logJsonArr=" + logJsonArr.size());
 
         //2016.6.23: 那你就每次寫入的時候加個簡單判斷，若時間、trackingname一致，就不重複寫入
         boolean isRepeat = false;
@@ -743,7 +857,6 @@ public class AppUtil {
         }
         strLogJson = new Gson().toJson(logJsonArr);
 
-//        LogUtil.i(TAG, "sendLog:strLogJson=" + strLogJson);
 
         // 目的是为了退出之后再打开app还是会记得退出之前的事件
 //        writeFileToSD(strLogJson, LOG_JSON_STR_KEY);
@@ -760,6 +873,9 @@ public class AppUtil {
 //        }
 
         if (logJsonArr.size() >= 5) {// >= 5
+
+            LogUtil.i(TAG, "sendLog:strLogJson=" + strLogJson);
+
             FormBody formBody = new FormBody.Builder().add("logArr", strLogJson).build();
             Request request = new Request.Builder().url(NetWorkHelper.LOGJSON).post(formBody).build();
             App.mOkHttpClient.newCall(request).enqueue(new Callback() {
@@ -770,7 +886,14 @@ public class AppUtil {
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
-                    LogUtil.i(TAG, "PostLogSuccess");
+                    LogUtil.i(TAG, "PostLogSuccess: ");
+                    ResponseBody body = response.body();
+                    if (body != null) {
+                        LogUtil.i(TAG, "PostLogSuccess: " + body.string());
+                    } else {
+                        LogUtil.i(TAG, "PostLogSuccess: body = null");
+                    }
+
                     if (logJsonArr != null) {
                         logJsonArr.clear();
                     }
@@ -797,6 +920,16 @@ public class AppUtil {
     public static void setStatEvent(Context context, String id, String lable) {
         //lable: Page_AdvancedSearch_sc_Android
         lable = lable.concat("_").concat(getLanguageType()).concat("_Android");
+        StatService.onEvent(context, id, lable, 1);
+    }
+
+    /**
+     * @param context
+     * @param id   百度统计自定义的事件ID
+     * @param lable   logs的trackingName  	Ad_D1_244671_sc_sc_Android
+     */
+    public static void setStatEventFull(Context context, String id, String lable) {
+        //lable: Page_AdvancedSearch_sc_Android
         StatService.onEvent(context, id, lable, 1);
     }
 
@@ -916,6 +1049,11 @@ public class AppUtil {
         return sFormat.format(new Date());
     }
 
+    public static String getCurrentDate2() {
+        SimpleDateFormat sFormat = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault());
+        return sFormat.format(new Date());
+    }
+
     /**
      * 获取今天的日期
      *
@@ -978,7 +1116,7 @@ public class AppUtil {
      * @return
      */
     public static boolean compareDate(String date, String date1, String date2) {
-        SimpleDateFormat sformat = new SimpleDateFormat("dd/MM/yyyy", Locale.CHINA);
+        SimpleDateFormat sformat = new SimpleDateFormat("yyyy/MM/dd", Locale.CHINA);
         try {
             Date dt = sformat.parse(date);
             Date dt1 = sformat.parse(date1);
@@ -986,6 +1124,19 @@ public class AppUtil {
             long l0 = dt.getTime();
             long l1 = dt1.getTime();
             long l2 = dt2.getTime();
+
+            LogUtil.i(TAG, "dt=" + dt.toString() + ", dt1=" + dt1.toString() + ",dt2=" + dt2.toString());
+            LogUtil.i(TAG, "lo=" + l0 + ", l1=" + l1 + ",l2=" + l2);
+
+            if (dt.before(dt2) && dt.after(dt1)) {
+                LogUtil.i(TAG, "compareDate：  在中间");
+            }
+
+
+            if (l0 >= l1 && l0 <= l2) {
+                LogUtil.i(TAG, "compareDate：  在中间 2 ");
+                return true;
+            }
 
             long max = l2;
             long min = l1;
@@ -1031,7 +1182,7 @@ public class AppUtil {
         try {
             Date date0 = sdf.parse(today);
             Date date1 = sdf.parse(showStartDate);
-            diff = (date1.getTime() - date0.getTime()) / (1000 * 60 * 60 * 24);
+            diff = (date1.getTime() - date0.getTime()) / (1000 * 60 * 60 * 24) - 1;
             LogUtil.i(TAG, "diff=" + diff);
         } catch (ParseException e) {
             e.printStackTrace();
@@ -1283,6 +1434,7 @@ public class AppUtil {
                     LogUtil.i(TAG, ",companyID=" + message.ID);
                     intent = new Intent(context, ExhibitorDetailActivity.class);
                     intent.putExtra("CompanyID", message.ID);
+                    intent.putExtra("from", "notification");
                     intent.putExtra("title", context.getString(R.string.title_exhibitor_deti));
                 }
                 break;
@@ -1336,5 +1488,34 @@ public class AppUtil {
         return sb.delete(0, sb.length());
     }
 
+    /**
+     * @param date yyyy-MM-dd HH:mm:ss
+     * @return str
+     */
+    public static String dateToString2(Date date) {
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).format(date);
+    }
+
+    /**
+     * @param date yyyy-MM-dd HH:mm:ss
+     * @return date / new Date
+     */
+    public static Date stringToDate2(String date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+        try {
+            return sdf.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return new Date();
+    }
+
+    public static String getAdBaseUrl() {
+        return App.mSP_Config.getString(Constant.ADBaseUrl,"");
+    }
+
+    public static boolean isAdOpen() {
+        return App.mSP_Config.getBoolean(Constant.IS_AD_OPEN, false);
+    }
 
 }

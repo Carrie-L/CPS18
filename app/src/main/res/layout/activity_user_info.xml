@@ -12,49 +12,75 @@
             type="com.adsale.ChinaPlas.ui.UserInfoActivity" />
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/mychinaplas"
             style="@style/user_info_tv_style"
             android:drawableLeft="@drawable/ic_my_exhibitor"
+            android:onClick="@{()->aty.onMyChinaplas()}"
+            android:text="@string/title_my_chinaplas" />
+
+        <TextView
+            android:id="@+id/my_exhibitor"
+            style="@style/user_info_tv_style"
+            android:layout_below="@id/mychinaplas"
+            android:drawableLeft="@drawable/ic_my_chinaplas"
             android:onClick="@{()->aty.onMyExhibitor()}"
             android:text="@string/title_my_exhibitor" />
 
         <TextView
+            android:id="@+id/my_schedule"
             style="@style/user_info_tv_style"
+            android:layout_below="@id/my_exhibitor"
             android:drawableLeft="@drawable/ic_schedule"
             android:onClick="@{()->aty.onMySchedule()}"
             android:text="@string/title_schedule" />
 
         <TextView
+            android:id="@+id/my_name_card"
             style="@style/user_info_tv_style"
+            android:layout_below="@id/my_schedule"
             android:drawableLeft="@drawable/ic_name_card_user"
             android:onClick="@{()->aty.onMyNameCard()}"
             android:text="@string/title_my_name_card" />
 
         <TextView
+            android:id="@+id/my_history"
             style="@style/user_info_tv_style"
+            android:layout_below="@id/my_name_card"
             android:drawableLeft="@drawable/ic_my_history"
             android:onClick="@{()->aty.onMyHistoryExhibitor()}"
             android:text="@string/title_history_exhibitor" />
 
         <TextView
+            android:id="@+id/sync"
             style="@style/user_info_tv_style"
+            android:layout_below="@id/my_history"
+            android:drawableLeft="@drawable/ic_mycps_sync"
+            android:onClick="@{()->aty.onSync()}"
+            android:text="@string/drawer_sync"
+            android:visibility="@{aty.isLogin.get()?View.VISIBLE:View.GONE}" />
+
+        <TextView
+            android:id="@+id/my_logout"
+            style="@style/user_info_tv_style"
+            android:layout_below="@id/sync"
             android:drawableLeft="@drawable/ic_logout"
             android:onClick="@{()->aty.onLogout()}"
             android:text="@string/logout"
             android:visibility="@{aty.isLogin.get()?View.VISIBLE:View.GONE}" />
 
         <ImageView
-            android:id="@+id/ad_d6"
+            android:id="@+id/ad_d7"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:onClick="@{()->aty.onAdClick()}"
             />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </layout>

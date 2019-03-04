@@ -76,9 +76,8 @@ public class IndustryAdapter extends CpsBaseAdapter<Industry> {
     }
 
     public void onSelect(Industry industry) {
-        if (industry.getIsSelected() != null && industry.getIsSelected()) {
+        if (industry.selected.get()) {
             LogUtil.i(TAG, "取消:" + industry.getIndustryName());
-            industry.setIsSelected(false);
             industry.selected.set(false);
             int size = filters.size();
             if (size > 0) {
@@ -91,7 +90,6 @@ public class IndustryAdapter extends CpsBaseAdapter<Industry> {
             }
         } else {
             LogUtil.i(TAG, "添加：" + industry.getIndustryName());
-            industry.setIsSelected(true);
             industry.selected.set(true);
             filter = new ExhibitorFilter(0, industry.getCatalogProductSubID(), industry.getIndustryName());
             filters.add(filter);

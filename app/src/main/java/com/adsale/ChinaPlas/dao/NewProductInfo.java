@@ -38,24 +38,26 @@ public class NewProductInfo implements Parcelable {
     public ArrayList<String> imageLinks; /* ad product imageLinks, show in dtl */
     public String videoLink; /* ad product, show in dtl */
     public String LogoImageLink; /* logo, now only ad has, show in dtl   */
+
+
     // KEEP FIELDS END
 
     public NewProductInfo() {
     }
 
-    public NewProductInfo(String RID, String CompanyID, String BoothNo, String CompanyNameEn, String CompanyNameSc, String CompanyNameTc, String Product_Name_SC, String Rroduct_Description_SC, String Product_Name_TC, String Rroduct_Description_TC, String Product_Name_EN, String Rroduct_Description_EN) {
+    public NewProductInfo(String RID, String companyID, String boothNo, String companyNameEn, String companyNameSc, String companyNameTc, String product_Name_SC, String rroduct_Description_SC, String product_Name_TC, String rroduct_Description_TC, String product_Name_EN, String rroduct_Description_EN) {
         this.RID = RID;
-        this.CompanyID = CompanyID;
-        this.BoothNo = BoothNo;
-        this.CompanyNameEn = CompanyNameEn;
-        this.CompanyNameSc = CompanyNameSc;
-        this.CompanyNameTc = CompanyNameTc;
-        this.Product_Name_SC = Product_Name_SC;
-        this.Rroduct_Description_SC = Rroduct_Description_SC;
-        this.Product_Name_TC = Product_Name_TC;
-        this.Rroduct_Description_TC = Rroduct_Description_TC;
-        this.Product_Name_EN = Product_Name_EN;
-        this.Rroduct_Description_EN = Rroduct_Description_EN;
+        CompanyID = companyID;
+        BoothNo = boothNo;
+        CompanyNameEn = companyNameEn;
+        CompanyNameSc = companyNameSc;
+        CompanyNameTc = companyNameTc;
+        Product_Name_SC = product_Name_SC;
+        Rroduct_Description_SC = rroduct_Description_SC;
+        Product_Name_TC = product_Name_TC;
+        Rroduct_Description_TC = rroduct_Description_TC;
+        Product_Name_EN = product_Name_EN;
+        Rroduct_Description_EN = rroduct_Description_EN;
     }
 
     public String getRID() {
@@ -154,6 +156,7 @@ public class NewProductInfo implements Parcelable {
         this.Rroduct_Description_EN = Rroduct_Description_EN;
     }
 
+
     // KEEP METHODS - put your custom methods here
     public void parser(String[] strings) {
         this.RID = strings[0];
@@ -208,33 +211,32 @@ public class NewProductInfo implements Parcelable {
     public String toString() {
         return "NewProductInfo{" +
                 "RID='" + RID + '\'' +
-                ", CompanyID='" + CompanyID + '\'' +
-                ", BoothNo='" + BoothNo + '\'' +
-                ", CompanyNameEn='" + CompanyNameEn + '\'' +
+//                ", CompanyID='" + CompanyID + '\'' +
+//                ", BoothNo='" + BoothNo + '\'' +
+//                ", CompanyNameEn='" + CompanyNameEn + '\'' +
                 ", CompanyNameSc='" + CompanyNameSc + '\'' +
-                ", CompanyNameTc='" + CompanyNameTc + '\'' +
+//                ", CompanyNameTc='" + CompanyNameTc + '\'' +
                 ", Product_Name_SC='" + Product_Name_SC + '\'' +
-                ", Rroduct_Description_SC='" + Rroduct_Description_SC + '\'' +
-                ", Product_Name_TC='" + Product_Name_TC + '\'' +
-                ", Rroduct_Description_TC='" + Rroduct_Description_TC + '\'' +
-                ", Product_Name_EN='" + Product_Name_EN + '\'' +
-                ", Rroduct_Description_EN='" + Rroduct_Description_EN + '\'' +
-                ", imageThumb='" + imageThumb + '\'' +
-                ", image='" + image + '\'' +
-                ", adItem=" + adItem +
-                ", imageLinks=" + imageLinks +
-                ", videoLink='" + videoLink + '\'' +
-                ", LogoImageLink='" + LogoImageLink + '\'' +
+//                ", Rroduct_Description_SC='" + Rroduct_Description_SC + '\'' +
+//                ", Product_Name_TC='" + Product_Name_TC + '\'' +
+//                ", Rroduct_Description_TC='" + Rroduct_Description_TC + '\'' +
+//                ", Product_Name_EN='" + Product_Name_EN + '\'' +
+//                ", Rroduct_Description_EN='" + Rroduct_Description_EN + '\'' +
+//                ", imageThumb='" + imageThumb + '\'' +
+//                ", image='" + image + '\'' +
+//                ", adItem=" + adItem +
+//                ", imageLinks=" + imageLinks +
+//                ", videoLink='" + videoLink + '\'' +
+//                ", LogoImageLink='" + LogoImageLink + '\'' +
                 '}';
     }
 
     public String getDescription() {
+//        if(Rroduct_Description_SC.contains("\\n")){
+//            LogUtil.i("getDescription","包含nnn");
+//        }
 
-        if(Rroduct_Description_SC.contains("\\n")){
-            LogUtil.i("getDescription","包含nnn");
-        }
-
-        if (AppUtil.getCurLanguage() == 0) {
+        if (AppUtil.getCurLanguage() == 0 ) {
             return Rroduct_Description_TC;
         } else if (AppUtil.getCurLanguage() == 1) {
             return Rroduct_Description_EN;
@@ -283,6 +285,7 @@ public class NewProductInfo implements Parcelable {
         dest.writeString(this.Rroduct_Description_TC);
         dest.writeString(this.Product_Name_EN);
         dest.writeString(this.Rroduct_Description_EN);
+        dest.writeString(this.imageThumb);
         dest.writeString(this.image);
         dest.writeByte(adItem ? (byte) 1 : (byte) 0);
         dest.writeStringList(this.imageLinks);
@@ -303,6 +306,7 @@ public class NewProductInfo implements Parcelable {
         this.Rroduct_Description_TC = in.readString();
         this.Product_Name_EN = in.readString();
         this.Rroduct_Description_EN = in.readString();
+        this.imageThumb = in.readString();
         this.image = in.readString();
         this.adItem = in.readByte() != 0;
         this.imageLinks = in.createStringArrayList();

@@ -156,16 +156,11 @@ public class ContentHandler extends DefaultHandler {
         // -----------------MainIcon--------------------
         if (isMainIcon) {
             if (nodeName.equals("IsDelete")) {
-                mMainIcon.setIsDelete(strData.equals("false") ? 0 : 1);
+                mMainIcon.setIsDelete(strData.equals("0") );
             } else if ("IconID".equals(nodeName)) {
                 mMainIcon.setIconID(strData);
-            } else if ("CType".equals(nodeName)) {
-                mMainIcon.setCType(Integer.valueOf(strData));
-            } else if ("SEQ".equals(nodeName)) {
-                mMainIcon.setSEQ(Integer.valueOf(strData));
             } else if ("IsHidden".equals(nodeName)) {
-                strData = strData.toLowerCase().equals("false") ? "0" : "1";
-                mMainIcon.setIsHidden(Integer.valueOf(strData));
+                mMainIcon.setIsHidden(strData.equals("0"));
             } else if ("TitleTW".equals(nodeName)) {
                 mMainIcon.setTitleTW(strData);
             } else if ("TitleCN".equals(nodeName)) {
@@ -176,80 +171,80 @@ public class ContentHandler extends DefaultHandler {
                 mMainIcon.setIcon(strData);
             } else if ("CFile".equals(nodeName)) {
                 mMainIcon.setCFile(strData);
-            } else if ("ZipDateTime".equals(nodeName)) {
-                mMainIcon.setZipDateTime(strData);
-            } else if ("BaiDu_TJ".equals(nodeName)) {
+            }else if ("BaiDu_TJ".equals(nodeName)) {
                 mMainIcon.setBaiDu_TJ(strData);
-            } else if ("Google_TJ".equals(nodeName)) {
-                mMainIcon.setGoogle_TJ(strData);
-                if (strData.contains("S_")) {
-                    mMainIcon.setDrawerList(strData.split("\\|")[0]);
-                }
-                if (strData.toLowerCase().contains("icon")) {
-                    mMainIcon.setDrawerIcon(strData.split("\\|")[3]);
-                }
-                if (strData.contains("M_")) {
-                    mMainIcon.setMenuList(strData.split("\\|")[1]);
-                }
-                if (strData.contains("|") && strData.split("\\|").length > 2) {
-                    mMainIcon.setIconTextColor(strData.split("\\|")[2]);
-                }
-//                LogUtil.i(TAG,"drawerList="+ mMainIcon.getDrawerList()+",drawerIcon="+mMainIcon.getDrawerIcon()+",menuList="+mMainIcon.getMenuList());
-
-            } else if (nodeName.equals("CreateDateTime")) {
-                mMainIcon.setCreateDateTime(strData);
-            } else if (nodeName.equals("UpdateDateTime")) {
-                mMainIcon.setUpdateDateTime(strData);
-            } else if (nodeName.equals("RecordTimeStamp")) {
-                mMainIcon.setRecordTimeStamp(strData);
             }
-            mMainIcon.setIsDown(0);
+//            else if ("Google_TJ".equals(nodeName)) {
+//                mMainIcon.setGoogle_TJ(strData);
+//                if (strData.contains("S_")) {
+//                    mMainIcon.setMenuSeq(strData.split("\\|")[0]);
+//                }
+//                if (strData.toLowerCase().contains("icon")) {
+//                    mMainIcon.setDrawerIcon(strData.split("\\|")[3]);
+//                }
+//                if (strData.contains("M_")) {
+//                    mMainIcon.setMenuSeq(strData.split("\\|")[1]);
+//                }
+//                if (strData.contains("|") && strData.split("\\|").length > 2) {
+//                    mMainIcon.setIconTextColor(strData.split("\\|")[2]);
+//                }
+////                LogUtil.i(TAG,"drawerList="+ mMainIcon.getDrawerList()+",drawerIcon="+mMainIcon.getDrawerIcon()+",menuList="+mMainIcon.getMenuList());
+//
+//            }
+//            else if (nodeName.equals("CreateDateTime")) {
+//                mMainIcon.setCreateDateTime(strData);
+//            } else if (nodeName.equals("UpdateDateTime")) {
+//                mMainIcon.setUpdateDateTime(strData);
+//            } else if (nodeName.equals("RecordTimeStamp")) {
+//                mMainIcon.setRecordTimeStamp(strData);
+//            }
+//            mMainIcon.setIsDown(0);
         }
 
         // -----------------NewsLink--------------------
         if (isNewsLink) {
-            if ("LinkID".equals(nodeName)) {
-                mNewsLink.setLinkID(strData);
-            } else if ("NewsID".equals(nodeName)) {
-                mNewsLink.setNewsID(strData);
-            } else if ("Photo".equals(nodeName)) {
-                mNewsLink.setPhoto(strData);
-            } else if ("Link".equals(nodeName)) {
-                mNewsLink.setLink(strData);
-            } else if ("Title".equals(nodeName)) {
-                mNewsLink.setTitle(strData);
-            } else if (nodeName.equals("CreateDateTime")) {
-                mNewsLink.setCreateDateTime(strData);
-            } else if (nodeName.equals("UpdateDateTime")) {
-                mNewsLink.setUpdateDateTime(strData);
-            } else if (nodeName.equals("RecordTimeStamp")) {
-                mNewsLink.setRecordTimeStamp(strData);
-            }
+//            if ("LinkID".equals(nodeName)) {
+//                mNewsLink.setLinkID(strData);
+//            } else if ("NewsID".equals(nodeName)) {
+//                mNewsLink.setNewsID(strData);
+//            } else if ("Photo".equals(nodeName)) {
+//                mNewsLink.setPhoto(strData);
+//            } else if ("Link".equals(nodeName)) {
+//                mNewsLink.setLink(strData);
+//            } else if ("Title".equals(nodeName)) {
+//                mNewsLink.setTitle(strData);
+//            } else if (nodeName.equals("CreateDateTime")) {
+//                mNewsLink.setCreateDateTime(strData);
+//            } else if (nodeName.equals("UpdateDateTime")) {
+//                mNewsLink.setUpdateDateTime(strData);
+//            } else if (nodeName.equals("RecordTimeStamp")) {
+//                mNewsLink.setRecordTimeStamp(strData);
+//            }
         }
 
         // -----------------News--------------------
         if (isNews) {
-            if ("LType".equals(nodeName)) {
-                mNews.setLType(Integer.parseInt(strData));
-            } else if ("NewsID".equals(nodeName)) {
-                mNews.setNewsID(strData);
-            } else if ("Description".equals(nodeName)) {
-                mNews.setDescription(strData);
-            } else if ("Logo".equals(nodeName)) {
-                mNews.setLogo(strData);
-            } else if ("Title".equals(nodeName)) {
-                mNews.setTitle(strData);
-            } else if ("ShareLink".equals(nodeName)) {
-                mNews.setShareLink(strData);
-            } else if ("PublishDate".equals(nodeName)) {
-                mNews.setPublishDate(strData);
-            } else if (nodeName.equals("CreateDateTime")) {
-                mNews.setCreateDateTime(strData);
-            } else if (nodeName.equals("UpdateDateTime")) {
-                mNews.setUpdateDateTime(strData);
-            } else if (nodeName.equals("RecordTimeStamp")) {
-                mNews.setRecordTimeStamp(strData);
-            }
+//            if ("LType".equals(nodeName)) {
+//                mNews.setLType(Integer.parseInt(strData));
+//            } else if ("NewsID".equals(nodeName)) {
+//                mNews.setNewsID(strData);
+//            } else if ("Description".equals(nodeName)) {
+//                mNews.setDescription(strData);
+//            } else if ("Logo".equals(nodeName)) {
+//                mNews.setLogo(strData);
+//            } else if ("Title".equals(nodeName)) {
+//                mNews.setTitle(strData);
+//            } else if ("ShareLink".equals(nodeName)) {
+//                mNews.setShareLink(strData);
+//            } else if ("PublishDate".equals(nodeName)) {
+//                mNews.setPublishDate(strData);
+//            } else if (nodeName.equals("CreateDateTime")) {
+//                mNews.setCreateDateTime(strData);
+//            } else if (nodeName.equals("UpdateDateTime")) {
+//                mNews.setUpdateDateTime(strData);
+//            } else if (nodeName.equals("RecordTimeStamp")) {
+//                mNews.setRecordTimeStamp(strData);
+//            }
         }
         // -----------------MapFloor--------------------
         if (isMapFloor) {
@@ -279,35 +274,35 @@ public class ContentHandler extends DefaultHandler {
 
         // ------------WebContent-------------------
         if (isWebContent) {
-            if ("PageId".equals(nodeName)) {
-                mWebContent.setPageId(strData);
-            } else if ("CType".equals(nodeName)) {
-                mWebContent.setCType(Integer.parseInt(strData));
-            } else if ("TitleTW".equals(nodeName)) {
-                mWebContent.setTitleTW(strData);
-            } else if ("TitleCN".equals(nodeName)) {
-                mWebContent.setTitleCN(strData);
-            } else if ("TitleEN".equals(nodeName)) {
-                mWebContent.setTitleEN(strData);
-            } else if ("CFile".equals(nodeName)) {
-                mWebContent.setCFile(strData);
-            } else if ("ZipDateTime".equals(nodeName)) {
-                mWebContent.setZipDateTime(strData);
-            } else if ("ContentEN".equals(nodeName)) {
-                mWebContent.setContentEN(strData);
-            } else if ("ContentSC".equals(nodeName)) {
-                //	LogUtil.i(TAG, "contentSC="+strData);
-                mWebContent.setContentSC(strData);
-            } else if ("ContentTC".equals(nodeName)) {
-                mWebContent.setContentTC(strData);
-            } else if (nodeName.equals("CreateDateTime")) {
-                mWebContent.setCreateDateTime(strData);
-            } else if (nodeName.equals("UpdateDateTime")) {
-                mWebContent.setUpdateDateTime(strData);
-            } else if (nodeName.equals("RecordTimeStamp")) {
-                mWebContent.setRecordTimeStamp(strData);
-            }
-            mWebContent.setIsDown(0);
+//            if ("PageId".equals(nodeName)) {
+//                mWebContent.setPageId(strData);
+//            } else if ("CType".equals(nodeName)) {
+//                mWebContent.setCType(Integer.parseInt(strData));
+//            } else if ("TitleTW".equals(nodeName)) {
+//                mWebContent.setTitleTW(strData);
+//            } else if ("TitleCN".equals(nodeName)) {
+//                mWebContent.setTitleCN(strData);
+//            } else if ("TitleEN".equals(nodeName)) {
+//                mWebContent.setTitleEN(strData);
+//            } else if ("CFile".equals(nodeName)) {
+//                mWebContent.setCFile(strData);
+//            } else if ("ZipDateTime".equals(nodeName)) {
+//                mWebContent.setZipDateTime(strData);
+//            } else if ("ContentEN".equals(nodeName)) {
+//                mWebContent.setContentEN(strData);
+//            } else if ("ContentSC".equals(nodeName)) {
+//                //	LogUtil.i(TAG, "contentSC="+strData);
+//                mWebContent.setContentSC(strData);
+//            } else if ("ContentTC".equals(nodeName)) {
+//                mWebContent.setContentTC(strData);
+//            } else if (nodeName.equals("CreateDateTime")) {
+//                mWebContent.setCreateDateTime(strData);
+//            } else if (nodeName.equals("UpdateDateTime")) {
+//                mWebContent.setUpdateDateTime(strData);
+//            } else if (nodeName.equals("RecordTimeStamp")) {
+//                mWebContent.setRecordTimeStamp(strData);
+//            }
+//            mWebContent.setIsDown(0);
         }
     }
 

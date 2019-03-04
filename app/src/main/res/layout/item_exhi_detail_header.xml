@@ -27,7 +27,7 @@
             android:paddingLeft="16dp"
             android:paddingStart="16dp"
             android:text="@{obj.getSort()}"
-            android:textColor="@color/home"
+            android:textColor="@color/colorAccent"
             android:textSize="18sp" />
 
         <include

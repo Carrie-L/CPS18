@@ -8,14 +8,17 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.ApplicationAdapter;
 import com.adsale.ChinaPlas.base.BaseActivity;
-import com.adsale.ChinaPlas.dao.ApplicationIndustry;
+import com.adsale.ChinaPlas.dao.Application;
 import com.adsale.ChinaPlas.data.FilterRepository;
 import com.adsale.ChinaPlas.data.NewTecRepository;
+import com.adsale.ChinaPlas.data.OtherRepository;
 import com.adsale.ChinaPlas.data.model.ExhibitorFilter;
 import com.adsale.ChinaPlas.utils.LogUtil;
+import com.baidu.mobstat.StatService;
 
 import java.util.ArrayList;
 
@@ -27,12 +30,13 @@ import java.util.ArrayList;
 public class FilterApplicationListActivity extends BaseActivity {
 
     private RecyclerView recyclerView;
-    private ArrayList<ApplicationIndustry> mList = new ArrayList<>();
+    private ArrayList<Application> mList = new ArrayList<>();
     private ArrayList<ExhibitorFilter> filters;
 
     public static final String TYPE_NEW_TEC_PRODUCT = "PRD"; /* 列表为 新技术产品 - 筛选 - 产品 */
     public static final String TYPE_NEW_TEC_APPLICATIONS = "APT"; /* 列表为 新技术产品 - 筛选 - 应用 */
     public static final String TYPE_NEW_TEC_THEMATIC = "THS"; /* 列表为 新技术产品 - 筛选 - 主题专集 */
+    public static final String TYPE_EVENT_APPLICATIONS = "EAP"; /* 列表为 同期活动 - 筛选 - 应用 */
 
     @Override
     protected void preView() {
@@ -53,9 +57,15 @@ public class FilterApplicationListActivity extends BaseActivity {
     @Override
     protected void initData() {
         int index = getIntent().getIntExtra("index", 1);
-        if (!TextUtils.isEmpty(getIntent().getStringExtra("MainTypeId"))) {
-            NewTecRepository repository = NewTecRepository.newInstance();
-            mList = repository.getNewTecFilterList(mList, getIntent().getStringExtra("MainTypeId"));
+        String type = getIntent().getStringExtra("MainTypeId");
+        if (!TextUtils.isEmpty(type)) {
+            if (type.equals(TYPE_EVENT_APPLICATIONS)) { // 同期活动
+                OtherRepository otherRepo = OtherRepository.getInstance();
+                mList = otherRepo.getEventApplications();
+            } else { // 新技术产品
+                NewTecRepository repository = NewTecRepository.newInstance();
+                mList = repository.getNewTecFilterList(mList, getIntent().getStringExtra("MainTypeId"));
+            }
         } else {
             FilterRepository mRepository = FilterRepository.getInstance();
             mRepository.initAppIndustryDao();
@@ -72,7 +82,7 @@ public class FilterApplicationListActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         int size = mList.size();
-        ApplicationIndustry entity;
+        Application entity;
         for (int i = 0; i < size; i++) {
             entity = mList.get(i);
             entity.isSelected.set(false);
@@ -84,6 +94,10 @@ public class FilterApplicationListActivity extends BaseActivity {
     }
 
     private void setResultData() {
+        if (filters.size() > 0) {
+            App.mLogHelper.eventLog(403, "FilterE", "Application", App.mLogHelper.getFiltersName(filters));
+            StatService.onEvent(getApplicationContext(), "FilterE", App.mLogHelper.getTrackingName());
+        }
         Intent intent = new Intent();
         intent.putExtra("data", filters);
         LogUtil.i(TAG, "onDestroy::filters=" + filters.size() + "," + filters.toString());

@@ -178,7 +178,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        if (lists.get(position).getGoogle_TJ().contains("_")) {
+        if (lists.get(position).getDrawerSeq().contains("_")) {
             return TYPE_CHILD;
         } else {
             return TYPE_PARENT;
@@ -280,7 +280,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
             int size2 = mainIcons.size();
             int childSize = 0;
             for (int j = 0; j < size2; j++) {//找子元素
-                if (isChildSection(mainIcons.get(j).getGoogle_TJ(), lists.get(position).getGoogle_TJ())) {
+                if (isChildSection(mainIcons.get(j).getDrawerSeq(), lists.get(position).getDrawerSeq())) {
                     childSize++;
                 }
             }
@@ -289,7 +289,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
             changeExpandState(false, position);
             int size = mainIcons.size();
             for (int i = size; i > 0; i--) {
-                if (isChildSection(mainIcons.get(i - 1).getGoogle_TJ(), lists.get(position).getGoogle_TJ())) {
+                if (isChildSection(mainIcons.get(i - 1).getDrawerSeq(), lists.get(position).getDrawerSeq())) {
                     lists.remove(position + childSize);// 将要折叠的数据从list中移除掉
                     childSize--;
                 }
@@ -305,7 +305,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
             int size2 = mainIcons.size();
             int childSize = 0;
             for (int j = 0; j < size2; j++) {//找子元素
-                if (isChildSection(mainIcons.get(j).getGoogle_TJ(), lists.get(position).getGoogle_TJ())) {
+                if (isChildSection(mainIcons.get(j).getDrawerSeq(), lists.get(position).getDrawerSeq())) {
                     childSize++;
                 }
             }
@@ -316,7 +316,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
             changeExpandState(false, position);
             int size = mainIcons.size();
             for (int i = size; i > 0; i--) {
-                if (isChildSection(mainIcons.get(i - 1).getGoogle_TJ(), lists.get(position).getGoogle_TJ())) {
+                if (isChildSection(mainIcons.get(i - 1).getDrawerSeq(), lists.get(position).getDrawerSeq())) {
                     lists.remove(position + childSize);// 将要折叠的数据从list中移除掉
                     childSize--;
                     LogUtil.i(TAG, "collapseChildItemsNotRefresh_childSize=" + childSize);
@@ -334,7 +334,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<ViewHolder> {
             int size = mainIcons.size();
             for (int i = 0; i < size; i++) {
                 entity = mainIcons.get(i);
-                if (isChildSection(entity.getGoogle_TJ(), lists.get(position).getGoogle_TJ())) {
+                if (isChildSection(entity.getDrawerSeq(), lists.get(position).getDrawerSeq())) {
                     lists.add(position + childSize + 1, entity);// 将要显示的数据添加进来
                     childSize++;
                     LogUtil.i(TAG, "childSize=" + childSize + ",position+childSize+1=" + (position + childSize + 1));

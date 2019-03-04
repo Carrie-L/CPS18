@@ -23,10 +23,13 @@ import com.adsale.ChinaPlas.PhotoView.OnPhotoTapListener;
 import com.adsale.ChinaPlas.PhotoView.PhotoView;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.dao.Exhibitor;
+import com.adsale.ChinaPlas.dao.ExhibitorDao;
 import com.adsale.ChinaPlas.dao.FloorPlanCoordinate;
+import com.adsale.ChinaPlas.dao.FloorPlanCoordinateDao;
 import com.adsale.ChinaPlas.data.FloorRepository;
 import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.data.model.adAdvertisementObj;
+import com.adsale.ChinaPlas.helper.LogHelper;
 import com.adsale.ChinaPlas.ui.view.FloorDialogFragment;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
@@ -40,6 +43,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
+import static com.adsale.ChinaPlas.App.mLogHelper;
 import static com.adsale.ChinaPlas.ui.FloorDetailActivity.BASE_SCALE;
 
 
@@ -437,10 +441,12 @@ public class FloorDtlViewModel implements FloorDialogFragment.OnDialogCancelList
      * SELECT * FROM FLOOR_PLAN_COORDINATE WHERE BOOTH_NUM IN (select BOOTH_NO FROM EXHIBITOR WHERE HALL_NO='1H' AND IS_FAVOURITE=1 )
      */
     public void drawFavoFlagsOnMap() {
-        StringBuilder sbSql = new StringBuilder();
-        sbSql.append("SELECT * FROM FLOOR_PLAN_COORDINATE WHERE BOOTH_NUM IN (select BOOTH_NO FROM EXHIBITOR WHERE HALL_NO='").append(mHall).append("' AND IS_FAVOURITE=1)");
-
-        Cursor cursor = App.mDBHelper.db.rawQuery(sbSql.toString(), null);
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT * FROM FLOOR_PLAN_COORDINATE WHERE BOOTH_NUM IN (select ")
+                .append(ExhibitorDao.Properties.BoothNo.columnName).append(" FROM ").append(ExhibitorDao.TABLENAME)
+                .append(" where ").append(ExhibitorDao.Properties.HallNo.columnName).append("='").append(mHall).append("' AND ")
+                .append(ExhibitorDao.Properties.IsFavourite.columnName).append("=1)");
+        Cursor cursor = App.mDBHelper.db.rawQuery(sql.toString(), null);
         if (cursor == null) {
             return;
         }
@@ -567,7 +573,11 @@ public class FloorDtlViewModel implements FloorDialogFragment.OnDialogCancelList
         mRepository = null;
     }
 
-    public void onM4Click(int pos) {
+//    public void onM4Click(int pos) {
+//        mIntentListener.onIntent(pos + "", null);
+//    }
+
+    public void onAdClick(int pos){
         mIntentListener.onIntent(pos + "", null);
     }
 

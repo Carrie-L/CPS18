@@ -26,10 +26,15 @@
             android:background="#ccc">
 
             <ImageView
+                android:id="@id/iv_help"
+                style="@style/help_btn_style"
+                android:onClick="@{()->exhibitorModel.onHelpPage()}" />
+
+            <ImageView
                 android:id="@+id/iv_filter"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:layout_alignParentRight="true"
+                android:layout_toLeftOf="@id/iv_help"
                 android:onClick="@{() -> exhibitorModel.onImgFilter()}"
                 android:scaleType="center"
                 android:src="@drawable/icon_filter2" />
@@ -103,17 +108,23 @@
             android:layout_above="@id/iv_ad"
             android:layout_below="@id/tv_sort_by"
             android:scrollbarStyle="outsideOverlay"
-            android:scrollbars="vertical"
-            />
+            android:scrollbars="vertical" />
 
         <com.adsale.ChinaPlas.ui.view.SideDataView
             android:id="@+id/view_side_data"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_below="@id/rl_search"
             android:layout_above="@id/iv_ad"
-            />
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/rl_search" />
+
+        <TextView
+            android:id="@+id/tv_nodata"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/nodata"
+            android:visibility="@{exhibitorModel.mExhibitors.isEmpty()?View.VISIBLE:View.GONE}" />
 
     </RelativeLayout>
 

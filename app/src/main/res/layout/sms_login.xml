@@ -56,7 +56,7 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             android:layout_marginTop="32dp"
-            android:background="@drawable/bttn_red"
+            android:background="@color/home"
             android:onClick="@{() -> loginViewModel.sendCode()}"
             android:text="@string/login_text4"
             android:textColor="#ffffff"

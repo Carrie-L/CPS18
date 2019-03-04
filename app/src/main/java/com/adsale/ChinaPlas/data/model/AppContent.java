@@ -58,7 +58,7 @@ public class AppContent {
     }
 
     private String getHtm() {
-        return AppUtil.getName("TC.htm", "EN.htm", "SC.htm");
+        return AppUtil.getName("TC.htm", "EN.html", "SC.htm");
     }
 
 }

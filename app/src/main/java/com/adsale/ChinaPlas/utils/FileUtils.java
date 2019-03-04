@@ -961,6 +961,7 @@ public class FileUtils {
             }
             writer = new FileWriter(file, true);
             writer.write(str);
+//            return true;
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

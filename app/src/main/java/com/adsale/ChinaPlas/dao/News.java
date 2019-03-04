@@ -22,18 +22,17 @@ public class News implements Parcelable {
     /**
      * Not-null value.
      */
-    private String CreateDateTime;
+    private String createdAt;
     /**
      * Not-null value.
      */
-    private String UpdateDateTime;
-    /**
-     * Not-null value.
-     */
-    private String RecordTimeStamp;
+    private String updatedAt;
     private String PublishDate;
 
     // KEEP FIELDS - put your custom fields here
+    private boolean IsDelete;
+
+
     // KEEP FIELDS END
 
     public News() {
@@ -43,17 +42,25 @@ public class News implements Parcelable {
         this.NewsID = NewsID;
     }
 
-    public News(String NewsID, Integer LType, String Logo, String ShareLink, String Title, String Description, String CreateDateTime, String UpdateDateTime, String RecordTimeStamp, String PublishDate) {
+    public News(String NewsID, Integer LType, String Logo, String ShareLink, String Title, String Description, String PublishDate,String CreateDateTime, String UpdateDateTime, Boolean IsDelete) {
         this.NewsID = NewsID;
         this.LType = LType;
         this.Logo = Logo;
         this.ShareLink = ShareLink;
         this.Title = Title;
         this.Description = Description;
-        this.CreateDateTime = CreateDateTime;
-        this.UpdateDateTime = UpdateDateTime;
-        this.RecordTimeStamp = RecordTimeStamp;
         this.PublishDate = PublishDate;
+        this.createdAt = CreateDateTime;
+        this.updatedAt = UpdateDateTime;
+        this.IsDelete = IsDelete;
+    }
+
+    public Boolean getIsDelete() {
+        return IsDelete;
+    }
+
+    public void setIsDelete(Boolean isDelete) {
+        IsDelete = isDelete;
     }
 
     public String getNewsID() {
@@ -108,51 +115,36 @@ public class News implements Parcelable {
      * Not-null value.
      */
     public String getCreateDateTime() {
-        return CreateDateTime;
+        return createdAt;
     }
 
     /**
      * Not-null value; ensure this value is available before it is saved to the database.
      */
     public void setCreateDateTime(String CreateDateTime) {
-        this.CreateDateTime = CreateDateTime;
+        this.createdAt = CreateDateTime;
     }
 
     /**
      * Not-null value.
      */
     public String getUpdateDateTime() {
-        return UpdateDateTime;
+        return updatedAt;
     }
 
     /**
      * Not-null value; ensure this value is available before it is saved to the database.
      */
     public void setUpdateDateTime(String UpdateDateTime) {
-        this.UpdateDateTime = UpdateDateTime;
-    }
-
-    /**
-     * Not-null value.
-     */
-    public String getRecordTimeStamp() {
-        return RecordTimeStamp;
-    }
-
-    /**
-     * Not-null value; ensure this value is available before it is saved to the database.
-     */
-    public void setRecordTimeStamp(String RecordTimeStamp) {
-        this.RecordTimeStamp = RecordTimeStamp;
+        this.updatedAt = UpdateDateTime;
     }
 
     public String getPublishDate() {
-        PublishDate = PublishDate.split(" ")[0];
         return PublishDate;
     }
 
-    public void setPublishDate(String PublishDate) {
-        this.PublishDate = PublishDate;
+    public void setPublishDate(String publishDate) {
+        PublishDate = publishDate;
     }
 
     // KEEP METHODS - put your custom methods here
@@ -161,18 +153,16 @@ public class News implements Parcelable {
     public String toString() {
         return "News{" +
                 "NewsID='" + NewsID + '\'' +
-                ", LType=" + LType +
-                ", Logo='" + Logo + '\'' +
-                ", ShareLink='" + ShareLink + '\'' +
-                ", Title='" + Title + '\'' +
-                ", Description='" + Description + '\'' +
-                ", CreateDateTime='" + CreateDateTime + '\'' +
-                ", UpdateDateTime='" + UpdateDateTime + '\'' +
-                ", RecordTimeStamp='" + RecordTimeStamp + '\'' +
-                ", PublishDate='" + PublishDate + '\'' +
+//                ", LType=" + LType +
+//                ", Logo='" + Logo + '\'' +
+//                ", ShareLink='" + ShareLink + '\'' +
+//                ", Title='" + Title + '\'' +
+//                ", Description='" + Description + '\'' +
+//                ", PublishDate='" + PublishDate + '\'' +
+//                ", CreateDateTime='" + createdAt + '\'' +
+//                ", UpdateDateTime='" + updatedAt + '\'' +
                 '}';
     }
-
 
     // KEEP METHODS END
 
@@ -189,10 +179,9 @@ public class News implements Parcelable {
         dest.writeString(this.ShareLink);
         dest.writeString(this.Title);
         dest.writeString(this.Description);
-        dest.writeString(this.CreateDateTime);
-        dest.writeString(this.UpdateDateTime);
-        dest.writeString(this.RecordTimeStamp);
         dest.writeString(this.PublishDate);
+        dest.writeString(this.createdAt);
+        dest.writeString(this.updatedAt);
     }
 
     protected News(Parcel in) {
@@ -202,10 +191,9 @@ public class News implements Parcelable {
         this.ShareLink = in.readString();
         this.Title = in.readString();
         this.Description = in.readString();
-        this.CreateDateTime = in.readString();
-        this.UpdateDateTime = in.readString();
-        this.RecordTimeStamp = in.readString();
         this.PublishDate = in.readString();
+        this.createdAt= in.readString();
+        this.updatedAt = in.readString();
     }
 
     public static final Parcelable.Creator<News> CREATOR = new Parcelable.Creator<News>() {

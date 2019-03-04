@@ -17,6 +17,8 @@ import com.adsale.ChinaPlas.data.DownloadClient;
 import com.adsale.ChinaPlas.databinding.ActivitySubscribeBinding;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
+import com.adsale.ChinaPlas.utils.FileUtil;
+import com.adsale.ChinaPlas.utils.FileUtils;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.NetWorkHelper;
 import com.adsale.ChinaPlas.utils.ReRxUtils;
@@ -98,7 +100,12 @@ public class SubscribeActivity extends BaseActivity {
                         if (body != null) {
                             try {
                                 String res = body.string();
+                                LogUtil.i(TAG, "res=" + res);
+
+                                FileUtils.writeFileTo(res, App.filesDir.concat("res.txt"));
+
                                 if (!res.isEmpty() && res.contains("callSuccess()")) {
+//                                    FileUtils.writeStringToFile(res,App.filesDir+"res.txt",true);
                                     body.close();
                                     return true;
                                 }
@@ -131,7 +138,7 @@ public class SubscribeActivity extends BaseActivity {
                             reset();
                             AppUtil.showConfirmAlertDialog(SubscribeActivity.this, getString(R.string.thx_dy));
                         } else {
-                            AppUtil.showConfirmAlertDialog(SubscribeActivity.this, getString(R.string.Registering_MSg));
+                            AppUtil.showConfirmAlertDialog(SubscribeActivity.this, "Failed");
                         }
                     }
 
@@ -165,8 +172,8 @@ public class SubscribeActivity extends BaseActivity {
         WebContent webContent = webContentDao.load("99");
         LogUtil.i(TAG, "webContent=" + webContent.toString());
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra(Constant.WEB_URL, webContent.getPageId());
-        intent.putExtra("title", webContent.getTitle(language));
+        intent.putExtra(Constant.WEB_URL, "WebContent/" + webContent.getContentID());
+        intent.putExtra("title", getString(R.string.setting_privacy_policy));
         startActivity(intent);
         overridePendingTransPad();
     }
@@ -190,8 +197,8 @@ public class SubscribeActivity extends BaseActivity {
 
 
     private void track() {
-        AppUtil.trackViewLog(422, "SE", "", "");
-        AppUtil.setStatEvent(getApplicationContext(), "SubscribeE", "SE");
+        AppUtil.trackViewLog(422, "Subscribe", "", "");
+        AppUtil.setStatEvent(getApplicationContext(), "Subscribe", "Subscribe_"+email.get());
     }
 
 

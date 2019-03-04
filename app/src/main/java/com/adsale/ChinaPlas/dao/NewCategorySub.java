@@ -22,6 +22,7 @@ public class NewCategorySub implements Parcelable,Filter{
 
     // KEEP FIELDS - put your custom fields here
     public ObservableBoolean isSelected = new ObservableBoolean();
+
     // KEEP FIELDS END
 
     public NewCategorySub(){
@@ -84,6 +85,8 @@ public class NewCategorySub implements Parcelable,Filter{
     public int getOrderId() {
         return OrderId;
     }
+
+
 
     // KEEP METHODS - put your custom methods here
     //MainTypeId|SubNameEn|SubNameTc|SubNameSc|CategoryId|OrderId
@@ -152,6 +155,16 @@ public class NewCategorySub implements Parcelable,Filter{
         }
     };
 
-
-
+    @Override
+    public String toString() {
+        return "NewCategorySub{" +
+                "MainTypeId='" + MainTypeId + '\'' +
+                ", SubNameEn='" + SubNameEn + '\'' +
+                ", SubNameTc='" + SubNameTc + '\'' +
+                ", SubNameSc='" + SubNameSc + '\'' +
+                ", CategoryId='" + CategoryId + '\'' +
+                ", OrderId=" + OrderId +
+                ", isSelected=" + isSelected +
+                '}';
+    }
 }

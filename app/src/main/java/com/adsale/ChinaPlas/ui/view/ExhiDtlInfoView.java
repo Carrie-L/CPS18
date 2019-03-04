@@ -118,9 +118,21 @@ public class ExhiDtlInfoView extends RelativeLayout {
         AppUtil.sendEmailIntent(mContext, mExhibitor.getEmail());
     }
 
+    public interface OnCallPhoneListener{
+        void callPhone(String number);
+    }
+
+    private OnCallPhoneListener mListener;
+
+    public void setOnCallPhoneListener(OnCallPhoneListener listener){
+        mListener = listener;
+    }
 
     public void onTel() {
-        AppUtil.callPhoneIntent(binding.tvTel.getContext(), mExhibitor.getTel());
+        if(mListener!=null){
+            mListener.callPhone(mExhibitor.getTel());
+        }
+//        AppUtil.callPhoneIntent(binding.tvTel.getContext(), mExhibitor.getTel());
     }
 
     public void onWebsite() {

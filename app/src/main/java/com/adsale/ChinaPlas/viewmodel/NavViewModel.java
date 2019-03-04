@@ -11,11 +11,14 @@ import android.databinding.ObservableInt;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.DrawerListAdapter;
+import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.dao.MainIcon;
 import com.adsale.ChinaPlas.data.MainIconRepository;
 import com.adsale.ChinaPlas.data.OnIntentListener;
@@ -23,8 +26,10 @@ import com.adsale.ChinaPlas.ui.CommonListActivity;
 import com.adsale.ChinaPlas.ui.ConcurrentEventActivity;
 import com.adsale.ChinaPlas.ui.DocumentsDownCenterActivity;
 import com.adsale.ChinaPlas.ui.ExhibitorAllListActivity;
+import com.adsale.ChinaPlas.ui.ExhibitorHistoryActivity;
 import com.adsale.ChinaPlas.ui.FloorDetailActivity;
 import com.adsale.ChinaPlas.ui.FloorDtlActivity;
+import com.adsale.ChinaPlas.ui.LoginActivity;
 import com.adsale.ChinaPlas.ui.MyExhibitorActivity;
 import com.adsale.ChinaPlas.ui.NCardActivity;
 import com.adsale.ChinaPlas.ui.NCardCreateEditActivity;
@@ -40,10 +45,12 @@ import com.adsale.ChinaPlas.ui.TravelInfoActivity;
 import com.adsale.ChinaPlas.ui.UpdateCenterActivity;
 import com.adsale.ChinaPlas.ui.UserInfoActivity;
 import com.adsale.ChinaPlas.ui.WebContentActivity;
+import com.adsale.ChinaPlas.ui.WebViewActivity;
 import com.adsale.ChinaPlas.ui.WebViewTestActivity;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
+import com.adsale.ChinaPlas.utils.NetWorkHelper;
 import com.adsale.ChinaPlas.utils.PermissionUtil;
 
 import java.util.ArrayList;
@@ -136,7 +143,7 @@ public class NavViewModel extends AndroidViewModel implements OnIntentListener {
         Collections.sort(mParents, new Comparator<MainIcon>() {
             @Override
             public int compare(MainIcon lhs, MainIcon rhs) {
-                return Integer.valueOf(lhs.getGoogle_TJ()).compareTo(Integer.valueOf(rhs.getGoogle_TJ()));
+                return Integer.valueOf(lhs.getDrawerSeq()).compareTo(Integer.valueOf(rhs.getDrawerSeq()));
             }
         });
 
@@ -144,7 +151,7 @@ public class NavViewModel extends AndroidViewModel implements OnIntentListener {
         for (int i = 0; i < parentSize; i++) {
             parent = mParents.get(i);
             for (int j = 0; j < childSize; j++) {
-                if (child.get(j).getGoogle_TJ().split("_")[0].equals(parent.getGoogle_TJ())) {
+                if (child.get(j).getDrawerSeq().split("_")[0].equals(parent.getDrawerSeq())) {
                     parent.hasChild = true;
                     parent.isDrawerHasChild.set(true);
                     mParents.set(i, parent);
@@ -152,6 +159,9 @@ public class NavViewModel extends AndroidViewModel implements OnIntentListener {
                 }
             }
         }
+
+        LogUtil.i(TAG, "mParents===" + mParents.size() + "," + mParents.toString());
+//        LogUtil.i(TAG, "mLeftMenus===" + mLeftMenus.size() + "," + mLeftMenus.toString());
 
         long endTime = System.currentTimeMillis();
         LogUtil.i(TAG, " processDrawerList spend : " + (endTime - startTime) + "ms");
@@ -166,7 +176,7 @@ public class NavViewModel extends AndroidViewModel implements OnIntentListener {
         if (drawerListAdapter == null) {
             return;
         }
-        drawerListAdapter.updateCenterCount(count);
+//        drawerListAdapter.updateCenterCount(count);
     }
 
     private void initPadList() {
@@ -189,11 +199,33 @@ public class NavViewModel extends AndroidViewModel implements OnIntentListener {
     private void setHeaderText() {
         if (isLoginSuccess.get()) {
             drawerLoginTitle.set("");
-            drawerLoginOrSync.set(mContext.getString(R.string.drawer_sync));
-            drawerLogout.set(mContext.getString(R.string.left_menu_logout));
+//            drawerLoginOrSync.set(mContext.getString(R.string.drawer_sync));   //  用这个在切换语言时有不生效的问题
+//            drawerLogout.set(mContext.getString(R.string.left_menu_logout));
+            if (App.mLanguage.get() == 0) {
+                drawerLogout.set("登出");
+                drawerLoginOrSync.set("與官網同步");
+            } else if (App.mLanguage.get() == 1) {
+                drawerLogout.set("Logout");
+                drawerLoginOrSync.set("Sync");
+            } else {
+                drawerLogout.set("登出");
+                drawerLoginOrSync.set("与官网同步");
+            }
         } else {
-            drawerLoginTitle.set(mContext.getString(R.string.left_menu_user_login));
-            drawerLoginOrSync.set(mContext.getString(R.string.left_menu_login));
+//            drawerLoginTitle.set(mContext.getString(R.string.left_menu_user_login));
+//            drawerLoginOrSync.set(mContext.getString(R.string.left_menu_login));
+            if (App.mLanguage.get() == 0) {
+                drawerLoginTitle.set("預先登記觀眾登入");
+                drawerLoginOrSync.set("登錄");
+            } else if (App.mLanguage.get() == 1) {
+                drawerLoginTitle.set("VisitorPreRegistration");
+                drawerLoginOrSync.set("Login");
+            } else {
+                drawerLoginTitle.set("预先登记观众登入");
+                drawerLoginOrSync.set("登录");
+            }
+
+
         }
     }
 
@@ -201,6 +233,11 @@ public class NavViewModel extends AndroidViewModel implements OnIntentListener {
         setHeaderText();
     }
 
+    /**
+     * {@link BaseActivity#sync()}
+     *
+     * @param view
+     */
     public void sync(View view) {
         Toast.makeText(mContext, mContext.getString(R.string.syncStart), Toast.LENGTH_SHORT).show();
         if (mDrawerListener != null) {
@@ -249,39 +286,77 @@ public class NavViewModel extends AndroidViewModel implements OnIntentListener {
             case Constant.BDTJ_VISITOR_REG://预登记
             case Constant.BDTJ_VISITOR_REG_TEXT://预登记
             case Constant.BDTJ_VISITO://预登记
-                intent = new Intent(activity, RegisterActivity.class);
-//                intent = new Intent(activity, DocumentsDownCenterActivity.class);
+//                intent = new Intent(activity, RegisterActivity.class);
+                intent = new Intent(activity, ConcurrentEventActivity.class);
+//                intent = new Intent(activity, NewTecActivity.class);
+//                intent = new Intent(activity, .class);
+//                intent = new Intent(activity, UpdateCenterActivity.class);
                 break;
             case Constant.BDTJ_MY_ACCOUNT://用户资料
-                intent = new Intent(activity, UserInfoActivity.class);
+                if (AppUtil.isLogin()) {
+                    intent = new Intent(activity, UserInfoActivity.class);
+                } else {
+                    MyChinaplasToLogin(activity);
+                }
+                LogUtil.i(TAG, "@@@@ BDTJ_MY_ACCOUNT ");
                 break;
+            case Constant.BDTJ_MyCHINAPLAS://  MyChinaplas
+                MyChinaplasToLogin(activity);
+                break;
+            case Constant.BDTJ_MY_EXHIBITOR://用户资料
+                if (AppUtil.isLogin()) {
+                    intent = new Intent(activity, MyExhibitorActivity.class);
+                } else {
+                    MyChinaplasToLogin(activity);
+                }
+                break;
+            case Constant.BDTJ_MySchedule:
+                if (AppUtil.isLogin()) {
+                    intent = new Intent(activity, ScheduleActivity.class);
+                } else {
+                    intent = MyChinaplasToLogin(activity);
+                }
+                break;
+            case Constant.BDTJ_MY_NAME_CARD://名片
+                if (AppUtil.isLogin()) {
+                    SharedPreferences spNameCard = activity.getSharedPreferences("MyNameCard", Context.MODE_PRIVATE);
+                    boolean isCreate = spNameCard.getBoolean("isCreate", true);
+                    if (isCreate) {
+                        intent = new Intent(activity, NCardCreateEditActivity.class);
+                    } else {
+                        intent = new Intent(activity, NCardActivity.class);
+                    }
+                } else {
+                    intent = MyChinaplasToLogin(activity);
+                }
+                break;
+            case Constant.BDTJ_ExhibitorHistory:
+                if (AppUtil.isLogin()) {
+                    intent = new Intent(activity, ExhibitorHistoryActivity.class);
+                } else {
+                    intent = MyChinaplasToLogin(activity);
+                }
+                break;
+//            case Constant.BDTJ_Sync:
+//                Toast.makeText(activity, activity.getString(R.string.syncStart), Toast.LENGTH_SHORT).show();
+//                SyncViewModel syncViewModel = new SyncViewModel(activity);
+//                syncViewModel.syncMyExhibitor();
+//                break;
             case Constant.BDTJ_EXHIBITOR_LIST:// 展商名单
                 LogUtil.i(TAG, "BDTJ_EXHIBITOR_LIST");
-//                intent = new Intent(activity, ExhibitorAllListActivity.class);
-
-
-
-                intent = new Intent(activity, WebViewTestActivity.class);
-                
-
-
-
+                intent = new Intent(activity, ExhibitorAllListActivity.class);
                 break;
             case Constant.BDTJ_SCHEDULE:// 我的日程
                 intent = new Intent(activity, ScheduleActivity.class);
                 break;
+            case Constant.BDTJ_Sync:// 我的日程
+                SyncViewModel syncViewModel = new SyncViewModel(mContext);
+                syncViewModel.syncMyExhibitor();
+                break;
             case Constant.BDTJ_CONTENT_UPDATE:
                 intent = new Intent(activity, UpdateCenterActivity.class);
                 break;
-            case Constant.BDTJ_MY_NAME_CARD://名片
-                SharedPreferences spNameCard = activity.getSharedPreferences("MyNameCard", Context.MODE_PRIVATE);
-                boolean isCreate = spNameCard.getBoolean("isCreate", true);
-                if (isCreate) {
-                    intent = new Intent(activity, NCardCreateEditActivity.class);
-                } else {
-                    intent = new Intent(activity, NCardActivity.class);
-                }
-                break;
+
 //            case Constant.BDTJ_HALL_MAP_TEXT:
 //            case Constant.BDTJ_HALL_MAP:
 //                intent = new Intent(activity, WebContentActivity.class);
@@ -301,14 +376,13 @@ public class NavViewModel extends AndroidViewModel implements OnIntentListener {
                 break;
             case Constant.BDTJ_SETTING:/* 设置 */
                 intent = new Intent(activity, SettingActivity.class);
-//                intent.putExtra("title", activity.getString(R.string.title_setting));// oclsMainIcon.getTitle(AppUtil.getCurLanguage(context)
-                break;
-            case Constant.BDTJ_MY_EXHIBITOR:
-                intent = new Intent(activity, MyExhibitorActivity.class);
                 break;
             case Constant.BDTJ_SUBSRIBEE_NEWSLETTER:/* 订阅电子快讯 */
                 LogUtil.i(TAG, "跳转。。。SubscribeActivity");
-                intent = new Intent(activity, SubscribeActivity.class);
+//                intent = new Intent(activity, SubscribeActivity.class);
+
+                intent = new Intent(activity, NewTecActivity.class);
+
                 break;
             case Constant.BDTJ_QR_SCANNER:/* 二维码扫描器 */
                 boolean hasCameraPerm = PermissionUtil.checkPermission(activity, PERMISSION_CAMERA);
@@ -339,6 +413,14 @@ public class NavViewModel extends AndroidViewModel implements OnIntentListener {
         }
         intent.putExtra("title", mainIcon.getTitle(AppUtil.getCurLanguage()));
         intent.putExtra(Constant.BAIDU_TJ, mainIcon.getBaiDu_TJ());
+        return intent;
+    }
+
+    private Intent MyChinaplasToLogin(Activity activity) {
+        intent = new Intent(activity, LoginActivity.class);
+        intent.putExtra(Constant.WEB_URL, String.format(NetWorkHelper.MY_CHINAPLAS_URL, AppUtil.getLanguageUrlType()));
+        intent.putExtra(Constant.TITLE, mContext.getString(R.string.title_login));
+        intent.putExtra("MyTool", true); // 登录成功后返回到用户小工具列表
         return intent;
     }
 

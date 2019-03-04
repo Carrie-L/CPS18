@@ -10,6 +10,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.LinearLayout;
 
+import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.adapter.IndustryAdapter;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.dao.Industry;
@@ -126,6 +127,9 @@ public class FilterIndustryListActivity extends BaseActivity implements SideLett
     }
 
     private void setResultData() {
+        if(filters.size()>0){
+            App.mLogHelper.eventLog(403, "FilterE", "Industry", App.mLogHelper.getFiltersName(filters));
+        }
         Intent intent = new Intent();
         intent.putExtra("data", filters);
         LogUtil.i(TAG, "onDestroy::filters=" + filters.size() + "," + filters.toString());

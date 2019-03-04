@@ -1,566 +1,256 @@
 ﻿{
-  "Common": {
-    "baseUrl": "https://o97tbiy1f.qnssl.com/advertisement/",
-    "time": "1/1/2018-12/12/2018",
-    "tablet": "tablet_",
-    "phone": "phone_"
-  },
-  "M1": {
-    "version": [
-      "1"
-    ],
-    "format": ".jpg",
-    "function": "1",
-    "filepath": "M1/",
-    "action_companyID": [
-      [
-        "236494"
-      ],
-      [
-        "236494"
-      ],
-      [
-        "236494"
-      ]
-    ],
-    "action_eventID": [
-      "001"
-    ],
-    "action_seminarID": [
-      "15"
-    ],
-    "action_newsID": [
-      "0000000409"
-    ],
-    "isChange": "1"
-  },
-  "M2": {
-    "version": "3",
-    "function": "1",
-    "filepath": "M2/",
-    "format": ".jpg",
-    "image2": "big_",
-    "action_companyID_sc": "236697",
-    "action_companyID_en": "234280",
-    "action_companyID_tc": "236697",
-    "action_eventID": "001",
-    "action_seminarID": "15",
-    "action_newsID": "0000000409",
-    "cmsID": "0"
-  },
-  "M3": {
-    "version": "2",
-    "function": "1",
-    "filepath": "M3/",
-    "format": ".jpg",
-    "action_companyID_sc": "234768",
-    "action_companyID_en": "234768",
-    "action_companyID_tc": "234768",
-    "action_eventID": "001",
-    "action_seminariD": "15",
-    "action_newsID": "0000000409",
-    "cmsID": "0"
-  },
-  "M4_left": {
-    "version": [
-      "1",
-      "1",
-      "1",
-      "1",
-      "1",
-      "1",
-      "2",
-      "2",
-      "1",
-      "1",
-      "1"
-    ],
-    "function": [
-      "1",
-      "2",
-      "2",
-      "2",
-      "2",
-      "2",
-      "2",
-      "2",
-      "2",
-      "2",
-      "2"
-    ],
-    "filepath": "M4/",
-    "format": ".jpg",
-    "floor": [
-      "7.2H",
-      "5.1H",
-      "2H",
-      "4.1H",
-      "4.2H",
-      "8.2H",
-      "3H",
-      "6.2H",
-      "1H",
-      "6.1H",
-      "7.1H"
-    ],
-    "action_companyID": [
-      "236027",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      ""
-    ],
-    "action_eventID": [
-      "",
-      "MedicalPlastics",
-      "IndustryConference",
-      "IndustryConference",
-      "TechTalk",
-      "TechTalk",
-      "DesignInnovationCMF",
-      "DesignInnovationCMF",
-      "RecycleProgram",
-      "RecycleProgram",
-      "RecycleProgram"
-    ]
-  },
-  "M4_right": {
-    "version": [
-      "1",
-      "1",
-      "1",
-      "1",
-      "1",
-      "1",
-      "2",
-      "2",
-      "1",
-      "1",
-      "1"
-    ],
-    "function": [
-      "1",
-      "2",
-      "2",
-      "2",
-      "2",
-      "2",
-      "2",
-      "2",
-      "2",
-      "2",
-      "2"
-    ],
-    "filepath": "M4/",
-    "format": ".jpg",
-    "floor": [
-      "7.2H",
-      "5.1H",
-      "2H",
-      "4.1H",
-      "4.2H",
-      "8.2H",
-      "3H",
-      "6.2H",
-      "1H",
-      "6.1H",
-      "7.1H"
-    ],
-    "action_companyID": [
-      "238612",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      ""
-    ],
-    "action_eventID": [
-      "",
-      "MedicalPlastics",
-      "IndustryConference",
-      "IndustryConference",
-      "TechTalk",
-      "TechTalk",
-      "DesignInnovationCMF",
-      "DesignInnovationCMF",
-      "RecycleProgram",
-      "RecycleProgram",
-      "RecycleProgram"
-    ]
-  },
-  "M5": {
-    "version": [
-      "1",
-      "1",
-      "1",
-      "1",
-      "1",
-      "1"
-    ],
-    "function": "2",
-    "filepath": "M5/",
-    "format": ".jpg",
-    "logo": "logo",
-    "product": [
-      "left",
-      "center",
-      "right"
-    ],
-    "description": [
-      {
-        "descriptionEng": "SCG Chemicals is one of the largest integrated petrochemical companies in Thailand and a key industry leader in the Asia – Pacific region offers a full range of petrochemical products ranging from upstream production of olefins to downstream production of 3 main plastics resins; polyethylene, polypropylene and polyvinyl chloride. To better serve customers’ requirements, SCG Chemicals assigns prime importance to the development of new technology and innovation for the creation of high value-added products and services (HVA) in our main focus industries including food & beverage packaging, building & infrastructure, automotive, and home appliances.",
-        "descriptionTC": "暹羅化工集團 (SCG) 是泰國最大的綜合性石化企業之一，也是亞太地區石化行業的領先企業，擁有完整的化工原料供應鏈，產品系列包括從上游的乙烯單體到下游三種主要塑膠原料:聚乙烯，聚丙烯，聚氯乙烯，更好的服務於不同類型的客戶。暹羅化工集團 (SCG) 致力於技術創新和科技進步，為食品包裝，建築和基建材料，汽車和家庭用品等行業的客戶開發高附加值的塑膠原料。",
-        "descriptionSC": "暹罗化工集团 (SCG) 是泰国最大的综合性石化企业之一，也是亚太地区石化行业的领先企业，拥有完整的化工原料供应链，产品系列包括从上游的乙烯单体到下游三种主要塑胶原料:聚乙烯，聚丙烯，聚氯乙烯，更好的服务于不同类型的客户。暹罗化工集团 (SCG) 致力于技术创新和科技进步，为食品包装，建筑和基建材料，汽车和家庭用品等行业的客户开发高附加值的塑胶原料。"
-      },
-      {
-        "descriptionEng": "Topolymer® series (3s, 5s, 6s, 7s, 8s, Ms) are TPE compound based on Styrenic Block Copolymer (SBC). The compound can be used for single injection or over-molded onto different plastic substrates including PP, PE, PA, ABS, PC. The products are designed for wide applications, including consumer products, automotive parts, medical products, electronic products and so on. We supply the customized TPE solution according to your needs and requirements.  Topolymer® series 9 is heat-stabilized PP/EPDM based Thermoplastic Vulcanizate (TPV) in the family of Thermoplastic Elastomer，can be widely used in various applications including automotive interiors and exteriors, sealing systems, covers, underhood, gaskets, construction seals, electricals, consumer products.   They are friendly environmental and recyclable.",
-        "descriptionTC": "Topolymer® 產品系列(3s, 5s, 6s,7s,8s, Ms)是以苯乙烯類共聚物為主基材的熱塑性彈性體。產品可單獨成型,也可與PP、PE、PA、ABS、PC等塑料粘合。產品廣泛應用於消費品，汽車，醫療，電子等領域。  Topolymer® 9產品系列以PP/EPDM為基材、動態硫化的熱塑性硫化橡膠（TPV）。該系列廣泛應用於汽車內外飾、密封系統、罩蓋、發動機艙內零部件、墊圈墊片、建築密封系、電子電器、日用消費品等",
-        "descriptionSC": "Topolymer® 产品系列(3s, 5s, 6s,7s,8s, Ms)是以苯乙烯类共聚物为主基材的热塑性弹性体。产品可单独成型,也可与PP、PE、PA、ABS、PC等塑料粘合。产品广泛应用于消费品，汽车，医疗，电子等领域。  Topolymer® 9产品系列以PP/EPDM为基材、动态硫化的热塑性硫化橡胶（TPV）。该系列广泛应用于汽车内外饰、密封系统、罩盖、发动机舱内零部件、垫圈垫片、建筑密封系、电子电器、日用消费品等"
-      },
-      {
-        "descriptionEng": "",
-        "descriptionTC": "",
-        "descriptionSC": ""
-      },
-      {
-        "descriptionEng": "Packaging and Specialty Plastics, a business unit of The Dow Chemical Company (Dow), combines core strengths of R&D, worldwide reach, broad product lines and industry expertise to deliver innovative and sustainable solutions for plastics. The business is one of the largest polyethylene producers in the world, and a leading collaborator across the value chain on the development of new technologies and applications for high growth markets in packaging, health & hygiene, transportation, consumer, and infrastructure.",
-        "descriptionTC": "陶氏包裝與特種塑料是陶氏化學公司（簡稱陶氏）旗下的事業部，擁有研發實力、全球覆蓋、廣泛的產品線及行業專長等核心優勢，為塑料市場提供可持續解決方案。陶氏包裝與特種塑料是全球最大的聚乙烯產品生產商之一，也是跨越產業價值鏈的領先創新者和協作者，專注於包裝、衛材與健康、交通運輸、消費者、以及基礎設施等高增長領域的應用。",
-        "descriptionSC": "陶氏包装与特种塑料是陶氏化学公司（简称陶氏）旗下的事业部，拥有研发实力、全球覆盖、广泛的产品线及行业专长等核心优势，为塑料市场提供可持续解决方案。陶氏包装与特种塑料是全球最大的聚乙烯产品生产商之一，也是跨越产业价值链的领先创新者和协作者，专注于包装、卫材与健康、交通运输、消费者、以及基础设施等高增长领域的应用。"
-      },
-      {
-        "descriptionEng": "VAMP TECH was founded in November 1988 inspired by the concept of developing a strong expertise on flame retardant formulations, developed on various polymer bases.Year after year the company specialized on technical compounds with the ambition to meet the demand of the market for high-tech materials. The product range was progressively expanded to many polymeric bases: PS, ABS, PP, POM, PBT, PA6, PA66, PC, PC/ABS, PPS, PPA, PSU, PEEK and alloys. In the meantime more than 100 leagues and UL certifications were achieved.Today the VAMP TECH product range includes, in addition to flame retarded compounds, which are the core business of the company, the following high performance product families: Metal Replacement (PA66, PPA); High Temperature (PPS, PPA and PEEK); Semi-conductive and antistatic + UL94-V0 (with carbon fibres, carbon nanotubes and polar polymers in flame retarded materials); Self-Lubricated + UL94-V0 (with silicone, PTFE, molybdenum disulfide and aramid fibre in flame retarded materials).The applications of VAMP TECH compounds are typically injection molding and extrusion of products addressed to several industrial sectors, such as household appliances, electrical and electronics, automotive, furniture, public building, sport & leisure.",
-        "descriptionTC": "VAMP TECH 專注於開發和生產具有專利的高性能阻燃材料，產品範圍包括PA6，PA66，PP, PC，PC / ABS，PPS，PPA，PSU，PEEK和 各種合金等，主要產品線有：工程塑料阻燃改性系列，工程塑料不阻燃改性系列，導電防靜電系列，耐磨系列，耐高溫系列，金屬替代系列，特種改性系列。這些產品共取得超過100個UL認證及多個VDE認證及其他相關行業認證。",
-        "descriptionSC": "VAMP TECH 专注于开发和生产具有专利的高性能阻燃材料，产品范围包括PA6，PA66，PP, PC，PC / ABS，PPS，PPA，PSU，PEEK和 各种合金等，主要产品线有：工程塑料阻燃改性系列，工程塑料不阻燃改性系列，导电防静电系列，耐磨系列，耐高温系列，金属替代系列，特种改性系列。这些产品共取得超过100个UL认证及多个VDE认证及其他相关行业认证。"
-      },
-      {
-        "descriptionEng": "PA, commonly known as nylon, is a type of engineering plastics, which possesses good mechanical properties, heat resistance, chemical resistance, abrasion resistance, self-lubricating features and good processing properties. PA is widely applied to automobiles, rail transits, engineering machinery, aerospace, ships, constructions, electronic electricity and textiles. CPP, also known as Casting Polypropylene Film, is a type of unstretched and non-oriented polypropylene film, which has no poisons, no tastes, no odors, good sanitation properties & transparencies, high glossiness & stiffness, good moisture resistance, fine heat resistance properties and good heat sealing properties.",
-        "descriptionTC": "PA（俗稱尼龍）工程塑料具有良好的機械性能、耐熱性、耐化學性、耐磨性和自潤滑性，易加工等，廣泛應用於汽車、軌道交通、工程機械、航空航天、船舶、建築、電子電氣、紡織等。CPP（流延聚丙烯薄膜）是一種無拉伸、非定向聚丙烯薄膜，其具有無毒、無味、無嗅、衛生性能好、透明性好、光澤度高、挺度好、阻濕性好、耐熱性能優良、易於熱封合等。",
-        "descriptionSC": "PA（俗称尼龙）工程塑料具有良好的机械性能、耐热性、耐化学性、耐磨性和自润滑性，易加工等，广泛应用于汽车、轨道交通、工程机械、航空航天、船舶、建筑、电子电气、纺织等。CPP（流延聚丙烯薄膜）是一种无拉伸、非定向聚丙烯薄膜，其具有无毒、无味、无嗅、卫生性能好、透明性好、光泽度高、挺度好、阻湿性好、耐热性能优良、易于热封合等。"
-      }
-    ],
-    "companyID": [
-      "235451",
-      "234768",
-      "236027",
-      "235494",
-      "238023",
-      "238612"
-    ],
-    "website": [
-      "https://www.scgchemicals.com/en",
-      "http://www.topolymer.com/",
-      "http://www.sinochemplastics.com/",
-      "https://www.dow.com/en-us",
-      "http://www.vamptech.com/",
-      "http://www.xinlip.com"
-    ],
-    "videos": [
-      {
-        "imagelinks": [
-          "https://o97tbiy1f.qnssl.com/advertisement/M5/scg.png"
-        ],
-        "videolinks": [
-          "https://o97tbiy1f.qnssl.com/advertisement/M5/SCG_Chemicals_1min_hires.mp4"
-        ]
-      },
-      {
-        "imagelinks": [
-          "https://o97tbiy1f.qnssl.com/advertisement/M5/dingsu.jpg"
-        ],
-        "videolinks": [
-          "https://o97tbiy1f.qnssl.com/advertisement/M5/dingsu-video.mp4"
-        ]
-      },
-      {
-        "imagelinks": [
-          ""
-        ],
-        "videolinks": [
-          ""
-        ]
-      },
-      {
-        "imagelinks": [
-          ""
-        ],
-        "videolinks": [
-          ""
-        ]
-      },
-      {
-        "imagelinks": [
-          "https://o97tbiy1f.qnssl.com/advertisement/M5/vamptech.png"
-        ],
-        "videolinks": [
-          "https://o97tbiy1f.qnssl.com/advertisement/M5/VampTech_video.mp4"
-        ]
-      },
-      {
-        "imagelinks": [
-          "https://o97tbiy1f.qnssl.com/advertisement/M5/shiny.jpg"
-        ],
-        "videolinks": [
-          "https://o97tbiy1f.qnssl.com/advertisement/M5/shiny.mp4"
-        ]
-      }
-    ]
-  },
-  "M6": {
-    "version": [
-      "0",
-      "0",
-      "0",
-      "0"
-    ],
-    "function": [
-      "0",
-      "0",
-      "0",
-      "0"
-    ],
-    "filepath": "M6/",
-    "format": ".jpg",
-    "header": "banner",
-    "logo": "logo",
-    "banner": "banner/",
-    "companyID": [
-      "237479",
-      "237480",
-      "",
-      ""
-    ],
-    "EventID": {
-      "EN": [
-        "18027",
-        "18029",
-        "",
-        ""
-      ],
-      "SC": [
-        "18027",
-        "18029",
-        "",
-        ""
-      ],
-      "TC": [
-        "18027",
-        "18029",
-        "",
-        ""
-      ]
-    },
-    "topics": [
-      {
-        "id": "80",
-        "image": "80cn_20180329",
-        "description": ""
-      },
-      {
-        "id": "81",
-        "image": "81cn_20180329",
-        "description": ""
-      },
-      {
-        "id": "82",
-        "image": "82cn_20180329",
-        "description": ""
-      },
-      {
-        "id": "84",
-        "image": "84cn_20180329",
-        "description": ""
-      },
-      {
-        "id": "125",
-        "image": "125cn_20180329",
-        "description": ""
-      },
-      {
-        "id": "126",
-        "image": "126cn_20180329",
-        "description": ""
-      },
-      {
-        "id": "143",
-        "image": "143cn_20180329",
-        "description": ""
-      },
-      {
-        "id": "144",
-        "image": "144cn_20180329",
-        "description": ""
-      },
-      {
-        "id": "19",
-        "image": "19en_20180329",
-        "description": ""
-      },
-      {
-        "id": "20",
-        "image": "20en_20180329",
-        "description": ""
-      },
-      {
-        "id": "27",
-        "image": "27en_20180329",
-        "description": ""
-      },
-      {
-        "id": "28",
-        "image": "28en_20180329",
-        "description": ""
-      },
-      {
-        "id": "29",
-        "image": "29en_20180329",
-        "description": ""
-      },
-      {
-        "id": "31",
-        "image": "31en_20180329",
-        "description": ""
-      },
-      {
-        "id": "37",
-        "image": "37en_20180329",
-        "description": ""
-      },
-      {
-        "id": "38",
-        "image": "38en_20180329",
-        "description": ""
-      }
-    ]
-  },
-  "M6_V2": {"version": [
-      "1",
-      "1",
-      "1",
-      "1",
-      "1",
-      "1",
-      "1"
-    ],
-    "function": [
-      "0",
-      "0",
-      "0",
-      "0",
-      "0",
-      "0",
-      "0"
-    ],
-    "filepath": "M6/",
-    "format": ".jpg",
-    "header": "banner",
-    "logo": "logo",
-    "banner": "banner/",
-    "companyID": [
-      "237479",
-      "237479",
-      "237480",
-      "237479",
-      "",
-      "",
-      ""
-    ],
-    "EventID": {
-      "EN": [
-        "2374790",
-        "2374791",
-        "2374796",
-        "2374793",
-        "",
-        "",
-        ""
-      ],
-      "SC": [
-        "2374790",
-        "2374791",
-        "2374796",
-        "2374793",
-        "",
-        "",
-        ""
-      ],
-      "TC": [
-        "2374790",
-        "2374791",
-        "2374796",
-        "2374793",
-        "",
-        "",
-        ""
-      ]
-    },
-    "topics": [
-      {
-        "eventID": "2374791",
-        "image_sc": "18013cn_20180404",
-        "image_tc": "18013cn_20180404",
-        "image_en": "18013en_20180404",
-        "description": ""
-      },
-      {
-        "eventID": "2374792",
-        "image_sc": "18014cn_20180404",
-        "image_tc": "18014cn_20180404",
-        "image_en": "18014en_20180404",
-        "description": ""
-      },
-      {
-        "eventID": "2374790",
-        "image_sc": "18016cn_20180404",
-        "image_tc": "18016cn_20180404",
-        "image_en": "18016en_20180404",
-        "description": ""
-      },
-      {
-        "eventID": "2374795",
-        "image_sc": "18019cn_20180404",
-        "image_tc": "18019cn_20180404",
-        "image_en": "18019en_20180404",
-        "description": ""
-      },
-      {
-        "eventID": "2374797",
-        "image_sc": "18020cn_20180404",
-        "image_tc": "18020cn_20180404",
-        "image_en": "18020en_20180404",
-        "description": ""
-      },
-      {
-        "eventID": "2374796",
-        "image_sc": "18022cn_20180404",
-        "image_tc": "18022cn_20180404",
-        "image_en": "18022en_20180404",
-        "description": ""
-      },
-      {
-        "eventID": "2374793",
-        "image_sc": "18035cn_20180404",
-        "image_tc": "18035cn_20180404",
-        "image_en": "18035en_20180404",
-        "description": ""
-      },
-      {
-        "eventID": "2374794",
-        "image_sc": "18043cn_20180404",
-        "image_tc": "18043cn_20180404",
-        "image_en": "18043en_20180404",
-        "description": ""
-      }
-    ]
-  }
+	"base": {
+		"baseUrl": "https://cdn.adsalecdn.com/App/2019/EPO/",
+		"startTime": "2018/01/01",
+		"endTime": "2019/12/12"
+	},
+	"D1": {
+		"isOpen": [1, 1, 1],
+		"images": ["arburg_en.jpg", "arburg_cn.jpg", "arburg_cn.jpg"],
+		"companyID": ["244671", "244671", "244671"]
+	},
+	"D2": {
+		"isOpen": [0, 1, 1],
+		"images_bottom": ["242262_en.jpg", "243787_cn.jpg", "243787_cn.jpg"],
+		"function": [1, 1, 1],
+		"pageID": ["242262", "243787", "243787"]
+	},
+	"D3": {
+		"isOpen_en": [1],
+		"isOpen_tc": [1, 1, 1],
+		"isOpen_sc": [1, 1, 1],
+		"images_banner_en": ["zhongyun_cn.jpg"],
+		"images_banner_tc": ["zhongyun_cn.jpg", "yuchang_cn.jpg", "huitong_cn.jpg"],
+		"images_banner_sc": ["zhongyun_cn.jpg", "yuchang_cn.jpg", "huitong_cn.jpg"],
+		"companyID_en": ["242545"],
+		"companyID_tc": ["242262", "243819", "243354"],
+		"companyID_sc": ["242262", "243819", "243354"]
+	},
+	"D4": [{
+			"isOpen": 1,
+			"companyID": "246568",
+			"logo": "246568_logo.png",
+			"products": [
+				"246568_1.png",
+				"246568_2.png",
+				"246568_3.png"
+			],
+			"about_sc": "USCON® PBT-LCG-ALW系列纳米注塑材料，基于PBT树脂改性，具有优异的综合性能，优良的耐酸碱性能，良好的粘合力，环保低卤，色彩丰富。LCG30ALW具有优良的流动性，LCG40ALW具有与PPS相近的成型收缩率，适用于手机、手提电脑及各类金属与塑料结合产品。让生产更加快、简、省、好，让成品更加轻、薄、美、巧。",
+			"about_tc": "USCON® PBT-LCG-ALW系列納米注塑材料，基于PBT樹脂改性，具有優異的綜合性能，優良的耐酸堿性能，良好的粘合力，環保低鹵，色彩豐富。LCG30ALW具有優良的流動性，LCG40ALW具有與PPS相近的成型收縮率，適用于手機、手提電腦及各類金屬與塑料結合産品。讓生産更加快、簡、省、好，讓成品更加輕、薄、美、巧。",
+			"about_en": "USCON® PBT-LCG-ALW is a compound based on PBT - Branched resin containing 40% Glass Fiber. Non-flame retardant, chemical resistant. Suitable for mobilephone, tablet PC and other products. Available in all colors./n For more than 20 years, Korea Chemical Ind. has built a reputation of quality, innovation and exceptional customer support. Today, our legacy lives on with groundbreaking compounding technologies that shape the industries we serve.",
+			"website": "www.kcipolymer.com",
+			"videoCover": "http://cdn.adsalecdn.com/App/2019/EPO/D8/D11_7.2D21.jpg",
+			"videoLink": "http://cdn.adsalecdn.com/App/2019/EPO/D8/D11_shilin_7.2D21.mp4"
+		},
+		{
+			"isOpen": 1,
+			"companyID": "246135",
+			"logo": "246135_logo.jpg",
+			"products": [
+				"246135_1.jpg",
+				"246135_2.jpg",
+				"246135_3.jpg"
+			],
+			"about_sc": "无锡市海普精密模具有限公司在2006年创立于无锡市滨湖区。专业从事汽车，电子，家电等零部件的注塑模与冲压模的设计及制作。公司充满年轻活力蓬勃发展，先后在2010年和2013年进入日本和欧洲市场获得不俗口碑，紧接着在2018年设立新工厂（固特精密部件（无锡）有限公司）用以进行产品的生产和研发。海普人秉承“诚信务实，品质第一，客户至上”愿在未来与更多的公司结为诤友，深入交流，共创辉煌。",
+			"about_tc": "無錫市海普精密模具有限公司在2006年創立于無錫市濱湖區。專業從事汽車，電子，家電等零部件的注塑模與衝壓模的設計及制作。公司充滿年輕活力蓬勃發展，先後在2010年和2013年進入日本和歐洲市場獲得不俗口碑，緊接著在2018年設立新工廠（固特精密部件（無錫）有限公司）用以進行産品的生産和研發。海普人秉承“誠信務實，品質第一，客戶至上”願在未來與更多的公司結爲诤友，深入交流，共創輝煌。",
+			"about_en": "Company profile: Wuxi haipu precision mold co., ltd was be found in binhu district of wuxi at 2006.It is focus on the research & development & manufacture of injection mold and punching die which are used for making the component of automotive, electronics and household appliances. Haipu always have full of passion to grow up quickly so that be known in japan at 2010, than have the approval of Europe customer at 2013, also establish a new factory called good precision components(wuxi) co.,ltd at 2018 to doing production and research. Review the past , haipu have a motto that “Be honest and earnest ,quality first, customer important.” which lead haipu to grow up stronger with business partner. The motto will not change at the future, that creating a great achievement with friends who are new and old.",
+			"website": "www.wxhaipu.com",
+			"videoCover": "",
+			"videoLink": ""
+		},
+		{
+			"isOpen": 1,
+			"companyID": "245977",
+			"logo": "245977_logo.jpg",
+			"products": [
+				"245977_1.jpg",
+				"245977_2.jpg",
+				"245977_3.jpg"
+			],
+			"about_sc": "青岛佳百特是国内PVC硬质发泡领域专业的原料供应商和技术服务提供者。作为业内专业的无尘环保钙锌稳定剂，PVC专用发泡剂生产商，佳百特拥有先进的生产和检测设备，专业的研发及售后技术服务团队，公司致力于在WPC/SPC地板基材，PVC木塑墙板、生态木，PVC发泡板材，PVC异型材，管材等诸多领域，为国内外客户提供高品质的PVC助剂一站式采购平台和优质的专业技术服务。",
+			"about_tc": "青島佳百特是國內PVC硬質發泡領域專業的原料供應商和技術服務提供者。作爲業內專業的無塵環保鈣鋅穩定劑，PVC專用發泡劑生産商，佳百特擁有先進的生産和檢測設備，專業的研發及售後技術服務團隊，公司致力于在WPC/SPC地板基材，PVC木塑牆板、生態木，PVC發泡板材，PVC異型材，管材等諸多領域，爲國內外客戶提供高品質的PVC助劑一站式采購平台和優質的專業技術服務。",
+			"about_en": "Qingdao Jabetter New Material Technology Co., Ltd is a professional raw material supplier and technical service provider in the domestic PVC rigid foam field. As a professional manufacturer for dust-free environmental calcium-zinc stabilizer and PVC foaming agent , Jabetter has advanced production and testing equipment, professional R&D and after-sales technical service team. Our company is committed to WPC/SPC floor substrate, PVC-WPC wall panel, ecological wood, PVC foam sheet, PVC profile, pipe and many other fields, to provide high-quality PVC additives and professional technical services for domestic and foreign customers as a one-stop procurement platform.",
+			"website": "http://jabetter.com",
+			"videoCover": "http://cdn.adsalecdn.com/App/2019/EPO/D4/jabetter_video_cover.JPG",
+			"videoLink": "http://cdn.adsalecdn.com/App/2019/EPO/D4/jabetter.mp4"
+		},
+		{
+			"isOpen": 0,
+			"companyID": "246639",
+			"logo": "246639_logo.jpg",
+			"products": [
+				"246639_1.jpg",
+				"246639_2.jpg",
+				"246639_3.jpg"
+			],
+			"about_sc": "无锡市海普精密模具有限公司在2006年创立于无锡市滨湖区。专业从事汽车，电子，家电等零部件的注塑模与冲压模的设计及制作。公司充满年轻活力蓬勃发展，先后在2010年和2013年进入日本和欧洲市场获得不俗口碑，紧接着在2018年设立新工厂（固特精密部件（无锡）有限公司）用以进行产品的生产和研发。海普人秉承“诚信务实，品质第一，客户至上”愿在未来与更多的公司结为诤友，深入交流，共创辉煌。",
+			"about_tc": "無錫市海普精密模具有限公司在2006年創立于無錫市濱湖區。專業從事汽車，電子，家電等零部件的注塑模與衝壓模的設計及制作。公司充滿年輕活力蓬勃發展，先後在2010年和2013年進入日本和歐洲市場獲得不俗口碑，緊接著在2018年設立新工廠（固特精密部件（無錫）有限公司）用以進行産品的生産和研發。海普人秉承“誠信務實，品質第一，客戶至上”願在未來與更多的公司結爲诤友，深入交流，共創輝煌。",
+			"about_en": "Company profile: Wuxi haipu precision mold co., ltd was be found in binhu district of wuxi at 2006.It is focus on the research & development & manufacture of injection mold and punching die which are used for making the component of automotive, electronics and household appliances. Haipu always have full of passion to grow up quickly so that be known in japan at 2010, than have the approval of Europe customer at 2013, also establish a new factory called good precision components(wuxi) co.,ltd at 2018 to doing production and research. Review the past , haipu have a motto that “Be honest and earnest ,quality first, customer important.” which lead haipu to grow up stronger with business partner. The motto will not change at the future, that creating a great achievement with friends who are new and old.",
+			"website": "http://www.pxadsj.com/",
+			"videoCover": "",
+			"videoLink": ""
+		}
+	],
+	"D5": {
+		"cn": [{
+				"isOpen": 1,
+				"image": "242553_cn.jpg",
+				"imagePad": "pad_242553_cn.jpg",
+				"function": 1,
+				"companyID": "242553",
+				"PageID": "5.1D65"
+			},
+			{
+				"isOpen": 1,
+				"image": "242344_cn.jpg",
+				"imagePad": "pad_242344_cn.jpg",
+				"function": 1,
+				"companyID": "242344",
+				"PageID": "10.2G21"
+			}
+		],
+		"en": [{
+				"isOpen": 1,
+				"image": "242553_en.jpg",
+				"imagePad": "pad_242553_en.jpg",
+				"function": 1,
+				"companyID": "242553",
+				"PageID": "5.1D65"
+			},
+			{
+				"isOpen": 1,
+				"image": "243819_en.jpg",
+				"imagePad": "pad_243819_en.jpg",
+				"function": 1,
+				"companyID": "243819",
+				"PageID": "13.2M11"
+			}
+		]
+	},
+	"D6": [{
+			"isOpen": 1,
+			"half": 0,
+			"hall": "9.3",
+			"boothNo": "9.3A29",
+			"companyID": "245977",
+			"images": ["jabetter_cn.jpg", "jabetter_en.jpg", "jabetter_cn.jpg"],
+			"function": 1,
+			"pageID": "245977"
+		},
+		{
+			"isOpen": 0,
+			"hall": "11.3",
+			"half": 0,
+			"boothNo": "11.3M45",
+			"companyID": "246639",
+			"images": ["jabetter_cn.jpg", "jabetter_en.jpg", "jabetter_cn.jpg"],
+			"function": 1,
+			"pageID": "246639"
+		}
+	],
+	"D7": [{
+			"isOpen": 1,
+			"BaiduTJ": "MyAccount",
+			"images": ["242553_cn.jpg", "242553_cn.jpg", "242553_cn.jpg"],
+			"companyID": "245885",
+			"function": 1,
+			"PageID": "245885"
+		},
+		{
+			"isOpen": 1,
+			"BaiduTJ": "GeneralInformation",
+			"images": ["242553_cn.jpg", "242553_cn.jpg", "242553_cn.jpg"],
+			"companyID": "245885",
+			"function": 1,
+			"PageID": "245885"
+		},
+		{
+			"isOpen": 0,
+			"BaiduTJ": "Transportation",
+			"images": ["242553_cn.jpg", "242553_cn.jpg", "242553_cn.jpg"],
+			"companyID": "242553",
+			"function": 10,
+			"PageID": "11.2D31-11.2"
+		},
+		{
+			"isOpen": 0,
+			"BaiduTJ": "TravelInfoText",
+			"images": ["242553_cn.jpg", "242553_cn.jpg", "242553_cn.jpg"],
+			"companyID": "242553",
+			"function": 4,
+			"PageID": "13"
+		},
+		{
+			"isOpen": 0,
+			"BaiduTJ": "News",
+			"images": ["242553_cn.jpg", "242553_cn.jpg", "242553_cn.jpg"],
+			"companyID": "242553",
+			"function": 5,
+			"PageID": "Visitor"
+		},
+		{
+			"isOpen": 0,
+			"BaiduTJ": "Venue Facilities",
+			"images": ["242553_cn.jpg", "242553_cn.jpg", "242553_cn.jpg"],
+			"companyID": "242553",
+			"function": 6,
+			"PageID": "http://www.baidu.com"
+		},
+		{
+			"isOpen": 0,
+			"BaiduTJ": "VisitingTips",
+			"images": ["242553_cn.jpg", "242553_cn.jpg", "242553_cn.jpg"],
+			"companyID": "242553",
+			"function": 99,
+			"PageID": "MI00000052"
+		}
+	],
+	"D9": [{
+			"isOpen": [1, 1, 1],
+			"date": 21,
+			"isAm": 1,
+			"companyID": ["245975", "245975", "245975"],
+			"function": [3, 3, 3],
+			"pageID": ["", "", ""],
+			"image_logo": ["tc.jpg", "en.jpg", "sc.jpg"],
+			"image_bottom_banner": ["tc.jpg", "en.jpg", "sc.jpg"],
+			"image_top_banner": ["tc.jpg", "en.jpg", "sc.jpg"]
+		},
+		{
+			"isOpen": [1, 1, 1],
+			"date": 21,
+			"isAm": 0,
+			"companyID": ["245975", "245975", "245975"],
+			"function": [3, 3, 3],
+			"pageID": ["", "", ""],
+			"image_logo": ["tc.jpg", "en.jpg", "sc.jpg"],
+			"image_bottom_banner": ["tc.jpg", "en.jpg", "sc.jpg"],
+			"image_top_banner": ["tc.jpg", "en.jpg", "sc.jpg"]
+		},
+		{
+			"isOpen": [1, 1, 1],
+			"date": 22,
+			"isAm": 1,
+			"companyID": ["245975", "245975", "245975"],
+			"function": [3, 3, 3],
+			"pageID": ["", "", ""],
+			"image_logo": ["tc.jpg", "en.jpg", "sc.jpg"],
+			"image_bottom_banner": ["tc.jpg", "en.jpg", "sc.jpg"],
+			"image_top_banner": ["tc.jpg", "en.jpg", "sc.jpg"]
+		},
+		{
+			"isOpen": [1, 1, 1],
+			"date": 22,
+			"isAm": 0,
+			"companyID": ["245975", "245975", "245975"],
+			"function": [3, 3, 3],
+			"pageID": ["", "", ""],
+			"image_logo": ["tc.jpg", "en.jpg", "sc.jpg"],
+			"image_bottom_banner": ["tc.jpg", "en.jpg", "sc.jpg"],
+			"image_top_banner": ["tc.jpg", "en.jpg", "sc.jpg"]
+		}
+	]
+
+
+
 }

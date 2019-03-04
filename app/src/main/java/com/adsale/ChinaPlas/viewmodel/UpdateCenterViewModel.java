@@ -10,6 +10,8 @@ import android.widget.Toast;
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.dao.MapFloor;
 import com.adsale.ChinaPlas.dao.UpdateCenter;
+import com.adsale.ChinaPlas.dao.WebContent;
+import com.adsale.ChinaPlas.dao.WebContentDao;
 import com.adsale.ChinaPlas.data.DownloadClient;
 import com.adsale.ChinaPlas.data.FloorRepository;
 import com.adsale.ChinaPlas.data.OtherRepository;
@@ -85,6 +87,7 @@ public class UpdateCenterViewModel {
      */
     private int updateCount = 0;
     private OtherRepository mRepository;
+    private WebContentDao mWebContentDao;
 
     public void init(ProgressBar progressBar) {
         this.downloadProgress = progressBar;
@@ -111,9 +114,20 @@ public class UpdateCenterViewModel {
 //        testDownItem(2);
 //        testDownItem(3);
 //        testDownItem(4);
-//        testDownItem(0);
+        testDownItem(0);
         //---test end
     }
+
+//    private void checkUpdate(String id) {
+//        mWebContentDao = App.mDBHelper.mWebContentDao;
+//        WebContent entity = mWebContentDao.load(id);
+//        String oldUpdateTime = App.mSP_UpdateInfo.getString(id,"");
+//        if(entity.getUpdatedAt().compareTo(oldUpdateTime)>0){
+//            // 有更新
+//
+//        }
+//
+//    }
 
     /**
      * just for test
@@ -137,17 +151,23 @@ public class UpdateCenterViewModel {
         }
         linkUrls.clear();
         if (index == 0) { // ExhibitorData
-            getUpdateLink0();
+//            getUpdateLink0();
+
+            // TEST GET ALL EXHIBITORS
+            CSVHelper csvHelper = new CSVHelper();
+            csvHelper.initExhibitorCsvHelper();
+            csvHelper.processExhibitorCsv();
+
         } else if (index == 2) { // Technical Seminar
             getUpdateLink2();
         } else if (index == 4) { // Travel Info
             getUpdateLink4();
-        } else if (index == 1) { // Floor Plan
+        } else if (index == 1) { // Map Plan
             getUpdateLink1();
         } else if (index == 3) { // Concurrent Event
             getUpdateLink3();
         }
-        download(index);
+//        download(index);
     }
 
     public void onUpdateAll() {
@@ -288,6 +308,11 @@ public class UpdateCenterViewModel {
                                     createFile(mDir);
                                     LogUtil.i(TAG, "events:name=" + name + ",events:mDir=" + mDir);
                                 }
+
+                                mDir = App.rootDir + "ExhibitorData/";
+                                new File(mDir).mkdir();
+                                LogUtil.i(TAG, "name=" + name + ",mDir=" + mDir);
+
                                 boolean isUnZiped = FileUtil.unpackZip(name, body.byteStream(), mDir);
                                 if (isUnZiped) {// 解析csv到数据库
                                     if (mDir.toLowerCase().contains("exhibitor")) {
@@ -300,7 +325,7 @@ public class UpdateCenterViewModel {
                                     }
                                 }
                             } else {
-                                LogUtil.i(TAG, "发射文件:"+name);
+                                LogUtil.i(TAG, "发射文件:" + name);
                                 FileOutputStream fos = new FileOutputStream(new File(mDir.concat(name)));
                                 fos.write(body.bytes());
                                 body.close();
@@ -371,8 +396,9 @@ public class UpdateCenterViewModel {
      * @return
      */
     private ArrayList<String> getUpdateLink0() {
-        urlEntity = Parser.parseJsonFilesDirFile(UpdateCenterUrl.class, Constant.UC_TXT_EXHIBITOR);
-        linkUrls.add(urlEntity.link);
+//        urlEntity = Parser.parseJsonFilesDirFile(UpdateCenterUrl.class, Constant.UC_TXT_EXHIBITOR);
+//        linkUrls.add(urlEntity.link);
+        linkUrls.add("http://cdn-adsalecdn.oss-cn-shenzhen.aliyuncs.com/App/2019/files/ExhibitorData.zip");
         return linkUrls;
     }
 

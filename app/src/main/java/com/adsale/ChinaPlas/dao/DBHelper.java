@@ -14,14 +14,15 @@ public class DBHelper {
     public SQLiteDatabase db;
 
     public MainIconDao mIconDao;
-    public ApplicationIndustryDao mAppIndustryDao;
-    public ApplicationCompanyDao mAppCompanyDao;
+    public MainIconTestDao mIconTestDao;
+    public ApplicationDao mApplicationDao;
+    public CompanyApplicationDao mCompanyApplicationDao;
+    public IndustryDao mIndustryDao;
+    public CompanyProductDao mCompanyProductDao;
     public CountryDao mCountryDao;
     public ExhibitorDao mExhibitorDao;
-    public ExhibitorIndustryDtlDao mIndustryDtlDao;
     public ExhibitorUserUpdateDao mUserUpdateDao;
-    public FloorDao mFloorDao;
-    public IndustryDao mIndustryDao;
+    public MapDao mMapDao;
     public MapFloorDao mapFloorDao;
     public NameCardDao mNameCardDao;
     public NewsDao mNewsDao;
@@ -46,6 +47,8 @@ public class DBHelper {
     public NewCategorySubDao mCategorySubDao;
     public ExhibitorZoneDao mExhibitorZoneDao;
     public ZoneDao mZoneDao;
+    public ConcurrentEventDao mEventDao;
+    public EventApplicationDao mEventAppDao;
 
 
     private DBHelper(Builder builder) {
@@ -73,14 +76,15 @@ public class DBHelper {
 
     public void initDao() {
         mIconDao = mDaoSession.getMainIconDao();
-        mAppIndustryDao = mDaoSession.getApplicationIndustryDao();
-        mAppCompanyDao = mDaoSession.getApplicationCompanyDao();
+        mIconTestDao = mDaoSession.getMainIconTestDao();
+        mApplicationDao = mDaoSession.getApplicationDao();
+        mCompanyApplicationDao = mDaoSession.getApplicationCompanyDao();
         mCountryDao = mDaoSession.getCountryDao();
         mExhibitorDao = mDaoSession.getExhibitorDao();
-        mIndustryDtlDao = mDaoSession.getExhibitorIndustryDtlDao();
         mUserUpdateDao = mDaoSession.getExhibitorUserUpdateDao();
-        mFloorDao = mDaoSession.getFloorDao();
+        mMapDao = mDaoSession.getMapDao();
         mIndustryDao = mDaoSession.getIndustryDao();
+        mCompanyProductDao = mDaoSession.getCompanyProductDao();
         mapFloorDao = mDaoSession.getMapFloorDao();
         mNameCardDao = mDaoSession.getNameCardDao();
         mLinkDao = mDaoSession.getNewsLinkDao();
@@ -101,6 +105,8 @@ public class DBHelper {
         mCategorySubDao=mDaoSession.getCategorySubDao();
         mExhibitorZoneDao = mDaoSession.getExhibitorZoneDao();
         mZoneDao = mDaoSession.getZoneDao();
+        mEventDao = mDaoSession.getEventDao();
+        mEventAppDao = mDaoSession.getEventApplicationDao();
     }
 
     /**

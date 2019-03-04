@@ -3,9 +3,14 @@ package com.adsale.ChinaPlas.ui;
 import android.content.Intent;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,29 +24,32 @@ import com.adsale.ChinaPlas.dao.News;
 import com.adsale.ChinaPlas.dao.NewsLink;
 import com.adsale.ChinaPlas.databinding.ActivityNewsDtlBinding;
 import com.adsale.ChinaPlas.glide.GlideApp;
+import com.adsale.ChinaPlas.helper.LogHelper;
+import com.adsale.ChinaPlas.helper.URLImageParser;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.DisplayUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.NetWorkHelper;
+import com.adsale.ChinaPlas.utils.ShareSDKDialog;
 import com.adsale.ChinaPlas.viewmodel.NewsModel;
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import java.net.URL;
 import java.util.ArrayList;
 
+import static com.adsale.ChinaPlas.App.mLogHelper;
 import static com.adsale.ChinaPlas.utils.Constant.WEB_URL;
 
 /**
  * todo track
  * SocalMediaActivity(2017):
- *   if(gIntent.getStringExtra("fromCls").equals("NewsLink")){
-        mTypePrefix="Page_NewsLink";
-     }
- *
- *
- *
+ * if(gIntent.getStringExtra("fromCls").equals("NewsLink")){
+ * mTypePrefix="Page_NewsLink";
+ * }
  */
-public class NewsDtlActivity extends BaseActivity implements View.OnClickListener {
+public class NewsDtlActivity extends BaseActivity  {
     public final ObservableField<String> newsTitle = new ObservableField<>();
     public final ObservableField<String> content = new ObservableField<>();
     public final ObservableField<String> logoUrl = new ObservableField<>();
@@ -49,16 +57,13 @@ public class NewsDtlActivity extends BaseActivity implements View.OnClickListene
 
     private News news;
     private ActivityNewsDtlBinding binding;
-    private ImageView ivPhoto;
     private NewsModel model;
-    private String photoUrl;
 
     @Override
     protected void initView() {
-        mTypePrefix="Page_NewsDetail";
+        mTypePrefix = "Page_NewsDetail";
         binding = ActivityNewsDtlBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         binding.setView(this);
-        ivPhoto = binding.ivPhoto;
         model = new NewsModel();
 
         Bundle bundle = getIntent().getExtras();
@@ -69,40 +74,18 @@ public class NewsDtlActivity extends BaseActivity implements View.OnClickListene
             news = model.getItemNews(getIntent().getStringExtra("ID"));
             barTitle.set(getString(R.string.title_news));
         }
-        LogUtil.i(TAG, "NEWS= " + news.toString());
-
     }
 
     @Override
     protected void initData() {
         newsTitle.set(news.getTitle());
-        content.set(news.getDescription());
+        TextView tvContent = binding.txtDescription;
+        tvContent.setMovementMethod(ScrollingMovementMethod.getInstance());// 设置可滚动
+        tvContent.setMovementMethod(LinkMovementMethod.getInstance());//设置超链接可以打开网页
+        tvContent.setText(Html.fromHtml(news.getDescription(), new URLImageParser(getApplicationContext(), tvContent), null));
 
-        ArrayList<NewsLink> links = model.getLinks(news.getNewsID());
-
-        LinearLayout linkLayout = binding.lyLink;
-        int size = links.size();
-        LayoutInflater inflater = getLayoutInflater();
-        if (!links.isEmpty()) {
-            for (NewsLink oNewsLink : links) {
-                if (oNewsLink.getPhoto() != null && !oNewsLink.getPhoto().equals("")) {
-                    photoUrl = NetWorkHelper.DOWNLOAD_PATH.concat("News/").concat(oNewsLink.getPhoto());
-                    LogUtil.i(TAG, "photoUrl=" + photoUrl);
-//                    Glide.with(this).load(Uri.parse(photoUrl)).into(ivPhoto);
-                    GlideApp.with(this).load(Uri.parse(photoUrl)).diskCacheStrategy(DiskCacheStrategy.DATA).into(ivPhoto); // 缓存原始图片
-                }
-
-                String strLink = oNewsLink.getLink();
-                if (!TextUtils.isEmpty(strLink)) {
-                    View linkView = inflater.inflate(R.layout.view_link, linkLayout, false);
-                    TextView txtLink = (TextView) linkView.findViewById(R.id.textView1);
-                    txtLink.setText(oNewsLink.getTitle());
-                    linkView.setTag(oNewsLink.getLink());
-                    linkView.setOnClickListener(this);
-                    linkLayout.addView(linkView, getParams());
-                }
-            }
-        }
+        mLogHelper.logNewsInfo(news.getNewsID());
+        mLogHelper.setBaiDuLog(getApplicationContext(), LogHelper.EVENT_ID_Info);
     }
 
     public LinearLayout.LayoutParams getParams() {
@@ -114,30 +97,19 @@ public class NewsDtlActivity extends BaseActivity implements View.OnClickListene
 
 
     public void share() {
-        AppUtil.trackViewLog( 424, "SN", "", news.getNewsID());
-        AppUtil.setStatEvent(getApplicationContext(), "ShareNews", "SN_" + news.getNewsID());
+        AppUtil.trackViewLog(424, "Share", "", news.getNewsID());
+        AppUtil.setStatEvent(getApplicationContext(), "Share", "Share_News_" + news.getNewsID());
+
+        String shareLink = news.getShareLink();
+
+        if (TextUtils.isEmpty(shareLink)) {
+            shareLink = getString(R.string.share_news_link);
+        }
+        LogUtil.i(TAG, "mTitle=" + news.getTitle());
+        LogUtil.i(TAG, "shareLink=" + shareLink);
+        ShareSDKDialog share = new ShareSDKDialog();
+        share.showDialog(NewsDtlActivity.this, news.getTitle(), news.getLogo(), shareLink,  Constant.SHARE_IMAGE_PATH);
     }
 
-    @Override
-    public void onClick(View v) {
-        String url = v.getTag().toString();
-        LogUtil.i(TAG, "url=" + url);
-        AppUtil.trackViewLog( 190, "Page", news.getNewsID(), "NewsLink");
-        Intent intent = new Intent(this, WebViewActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("title", barTitle.get());
-        intent.putExtra(WEB_URL, url);
-        startActivity(intent);
-        overridePendingTransPad();
-    }
 
-    public void onPhotoClick() {
-        AppUtil.trackViewLog( 189, "Page", news.getNewsID(), "NewsPhoto");
-        Intent intent = new Intent(this, ImageActivity.class);
-        intent.putExtra("url", photoUrl);
-        intent.putExtra("title", barTitle.get());
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        overridePendingTransPad();
-    }
 }

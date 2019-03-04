@@ -88,10 +88,10 @@ public class FileUtil {
         LogUtil.i(TAG, "old path=" + path);
         if (!new File(path).exists()) {
 
-            if(new File(path).mkdir()){
+            if (new File(path).mkdir()) {
                 return false;
-            }else{
-              boolean  mkdirs= new File(path).mkdirs();
+            } else {
+                boolean mkdirs = new File(path).mkdirs();
                 LogUtil.i(TAG, "mkdirs=" + mkdirs);
                 return false;
             }
@@ -123,6 +123,8 @@ public class FileUtil {
      * @version 创建时间：2016年6月3日 上午9:33:06
      */
     public static boolean unpackZip(String zipname, InputStream is, String zipPath) {
+        LogUtil.i(TAG, "> zipPath=" + zipPath + ",zipname=" + zipname);
+
         long startTime = System.currentTimeMillis();
         if (!zipPath.contains("/")) {
             zipPath += "/";
@@ -144,13 +146,21 @@ public class FileUtil {
                 if (!new File(zipPath).exists()) {
                     new File(zipPath).mkdir();
                 }
+
                 boolean unpack = false;
                 while ((ze = zis.getNextEntry()) != null) {
                     filename = ze.getName();
-                    if (ze.isDirectory()) {
+
+                    if (ze.isDirectory()) {  // 例： Transportation/
+                        FileUtil.createDir(zipPath);
                         File fmd = new File(zipPath + filename);
                         fmd.mkdirs();
                         continue;
+                    } else {   // e.g: 100/EN.html
+                        File file = new File(AppUtil.subStringFront1(zipPath + filename, '/'));
+                        if (!file.exists()) {
+                            file.mkdir();
+                        }
                     }
                     FileOutputStream fout = new FileOutputStream(zipPath + filename);
                     while ((count = zis.read(buffer)) != -1) {
@@ -275,7 +285,7 @@ public class FileUtil {
         return "";
     }
 
-    public static File getPDFFile(){
+    public static File getPDFFile() {
         return mPdfFile;
     }
 
@@ -316,6 +326,95 @@ public class FileUtil {
         } catch (IOException e) {
             return false;
         }
+    }
+
+    public static boolean writeFile(InputStream is, String absolutePath) {
+        LogUtil.i(TAG, "writeFile path:>>>>" + absolutePath);
+        if (is == null) {
+            LogUtil.i(TAG, "writeFile is==null");
+        }
+
+
+        try {
+            OutputStream outputStream = null;
+            try {
+                byte[] fileReader = new byte[8192];
+                outputStream = new FileOutputStream(new File(absolutePath));
+                while (true) {
+                    int read = is.read(fileReader);
+                    if (read == -1) {
+                        break;
+                    }
+                    outputStream.write(fileReader, 0, read);
+                }
+                outputStream.flush();
+                return true;
+            } catch (IOException e) {
+                return false;
+            } finally {
+                if (is != null) {
+                    is.close();
+                }
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            }
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    public static boolean writeFile(String content, String fileName) {
+        FileOutputStream stream = null;
+        try {
+            stream = new FileOutputStream(App.filesDir + fileName);
+            byte[] buf = content.getBytes();
+            stream.write(buf);
+            stream.close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (stream != null) {
+                try {
+                    stream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 复制到指定文件夹下
+     *
+     * @param in
+     * @param dirName 文件夹名称 如 ConcurrentEvent/
+     * @return
+     */
+    public static boolean copyFile(InputStream in, String dirName) {
+        boolean result = false;
+        System.out.println("copy file");
+        File toFile;
+        toFile = new File(App.rootDir + dirName);
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(toFile);
+            byte[] buffer = new byte[1024];
+            while ((in.read(buffer)) != -1) {
+                out.write(buffer);
+            }
+            out.flush();
+            out.close();
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        result = true;
+
+        return result;
     }
 
 

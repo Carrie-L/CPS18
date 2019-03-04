@@ -1,69 +1,47 @@
 ﻿{
-  "NewTechInfoLink": "https://o97tbiy1f.qnssl.com/NewtechInfo/NewTech201804042.zip",
-  "imageLink": "https://eform.adsale.com.hk/files/FirstLaunchProduct/CPS18/",
-  "listImageLink":"https://eform.adsale.com.hk/files/FirstLaunchProduct/CPS18/100/",
+  "NewTechInfoLink": "https://cdn.adsalecdn.com/App/2019/NewTech/NewTech201902026.zip",
+  "imageLink": "http://cdn.adsalecdn.com/App/2019/NewTech/",
+  "listImageLink":"http://cdn.adsalecdn.com/App/2019/NewTech/100/",
   "adProduct": [
     {
-      "FirstPageImage": "https://o97tbiy1f.qnssl.com/NewtechAdInfo/zhongyang_1.jpg",
-      "LogoImageLink": "https://o97tbiy1f.qnssl.com/NewtechAdInfo/zhongyang_logo_2.jpg",
+      "FirstPageImage": "http://cdn.adsalecdn.com/App/2019/EPO/D8/anji_product.jpg",
+      "LogoImageLink": "http://cdn.adsalecdn.com/App/2019/EPO/D8/anji_logo.jpg",
       "ImageLinks": [
-        "https://o97tbiy1f.qnssl.com/NewtechAdInfo/zhongyang_1.jpg",
-        "https://o97tbiy1f.qnssl.com/NewtechAdInfo/zhonagyang_2.png",
-        "https://o97tbiy1f.qnssl.com/NewtechAdInfo/zhongyang_3.jpg"
+        "http://cdn.adsalecdn.com/App/2019/EPO/D8/anji_product.jpg",
       ],
-      "ProductName_SC": "锥形双螺杆和机筒",
-      "ProductName_EN": "锥形双螺杆和机筒",
-      "ProductName_TC": "錐形雙螺杆和機筒",
-      "Description_SC": "锥形双螺杆和机筒    适用于PVC木塑， PE木塑， 超高分子板材， 免烧砖托板， 1 比2以上高钙扣板， 50 - 400 份以上高钙管材， 50 - 300 高钙型材， 软PVC片材， PVC发泡板等普通塑料、 PP、 PE、 ABS、 PVC、 原料造粒、 生产管材、 异型材、 片材等产品。  双合金螺杆  优势： 螺杆表面不易磨损， 对加30 % 一下玻纤及再生料特好。 皮肤特性 1. 超硬合金密度高、 气孔率低且硬度高。 2. 均匀的粉末加热， 残留的印张压力低。  3. 能有效的圆滑熔射。  4. 高动挚能量及均一的硬度。  5. 具有高耐腐蚀、 高耐磨耗与耐高温的特性。  6. 密著力高， 可厚度加工的皮膜。    挤出机单螺杆和机筒 规格： 螺杆直径： Φ15 - Φ300， 长径比： 15 - 46  最大长度： 不大于10000mm， 氮化处理， 表面硬度： HV≥ 900， 氮化深度： 0.5 - 0.8 mm  材质： 表面WC / Co整体喷焊， 能有效提高螺杆的使用寿命。  针对不同塑料产品螺杆可选用为普通型， 销钉型， 屏障型， 分离型， 排气型等。 ",
-      "Description_EN": "锥形双螺杆和机筒    适用于PVC木塑， PE木塑， 超高分子板材， 免烧砖托板， 1 比2以上高钙扣板， 50 - 400 份以上高钙管材， 50 - 300 高钙型材， 软PVC片材， PVC发泡板等普通塑料、 PP、 PE、 ABS、 PVC、 原料造粒、 生产管材、 异型材、 片材等产品。  双合金螺杆  优势： 螺杆表面不易磨损， 对加30 % 一下玻纤及再生料特好。 皮肤特性 1. 超硬合金密度高、 气孔率低且硬度高。 2. 均匀的粉末加热， 残留的印张压力低。  3. 能有效的圆滑熔射。  4. 高动挚能量及均一的硬度。  5. 具有高耐腐蚀、 高耐磨耗与耐高温的特性。  6. 密著力高， 可厚度加工的皮膜。    挤出机单螺杆和机筒 规格： 螺杆直径： Φ15 - Φ300， 长径比： 15 - 46  最大长度： 不大于10000mm， 氮化处理， 表面硬度： HV≥ 900， 氮化深度： 0.5 - 0.8 mm  材质： 表面WC / Co整体喷焊， 能有效提高螺杆的使用寿命。  针对不同塑料产品螺杆可选用为普通型， 销钉型， 屏障型， 分离型， 排气型等。  ",
-      "Description_TC": "錐形雙螺杆和機筒    適用於PVC木塑， PE木塑， 超高分子板材， 免燒磚托板， 1 比2以上高鈣扣板， 50 - 400 份以上高鈣管材， 50 - 300 高鈣型材， 軟PVC片材， PVC發泡板等普通塑料、 PP、 PE、 ABS、 PVC、 原料造粒、 生產管材、 異型材、 片材等產品。  雙合金螺杆  優勢： 螺杆表面不易磨損， 對加30 % 一下玻纖及再生料特好。 皮膚特性 1. 超硬合金密度高、 氣孔率低且硬度高。 2. 均勻的粉末加熱， 殘留的印張壓力低。  3. 能有效的圓滑熔射。  4. 高動摯能量及均一的硬度。  5. 具有高耐腐蝕、 高耐磨耗與耐高溫的特性。  6. 密著力高， 可厚度加工的皮膜。    擠出機單螺杆和機筒 規格： 螺杆直徑： Φ15 - Φ300， 長徑比： 15 - 46  最大長度： 不大於10000mm， 氮化處理， 表面硬度： HV≧ 900， 氮化深度： 0.5 - 0.8 mm  材質： 表面WC / Co整體噴焊， 能有效提高螺杆的使用壽命。  針對不同塑料產品螺杆可選用為普通型， 銷釘型， 屏障型， 分離型， 排氣型等。 ",
-      "CompanyID": "238101",
-      "BoothNo": "6.1A19",
-      "vedioLink": "",
-      "CompanyName_SC": "江苏省张家港市港塑机械有限公司",
-      "CompanyName_TC": "江蘇省張家港市港塑機械有限公司",
-      "CompanyName_EN": "ZHANGJIAGANG GANGSU MACHINERY CO.,LTD"
+      "ProductName_SC": "安吉换网器",
+      "ProductName_EN": "ANJI FILTRATION & PUMP SYSTEMS",
+      "ProductName_TC": "安吉換網器",
+      "Description_SC": "河南安吉塑料机械有限公司将在Chinaplas2019隆重推出具有先进性能的双柱滤筒式超大面积自动反冲洗过滤器，该产品具有体积小、能耗低、过滤面积大、PLC自动控制反冲洗工艺流程、更高密封性能和耐久性，并可以重复使用过滤网片7到10次，将过滤网片费用降低80%以上，是回收造粒、片材与吹膜、管道与型材等各类挤出生产工艺。",
+      "Description_EN": "ANJI PLASTIC MACHINERY (Henan) will introduce the latest Backflush Piston Filter with Ultra-High Filtration Area in Chinaplas2019. This product featured with compact size, low energy consumption, ultra-high filtration, backflush by PLC for 7 times or more, better sealing and durability, can reduce the filtration media cost by 80% or higher. ",
+      "Description_TC": "河南安吉塑料機械有限公司將在Chinaplas2019隆重推出具有先進性能的雙柱濾筒式超大面積自動反衝洗過濾器，該産品具有體積小、能耗低、過濾面積大、PLC自動控制反衝洗工藝流程、更高密封性能和耐久性，並可以重複使用過濾網片7到10次，將過濾網片費用降低80%以上，是回收造粒、片材與吹膜、管道與型材等各類擠出生産工藝。",
+      "CompanyID": "243960",
+      "BoothNo": "2.1M51",
+      "vedioLink": "http://cdn.adsalecdn.com/App/2019/EPO/D8/anji_243960.mp4",
+      "CompanyName_SC": "河南安吉塑料机械有限公司",
+      "CompanyName_TC": "河南安吉塑料機械有限公司",
+      "CompanyName_EN": "HENAN ANJI MACHINERY CO., LTD."
     },
     {
-      "FirstPageImage": "https://o97tbiy1f.qnssl.com/NewtechAdInfo/litai_01.jpg",
-      "LogoImageLink": "https://o97tbiy1f.qnssl.com/NewtechAdInfo/litai_logo_2.jpg",
+      "FirstPageImage": "https://cdn.adsalecdn.com/App/2019/EPO/D8/246568_2.png",
+      "LogoImageLink": "https://cdn.adsalecdn.com/App/2019/EPO/D8/246568_logo.png",
       "ImageLinks": [
-        "https://o97tbiy1f.qnssl.com/NewtechAdInfo/litai_01.jpg",
-        "https://o97tbiy1f.qnssl.com/NewtechAdInfo/litai_02.jpg"
+        "https://cdn.adsalecdn.com/App/2019/EPO/D8/246568_1.png",
+        "https://cdn.adsalecdn.com/App/2019/EPO/D8/246568_2.png",
+        "https://cdn.adsalecdn.com/App/2019/EPO/D8/246568_3.png"
       ],
-      "ProductName_SC": "TTF-520A Full-Automatic Four-station Plastic Thermoforming Machine",
-      "ProductName_EN": "TTF-520A Full-Automatic Four-station Plastic Thermoforming Machine",
-      "ProductName_TC": "TTF-520A Full-Automatic Four-station Plastic Thermoforming Machine",
-      "Description_SC": "TTF-520A Full-Automatic Four-station Plastic Thermoforming Machine is forming, punching, cutting and stacking in one line. It is completely driven by servo motor, stable operation, low noise, high efficiency, suitable for producing plastic trays, containers, boxes, lids, etc.",
-      "Description_EN": "TTF-520A Full-Automatic Four-station Plastic Thermoforming Machine is forming, punching, cutting and stacking in one line. It is completely driven by servo motor, stable operation, low noise, high efficiency, suitable for producing plastic trays, containers, boxes, lids, etc.",
-      "Description_TC": "TTF-520A Full-Automatic Four-station Plastic Thermoforming Machine is forming, punching, cutting and stacking in one line. It is completely driven by servo motor, stable operation, low noise, high efficiency, suitable for producing plastic trays, containers, boxes, lids, etc.",
-      "CompanyID": "234280",
-      "BoothNo": "8.1J71",
+      "ProductName_SC": "USCON® PBT-LCG-ALW",
+      "ProductName_EN": "USCON® PBT-LCG-ALW",
+      "ProductName_TC": "USCON® PBT-LCG-ALW",
+      "Description_SC": "USCON® PBT-LCG-ALW系列纳米注塑材料，基于PBT树脂改性，具有优异的综合性能，优良的耐酸碱性能，良好的粘合力，环保低卤，色彩丰富。LCG30ALW具有优良的流动性，LCG40ALW具有与PPS相近的成型收缩率，适用于手机、手提电脑及各类金属与塑料结合产品。大韩化工的高性能材料不仅是高性能热塑性材料领域中的主力军，而且在技术和革新领域，与终端用户以及产业链厂商均有丰富的合作与开发经验。",
+      "Description_EN":"USCON® PBT-LCG-ALW is a compound based on PBT - Branched resin containing 40% Glass Fiber. Non-flame retardant, chemical resistant. Suitable for mobilephone, tablet PC and other products.",
+      "Description_TC": "USCON® PBT-LCG-ALW系列納米注塑材料，基于PBT樹脂改性，具有優異的綜合性能，優良的耐酸堿性能，良好的粘合力，環保低鹵，色彩豐富。LCG30ALW具有優良的流動性，LCG40ALW具有與PPS相近的成型收縮率，適用于手機、手提電腦及各類金屬與塑料結合産品。大韓化工的高性能材料不僅是高性能熱塑性材料領域中的主力軍，而且在技術和革新領域，與終端用戶以及産業鏈廠商均有豐富的合作與開發經驗。",
+      "CompanyID": "246568",
+      "BoothNo": "10.3R09",
       "vedioLink": "",
-      "CompanyName_SC": "瑞安市力泰机械有限公司",
-      "CompanyName_TC": "瑞安市力泰機械有限公司",
-      "CompanyName_EN": "RUIAN LITAI MACHINERY CO., LTD"
-    },
-    {
-      "FirstPageImage": "https://o97tbiy1f.qnssl.com/NewtechAdInfo/jutai_1.jpg",
-      "LogoImageLink": "https://o97tbiy1f.qnssl.com/NewtechAdInfo/jutai_logo_2.jpg",
-      "ImageLinks": [
-        "https://o97tbiy1f.qnssl.com/NewtechAdInfo/jutai_1.jpg",
-        "https://o97tbiy1f.qnssl.com/NewtechAdInfo/jutai_2.jpg",
-        "https://o97tbiy1f.qnssl.com/NewtechAdInfo/jutai_3.jpg"
-      ],
-      "ProductName_SC": "工程塑料辅机系统和干燥技术",
-      "ProductName_EN": "High efficient drying process & Engineering plastics compounding",
-      "ProductName_TC": "工程塑料輔機系統和干燥技術",
-      "Description_SC": "聚泰机械是一家致力于改性工程塑料辅机系统和干燥领域创新研究的技术开发型公司。关注客户成长及持续满足客户潜在需求，定制开发各类高效率，低能耗和低噪音的新型装备，并按德国工艺标准进行精密制造。  公司产品有：连续真空干燥机、振动圆盘干燥机、螺旋振动提升机、水平往复筛、吸水空气刀等20多种成套装备和特殊定制设备，集工厂规划、流程优化等系统化解决方案，广泛应用于高分子材料、改性工程塑料、化工等行业。",
-      "Description_EN": "Plastiger is a technology-developing manufacturer dedicated to the innovation research of the engineering plastics compounding auxiliary systems and drying technology field. We have over 20 kinds of equipments and special customizing equipments, such as vacuum dryer, vibrating disc drying machine, spiral vibration conveyor, resonance classifier, dewater air knife, etc, which are extensively applied to polymer industry, engineering plastics compounding, chemical industry and so on, with the systematic solutions of plant planning, flow optimization and equipment selection.",
-      "Description_TC": "聚泰機械是一家致力於改性工程塑料輔機系統和干燥領域創新研究的技術開發型公司。關注客戶成長及持續滿足客戶潛在需求，定制開發各類高效率，低能耗和低噪音的新型裝備，並按德國工藝標准進行精密制造。  公司產品有：連續真空干燥機、振動圓盤干燥機、螺旋振動提升機、水平往復篩、吸水空氣刀等20多種成套裝備和特殊定制設備，集工廠規劃、流程優化等系統化解決方案，廣泛應用於高分子材料、改性工程塑料、化工等行業。",
-      "CompanyID": "239055",
-      "BoothNo": "7.1Q19",
-      "vedioLink": "",
-      "CompanyName_SC": "江阴市聚泰机械设备有限公司",
-      "CompanyName_TC": "江陰市聚泰機械設備有限公司",
-      "CompanyName_EN": "JIANGYIN PLASTIGER MACHINERY CO.,LTD"
+      "CompanyName_SC": "大韩化工工业（深圳）有限公司",
+      "CompanyName_TC": "大韓化工工業（深圳）有限公司",
+      "CompanyName_EN": "KOREA CHEMICAL IND. (SHENZHEN) LTD."
     }
   ]
 }

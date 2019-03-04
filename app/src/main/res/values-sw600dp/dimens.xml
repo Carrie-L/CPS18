@@ -1,6 +1,6 @@
 <resources>
     <dimen name="floor_left_width">320dp</dimen>
-    <dimen name="loading_bottom">48dp</dimen>
+    <dimen name="loading_bottom">60dp</dimen>
 
     <!--技术交流会-->
     <dimen name="seminar_circle_size">56dp</dimen>

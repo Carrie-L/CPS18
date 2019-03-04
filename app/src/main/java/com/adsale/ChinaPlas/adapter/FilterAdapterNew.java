@@ -5,7 +5,6 @@ import android.databinding.ViewDataBinding;
 import com.adsale.ChinaPlas.BR;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.CpsBaseAdapter;
-import com.adsale.ChinaPlas.dao.ApplicationIndustry;
 import com.adsale.ChinaPlas.data.model.ExhibitorFilter;
 import com.adsale.ChinaPlas.data.model.Filter;
 import com.adsale.ChinaPlas.utils.LogUtil;

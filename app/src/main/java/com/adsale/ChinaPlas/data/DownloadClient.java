@@ -21,14 +21,25 @@ import retrofit2.http.Url;
 
 /**
  * Created by Carrie on 2017/9/21.
- *
  */
 
 public interface DownloadClient {
 
+    @GET
+    Observable<ResponseBody> download(@Url String url);
+
 
     @GET("{fileName}")
     Observable<Response<ResponseBody>> downloadFile(@Path("fileName") String fileName);
+
+    @GET(NetWorkHelper.DOWN_WEBCONTENT_URL)
+    Observable<Response<ResponseBody>> downWebContent(@Path("fileName") String fileName);
+
+    @GET(NetWorkHelper.DOWN_EVENT_URL)
+    Observable<ResponseBody> downloadEventPage(@Path("fileName") String fileName);
+
+    @GET(NetWorkHelper.DOWN_MAP_URL)
+    Observable<ResponseBody> downloadMap(@Path("fileName") String fileName);
 
 
     /*  ``````````````````````````````  内容更新中心  `````````````````````````````````````  */
@@ -39,7 +50,7 @@ public interface DownloadClient {
     Observable<Response<ResponseBody>> downUrls(@Url String url);
 
     /**
-     *  断点下载接口 breakpoint download
+     * 断点下载接口 breakpoint download
      */
     @Streaming  /* 大文件需要加入这个判断，防止下载过程中写入到内存中 */
     @GET
@@ -49,11 +60,17 @@ public interface DownloadClient {
     @GET
     Observable<Response<ResponseBody>> largeDownload(@Url String url);
 
+    @Streaming  /* 大文件需要加入这个判断，防止下载过程中写入到内存中 */
+    @GET
+    Observable<ResponseBody> largeDownload2(@Url String url);
+
 //    @Streaming  /* 大文件需要加入这个判断，防止下载过程中写入到内存中 */
 
      /*  ``````````````````````````````  订阅电子快讯  `````````````````````````````````````  */
+
     /**
      * in SubscribeActivity
+     *
      * @param lang eng||trad||simp
      */
     @POST(NetWorkHelper.Subscribe_LAST_URL)

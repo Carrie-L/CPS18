@@ -10,6 +10,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.adsale.ChinaPlas.utils.AppUtil;
+import com.adsale.ChinaPlas.utils.Constant;
 
 /**
  * Entity mapped to table "COUNTRY".
@@ -17,24 +18,21 @@ import com.adsale.ChinaPlas.utils.AppUtil;
 public class Country implements Parcelable {
 
     private String CountryID;
-    /** Not-null value. */
-    private String CountryNameTW;
-    /** Not-null value. */
-    private String CountryNameCN;
-    /** Not-null value. */
-    private String CountryNameEN;
-    /** Not-null value. */
-    private String SortTW;
-    /** Not-null value. */
+    private String CountryEng;
+    private String CountryTC;
+    private String CountrySC;
+    private String SortTC;
+    private String SortSC;
     private String SortEN;
-    /** Not-null value. */
-    private String SortCN;
+    private String createdAt;
+    private String updatedAt;
+
 
     // KEEP FIELDS - put your custom fields here
     public final ObservableBoolean isTypeLabel = new ObservableBoolean();
     public final ObservableBoolean selected = new ObservableBoolean(false);
     // KEEP FIELDS END
-
+    private boolean IsDelete;
     public Country() {
     }
 
@@ -42,14 +40,24 @@ public class Country implements Parcelable {
         this.CountryID = CountryID;
     }
 
-    public Country(String CountryID, String CountryNameTW, String CountryNameCN, String CountryNameEN, String SortTW, String SortCN, String SortEN) {
+    public Country(String CountryID, String CountryEng, String CountryTC, String CountrySC, String SortTC, String SortSC, String SortEN, String createdAt, String updatedAt) {
         this.CountryID = CountryID;
-        this.CountryNameTW = CountryNameTW;
-        this.CountryNameCN = CountryNameCN;
-        this.CountryNameEN = CountryNameEN;
-        this.SortTW = SortTW;
-        this.SortCN = SortCN;
+        this.CountryEng = CountryEng;
+        this.CountryTC = CountryTC;
+        this.CountrySC = CountrySC;
+        this.SortTC = SortTC;
+        this.SortSC = SortSC;
         this.SortEN = SortEN;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    public boolean isDelete() {
+        return IsDelete;
+    }
+
+    public void setDelete(boolean delete) {
+        IsDelete = delete;
     }
 
     public String getCountryID() {
@@ -60,74 +68,91 @@ public class Country implements Parcelable {
         this.CountryID = CountryID;
     }
 
-    /** Not-null value. */
-    public String getCountryNameTW() {
-        return CountryNameTW;
+    public String getCountryEng() {
+        return CountryEng;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
-    public void setCountryNameTW(String CountryNameTW) {
-        this.CountryNameTW = CountryNameTW;
+    public void setCountryEng(String CountryEng) {
+        this.CountryEng = CountryEng;
     }
 
-    /** Not-null value. */
-    public String getCountryNameCN() {
-        return CountryNameCN;
+    public String getCountryTC() {
+        return CountryTC;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
-    public void setCountryNameCN(String CountryNameCN) {
-        this.CountryNameCN = CountryNameCN;
+    public void setCountryTC(String CountryTC) {
+        this.CountryTC = CountryTC;
     }
 
-    /** Not-null value. */
-    public String getCountryNameEN() {
-        return CountryNameEN;
+    public String getCountrySC() {
+        return CountrySC;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
-    public void setCountryNameEN(String CountryNameEN) {
-        this.CountryNameEN = CountryNameEN;
+    public void setCountrySC(String CountrySC) {
+        this.CountrySC = CountrySC;
     }
 
-    /** Not-null value. */
-    public String getSortTW() {
-        return SortTW;
+    public String getSortTC() {
+        return SortTC;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
-    public void setSortTW(String SortTW) {
-        this.SortTW = SortTW;
+    public void setSortTC(String SortTC) {
+        this.SortTC = SortTC;
     }
 
-    /** Not-null value. */
+    public String getSortSC() {
+        return SortSC;
+    }
+
+    public void setSortSC(String SortSC) {
+        this.SortSC = SortSC;
+    }
+
     public String getSortEN() {
         return SortEN;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
     public void setSortEN(String SortEN) {
         this.SortEN = SortEN;
     }
 
-    /** Not-null value. */
-    public String getSortCN() {
-        return SortCN;
+    public String getCreatedAt() {
+        return createdAt;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
-    public void setSortCN(String SortCN) {
-        this.SortCN = SortCN;
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     // KEEP METHODS - put your custom methods here
-    public String getSort(){
-    	return AppUtil.getName(SortTW,SortEN,SortCN);
+    public String getSort() {
+        return AppUtil.getName(SortTC + Constant.TRAD_STROKE, SortEN, SortSC);
     }
-    
-    public String getCountryName(){
-        return AppUtil.getName(CountryNameTW,CountryNameEN,CountryNameCN);
+
+    public String getCountryName() {
+        return AppUtil.getName(CountryTC, CountryEng, CountrySC);
     }
+
+
+    public void parser(String[] strings) {
+        this.CountryID = strings[0];
+        this.CountryEng = strings[1];
+        this.CountryTC = strings[2];
+        this.CountrySC = strings[3];
+        this.SortTC = strings[4];
+        this.SortSC = strings[5];
+        this.SortEN = strings[6];
+    }
+
+
     // KEEP METHODS END
 
     @Override
@@ -138,22 +163,26 @@ public class Country implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.CountryID);
-        dest.writeString(this.CountryNameTW);
-        dest.writeString(this.CountryNameCN);
-        dest.writeString(this.CountryNameEN);
-        dest.writeString(this.SortTW);
+        dest.writeString(this.CountryEng);
+        dest.writeString(this.CountryTC);
+        dest.writeString(this.CountrySC);
+        dest.writeString(this.SortTC);
+        dest.writeString(this.SortSC);
         dest.writeString(this.SortEN);
-        dest.writeString(this.SortCN);
+        dest.writeString(this.createdAt);
+        dest.writeString(this.updatedAt);
     }
 
     protected Country(Parcel in) {
         this.CountryID = in.readString();
-        this.CountryNameTW = in.readString();
-        this.CountryNameCN = in.readString();
-        this.CountryNameEN = in.readString();
-        this.SortTW = in.readString();
+        this.CountryEng = in.readString();
+        this.CountryTC = in.readString();
+        this.CountrySC = in.readString();
+        this.SortTC = in.readString();
+        this.SortSC = in.readString();
         this.SortEN = in.readString();
-        this.SortCN = in.readString();
+        this.createdAt = in.readString();
+        this.updatedAt = in.readString();
     }
 
     public static final Parcelable.Creator<Country> CREATOR = new Parcelable.Creator<Country>() {

@@ -16,22 +16,21 @@ import com.adsale.ChinaPlas.dao.NewsLink;
 */
 public class NewsLinkDao extends AbstractDao<NewsLink, String> {
 
-    public static final String TABLENAME = "NEWS_LINK";
+    public static final String TABLENAME = "NewsLink";
 
     /**
      * Properties of entity NewsLink.<br/>
      * Can be used for QueryBuilder and for referencing column names.
     */
     public static class Properties {
-        public final static Property LinkID = new Property(0, String.class, "LinkID", true, "LINK_ID");
-        public final static Property NewsID = new Property(1, String.class, "NewsID", false, "NEWS_ID");
-        public final static Property Photo = new Property(2, String.class, "Photo", false, "PHOTO");
-        public final static Property Title = new Property(3, String.class, "Title", false, "TITLE");
-        public final static Property Link = new Property(4, String.class, "Link", false, "LINK");
+        public final static Property LinkID = new Property(0, String.class, "LinkID", true, "LinkID");
+        public final static Property NewsID = new Property(1, String.class, "NewsID", false, "NewsID");
+        public final static Property Photo = new Property(2, String.class, "Photo", false, "Photo");
+        public final static Property Title = new Property(3, String.class, "Title", false, "Title");
+        public final static Property Link = new Property(4, String.class, "Link", false, "Link");
         public final static Property SEQ = new Property(5, String.class, "SEQ", false, "SEQ");
-        public final static Property CreateDateTime = new Property(6, String.class, "CreateDateTime", false, "CREATE_DATE_TIME");
-        public final static Property UpdateDateTime = new Property(7, String.class, "UpdateDateTime", false, "UPDATE_DATE_TIME");
-        public final static Property RecordTimeStamp = new Property(8, String.class, "RecordTimeStamp", false, "RECORD_TIME_STAMP");
+        public final static Property CreatedAt = new Property(6, String.class, "createdAt", false, "createdAt");
+        public final static Property UpdatedAt = new Property(7, String.class, "updatedAt", false, "updatedAt");
     };
 
 
@@ -96,7 +95,6 @@ public class NewsLinkDao extends AbstractDao<NewsLink, String> {
         }
         stmt.bindString(7, entity.getCreateDateTime());
         stmt.bindString(8, entity.getUpdateDateTime());
-        stmt.bindString(9, entity.getRecordTimeStamp());
     }
 
     /** @inheritdoc */
@@ -116,8 +114,7 @@ public class NewsLinkDao extends AbstractDao<NewsLink, String> {
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // Link
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // SEQ
             cursor.getString(offset + 6), // CreateDateTime
-            cursor.getString(offset + 7), // UpdateDateTime
-            cursor.getString(offset + 8) // RecordTimeStamp
+            cursor.getString(offset + 7) // UpdateDateTime
         );
         return entity;
     }
@@ -133,7 +130,6 @@ public class NewsLinkDao extends AbstractDao<NewsLink, String> {
         entity.setSEQ(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setCreateDateTime(cursor.getString(offset + 6));
         entity.setUpdateDateTime(cursor.getString(offset + 7));
-        entity.setRecordTimeStamp(cursor.getString(offset + 8));
      }
     
     /** @inheritdoc */

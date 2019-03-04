@@ -167,7 +167,7 @@
             android:layout_marginBottom="@dimen/margin_bottom"
             android:layout_marginRight="15dp"
             android:layout_toLeftOf="@id/vertical_line"
-            android:background="@drawable/bttn_red"
+            android:background="@color/home"
             android:onClick="@{() -> scheduleModel.onSave()}"
             android:text="@string/btnSave"
             android:textColor="#fff" />
@@ -179,7 +179,7 @@
             android:layout_alignTop="@id/btnSave"
             android:layout_marginLeft="15dp"
             android:layout_toRightOf="@id/vertical_line"
-            android:background="@drawable/bttn_grey"
+            android:background="@color/grey500"
             android:onClick="@{() -> scheduleModel.onDelete()}"
             android:text="@string/btnDel"
             android:textColor="#fff"

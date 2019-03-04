@@ -65,7 +65,6 @@ public class Parser {
         return new Gson().fromJson(json, T);
     }
 
-
     public static Gson getGson() {
         GsonBuilder builder = new GsonBuilder();
         builder.excludeFieldsWithModifiers(Modifier.FINAL, Modifier.TRANSIENT, Modifier.STATIC);

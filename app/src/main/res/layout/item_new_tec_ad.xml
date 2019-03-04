@@ -33,17 +33,17 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="@string/new_tec_ad"
-            android:textColor="@color/colorPrimary"
-            android:textSize="18sp" />
+            android:textColor="@color/grey_font"
+            android:textSize="14sp" />
 
         <ImageView
             android:id="@+id/line"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="0.5dp"
             android:layout_below="@id/ad_title"
             android:layout_marginBottom="3dp"
             android:layout_marginTop="3dp"
-            android:background="@color/colorPrimary" />
+            android:background="@color/grey_font" />
 
         <ImageView
             android:id="@+id/iv_product_pic"
@@ -71,31 +71,36 @@
             android:text="@{obj.getProductName()}"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
             android:textColor="@color/grey11"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/iv_booth"
             android:layout_width="24dp"
             android:layout_height="24dp"
+
             android:layout_alignStart="@id/tv_product_title"
             android:layout_below="@id/tv_product_title"
-            android:gravity="center_vertical"
-            android:background="@drawable/flag_end_pt_little" />
+            android:background="@drawable/flag_end_pt_little"
+            android:gravity="center_vertical" />
 
         <TextView
             android:id="@+id/tv_product_booth"
             android:layout_width="wrap_content"
             android:layout_height="24dp"
             android:layout_below="@id/tv_product_title"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
             android:layout_toEndOf="@id/iv_booth"
             android:background="@color/home"
-            android:layout_centerVertical="true"
             android:gravity="center_vertical"
             android:padding="3dp"
-            android:textSize="@dimen/text_size_small"
-            android:text="@{String.format(@string/new_tec_booth,obj.boothNo)}"
-            android:textColor="#fff" />
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="@{obj.boothNo}"
+            android:textColor="#fff"
+            android:textSize="@dimen/text_size_small" />
+        <!--android:text="@{String.format(@string/new_tec_booth,obj.boothNo)}"-->
 
         <TextView
             android:id="@+id/tv_product_company"
@@ -109,7 +114,7 @@
             android:gravity="center_vertical"
             android:maxLines="1"
             android:text="@{obj.companyName}"
-            android:textColor="@color/grey500" />
+            android:textColor="@color/home" />
         <!--android:drawableStart="@drawable/ic_new_tec_company"-->
 
 

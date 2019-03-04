@@ -12,15 +12,15 @@ import de.greenrobot.dao.internal.DaoConfig;
 
 /**
  * DAO for table "NEW_CATEGORY_SUB".
-*/
+ */
 public class NewCategorySubDao extends AbstractDao<NewCategorySub, Void> {
     //MainTypeId|SubNameEn|SubNameTc|SubNameSc|CategoryId|OrderId
-    public static final String TABLENAME = "NEW_CATEGORY_SUB";
+    public static final String TABLENAME = "NewCategorySub";
 
     /**
      * Properties of entity NewCategorySub.<br/>
      * Can be used for QueryBuilder and for referencing column names.
-    */
+     */
     public static class Properties {
         public final static Property MainTypeId = new Property(0, String.class, "MainTypeId", false, "MainTypeId");
         public final static Property SubNameEn = new Property(1, String.class, "SubNameEn", false, "SubNameEn");
@@ -28,7 +28,10 @@ public class NewCategorySubDao extends AbstractDao<NewCategorySub, Void> {
         public final static Property SubNameSc = new Property(3, String.class, "SubNameSc", false, "SubNameSc");
         public final static Property CategoryId = new Property(4, String.class, "CategoryId", false, "CategoryId");
         public final static Property OrderId = new Property(5, int.class, "OrderId", false, "OrderId");
-    };
+
+    }
+
+    ;
 
 
     public NewCategorySubDao(DaoConfig config) {
@@ -39,9 +42,11 @@ public class NewCategorySubDao extends AbstractDao<NewCategorySub, Void> {
         super(config, daoSession);
     }
 
-    /** Creates the underlying database table. */
+    /**
+     * Creates the underlying database table.
+     */
     public static void createTable(SQLiteDatabase db, boolean ifNotExists) {
-        String constraint = ifNotExists? "IF NOT EXISTS ": "";
+        String constraint = ifNotExists ? "IF NOT EXISTS " : "";
         db.execSQL("CREATE TABLE " + constraint + "\"NEW_CATEGORY_SUB\" (" + //
                 "\"MainTypeId\" TEXT," + // 0: Spot
                 "\"SubNameEn\" TEXT," + // 0: Spot
@@ -51,22 +56,26 @@ public class NewCategorySubDao extends AbstractDao<NewCategorySub, Void> {
                 "\"OrderId\" INTEGER);"); // 1: RID
     }
 
-    /** Drops the underlying database table. */
+    /**
+     * Drops the underlying database table.
+     */
     public static void dropTable(SQLiteDatabase db, boolean ifExists) {
         String sql = "DROP TABLE " + (ifExists ? "IF EXISTS " : "") + "\"NEW_CATEGORY_SUB\"";
         db.execSQL(sql);
     }
 
-    /** @inheritdoc */
+    /**
+     * @inheritdoc
+     */
     @Override
     protected void bindValues(SQLiteStatement stmt, NewCategorySub entity) {
         stmt.clearBindings();
- 
+
         String MainTypeId = entity.getMainTypeId();
         if (MainTypeId != null) {
             stmt.bindString(1, MainTypeId);
         }
- 
+
         String SubNameEn = entity.getSubNameEn();
         if (SubNameEn != null) {
             stmt.bindString(2, SubNameEn);
@@ -90,13 +99,17 @@ public class NewCategorySubDao extends AbstractDao<NewCategorySub, Void> {
         stmt.bindLong(6, entity.getOrderId());
     }
 
-    /** @inheritdoc */
+    /**
+     * @inheritdoc
+     */
     @Override
     public Void readKey(Cursor cursor, int offset) {
         return null;
-    }    
+    }
 
-    /** @inheritdoc */
+    /**
+     * @inheritdoc
+     */
     @Override
     public NewCategorySub readEntity(Cursor cursor, int offset) {
         NewCategorySub entity = new NewCategorySub( //
@@ -105,12 +118,14 @@ public class NewCategorySubDao extends AbstractDao<NewCategorySub, Void> {
                 cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // DEVICE_ID
                 cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // DEVICE_ID
                 cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // DEVICE_ID
-              cursor.getInt(offset + 5) // DEVICE_ID
+                cursor.getInt(offset + 5) // DEVICE_ID  cursor.isNull(offset + 2) ? null : cursor.getShort(offset + 2) != 0, // IsDelete
         );
         return entity;
     }
-     
-    /** @inheritdoc */
+
+    /**
+     * @inheritdoc
+     */
     @Override
     public void readEntity(Cursor cursor, NewCategorySub entity, int offset) {
         entity.setMainTypeId(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
@@ -119,25 +134,31 @@ public class NewCategorySubDao extends AbstractDao<NewCategorySub, Void> {
         entity.setSubNameSc(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setCategoryId(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
         entity.setOrderId(cursor.getInt(offset + 5));
-     }
-    
-    /** @inheritdoc */
+    }
+
+    /**
+     * @inheritdoc
+     */
     @Override
     protected Void updateKeyAfterInsert(NewCategorySub entity, long rowId) {
         // Unsupported or missing PK type
         return null;
     }
-    
-    /** @inheritdoc */
+
+    /**
+     * @inheritdoc
+     */
     @Override
     public Void getKey(NewCategorySub entity) {
         return null;
     }
 
-    /** @inheritdoc */
-    @Override    
+    /**
+     * @inheritdoc
+     */
+    @Override
     protected boolean isEntityUpdateable() {
         return true;
     }
-    
+
 }

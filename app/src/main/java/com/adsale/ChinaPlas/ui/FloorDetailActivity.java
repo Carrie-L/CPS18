@@ -35,9 +35,15 @@ import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.data.FloorRepository;
 import com.adsale.ChinaPlas.data.OnIntentListener;
+import com.adsale.ChinaPlas.data.model.EPO;
 import com.adsale.ChinaPlas.data.model.adAdvertisementObj;
 import com.adsale.ChinaPlas.databinding.ActivityFloorDetailBinding;
+import com.adsale.ChinaPlas.databinding.LayoutD6OneBannerBinding;
+import com.adsale.ChinaPlas.databinding.LayoutD6TwoHalfBinding;
 import com.adsale.ChinaPlas.helper.ADHelper;
+import com.adsale.ChinaPlas.helper.EPOHelper;
+import com.adsale.ChinaPlas.helper.IntentHelper;
+import com.adsale.ChinaPlas.helper.LogHelper;
 import com.adsale.ChinaPlas.ui.view.HelpView;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
@@ -54,6 +60,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import io.reactivex.observers.DisposableObserver;
+
+import static com.adsale.ChinaPlas.App.mLogHelper;
 
 /**
  * todo   mTypePrefix = "FPage_" + gIntent.getStringExtra("FloorID");
@@ -75,8 +83,6 @@ public class FloorDetailActivity extends BaseActivity implements OnIntentListene
     private EditText editText;
     private String mHall;
     private String imgName;
-    private int index;
-    private adAdvertisementObj adObj;
     private View navView;
     private ImageView ivShade;
     /**
@@ -84,6 +90,9 @@ public class FloorDetailActivity extends BaseActivity implements OnIntentListene
      */
     private int fromCls;
     private HelpView helpDialog;
+    private EPOHelper epoHelper;
+    private FrameLayout mFrameD6;
+    private LayoutD6TwoHalfBinding d6TwoHalfBinding;
 
     @Override
     protected void initView() {
@@ -103,7 +112,7 @@ public class FloorDetailActivity extends BaseActivity implements OnIntentListene
         binding.executePendingBindings();
 
         initNavView();
-        showM4();
+        showD6();
     }
 
     private void getImgNameFromSD() {
@@ -194,16 +203,17 @@ public class FloorDetailActivity extends BaseActivity implements OnIntentListene
         }
         mFloorModel.setOnDrawerListener(this);
 
-        Bitmap bitmap = BitmapFactory.decodeStream(AppUtil.getInputStream("FloorPlan/" + imgName));
+        Bitmap bitmap = BitmapFactory.decodeStream(AppUtil.getInputStreamFromSdOrAsset("FloorPlan/" + imgName));
 //        binding.ivMap.setImageBitmap(bitmap);
         binding.ivMap.setZoomable(true);
         mFloorModel.startMap(bitmap);
 
-        if (index != -1) {
-            showM4Flag();
-        } else {
-            mFloorModel.showBitmap();
-        }
+//        if (index != -1) {
+//            showM4Flag();
+//        } else {
+//            mFloorModel.showBitmap();
+//        }
+        mFloorModel.showBitmap();
 
         Intent intent = getIntent();
         String booth = intent.getStringExtra("BOOTH");
@@ -223,6 +233,8 @@ public class FloorDetailActivity extends BaseActivity implements OnIntentListene
             }
         });
 
+        mLogHelper.logFloorInfo(mHall);
+        mLogHelper.setBaiDuLog(getApplicationContext(), LogHelper.EVENT_ID_Info);
     }
 
     private void showHelpPage() {
@@ -263,88 +275,150 @@ public class FloorDetailActivity extends BaseActivity implements OnIntentListene
 //        }
 //    };
 
+    private void showD6OneBanner() {
+        LayoutD6OneBannerBinding d6OneBannerBinding = LayoutD6OneBannerBinding.inflate(LayoutInflater.from(getApplicationContext()), null);
+        d6OneBannerBinding.setModel(mFloorModel);
+        d6OneBannerBinding.executePendingBindings();
+        mFrameD6.addView(d6OneBannerBinding.getRoot());
+        setD6OneBannerSize(false, d6OneBannerBinding.ivD6Banner);
+        Glide.with(getApplicationContext()).load(epoHelper.getD6BannerImage(0)).into(d6OneBannerBinding.ivD6Banner);
+        // hall_function_pageId
+        mLogHelper.logD6(mHall + "_one_" + epoHelper.D6.function[0] + "_" + epoHelper.D6.pageID[0], true);
+        mLogHelper.setBaiDuLog(getApplicationContext(), LogHelper.EVENT_ID_AD_VIEW);
+    }
 
-    private void showM4() {
-        ADHelper adHelper = new ADHelper(getApplicationContext());
-        index = adHelper.showM4(mHall);
-        if (index == -1) {
-            return;
-        }
-
-         /* M4 LEFT */
-        ImageView ivLeft = binding.ivM4Left;
-        ivLeft.setVisibility(View.VISIBLE);
-        int adWidth = AppUtil.getScreenWidth() / 2;
+    private void setD6OneBannerSize(boolean isHalf, ImageView iv) {
+        int adWidth = isHalf ? AppUtil.getScreenWidth() / 2 : AppUtil.getScreenWidth();
         int adHeight = (adWidth * Constant.M4_HEIGHT) / Constant.M4_WIDTH;
         LogUtil.i(TAG, "adWidth=" + adWidth + ",adHeight=" + adHeight);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adWidth, adHeight);
-        ivLeft.setLayoutParams(params);
+        if (isHalf) {
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adWidth, adHeight);
+            iv.setLayoutParams(params);
+        } else {
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(adWidth, adHeight);
+            iv.setLayoutParams(params);
+        }
+    }
 
-        adObj = adHelper.getAdObj();
-        StringBuilder m4Url = new StringBuilder();
-        m4Url.append(adObj.Common.baseUrl).append(adObj.M4_left.filepath).append(adObj.M4_left.floor[index]).append("/")
-                .append(AppUtil.isTablet() ? adObj.Common.tablet : adObj.Common.phone).append(AppUtil.getName("tc", "en", "sc"))
-                .append("_left_").append(adObj.M4_left.version[index]).append(adObj.M4_left.format);
-        LogUtil.i(TAG, "M4_leftUrl=" + m4Url.toString());
-        Glide.with(getApplicationContext()).load(m4Url.toString()).into(ivLeft);
+    private void showD6LeftBanner() {
+        initD6HalfView();
+        ImageView ivLeft = d6TwoHalfBinding.ivD6Left;
+        setD6OneBannerSize(true, ivLeft);
+        Glide.with(getApplicationContext()).load(epoHelper.getD6BannerImage(0));
 
+        mLogHelper.logD6(mHall + "_left_" + epoHelper.D6.function[0] + "_" + epoHelper.D6.pageID[0], true);
+        mLogHelper.setBaiDuLog(getApplicationContext(), LogHelper.EVENT_ID_AD_VIEW);
 
-        /* M4 RIGHT */
-        ImageView ivRight = binding.ivM4Right;
-        if (Integer.valueOf(adObj.M4_right.version[index]) == 0) {
-            ivRight.setClickable(false);
+//        ivLeft.setVisibility(View.VISIBLE);
+//        int adWidth = AppUtil.getScreenWidth() / 2;
+//        int adHeight = (adWidth * Constant.M4_HEIGHT) / Constant.M4_WIDTH;
+//        LogUtil.i(TAG, "adWidth=" + adWidth + ",adHeight=" + adHeight);
+//        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(adWidth, adHeight);
+//        ivLeft.setLayoutParams(params);
+
+//        adObj = adHelper.getAdObj();
+//        StringBuilder m4Url = new StringBuilder();
+//        m4Url.append(adObj.Common.baseUrl).append(adObj.M4_left.filepath).append(adObj.M4_left.floor[index]).append("/")
+//                .append(AppUtil.isTablet() ? adObj.Common.tablet : adObj.Common.phone).append(AppUtil.getName("tc", "en", "sc"))
+//                .append("_left_").append(adObj.M4_left.version[index]).append(adObj.M4_left.format);
+//        LogUtil.i(TAG, "M4_leftUrl=" + m4Url.toString());
+    }
+
+    private void initD6HalfView() {
+        if (d6TwoHalfBinding == null) {
+            d6TwoHalfBinding = LayoutD6TwoHalfBinding.inflate(LayoutInflater.from(getApplicationContext()), null);
+            d6TwoHalfBinding.setModel(mFloorModel);
+            d6TwoHalfBinding.executePendingBindings();
+            mFrameD6.addView(d6TwoHalfBinding.getRoot());
+        }
+    }
+
+    private void showD6RightBanner() {
+        initD6HalfView();
+        ImageView ivD6Right = d6TwoHalfBinding.ivD6Right;
+        setD6OneBannerSize(true, ivD6Right);
+        Glide.with(getApplicationContext()).load(epoHelper.getD6BannerImage(1));
+
+        mLogHelper.logD6(mHall + "_right_" + epoHelper.D6.function[1] + "_" + epoHelper.D6.pageID[1], true);
+        mLogHelper.setBaiDuLog(getApplicationContext(), LogHelper.EVENT_ID_AD_VIEW);
+    }
+
+    private void showD6() {
+        epoHelper = EPOHelper.getInstance();
+        EPO.D6 D6 = epoHelper.getItemD6(mHall);
+        if (D6 == null) {
             return;
         }
-        ivRight.setVisibility(View.VISIBLE);
-        ivRight.setLayoutParams(params);
-
-        m4Url = AppUtil.clearSB(m4Url);
-        m4Url.append(adObj.Common.baseUrl).append(adObj.M4_right.filepath).append(adObj.M4_right.floor[index]).append("/")
-                .append(AppUtil.isTablet() ? adObj.Common.tablet : adObj.Common.phone).append(AppUtil.getName("tc", "en", "sc"))
-                .append("_right_").append(adObj.M4_right.version[index]).append(adObj.M4_right.format);
-        LogUtil.i(TAG, "M4_rightUrl=" + m4Url.toString());
-        ivRight.setLayoutParams(params);
-        Glide.with(getApplicationContext()).load(m4Url.toString()).into(ivRight);
-
-
+        mFrameD6 = binding.frameD6;
+        if (epoHelper.isD6Open0()) {  // 一整个 banner
+            showD6OneBanner();
+        } else if (epoHelper.isD6Open1()) {
+            showD6LeftBanner();
+        } else if (epoHelper.isD6Open2()) {
+            showD6RightBanner();
+        }
     }
 
     private void showM4Flag() {
-        String m4RightCompanyId = adObj.M4_right.action_companyID[index];
-        String m4LeftCompanyId = adObj.M4_left.action_companyID[index];
-        if(TextUtils.isEmpty(m4LeftCompanyId.trim())&&TextUtils.isEmpty(m4RightCompanyId.trim())){ // 左右两个广告都没有companyId
-            mFloorModel.showBitmap();
-        }else if (TextUtils.isEmpty(m4RightCompanyId.trim())) {
-            mFloorModel.drawAdFlagOnMap(m4LeftCompanyId);
+//        String m4RightCompanyId = adObj.M4_right.action_companyID[index];
+//        String m4LeftCompanyId = adObj.M4_left.action_companyID[index];
+//        if (TextUtils.isEmpty(m4LeftCompanyId.trim()) && TextUtils.isEmpty(m4RightCompanyId.trim())) { // 左右两个广告都没有companyId
+//            mFloorModel.showBitmap();
+//        } else if (TextUtils.isEmpty(m4RightCompanyId.trim())) {
+//            mFloorModel.drawAdFlagOnMap(m4LeftCompanyId);
+//        } else {
+//            // 左右两边轮流显示大头针
+//            if (App.mSP_Config.getInt("M4_RANDOM", 0) == 1) {
+//                mFloorModel.drawAdFlagOnMap(m4LeftCompanyId);
+//                App.mSP_Config.edit().putInt("M4_RANDOM", 2).apply();
+//            } else {
+//                mFloorModel.drawAdFlagOnMap(m4RightCompanyId);
+//                App.mSP_Config.edit().putInt("M4_RANDOM", 1).apply();
+//            }
+//        }
+    }
+
+    private void onAdIntent(int index) {
+        com.adsale.ChinaPlas.data.model.EPO.D6 D6 = epoHelper.getItemD6(mHall);
+        if (index == 0) {
+            mLogHelper.logD6(mHall + "_one_" + epoHelper.D6.function[0] + "_" + epoHelper.D6.pageID[0], false);
+        } else if (index == 1) {
+            index = index - 1;
+            mLogHelper.logD6(mHall + "_left_" + epoHelper.D6.function[0] + "_" + epoHelper.D6.pageID[0], false);
         } else {
-            // 左右两边轮流显示大头针
-            if( App.mSP_Config.getInt("M4_RANDOM",0)==1){
-                mFloorModel.drawAdFlagOnMap(m4LeftCompanyId);
-                App.mSP_Config.edit().putInt("M4_RANDOM",2).apply();
-            }else{
-                mFloorModel.drawAdFlagOnMap(m4RightCompanyId);
-                App.mSP_Config.edit().putInt("M4_RANDOM",1).apply();
-            }
+            index = index - 1;
+            mLogHelper.logD6(mHall + "_right_" + epoHelper.D6.function[1] + "_" + epoHelper.D6.pageID[1], false);
         }
+        mLogHelper.setBaiDuLog(getApplicationContext(), LogHelper.EVENT_ID_AD_Click);
+
+        Intent intent = IntentHelper.intentAd(D6.function[index], D6.pageID[index], D6.pageID[index]);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        overridePendingTransPad();
     }
 
     @Override
     public <T> void onIntent(T entity, Class toCls) {
         if (toCls == null) {
             String value = (String) entity;
-            if (value.equals("1")) {
+            if (value.equals("0")) {
+                LogUtil.i(TAG, "点击了整个广告");
+                onAdIntent(Integer.valueOf(value));
+            } else if (value.equals("1")) {
                 LogUtil.i(TAG, "点击了左边广告");
-                m4Intent(adObj.M4_left);
+                onAdIntent(Integer.valueOf(value));
             } else if (value.equals("2")) {
                 LogUtil.i(TAG, "点击了you边广告");
-                m4Intent(adObj.M4_right);
-            } else { // 侧边点击了展商item，显示在地图上
+                onAdIntent(Integer.valueOf(value));
+            } else {
+                // 侧边点击了展商item，显示在地图上
                 closeAnimation();
                 mFloorModel.drawSingleFlagOnMap(value); // booth
             }
         } else {
             Intent intent = new Intent(this, ExhibitorDetailActivity.class);
             intent.putExtra(Constant.COMPANY_ID, ((Exhibitor) entity).getCompanyID());
+            intent.putExtra("from", "floor");
             startActivity(intent);
             overridePendingTransPad();
         }
@@ -352,32 +426,32 @@ public class FloorDetailActivity extends BaseActivity implements OnIntentListene
     }
 
     private void m4Intent(adAdvertisementObj.AdM4 adM4) {
-        int function = adM4.function[index];
-        if (function == 1) { //展商详情
-            if (TextUtils.isEmpty(adM4.action_companyID[index])) {
-                return;
-            }
-
-            AppUtil.trackViewLog(415, "CA", "M4", adObj.M4.action_companyID[index]);
-            AppUtil.setStatEvent(getApplicationContext(), "ClickM4", "CA_M4_" + adObj.M4.action_companyID[index]);
-
-            Intent intent = new Intent(this, ExhibitorDetailActivity.class);
-            intent.putExtra(Constant.COMPANY_ID, adM4.action_companyID[index]);
-            startActivity(intent);
-            overridePendingTransPad();
-        } else if (function == 2) { // 同期活动
-            if (TextUtils.isEmpty(adM4.action_eventID[index])) {
-                return;
-            }
-
-            AppUtil.trackViewLog(415, "CA", "M4", adObj.M4.action_eventID[index]);
-            AppUtil.setStatEvent(getApplicationContext(), "ClickM4", "CA_M4_" + adObj.M4.action_eventID[index]);
-
-            Intent intent = new Intent(this, WebContentActivity.class);
-            intent.putExtra(Constant.WEB_URL, "ConcurrentEvent/"+adM4.action_eventID[index]);
-            startActivity(intent);
-            overridePendingTransPad();
-        }
+//        int function = adM4.function[index];
+//        if (function == 1) { //展商详情
+//            if (TextUtils.isEmpty(adM4.action_companyID[index])) {
+//                return;
+//            }
+//
+//            AppUtil.trackViewLog(415, "CA", "M4", adObj.M4.action_companyID[index]);
+//            AppUtil.setStatEvent(getApplicationContext(), "ClickM4", "CA_M4_" + adObj.M4.action_companyID[index]);
+//
+//            Intent intent = new Intent(this, ExhibitorDetailActivity.class);
+//            intent.putExtra(Constant.COMPANY_ID, adM4.action_companyID[index]);
+//            startActivity(intent);
+//            overridePendingTransPad();
+//        } else if (function == 2) { // 同期活动
+//            if (TextUtils.isEmpty(adM4.action_eventID[index])) {
+//                return;
+//            }
+//
+//            AppUtil.trackViewLog(415, "CA", "M4", adObj.M4.action_eventID[index]);
+//            AppUtil.setStatEvent(getApplicationContext(), "ClickM4", "CA_M4_" + adObj.M4.action_eventID[index]);
+//
+//            Intent intent = new Intent(this, WebContentActivity.class);
+//            intent.putExtra(Constant.WEB_URL, "ConcurrentEvent/" + adM4.action_eventID[index]);
+//            startActivity(intent);
+//            overridePendingTransPad();
+//        }
     }
 
 

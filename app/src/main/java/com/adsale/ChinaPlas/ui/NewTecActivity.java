@@ -1,5 +1,7 @@
 package com.adsale.ChinaPlas.ui;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.ObservableBoolean;
@@ -17,12 +19,17 @@ import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.data.model.ExhibitorFilter;
 import com.adsale.ChinaPlas.data.model.NewTec;
 import com.adsale.ChinaPlas.databinding.ActivityNewTecBinding;
+import com.adsale.ChinaPlas.helper.CSVHelper;
+import com.adsale.ChinaPlas.ui.view.HelpView;
 import com.adsale.ChinaPlas.ui.view.SideDataView;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.Parser;
+import com.adsale.ChinaPlas.utils.ReleaseHelper;
 
 import java.util.ArrayList;
+
+import static com.adsale.ChinaPlas.App.mLogHelper;
 
 public class NewTecActivity extends BaseActivity implements OnIntentListener {
     private ActivityNewTecBinding binding;
@@ -52,7 +59,16 @@ public class NewTecActivity extends BaseActivity implements OnIntentListener {
 
     @Override
     protected void initData() {
+        if (HelpView.isFirstShow(HelpView.HELP_PAGE_NEW_TEC_LIST)) {
+            onHelpPage();
+            App.mSP_HP.edit().putInt("HELP_PAGE_" + HelpView.HELP_PAGE_NEW_TEC_LIST, HelpView.HELP_PAGE_NEW_TEC_LIST).apply();
+        }
         mSideDataView.initRecyclerView(recyclerView);
+
+        if(ReleaseHelper.IsNewTecCSVTest){
+            processCSVTest();
+        }
+
         getList();
         generateAdList();
         insertAdList();
@@ -63,12 +79,23 @@ public class NewTecActivity extends BaseActivity implements OnIntentListener {
         search();
     }
 
+    private void processCSVTest() {
+        if (mRepository == null) {
+            mRepository = NewTecRepository.newInstance();
+            mRepository.initDao();
+        }
+        CSVHelper csvHelper = new CSVHelper();
+        csvHelper.initNewTec(mRepository);
+        csvHelper.readNewTecCSV2();
+    }
+
     private void getList() {
         mRepository = NewTecRepository.newInstance();
         mRepository.initDao();
         products = mRepository.getAllProductInfoList();
         list.addAll(products);
         productCaches.addAll(products);
+        LogUtil.i(TAG, "logo = " + productCaches.get(0).imageThumb);
     }
 
     /**
@@ -89,6 +116,8 @@ public class NewTecActivity extends BaseActivity implements OnIntentListener {
         LogUtil.i(TAG, "adIndex=" + adIndex);
         if (adIndex > 1) {
             for (int i = 1; i < adIndex; i++) {
+                mLogHelper.logD8(adProducts.get(i).CompanyID,true);
+
                 adProducts.add(adProducts.get(0));
                 adProducts.remove(0);
             }
@@ -172,6 +201,7 @@ public class NewTecActivity extends BaseActivity implements OnIntentListener {
     public <T> void onIntent(T entity, Class toCls) {
         Intent intent = new Intent(this, NewTecDtlActivity.class);
         intent.putExtra("obj", (NewProductInfo) entity);
+        intent.putExtra("title", barTitle.get());
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         overridePendingTransPad();
@@ -192,12 +222,24 @@ public class NewTecActivity extends BaseActivity implements OnIntentListener {
         list.clear();
         listCaches.clear();
         products.clear();
-        list = mRepository.getFilterList(productCaches,filters);
+        list = mRepository.getFilterList(productCaches, filters);
         products.addAll(list);
         insertAdList();
         adapter.setList(list);
         listCaches.addAll(list);
         isEmpty.set(list.isEmpty());
         LogUtil.i(TAG, "list= " + list.size() + "," + list.toString());
+    }
+
+    public void onHelpPage() {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment fragment = getFragmentManager().findFragmentByTag("Dialog");
+        if (fragment != null) {
+            ft.remove(fragment);
+        }
+        ft.addToBackStack(null);
+
+        HelpView helpDialog = HelpView.newInstance(HelpView.HELP_PAGE_NEW_TEC_LIST);
+        helpDialog.show(ft, "Dialog");
     }
 }

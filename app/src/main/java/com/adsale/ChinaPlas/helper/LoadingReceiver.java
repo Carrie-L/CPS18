@@ -23,14 +23,15 @@ public class LoadingReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         sp = context.getSharedPreferences(Constant.SP_CONFIG, Context.MODE_PRIVATE);
         boolean isM1ShowFinish = sp.getBoolean("M1ShowFinish", false);
+        boolean isMainIconFinish = sp.getBoolean("mainIconFinish", false);  // 主界面数据库加载完成
         boolean isTxtDownFinish = sp.getBoolean("txtDownFinish", false);
         boolean isWebServicesDownFinish = sp.getBoolean("webServicesDownFinish", false);
-        boolean isApkDialogClicked = sp.getBoolean("apkDialogFinish", false); /* 1. 没有更新时，true； 2. 有更新，点击了（不管是yes or no），true; 3. 有更新，没有点击，false   */
+        boolean isApkDownFinish = sp.getBoolean("apkDialogFinish", false); /* 1. 没有更新时，true； 2. 有更新，点击了（不管是yes or no），true; 3. 有更新，没有点击，false   */
 
-        LogUtil.i(TAG, "m1 = " + isM1ShowFinish + ", txt = " + isTxtDownFinish + ", wc =" + isWebServicesDownFinish + ",apkDialogFinish=" + isApkDialogClicked);
+        LogUtil.i(TAG, "m1 = " + isM1ShowFinish + ", txt = " + isTxtDownFinish + ", isMainIconFinish =" + isMainIconFinish + ",isApkDownFinish=" + isApkDownFinish);
 
         if (!App.isNetworkAvailable) {
-            isApkDialogClicked = true;
+            isApkDownFinish = true;
         }
 
 //        if (isM1ShowFinish && isTxtDownFinish && isWebServicesDownFinish && isApkDialogClicked) {
@@ -40,7 +41,7 @@ public class LoadingReceiver extends BroadcastReceiver {
 //        }
 
 
-        if(isM1ShowFinish){
+        if (isM1ShowFinish && isMainIconFinish && isTxtDownFinish && isApkDownFinish) {
             String companyId = sp.getString("M1ClickId", "");
             LogUtil.i(TAG, "companyId=" + companyId);
             mListener.intent(companyId);

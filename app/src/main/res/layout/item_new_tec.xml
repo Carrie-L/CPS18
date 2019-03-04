@@ -20,7 +20,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="114dp"
-        android:background="@color/white_smoke"
+        android:background="@color/white_grey"
         android:gravity="center_vertical"
         android:onClick="@{()->adapter.onItemClick(obj)}"
         android:orientation="vertical">
@@ -51,23 +51,29 @@
             android:textColor="@color/grey11"
             android:textSize="16sp" />
 
-        <ImageView
-            android:id="@+id/iv_booth"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignLeft="@id/tv_product_title"
-            android:layout_below="@id/tv_product_title"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/flag_end_pt_little" />
+        <!--<ImageView-->
+        <!--android:id="@+id/iv_booth"-->
+        <!--android:layout_width="24dp"-->
+        <!--android:layout_height="24dp"-->
+        <!--android:layout_alignLeft="@id/tv_product_title"-->
+        <!--android:layout_below="@id/tv_product_title"-->
+        <!--android:layout_marginTop="8dp"-->
+        <!--android:background="@drawable/icon_booth" />-->
 
         <TextView
             android:id="@+id/tv_product_booth"
-            style="@style/new_tec_booth_style_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_product_title"
             android:layout_below="@id/tv_product_title"
-            android:layout_marginTop="8dp"
-            android:layout_toEndOf="@id/iv_booth"
             android:layout_marginLeft="12dp"
-            android:text="@{String.format(@string/new_tec_booth,obj.boothNo)}" />
+            android:layout_marginTop="8dp"
+            android:drawableLeft="@drawable/ic_booth_2"
+            android:drawablePadding="16dp"
+            android:text="@{obj.boothNo}"
+            android:textColor="@color/home" />
+        <!--android:text="@{String.format(@string/new_tec_booth,obj.boothNo)}"-->
+
 
         <TextView
             android:id="@+id/tv_product_company"

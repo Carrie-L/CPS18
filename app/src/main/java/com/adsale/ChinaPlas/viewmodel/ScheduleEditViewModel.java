@@ -45,7 +45,7 @@ public class ScheduleEditViewModel {
      * id starts from 1, so if mId == 0, means adding a new schedule.
      */
     private long mId = 0;
-    private String mCompanyId;
+    public String mCompanyId;
     private FragmentManager mFragmentManager;
     private HelpView helpDialog;
 

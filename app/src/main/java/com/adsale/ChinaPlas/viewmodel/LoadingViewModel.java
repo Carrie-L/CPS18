@@ -1,90 +1,88 @@
 package com.adsale.ChinaPlas.viewmodel;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.databinding.ObservableBoolean;
-import android.net.Uri;
+import android.databinding.ObservableField;
+import android.databinding.ObservableInt;
+import android.databinding.ObservableLong;
 import android.support.annotation.NonNull;
-import android.support.v4.view.ViewPager;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
-import com.adsale.ChinaPlas.adapter.AdViewPagerAdapter;
 import com.adsale.ChinaPlas.dao.MainIcon;
-import com.adsale.ChinaPlas.dao.TempOpenHelper;
-import com.adsale.ChinaPlas.dao.UpdateCenter;
-import com.adsale.ChinaPlas.dao.WebContent;
-import com.adsale.ChinaPlas.data.ContentHandler;
-import com.adsale.ChinaPlas.data.ExhibitorRepository;
-import com.adsale.ChinaPlas.data.LoadRepository;
-import com.adsale.ChinaPlas.data.LoadTransferTempDB;
+import com.adsale.ChinaPlas.dao.MainIconTest;
+import com.adsale.ChinaPlas.data.DownloadClient;
 import com.adsale.ChinaPlas.data.LoadingClient;
+import com.adsale.ChinaPlas.data.MainIconRepository;
+import com.adsale.ChinaPlas.data.NewTecRepository;
 import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.data.model.ApkVersion;
-import com.adsale.ChinaPlas.data.model.LoadUrl;
-import com.adsale.ChinaPlas.data.model.adAdvertisementObj;
-import com.adsale.ChinaPlas.helper.ADHelper;
+import com.adsale.ChinaPlas.helper.CSVHelper;
+import com.adsale.ChinaPlas.helper.EPOHelper;
+import com.adsale.ChinaPlas.helper.LogHelper;
 import com.adsale.ChinaPlas.helper.NewTecHelper;
+import com.adsale.ChinaPlas.helper.ProgressCallback;
+import com.adsale.ChinaPlas.ui.ExhibitorDetailActivity;
+import com.adsale.ChinaPlas.ui.LoadingActivity;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.FileUtil;
-import com.adsale.ChinaPlas.utils.FileUtils;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.NetWorkHelper;
 import com.adsale.ChinaPlas.utils.Parser;
 import com.adsale.ChinaPlas.utils.ReRxUtils;
-import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.adsale.ChinaPlas.utils.ReleaseHelper;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.lang.reflect.Type;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.datatype.BmobDate;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 
-import static android.content.Context.MODE_PRIVATE;
 import static com.adsale.ChinaPlas.App.mSP_Config;
-import static com.adsale.ChinaPlas.App.rootDir;
+import static com.adsale.ChinaPlas.App.mSP_EventPage;
 import static com.adsale.ChinaPlas.helper.LoadingReceiver.LOADING_ACTION;
-import static com.adsale.ChinaPlas.utils.AppUtil.logListString;
+import static com.adsale.ChinaPlas.utils.Constant.APK_NAME;
+import static com.adsale.ChinaPlas.utils.Constant.TXT_APK_VERSION;
+import static com.adsale.ChinaPlas.utils.Constant.TXT_NEW_TEC;
 import static com.adsale.ChinaPlas.utils.FileUtil.createFile;
+import static com.adsale.ChinaPlas.utils.NetWorkHelper.APK_VERSION_TXT_URL;
+import static com.adsale.ChinaPlas.utils.NetWorkHelper.TXT_AD_URL;
+import static com.adsale.ChinaPlas.utils.NetWorkHelper.TXT_MAIN_URL;
+import static com.adsale.ChinaPlas.utils.NetWorkHelper.TXT_NOTIFICATION_URL;
 
 /**
  * Created by Carrie on 2017/9/8.
  * Loading
  */
 
-public class LoadingViewModel implements ADHelper.OnM1ClickListener {
+public class LoadingViewModel {
     private static final String TAG = "LoadingViewModel";
     private static final String AD_TXT = "advertisement.txt";  // normal
     private static final Integer AD_COUNT_DOWN_TIMES = 3;  // 倒计时几秒
@@ -92,40 +90,97 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
 
     //    public final ObservableBoolean showLangBtn = new ObservableBoolean(false);
     public final ObservableBoolean isShowM1 = new ObservableBoolean(false);
-    private final SharedPreferences mConfigSP;
+    public final ObservableField<String> D1ImageUrl = new ObservableField<>();
 
-    private LoadRepository mLoadRepository;
     private LoadingClient mClient;
-    private String mWebContentDir;
-    private String mMainIconDir;
-    private ArrayList<WebContent> webContents;
-    private ArrayList<MainIcon> mainIcons;
-    private adAdvertisementObj adObj;
     private Disposable mAdDisposable;
     private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
-    private SQLiteDatabase mTempDB;
     private boolean isM1Showing = false;
 
     private OnIntentListener mIntentListener;
     private int localVersion;
+    private DownloadClient mProgressClient;
+    private EPOHelper mEPOHelper;
 
     public LoadingViewModel(Context mContext, OnIntentListener listener) {
         this.mContext = mContext;
         this.mIntentListener = listener;
-        mConfigSP = mContext.getSharedPreferences(Constant.SP_CONFIG, MODE_PRIVATE);
-        mLoadRepository = LoadRepository.getInstance(mContext);
     }
 
     public final ObservableBoolean showProgressBar = new ObservableBoolean();
 
     public void run(boolean isFirstRunning) {
         setupDownload();
-//        loadingData();
-        if (!isFirstRunning) {
-//            getUpdateInfo();
-        }
+        downloadTxt();
+        getMainIcon();
+    }
 
-        showM1();
+    private void getMainIcon() {
+        final MainIconRepository repository = MainIconRepository.getInstance();
+        BmobQuery<MainIcon> query = new BmobQuery<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+        String localUpdateAt = repository.getLastUpdateDate();
+        LogUtil.i(TAG, "getMainIcon: localUpdateAt=" + localUpdateAt);
+        if (!TextUtils.isEmpty(localUpdateAt)) {
+            Date date = null;
+            try {
+                date = sdf.parse(localUpdateAt);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            query.addWhereGreaterThan("updatedAt", new BmobDate(date));
+        }
+        query.findObjects(new FindListener<MainIcon>() {
+            @Override
+            public void done(List<MainIcon> list, BmobException e) {
+                if (e != null) {
+                    LogUtil.i(TAG, "getMainIcon e=" + e.getMessage());
+                }
+                if (list != null && list.size() > 0) {
+                    LogUtil.i(TAG, "updateMainIcon: " + list.size());
+                    repository.updateOrInsertMainIcons((ArrayList<MainIcon>) list);
+                }
+                Intent intent = new Intent(LOADING_ACTION);
+                mSP_Config.edit().putBoolean("mainIconFinish", true).apply();
+                mContext.sendBroadcast(intent);
+            }
+        });
+
+
+    }
+
+    private void getMainIconTest() {
+        final MainIconRepository repository = MainIconRepository.getInstance();
+        BmobQuery<MainIconTest> query = new BmobQuery<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+        String localUpdateAt = repository.getLastUpdateDateTest();
+        LogUtil.i(TAG, "getMainIcon: localUpdateAt=" + localUpdateAt);
+        if (!TextUtils.isEmpty(localUpdateAt)) {
+            Date date = null;
+            try {
+                date = sdf.parse(localUpdateAt);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            query.addWhereGreaterThan("updatedAt", new BmobDate(date));
+        }
+        query.findObjects(new FindListener<MainIconTest>() {
+            @Override
+            public void done(List<MainIconTest> list, BmobException e) {
+                if (e != null) {
+                    LogUtil.i(TAG, "getMainIconTest e=" + e.getMessage());
+                }
+                if (list != null && list.size() > 0) {
+                    LogUtil.i(TAG, "updateMainIconTest: " + list.size());
+                    repository.updateOrInsertMainIconsTest((ArrayList<MainIconTest>) list);
+                }
+                Intent intent = new Intent(LOADING_ACTION);
+                mSP_Config.edit().putBoolean("mainIconFinish", true).apply();
+                mContext.sendBroadcast(intent);
+            }
+        });
+
+
     }
 
     /**
@@ -141,89 +196,313 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
         localVersion = AppUtil.getLocalApkVersion();
         int spServiceVersionCode = AppUtil.getServiceApkVersionCode();
         LogUtil.i(TAG, "version code 》 app:" + localVersion + ",spServiceVersionCode:" + spServiceVersionCode);
-        downloadApkVersionTxt();
-
-//        if (spServiceVersionCode > localVersion) {
-//            LogUtil.i(TAG, "有更新，弹出对话框");
-//            // has update, dialog
-//            mIntentListener.onIntent(null, null);
-//        } else {
-//            LogUtil.i(TAG, "下载ApkVersion.txt");
-//            downloadApkVersionTxt();
-//        }
+        downApkTxt();
     }
 
-    private void downloadApkVersionTxt() {
-        setupDownload();
-        mClient.download(NetWorkHelper.APK_VERSION_TXT_URL)
-                .map(new Function<ResponseBody, Boolean>() {
+    private ApkVersion apkVersion;
+    private String apkPath = String.format(App.filesDir + "apk/" + APK_NAME, AppUtil.getServiceApkVersionCode());
 
+    private Observable<Boolean> downApk() {
+        downloadStatus.set(STATUS_DOWNLOADING);
+        if (mProgressClient == null)
+            mProgressClient = ReRxUtils.setupRxtrofitProgress(DownloadClient.class, "https://www.chinaplas.com/", mCallback, this);
+        return mProgressClient.largeDownload(apkVersion.apk)
+                .map(new Function<Response<ResponseBody>, Boolean>() {
                     @Override
-                    public Boolean apply(ResponseBody responseBody) throws Exception {
-                        if (responseBody != null) {
-                            String content = responseBody.string();
-                            final ApkVersion apkVersion = Parser.parseJson(ApkVersion.class, content);
-                            responseBody.close();
-                            LogUtil.i(TAG, "version code 》 app:" + localVersion + ",service:" + apkVersion.versionCode);
-
-                            if (apkVersion.versionCode > localVersion) {
-                                AppUtil.setServiceApkVersion(apkVersion.versionCode, apkVersion.link);
-                                return true;
-                            } else {
-                                mSP_Config.edit().putBoolean("apkDialogFinish", true).apply();
-                            }
+                    public Boolean apply(Response<ResponseBody> response) throws Exception {
+                        ResponseBody body = response.body();
+                        if (body != null) {
+                            createFile(App.filesDir + "apk/");
+                            LogUtil.i(TAG, "downUrls发射文件:" + apkPath);
+//                                                FileUtils.writeFileToRootDir(APK_NAME,responseBody.string());
+                            return FileUtil.writeFile(body.byteStream(), apkPath);
                         }
                         return false;
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public void downloadApk() {
+        LogUtil.i(TAG, "---------------downloadApk() ");
+        downApk()
+                .subscribe(new Observer<Boolean>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+                        LogUtil.i(TAG, "---------------downloadApk() onSubscribe ");
+                        disposable = d;
+                        downloadStatus.set(STATUS_DOWNLOADING);
+                        mIntentListener.onIntent(STATUS_DOWNLOADING, null);
+                    }
+
+                    @Override
+                    public void onNext(@NonNull Boolean success) {
+                        LogUtil.i(TAG, "down apk onNext: " + success);
+                        if (success) {
+                            downloadStatus.set(STATUS_FINISHED);
+                            LogUtil.i(TAG, "apk下载完成，安装");
+                            mIntentListener.onIntent(STATUS_FINISHED, null);
+                        }
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        LogUtil.i(TAG, "down apk onError: " + e.getMessage());
+                        downloadStatus.set(STATUS_ERROR);
+                        sendApkDownBrocastMessage(true);
+                        disposable.dispose();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        LogUtil.i(TAG, "down apk onComplete---------------");
+                        disposable.dispose();
+                    }
+                });
+    }
+
+    private void downApkTxt() {
+        setupDownload();
+        mClient.download(APK_VERSION_TXT_URL)
+                .map(new Function<ResponseBody, Boolean>() {
+                    @Override
+                    public Boolean apply(ResponseBody responseBody) throws Exception {
+                        String content = responseBody.string();
+                        LogUtil.i(TAG, "downApkTxt content=" + content);
+                        apkVersion = Parser.parseJson(ApkVersion.class, content);
+                        responseBody.close();
+                        return FileUtil.writeFile(content, Constant.TXT_APK_VERSION);
                     }
                 }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Boolean>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-                        mCompositeDisposable.add(d);
+                        LogUtil.i(TAG, "=======downApkTxt  onSubscribe");
+                        disposable = d;
                     }
 
                     @Override
-                    public void onNext(final Boolean value) {
-                        LogUtil.i(TAG, "is apk has update? " + value);
+                    public void onNext(Boolean value) {
+                        LogUtil.i(TAG, "=======downApkTxt  onNext " + value);
                         if (value) {
-                            mIntentListener.onIntent(true, null);
-                        }else{
-//                            mSP_Config.edit().putBoolean("apkDialogFinish", true).apply();
-//                            Intent intent0 = new Intent(LOADING_ACTION);
-//                            mContext.sendBroadcast(intent0);
-                            mIntentListener.onIntent(false, null);
+                            down();
+                        } else {
+                            sendApkDownBrocastMessage(true);
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        LogUtil.i(TAG, " downloadApkVersionTxt error" + e.getMessage());
-                        Intent intent = new Intent(LOADING_ACTION);
-                        mSP_Config.edit().putBoolean("apkDialogFinish", true).apply();
-                        mContext.sendBroadcast(intent);
+                        LogUtil.i(TAG, "=======downApkTxt  onError " + e.getMessage());
+                        downloadStatus.set(STATUS_ERROR);
+                        sendApkDownBrocastMessage(true);
+                        disposable.dispose();
                     }
 
                     @Override
                     public void onComplete() {
-
+                        LogUtil.i(TAG, "=======downApkTxt  onComplete ");
+                        disposable.dispose();
                     }
                 });
     }
 
-//    private void updateApk() {
-//        if (new File(apkPath).exists()) {
-//            // 安装apk
-//            Intent install = new Intent(Intent.ACTION_VIEW);
-//            install.setDataAndType(Uri.fromFile(new File(apkPath)), "application/vnd.android.package-archive");
-//            install.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            mContext.startActivity(install);
-//        }
-//    }
+    private void down() {
+        apkVersion = Parser.parseJsonFilesDirFile(ApkVersion.class, TXT_APK_VERSION);
+        LogUtil.i(TAG, "version code 》 app:" + localVersion + ", service:" + apkVersion.versionCode + ", localServiceCode=" + AppUtil.getServiceApkVersionCode());
+        if ((apkVersion.versionCode == AppUtil.getServiceApkVersionCode())
+                && (apkVersion.versionCode > localVersion)
+                && new File(apkPath).exists()) { // 有更新，且已經下載了apk，則直接安裝
+            LogUtil.i(TAG, "apk存在，直接安装");
+            AppUtil.setServiceApkVersion(apkVersion.versionCode, apkVersion.apk);
+            downloadStatus.set(STATUS_FINISHED);
+            mIntentListener.onIntent(STATUS_FINISHED, null);
+        } else if (apkVersion.versionCode > localVersion) {
+            sendApkDownBrocastMessage(false);
+            AppUtil.setServiceApkVersion(apkVersion.versionCode, apkVersion.apk);
+            apkPath = String.format(App.filesDir + "apk/" + APK_NAME, AppUtil.getServiceApkVersionCode());
+            if (apkVersion.isForceUpdate) {
+                downloadStatus.set(STATUS_DOWNLOADING);
+                downloadApk();
+            } else {
+                downloadStatus.set(STATUS_NS);
+                mIntentListener.onIntent(apkVersion, LoadingActivity.class);
+            }
+            LogUtil.i(TAG, "下載更新apk: " + downloadStatus.get());
+        } else {
+            sendApkDownBrocastMessage(true);
+        }
+    }
+
+    private void downloadApkVersionTxt() {
+        setupDownload();
+        if (mProgressClient == null)
+            mProgressClient = ReRxUtils.setupRxtrofitProgress(DownloadClient.class, "https://www.chinaplas.com/", mCallback, this);
+        mClient.download(APK_VERSION_TXT_URL)
+                .flatMap(new Function<ResponseBody, Observable<Boolean>>() {
+                    @Override
+                    public Observable<Boolean> apply(ResponseBody responseBody) throws Exception {
+                        String content = responseBody.string();
+                        apkVersion = Parser.parseJson(ApkVersion.class, content);
+//                        FileUtil.writeFile(content, Constant.TXT_APK_VERSION);
+                        responseBody.close();
+                        LogUtil.i(TAG, "version code 》 app:" + localVersion + ", service:" + apkVersion.versionCode + ", localServiceCode=" + AppUtil.getServiceApkVersionCode());
+
+                        if ((apkVersion.versionCode == AppUtil.getServiceApkVersionCode())
+                                && (apkVersion.versionCode > localVersion)
+                                && new File(apkPath).exists()) { // 有更新，且已經下載了apk，則直接安裝
+                            LogUtil.i(TAG, "apk存在，直接安装");
+                            AppUtil.setServiceApkVersion(apkVersion.versionCode, apkVersion.apk);
+                            downloadStatus.set(STATUS_FINISHED);
+                            mIntentListener.onIntent(STATUS_FINISHED, null);
+                            return Observable.just(true);
+                        } else if (apkVersion.versionCode > localVersion) {
+                            downloadStatus.set(STATUS_DOWNLOADING);
+                            LogUtil.i(TAG, "下載更新apk: " + downloadStatus.get());
+                            sendApkDownBrocastMessage(false);
+                            AppUtil.setServiceApkVersion(apkVersion.versionCode, apkVersion.apk);
+                            if (apkVersion.isForceUpdate) {
+                                return mProgressClient.largeDownload(apkVersion.apk)
+                                        .map(new Function<Response<ResponseBody>, Boolean>() {
+                                            @Override
+                                            public Boolean apply(Response<ResponseBody> response) throws Exception {
+                                                ResponseBody body = response.body();
+                                                if (body != null) {
+                                                    createFile(App.filesDir + "apk/");
+                                                    LogUtil.i(TAG, "downUrls发射文件:" + apkPath);
+                                                    return FileUtil.writeFile(body.byteStream(), apkPath);
+                                                }
+                                                return false;
+                                            }
+                                        })
+                                        .subscribeOn(Schedulers.io())
+                                        .observeOn(AndroidSchedulers.mainThread());
+                            } else {
+                                downloadStatus.set(STATUS_NS);
+                                mIntentListener.onIntent(apkVersion, LoadingActivity.class);
+                                return Observable.just(false);
+                            }
+                        } else {
+                            sendApkDownBrocastMessage(true);
+                            return Observable.just(false);
+                        }
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Boolean>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+                        LogUtil.i(TAG, "---------------down apk onSubscribe ");
+                        disposable = d;
+//                        if (downloadStatus.get() == STATUS_DOWNLOADING) {
+//                            LogUtil.i(TAG, "---------------down apk onSubscribe STARTING  ");
+
+//                        }
+                    }
+
+                    @Override
+                    public void onNext(@NonNull Boolean success) {
+                        LogUtil.i(TAG, "down apk onNext: " + success);
+                        if (success) {
+                            downloadStatus.set(STATUS_FINISHED);
+                            LogUtil.i(TAG, "apk下载完成，安装");
+                            mIntentListener.onIntent(STATUS_FINISHED, null);
+                        }
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        LogUtil.i(TAG, "down apk onError: " + e.getMessage());
+                        downloadStatus.set(STATUS_ERROR);
+                        sendApkDownBrocastMessage(true);
+                        disposable.dispose();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        LogUtil.i(TAG, "down apk onComplete---------------");
+                        disposable.dispose();
+                    }
+                });
+
+
+//        mClient.download(APK_VERSION_TXT_URL)
+//                .map(new Function<ResponseBody, Boolean>() {
+//
+//
+//                    @Override
+//                    public Boolean apply(ResponseBody responseBody) throws Exception {
+//                        if (responseBody != null) {
+//                            String content = responseBody.string();
+//                            LogUtil.i(TAG, "content= " + content);
+//                            apkVersion = Parser.parseJson(ApkVersion.class, content);
+//                            responseBody.close();
+//                            LogUtil.i(TAG, "version code 》 app:" + localVersion + ",service:" + apkVersion.versionCode);
+//
+//                            if (apkVersion.versionCode > localVersion) {
+////                                AppUtil.setServiceApkVersion(apkVersion.versionCode, apkVersion.apk);
+////                                    AppUtil.setServiceApkVersion(apkVersion.versionCode, apkVersion.link);
+//                                LogUtil.i(TAG, "有更新，弹出对话框");
+//                                mIntentListener.onIntent(apkVersion.apk, null);
+//                                mSP_Config.edit().putBoolean("apkDialogFinish", false).apply();
+//
+//                                return true;
+//                            } else {
+//                                mSP_Config.edit().putBoolean("apkDialogFinish", true).apply();
+//                            }
+//                        }
+//                        return false;
+//                    }
+//                }).subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Observer<Boolean>() {
+//                    @Override
+//                    public void onSubscribe(Disposable d) {
+//                        mCompositeDisposable.add(d);
+//                    }
+//
+//                    @Override
+//                    public void onNext(final Boolean value) {
+//                        LogUtil.i(TAG, "is apk has update? " + value);
+////                        if (value) {
+////                            mIntentListener.onIntent(true, null);
+////                        } else {
+//////                            mSP_Config.edit().putBoolean("apkDialogFinish", true).apply();
+//////                            Intent intent0 = new Intent(LOADING_ACTION);
+//////                            mContext.sendBroadcast(intent0);
+////                            mIntentListener.onIntent(false, null);
+////                        }
+//
+//                        downloadApk(apkVersion.apk);
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        LogUtil.i(TAG, " downloadApkVersionTxt error: " + e.getMessage());
+//                        sendApkDownBrocastMessage(true);
+//                    }
+//
+//                    @Override
+//                    public void onComplete() {
+//
+//                    }
+//                });
+    }
+
+    public void sendApkDownBrocastMessage(boolean isApkFinish) {
+        Intent intent = new Intent(LOADING_ACTION);
+        mSP_Config.edit().putBoolean("apkDialogFinish", isApkFinish).apply();
+        mContext.sendBroadcast(intent);
+    }
 
     public void intent() {
         Intent intent = new Intent(LOADING_ACTION);
-        mSP_Config.edit().putBoolean("webServicesDownFinish", true).putBoolean("txtDownFinish", true).putBoolean("apkDialogFinish", true).apply();
+        mSP_Config.edit().putBoolean("webServicesDownFinish", true).putBoolean("txtDownFinish", true)
+                .putBoolean("apkDialogFinish", true).putBoolean("mainIconFinish", true).apply();
         mContext.sendBroadcast(intent);
         showM1();
     }
@@ -234,172 +513,16 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
         }
     }
 
-    private void downNewTecZip() {
-        LogUtil.i(TAG,"downNewTecZip");
-        NewTecHelper newTecHelper = new NewTecHelper();
-        newTecHelper.init();
-        newTecHelper.downNewTecZip(mClient);
-    }
-
-    //第一次运行，则获取所有数据。然后将本地数据表的数据清空，插入新的数据。
-    private void loadingData() {
-        mWebContentDir = rootDir + "WebContent/";
-        mMainIconDir = rootDir + "MainIcon/";
-        createFile(mWebContentDir);
-        createFile(mMainIconDir);
-
-        webContents = new ArrayList<>();
-        mainIcons = new ArrayList<>();
-
-        mClient.getMaster(NetWorkHelper.getMasterRequestBody())
-                .map(new Function<Response<ResponseBody>, Boolean>() {
-                    @Override
-                    public Boolean apply(@NonNull Response<ResponseBody> responseBodyResponse) throws Exception {
-                        ResponseBody body = responseBodyResponse.body();
-                        if (body != null) {
-                            ContentHandler contentHandler = ContentHandler.getInstance(mLoadRepository);
-                            contentHandler.parseXmlWithSAX(body.string());
-                            mainIcons = contentHandler.mMainIcons;
-                            webContents = contentHandler.mWebContents;
-                            body.close();
-                        }
-                        return true;
-                    }
-                })
-                .flatMap(new Function<Boolean, Observable<LoadUrl>>() {
-                    @Override
-                    public Observable<LoadUrl> apply(@NonNull Boolean aBoolean) throws Exception {
-                        return Observable.fromIterable(processUrls());
-                    }
-                })
-                .flatMap(new Function<LoadUrl, Observable<Boolean>>() {
-                    @Override
-                    public Observable<Boolean> apply(@NonNull LoadUrl loadUrl) throws Exception {
-                        return downZip(loadUrl.urlName, loadUrl.dirName);
-                    }
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Boolean>() {
-
-                    private long mStartTime, mEndTime;
-
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-                        mStartTime = System.currentTimeMillis();
-//                        mWCDisposable = d;
-                        mCompositeDisposable.add(d);
-                    }
-
-                    @Override
-                    public void onNext(@NonNull Boolean aBoolean) {
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        LogUtil.e(TAG, "getMaster -- onError=" + e.getMessage());/* todo SSL handshake timed out */
-                        Intent intent = new Intent(LOADING_ACTION);
-                        mSP_Config.edit().putBoolean("webServicesDownFinish", true).apply();
-                        mContext.sendBroadcast(intent);
-                        LogUtil.e(TAG, "))))) down wc error, send broadcast");
-                    }
-
-                    @Override
-                    public void onComplete() {//只执行一次,在最后
-                        mEndTime = System.currentTimeMillis();
-
-                        Intent intent = new Intent(LOADING_ACTION);
-                        mSP_Config.edit().putBoolean("webServicesDownFinish", true).apply();
-                        mContext.sendBroadcast(intent);
-
-                        LogUtil.i(TAG, "))))) down wc end, send broadcast");
-                        LogUtil.i(TAG, "wc onComplete----spend time= " + (mEndTime - mStartTime) + "ms");//2073ms
-                    }
-                });
-    }
-
-    /**
-     * 将MainIcon \ WebContent 的 zip、icon 下载链接都整合到一起，便于用Retrofit+RxJava下载
-     *
-     * @return ArrayList
-     */
-    private ArrayList<LoadUrl> processUrls() {
-        int iconSize = mainIcons.size();
-        int wcSize = webContents.size();
-        ArrayList<LoadUrl> urls = new ArrayList<>();
-        LoadUrl loadUrl = new LoadUrl();
-        MainIcon mainIcon;
-        WebContent webContent;
-
-        for (int i = 0; i < iconSize; i++) {
-            mainIcon = mainIcons.get(i);
-            // zips
-            if (mainIcon.getCFile() != null && !mainIcon.getCFile().trim().isEmpty()) {
-                loadUrl = new LoadUrl(mainIcon.getCFile(), mainIcon.getIconID());
-                urls.add(loadUrl);
-            }
-        }
-
-        for (int i = 0; i < wcSize; i++) {
-            webContent = webContents.get(i);
-            if (webContent.getCType() == 1) {
-                loadUrl = new LoadUrl(webContent.getCFile(), webContent.getPageId());
-                urls.add(loadUrl);
-            }
-        }
-
-        LogUtil.i(TAG, "urls=" + urls.size() + "," + urls.toString());
-        return urls;
-    }
-
-    private Observable<Boolean> downZip(final String cFile, final String iconId) {
-        return mClient.downWebContent(cFile)
-                .subscribeOn(Schedulers.io())
-                .map(new Function<Response<ResponseBody>, Boolean>() {
-                    @Override
-                    public Boolean apply(@NonNull Response<ResponseBody> responseBodyResponse) throws Exception {
-                        ResponseBody body = responseBodyResponse.body();
-                        if (body != null) {
-                            FileUtil.unpackZip(cFile, body.byteStream(), mWebContentDir + iconId + "/");
-                            body.close();
-                        }
-                        return true;
-                    }
-                });
-    }
-
-    /**
-     * 根据更新信息下载txt
-     */
-    public void getUpdateInfo() {
+    public void downloadTxt() {
+        String[] links = new String[]{TXT_AD_URL, TXT_MAIN_URL, TXT_NOTIFICATION_URL, APK_VERSION_TXT_URL, TXT_NEW_TEC};
         setupDownload();
-        mClient.getScanFile(NetWorkHelper.getScanRequestBody())
-                .flatMap(new Function<Response<ResponseBody>, Observable<UpdateCenter>>() {// getScanFilesJson
+        Observable.fromArray(links)
+                .flatMap(new Function<String, Observable<String>>() {
                     @Override
-                    public Observable<UpdateCenter> apply(@NonNull Response<ResponseBody> responseBodyResponse) throws Exception {
-                        ArrayList<UpdateCenter> scanFiles = new ArrayList<>();
-                        ResponseBody body = responseBodyResponse.body();
-                        if (body != null) {
-                            String result = body.string();
-                            if (result != null && !result.isEmpty()) {
-                                result = AppUtil.subStringLastFront1(result, '[', ']');
-                                Type listType = new TypeToken<ArrayList<UpdateCenter>>() {
-                                }.getType();
-                                scanFiles = new Gson().fromJson(result, listType);
-//                                logListString(scanFiles);
-                            }
-                            body.close();
-                        }
-                        return Observable.fromIterable(UpdateCenter.getUpdateFiles(scanFiles, mLoadRepository));
+                    public Observable<String> apply(@NonNull String url) throws Exception {
+                        return getTxt(AppUtil.subStringLast(url, "/"));
                     }
-                })
-                .flatMap(new Function<UpdateCenter, Observable<String>>() {
-                    @Override
-                    public Observable<String> apply(@NonNull UpdateCenter updateCenter) throws Exception {
-                        return downTxt(updateCenter);
-                    }
-                })
-                .subscribeOn(Schedulers.computation())
+                }).subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<String>() {
                     @Override
@@ -436,31 +559,16 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
                         LogUtil.i(TAG, "))))) down txt end, send broadcast");
                     }
                 });
+
+
     }
 
-    private Observable<String> downTxt(UpdateCenter updateCenter) {
-        final String fileName = updateCenter.getScanFile().trim();
-        LogUtil.i(TAG, "downTxt: fileName=" + fileName);
-
-        if (updateCenter.getScanFile().equals(Constant.TXT_NEW_TEC)) {
-            LogUtil.i(TAG, "downTxt: NewTechInfo 有更新，下载zip包");
-            downNewTecZip();
-        }
-        return getTxt(fileName);// has network, download txt.
-    }
-
-    /**
-     * txt是以下5个txt名称之一，则返回true，检查更新，有更新才下载。否则返回false
-     */
-    private boolean isOneOfFiveTxt(String fileName) {
-        return fileName.equals("ExhibitorInfo.txt") || fileName.equals("FloorPlan.txt") || fileName.equals("SeminarInfo.txt")
-                || fileName.equals("appContents.txt") || fileName.equals("Travelnfo.txt");
-    }
 
     /**
      * 下载单个txt，并写入内存data/.../files中
      */
     private Observable<String> getTxt(final String fileName) {
+//        final String fileName = AppUtil.subStringLast(url, "/");
         LogUtil.e(TAG, "getTxt:::fileName=" + fileName);
         return mClient.downTxt(fileName)
                 .subscribeOn(Schedulers.io())
@@ -470,11 +578,14 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
                         long startTime = System.currentTimeMillis();
                         ResponseBody body = responseBodyResponse.body();
                         if (body != null) {
-//                            if (fileName.trim().equals(AD_TXT)) {
-//                                adObj = new Gson().fromJson(body.string(), adAdvertisementObj.class);
-//                            }
                             FileOutputStream fos = mContext.openFileOutput(fileName, Context.MODE_PRIVATE);
                             fos.write(body.bytes());
+
+                            if (fileName.equals(Constant.TXT_APK_VERSION)) {
+
+                            }
+
+
                             body.close();
                             fos.close();
                         }
@@ -485,104 +596,151 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
                 });
     }
 
-    private LinearLayout viewIndicator;
-    private ViewPager autoChangeViewPager;
+    public final static Integer STATUS_NS = -1;
+    public final static Integer STATUS_DOWNLOADING = 1;
+    public final static Integer STATUS_FINISHED = 2;
+    public final static Integer STATUS_ERROR = 3;
+    private Disposable disposable;
+    public final ObservableInt mProgress = new ObservableInt(0);
+    public final ObservableInt max = new ObservableInt(0);
+    public final ObservableLong percent = new ObservableLong(0);
+    /**
+     * -1:未开始下载；0：点击下载，暂停中；1：正在下载; 2:下载完成
+     */
+    public final ObservableInt downloadStatus = new ObservableInt(0);
+    private ProgressCallback mCallback = new ProgressCallback() {
+
+        @Override
+        public <T> void onProgress(long progress, long total, boolean done, T entity) {
+            mProgress.set((int) progress);
+            max.set((int) total);
+            percent.set((long) ((float) (progress * 100) / total));
+
+            if (percent.get() / 10 == 0) {
+                LogUtil.i(TAG, "progress=" + progress + ",total=" + total + ", per= " + percent.get() + "%");
+            }
+
+        }
+    };
+
+    private void downloadApk(final String link) {
+        DownloadClient mClient = ReRxUtils.setupRxtrofitProgress(DownloadClient.class, NetWorkHelper.BASE_URL_CPS, mCallback, this);
+        mClient.largeDownload(link)
+                .map(new Function<Response<ResponseBody>, Boolean>() {
+                    @Override
+                    public Boolean apply(@NonNull Response<ResponseBody> response) throws Exception {
+                        ResponseBody body = response.body();
+                        if (body != null) {
+                            LogUtil.i(TAG, "headers=" + response.headers().toString());
+                            LogUtil.i(TAG, "downUrls发射文件:" + link);
+                            return FileUtil.writeFile(body, App.filesDir + APK_NAME);
+                        }
+                        return false;
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Boolean>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+                        LogUtil.i(TAG, "---------------down apk onSubscribe ");
+                        disposable = d;
+                        downloadStatus.set(STATUS_DOWNLOADING);
+                    }
+
+                    @Override
+                    public void onNext(@NonNull Boolean success) {
+                        LogUtil.i(TAG, "down apk onNext: " + success);
+                        if (success) {
+                            downloadStatus.set(STATUS_FINISHED);
+                            LogUtil.i(TAG, "apk下载完成，安装");
+//                            installAPK();
+                        }
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        LogUtil.i(TAG, "down apk onError:" + e.getMessage());
+                        downloadStatus.set(STATUS_NS);
+                        disposable.dispose();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        LogUtil.i(TAG, "down apk onComplete---------------");
+                        disposable.dispose();
+                    }
+                });
+    }
+
+
     private TextView tvSkip;
     private FrameLayout m1Frame;
 
-    public void initM1(LinearLayout ll, ViewPager pager, TextView tvSkip, FrameLayout m1Frame) {
-        viewIndicator = ll;
-        autoChangeViewPager = pager;
+    public void initM1(TextView tvSkip, FrameLayout m1Frame) {
         this.tvSkip = tvSkip;
         this.m1Frame = m1Frame;
     }
 
     private void showM1() {
-        ADHelper mAdHelper = new ADHelper(mContext);
-        adObj = mAdHelper.getAdObj();
-        if (mAdHelper.setIsAdOpen() && mAdHelper.isM1Open()) {
-            isShowM1.set(true);
-            mAdHelper.setOnM1ClickListener(this);
-            List<View> pagers = mAdHelper.generateM1View(viewIndicator);
-            autoChangeViewPager.setAdapter(new AdViewPagerAdapter(pagers));
-            autoChangeViewPager.addOnPageChangeListener(new ViewPageChangeListener());
-            tvSkip.setVisibility(View.VISIBLE);
-            tvSkip.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(LOADING_ACTION);
-                    mSP_Config.edit().putBoolean("M1ShowFinish", true).apply();
-                    mContext.sendBroadcast(intent);
-                    LogUtil.i(TAG, "))))) skip, send broadcast");
-                    if (mAdDisposable != null && !mAdDisposable.isDisposed()) {
-                        mAdDisposable.dispose();//停止倒计时
+        mEPOHelper = EPOHelper.getInstance();
+        if (!mEPOHelper.isD1Open()) {
+            Intent intent = new Intent(LOADING_ACTION);
+            mSP_Config.edit().putBoolean("M1ShowFinish", true).apply();
+            mContext.sendBroadcast(intent);
+            LogUtil.i(TAG, "))))) m1 关闭");
+            return;
+        }
+
+        LogHelper logHelper = LogHelper.getInstance();
+        logHelper.logD1(mEPOHelper.getD1CompanyID(), true);
+        AppUtil.setStatEventFull(mContext, LogHelper.EVENT_ID_AD_VIEW, logHelper.getTrackingName());
+
+        isShowM1.set(true);
+        D1ImageUrl.set(mEPOHelper.getD1Image());
+        LogUtil.i(TAG, "D1ImageUrl= ❤❤❤ " + D1ImageUrl.get());
+        tvSkip.setVisibility(View.VISIBLE);
+
+        Observable.interval(1, TimeUnit.SECONDS)
+                .take(AD_COUNT_DOWN_TIMES) // up to 3 items
+                .map(new Function<Long, Long>() {
+                    @Override
+                    public Long apply(Long v) throws Exception {
+                        return AD_COUNT_DOWN_TIMES - v;
                     }
-                }
-            });
+                })
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Long>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+                        isM1Showing = true;
+                        mAdDisposable = d;
+                        mCompositeDisposable.add(mAdDisposable);
+                        Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.bottom_to_top);
+                        m1Frame.startAnimation(animation);
+                    }
 
-            Observable.interval(1, TimeUnit.SECONDS)
-                    .take(AD_COUNT_DOWN_TIMES) // up to 3 items
-                    .map(new Function<Long, Long>() {
-                        @Override
-                        public Long apply(Long v) throws Exception {
-                            return AD_COUNT_DOWN_TIMES - v;
-                        }
-                    })
-                    .subscribeOn(Schedulers.computation())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<Long>() {
-                        @Override
-                        public void onSubscribe(@NonNull Disposable d) {
-                            isM1Showing = true;
-                            mAdDisposable = d;
-                            mCompositeDisposable.add(mAdDisposable);
-                            Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.bottom_to_top);
-                            m1Frame.startAnimation(animation);
-                        }
+                    @Override
+                    public void onNext(@NonNull Long aLong) {
+                        LogUtil.e(TAG, "count down : aLong=" + aLong);
+                        tvSkip.setText(Html.fromHtml(String.format(Locale.getDefault(), mContext.getString(R.string.skip), aLong)));
+                    }
 
-                        @Override
-                        public void onNext(@NonNull Long aLong) {
-                            LogUtil.e(TAG, "count down : aLong=" + aLong);
-                            tvSkip.setText(Html.fromHtml(String.format(Locale.getDefault(), mContext.getString(R.string.skip), aLong)));
-                        }
+                    @Override
+                    public void onError(@NonNull Throwable e) {
 
-                        @Override
-                        public void onError(@NonNull Throwable e) {
+                    }
 
-                        }
-
-                        @Override
-                        public void onComplete() {
-                            LogUtil.i(TAG, "----------广告倒计时结束------------");
-                            Intent intent = new Intent(LOADING_ACTION);
-                            mSP_Config.edit().putBoolean("M1ShowFinish", true).apply();
-                            mContext.sendBroadcast(intent);
-                            LogUtil.i(TAG, "))))) m1 end, send broadcast");
-                        }
-                    });
-
-        }
-    }
-
-    private class ViewPageChangeListener implements ViewPager.OnPageChangeListener {
-
-        @Override
-        public void onPageScrollStateChanged(int arg0) {
-        }
-
-        @Override
-        public void onPageScrolled(int arg0, float arg1, int arg2) {
-        }
-
-        // 监听页面改变事件来改变viewIndicator中的指示图片
-        @Override
-        public void onPageSelected(int arg0) {
-            int len = viewIndicator.getChildCount();
-            for (int i = 0; i < len; ++i)
-                viewIndicator.getChildAt(i).setBackgroundResource(R.drawable.dot_normal);
-            viewIndicator.getChildAt(arg0).setBackgroundResource(R.drawable.dot_focused);
-        }
-
+                    @Override
+                    public void onComplete() {
+                        LogUtil.i(TAG, "----------广告倒计时结束------------");
+                        Intent intent = new Intent(LOADING_ACTION);
+                        mSP_Config.edit().putBoolean("M1ShowFinish", true).apply();
+                        mContext.sendBroadcast(intent);
+                        LogUtil.i(TAG, "))))) m1 end, send broadcast");
+                    }
+                });
     }
 
     public void unSubscribe() {
@@ -598,21 +756,20 @@ public class LoadingViewModel implements ADHelper.OnM1ClickListener {
         }
     }
 
-    @Override
-    public void onClick(String companyId) {
-        if (TextUtils.isEmpty(companyId)) {
-            return;
-        }
-        ExhibitorRepository repository = new ExhibitorRepository();
-        if (!repository.isExhibitorIDExists(companyId)) {
-            repository = null;
-            LogUtil.e(TAG, "展商資料庫裏滅有這家展商。");
-            return;
-        }
-        Intent intent = new Intent(LOADING_ACTION);
-        mSP_Config.edit().putBoolean("M1ShowFinish", true).putString("M1ClickId", companyId).apply();
-        mContext.sendBroadcast(intent);
+
+    public void onD1Click() {
+        mIntentListener.onIntent(mEPOHelper.getD1CompanyID(), ExhibitorDetailActivity.class);
         LogUtil.i(TAG, "))))) onClick, send broadcast");
+        if (mAdDisposable != null && !mAdDisposable.isDisposed()) {
+            mAdDisposable.dispose();//停止倒计时
+        }
+    }
+
+    public void onSkipClick() {
+        Intent intent = new Intent(LOADING_ACTION);
+        mSP_Config.edit().putBoolean("M1ShowFinish", true).apply();
+        mContext.sendBroadcast(intent);
+        LogUtil.i(TAG, "))))) skip, send broadcast");
         if (mAdDisposable != null && !mAdDisposable.isDisposed()) {
             mAdDisposable.dispose();//停止倒计时
         }

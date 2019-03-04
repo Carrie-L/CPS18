@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.net.Network;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -22,6 +23,7 @@ import android.view.animation.AnimationUtils;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
@@ -34,6 +36,7 @@ import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.data.OtherRepository;
 import com.adsale.ChinaPlas.data.model.EmailVisitorData;
 import com.adsale.ChinaPlas.data.model.PayResult;
+import com.adsale.ChinaPlas.helper.LogHelper;
 import com.adsale.ChinaPlas.ui.ImageActivity;
 import com.adsale.ChinaPlas.ui.LoginActivity;
 import com.adsale.ChinaPlas.utils.AppUtil;
@@ -47,6 +50,7 @@ import com.adsale.ChinaPlas.utils.ReRxUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.mob.tools.network.NetworkHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -70,9 +74,8 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 
 import static android.content.Context.MODE_PRIVATE;
-import static com.adsale.ChinaPlas.App.mSP_Config;
+import static com.adsale.ChinaPlas.App.mLogHelper;
 import static com.adsale.ChinaPlas.App.mSP_Login;
-import static com.adsale.ChinaPlas.helper.LoadingReceiver.LOADING_ACTION;
 import static com.adsale.ChinaPlas.utils.NetWorkHelper.MY_CHINAPLAS_URL;
 import static com.adsale.ChinaPlas.utils.NetWorkHelper.Register_URL;
 
@@ -83,7 +86,7 @@ import static com.adsale.ChinaPlas.utils.NetWorkHelper.Register_URL;
 
 public class RegisterViewModel {
     private static final String TAG = "RegisterViewModel";
-    private static final String CONFIRM_PAGE_NAME = "Wed Nov 07 18:05:45 GMT+08:00 2018confirm.jpg";
+    private static final String CONFIRM_PAGE_NAME = "confirm.jpg";
     private static final Integer IMG_WIDTH = 600;
     private static final Integer IMG_HEIGHT = 1240;
     private Context mContext;
@@ -92,6 +95,8 @@ public class RegisterViewModel {
     private ProgressBar mProgressBar;
 
     public final ObservableBoolean isLoginOrReged = new ObservableBoolean(false);
+    public final ObservableBoolean isShowWebView = new ObservableBoolean(true);  /*  是显示webview还是picView，true webview , false picView  */
+    public final ObservableBoolean isShowProgressBar = new ObservableBoolean(false);
     private DownloadClient mClient;
     private SharedPreferences sp_reg;
     private Disposable mDisposable0;
@@ -99,9 +104,9 @@ public class RegisterViewModel {
     private CalendarUtil calendarUtil;
     private File imgFile;
     private String imgUrl;
+    //    private final String rootPath;
+    private final String mImgPath = App.filesDir + "confirm.jpg";
 
-    private final String rootPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/CPS19/";
-    private final String mImgPath = rootPath + CONFIRM_PAGE_NAME;
 
     public RegisterViewModel(Context context, CalendarUtil calendarUtil, OnIntentListener listener) {
         this.mContext = context;
@@ -120,39 +125,73 @@ public class RegisterViewModel {
         LogUtil.i(TAG, "isLoginOrReged=" + isLoginOrReged.get());
         sp_reg = mContext.getSharedPreferences("Prereg", MODE_PRIVATE);
 
-
-        // just for test screen
-//        isLoginOrReged.set(false);
-//        getPostStatus();
-
-
         if (isLoginOrReged.get()) {
             LogUtil.i(TAG, " showPicView()");
-            showPicView();
+            if (new File(mImgPath).exists()) {
+                isShowWebView.set(false);
+                showPicView();
+            } else {
+                isShowWebView.set(true);
+                showWebView(NetWorkHelper.MY_CHINAPLAS_URL);
+            }
         } else if (getPingPay() && !isLoginOrReged.get()) { // Ping++返回的值表示付款成功了，但sp里表示还没登录，则请求服务器，获取返回status
             LogUtil.i(TAG, "付款了，但是还没请求服务器");
             LogUtil.i(TAG, " getPostStatus()");
             getPostStatus();
         } else {
             LogUtil.i(TAG, " showWebView()");
-            showWebView();
+            isShowWebView.set(true);
+            showWebView(Register_URL);
         }
     }
 
     private void showWebView() {
         mWebView.setWebViewClient(new MyWebClient());
-        mWebView.loadUrl(Register_URL);
+        mWebView.loadUrl(String.format(Register_URL, AppUtil.getLanguageUrlType()));
         setProgressClient();
     }
 
-    private void showConfirmView() {
+    private void showWebView(String url) {
+        mWebView.setWebViewClient(new MyWebClient());
+        mWebView.loadUrl(String.format(url, AppUtil.getLanguageUrlType()));
+        setProgressClient();
+    }
+
+
+    private void showConfirmView(boolean loadUrl) {
+        isCapturing.set(true);
+        if (loadUrl) {
+            mWebView.loadUrl(String.format(NetWorkHelper.CONFIRM_URL, AppUtil.getLanguageUrlType(), getGUID()));
+        } else {
+            LogUtil.i(TAG, "-------VISA 截图啦------");
+            startCapture();
+        }
+        WebSettings settings = mWebView.getSettings();
+        settings.setDomStorageEnabled(true);
+        settings.setDatabaseEnabled(true);
+        settings.setAppCacheEnabled(true);
+        File file = new File(App.rootDir + "cache/");
+        file.mkdir();
+        settings.setAppCachePath(App.rootDir + "cache/");
+        settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+
         mWebView.setWebViewClient(new WebViewClient() {
 
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
-
                 LogUtil.i(TAG, "showConfirmView - onPageStarted: " + url);
+
+                if (url.contains("PreregSuccess") && url.contains("guid")) {
+                    String guid = AppUtil.subStringLast(url, "=");
+                    LogUtil.i(TAG, "onPageStarted guid = " + guid);
+
+                    if (!TextUtils.isEmpty(guid)) {
+                        setGuid(guid);
+                    }
+
+                }
+
 
             }
 
@@ -160,11 +199,57 @@ public class RegisterViewModel {
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 LogUtil.i(TAG, "-------准备截图啦------" + url);
-                captureScreen();
+                startCapture();
             }
         });
-        mWebView.loadUrl(String.format(NetWorkHelper.CONFIRM_URL, getGUID()));
         setProgressClient();
+    }
+
+    private void setGuid(String guid) {
+        App.mSP_Login.edit().putString("PreregSuccessGuid", guid).apply();
+    }
+
+    private String getGuid() {
+        return App.mSP_Login.getString("PreregSuccessGuid", "");
+    }
+
+    private void startCapture() {
+        Observable.interval(1, TimeUnit.SECONDS)
+                .take(1) // up to 5 items
+                .map(new Function<Long, Long>() {
+                    @Override
+                    public Long apply(Long v) throws Exception {
+                        return 1 - v;
+                    }
+                })
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Long>() {
+                    @Override
+                    public void onSubscribe(@NonNull Disposable d) {
+                        isCapturing.set(true);
+                    }
+
+                    @Override
+                    public void onNext(@NonNull Long aLong) {
+                        LogUtil.i(TAG, "返回0，再次请求状态  " + aLong);
+                        isCapturing.set(true);
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        if (!TextUtils.isEmpty(getGuid())) {
+                            LogUtil.i(TAG, "-------kaishi截图啦------");
+                            isCapturing.set(true);
+                            captureScreen();
+                        }
+                    }
+                });
     }
 
     private void setProgressClient() {
@@ -206,9 +291,8 @@ public class RegisterViewModel {
                 });
             } else {
                 if (url.contains("MyChinaplasForApp")) {
-//                getJSValueMyCPS(view);
-                    LogUtil.i(TAG, "跳转到MYCHINAPLAS" + url);
-                    view.loadUrl(MY_CHINAPLAS_URL);
+                    LogUtil.i(TAG, "跳转到MYCHINAPLAS   " + url);
+                    view.loadUrl(String.format(MY_CHINAPLAS_URL, AppUtil.getLanguageUrlType()));
                 } else if (url.contains("langtmp")) {
 
                 } else {
@@ -216,22 +300,32 @@ public class RegisterViewModel {
                     view.loadUrl(url);
                 }
             }
+
+
             return true;
         }
-// 2018.05.10 注：VISA支付出现问题
 
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
 
-//            if (mSaveConfirmPage) {
-//
-//                LogUtil.i(TAG,"-------准备截图啦------");
-//
-//                captureScreen();
-//
-//            }
+            // mycps确认信： https://www.chinaplasonline.com/CPS19/PreregSuccess/simp/?device=mobileapp&guid=0G6NiQUnB9NvkNn5zRkg0Bn%2f3bA7ehba%2fLPg2io%2fbNkSzsQ9kiThgAbx9KiYY%2bBey9OrLr%2f0krUlrgZ5wlSewT0%2bFsk%2fF7N3COy%2fRHs%2bvlg%3d
+            // 发票链接：https://www.chinaplasonline.com/CPS19/PreRegInvoice/simp/?device=mobileapp&guid=FaNbMH67NCyeR5aEZpCJRedN0e8y%2fgwC4y5X8JEgS%2f%2f2MTigTwOGMYvTbFI03k3XyebRpuhn35AnjPtxPMn6ig%3d%3d
 
+            if (url.contains("PreregSuccess") && url.contains("device") && url.contains("guid")) {
+                // visa确认信链接示例：https://www.chinaplasonline.com/CPS19/PreregSuccess/simp/?device=mobileapp&guid=68E19706D7DE4F90A925E48DF2C9ACF0&Ref=CPS19_PR_Mob_E24271408_C3553
+                // visa支付，且显示确认信图片，则截图
+                LogUtil.i(TAG, "-------VISA支付成功，准备截图啦------或 MyCHinaplas截图");
+                String guid = AppUtil.subStringLast(url, "=");
+                LogUtil.i(TAG, "onPageFinished guid = " + guid);
+
+                if (!TextUtils.isEmpty(guid)) {
+                    setGuid(guid);
+                }
+
+
+                paySuccess(false);
+            }
         }
     }
 
@@ -245,12 +339,10 @@ public class RegisterViewModel {
                 sp_reg.edit().putString("p_payMethod", value.split(",")[0])
                         .putString("g_guid", value.split(",")[1])
                         .putString("p_lang", value.split(",")[2])
-//                        .putString("p_image", value.split(",")[3])
                         .apply();
                 LogUtil.i(TAG, "p_payMethod=" + sp_reg.getString("p_payMethod", ""));
                 LogUtil.i(TAG, "g_guid=" + sp_reg.getString("g_guid", ""));
                 LogUtil.i(TAG, "p_lang=" + sp_reg.getString("p_lang", ""));
-//                LogUtil.i(TAG, "p_image=" + sp_reg.getString("p_image", ""));
                 createPay(view);
             }
         });
@@ -285,7 +377,9 @@ public class RegisterViewModel {
                 .map(new Function<ResponseBody, String>() {
                     @Override
                     public String apply(@NonNull ResponseBody responseBody) throws Exception {
-                        return responseBody.string();
+                        String charge = responseBody.string();
+                        LogUtil.i(TAG, "charge= " + charge);
+                        return charge;
                     }
                 })
                 .subscribeOn(Schedulers.computation())
@@ -323,13 +417,20 @@ public class RegisterViewModel {
         }
     }
 
-    private void paySuccess() {
+    private void paySuccess(boolean loadUrl) {
+        isShowWebView.set(true);
+        isShowProgressBar.set(false);
         LogUtil.i(TAG, "paySuccess");
         setPingPay(false); // 重置状态
         mSP_Login.edit().putBoolean(Constant.IS_LOGIN, true).apply();
-        showConfirmView();
-        AppUtil.trackViewLog(420, "PS", "", "");
-        AppUtil.setStatEvent(mContext, "PreregSuccess", "PS");
+        showConfirmView(loadUrl);
+//        AppUtil.trackViewLog(420, "PS", "", "");
+//        AppUtil.setStatEvent(mContext, "PreregSuccess", "Prereg_OK_"+AppUtil.getVmid());
+
+        mLogHelper.logPreregOk(true, AppUtil.getVmid());
+        mLogHelper.setBaiDuLog(mContext, LogHelper.EVENT_ID_PreReg);
+
+        mWebView.clearHistory();
     }
 
     private Disposable mCountDownDisposable;
@@ -372,21 +473,24 @@ public class RegisterViewModel {
                     public void onNext(Boolean value) {
                         LogUtil.i(TAG, "value=" + value);
                         if (value) {
-                            paySuccess();
+                            paySuccess(true);
                         } else {
-                            // 失败则每5s请求一次
+                            // 失败则再次请求一次
                             countDownRequestStatus();
-
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         LogUtil.e(TAG, "mDisposable1_onError:" + e.getMessage());
+
+                        // 失败则再次请求一次
+                        countDownRequestStatus();
                     }
 
                     @Override
                     public void onComplete() {
+                        LogUtil.i(TAG, "getPostStatus: onComplete");
                         mDisposable1.dispose();
                     }
                 });
@@ -432,25 +536,18 @@ public class RegisterViewModel {
                 });
     }
 
+    public ObservableBoolean isCapturing = new ObservableBoolean(false);
 
     private void captureScreen() {
+        isCapturing.set(true);
         Bitmap bitmap = getWebViewBitmap(mContext, mWebView);
 
         int imgWidth = bitmap.getWidth();
         int imgHeight = bitmap.getHeight();
-
-        LogUtil.i(TAG, "imgWidth = " + imgWidth + ", imgHeight= " + imgHeight);
-
         sp_reg.edit().putInt("imgWidth", imgWidth).putInt("imgHeight", imgHeight).apply();
-
-
-        File file = new File(rootPath);
-        file.mkdir();
 
         File imgFile = new File(mImgPath);
 
-
-//        File file = new File(App.filesDir + CONFIRM_PAGE_NAME);
         LogUtil.i(TAG, "path = " + mImgPath);
         FileOutputStream os = null;
         try {
@@ -462,8 +559,8 @@ public class RegisterViewModel {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
+        mWebView.clearHistory();
+        isCapturing.set(false);
     }
 
     /**
@@ -506,7 +603,7 @@ public class RegisterViewModel {
         return b;
     }
 
-    public Bitmap getViewBitmap(View v) {
+    private Bitmap getViewBitmap(View v) {
         if (null == v) {
             return null;
         }
@@ -566,32 +663,23 @@ public class RegisterViewModel {
     }
 
     private void showPicView() {
-//        imgFile = new File(App.filesDir + regImgName());
         imgFile = new File(mImgPath);
         LogUtil.i(TAG, "showPicView:" + imgFile.getAbsolutePath());
 
         if (imgFile.exists()) {
             LogUtil.i(TAG, "imgFile.exists()");
-
-            //.override(IMG_WIDTH, IMG_HEIGHT)
-
             Bitmap bitmap = BitmapFactory.decodeFile(mImgPath);
             int imgWidth = bitmap.getWidth();
             int imgHeight = bitmap.getHeight();
-
             LogUtil.i(TAG, "imgWidth = " + imgWidth + ", imgHeight= " + imgHeight);
 
-
-            RequestOptions options = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).override(imgWidth,imgHeight);// 保存在本地的图片，由于文件名都是reg.png，为了防止重置后图片仍显示之前的缓存图片，因此设置不缓存
+            RequestOptions options = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).override(imgWidth, imgHeight);// 保存在本地的图片，由于文件名都是reg.png，为了防止重置后图片仍显示之前的缓存图片，因此设置不缓存
             Glide.with(mContext).load(imgFile).apply(options).into(mImageView);
             imgUrl = imgFile.getAbsolutePath();
         } else {
             LogUtil.e(TAG, "!imgFile.exists()");
         }
     }
-
-    public final ObservableField<String> tvHeader = new ObservableField<>();
-    public final ObservableField<String> tvFooter = new ObservableField<>();
 
     public void reset() {
         imgFile = new File(mImgPath);
@@ -603,8 +691,12 @@ public class RegisterViewModel {
         isLoginOrReged.set(false);
         App.mSP_Login.edit().putBoolean("IsPreUser", false).apply();
 
-        AppUtil.trackViewLog(420, "PR", "", "");
-        AppUtil.setStatEvent(mContext, "PreregReset", "PR");
+//        AppUtil.trackViewLog(420, "PR", "", "");
+//        AppUtil.setStatEvent(mContext, "PreregReset", "Prereg_reset_" + AppUtil.getVmid());
+
+        mLogHelper.logPreregAction(2, AppUtil.getVmid());
+        mLogHelper.setBaiDuLog(mContext, LogHelper.EVENT_ID_PreReg);
+
         showWebView();
     }
 
@@ -620,7 +712,7 @@ public class RegisterViewModel {
     }
 
     public String getInvoiceUrl() {
-        return String.format(NetWorkHelper.REGISTER_INVOICE_URL, AppUtil.getUrlLangType(AppUtil.getCurLanguage()), sp_reg.getString("p_image", ""));
+        return String.format(NetWorkHelper.REGISTER_INVOICE_URL, AppUtil.getUrlLangType2(AppUtil.getCurLanguage()), getGUID());
     }
 
     public String getCharge() {

@@ -12,6 +12,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Streaming;
 import retrofit2.http.Url;
 
 /**
@@ -33,6 +34,14 @@ public interface LoadingClient {
     @GET(NetWorkHelper.DOWN_TXT_URL)
     Observable<Response<ResponseBody>> downTxt(@Path("fileName") String fileName);
 
+    /**
+     * 直接传递链接 下载文件
+     * @param url 地址
+     * @return ResponseBody
+     */
+    @GET
+    Observable<ResponseBody> downloadFile(@Url String url);
+
     @GET(NetWorkHelper.DOWN_WEBCONTENT_URL)
     Observable<Response<ResponseBody>> downWebContent(@Path("fileName") String fileName);
 
@@ -41,6 +50,15 @@ public interface LoadingClient {
 
     @GET
     Observable<ResponseBody> download(@Url String url);
+
+    @GET
+    Observable<ResponseBody> getData(@Url String url);
+
+    @Streaming  /* 大文件需要加入这个判断，防止下载过程中写入到内存中 */
+    @GET
+    Observable<ResponseBody> largeDownload(@Url String url);
+
+
 
 
 }

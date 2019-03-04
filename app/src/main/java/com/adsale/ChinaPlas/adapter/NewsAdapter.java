@@ -6,6 +6,7 @@ import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.CpsBaseAdapter;
 import com.adsale.ChinaPlas.dao.News;
 import com.adsale.ChinaPlas.ui.NewsActivity;
+import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.NetWorkHelper;
 import com.android.databinding.library.baseAdapters.BR;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -26,16 +27,17 @@ public class NewsAdapter extends CpsBaseAdapter<News> {
         this.list = list;
         this.activity = activity;
         options = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE);
-        int size = list.size();
-        News entity;
-        for (int i = 0; i < size; i++) {
-            entity = list.get(i);
-            if (entity.getLogo().contains(NetWorkHelper.DOWNLOAD_PATH.concat("News/"))) {
-                break;
-            }
-            entity.setLogo(NetWorkHelper.DOWNLOAD_PATH.concat("News/").concat(entity.getLogo()));
-            list.set(i, entity);
-        }
+
+//        int size = list.size();
+//        News entity;
+//        for (int i = 0; i < size; i++) {
+//            entity = list.get(i);
+//            if (entity.getLogo().contains(NetWorkHelper.DOWNLOAD_PATH.concat("News/"))) {
+//                break;
+//            }
+//            entity.setLogo(NetWorkHelper.DOWNLOAD_PATH.concat("News/").concat(entity.getLogo()));
+//            list.set(i, entity);
+//        }
     }
 
     @Override

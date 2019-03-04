@@ -76,6 +76,7 @@ public class Constant {
     public static final String SP_LOGIN = "Login";
     public static final String SP_HP = "HelpPage";
     public static final String SP_DOWNLOAD_CENTER = "DownloadCenter";
+    public static final String SP_EVENT_PAGE = "EventPage";
 
 
     /* property */
@@ -103,10 +104,17 @@ public class Constant {
     public static final String REG_PNG = "reg.png";
 
     /*  Schedule */
-    public static final String SCHEDULE_DAY01 = "2018-04-24";
-    public static final String SCHEDULE_DAY02 = "2018-04-25";
-    public static final String SCHEDULE_DAY03 = "2018-04-26";
-    public static final String SCHEDULE_DAY_END = "2018-04-27";
+    public static final String SCHEDULE_DAY00 = "2019-05-20";
+    public static final String SCHEDULE_DAY01 = "2019-05-21";
+    public static final String SCHEDULE_DAY02 = "2019-05-22";
+    public static final String SCHEDULE_DAY03 = "2019-05-23";
+    public static final String SCHEDULE_DAY_END = "2019-05-24";
+
+    public static final int DAY00 = 20;  // 5.20不是开展日，但这天有同期活动
+    public static final int DAY01 = 21;  // 开展第一天
+    public static final int DAY02 = 22;
+    public static final int DAY03 = 23;
+    public static final int DAY04 = 24;
 
     public static final String INTENT_SCHEDULE = "Schedule";
     public static final String INTENT_EXHIBITOR = "Exhibitor";
@@ -141,11 +149,17 @@ public class Constant {
     public static final String BDTJ_SCHEDULE = "Schedule";
     public static final String BDTJ_SETTING = "Settings";
     public static final String BDTJ_EXHIBITOR_LIST = "ExhibitorList";
-    public static final String BDTJ_MY_EXHIBITOR = "MyExhibitor";
     public static final String BDTJ_NEWS = "News";
     public static final String BDTJ_NEW_THECH = "NewTechCollection";
-    public static final String BDTJ_MY_NAME_CARD = "MyNameCard";
+
     public static final String BDTJ_MY_ACCOUNT = "MyAccount";
+    public static final String BDTJ_MyCHINAPLAS = "MyCHINAPLAS";
+    public static final String BDTJ_MY_EXHIBITOR = "MyExhibitor";
+    public static final String BDTJ_MySchedule = "MySchedule";
+    public static final String BDTJ_MY_NAME_CARD = "MyNameCard";
+    public static final String BDTJ_ExhibitorHistory = "ExhibitorHistory";
+    public static final String BDTJ_Sync = "Sync";
+
     public static final String BDTJ_VISITO = "Visitor";
     public static final String BDTJ_EXHIBOR_LIST = "Exhibitor List";
     public static final String BDTJ_CONTENT_UPDATE = "ContentUpdate";
@@ -165,6 +179,9 @@ public class Constant {
     public static final String DB_UPGRADE = "dbUpgrade";
 
     public static final String IS_AD_OPEN = "isADOpen";
+    public static final String ADBaseUrl = "";
+
+    public static final String APK_NAME = "ChinaPlas_%d.apk";
 
 
     public static final String TXT_CONCURRENT_EVENT = "CurrentEvents.txt";
@@ -173,8 +190,9 @@ public class Constant {
     public static final String TXT_NOTIFICATION = "notification.txt";
     public static final String TXT_NEW_TEC = "NewTechInfo.txt";
     public static final String TXT_NEW_TEC_TEST = "NewTechInfo_44.txt";
-    public static final String TXT_AD = "advertisement.txt";
+    public static final String TXT_AD = ReleaseHelper.IsAdTest ? "advertisement_test.txt" : "advertisement_2019.txt";
     public static final String TXT_AD_TEST = "advertisement_19test.txt";
+    public static final String TXT_APK_VERSION = "apkVersion.txt";
     public static final String TXT_COORDINATE = "coordinate.txt";
     public static final String TXT_FILE_SIZE = "FileSizeInfo.txt";
     public static final String TXT_PREREG_INFO = "preregInfo.txt";
@@ -183,6 +201,7 @@ public class Constant {
     public static final String UC_TXT_SEMINAR = "SeminarInfo.txt";
     public static final String UC_TXT_TRAVEL = "Travelnfo.txt";
     public static final String UC_TXT_APP_CONTENTS = "appContents.txt";
+
 
     /* asset目录下文件夹名称 */
     public static final String DIR_EXHIBITOR = "ExhibitorData";
@@ -245,5 +264,23 @@ public class Constant {
     public static String TX_KEY_TC = "0dCuA_mtsY50aQznFe3tZfg**";
 
 
+    public static String MY_CPS_MY_TOOL = "MyCPSTools";
+    public static String MY_CPS_Exhibitor = "MyCPSExhibitorInfo";
+    public static String MY_CPS = "MyCPS";
+
+    public static String ACTION_EXHIBITOR_DTL = "com.adsale.Chinaplas.ExhibitorDetail";
+    public static String ACTION_WEB_CONTENT = "com.adsale.Chinaplas.WebContent";
+    public static String ACTION_SEMINAR_INFO = "com.adsale.Chinaplas.TechSeminarDtl";
+    public static String ACTION_NEWS = "com.adsale.Chinaplas.News";
+    public static String ACTION_NEWS_DTL = "com.adsale.Chinaplas.NewsDtl";
+    public static String ACTION_WEB_VIEW = "com.adsale.Chinaplas.WebView";
+    public static String ACTION_MAP_DETAIL = "com.adsale.Chinaplas.MapDetail";
+    public static String ACTION_REGISTER = "com.adsale.Chinaplas.Register";
+
+
+    public static String TITLE_EXHIBITOR_DTL = AppUtil.getName("公司資料", "Company Info", "公司资料");
+    public static String TITLE_EVENT = AppUtil.getName("同期活動", "Concurrent Event", "同期活动");
+    public static String TITLE_SEMINAR = AppUtil.getName("技術交流會", "Technical Seminar", "技术交流会");
+    public static String TITLE_NEWS = AppUtil.getName("最新消息", "News", "最新消息");
 
 }

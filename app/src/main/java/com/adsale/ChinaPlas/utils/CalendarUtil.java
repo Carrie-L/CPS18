@@ -22,7 +22,9 @@ import java.util.TimeZone;
 import static android.provider.CalendarContract.EXTRA_EVENT_ALL_DAY;
 import static com.adsale.ChinaPlas.utils.AppUtil.showAlertDialog;
 import static com.adsale.ChinaPlas.utils.PermissionUtil.PERMISSION_READ_CALENDAR;
+import static com.adsale.ChinaPlas.utils.PermissionUtil.PERMISSION_WRITE_CALENDAR;
 import static com.adsale.ChinaPlas.utils.PermissionUtil.PMS_CODE_READ_CALENDAR;
+import static com.adsale.ChinaPlas.utils.PermissionUtil.PMS_CODE_WRITE_CALENDAR;
 
 /**
  * Created by Carrie on 2017/11/9.
@@ -31,10 +33,10 @@ import static com.adsale.ChinaPlas.utils.PermissionUtil.PMS_CODE_READ_CALENDAR;
 public class CalendarUtil {
     private final String TAG = "CalendarUtil";
     private final String ACCOUNT_NAME = "ChinaPlas@gmail.com";
-    private final String CALENDAR_DISPLAY_NAME = "ChinaPlas18";
-    private final int YEAR = 2018;
-    private final int MONTH = 3; // 月份-1
-    private final int START_DAY = 24;
+    private final String CALENDAR_DISPLAY_NAME = "ChinaPlas19";
+    private final int YEAR = 2019;
+    private final int MONTH = 4; // 月份-1
+    private final int START_DAY = 21;
     private Activity activity;
 
     public CalendarUtil(Activity activity) {
@@ -47,12 +49,26 @@ public class CalendarUtil {
                 PermissionUtil.requestPermission(activity, PERMISSION_READ_CALENDAR, PMS_CODE_READ_CALENDAR);
                 return;
             }
+            if (!PermissionUtil.checkPermission(activity, PERMISSION_WRITE_CALENDAR)) {
+                LogUtil.i(TAG,"沒有寫日曆的權限，請求");
+
+                PermissionUtil.requestPermission(activity, PERMISSION_WRITE_CALENDAR, PMS_CODE_WRITE_CALENDAR);
+                return;
+            }
+
             ContentValues event, values;
             Calendar calendar;
             Uri newEvent;
             ContentResolver cr;
             long start01, end01, id;
             int calId = getCalendarId();
+            LogUtil.i(TAG, "calId = "+calId);
+            if (calId == -1) {
+                LogUtil.i(TAG, "没有日历权限，返回。");
+                AppUtil.showAlertDialog(activity, R.string.addToCalendar_fail,
+                        R.string.ok, -1, null, null);
+                return;
+            }
             for (int i = 0; i < 4; i++) {
                 event = new ContentValues();
                 event.put(Events.TITLE, activity.getString(R.string.notes));
@@ -76,10 +92,12 @@ public class CalendarUtil {
 
                 newEvent = activity.getContentResolver().insert(Events.CONTENT_URI, event);
                 id = Long.parseLong(newEvent.getLastPathSegment());
+
+                LogUtil.i(TAG,"id="+id);
+
                 values = new ContentValues();
                 values.put(Reminders.EVENT_ID, id);
                 values.put(Reminders.MINUTES, 1 * 60 * 24);// 设置为提前一天提醒
-                values.put(Reminders.EVENT_ID, id);
                 values.put(Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT);
 
                 cr = activity.getContentResolver(); // 为刚才新添加的event添加reminder
@@ -97,23 +115,28 @@ public class CalendarUtil {
 
     private int getCalendarId() {
         ContentResolver cr = activity.getContentResolver();
-        Cursor userCursor = cr.query(Calendars.CONTENT_URI, null, null, null, null);
-        int calId = 0;
-        if (userCursor != null && userCursor.getCount() > 0) {
-            //先获取用户日历账户，如果没有，则初始化添加账户
-            while (userCursor.moveToNext()) {
-                if (userCursor.getString(userCursor.getColumnIndex(Calendars.ACCOUNT_NAME)).equals(ACCOUNT_NAME)) {
-                    calId = userCursor.getInt(userCursor.getColumnIndex("_id"));
-                    break;
+        if (PermissionUtil.checkPermission(activity, PERMISSION_READ_CALENDAR)) {
+            Cursor userCursor = cr.query(Calendars.CONTENT_URI, null, null, null, null);
+            int calId = 0;
+            if (userCursor != null && userCursor.getCount() > 0) {
+                //先获取用户日历账户，如果没有，则初始化添加账户
+                while (userCursor.moveToNext()) {
+                    if (userCursor.getString(userCursor.getColumnIndex(Calendars.ACCOUNT_NAME)).equals(ACCOUNT_NAME)) {
+                        calId = userCursor.getInt(userCursor.getColumnIndex("_id"));
+                        break;
+                    }
                 }
+                userCursor.close();
             }
-            userCursor.close();
+            if (calId == 0) {
+                calId = initCalendars2(activity);
+            }
+            LogUtil.i(TAG, "calId=" + calId);
+            return calId;
+        } else {
+            PermissionUtil.requestPermission(activity, PERMISSION_WRITE_CALENDAR, PMS_CODE_WRITE_CALENDAR);
+            return -1;
         }
-        if (calId == 0) {
-            calId = initCalendars2(activity);
-        }
-        LogUtil.i(TAG, "calId=" + calId);
-        return calId;
     }
 
     /**
@@ -121,6 +144,7 @@ public class CalendarUtil {
      *
      * @param context
      */
+
     private int initCalendars2(Context context) {//插入成功
         int calId = 3;
         TimeZone timeZone = TimeZone.getDefault();

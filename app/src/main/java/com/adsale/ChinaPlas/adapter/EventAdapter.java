@@ -6,12 +6,11 @@ import android.widget.LinearLayout;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.CpsBaseAdapter;
 import com.adsale.ChinaPlas.base.CpsBaseViewHolder;
+import com.adsale.ChinaPlas.dao.ConcurrentEvent;
 import com.adsale.ChinaPlas.data.OnIntentListener;
-import com.adsale.ChinaPlas.data.model.ConcurrentEvent;
 import com.adsale.ChinaPlas.databinding.ItemEventBinding;
 import com.adsale.ChinaPlas.ui.TechnicalListActivity;
 import com.adsale.ChinaPlas.ui.WebContentActivity;
-import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.android.databinding.library.baseAdapters.BR;
@@ -23,14 +22,14 @@ import java.util.ArrayList;
  * 同期活动
  */
 
-public class EventAdapter extends CpsBaseAdapter<ConcurrentEvent.Pages> {
-    private ArrayList<ConcurrentEvent.Pages> list;
-    private ConcurrentEvent.Pages entity;
+public class EventAdapter extends CpsBaseAdapter<ConcurrentEvent> {
+    private ArrayList<ConcurrentEvent> list;
+    private ConcurrentEvent entity;
     private OnIntentListener mListener;
     private LinearLayout.LayoutParams params;
     private ItemEventBinding eventBinding;
 
-    public EventAdapter(ArrayList<ConcurrentEvent.Pages> list, OnIntentListener listener) {
+    public EventAdapter(ArrayList<ConcurrentEvent> list, OnIntentListener listener) {
         this.list = list;
         mListener = listener;
     }
@@ -39,17 +38,16 @@ public class EventAdapter extends CpsBaseAdapter<ConcurrentEvent.Pages> {
         int itemHeight = (itemWidth * Constant.EVENT_BG_HEIGHT)/Constant.EVENT_BG_WIDTH;
         LogUtil.i("EventAdapter", "itemWidth=" + itemWidth+",itemHeight="+itemHeight);
         params = new LinearLayout.LayoutParams(itemWidth, itemHeight);
-
     }
 
     @Override
-    public void setList(ArrayList<ConcurrentEvent.Pages> list0) {
+    public void setList(ArrayList<ConcurrentEvent> list0) {
         this.list = list0;
         super.setList(list);
     }
 
-    public void onItemClick(ConcurrentEvent.Pages entity) {
-        if(entity.pageID.equals("TechnicalSeminar")){
+    public void onItemClick(ConcurrentEvent entity) {
+        if(entity.getEventID().contains("TechnicalSeminar")){
             mListener.onIntent(entity, TechnicalListActivity.class);
         }else{
             mListener.onIntent(entity, WebContentActivity.class);
@@ -66,7 +64,7 @@ public class EventAdapter extends CpsBaseAdapter<ConcurrentEvent.Pages> {
         entity = list.get(position);
         if (position == 0) {
             entity.isTypeLabel.set(1);
-        } else if (entity.date.equals(list.get(position - 1).date)) {
+        } else if (entity.getDate().equals(list.get(position - 1).getDate())) {
             entity.isTypeLabel.set(0);
         } else {
             entity.isTypeLabel.set(1);
@@ -97,8 +95,8 @@ public class EventAdapter extends CpsBaseAdapter<ConcurrentEvent.Pages> {
         }
     }
 
-    public void onTechClick(ConcurrentEvent.Pages entity) {
+    public void onTechClick(ConcurrentEvent entity) {
         LogUtil.i("EventAdAPTER", "onTechClick:" + entity.toString());
-        mListener.onIntent(entity.pageID, TechnicalListActivity.class);
+        mListener.onIntent(entity.getPageID(), TechnicalListActivity.class);
     }
 }

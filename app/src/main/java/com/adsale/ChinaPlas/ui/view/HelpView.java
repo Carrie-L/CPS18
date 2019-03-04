@@ -60,6 +60,11 @@ public class HelpView extends DialogFragment implements View.OnClickListener {
     public final static int HELP_PAGE_SCHEDULE = 7;
     public final static int HELP_PAGE_SCHEDULE_DTL = 8;
     public final static int HELP_PAGE_EVENT_LIST = 9;
+    public final static int HELP_PAGE_EXHIBITOR_LIST = 10;
+    public final static int HELP_PAGE_NEW_TEC_LIST = 11;
+    public final static int HELP_PAGE_NAMECARD_LIST = 12;
+    public final static int HELP_PAGE_MY_NAMECARD = 13;
+
     public final static String HELP_PAGE = "HELP_PAGE_";
     /**
      * 是哪个HelpPage
@@ -185,6 +190,18 @@ public class HelpView extends DialogFragment implements View.OnClickListener {
             case HELP_PAGE_SCHEDULE_DTL:
                 imageIds = new Integer[]{R.drawable.help_schedule_edit_0_sc};
                 break;
+            case HELP_PAGE_EXHIBITOR_LIST:
+                imageIds = new Integer[]{R.drawable.help_exhibitorlist_0_sc};
+                break;
+            case HELP_PAGE_NAMECARD_LIST:
+                imageIds = new Integer[]{R.drawable.help_namecardlist_0_sc};
+                break;
+            case HELP_PAGE_MY_NAMECARD:
+                imageIds = new Integer[]{R.drawable.help_mynamecard_0_sc};
+                break;
+            case HELP_PAGE_NEW_TEC_LIST:
+                imageIds = new Integer[]{R.drawable.help_newtec_0_sc};
+                break;
         }
     }
 
@@ -220,6 +237,19 @@ public class HelpView extends DialogFragment implements View.OnClickListener {
             case HELP_PAGE_SCHEDULE_DTL:
                 imageIds = new Integer[]{R.drawable.help_schedule_edit_0_sc_pad};
                 break;
+            case HELP_PAGE_EXHIBITOR_LIST:
+                imageIds = new Integer[]{R.drawable.help_exhibitorlist_0_sc_pad};
+                break;
+            case HELP_PAGE_NAMECARD_LIST:
+                imageIds = new Integer[]{R.drawable.help_namecardlist_0_sc_pad};
+                break;
+            case HELP_PAGE_MY_NAMECARD:
+                imageIds = new Integer[]{R.drawable.help_mynamecard_0_sc_pad};
+                break;
+            case HELP_PAGE_NEW_TEC_LIST:
+                imageIds = new Integer[]{R.drawable.help_newtec_0_sc_pad};
+                break;
+
         }
     }
 
@@ -261,6 +291,18 @@ public class HelpView extends DialogFragment implements View.OnClickListener {
             case HELP_PAGE_SCHEDULE_DTL:
                 imageIds = new Integer[]{R.drawable.help_schedule_edit_0_tc};
                 break;
+            case HELP_PAGE_EXHIBITOR_LIST:
+                imageIds = new Integer[]{R.drawable.help_exhibitorlist_0_tc};
+                break;
+            case HELP_PAGE_NAMECARD_LIST:
+                imageIds = new Integer[]{R.drawable.help_namecardlist_0_tc};
+                break;
+            case HELP_PAGE_MY_NAMECARD:
+                imageIds = new Integer[]{R.drawable.help_mynamecard_0_tc};
+                break;
+            case HELP_PAGE_NEW_TEC_LIST:
+                imageIds = new Integer[]{R.drawable.help_newtec_0_tc};
+                break;
         }
     }
 
@@ -272,7 +314,19 @@ public class HelpView extends DialogFragment implements View.OnClickListener {
 
             case HELP_PAGE_EVENT_LIST:
                 imageIds = new Integer[]{R.drawable.help_eventlist_0_tc_pad};
+                break;
 
+            case HELP_PAGE_EXHIBITOR_LIST:
+                imageIds = new Integer[]{R.drawable.help_exhibitorlist_0_tc_pad};
+                break;
+            case HELP_PAGE_NAMECARD_LIST:
+                imageIds = new Integer[]{R.drawable.help_namecardlist_0_tc_pad};
+                break;
+            case HELP_PAGE_MY_NAMECARD:
+                imageIds = new Integer[]{R.drawable.help_mynamecard_0_tc_pad};
+                break;
+            case HELP_PAGE_NEW_TEC_LIST:
+                imageIds = new Integer[]{R.drawable.help_newtec_0_tc_pad};
                 break;
         }
     }
@@ -310,17 +364,29 @@ public class HelpView extends DialogFragment implements View.OnClickListener {
             case HELP_PAGE_SCHEDULE_DTL:
                 imageIds = new Integer[]{R.drawable.help_schedule_edit_0_en};
                 break;
+            case HELP_PAGE_EXHIBITOR_LIST:
+                imageIds = new Integer[]{R.drawable.help_exhibitorlist_0_en};
+                break;
+            case HELP_PAGE_NAMECARD_LIST:
+                imageIds = new Integer[]{R.drawable.help_namecardlist_0_en};
+                break;
+            case HELP_PAGE_MY_NAMECARD:
+                imageIds = new Integer[]{R.drawable.help_mynamecard_0_en};
+                break;
+            case HELP_PAGE_NEW_TEC_LIST:
+                imageIds = new Integer[]{R.drawable.help_newtec_0_en};
+                break;
         }
         LogUtil.i(TAG, "imageIds=" + imageIds.length+","+ Arrays.toString(imageIds));
     }
 
     private void getMenuImages() {
         if (language == 0) {
-            imageIds = new Integer[]{R.drawable.help_1_tc, R.drawable.help_2_tc, R.drawable.help_3_tc, R.drawable.help_4_tc, R.drawable.help_5_tc, R.drawable.help_6_tc};
+            imageIds = new Integer[]{R.drawable.help_1_tc, R.drawable.help_2_tc, R.drawable.help_3_tc, R.drawable.help_4_tc};
         } else if (language == 1) {
-            imageIds = new Integer[]{R.drawable.help_1_en, R.drawable.help_2_en, R.drawable.help_3_en, R.drawable.help_4_en, R.drawable.help_5_en, R.drawable.help_6_en};
+            imageIds = new Integer[]{R.drawable.help_1_en, R.drawable.help_2_en, R.drawable.help_3_en, R.drawable.help_4_en};
         } else {
-            imageIds = new Integer[]{R.drawable.help_1_sc, R.drawable.help_2_sc, R.drawable.help_3_sc, R.drawable.help_4_sc, R.drawable.help_5_sc, R.drawable.help_6_sc};
+            imageIds = new Integer[]{R.drawable.help_1_sc, R.drawable.help_2_sc, R.drawable.help_3_sc, R.drawable.help_4_sc};
         }
     }
 

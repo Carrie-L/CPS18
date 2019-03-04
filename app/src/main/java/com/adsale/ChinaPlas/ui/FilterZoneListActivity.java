@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.TextAdapter;
 import com.adsale.ChinaPlas.adapter.ZoneAdapter;
@@ -14,7 +15,9 @@ import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.dao.Zone;
 import com.adsale.ChinaPlas.data.FilterRepository;
 import com.adsale.ChinaPlas.data.model.ExhibitorFilter;
+import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
+import com.baidu.mobstat.StatService;
 
 import java.util.ArrayList;
 
@@ -48,6 +51,7 @@ public class FilterZoneListActivity extends BaseActivity {
     protected void initData() {
         FilterRepository mRepository = FilterRepository.getInstance();
         mList = mRepository.getZones();
+        LogUtil.i(TAG,"getZones="+mList.toString());
 
         filters = new ArrayList<>();
         ZoneAdapter adapter = new ZoneAdapter(mList, filters);
@@ -70,6 +74,10 @@ public class FilterZoneListActivity extends BaseActivity {
     }
 
     private void setResultData() {
+        if(filters.size()>0){
+            App.mLogHelper.eventLog(403, "FilterE", "Zone", App.mLogHelper.getFiltersName(filters));
+            StatService.onEvent(getApplicationContext(),"FilterE","FilterE_Zone_"+App.mLogHelper.getFiltersName(filters)+"_"+ AppUtil.getLanguageType());
+        }
         Intent intent = new Intent();
         intent.putExtra("data", filters);
         LogUtil.i(TAG, "onDestroy::filters=" + filters.size() + "," + filters.toString());

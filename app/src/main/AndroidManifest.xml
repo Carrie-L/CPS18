@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.adsale.ChinaPlas"
-    android:versionCode="132"
-    android:versionName="8.4.4">
+    android:versionCode="135"
+    android:versionName="9.0.2">
 
     <!-- 声明APP版本信息，有助于百度移动进行版本统计 -->
 
@@ -22,7 +22,9 @@
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <uses-feature
         android:name="android.hardware.Camera"
@@ -53,10 +55,12 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:replace="android:name">
+        tools:replace="android:name"
+        tools:targetApi="n">
         <activity android:name=".ui.LoadingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -93,7 +97,13 @@
             android:name=".ui.RegisterActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustPan" >
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="com.adsale.Chinaplas.Register"/>
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".ui.MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale"
@@ -126,14 +136,28 @@
             android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:launchMode="singleTask"
             android:windowSoftInputMode="stateHidden|adjustPan" />
+
+
         <activity
             android:name=".ui.NewsActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustPan">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="com.adsale.Chinaplas.News" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".ui.NewsDtlActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustPan">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="com.adsale.Chinaplas.NewsDtl" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".ui.NCardCreateEditActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale"
@@ -165,7 +189,12 @@
         <activity
             android:name=".ui.WebContentActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustPan">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="com.adsale.Chinaplas.WebContent" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.ExhibitorFilterActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale"
@@ -197,7 +226,13 @@
         <activity
             android:name=".ui.TechSeminarDtlActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustPan">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="com.adsale.Chinaplas.TechSeminarDtl" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".ui.UpdateCenterActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale"
@@ -304,7 +339,12 @@
         <activity
             android:name=".ui.ExhibitorDetailActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustPan">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="com.adsale.Chinaplas.ExhibitorDetail" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.MyExhibitorActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale"
@@ -341,7 +381,12 @@
             android:name=".ui.FloorDetailActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustPan">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="com.adsale.Chinaplas.MapDetail" />
+            </intent-filter>
+        </activity>
 
         <!-- 百度统计相关配置 -->
         <!-- ========================================================== -->
@@ -389,7 +434,24 @@
             android:name=".ui.FloorDtlActivity"
             android:label="@string/title_activity_floor_dtl"
             android:theme="@style/AppTheme" />
-        <activity android:name=".ui.WebViewTestActivity"></activity>
+        <activity android:name=".ui.WebViewTestActivity">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="com.adsale.Chinaplas.WebView" />
+            </intent-filter>
+        </activity>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.adsale.ChinaPlas.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <!--元数据-->
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
     </application>
 
 </manifest>

@@ -1,58 +1,140 @@
-﻿[{
-	"CategoryName_SC": "第一日",
-	"CategoryName_EN": "Day 1",
-	"CategoryName_TC": "第一日",
-	"Items": [{
-			"id": 1,
-			"FileName_SC": "化学品及原料报",
-			"FileName_EN": "Show Daily Chemical & Raw Materials",
-			"FileName_TC": "化學品及原料報",
-			"Cover_SC": "https://o97tbiy1f.qnssl.com/PDFs/CPS18_Chem_Day1.jpg",
-			"FileLink_EN": "https://o97tbiy1f.qnssl.com/PDFs/CPS18_Chem_Day1.pdf",
-			"FileLink_SC": "https://o97tbiy1f.qnssl.com/PDFs/CPS18_Chem_Day1.pdf",
-			"FileLink_TC": "https://o97tbiy1f.qnssl.com/PDFs/CPS18_Chem_Day1.pdf",
-			"FileSize_SC": "23.33M",
-			"FileSize_TC": "23.33M",
-			"FileSize_EN": "23.33M"
-		},
-		{
-			"id": 2,
-			"FileName_SC": "机械及仪器报",
-			"FileName_EN": "Show Daily Machinery & Equipment",
-			"FileName_TC": "機械及儀器報",
-			"Cover_SC": "https://o97tbiy1f.qnssl.com/PDFs/CPS18_Mach_Day1.jpg",
-			"FileLink_EN": "https://o97tbiy1f.qnssl.com/PDFs/CPS18_Mach_Day1.pdf",
-			"FileLink_SC": "https://o97tbiy1f.qnssl.com/PDFs/CPS18_Mach_Day1.pdf",
-			"FileLink_TC": "https://o97tbiy1f.qnssl.com/PDFs/CPS18_Mach_Day1.pdf",
-			"FileSize_SC": "22.83M",
-			"FileSize_TC": "22.83M",
-			"FileSize_EN": "22.83M"
-		},
-		{
-			"id": 3,
-			"FileName_SC": "国际英文报",
-			"FileName_EN": "Show Daily International Edition",
-			"FileName_TC": "國際英文報",
-			"Cover_SC": "https://o97tbiy1f.qnssl.com/PDFs/CPS18_Intl_Day1.jpg",
-			"FileLink_EN": "https://o97tbiy1f.qnssl.com/PDFs/CPS18_Intl_Day1.pdf",
-			"FileLink_SC": "https://o97tbiy1f.qnssl.com/PDFs/CPS18_Intl_Day1.pdf",
-			"FileLink_TC": "https://o97tbiy1f.qnssl.com/PDFs/CPS18_Intl_Day1.pdf",
-			"FileSize_SC": "28.36M",
-			"FileSize_TC": "28.36M",
-			"FileSize_EN": "28.36M"
-		}
-	]
-}, {
-
-	"CategoryName_SC": "第二日",
-	"CategoryName_EN": "Day 2",
-	"CategoryName_TC": "第二日",
-	"Items": [
-	]
-}, {
-	"CategoryName_SC": "第三日",
-	"CategoryName_EN": "Day 3",
-	"CategoryName_TC": "第三日",
-	"Items": [
-	]
-}]
+﻿[
+  {
+    "CategoryName_SC": "第一日",
+    "CategoryName_EN": "Day 1",
+    "CategoryName_TC": "第一日",
+    "Items": [
+      {
+        "id": 1,
+        "FileName_SC": "化学品及原料报",
+        "FileName_EN": "Show Daily Chemical & Raw Materials",
+        "FileName_TC": "化學品及原料報",
+        "Cover_SC": "https://cdn.adsalecdn.com/App/2018/PDFs/CPS18_Chem_Day1.jpg",
+        "FileLink_EN": "https://cdn.adsalecdn.com/App/2018/PDFs/CPS18_Chem_Day1.pdf",
+        "FileLink_SC": "https://cdn.adsalecdn.com/App/2018/PDFs/CPS18_Chem_Day1.pdf",
+        "FileLink_TC": "https://cdn.adsalecdn.com/App/2018/PDFs/CPS18_Chem_Day1.pdf",
+        "FileSize_SC": "23.33M",
+        "FileSize_TC": "23.33M",
+        "FileSize_EN": "23.33M"
+      },
+      {
+        "id": 2,
+        "FileName_SC": "机械及仪器报",
+        "FileName_EN": "Show Daily Machinery & Equipment",
+        "FileName_TC": "機械及儀器報",
+        "Cover_SC": "https://cdn.adsalecdn.com/App/2018/PDFs/CPS18_Mach_Day1.jpg",
+        "FileLink_EN": "https://cdn.adsalecdn.com/App/2018/PDFs/CPS18_Mach_Day1.pdf",
+        "FileLink_SC": "https://cdn.adsalecdn.com/App/2018/PDFs/CPS18_Mach_Day1.pdf",
+        "FileLink_TC": "https://cdn.adsalecdn.com/App/2018/PDFs/CPS18_Mach_Day1.pdf",
+        "FileSize_SC": "22.83M",
+        "FileSize_TC": "22.83M",
+        "FileSize_EN": "22.83M"
+      },
+      {
+        "id": 3,
+        "FileName_SC": "国际英文报",
+        "FileName_EN": "Show Daily International Edition",
+        "FileName_TC": "國際英文報",
+        "Cover_SC": "https://cdn.adsalecdn.com/App/2018/PDFs/CPS18_Intl_Day1.jpg",
+        "FileLink_EN": "https://cdn.adsalecdn.com/App/2018/PDFs/CPS18_Intl_Day1.pdf",
+        "FileLink_SC": "https://cdn.adsalecdn.com/App/2018/PDFs/CPS18_Intl_Day1.pdf",
+        "FileLink_TC": "https://cdn.adsalecdn.com/App/2018/PDFs/CPS18_Intl_Day1.pdf",
+        "FileSize_SC": "28.36M",
+        "FileSize_TC": "28.36M",
+        "FileSize_EN": "28.36M"
+      }
+    ]
+  },
+  {
+    "CategoryName_SC": "第二日",
+    "CategoryName_EN": "Day 2",
+    "CategoryName_TC": "第二日",
+    "Items": [
+      {
+        "id": 4,
+        "FileName_SC": "化学品及原料报",
+        "FileName_EN": "Show Daily Chemical & Raw Materials",
+        "FileName_TC": "化學品及原料報",
+        "Cover_SC": "https://cdn.adsalecdn.com/App/2018/PDFs/CPS18_Chem_Day1.jpg",
+        "FileLink_EN": "https://cdn.adsalecdn.com/App/2018/PDFs/CPS18_Chem_Day2.pdf",
+        "FileLink_SC": "https://cdn.adsalecdn.com/App/2018/PDFs/CPS18_Chem_Day2.pdf",
+        "FileLink_TC": "https://cdn.adsalecdn.com/App/2018/PDFs/CPS18_Chem_Day2.pdf",
+        "FileSize_SC": "23.33M",
+        "FileSize_TC": "23.33M",
+        "FileSize_EN": "23.33M"
+      },
+      {
+        "id": 5,
+        "FileName_SC": "机械及仪器报",
+        "FileName_EN": "Show Daily Machinery & Equipment",
+        "FileName_TC": "機械及儀器報",
+        "Cover_SC": "https://cdn.adsalecdn.com/App/2018/PDFs/CPS18_Mach_Day1.jpg",
+        "FileLink_EN": "https://cdn.adsalecdn.com/App/2018/PDFs/CPS18_Mach_Day2.pdf",
+        "FileLink_SC": "https://cdn.adsalecdn.com/App/2018/PDFs/CPS18_Mach_Day2.pdf",
+        "FileLink_TC": "https://cdn.adsalecdn.com/App/2018/PDFs/CPS18_Mach_Day2.pdf",
+        "FileSize_SC": "22.83M",
+        "FileSize_TC": "22.83M",
+        "FileSize_EN": "22.83M"
+      },
+      {
+        "id": 6,
+        "FileName_SC": "国际英文报",
+        "FileName_EN": "Show Daily International Edition",
+        "FileName_TC": "國際英文報",
+        "Cover_SC": "https://cdn.adsalecdn.com/App/2018/PDFs/CPS18_Intl_Day1.jpg",
+        "FileLink_EN": "https://cdn.adsalecdn.com/App/2018/PDFs/CPS18_Intl_Day2.pdf",
+        "FileLink_SC": "https://cdn.adsalecdn.com/App/2018/PDFs/CPS18_Intl_Day2.pdf",
+        "FileLink_TC": "https://cdn.adsalecdn.com/App/2018/PDFs/CPS18_Intl_Day2.pdf",
+        "FileSize_SC": "28.36M",
+        "FileSize_TC": "28.36M",
+        "FileSize_EN": "28.36M"
+      }
+    ]
+  },
+  {
+    "CategoryName_SC": "第三日",
+    "CategoryName_EN": "Day 3",
+    "CategoryName_TC": "第三日",
+    "Items": [
+      {
+        "id": 7,
+        "FileName_SC": "化学品及原料报",
+        "FileName_EN": "Show Daily Chemical & Raw Materials",
+        "FileName_TC": "化學品及原料報",
+        "Cover_SC": "https://cdn.adsalecdn.com/App/2018/PDFs/CPS18_Chem_Day1.jpg",
+        "FileLink_EN": "https://cdn.adsalecdn.com/App/2018/CPS18_Chem_Day3.pdf",
+        "FileLink_SC": "https://cdn.adsalecdn.com/App/2018/CPS18_Chem_Day3.pdf",
+        "FileLink_TC": "https://cdn.adsalecdn.com/App/2018/CPS18_Chem_Day3.pdf",
+        "FileSize_SC": "23.33M",
+        "FileSize_TC": "23.33M",
+        "FileSize_EN": "23.33M"
+      },
+      {
+        "id": 8,
+        "FileName_SC": "机械及仪器报",
+        "FileName_EN": "Show Daily Machinery & Equipment",
+        "FileName_TC": "機械及儀器報",
+        "Cover_SC": "https://cdn.adsalecdn.com/App/2018/PDFs/CPS18_Mach_Day1.jpg",
+        "FileLink_EN": "https://cdn.adsalecdn.com/App/2018/CPS18_Mach_Day3.pdf",
+        "FileLink_SC": "https://cdn.adsalecdn.com/App/2018/CPS18_Mach_Day3.pdf",
+        "FileLink_TC": "https://cdn.adsalecdn.com/App/2018/CPS18_Mach_Day3.pdf",
+        "FileSize_SC": "22.83M",
+        "FileSize_TC": "22.83M",
+        "FileSize_EN": "22.83M"
+      },
+      {
+        "id": 9,
+        "FileName_SC": "国际英文报",
+        "FileName_EN": "Show Daily International Edition",
+        "FileName_TC": "國際英文報",
+        "Cover_SC": "https://cdn.adsalecdn.com/App/2018/PDFs/CPS18_Intl_Day1.jpg",
+        "FileLink_EN": "https://cdn.adsalecdn.com/App/2018/CPS18_Intl_Day3.pdf",
+        "FileLink_SC": "https://cdn.adsalecdn.com/App/2018/CPS18_Intl_Day3.pdf",
+        "FileLink_TC": "https://cdn.adsalecdn.com/App/2018/CPS18_Intl_Day3.pdf",
+        "FileSize_SC": "28.36M",
+        "FileSize_TC": "28.36M",
+        "FileSize_EN": "28.36M"
+      }
+    ]
+  }
+]

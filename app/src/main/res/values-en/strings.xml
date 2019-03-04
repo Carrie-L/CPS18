@@ -109,6 +109,7 @@
 
 
     <string name="apk_update_msg">New version released, update?</string>
+    <string name="apk_update_title">Update New Version</string>
 
     <!--  -->
     <string name="title_news">News</string>
@@ -118,7 +119,8 @@
     <string name="title_register">Visitor Registration</string>
     <string name="title_register_success">My eTicket</string>
     <string name="title_event">Concurrent Event</string>
-    <string name="title_my_exhibitor">MyCHINAPLAS</string>
+    <string name="title_my_exhibitor">My Exhibitor</string>
+    <string name="title_my_chinaplas">MyCHINAPLAS</string>
     <string name="title_my_account">My Tools</string>
     <string name="title_setting">Setting</string>
     <string name="edit_schedule">Edit Schedule</string>
@@ -170,6 +172,9 @@
     <string name="sort_by_hall">Hall</string>
     <string name="title_sort"></string>
 
+    <string name="title_privacy">Privacy Policy Statement</string>
+    <string name="title_user_item">Terms of Use</string>
+
     <string name="title_filter">Filter</string>
     <string name="filter_industry">Product Category</string>
     <string name="filter_application">Application</string>
@@ -220,7 +225,7 @@
     <string name="schedule_minute">minutes</string>
     <string name="schedule_save">Save</string>
     <string name="schedule_del">Delete</string>
-    <string name="schedule_date"> April 2018</string>
+    <string name="schedule_date"> May 2019</string>
 
     <string name="schedule_exhibitor">Exhibitor</string>
     <string name="schedule_event">Event</string>
@@ -252,17 +257,17 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
-    <string name="notes">Welcome to CHINAPLAS 2018</string>
-    <string name="ask_addToCalendar">Add the show date of CHINAPLAS 2018 to your device\'s calendar?</string>
+    <string name="notes">Welcome to CHINAPLAS 2019</string>
+    <string name="ask_addToCalendar">Add the show date of CHINAPLAS 2019 to your device\'s calendar?</string>
     <string name="ok">OK</string>
-    <string name="addToCalendar_success">The show date of CHINAPLAS 2018 is added to your device\'s calendar.</string>
+    <string name="addToCalendar_success">The show date of CHINAPLAS 2019 is added to your device\'s calendar.</string>
     <string name="addToCalendar_fail">Save to calendar fail!</string>
     <string name="calendar_description">Accompanying the growth of China\'s plastics and rubber industries for over 30 years, CHINAPLAS has become a distinguished meeting and business platform for these industries and has also largely contributed to their prosperous development. At present, CHINAPLAS is not only the largest plastics and rubber trade fair in Asia, it is also widely recognized by the industry as the 2nd most influential exhibition in the world. Its significance is surpassed only by K Fair in Germany, the world\'s premier plastics and rubber trade fair. </string>
-    <string name="calendar_location">National Exhibition and Convention Center, Hongqiao, Shanghai (NECC) \n(No.333 Songze Avenue Road, Qingpu District, Shanghai, PR China)</string>
+    <string name="calendar_location">China Import &amp; Export Fair Complex, Pazhou, Guangzhou, PR China \n[382 Yuejiang Zhong Road, Pazhou, Guangzhou, PR China (Postal Code: 510335)]</string>
 
     <!--  -->
     <string name="select_url">Please select a website version</string>
-    <string name="sharetitle">CHINAPLAS 2018</string>
+    <string name="sharetitle">CHINAPLAS 2019</string>
 
     <string-array name="url_ver">
         <item>Full version</item>
@@ -271,8 +276,8 @@
 
     <!--  -->
     <string-array name="urls">
-        <item>http://yiwutex.com/YIWUTEX15/Home/lang-eng/Information.aspx</item>
-        <item>http://yiwutex.com/YIWUTEX15/Mobile/lang-eng/Home.aspx</item>
+        <item>https://www.chinaplasonline.com/CPS19/idx/eng</item>
+        <item>https://www.chinaplasonline.com/CPS19/idx/eng</item>
     </string-array>
 
     <!--  -->
@@ -280,7 +285,7 @@
 
     <!--  -->
     <string name="EXIT">Exit</string>
-    <string name="EXIT_MSG">Exit CHINAPLAS 2018?</string>
+    <string name="EXIT_MSG">Exit CHINAPLAS 2019?</string>
 
     <string name="Share_success">Share success </string>
     <string name="Share_failed">Share failed</string>
@@ -366,9 +371,9 @@
     <string name="data_bk_success">backup completed</string>
 
 
-    <string name="login_first_add_exhibitor">You must be logged in to add exhibitor</string>
-    <string name="login_first_add_schedule">You must be logged in to add schedule</string>
-    <string name="login_first_save_note">You must be logged in to save notes</string>
+    <string name="login_first_add_exhibitor">You should login MyCHINAPLAS to bookmark the exhibitor to your favorite exhibitor list - "MyExhibitor".</string>
+    <string name="login_first_add_schedule">You should login MyCHINAPLAS to add schedule.</string>
+    <string name="login_first_save_note">You should login MyCHINAPLAS to save notes.</string>
 
 
     <!-- logout -->
@@ -381,7 +386,7 @@
     <string name="update_map">Update</string>
 
     <!-- 技术交流会 -->
-    <string name="ts_date">April, 2018</string>
+    <string name="ts_date">May, 2019</string>
     <string name="exception_toast_email">No email client installed.</string>
     <string name="exception_toast_phone">Sorry, your device cannot make a call.</string>
 
@@ -417,7 +422,7 @@
 
     <!-- 分享 -->
     <string name="share_setting_text">CHINAPLAS APP is now ready for download!</string>
-    <string name="share_setting_url">http://www.chinaplasonline.com/CPS18/Mobile/Home/lang-eng/MobileApp.aspx</string>
+    <string name="share_setting_url">https://www.chinaplasonline.com/CPS19/mobileapp/eng/app</string>
     <string name="share_news_link">http://www.chinaplasonline.com/CPS18/Mobile/Home/lang-eng/WhatsNew.aspx</string>
     <string name="share_sinna_weibo">Sina Weibo</string>
     <string name="share_qq">QQ</string>
@@ -425,11 +430,11 @@
     <string name="share_wechat_friends">Wechat</string>
     <string name="share_wechat_moments">Wechat Moments</string>
     <string name="share_email">Email</string>
-    <string name="share_title">CHINAPLAS 2018</string>
+    <string name="share_title">CHINAPLAS 2019</string>
 
     <string name="toast_export_namecard_nodata">Please add friends to your name card list</string>
     <string name="map_dtl_tip">Please select a Booth</string>
-    <string name="my_exhibt_on_map">Distribution</string>
+    <string name="my_exhibt_on_map">Hall Locations</string>
     <string name="my_favourite_product">Favorite Product</string>
     <string name="my_favourite_product_on_map">Hall Distribution</string>
     <string name="add_favourite_product">Add Favorite Product</string>
@@ -511,15 +516,15 @@
     <string name="event_btn_all">All</string>
     <string name="tech_am">AM</string>
     <string name="tech_pm">PM</string>
-    <string name="event_btn_24">24</string>
-    <string name="event_btn_25">25</string>
-    <string name="event_btn_26">26</string>
-    <string name="event_btn_27">27</string>
-    <string name="event_date_24">2018.04.24</string>
-    <string name="event_date_25">2018.04.25</string>
-    <string name="event_date_26">2018.04.26</string>
-    <string name="event_date_27">2018.04.27</string>
-    <string name="event_date_base">2018.04.%s</string>
+    <string name="event_btn_1">21</string>
+    <string name="event_btn_2">22</string>
+    <string name="event_btn_3">23</string>
+    <string name="event_btn_4">24</string>
+    <string name="event_date_24">2019.05.21</string>
+    <string name="event_date_25">2019.05.22</string>
+    <string name="event_date_26">2019.05.23</string>
+    <string name="event_date_27">2019.05.24</string>
+    <string name="event_date_base">2019.05.%s</string>
 
     <string name="no_camera_permission">No camera permission, can\'t scan.</string>
 

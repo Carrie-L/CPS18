@@ -101,7 +101,8 @@
     <string name="title_register">观众预登记</string>
     <string name="title_register_success">我的门票</string>
     <string name="title_event">同期活动</string>
-    <string name="title_my_exhibitor">我的CHINAPLAS</string>
+    <string name="title_my_exhibitor">我的参展商</string>
+    <string name="title_my_chinaplas">MyCHINAPLAS</string>
     <string name="title_my_account">用户小工具</string>
     <string name="title_setting">设置</string>
     <string name="edit_schedule">编辑议程</string>
@@ -149,6 +150,9 @@
     <string name="toast_floor_not_shown">详细展馆平面图稍后公布。</string>
     <string name="toast_floor_download">为了更好的体验平面图功能，请您更新展馆平面图对应数据。</string>
     <string name="toast_floor_update">请您更新平面图数据，以便获取更准确的资料。</string>
+
+    <string name="title_privacy">私隐政策声明</string>
+    <string name="title_user_item">使用条款</string>
 
     <string name="title_filter">筛选</string>
     <string name="filter_industry">产品类别</string>
@@ -201,7 +205,7 @@
     <string name="schedule_minute">分钟</string>
     <string name="schedule_save">储存</string>
     <string name="schedule_del">删除</string>
-    <string name="schedule_date">2018年4月</string>
+    <string name="schedule_date">2019年5月</string>
 
     <string name="schedule_exhibitor">参展商</string>
     <string name="schedule_event">同期活动</string>
@@ -214,6 +218,7 @@
     <string name="seminar_time_pm">%s&#160;下午时段&#160;(14:00&#8211;16:00)</string>
 
     <string name="apk_update_msg">检测到新版本，是否更新？</string>
+    <string name="apk_update_title">更新版本</string>
 
 
     <!--  -->
@@ -245,17 +250,17 @@
 
     <!--  -->
     <!--  -->
-    <string name="notes">欢迎来临国际橡塑展2018</string>
+    <string name="notes">欢迎来临国际橡塑展2019</string>
     <string name="ask_addToCalendar">确定要将展览日期存入日历表吗？</string>
     <string name="ok">确定</string>
     <string name="cancel">取消</string>
     <string name="addToCalendar_success">已成功汇入行事历！</string>
     <string name="addToCalendar_fail">汇入行事历失败！</string>
     <string name="calendar_description">「CHINAPLAS 国际橡塑展」伴随着中国塑料及橡胶行业成长逾30年，至今已发展成为亚洲最具规模之橡塑业展会，并对中国橡塑业的发展产生了积极的推动作用。目前，「CHINAPLAS 国际橡塑展」不单是亚洲最大型的塑料及橡胶业展览会，业内人士更公认其影响力仅次于全球第一大橡塑展的德国「K展」, 成为橡塑业的世界第二大展会。</string>
-    <string name="calendar_location">中国‧上海‧虹桥‧国家会展中心 \n(中国上海市青浦区崧泽大道333号)</string>
+    <string name="calendar_location">中国广州．琶洲．中国进出口商品交易会展馆 \n[中国广州市琶洲阅江中路382号(邮编：510335)]</string>
     <!--  -->
     <string name="select_url">请选择网站版本</string>
-    <string name="sharetitle">国际橡塑展2018</string>
+    <string name="sharetitle">国际橡塑展2019</string>
 
     <string-array name="url_ver">
         <item>完整版</item>
@@ -264,8 +269,8 @@
 
     <!--  -->
     <string-array name="urls">
-        <item>http://www.chinaplasonline.com/CPS18/Home/lang-simp/Information.aspx</item>
-        <item>http://www.chinaplasonline.com/CPS18/Mobile/lang-eng/Home.aspx</item>
+        <item>https://www.chinaplasonline.com/CPS19/idx/simp</item>
+        <item>https://www.chinaplasonline.com/CPS19/idx/simp</item>
     </string-array>
 
     <!--  -->
@@ -328,9 +333,9 @@
     <string name="data_bk_success">备份完成</string>
 
 
-    <string name="login_first_add_exhibitor">需要登录后才能添加參展商，是否登录？</string>
-    <string name="login_first_add_schedule">需要登录后才能添加议程，是否登录？</string>
-    <string name="login_first_save_note">需要登录后才能添加保存笔记，是否登录？</string>
+    <string name="login_first_add_exhibitor">您需要登录＂MyCHINAPLAS＂才能储存展商纪录到您的感兴趣展商列表＂我的参展商＂。</string>
+    <string name="login_first_add_schedule">您需要登录＂MyCHINAPLAS＂才能添加议程，是否登录？</string>
+    <string name="login_first_save_note">您需要登录＂MyCHINAPLAS＂才能添加保存笔记，是否登录？</string>
     
     
     <!-- logout -->
@@ -359,7 +364,7 @@
     <string name="exception_toast_phone">抱歉，您的设备不支持打电话。</string>
 
     <!--技術交流會-->
-    <string name="ts_date">2018年4月</string>
+    <string name="ts_date">2019年5月</string>
 
     <!-- 技術交流會詳情頁 -->
     <string name="seminar_information">技术交流会概要</string>
@@ -410,7 +415,7 @@
     
     <!-- 分享 -->
     <string name="share_setting_text">国际橡塑展手机应用程式已经开放下载！</string>
-    <string name="share_setting_url">http://www.chinaplasonline.com/CPS18/Mobile/Home/lang-simp/MobileApp.aspx</string>
+    <string name="share_setting_url">https://www.chinaplasonline.com/CPS19/mobileapp/simp/app</string>
     <string name="share_news_link">http://www.chinaplasonline.com/CPS18/Mobile/Home/lang-simp/WhatsNew.aspx</string>
     <string name="share_sinna_weibo">新浪微博</string>
     <string name="share_qq">QQ</string>
@@ -418,13 +423,13 @@
     <string name="share_wechat_friends">微信好友</string>
     <string name="share_wechat_moments">朋友圈</string>
     <string name="share_email">邮件</string>
-    <string name="share_title">2018 国际橡塑展</string>
+    <string name="share_title">2019 国际橡塑展</string>
     
      <string name="toast_export_namecard_nodata">请先添加名片好友</string>
      
      <string name="map_dtl_tip">请选择展台</string>
      
-     <string name="my_exhibt_on_map">展商分布</string>
+     <string name="my_exhibt_on_map">展台位置</string>
      <string name="title_my_favourite_product">我的兴趣展品</string>
     <string name="my_favourite_product">兴趣展品</string>
     <string name="my_favourite_product_on_map">兴趣展品分布</string>
@@ -508,15 +513,15 @@
     <string name="event_btn_all">全部</string>
     <string name="tech_am">上午</string>
     <string name="tech_pm">下午</string>
-    <string name="event_btn_24">24</string>
-    <string name="event_btn_25">25</string>
-    <string name="event_btn_26">26</string>
-    <string name="event_btn_27">27</string>
-    <string name="event_date_24">2018.04.24</string>
-    <string name="event_date_25">2018.04.25</string>
-    <string name="event_date_26">2018.04.26</string>
-    <string name="event_date_27">2018.04.27</string>
-    <string name="event_date_base">2018.04.%s</string>
+    <string name="event_btn_1">21</string>
+    <string name="event_btn_2">22</string>
+    <string name="event_btn_3">23</string>
+    <string name="event_btn_4">24</string>
+    <string name="event_date_24">2019.05.21</string>
+    <string name="event_date_25">2019.05.22</string>
+    <string name="event_date_26">2019.05.23</string>
+    <string name="event_date_27">2019.05.24</string>
+    <string name="event_date_base">2019.05.%s</string>
 
     <string name="card_back">返回</string>
     <string name="reg_reset_confirm">重置</string>

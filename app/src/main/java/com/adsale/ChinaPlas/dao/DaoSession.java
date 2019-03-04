@@ -2,8 +2,6 @@ package com.adsale.ChinaPlas.dao;
 
 import android.database.sqlite.SQLiteDatabase;
 
-import java.util.Map;
-
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.AbstractDaoSession;
 import de.greenrobot.dao.identityscope.IdentityScopeType;
@@ -13,13 +11,14 @@ import de.greenrobot.dao.internal.DaoConfig;
 
 /**
  * {@inheritDoc}
- * 
+ *
  * @see AbstractDaoSession
  */
 public class DaoSession extends AbstractDaoSession {
 
     private final DaoConfig mainIconDaoConfig;
-    private final DaoConfig applicationIndustryDaoConfig;
+    private final DaoConfig mainIconTestDaoConfig;
+    private final DaoConfig applicationDaoConfig;
     private final DaoConfig applicationCompanyDaoConfig;
     private final DaoConfig countryDaoConfig;
     private final DaoConfig exhibitorDaoConfig;
@@ -35,8 +34,8 @@ public class DaoSession extends AbstractDaoSession {
     private final DaoConfig bussinessMappingDaoConfig;
     private final DaoConfig historyExhibitorDaoConfig;
     private final DaoConfig updateCenterDaoConfig;
-    private final DaoConfig exhibitorIndustryDtlDaoConfig;
     private final DaoConfig industryDaoConfig;
+    private final DaoConfig companyProductDaoConfig;
     private final DaoConfig seminarInfoDaoConfig;
     private final DaoConfig seminarSpeakerDaoConfig;
     private final DaoConfig floorPlanCoordinateDaoConfig;
@@ -48,14 +47,19 @@ public class DaoSession extends AbstractDaoSession {
     private final DaoConfig caterorySubConfig;
     private final DaoConfig exhibitorZoneDaoConfig;
     private final DaoConfig zoneDaoConfig;
+    private final DaoConfig eventConfig;
+    private final DaoConfig eventApplicationConfig;
 
     private final MainIconDao mainIconDao;
-    private final ApplicationIndustryDao applicationIndustryDao;
-    private final ApplicationCompanyDao applicationCompanyDao;
+    private final MainIconTestDao mainIconTestDao;
+    private final ApplicationDao applicationDao;
+    private final CompanyApplicationDao applicationCompanyDao;
+    private final IndustryDao industryDao;
+    private final CompanyProductDao companyProductDao;
     private final CountryDao countryDao;
     private final ExhibitorDao exhibitorDao;
     private final ExhibitorUserUpdateDao exhibitorUserUpdateDao;
-    private final FloorDao floorDao;
+    private final MapDao mapDao;
     private final MapFloorDao mapFloorDao;
     private final NameCardDao nameCardDao;
     private final NewsDao newsDao;
@@ -66,8 +70,7 @@ public class DaoSession extends AbstractDaoSession {
     private final BussinessMappingDao bussinessMappingDao;
     private final HistoryExhibitorDao historyExhibitorDao;
     private final UpdateCenterDao updateCenterDao;
-    private final ExhibitorIndustryDtlDao exhibitorIndustryDtlDao;
-    private final IndustryDao industryDao;
+
     private final SeminarInfoDao seminarInfoDao;
     private final SeminarSpeakerDao seminarSpeakerDao;
     private final FloorPlanCoordinateDao floorPlanCoordinateDao;
@@ -79,18 +82,23 @@ public class DaoSession extends AbstractDaoSession {
     private final NewCategorySubDao categorySubDao;
     private final ExhibitorZoneDao exhibitorZoneDao;
     private final ZoneDao zoneDao;
+    private final ConcurrentEventDao mEventDao;
+    private final EventApplicationDao eventApplicationDao;
 
-    public DaoSession(SQLiteDatabase db, IdentityScopeType type, Map<Class<? extends AbstractDao<?, ?>>, DaoConfig>
+    public DaoSession(SQLiteDatabase db, IdentityScopeType type, java.util.Map<Class<? extends AbstractDao<?, ?>>, DaoConfig>
             daoConfigMap) {
         super(db);
 
         mainIconDaoConfig = daoConfigMap.get(MainIconDao.class).clone();
         mainIconDaoConfig.initIdentityScope(type);
 
-        applicationIndustryDaoConfig = daoConfigMap.get(ApplicationIndustryDao.class).clone();
-        applicationIndustryDaoConfig.initIdentityScope(type);
+        mainIconTestDaoConfig = daoConfigMap.get(MainIconTestDao.class).clone();
+        mainIconTestDaoConfig.initIdentityScope(type);
 
-        applicationCompanyDaoConfig = daoConfigMap.get(ApplicationCompanyDao.class).clone();
+        applicationDaoConfig = daoConfigMap.get(ApplicationDao.class).clone();
+        applicationDaoConfig.initIdentityScope(type);
+
+        applicationCompanyDaoConfig = daoConfigMap.get(CompanyApplicationDao.class).clone();
         applicationCompanyDaoConfig.initIdentityScope(type);
 
         countryDaoConfig = daoConfigMap.get(CountryDao.class).clone();
@@ -102,7 +110,7 @@ public class DaoSession extends AbstractDaoSession {
         exhibitorUserUpdateDaoConfig = daoConfigMap.get(ExhibitorUserUpdateDao.class).clone();
         exhibitorUserUpdateDaoConfig.initIdentityScope(type);
 
-        floorDaoConfig = daoConfigMap.get(FloorDao.class).clone();
+        floorDaoConfig = daoConfigMap.get(MapDao.class).clone();
         floorDaoConfig.initIdentityScope(type);
 
         mapFloorDaoConfig = daoConfigMap.get(MapFloorDao.class).clone();
@@ -135,11 +143,11 @@ public class DaoSession extends AbstractDaoSession {
         updateCenterDaoConfig = daoConfigMap.get(UpdateCenterDao.class).clone();
         updateCenterDaoConfig.initIdentityScope(type);
 
-        exhibitorIndustryDtlDaoConfig = daoConfigMap.get(ExhibitorIndustryDtlDao.class).clone();
-        exhibitorIndustryDtlDaoConfig.initIdentityScope(type);
-
         industryDaoConfig = daoConfigMap.get(IndustryDao.class).clone();
         industryDaoConfig.initIdentityScope(type);
+
+        companyProductDaoConfig = daoConfigMap.get(CompanyProductDao.class).clone();
+        companyProductDaoConfig.initIdentityScope(type);
 
         seminarInfoDaoConfig = daoConfigMap.get(SeminarInfoDao.class).clone();
         seminarInfoDaoConfig.initIdentityScope(type);
@@ -171,13 +179,20 @@ public class DaoSession extends AbstractDaoSession {
         zoneDaoConfig = daoConfigMap.get(ZoneDao.class).clone();
         zoneDaoConfig.initIdentityScope(type);
 
+        eventConfig = daoConfigMap.get(ConcurrentEventDao.class).clone();
+        eventConfig.initIdentityScope(type);
+
+        eventApplicationConfig = daoConfigMap.get(EventApplicationDao.class).clone();
+        eventApplicationConfig.initIdentityScope(type);
+
         mainIconDao = new MainIconDao(mainIconDaoConfig, this);
-        applicationIndustryDao = new ApplicationIndustryDao(applicationIndustryDaoConfig, this);
-        applicationCompanyDao = new ApplicationCompanyDao(applicationCompanyDaoConfig, this);
+        mainIconTestDao = new MainIconTestDao(mainIconTestDaoConfig, this);
+        applicationDao = new ApplicationDao(applicationDaoConfig, this);
+        applicationCompanyDao = new CompanyApplicationDao(applicationCompanyDaoConfig, this);
         countryDao = new CountryDao(countryDaoConfig, this);
         exhibitorDao = new ExhibitorDao(exhibitorDaoConfig, this);
         exhibitorUserUpdateDao = new ExhibitorUserUpdateDao(exhibitorUserUpdateDaoConfig, this);
-        floorDao = new FloorDao(floorDaoConfig, this);
+        mapDao = new MapDao(floorDaoConfig, this);
         mapFloorDao = new MapFloorDao(mapFloorDaoConfig, this);
         nameCardDao = new NameCardDao(nameCardDaoConfig, this);
         newsDao = new NewsDao(newsDaoConfig, this);
@@ -188,8 +203,8 @@ public class DaoSession extends AbstractDaoSession {
         bussinessMappingDao = new BussinessMappingDao(bussinessMappingDaoConfig, this);
         historyExhibitorDao = new HistoryExhibitorDao(historyExhibitorDaoConfig, this);
         updateCenterDao = new UpdateCenterDao(updateCenterDaoConfig, this);
-        exhibitorIndustryDtlDao = new ExhibitorIndustryDtlDao(exhibitorIndustryDtlDaoConfig, this);
         industryDao = new IndustryDao(industryDaoConfig, this);
+        companyProductDao = new CompanyProductDao(companyProductDaoConfig, this);
         seminarInfoDao = new SeminarInfoDao(seminarInfoDaoConfig, this);
         seminarSpeakerDao = new SeminarSpeakerDao(seminarSpeakerDaoConfig, this);
         floorPlanCoordinateDao = new FloorPlanCoordinateDao(floorPlanCoordinateDaoConfig, this);
@@ -199,17 +214,22 @@ public class DaoSession extends AbstractDaoSession {
         newProductsIDDao = new NewProductsIDDao(newProductsIDDaoConfig, this);
         productImageDao = new ProductImageDao(productImageDaoConfig, this);
         categorySubDao = new NewCategorySubDao(caterorySubConfig, this);
-        exhibitorZoneDao = new ExhibitorZoneDao(exhibitorZoneDaoConfig,this);
-        zoneDao = new ZoneDao(zoneDaoConfig,this);
+        exhibitorZoneDao = new ExhibitorZoneDao(exhibitorZoneDaoConfig, this);
+        zoneDao = new ZoneDao(zoneDaoConfig, this);
+        mEventDao = new ConcurrentEventDao(eventConfig, this);
+        eventApplicationDao = new EventApplicationDao(eventApplicationConfig, this);
 
 
         registerDao(MainIcon.class, mainIconDao);
-        registerDao(ApplicationIndustry.class, applicationIndustryDao);
-        registerDao(ApplicationCompany.class, applicationCompanyDao);
+        registerDao(MainIconTest.class, mainIconTestDao);
+        registerDao(Application.class, applicationDao);
+        registerDao(CompanyApplication.class, applicationCompanyDao);
+        registerDao(Industry.class, industryDao);
+        registerDao(CompanyProduct.class, companyProductDao);
         registerDao(Country.class, countryDao);
         registerDao(Exhibitor.class, exhibitorDao);
         registerDao(ExhibitorUserUpdate.class, exhibitorUserUpdateDao);
-        registerDao(Floor.class, floorDao);
+        registerDao(Map.class, mapDao);
         registerDao(MapFloor.class, mapFloorDao);
         registerDao(NameCard.class, nameCardDao);
         registerDao(News.class, newsDao);
@@ -220,8 +240,6 @@ public class DaoSession extends AbstractDaoSession {
         registerDao(BussinessMapping.class, bussinessMappingDao);
         registerDao(HistoryExhibitor.class, historyExhibitorDao);
         registerDao(UpdateCenter.class, updateCenterDao);
-        registerDao(ExhibitorIndustryDtl.class, exhibitorIndustryDtlDao);
-        registerDao(Industry.class, industryDao);
         registerDao(SeminarInfo.class, seminarInfoDao);
         registerDao(SeminarSpeaker.class, seminarSpeakerDao);
         registerDao(FloorPlanCoordinate.class, floorPlanCoordinateDao);
@@ -232,11 +250,15 @@ public class DaoSession extends AbstractDaoSession {
         registerDao(NewCategorySub.class, categorySubDao);
         registerDao(ExhibitorZone.class, exhibitorZoneDao);
         registerDao(Zone.class, zoneDao);
+        registerDao(ConcurrentEvent.class, mEventDao);
+        registerDao(EventApplication.class, eventApplicationDao);
+
     }
-    
+
     public void clear() {
         mainIconDaoConfig.getIdentityScope().clear();
-        applicationIndustryDaoConfig.getIdentityScope().clear();
+        mainIconTestDaoConfig.getIdentityScope().clear();
+        applicationDaoConfig.getIdentityScope().clear();
         applicationCompanyDaoConfig.getIdentityScope().clear();
         countryDaoConfig.getIdentityScope().clear();
         exhibitorDaoConfig.getIdentityScope().clear();
@@ -252,8 +274,8 @@ public class DaoSession extends AbstractDaoSession {
         bussinessMappingDaoConfig.getIdentityScope().clear();
         historyExhibitorDaoConfig.getIdentityScope().clear();
         updateCenterDaoConfig.getIdentityScope().clear();
-        exhibitorIndustryDtlDaoConfig.getIdentityScope().clear();
         industryDaoConfig.getIdentityScope().clear();
+        companyProductDaoConfig.getIdentityScope().clear();
         seminarInfoDaoConfig.getIdentityScope().clear();
         seminarSpeakerDaoConfig.getIdentityScope().clear();
         floorPlanCoordinateDaoConfig.getIdentityScope().clear();
@@ -264,18 +286,27 @@ public class DaoSession extends AbstractDaoSession {
         caterorySubConfig.getIdentityScope().clear();
         exhibitorZoneDaoConfig.getIdentityScope().clear();
         zoneDaoConfig.getIdentityScope().clear();
+        eventConfig.getIdentityScope().clear();
     }
 
     public MainIconDao getMainIconDao() {
         return mainIconDao;
     }
 
-    public ApplicationIndustryDao getApplicationIndustryDao() {
-        return applicationIndustryDao;
+    public MainIconTestDao getMainIconTestDao() {
+        return mainIconTestDao;
     }
 
-    public ApplicationCompanyDao getApplicationCompanyDao() {
+    public ApplicationDao getApplicationDao() {
+        return applicationDao;
+    }
+
+    public CompanyApplicationDao getApplicationCompanyDao() {
         return applicationCompanyDao;
+    }
+
+    public CompanyProductDao getCompanyProductDao() {
+        return companyProductDao;
     }
 
     public CountryDao getCountryDao() {
@@ -290,8 +321,8 @@ public class DaoSession extends AbstractDaoSession {
         return exhibitorUserUpdateDao;
     }
 
-    public FloorDao getFloorDao() {
-        return floorDao;
+    public MapDao getMapDao() {
+        return mapDao;
     }
 
     public MapFloorDao getMapFloorDao() {
@@ -333,10 +364,6 @@ public class DaoSession extends AbstractDaoSession {
 
     public UpdateCenterDao getUpdateCenterDao() {
         return updateCenterDao;
-    }
-
-    public ExhibitorIndustryDtlDao getExhibitorIndustryDtlDao() {
-        return exhibitorIndustryDtlDao;
     }
 
     public IndustryDao getIndustryDao() {
@@ -382,4 +409,14 @@ public class DaoSession extends AbstractDaoSession {
     public ZoneDao getZoneDao() {
         return zoneDao;
     }
+
+    public ConcurrentEventDao getEventDao() {
+        return mEventDao;
+    }
+
+    public EventApplicationDao getEventApplicationDao() {
+        return eventApplicationDao;
+    }
+
+
 }

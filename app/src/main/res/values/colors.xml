@@ -1,20 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FF3030</color>
-    <color name="colorPrimaryDark">#FFDC370C</color>
-    <color name="colorAccent">#E7380D</color>
+    <!--<color name="colorPrimary">#004d8b</color>-->
+    <!--<color name="colorAccent">#32c6c0</color>-->
+    <!--<color name="colorPrimary">#3F51B5</color>-->
+
+    <color name="colorPrimary">#01579b</color>
+    <color name="colorPrimaryDark">#002f6c</color>
+    <color name="colorAccent">#1976d2</color>
+    <color name="link">#1976d2</color>
+
+    <color name="round_point_color">#32c6c0</color>
+    <color name="tiffany">#32c6c0</color>
+
+
+
+    <!--<color name="colorPrimary">#79CCCD</color>-->
+    <!--<color name="colorPrimaryDark">#79CCCD</color>-->
+    <!--<color name="colorAccent">#FF4081</color>-->
+    <!--<color name="link">#FF4081</color>-->
+
+    <!--主体色调-->
+    <!--<color name="home">#DC370C</color>-->
+    <color name="home">#1976d2</color>
+    <color name="menu_red">#1976d2</color>
+    <color name="home_transparent">#B21976d2</color>
+    <color name="home_nav_bar">#1976d2</color>
+    <color name="bottom_nav_bar_color">#591976d2</color>
 
     <color name="grey21">#363636</color>
     <color name="grey11">#1C1C1C</color>
 
     <color name="seminar_gray">#EEE9E9</color><!-- //#D3D3D3 -->
 
-    <!--主体色调-->
-    <!--<color name="home">#DC370C</color>-->
-    <color name="home">#FFDC370C</color>
-    <color name="menu_red">#B2C83D51</color>
-    <color name="home_transparent">#B2C83D51</color>
-    <color name="home_nav_bar">#1AC83D51</color>
+
 
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
@@ -26,6 +44,7 @@
     <color name="gray_qrcode_tips">#4D4D4D</color>
     <color name="transparent">#00ffffff</color>
     <color name="grey">#BEBEBE</color>
+    <color name="white_grey">#F2F2F2</color>
     <color name="deep_gray">#505050</color>
     <color name="light_gray">#CCCCCC</color>
     <color name="dark_gray">#5d5657</color>
@@ -36,7 +55,7 @@
     <color name="new_tec_item_color">#eeeef0</color>
     <color name="blue">#00BCD4</color>
     <color name="uc_transparent">#B21C1C1C</color>
-    <color name="link">#00BFFF</color>
+
 
     <!-- new tec -->
     <color name="blue1">#63B8FF</color>

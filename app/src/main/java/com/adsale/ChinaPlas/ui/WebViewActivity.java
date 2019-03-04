@@ -1,10 +1,13 @@
 package com.adsale.ChinaPlas.ui;
 
 import android.content.Intent;
+import android.databinding.ObservableBoolean;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
+import android.text.TextUtils;
 import android.view.View;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -15,6 +18,7 @@ import android.widget.RelativeLayout;
 
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.databinding.ActivityWebViewBinding;
+import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
 
@@ -38,6 +42,8 @@ public class WebViewActivity extends BaseActivity {
     protected ImageView go;
     protected ImageView out;
     private ActivityWebViewBinding binding;
+
+    public final ObservableBoolean isBarShow = new ObservableBoolean(true);
 
     @Override
     protected void initView() {
@@ -104,6 +110,10 @@ public class WebViewActivity extends BaseActivity {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 url = addPrefix(url);
                 view.loadUrl(url);
+
+                LogUtil.i(TAG, "shouldOverrideUrlLoading: URL = " + url);
+
+
                 return true;
             }
 
@@ -121,6 +131,45 @@ public class WebViewActivity extends BaseActivity {
                 if (!settings.getLoadsImagesAutomatically()) {
                     settings.setLoadsImagesAutomatically(true);
                 }
+
+                if (url.contains("mychinaplas")) {
+                    LogUtil.i(TAG, "url = " + url);
+                    view.evaluateJavascript("document.getElementById('MID').value", new ValueCallback<String>() {
+                        @Override
+                        public void onReceiveValue(String value) {
+                            LogUtil.e(TAG, "shouldOverrideUrlLoading_onReceiveValue:MID=" + value + "," + value.length());
+                            LogUtil.i(TAG, " login success? " + !TextUtils.isEmpty(value));
+                        }
+                    });
+                    view.evaluateJavascript("document.getElementById('AppToken').value", new ValueCallback<String>() {
+                        @Override
+                        public void onReceiveValue(String value) {
+                            LogUtil.e(TAG, "shouldOverrideUrlLoading_onReceiveValue:AppToken=" + value);
+                            if (!TextUtils.isEmpty(value) && !value.equals("null")) {
+                                AppUtil.setLogin(true);
+                                LogUtil.i(TAG, "登录成功");
+
+                                // 如果是从主界面MyChinaplas点击跳转而来，则关闭这个页面，显示用户小工具；
+                                if (getIntent().getBooleanExtra("MyTool", false)) {
+                                    Intent intent = new Intent(WebViewActivity.this, UserInfoActivity.class);
+                                    startActivity(intent);
+                                    overridePendingTransPad();
+                                    finish();
+                                }else if(getIntent().getBooleanExtra("ExhibitorInfo", false)){
+                                    overridePendingTransPad();
+                                    finish();
+                                }
+
+                            } else {
+                                AppUtil.setLogin(false);
+                                LogUtil.i(TAG, "未登录");
+                            }
+                        }
+                    });
+
+                }
+
+
             }
 
             @Override
@@ -160,7 +209,6 @@ public class WebViewActivity extends BaseActivity {
     }
 
 
-
     public void onBack() {
         if (webView.canGoBack()) {
             webView.goBack();
@@ -178,5 +226,26 @@ public class WebViewActivity extends BaseActivity {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mWebUrl));
         startActivity(intent);
         overridePendingTransPad();
+    }
+
+    @Override
+    public void back() {
+        LogUtil.i(TAG, "back()");
+
+        if (getIntent().getBooleanExtra("MyCPS", false) && !AppUtil.isLogin()) {
+            Intent intent = new Intent(this, AppUtil.isPadDevice(getApplicationContext()) ? PadMainActivity.class : MainActivity.class);
+            startActivity(intent);
+            overridePendingTransPad();
+        }
+
+        super.back();
+        LogUtil.i(TAG, "back1()");
+    }
+
+    @Override
+    public void onBackPressed() {
+        LogUtil.i(TAG, "onBackPressed()");
+        super.onBackPressed();
+        LogUtil.i(TAG, "onBackPressed1()");
     }
 }

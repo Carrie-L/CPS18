@@ -53,7 +53,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="16dp"
-            android:background="@{obj.DrawerList.equals(adapter.drawerListStr.get())?@drawable/ic_down_arrow2:@drawable/ic_right_arrow2}"
+            android:background="@{obj.DrawerSeq.equals(adapter.drawerListStr.get())?@drawable/ic_down_arrow2:@drawable/ic_right_arrow2}"
             android:gravity="center_vertical"
             android:visibility="@{obj.isDrawerHasChild.get()?View.VISIBLE:View.GONE}" />
 

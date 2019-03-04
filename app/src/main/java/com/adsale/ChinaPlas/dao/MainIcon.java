@@ -12,12 +12,15 @@ import android.os.Parcelable;
 
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.utils.AppUtil;
+import com.adsale.ChinaPlas.utils.LogUtil;
+
+import cn.bmob.v3.BmobObject;
 
 
 /**
  * Entity mapped to table "MAIN_ICON".
  */
-public class MainIcon implements Parcelable {
+public class MainIcon extends BmobObject implements Parcelable {
 
     private String IconID;
     /**
@@ -32,33 +35,32 @@ public class MainIcon implements Parcelable {
      * Not-null value.
      */
     private String TitleEN;
-    /**
-     * Not-null value.
-     */
-    private String Icon;
-    private int CType;
-    private String CFile;
-    private String ZipDateTime;
-    private int IsHidden;
-    private int SEQ;
-    /**
-     * Not-null value.
-     */
-    private String CreateDateTime;
-    /**
-     * Not-null value.
-     */
-    private String UpdateDateTime;
-    /**
-     * Not-null value.
-     */
-    private String RecordTimeStamp;
-    private int IsDown;
+
+    public String MenuSeq;
+    public String DrawerSeq;
+
     /**
      * Not-null value.
      */
     private String BaiDu_TJ;
     private String Google_TJ;
+
+    private String CFile;
+    private String DrawerIcon;
+    /**
+     * Not-null value.
+     */
+    private String Icon;
+
+
+    private boolean IsDelete;
+    private boolean IsHidden;
+
+//    private String createdAt;
+//    private String upStringdAt;
+
+    private String createdAt;
+    private String updatedAt;
 
 
     // KEEP FIELDS - put your custom fields here
@@ -81,52 +83,35 @@ public class MainIcon implements Parcelable {
 
     public int color;
 
-    /**
-     * 新增列
-     */
-    public String DrawerList;
-    public String MenuList;
-    public String DrawerIcon;
-    public String IconTextColor;
-    public Integer IsDelete;
 
     public final ObservableInt updateCount = new ObservableInt(0);
 
     public final ObservableBoolean isDrawerHasChild = new ObservableBoolean(false);
     public final ObservableBoolean isDrawerChild = new ObservableBoolean(false);
 
+
     // KEEP FIELDS END
 
     public MainIcon() {
+
     }
 
-    public MainIcon(String IconID) {
-        this.IconID = IconID;
-    }
-
-    public MainIcon(String IconID, String TitleTW, String TitleCN, String TitleEN, String Icon, int CType, String CFile, String ZipDateTime, int IsHidden, int SEQ, String CreateDateTime, String UpdateDateTime, String RecordTimeStamp, int IsDown, String BaiDu_TJ, String Google_TJ
-            , String DrawerList, String MenuList, String DrawerIcon, String IconTextColor, int IsDelete) {
+    public MainIcon(String IconID, String TitleTW, String TitleCN, String TitleEN, String MenuSeq, String DrawerSeq, String BaiDu_TJ, String Google_TJ, String CFile, String DrawerIcon, String Icon, Boolean IsDelete, Boolean IsHidden, String createdAt, String upStringdAt) {
         this.IconID = IconID;
         this.TitleTW = TitleTW;
         this.TitleCN = TitleCN;
         this.TitleEN = TitleEN;
-        this.Icon = Icon;
-        this.CType = CType;
-        this.CFile = CFile;
-        this.ZipDateTime = ZipDateTime;
-        this.IsHidden = IsHidden;
-        this.SEQ = SEQ;
-        this.CreateDateTime = CreateDateTime;
-        this.UpdateDateTime = UpdateDateTime;
-        this.RecordTimeStamp = RecordTimeStamp;
-        this.IsDown = IsDown;
+        this.MenuSeq = MenuSeq;
+        this.DrawerSeq = DrawerSeq;
         this.BaiDu_TJ = BaiDu_TJ;
         this.Google_TJ = Google_TJ;
-        this.DrawerList = DrawerList;
-        this.MenuList = MenuList;
+        this.CFile = CFile;
         this.DrawerIcon = DrawerIcon;
-        this.IconTextColor = IconTextColor;
+        this.Icon = Icon;
         this.IsDelete = IsDelete;
+        this.IsHidden = IsHidden;
+        this.createdAt = createdAt;
+        this.updatedAt = upStringdAt;
     }
 
     public String getIconID() {
@@ -179,120 +164,26 @@ public class MainIcon implements Parcelable {
         this.TitleEN = TitleEN;
     }
 
-    /**
-     * Not-null value.
-     */
-    public String getIcon() {
-        return Icon;
+    public String getMenuSeq() {
+        return MenuSeq;
     }
 
-    /**
-     * Not-null value; ensure this value is available before it is saved to the database.
-     */
-    public void setIcon(String Icon) {
-        this.Icon = Icon;
+    public void setMenuSeq(String MenuSeq) {
+        this.MenuSeq = MenuSeq;
     }
 
-    public int getCType() {
-        return CType;
+    public String getDrawerSeq() {
+        return DrawerSeq;
     }
 
-    public void setCType(int CType) {
-        this.CType = CType;
+    public void setDrawerSeq(String DrawerSeq) {
+        this.DrawerSeq = DrawerSeq;
     }
 
-    public String getCFile() {
-        return CFile;
-    }
-
-    public void setCFile(String CFile) {
-        this.CFile = CFile;
-    }
-
-    public String getZipDateTime() {
-        return ZipDateTime;
-    }
-
-    public void setZipDateTime(String ZipDateTime) {
-        this.ZipDateTime = ZipDateTime;
-    }
-
-    public int getIsHidden() {
-        return IsHidden;
-    }
-
-    public void setIsHidden(int IsHidden) {
-        this.IsHidden = IsHidden;
-    }
-
-    public int getSEQ() {
-        return SEQ;
-    }
-
-    public void setSEQ(int SEQ) {
-        this.SEQ = SEQ;
-    }
-
-    /**
-     * Not-null value.
-     */
-    public String getCreateDateTime() {
-        return CreateDateTime;
-    }
-
-    /**
-     * Not-null value; ensure this value is available before it is saved to the database.
-     */
-    public void setCreateDateTime(String CreateDateTime) {
-        this.CreateDateTime = CreateDateTime;
-    }
-
-    /**
-     * Not-null value.
-     */
-    public String getUpdateDateTime() {
-        return UpdateDateTime;
-    }
-
-    /**
-     * Not-null value; ensure this value is available before it is saved to the database.
-     */
-    public void setUpdateDateTime(String UpdateDateTime) {
-        this.UpdateDateTime = UpdateDateTime;
-    }
-
-    /**
-     * Not-null value.
-     */
-    public String getRecordTimeStamp() {
-        return RecordTimeStamp;
-    }
-
-    /**
-     * Not-null value; ensure this value is available before it is saved to the database.
-     */
-    public void setRecordTimeStamp(String RecordTimeStamp) {
-        this.RecordTimeStamp = RecordTimeStamp;
-    }
-
-    public int getIsDown() {
-        return IsDown;
-    }
-
-    public void setIsDown(int IsDown) {
-        this.IsDown = IsDown;
-    }
-
-    /**
-     * Not-null value.
-     */
     public String getBaiDu_TJ() {
         return BaiDu_TJ;
     }
 
-    /**
-     * Not-null value; ensure this value is available before it is saved to the database.
-     */
     public void setBaiDu_TJ(String BaiDu_TJ) {
         this.BaiDu_TJ = BaiDu_TJ;
     }
@@ -304,6 +195,68 @@ public class MainIcon implements Parcelable {
     public void setGoogle_TJ(String Google_TJ) {
         this.Google_TJ = Google_TJ;
     }
+
+    public String getCFile() {
+        return CFile;
+    }
+
+    public void setCFile(String CFile) {
+        this.CFile = CFile;
+    }
+
+    public String getDrawerIcon() {
+        return DrawerIcon;
+    }
+
+    public void setDrawerIcon(String DrawerIcon) {
+        this.DrawerIcon = DrawerIcon;
+    }
+
+    public String getIcon() {
+        return Icon;
+    }
+
+    public void setIcon(String Icon) {
+        this.Icon = Icon;
+    }
+
+    public Boolean getIsDelete() {
+        return IsDelete;
+    }
+
+    public void setIsDelete(Boolean IsDelete) {
+        this.IsDelete = IsDelete;
+    }
+
+    public Boolean getIsHidden() {
+        return IsHidden;
+    }
+
+    public void setIsHidden(Boolean IsHidden) {
+        this.IsHidden = IsHidden;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    // KEEP METHODS - put your custom methods here
+    // KEEP METHODS END
+
+    // KEEP METHODS - put your custom methods here
+    // KEEP METHODS END
 
     // KEEP METHODS - put your custom methods here
     public String getTitle(int language) {
@@ -354,75 +307,38 @@ public class MainIcon implements Parcelable {
         this.TitleCN = titleSC;
     }
 
-    public String getDrawerList() {
-        return DrawerList;
-    }
-
-    public String getMenuList() {
-        return MenuList;
-    }
-
-    public String getDrawerIcon() {
-        return DrawerIcon;
-    }
-
-    public String getIconTextColor() {
-        return IconTextColor;
-    }
-
-    public Integer getIsDelete() {
-        return IsDelete;
-    }
-
-    public void setIsDelete(Integer isDelete) {
-        IsDelete = isDelete;
-    }
-
-    public void setDrawerList(String drawerList) {
-        DrawerList = drawerList;
-    }
-
-    public void setMenuList(String menuList) {
-        MenuList = menuList;
-    }
-
-    public void setDrawerIcon(String drawerIcon) {
-        DrawerIcon = drawerIcon;
-    }
-
-    public void setIconTextColor(String iconTextColor) {
-        IconTextColor = iconTextColor;
-    }
 
     @Override
     public String toString() {
         return "MainIcon{" +
-                "TitleTW='" + TitleTW + '\'' +
-                ", IconID='" + IconID + '\'' +
+                "IconID='" + IconID + '\'' +
+                ", TitleTW='" + TitleTW + '\'' +
                 ", TitleCN='" + TitleCN + '\'' +
                 ", TitleEN='" + TitleEN + '\'' +
-                ", Icon='" + Icon + '\'' +
-                ", CType=" + CType +
-                ", CFile='" + CFile + '\'' +
-                ", ZipDateTime='" + ZipDateTime + '\'' +
-                ", IsHidden=" + IsHidden +
-                ", SEQ=" + SEQ +
-                ", CreateDateTime='" + CreateDateTime + '\'' +
-                ", UpdateDateTime='" + UpdateDateTime + '\'' +
-                ", RecordTimeStamp='" + RecordTimeStamp + '\'' +
-                ", IsDown=" + IsDown +
+                ", MenuSeq='" + MenuSeq + '\'' +
+                ", DrawerSeq='" + DrawerSeq + '\'' +
                 ", BaiDu_TJ='" + BaiDu_TJ + '\'' +
                 ", Google_TJ='" + Google_TJ + '\'' +
-                ", DrawerList='" + DrawerList + '\'' +
-                ", MenuList='" + MenuList + '\'' +
+                ", CFile='" + CFile + '\'' +
                 ", DrawerIcon='" + DrawerIcon + '\'' +
-                ", IconTextColor='" + IconTextColor + '\'' +
-                ", IsDelete='" + IsDelete + '\'' +
-                ", isExpanded=" + isExpanded +
-                ", hasChild=" + hasChild +
-                ", isMenuHasChild=" + isMenuHasChild +
-                ", isCoverGone=" + isCoverGone +
-                ", lastPos=" + lastPos +
+                ", Icon='" + Icon + '\'' +
+                ", IsDelete=" + IsDelete +
+                ", IsHidden=" + IsHidden +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+//                ", createdAt=" + new SimpleStringFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).format(createdAt) +
+//                ", upStringdAt=" +new SimpleStringFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).format(upStringdAt) +
+//                ", isExpanded=" + isExpanded +
+//                ", hasChild=" + hasChild +
+//                ", isMenuHasChild=" + isMenuHasChild +
+//                ", isChecked=" + isChecked +
+//                ", color=" + color +
+//                ", upStringCount=" + updateCount +
+//                ", isDrawerHasChild=" + isDrawerHasChild +
+//                ", isDrawerChild=" + isDrawerChild +
+//                ", isCoverGone=" + isCoverGone +
+//                ", isClicked=" + isClicked +
+//                ", lastPos=" + lastPos +
                 '}';
     }
 
@@ -454,35 +370,29 @@ public class MainIcon implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        LogUtil.i("writeToParcel", "createdAt=" + createdAt + ",upStringdAt=" + updatedAt);
+
         dest.writeString(this.IconID);
         dest.writeString(this.TitleTW);
         dest.writeString(this.TitleCN);
         dest.writeString(this.TitleEN);
-        dest.writeString(this.Icon);
-        dest.writeInt(this.CType);
-        dest.writeString(this.CFile);
-        dest.writeString(this.ZipDateTime);
-        dest.writeInt(this.IsHidden);
-        dest.writeInt(this.SEQ);
-        dest.writeString(this.CreateDateTime);
-        dest.writeString(this.UpdateDateTime);
-        dest.writeString(this.RecordTimeStamp);
-        dest.writeInt(this.IsDown);
+        dest.writeString(this.MenuSeq);
+        dest.writeString(this.DrawerSeq);
         dest.writeString(this.BaiDu_TJ);
         dest.writeString(this.Google_TJ);
-        dest.writeString(this.DrawerList);
-        dest.writeString(this.MenuList);
+        dest.writeString(this.CFile);
         dest.writeString(this.DrawerIcon);
-        dest.writeString(this.IconTextColor);
-        dest.writeInt(this.IsDelete);
-        dest.writeByte(isExpanded ? (byte) 1 : (byte) 0);
-        dest.writeByte(hasChild ? (byte) 1 : (byte) 0);
-        dest.writeByte(isMenuHasChild ? (byte) 1 : (byte) 0);
-        dest.writeByte(isChecked ? (byte) 1 : (byte) 0);
-        dest.writeInt(this.color);
-        dest.writeByte(isCoverGone ? (byte) 1 : (byte) 0);
-        dest.writeByte(isClicked ? (byte) 1 : (byte) 0);
-        dest.writeInt(this.lastPos);
+        dest.writeString(this.Icon);
+        dest.writeByte(IsDelete ? (byte) 1 : (byte) 0);
+        dest.writeByte(IsHidden ? (byte) 1 : (byte) 0);
+        dest.writeString(this.createdAt);
+        dest.writeString(this.updatedAt);
+
+
+//        dest.writeParcelable(this.createdAt, flags);
+//        dest.writeParcelable(this.upStringdAt, flags);
+
+
     }
 
     protected MainIcon(Parcel in) {
@@ -490,34 +400,24 @@ public class MainIcon implements Parcelable {
         this.TitleTW = in.readString();
         this.TitleCN = in.readString();
         this.TitleEN = in.readString();
-        this.Icon = in.readString();
-        this.CType = in.readInt();
-        this.CFile = in.readString();
-        this.ZipDateTime = in.readString();
-        this.IsHidden = in.readInt();
-        this.SEQ = in.readInt();
-        this.CreateDateTime = in.readString();
-        this.UpdateDateTime = in.readString();
-        this.RecordTimeStamp = in.readString();
-        this.IsDown = in.readInt();
+        this.MenuSeq = in.readString();
+        this.DrawerSeq = in.readString();
         this.BaiDu_TJ = in.readString();
         this.Google_TJ = in.readString();
-        this.DrawerList = in.readString();
-        this.MenuList = in.readString();
+        this.CFile = in.readString();
         this.DrawerIcon = in.readString();
-        this.IconTextColor = in.readString();
-        this.IsDelete = in.readInt();
-        this.isExpanded = in.readByte() != 0;
-        this.hasChild = in.readByte() != 0;
-        this.isMenuHasChild = in.readByte() != 0;
-        this.isChecked = in.readByte() != 0;
-        this.color = in.readInt();
-        this.isCoverGone = in.readByte() != 0;
-        this.isClicked = in.readByte() != 0;
-        this.lastPos = in.readInt();
+        this.Icon = in.readString();
+        this.IsDelete = in.readByte() != 0;
+        this.IsHidden = in.readByte() != 0;
+        this.createdAt = in.readString();
+        this.updatedAt = in.readString();
+
+//        this.createdAt = in.readParcelable(String.class.getClassLoader());
+//        this.upStringdAt = in.readParcelable(String.class.getClassLoader());
+
     }
 
-    public static final Parcelable.Creator<MainIcon> CREATOR = new Parcelable.Creator<MainIcon>() {
+    public static final Creator<MainIcon> CREATOR = new Creator<MainIcon>() {
         public MainIcon createFromParcel(Parcel source) {
             return new MainIcon(source);
         }
@@ -526,4 +426,6 @@ public class MainIcon implements Parcelable {
             return new MainIcon[size];
         }
     };
+
+
 }

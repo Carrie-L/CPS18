@@ -8,6 +8,8 @@ import android.util.Log;
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.dao.MainIcon;
 import com.adsale.ChinaPlas.dao.MainIconDao;
+import com.adsale.ChinaPlas.dao.MainIconTest;
+import com.adsale.ChinaPlas.dao.MainIconTestDao;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
@@ -28,12 +30,13 @@ public class MainIconRepository implements DataSource<MainIcon> {
 
     private SQLiteDatabase db = App.mDBHelper.db;
     private MainIconDao mIconDao = App.mDBHelper.mIconDao;
+    private MainIconTestDao mIconTestDao = App.mDBHelper.mIconTestDao;
 
     private ArrayList icons;
 
     public static MainIconRepository getInstance() {
         if (INSTANCE == null) {
-            return new MainIconRepository();
+            INSTANCE = new MainIconRepository();
         }
         return INSTANCE;
     }
@@ -59,7 +62,7 @@ public class MainIconRepository implements DataSource<MainIcon> {
                     App.mSP_UpdateTime
                             .edit()
                             .putString(Constant.mainIconLUT,
-                                    getMaxUT(MainIconDao.Properties.UpdateDateTime, mIconDao).getUpdateDateTime())
+                                    getMaxUT(MainIconDao.Properties.UpdatedAt, mIconDao).toString())
                             .apply();
                 }
             });
@@ -105,11 +108,11 @@ public class MainIconRepository implements DataSource<MainIcon> {
      * 获取主界面数据
      */
     public ArrayList<MainIcon> getMenus() {
-        return (ArrayList<MainIcon>) mIconDao.queryBuilder().where(MainIconDao.Properties.MenuList.like("%M%"), MainIconDao.Properties.IsHidden.notEq(1), MainIconDao.Properties.IsDelete.notEq(1)).orderAsc(MainIconDao.Properties.MenuList).list();
-    }
+        return (ArrayList<MainIcon>) mIconDao.queryBuilder().where(MainIconDao.Properties.MenuSeq.like("%M%"), MainIconDao.Properties.IsHidden.notEq(1), MainIconDao.Properties.IsDelete.notEq(1)).orderAsc(MainIconDao.Properties.MenuSeq).list();
+    }// like("%M%")
 
     public ArrayList<MainIcon> getAllIcons() {
-        return (ArrayList<MainIcon>) mIconDao.queryBuilder().where(MainIconDao.Properties.IsHidden.notEq(1), MainIconDao.Properties.IsDelete.notEq(1)).orderAsc(MainIconDao.Properties.MenuList).list();
+        return (ArrayList<MainIcon>) mIconDao.queryBuilder().where(MainIconDao.Properties.IsHidden.notEq(1), MainIconDao.Properties.IsDelete.notEq(1)).orderAsc(MainIconDao.Properties.MenuSeq).list();
     }
 
     /**
@@ -119,48 +122,40 @@ public class MainIconRepository implements DataSource<MainIcon> {
         long startTime = System.currentTimeMillis();
 
         Cursor cursor = db.rawQuery(
-                "select * from MAIN_ICON where IS_HIDDEN NOT LIKE 1 AND IS_DELETE NOT LIKE 1 AND GOOGLE__TJ like \"%|%\" and GOOGLE__TJ like \"%S_%\" order by GOOGLE__TJ asc", null);
+                "select * from MainIcon where IsHidden NOT LIKE 1 AND DrawerSeq LIKE \"%S%\" AND IsDelete NOT LIKE 1 ORDER BY DrawerSeq ASC", null);  // AND DrawerSeq LIKE "%S%"
         if (cursor != null) {
             MainIcon entity = null;
-            String google_tj = "";
             while (cursor.moveToNext()) {
                 entity = new MainIcon();
-                entity.setIconID(cursor.getString(cursor.getColumnIndex("ICON_ID")));
-                entity.setTitleTW(cursor.getString(cursor.getColumnIndex("TITLE_TW")));
-                entity.setTitleEN(cursor.getString(cursor.getColumnIndex("TITLE_EN")));
-                entity.setTitleCN(cursor.getString(cursor.getColumnIndex("TITLE_CN")));
-                entity.setIcon(cursor.getString(cursor.getColumnIndex("ICON")));
-                entity.setCType(cursor.getInt(cursor.getColumnIndex("CTYPE")));
-                entity.setCFile(cursor.getString(cursor.getColumnIndex("CFILE")));
-                entity.setBaiDu_TJ(cursor.getString(cursor.getColumnIndex("BAI_DU__TJ")));
-                google_tj = cursor.getString(cursor.getColumnIndex("GOOGLE__TJ")).split("\\|")[0].replace("S_", "");
-                entity.setGoogle_TJ(google_tj);//11,1_1  //AppUtil.subStringFront(google_tj,'|')
-                entity.setDrawerList(cursor.getString(cursor.getColumnIndex("DRAWER_LIST")));
-                entity.setMenuList(cursor.getString(cursor.getColumnIndex("MENU_LIST")));
-                entity.setDrawerIcon(cursor.getString(cursor.getColumnIndex("DRAWER_ICON")));
-                entity.setIconTextColor(cursor.getString(cursor.getColumnIndex("ICON_TEXT_COLOR")));
-                if (entity.getBaiDu_TJ().equals("ContentUpdate")) {
-                    OtherRepository repository = OtherRepository.getInstance();
-                    repository.initUpdateCenterDao();
-                    int uc_count = repository.getNeedUpdatedCount();
-                    entity.updateCount.set(uc_count);
-                }
-                if (!entity.getGoogle_TJ().contains("_")) {
-                    parentList.add(entity);
-                } else {
-                    childList.add(entity);
-                }
-//                if (entity.getDrawerList().split("_").length > 2) {
-//                    entity.isDrawerChild.set(true);
+                entity.setIconID(cursor.getString(cursor.getColumnIndex("IconID")));
+                entity.setTitleTW(cursor.getString(cursor.getColumnIndex("TitleTW")));
+                entity.setTitleEN(cursor.getString(cursor.getColumnIndex("TitleEN")));
+                entity.setTitleCN(cursor.getString(cursor.getColumnIndex("TitleCN")));
+                entity.setIcon(cursor.getString(cursor.getColumnIndex("Icon")));
+                entity.setCFile(cursor.getString(cursor.getColumnIndex("CFile")));
+                entity.setBaiDu_TJ(cursor.getString(cursor.getColumnIndex("BaiDu_TJ")));
+                entity.setMenuSeq(cursor.getString(cursor.getColumnIndex("MenuSeq")));
+                entity.setDrawerSeq(cursor.getString(cursor.getColumnIndex("DrawerSeq")).replace("S_", ""));  //   .replace("S_", "")
+                entity.setDrawerIcon(cursor.getString(cursor.getColumnIndex("DrawerIcon")));
+//                if (entity.getBaiDu_TJ().equals("ContentUpdate")) {
+//                    OtherRepository repository = OtherRepository.getInstance();
+//                    repository.initUpdateCenterDao();
+//                    int uc_count = repository.getNeedUpdatedCount();
+//                    entity.updateCount.set(uc_count);
 //                }
+                if (entity.getDrawerSeq().contains("_")) {
+                    childList.add(entity);
+                } else {
+                    parentList.add(entity);
+                }
                 leftMenus.add(entity);
             }
-
             cursor.close();
         }
         long endTime = System.currentTimeMillis();
         LogUtil.i(TAG, " getLeftMenus spend : " + (endTime - startTime) + "ms");
-        Log.i(TAG, "CPS:leftMenus====================" + leftMenus.size());
+//        Log.i(TAG, "CPS:leftMenus====================" + leftMenus.size() + "," + leftMenus.toString());
+        Log.i(TAG, "CPS:parentList====================" + parentList.size() + "," + parentList.toString());
         return leftMenus;
     }
 
@@ -183,5 +178,40 @@ public class MainIconRepository implements DataSource<MainIcon> {
         return dao.queryBuilder().orderDesc(property).limit(1).list().get(0);
     }
 
+    public void updateOrInsertMainIcons(ArrayList<MainIcon> list) {
+        mIconDao.insertOrReplaceInTx(list);
+
+        // 加上 删除，隐藏  更新  新增    文件地址
+
+//        ContentValues cv = new ContentValues();
+//        int size = list.size();
+//        for (int i = 0; i < size; i++) {
+//
+//        }
+
+
+    }
+
+    public String getLastUpdateDate() {
+        List<MainIcon> list = mIconDao.queryBuilder().orderDesc(MainIconDao.Properties.UpdatedAt).limit(1).list();
+        if (list != null && list.size() > 0) {
+            return list.get(0).getUpdatedAt();
+        }
+        return "";
+    }
+
+    /// -------------- MainIconTest
+
+    public void updateOrInsertMainIconsTest(ArrayList<MainIconTest> list) {
+        mIconTestDao.insertOrReplaceInTx(list);
+    }
+
+    public String getLastUpdateDateTest() {
+        List<MainIconTest> list = mIconTestDao.queryBuilder().orderDesc(MainIconTestDao.Properties.UpdatedAt).limit(1).list();
+        if (list != null && list.size() > 0) {
+            return list.get(0).getUpdatedAt();
+        }
+        return "";
+    }
 
 }

@@ -1,0 +1,592 @@
+<html>
+ <head> 
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" /> 
+  <meta charset="utf-8" /> 
+
+  <script src="../jquery.js"></script>
+
+  <link rel="stylesheet" href="../bootstrap.css" type="text/css" /> 
+  <link rel="stylesheet" href="../style.css" type="text/css" /> 
+
+
+  <style >
+
+      .div2{display: inline-block;margin-left: 15px;margin-right: 15px;height:150px;}
+
+      .container {
+          width: 100%;
+
+      }
+
+      .padding{
+          display: inline-block;
+          text-align: center;
+          position: relative;
+          padding-right: 15px;
+          padding-left: 15px;
+          /*height:150px*/
+      }
+
+
+      .Eheight{
+        height: 150px;
+      }
+
+
+      .centerOut{
+        justify-content: center;
+      }
+
+
+      .colBig{
+        white-space: nowrap;
+      }
+
+      .topmargin-sm {
+          margin-top: 20px !important;
+      }
+
+      .bulleted-list {
+          margin-left: 1.75em;
+      }
+
+      [class^="icon-"], [class*=" icon-"], [class^="icon-line-"], [class*=" icon-line-"], [class^="icon-line2-"], [class*=" icon-line2-"], .side-header #primary-menu ul > li.sub-menu > a:after {
+          display: inline-block;
+          font-family: 'font-icons';
+          speak: none;
+          font-style: normal;
+          font-weight: normal;
+          font-variant: normal;
+          text-transform: none;
+          line-height: inherit;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+      }
+
+  </style>
+
+ </head> 
+ <body> 
+    <!--<div class="container clearfix topmargin-sm" style="margin-bottom:16px;"> -->
+
+       <!-- Library for Responsive Tabs, a community fixed version was used (2nd link). https://github.com/samsono/Easy-Responsive-Tabs-to-Accordion https://github.com/davidgebbett/Tabs-to-Accordian --> 
+       <script src="../js/easyResponsiveTabs/easyResponsiveTabs.js"></script> 
+       <div> 
+        <link rel="stylesheet" href="../js/easyResponsiveTabs/easy-responsive-tabs.css" type="text/css" /> 
+        <!-- Code for configuration of the responsive Tab --> 
+        <script> $().ready(function() { $('#pageTab').easyResponsiveTabs({ type: 'default', /*Types: default, vertical, accordion*/ width: 'auto', /*auto or any custom width*/ fit: true, /*100% fits in a container*/ closed: 'accordion', /*Close the panels on start, the options 'accordion' and 'tabs' keep them closed in there respective view types*/ /*activate: function () { },*/ /*Callback function, gets called if tab is switched*/ /*tabidentify: 'tab_identifier_child',*/ /*The tab groups identifier *This should be a unique name for each tab group and should not be defined in any styling or css file.*/ activetab_bg: '#53777A', /*background color for active tabs in this group*/ inactive_bg: '#f0f0f0', /*background color for inactive tabs in this group*/ active_border_color: '#cccccc', /*border color for active tabs heads in this group*/ active_content_border_color: '#cccccc', /*border color for active tabs contect in this group so that it matches the tab head border*/ dummy: false }); /*Set t_label attribute for accordion tab */$(".resp-accordion").each(function(){var t_label = $(".resp-tab-item[aria-controls='" + $(this).attr("aria-controls") + "']").attr("t_label"); if(t_label != undefined){$(this).attr("t_label", t_label); $(this).addClass("addTrack");}}); }); </script> 
+       </div> 
+       <div> 
+        <!-- Tab Style--> 
+        <style type="text/css"> .resp-accordion, .resp-tab-item { font-weight: normal !important; border-color: #cccccc; } .resp-tab-active { color: #ffffff !important; background-color: #53777A !important; border-color: #cccccc !important; border-top: none !important; font-weight: bold !important; } .resp-tab-active .resp-arrow { border-bottom-color: #ffffff !important; } .resp-tab-content { padding-top: 25px; padding-right: 15px; padding-bottom: 25px; padding-left: 15px; } #side-navigation { margin-bottom: 30px; } @media(max-width:767px) { /*reduce left-right padding in mobile device*/ #side-navigation { margin-left: -15px; margin-right: -15px; } } </style> 
+       </div> 
+      <div id="side-navigation"> 
+       <div id="pageTab"> 
+        <ul class="resp-tabs-list"> 
+         <li class="addTrack" t_label="T1S1_CHINAPLAS">CHINAPLAS 国际橡塑展</li> 
+         <li class="addTrack" t_label="T1S1_Scope">展品范围</li> 
+         <li class="addTrack" t_label="T1S1_Visit">参观对象</li> 
+         <li class="addTrack" t_label="T1S1_History">展会历史及资料</li> 
+         <li class="addTrack" t_label="T1S1_Scale">展会规模</li> 
+         <li class="addTrack" t_label="T1S1_Video">展会视频</li> 
+        </ul> 
+        <div class="resp-tabs-container side-navigation-content"> 
+         <div id="CHINAPLAS"> 
+          <table class="table table-bordered" style="color:#666; font-size:14px; border:1px solid #CCC;">
+           <tbody> 
+            <tr> 
+             <td width="20%" style="background-color:#EEE;"><strong>展会名称</strong></td> 
+             <td width="80%" style=" border-bottom:1px solid #CCC;">第三十三届中国国际塑料橡胶工业展览会</td> 
+            </tr> 
+            <tr> 
+             <td style="background-color:#EEE;"><strong>日期</strong></td> 
+             <td style=" border-bottom:1px solid #CCC;">2019年5月21-24日</td> 
+            </tr> 
+            <tr> 
+             <td style="background-color:#EEE;"><strong>开放时间</strong></td>
+             <!--<td style="border-bottom:1px solid #CCC;"> -->
+             <td>
+              <table style="margin-bottom:0px; border: 0px !important;">
+               <tr>
+                 <td style="vertical-align:baseline; font-size:14px; color:#666; border: 0px !important; padding:0px !important; ">5月21-23日&nbsp;&nbsp;</td>
+                 <td style="vertical-align:baseline; font-size:14px;  color:#666; border: 0px !important; padding:0px !important;">09:30-17:30</td>
+                </tr>
+                <tr> 
+                 <td style="vertical-align:baseline; font-size:14px; color:#666; border: 0px !important; padding:0px !important;">5月24日</td>
+                 <td style="vertical-align:baseline; font-size:14px; color:#666; border: 0px !important; padding:0px !important;">09:30-16:00</td>
+                </tr>
+              </table> </td>
+            </tr> 
+            <tr> 
+             <td style="background-color:#EEE;"><strong>地点</strong></td> 
+             <td style="line-height:28px;">中国广州．琶洲．中国进出口商品交易会展馆<br /> [中国广州市琶洲阅江中路382号(邮编：510335)]</td> 
+            </tr> 
+           </tbody> 
+          </table> 
+          <br /> 
+          <hr />
+          <h4>18大主题专区 方便买家搜寻供货商</h4>
+          <h4>机械展品</h4> 
+          <div class="row"> 
+           <div class="col-lg-4 col-12"> 
+            <ul class="bulleted-list"> 
+             <li>3D 技术专区</li> 
+             <li>辅助设备及测试仪器专区</li> 
+             <li>中国出口机械及原材料专区</li> 
+             <li>模具及加工设备专区</li> 
+            </ul> 
+           </div> 
+           <div class="col-lg-4 col-12"> 
+            <ul class="bulleted-list"> 
+             <li>挤出机械专区</li> 
+             <li>薄膜技术专区</li> 
+             <li>注塑机械专区</li> 
+             <li>塑料包装机械专区</li> 
+            </ul> 
+           </div> 
+           <div class="col-lg-4 col-12 col_last"> 
+            <ul class="bulleted-list"> 
+             <li>橡胶机械专区</li> 
+             <li>回收再生科技专区</li> 
+             <li>智能装备专区</li> 
+            </ul> 
+           </div> 
+          </div> 
+          <br /> 
+          <hr /> 
+          <h4>原材料展示</h4> 
+          <div class="row"> 
+           <div class="col-lg-4 col-12"> 
+            <ul class="bulleted-list"> 
+             <li>添加剂专区</li> 
+             <li>生物塑料专区</li> 
+             <li>化工及原材料专区</li> 
+            </ul> 
+           </div> 
+           <div class="col-lg-4 col-12"> 
+            <ul class="bulleted-list"> 
+             <li>颜料及色母粒专区</li> 
+             <li>复合及特种材料专区</li> 
+            </ul> 
+           </div> 
+           <div class="col-lg-4 col-12 col_last"> 
+            <ul class="bulleted-list"> 
+             <li>半制成品专区</li> 
+             <li>热塑性弹性体及橡胶专区</li> 
+            </ul> 
+           </div> 
+          </div> 
+          <br /> 
+         </div>
+         <div id="Scope"> 
+          <h4>机械设备</h4> 
+          <div class="row"> 
+           <div class="col-lg-4 col-12"> 
+            <ul class="bulleted-list"> 
+             <li>3D 技术</li> 
+             <li>辅助设备</li> 
+             <li>吹塑机</li> 
+             <li>挤出机及挤出生产线</li> 
+             <li>薄膜技术</li> 
+            </ul> 
+           </div> 
+           <div class="col-lg-4 col-12"> 
+            <ul class="bulleted-list"> 
+             <li>综合自动化设备</li> 
+             <li>注塑机</li> 
+             <li>修饰，装潢，印刷及印标机械及设备</li> 
+             <li>泡沫，反应或增强树脂机械</li> 
+             <li>预加工，回收利用机械及设备</li> 
+            </ul> 
+           </div> 
+           <div class="col-lg-4 col-12 col_last"> 
+            <ul class="bulleted-list"> 
+             <li>测量及试验设备</li> 
+             <li>模具</li> 
+             <li>其它加工，后加工机械</li> 
+             <li>零部件</li> 
+             <li>压机，焊机</li> 
+            </ul> 
+           </div> 
+          </div> 
+          <br /> 
+          <hr /> 
+          <h4>原料丶辅料</h4> 
+          <div class="row"> 
+           <div class="col-lg-4 col-12"> 
+            <ul class="bulleted-list"> 
+             <li>3D 打印材料</li> 
+             <li>添加剂</li> 
+             <li>粘合剂和胶</li> 
+             <li>生物塑料</li> 
+             <li>涂布用配混料</li> 
+            </ul> 
+           </div> 
+           <div class="col-lg-4 col-12"> 
+            <ul class="bulleted-list"> 
+             <li>颜料及色母粒</li> 
+             <li>填充料及增强料</li> 
+             <li>泡沫塑料及中间体</li> 
+             <li>复合材料及增强纤维</li> 
+             <li>橡胶</li> 
+            </ul> 
+           </div> 
+           <div class="col-lg-4 col-12 col_last"> 
+            <ul class="bulleted-list"> 
+             <li>热塑性弹性体</li> 
+             <li>热塑性塑料</li> 
+             <li>半制成品</li> 
+            </ul> 
+           </div> 
+          </div> 
+          <br /> 
+          <hr /> 
+         </div> 
+         <div id="Visit"> 
+          <h4>CHINAPLAS 国际橡塑展的参观对象包括下列行业的产品制造商 / 分销商 / 代理商 / 服务单位:</h4> 
+          <div class="row"> 
+           <div class="col-lg-4 col-12"> 
+            <ul class="bulleted-list"> 
+             <li>汽车</li> 
+             <li>建筑、城市基建</li> 
+             <li>化工及原材料</li> 
+             <li>电子信息及电器</li> 
+             <li>包装终端使用者（包括食品、饮料、日化等）</li> 
+             <li>通用塑料制品</li> 
+            </ul> 
+           </div> 
+           <div class="col-lg-4 col-12"> 
+            <ul class="bulleted-list"> 
+             <li>照明及LED</li> 
+             <li>机械制造</li> 
+             <li>医疗</li> 
+             <li>模具</li> 
+             <li>包装</li> 
+            </ul> 
+           </div> 
+           <div class="col-lg-4 col-12 col_last"> 
+            <ul class="bulleted-list"> 
+             <li>塑料家具</li> 
+             <li>循环再用</li> 
+             <li>橡胶制品</li> 
+             <li>电线电缆</li> 
+             <li>其它: 玩具、文教、体育用品及工具等</li> 
+            </ul> 
+           </div> 
+          </div> 
+          <br /> 
+         </div>
+         <div id="History"> 
+          <h4>展会历史</h4> 
+          <div>
+            “CHINAPLAS 国际橡塑展”伴随着中国塑料及橡胶行业成长逾30年，至今已发展成为亚洲最具规模之橡塑业展会，并对中国橡塑业的发展产生了积极的推动作用。目前，“CHINAPLAS 国际橡塑展”已是全球领先的塑料橡胶业展览会，业内人士更公认其影响力仅次于德国“K展”，成为橡塑业的全球最顶尖的展会之一。 
+          </div> 
+          <br /> 
+          <hr /> 
+          <h4>全球展览业协会(UFI) 认可的塑料橡胶工业展</h4> 
+          <div>
+            “CHINAPLAS 国际橡塑展”荣获全球展览业协会(UFI)列为“UFI认可展会”。 “CHINAPLAS 国际橡塑展” 自2006年起成为全球展览业协会(UFI) 认可的塑料橡胶工业展，反映 “CHINAPLAS 国际橡塑展” 无论在国际性、展商及观众服务的专业程度，以及项目管理模式的系统化方面，都具备优良素质。 
+          </div> 
+          <br /> 
+          <hr /> 
+          <div>
+            自1987年开始，“CHINAPLAS 国际橡塑展”已获欧洲塑料和橡胶工业机械制造商协会(EUROMAP)支持，列为支持展会。“CHINAPLAS 2019 国际橡塑展”将是连续第30次荣获EUROMAP独家赞助的中国橡塑展览会。 
+           <br /> 
+           <br /> 一直以来，EUROMAP积极推行展会政策，一方面为全球塑料橡胶企业在选择有影响力以及高质量的橡塑展参展及参观时，提供一个可靠的参考指标，另方面亦能遏制一些业内低质素的展会。每年，全球的橡塑工业展数不胜数，而EUROMAP仅对业内部分展会给予支持，此等展会皆属国际性及高质素的展会，包括“K展”、“NPE展”、“CHINAPLAS 国际橡塑展”等。 
+          </div> 
+          <br /> 
+         </div>
+         <div id="Scale"> 
+          <h4>2019 展会规模 (预计)</h4> 
+          <style type="text/css"> .icon-counting { max-width: 64px !important; max-height: 64px !important; } .icon-counting-div { width: 64px !important; height: 64px !important; } .counter { font-size: 36px !important; } </style> 
+          <div class="row mx-lg-5 mx-md-2 centerOut"> 
+           <div class="col-md-3 col-12 Eheight center"> 
+            <div class="icon-counting-div"> 
+             <img class="icon-counting" src="images/icon_area.png" alt="" /> 
+            </div> 
+            <div class="counter" style="color: #e74c3c;"> 
+             <span>250,000+</span> 
+            </div> 展会总面积 (平方米) 
+            <br /> 
+            <br /> &nbsp; 
+           </div> 
+           <div class="padding Eheight colBig center">
+           <div class="div2"> 
+            <div class="icon-counting-div"> 
+             <img class="icon-counting" src="images/icon_exhibitor.png" alt="" /> 
+            </div> 
+            <div class="counter" style="color: #69a042;"> 
+             <span>3500+</span> 
+            </div> 展商数目 
+            <br /> 
+            <br /> &nbsp; 
+           </div> 
+           <div class="div2"> 
+            <div class="icon-counting-div"> 
+             <img class="icon-counting" src="images/icon_countries.png" alt="" /> 
+            </div> 
+            <div class="counter" style="color: #69a042;"> 
+             <span>40</span> 
+            </div> 参展国家及地区数目 
+            <br /> 
+            <br /> &nbsp; 
+           </div> 
+           </div>
+           <div class="col-md-3 col-12 Eheight center col_last"> 
+            <div class="icon-counting-div"> 
+             <img class="icon-counting" src="images/icon_visitors.png" alt="" /> 
+            </div> 
+            <div class="counter" style="color: #1b69ac;"> 
+             <span>180,000+</span> 
+            </div> 参观人数 
+            <br /> 
+            <br /> &nbsp; 
+           </div> 
+          </div> 
+          <hr /> 
+          <br /> 
+          <div style="overflow-x:auto;"> 
+           <table class="table table-bordered" style="color:#666; font-size:14px; border:1px solid #CCC;">
+            <tbody> 
+             <tr> 
+              <td style="background-color:#EEE; min-width:110px;">&nbsp;</td> 
+              <td style="background-color:#EEE;">2018</td> 
+              <td style="background-color:#EEE;">2017</td> 
+              <td style="background-color:#EEE;">2016</td> 
+             </tr> 
+             <tr> 
+              <td style="background-color:#EEE;">展会总面积 (平方米)</td> 
+              <td style=" border-bottom:1px solid #CCC;">340,000</td> 
+              <td style=" border-bottom:1px solid #CCC;">250,000</td> 
+              <td style=" border-bottom:1px solid #CCC;">240,000+</td> 
+             </tr> 
+             <tr> 
+              <td style="background-color:#EEE;">展商数目</td> 
+              <td style=" border-bottom:1px solid #CCC;">4,000</td> 
+              <td style=" border-bottom:1px solid #CCC;">3,465</td> 
+              <td style=" border-bottom:1px solid #CCC;">3,335</td> 
+             </tr> 
+             <tr> 
+              <td style="background-color:#EEE;">参展国家及地区数目</td> 
+              <td style=" border-bottom:1px solid #CCC;">40</td> 
+              <td style=" border-bottom:1px solid #CCC;">38</td> 
+              <td style=" border-bottom:1px solid #CCC;">39</td> 
+             </tr> 
+             <tr> 
+              <td style="background-color:#EEE;">参观人数</td> 
+              <td style=" border-bottom:1px solid #CCC;">180,000+</td> 
+              <td style=" border-bottom:1px solid #CCC;">155,258</td> 
+              <td style=" border-bottom:1px solid #CCC;">148,575</td> 
+             </tr> 
+            </tbody> 
+           </table> 
+          </div> 
+         </div>
+         <div id="Video"> 
+          <div style="text-align:center;"> 
+           <!-- Show Video Start--> 
+           <!--&lt;!&ndash; Magnific Popup core CSS file &ndash;&gt; -->
+           <!--&lt;!&ndash;<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css" /> &ndash;&gt;-->
+           <!--&lt;!&ndash;&lt;!&ndash; Magnific Popup core JS file &ndash;&gt; &ndash;&gt;-->
+           <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script> -->
+           <!-- CSS for video grids--> 
+           <style type="text/css"> .video-img-container { position: relative; } /* A preview image with a 'play' video icon in the certer. */ .video-img-container .play-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); border: none; cursor: pointer; text-align: center; width: 70px !important; height: 70px !important; } .video-img {} .video-grid {  } </style>
+           <!--margin-bottom: 2rem; text-align: center;-->
+           <style type="text/css"> .video-category-text { font-size: 20px; text-align: left; padding-bottom: 20px; /*color: #e8340c;*/ } .video-bottom-text { /*text-align: left;*/ padding-top: 8px; } </style> 
+           <div> 
+            <!-- video category - Show Opening --> 
+            <div class="video-category-text">
+              2019 展会宣传片 
+            </div> 
+            <!-- video grids --> 
+            <div class="row"> 
+             <div class="col-lg-4 col-md-4 col-12">
+              <a href="https://cdn.adsalecdn.com/CloudFiles/cpscdn/CPS18_ShowOpening.mp4" class="video-img-container" t_label="ShowVideo_2019Opening" key="CPS18_ShowOpening" target="_blank"> <img class="video-img" src="images/CPS18_ShowOpening.jpg" alt="" /> <img class="play-icon" src="images/icon_play.png?v=1" alt="" /> </a>
+             </div> 
+            </div> 
+            <!-- horizontal separator --> 
+            <hr /> 
+            <!-- video category - Automotive --> 
+            <div class="video-category-text">
+              汽车行业 精彩热点 
+            </div> 
+            <!-- video grids --> 
+            <div class="row"> 
+             <div class="video-grid col-lg-4 col-md-4 col-12"> 
+              <a href="https://cdn.adsalecdn.com/CloudFiles/cpscdn/CPS19_SectorAuto.mp4" class="video-img-container" t_label="ShowVideo_Automotive" key="CPS19_SectorAuto"> <img class="video-img" src="images/CPS19_SectorAuto.jpg" alt="" /> <img class="play-icon" src="images/icon_play.png?v=1" alt="" /> </a> 
+             </div> 
+            </div> 
+            <!-- horizontal separator --> 
+            <hr /> 
+            <!-- video category--> 
+            <div class="video-category-text">
+              汽车行业 观众分享 
+            </div> 
+            <!-- video grids --> 
+            <div class="row"> 
+             <div class="video-grid col-lg-4 col-md-4 col-12"> 
+              <a href="https://cdn.adsalecdn.com/CloudFiles/cpscdn/CPS19_VistorInterview_Cooltec_Industries_Sdn_Bhd.mp4" class="video-img-container" t_label="ShowVideo_Automotive_Company1" key="CPS19_VistorInterview_Cooltec_Industries_Sdn_Bhd"> <img class="video-img" src="images/CPS19_VistorInterview_Cooltec_Industries_Sdn_Bhd.jpg" alt="" /> <img class="play-icon" src="images/icon_play.png?v=1" alt="" /> </a> 
+              <div class="video-bottom-text">
+                Cooltec Industries Sdn Bhd 
+              </div> 
+             </div> 
+             <div class="video-grid col-lg-4 col-md-4 col-12"> 
+              <a href="https://cdn.adsalecdn.com/CloudFiles/cpscdn/CPS19_VistorInterview_MECAPLAST_GROUP.mp4" class="video-img-container" t_label="ShowVideo_Automotive_Company2" key="CPS19_VistorInterview_MECAPLAST_GROUP"> <img class="video-img" src="images/CPS19_VistorInterview_MECAPLAST_GROUP.jpg" alt="" /> <img class="play-icon" src="images/icon_play.png?v=1" alt="" /> </a> 
+              <div class="video-bottom-text">
+                美嘉帕拉斯特汽车零件部 
+              </div> 
+             </div> 
+             <div class="video-grid col-lg-4 col-md-4 col-12"> 
+              <a href="https://cdn.adsalecdn.com/CloudFiles/cpscdn/CPS19_VistorInterview_Zhengzhou_Jingyida_Auto_Parts_Co_Ltd.mp4" class="video-img-container" t_label="ShowVideo_Automotive_Company3" key="CPS19_VistorInterview_Zhengzhou_Jingyida_Auto_Parts_Co_Ltd"> <img class="video-img" src="images/CPS19_VistorInterview_Zhengzhou_Jingyida_Auto_Parts_Co_Ltd.jpg" alt="" /> <img class="play-icon" src="images/icon_play.png?v=1" alt="" /> </a> 
+              <div class="video-bottom-text">
+                郑州精益达汽车零部件有限公司 
+              </div> 
+             </div> 
+            </div> 
+            <!-- horizontal separator --> 
+            <hr /> 
+            <!-- video category Building --> 
+            <div class="video-category-text">
+              建筑行业 精彩热点 
+            </div> 
+            <!-- video grids --> 
+            <div class="row"> 
+             <div class="video-grid col-lg-4 col-md-4 col-12"> 
+              <a href="https://cdn.adsalecdn.com/CloudFiles/cpscdn/CPS19_SectorBuilding.mp4" class="video-img-container" t_label="ShowVideo_Building" key="CPS19_SectorBuilding"> <img class="video-img" src="images/CPS19_SectorBuilding.jpg" alt="" /> <img class="play-icon" src="images/icon_play.png?v=1" alt="" /> </a> 
+             </div> 
+            </div> 
+            <!-- horizontal separator --> 
+            <hr /> 
+            <!-- video category --> 
+            <div class="video-category-text">
+              建筑行业 观众分享 
+            </div> 
+            <!-- video grids --> 
+            <div class="row"> 
+             <div class="video-grid col-lg-4 col-md-4 col-12"> 
+              <a href="https://cdn.adsalecdn.com/CloudFiles/cpscdn/CPS19_VistorInterview_JKM_WPC_Industrial_Corporation.mp4" class="video-img-container" t_label="ShowVideo_Building_Company1" key="CPS19_VistorInterview_JKM_WPC_Industrial_Corporation"> <img class="video-img" src="images/CPS19_VistorInterview_JKM_WPC_Industrial_Corporation.jpg" alt="" /> <img class="play-icon" src="images/icon_play.png?v=1" alt="" /> </a> 
+              <div class="video-bottom-text">
+                安徽捷科新材料有限公司 
+              </div> 
+             </div> 
+            </div> 
+            <!-- horizontal separator --> 
+            <hr /> 
+            <!-- video category - E&E --> 
+            <div class="video-category-text">
+              电子行业 精彩热点 
+            </div> 
+            <!-- video grids --> 
+            <div class="row"> 
+             <div class="video-grid col-lg-4 col-md-4 col-12"> 
+              <a href="https://cdn.adsalecdn.com/CloudFiles/cpscdn/CPS19_SectorEandE.mp4" class="video-img-container" t_label="ShowVideo_E&amp;E" key="CPS19_SectorEandE"> <img class="video-img" src="images/CPS19_SectorEandE.jpg" alt="" /> <img class="play-icon" src="images/icon_play.png?v=1" alt="" /> </a> 
+             </div> 
+            </div> 
+            <!-- horizontal separator --> 
+            <hr /> 
+            <!-- video category --> 
+            <div class="video-category-text">
+              电子行业 观众分享 
+            </div> 
+            <!-- video grids --> 
+            <div class="row"> 
+             <div class="video-grid col-lg-4 col-md-4 col-12"> 
+              <a href="https://cdn.adsalecdn.com/CloudFiles/cpscdn/CPS19_VistorInterview_Dpstar_Thermo_Control_Electric_Sdn_Bhd.mp4" class="video-img-container" t_label="ShowVideo_E&amp;E_Company1" key="CPS19_VistorInterview_Dpstar_Thermo_Control_Electric_Sdn_Bhd"> <img class="video-img" src="images/CPS19_VistorInterview_Dpstar_Thermo_Control_Electric_Sdn_Bhd.jpg" alt="" /> <img class="play-icon" src="images/icon_play.png?v=1" alt="" /> </a> 
+              <div class="video-bottom-text">
+                Dpstar Thermo Control Electric Sdn Bhd 
+              </div> 
+             </div> 
+             <div class="video-grid col-lg-4 col-md-4 col-12"> 
+              <a href="https://cdn.adsalecdn.com/CloudFiles/cpscdn/CPS19_VistorInterview_Fitbit_Inc.mp4" class="video-img-container" t_label="ShowVideo_E&amp;E_Company2" key="CPS19_VistorInterview_Fitbit_Inc"> <img class="video-img" src="images/CPS19_VistorInterview_Fitbit_Inc.jpg" alt="" /> <img class="play-icon" src="images/icon_play.png?v=1" alt="" /> </a> 
+              <div class="video-bottom-text">
+                蜚比健康科技(上海)有限公司珠海分公司 
+              </div> 
+             </div> 
+             <div class="video-grid col-lg-4 col-md-4 col-12"> 
+              <a href="https://cdn.adsalecdn.com/CloudFiles/cpscdn/CPS19_VistorInterview_Panasonic_Home_Appliance.mp4" class="video-img-container" t_label="ShowVideo_E&amp;E_Company3" key="CPS19_VistorInterview_Panasonic_Home_Appliance"> <img class="video-img" src="images/CPS19_VistorInterview_Panasonic_Home_Appliance.jpg" alt="" /> <img class="play-icon" src="images/icon_play.png?v=1" alt="" /> </a> 
+              <div class="video-bottom-text">
+                松下家电研究开发(杭州)有限公司 
+              </div> 
+             </div> 
+            </div> 
+            <!-- horizontal separator --> 
+            <hr /> 
+            <!-- video category - Medical --> 
+            <div class="video-category-text">
+              医疗行业 精彩热点 
+            </div> 
+            <!-- video grids --> 
+            <div class="row"> 
+             <div class="video-grid col-lg-4 col-md-4 col-12"> 
+              <a href="https://cdn.adsalecdn.com/CloudFiles/cpscdn/CPS19_SectorMedical.mp4" class="video-img-container" t_label="ShowVideo_Medical" key="CPS19_SectorMedical"> <img class="video-img" src="images/CPS19_SectorMedical.jpg" alt="" /> <img class="play-icon" src="images/icon_play.png?v=1" alt="" /> </a> 
+             </div> 
+            </div> 
+            <!-- horizontal separator --> 
+            <hr /> 
+            <!-- video category --> 
+            <div class="video-category-text">
+              医疗行业 观众分享 
+            </div> 
+            <!-- video grids --> 
+            <div class="row"> 
+             <div class="video-grid col-lg-4 col-md-4 col-12"> 
+              <a href="https://cdn.adsalecdn.com/CloudFiles/cpscdn/CPS19_VistorInterview_Ambu_Ltd.mp4" class="video-img-container" t_label="ShowVideo_Medical_Company1" key="CPS19_VistorInterview_Ambu_Ltd"> <img class="video-img" src="images/CPS19_VistorInterview_Ambu_Ltd.jpg" alt="" /> <img class="play-icon" src="images/icon_play.png?v=1" alt="" /> </a> 
+              <div class="video-bottom-text">
+                安保(厦门)塑胶工业有限公司 
+              </div> 
+             </div> 
+             <div class="video-grid col-lg-4 col-md-4 col-12"> 
+              <a href="https://cdn.adsalecdn.com/CloudFiles/cpscdn/CPS19_VistorInterview_WEGO.mp4" class="video-img-container" t_label="ShowVideo_Medical_Company2" key="CPS19_VistorInterview_WEGO"> <img class="video-img" src="images/CPS19_VistorInterview_WEGO.jpg" alt="" /> <img class="play-icon" src="images/icon_play.png?v=1" alt="" /> </a> 
+              <div class="video-bottom-text">
+                威高集团采购公司 
+              </div> 
+             </div> 
+            </div> 
+            <!-- horizontal separator --> 
+            <hr /> 
+            <!-- video category - Packaging --> 
+            <div class="video-category-text">
+              包装行业 精彩热点 
+            </div> 
+            <!-- video grids --> 
+            <div class="row"> 
+             <div class="video-grid col-lg-4 col-md-4 col-12"> 
+              <a href="https://cdn.adsalecdn.com/CloudFiles/cpscdn/CPS19_SectorPackaging.mp4" class="video-img-container" t_label="ShowVideo_Packaging" key="CPS19_SectorPackaging"> <img class="video-img" src="images/CPS19_SectorPackaging.jpg" alt="" /> <img class="play-icon" src="images/icon_play.png?v=1" alt="" /> </a> 
+             </div> 
+            </div> 
+            <!-- horizontal separator --> 
+            <hr /> 
+            <!-- video category --> 
+            <div class="video-category-text">
+              包装行业 观众分享 
+            </div> 
+            <!-- video grids --> 
+            <div class="row"> 
+             <div class="video-grid col-lg-4 col-md-4 col-12"> 
+              <a href="https://cdn.adsalecdn.com/CloudFiles/cpscdn/CPS19_VistorInterview_Hangzhou_Wahaha_Precision_Machinery_Co_Ltd.mp4" class="video-img-container" t_label="ShowVideo_Packaging_Company1" key="CPS19_VistorInterview_Hangzhou_Wahaha_Precision_Machinery_Co_Ltd"> <img class="video-img" src="images/CPS19_VistorInterview_Hangzhou_Wahaha_Precision_Machinery_Co_Ltd.jpg" alt="" /> <img class="play-icon" src="images/icon_play.png?v=1" alt="" /> </a> 
+              <div class="video-bottom-text">
+                杭州娃哈哈精密机械有限公司 
+              </div> 
+             </div> 
+             <div class="video-grid col-lg-4 col-md-4 col-12"> 
+              <a href="https://cdn.adsalecdn.com/CloudFiles/cpscdn/CPS19_VistorInterview_Shanghai_Zihua_Enterprise_Co_Ltd.mp4" class="video-img-container" t_label="ShowVideo_Packaging_Company2" key="CPS19_VistorInterview_Shanghai_Zihua_Enterprise_Co_Ltd"> <img class="video-img" src="images/CPS19_VistorInterview_Shanghai_Zihua_Enterprise_Co_Ltd.jpg" alt="" /> <img class="play-icon" src="images/icon_play.png?v=1" alt="" /> </a> 
+              <div class="video-bottom-text">
+                上海紫华企业有限公司 
+              </div> 
+             </div> 
+            </div> 
+            <!-- horizontal separator --> 
+            <hr /> 
+           </div> 
+           <script> /*Requires Magnific Popup http://dimsemenov.com/plugins/magnific-popup/documentation.html Reference : https://codepen.io/dimsemenov/pen/sHoxp Define data for the popup, if more than 1 item exists, the pop-up will have a pair fo left right arrow " < > "*/ var data = [{}]; function hasMultipleLang(key) { if (key == "CPS18_ShowOpening") { return true; } else { return false; } } /*Initalize magnific popup*/ $().ready(new function () { /* initalize popup*/ $('.video-img-container').magnificPopup({ key: 'video-popup', items: data, type: 'inline', inline: { markup: '<div id="video_popup_container" class="block divcenter" align="center" style="background-color: #000; max-height:80%;">' + '<video id="video_popup" style="margin:auto; max-width:100%;" preload="metadata" controls poster="">' + '<source id="video_popup_source_1" src="" type="video/mp4">' + '</video>' + '</div>' }, gallery: { enabled: true }, callbacks: { open: function () { console.log('open'); /*video.load() is need to call if video source is updated.*/ document.getElementById("video_popup").load(); document.getElementById("video_popup").play(); }, close: function () { console.log('close'); document.getElementById("video_popup").pause(); }, markupParse: function (template, values, item) { /* optionally apply your own logic - modify "template" element based on data in "values"*/ /*Calculate the max height to prevent <video> element over the screen size*/ console.log("window height:" + $(window).height()); var maxHeight = $(window).height() * 0.85; template.find("#video_popup").css("max-height", maxHeight + "px"); /*Change pop-up content (it is intented to always keep only 1 <video> element to avoid using too much resources)*/ console.log('Parsing:', template, values, item); console.log($('#video_popup')); /*Get the Key Attribute of te triggering <a> element*/ console.log(this.st.el.attr("key")); var key = this.st.el.attr("key"); /*Set Video Poster*/ if (!hasMultipleLang(key)) { template.find("#video_popup").attr("poster", "/CPS19/Files/Image/Video/" + key + ".jpg"); } else { template.find("#video_popup").attr("poster", "/CPS19/Files/Image/Video/cp936/" + key + ".jpg"); } /*Set Video Source*/ template.find("#video_popup_source_1").attr("src", "https://adsalecdn.adsale.com.hk/" + key + ".mp4"); } } }); /* end of initalize popup*/ }); </script> 
+           <!-- Show Video End--> 
+          </div> 
+         </div> 
+        </div> 
+       </div> 
+      </div>  
+      <!--</div> -->
+
+ </body>
+</html>

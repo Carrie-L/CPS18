@@ -65,7 +65,7 @@
                 android:id="@+id/btnDate1"
                 style="@style/schedule_date_style"
                 android:checked="true"
-                android:text="24"
+                android:text="21"
                 android:onClick="@{() -> scheduleModel.onDateClick(Constant.SCHEDULE_DAY01)}"
                 />
 
@@ -77,7 +77,7 @@
             <RadioButton
                 android:id="@+id/btnDate2"
                 style="@style/schedule_date_style"
-                android:text="25"
+                android:text="22"
                 android:onClick="@{() -> scheduleModel.onDateClick(Constant.SCHEDULE_DAY02)}"
                 />
 
@@ -89,7 +89,7 @@
             <RadioButton
                 android:id="@+id/btnDate3"
                 style="@style/schedule_date_style"
-                android:text="26"
+                android:text="23"
                 android:onClick="@{() -> scheduleModel.onDateClick(Constant.SCHEDULE_DAY03)}"
                 />
 
@@ -101,7 +101,7 @@
             <RadioButton
                 android:id="@+id/btnDate4"
                 style="@style/schedule_date_style"
-                android:text="27"
+                android:text="24"
                 android:onClick="@{() -> scheduleModel.onDateClick(Constant.SCHEDULE_DAY_END)}"
                 />
 
@@ -138,7 +138,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_add_white"
-            app:backgroundTint="@color/home"
+            app:backgroundTint="@color/colorAccent"
             app:fabSize="normal"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"

@@ -10,6 +10,7 @@ import android.text.TextUtils;
 
 import com.adsale.ChinaPlas.dao.NameCard;
 import com.adsale.ChinaPlas.data.NameCardRepository;
+import com.adsale.ChinaPlas.helper.OnHelpCallback;
 import com.adsale.ChinaPlas.utils.AESCrypt;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
@@ -274,6 +275,16 @@ public class NCardViewModel {
 
     public void delete() {
 //        mRepository.deleteItemData();
+    }
+
+    public void onHelpPage() {
+        mHelpCallback.show();
+    }
+
+    private OnHelpCallback mHelpCallback;
+
+    public void setOnHelpCallback(OnHelpCallback callback) {
+        mHelpCallback = callback;
     }
 
 

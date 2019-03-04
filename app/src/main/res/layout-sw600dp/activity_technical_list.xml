@@ -54,7 +54,7 @@
                     android:id="@+id/tv_day1"
                     style="@style/tech_date_style"
                     android:layout_below="@id/tv_all"
-                    android:text="@string/event_btn_24" />
+                    android:text="@string/event_btn_1" />
 
                 <ImageView
                     android:id="@+id/iv_line1"
@@ -86,7 +86,7 @@
                     style="@style/tech_date_style"
                     android:layout_alignTop="@id/tv_day1"
                     android:layout_toRightOf="@id/tv_day1"
-                    android:text="@string/event_btn_25" />
+                    android:text="@string/event_btn_2" />
 
                 <ImageView
                     android:id="@+id/iv_line2"
@@ -118,7 +118,7 @@
                     style="@style/tech_date_style"
                     android:layout_below="@id/tv_pm1"
                     android:layout_marginTop="16dp"
-                    android:text="@string/event_btn_26" />
+                    android:text="@string/event_btn_3" />
 
                 <ImageView
                     android:id="@+id/tv_line3"
@@ -150,7 +150,7 @@
                     style="@style/tech_date_style"
                     android:layout_toEndOf="@id/tv_day3"
                     android:layout_alignTop="@id/tv_day3"
-                    android:text="@string/event_btn_27" />
+                    android:text="@string/event_btn_4" />
 
                 <ImageView
                     android:id="@+id/tv_line4"

@@ -122,7 +122,7 @@ public class UpdateCenter {
                 repository.updateLocalLUT(entity);
             }
 
-            if (entity.getScanFile().equals(Constant.TXT_AD)) { // 广告文件总是下载
+            if (entity.getScanFile().equals(Constant.TXT_AD) || entity.getScanFile().equals(Constant.TXT_MAIN_PIC_INFO)) { // 广告  Menu  文件总是下载
                 updates.add(entity);
             }
 

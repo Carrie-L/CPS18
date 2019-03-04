@@ -1,14 +1,26 @@
 package com.adsale.ChinaPlas.data;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 
 import com.adsale.ChinaPlas.App;
+import com.adsale.ChinaPlas.dao.Application;
+import com.adsale.ChinaPlas.dao.ConcurrentEvent;
+import com.adsale.ChinaPlas.dao.ConcurrentEventDao;
+import com.adsale.ChinaPlas.dao.EventApplication;
+import com.adsale.ChinaPlas.dao.EventApplicationDao;
+import com.adsale.ChinaPlas.dao.MainIconDao;
+import com.adsale.ChinaPlas.dao.News;
+import com.adsale.ChinaPlas.dao.NewsDao;
+import com.adsale.ChinaPlas.dao.NewsLink;
+import com.adsale.ChinaPlas.dao.NewsLinkDao;
 import com.adsale.ChinaPlas.dao.SeminarInfo;
 import com.adsale.ChinaPlas.dao.SeminarInfoDao;
 import com.adsale.ChinaPlas.dao.SeminarSpeaker;
 import com.adsale.ChinaPlas.dao.SeminarSpeakerDao;
 import com.adsale.ChinaPlas.dao.UpdateCenter;
 import com.adsale.ChinaPlas.dao.UpdateCenterDao;
+import com.adsale.ChinaPlas.dao.WebContent;
 import com.adsale.ChinaPlas.dao.WebContentDao;
 import com.adsale.ChinaPlas.data.model.adAdvertisementObj;
 import com.adsale.ChinaPlas.helper.ADHelper;
@@ -34,10 +46,14 @@ public class OtherRepository {
     private SeminarSpeakerDao mSeminarSpeakerDao;
     private UpdateCenterDao mUpdateCenterDao;
     private WebContentDao mWebContentDao;
+    private NewsDao mNewsDao;
+    private NewsLinkDao mNewsLinkDao;
+    private ConcurrentEventDao mEventDao;
+    private EventApplicationDao mEventAppDao;
 
     public static OtherRepository getInstance() {
         if (INSTANCE == null) {
-            return new OtherRepository();
+            INSTANCE = new OtherRepository();
         }
         return INSTANCE;
     }
@@ -179,7 +195,7 @@ public class OtherRepository {
     public SeminarInfo getItemSeminarInfo(String eventId) {
         checkSeminarInfoDao();
         List<SeminarInfo> list = mSeminarInfoDao.queryBuilder().where(SeminarInfoDao.Properties.EventID.eq(eventId)
-                ,SeminarInfoDao.Properties.LangID.eq(App.mLanguage.get()==0?950:App.mLanguage.get()==1?1252:936)).list();
+                , SeminarInfoDao.Properties.LangID.eq(App.mLanguage.get() == 0 ? 950 : App.mLanguage.get() == 1 ? 1252 : 936)).list();
         if (list.isEmpty()) {
             return null;
         } else {
@@ -196,6 +212,24 @@ public class OtherRepository {
     private void checkSeminarSpeakerDao() {
         if (mSeminarSpeakerDao == null) {
             initSeminarSpeakDao();
+        }
+    }
+
+    private void checkWebContentDao() {
+        if (mWebContentDao == null) {
+            initWebContentDao();
+        }
+    }
+
+    private void checkNewsDao() {
+        if (mNewsDao == null) {
+            initNewsDao();
+        }
+    }
+
+    private void checkNewsLinkDao() {
+        if (mNewsLinkDao == null) {
+            initNewsLinkDao();
         }
     }
 
@@ -266,13 +300,165 @@ public class OtherRepository {
         mWebContentDao = App.mDBHelper.mWebContentDao;
     }
 
-    public String getPreHeader(int language) {
-        return mWebContentDao.queryBuilder().whereOr(WebContentDao.Properties.TitleTW.eq("pre-reg header"), WebContentDao.Properties.TitleCN.eq("pre-reg header"), WebContentDao.Properties.TitleEN.eq("pre-reg header")).list().get(0).getContent(language);
+    /* ```````````````[ WebContnet]`````````````````````````````` */
+    public String geWebContentLUT() {
+        checkWebContentDao();
+        List<WebContent> list = mWebContentDao.queryBuilder().orderDesc(WebContentDao.Properties.UpdatedAt).limit(1).list();
+        if (list != null && list.size() > 0) {
+            return list.get(0).getUpdatedAt();
+        }
+        return "";
     }
 
-    public String getPreFooter(int language) {
-        return mWebContentDao.queryBuilder().whereOr(WebContentDao.Properties.TitleTW.eq("pre-reg footer"), WebContentDao.Properties.TitleCN.eq("pre-reg footer"), WebContentDao.Properties.TitleEN.eq("pre-reg footer")).list().get(0).getContent(language);
+    public void updateOrInsertWebContents(List<WebContent> entities) {
+        checkWebContentDao();
+        mWebContentDao.insertOrReplaceInTx(entities);
     }
 
+    public void updateOrInsertWebContent(WebContent entity) {
+        checkWebContentDao();
+        mWebContentDao.insertOrReplace(entity);
+    }
+
+
+    /* ```````````````[ News]`````````````````````````````` */
+    private void initNewsDao() {
+        mNewsDao = App.mDBHelper.mNewsDao;
+    }
+
+    private void initNewsLinkDao() {
+        mNewsLinkDao = App.mDBHelper.mLinkDao;
+    }
+
+    public String getNewsLUT() {
+        checkNewsDao();
+        List<News> list = mNewsDao.queryBuilder().orderDesc(NewsDao.Properties.UpdatedAt).limit(1).list();
+        if (list != null && list.size() > 0) {
+            return list.get(0).getUpdateDateTime();
+        }
+        return "";
+    }
+
+    public String getNewsLinkLUT() {
+        checkNewsLinkDao();
+        List<NewsLink> list = mNewsLinkDao.queryBuilder().orderDesc(NewsLinkDao.Properties.UpdatedAt).limit(1).list();
+        if (list != null && list.size() > 0) {
+            return list.get(0).getUpdateDateTime();
+        }
+        return "";
+    }
+
+    public void updateOrInsertNews(List<News> entities) {
+        checkNewsDao();
+        mNewsDao.insertOrReplaceInTx(entities);
+    }
+
+    /* ```````````````[ ConcurrentEvent]`````````````````````````````` */
+
+    private void checkEventDao() {
+        if (mEventDao == null) {
+            initEventDao();
+        }
+    }
+
+    private void initEventDao() {
+        mEventDao = App.mDBHelper.mEventDao;
+    }
+
+    public String getEventLUT() {
+        checkEventDao();
+        List<ConcurrentEvent> list = mEventDao.queryBuilder().orderDesc(ConcurrentEventDao.Properties.UpdatedAt).limit(1).list();
+        if (list != null && list.size() > 0) {
+            return list.get(0).getUpdatedAt();
+        }
+        return "";
+    }
+
+    public void updateOrInsertEvents(List<ConcurrentEvent> entities) {
+        checkEventDao();
+        mEventDao.insertOrReplaceInTx(entities);
+    }
+
+    public ArrayList<ConcurrentEvent> getEvents() {
+        checkEventDao();
+        ArrayList<ConcurrentEvent> list = new ArrayList<ConcurrentEvent>();
+        list = (ArrayList<ConcurrentEvent>) mEventDao.queryBuilder().where(ConcurrentEventDao.Properties.IsDelete.eq(0)).orderDesc(ConcurrentEventDao.Properties.seq).list();
+        return list;
+    }
+
+    /**
+     * 不重复的zip包
+     * @return
+     */
+    public ArrayList<ConcurrentEvent> getEventsNonRepeatZip() {
+        checkEventDao();
+        ConcurrentEvent entity;
+        ArrayList<ConcurrentEvent> list = new ArrayList<ConcurrentEvent>();
+        Cursor cursor = App.mDBHelper.db.rawQuery("select * from ConcurrentEvent group by " + ConcurrentEventDao.Properties.EventID.columnName, null);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                entity = mEventDao.readEntity(cursor, 0);
+                list.add(entity);
+            }
+            cursor.close();
+        }
+        return list;
+    }
+
+    public void updateEventIsDown(String pageID, boolean needDown) {
+        ContentValues cv = new ContentValues();
+        cv.put("needDown", needDown);
+        App.mDBHelper.db.update(ConcurrentEventDao.TABLENAME, cv, "PageID = ?", new String[]{pageID});
+    }
+
+    public ConcurrentEvent getItemEvent(String eventId) {
+        checkEventDao();
+        return mEventDao.load(eventId);
+    }
+
+     /* ```````````````[ EventApplication ]`````````````````````````````` */
+
+    private void checkEventAppDao() {
+        if (mEventAppDao == null) {
+            initEventAppDao();
+        }
+    }
+
+    private void initEventAppDao() {
+        mEventAppDao = App.mDBHelper.mEventAppDao;
+    }
+
+    public String getEventAppLUT() {
+        checkEventAppDao();
+        List<EventApplication> list = mEventAppDao.queryBuilder().orderDesc(EventApplicationDao.Properties.UpdatedAt).limit(1).list();
+        if (list != null && list.size() > 0) {
+            return list.get(0).getUpdatedAt();
+        }
+        return "";
+    }
+
+    public void updateOrInsertEventApplications(List<EventApplication> entities) {
+        checkEventAppDao();
+        mEventAppDao.insertOrReplaceInTx(entities);
+    }
+
+    public ArrayList<Application> getEventApplications() {
+        checkEventAppDao();
+        ArrayList<EventApplication> list = (ArrayList<EventApplication>) mEventAppDao.queryBuilder().whereOr(EventApplicationDao.Properties.IsDelete.isNull(), EventApplicationDao.Properties.IsDelete.notEq(1)).list();
+        ArrayList<EventApplication> list3 = (ArrayList<EventApplication>) mEventAppDao.loadAll();
+        LogUtil.i(TAG, "getEventApplications: list=" + list.size());
+        LogUtil.i(TAG, "getEventApplications: list3=" + list3.size());
+        ArrayList<Application> applications = new ArrayList<>();
+        Application application;
+        EventApplication entity;
+        int size = list.size();
+        for (int i = 0; i < size; i++) {
+            entity = list.get(i);
+            application = new Application(entity.getIndustryID(), entity.getApplicationEng(), entity.getApplicationTC(), entity.getApplicationSC(), entity.getSortCN(), entity.getSortEN());
+            applications.add(application);
+        }
+        LogUtil.i(TAG, "getEventApplications: applications=" + applications.size());
+        return applications;
+    }
 
 }

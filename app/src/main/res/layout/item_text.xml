@@ -5,7 +5,7 @@
         <import type="android.view.View"/>
         <variable
             name="obj"
-            type="com.adsale.ChinaPlas.dao.Floor" />
+            type="com.adsale.ChinaPlas.dao.Map" />
         <variable
             name="adapter"
             type="com.adsale.ChinaPlas.adapter.TextAdapter"/>
@@ -21,6 +21,6 @@
             android:paddingLeft="16dp"
             android:paddingRight="8dp"
             android:onClick="@{()->adapter.onSelect(obj)}"
-            android:text="@{obj.getFloorName()}" />
+            android:text="@{obj.floorID}" />
 
 </layout>

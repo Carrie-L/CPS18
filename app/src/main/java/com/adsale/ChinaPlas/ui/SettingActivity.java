@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.ObservableField;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 
 import com.adsale.ChinaPlas.App;
@@ -15,14 +16,18 @@ import com.adsale.ChinaPlas.data.ExhibitorRepository;
 import com.adsale.ChinaPlas.data.NameCardRepository;
 import com.adsale.ChinaPlas.data.ScheduleRepository;
 import com.adsale.ChinaPlas.databinding.ActivitySettingBinding;
+import com.adsale.ChinaPlas.helper.LogHelper;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.CalendarUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.NetWorkHelper;
+import com.adsale.ChinaPlas.utils.PermissionUtil;
 import com.adsale.ChinaPlas.utils.ShareSDKDialog;
 
+import static com.adsale.ChinaPlas.App.mLogHelper;
 import static com.adsale.ChinaPlas.utils.Constant.DIR_WEB_CONTENT;
+import static com.adsale.ChinaPlas.utils.PermissionUtil.PMS_CODE_READ_PHONE_STATE;
 
 public class SettingActivity extends BaseActivity {
     public final ObservableField<String> version = new ObservableField<>("");
@@ -38,6 +43,7 @@ public class SettingActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        // 更改version: 在app gradle 中更改
         version.set("v".concat(AppUtil.getAppVersion()));
     }
 
@@ -72,28 +78,17 @@ public class SettingActivity extends BaseActivity {
         LogUtil.i(TAG, "Constant.SHARE_IMAGE_PATH=" + Constant.SHARE_IMAGE_PATH);
         share.showDialog(this, getString(R.string.share_setting_text), Constant.SHARE_IMAGE_URL, getString(R.string.share_setting_url),
                 Constant.SHARE_IMAGE_PATH);
-        AppUtil.trackViewLog( 423, "SA", "", "");
-        AppUtil.setStatEvent(getApplicationContext(), "ShareApp", "SA");
+        AppUtil.trackViewLog(423, "Share", "", "");
+        AppUtil.setStatEvent(getApplicationContext(), "Share", "Share_APP");
     }
 
     public void onLinkWebsite() {
-        final String[] items = getResources().getStringArray(R.array.url_ver);
-        final String[] urls = new String[]{String.format(NetWorkHelper.FULL_WEBSITE, AppUtil.getUrlLangType(AppUtil.getCurLanguage())),
-                String.format(NetWorkHelper.MOBILE_WEBSITE, AppUtil.getUrlLangType(AppUtil.getCurLanguage()))};
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.select_url);
-        builder.setItems(items, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int item) {
-                Intent intent = new Intent();
-                intent.setAction("android.intent.action.VIEW");
-                Uri content_url = Uri.parse(urls[item]);
-                intent.setData(content_url);
-                startActivity(intent);
-                overridePendingTransPad();
-            }
-        });
-        builder.create().show();
+        Intent intent = new Intent();
+        intent.setAction("android.intent.action.VIEW");
+        Uri content_url = Uri.parse(String.format(NetWorkHelper.CPS_URL, AppUtil.getLanguageUrlType()));
+        intent.setData(content_url);
+        startActivity(intent);
+        overridePendingTransPad();
     }
 
     public void onAddToCalendar() {
@@ -115,7 +110,9 @@ public class SettingActivity extends BaseActivity {
                 exhibitorRepository.clearInterestedExhibitor();
 
                 // 退出登录
-                logout();
+                if (AppUtil.isLogin()) {
+                    logout();
+                }
 
                 // 重置我的名片
                 SharedPreferences spNameCard = getSharedPreferences("MyNameCard", Context.MODE_PRIVATE);
@@ -133,6 +130,9 @@ public class SettingActivity extends BaseActivity {
     }
 
     public void onPrivacy() {
+        mLogHelper.logSettingInfo(getString(R.string.setting_privacy_policy));
+        mLogHelper.setBaiDuLog(getApplicationContext(), LogHelper.EVENT_ID_Info);
+
         intent = new Intent(getApplicationContext(), WebContentActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("title", getString(R.string.setting_privacy_policy));
@@ -142,6 +142,9 @@ public class SettingActivity extends BaseActivity {
     }
 
     public void onUseItems() {
+        mLogHelper.logSettingInfo(getString(R.string.setting_use_terms));
+        mLogHelper.setBaiDuLog(getApplicationContext(), LogHelper.EVENT_ID_Info);
+
         intent = new Intent(getApplicationContext(), WebContentActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("title", getString(R.string.setting_use_terms));
@@ -152,7 +155,7 @@ public class SettingActivity extends BaseActivity {
 
     public void onHelpPage() {
         App.mSP_HP.edit().putBoolean("HELP_PAGE_OPEN_MAIN", true).apply();
-        intent = new Intent(getApplicationContext(), isTablet?PadMainActivity.class:MainActivity.class);
+        intent = new Intent(getApplicationContext(), isTablet ? PadMainActivity.class : MainActivity.class);
         startActivity(intent);
         finish();
         overridePendingTransPad();
@@ -162,10 +165,26 @@ public class SettingActivity extends BaseActivity {
         isChangeLanguage = App.mSP_Config.getBoolean("isChangeLanguage", false);
         LogUtil.i(TAG, "因爲更換了語言，所以返回主界面:isChangeLanguage=" + isChangeLanguage);
         if (isChangeLanguage) {
-            Intent intent = new Intent(this, isTablet?PadMainActivity.class:MainActivity.class);
+            Intent intent = new Intent(this, isTablet ? PadMainActivity.class : MainActivity.class);
             startActivity(intent);
             App.mSP_Config.edit().putBoolean("isChangeLanguage", false).apply();
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (PermissionUtil.getGrantResults(grantResults) && (requestCode == PermissionUtil.PMS_CODE_READ_CALENDAR )) {
+            LogUtil.i(TAG,"onRequestPermissionsResult：  有讀取日曆權限");
+        }
+
+
+        if (PermissionUtil.getGrantResults(grantResults) && (requestCode == PermissionUtil.PMS_CODE_WRITE_CALENDAR )) {
+            LogUtil.i(TAG,"onRequestPermissionsResult：  有寫日曆權限");
+            onAddToCalendar();
+        }
+
     }
 
     @Override

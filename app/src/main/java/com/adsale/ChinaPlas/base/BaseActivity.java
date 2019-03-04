@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
@@ -38,13 +39,16 @@ import com.adsale.ChinaPlas.ui.LoginActivity;
 import com.adsale.ChinaPlas.ui.MainActivity;
 import com.adsale.ChinaPlas.ui.PadMainActivity;
 import com.adsale.ChinaPlas.ui.ScannerActivity;
+import com.adsale.ChinaPlas.ui.WebViewActivity;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
+import com.adsale.ChinaPlas.utils.NetWorkHelper;
 import com.adsale.ChinaPlas.utils.PermissionUtil;
 import com.adsale.ChinaPlas.viewmodel.NavViewModel;
 import com.adsale.ChinaPlas.viewmodel.SyncViewModel;
 import com.baidu.mobstat.StatService;
+import com.mob.tools.network.NetworkHelper;
 
 import io.reactivex.disposables.Disposable;
 
@@ -79,6 +83,8 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
     private Window window;
     protected boolean isChangeTitleHomeIcon = false;
 
+
+
 //    protected int mHomeIconRes = R.drawable.ic_home;
 
     @Override
@@ -91,11 +97,11 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
 
         mDBHelper = App.mDBHelper;
         isTablet = AppUtil.isTablet();
-        if (isTablet) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        } else {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        }
+//        if (isTablet && isPortrait()) {
+//            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+//        } else {
+//            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//        }
         mNavViewModel = NavViewModel.getInstance(getApplication());
         setContentWidth();
         preView();
@@ -213,13 +219,17 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 //            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);/* 20180126添加  */
             window.setStatusBarColor(Color.TRANSPARENT);
-            if (isShowTitleBar.get()) {
-                window.setNavigationBarColor(getResources().getColor(R.color.home_transparent));
-            } else {
-                window.setNavigationBarColor(getResources().getColor(R.color.home_nav_bar));
-                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-            }
+//            if (isShowTitleBar.get()) {
+//                window.setNavigationBarColor(getResources().getColor(R.color.bottom_nav_bar_color));
+//            } else {
+//                window.setNavigationBarColor(getResources().getColor(R.color.bottom_nav_bar_color));
+//                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+//                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+//            }
+
+            window.setNavigationBarColor(getResources().getColor(R.color.bottom_nav_bar_color));
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
 
         }
@@ -256,6 +266,8 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
     public void login() {
         mNavViewModel.isLoginSuccess.set(false);
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        intent.putExtra(Constant.WEB_URL, String.format(NetWorkHelper.MY_CHINAPLAS_URL, AppUtil.getLanguageUrlType()));
+        intent.putExtra(Constant.TITLE, getString(R.string.title_login));
         startActivity(intent);
         overridePendingTransPad();
     }
@@ -326,7 +338,6 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
         menu();
     }
 
-
     public void back() {
         finish();
         overridePendingTransPad();
@@ -386,15 +397,21 @@ public abstract class BaseActivity extends AppCompatActivity implements NavViewM
         return prefix.concat("_").concat(AppUtil.getLanguageType()).concat("_Android");
     }
 
-//    @Override
-//    public void onConfigurationChanged(Configuration newConfig) {
-//        super.onConfigurationChanged(newConfig);
-//        if (AppUtil.isTablet()) {
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LogUtil.i(TAG, "orientation = " + getResources().getConfiguration().orientation);
+
+//        if (AppUtil.isTablet() && isPortrait()) {
 //            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 //        }
-//        AppUtil.switchLanguage(getApplicationContext(), AppUtil.getCurLanguage());
-//        mNavViewModel.mCurrLang.set(AppUtil.getCurLanguage());
-//    }
+        AppUtil.switchLanguage(getApplicationContext(), App.mLanguage.get());
+        mNavViewModel.mCurrLang.set(App.mLanguage.get());
+    }
+
+    private boolean isPortrait() {
+        return getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+    }
 
     @Override
     protected void onResume() {

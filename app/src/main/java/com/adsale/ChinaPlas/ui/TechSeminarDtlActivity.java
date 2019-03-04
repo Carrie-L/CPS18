@@ -20,6 +20,7 @@ import com.adsale.ChinaPlas.data.OtherRepository;
 import com.adsale.ChinaPlas.data.model.adAdvertisementObj;
 import com.adsale.ChinaPlas.databinding.ActivityTechSeminarDtlBinding;
 import com.adsale.ChinaPlas.helper.ADHelper;
+import com.adsale.ChinaPlas.helper.LogHelper;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
@@ -30,6 +31,8 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static com.adsale.ChinaPlas.App.mLogHelper;
 
 // TODO: 2017/10/27  M6
 
@@ -93,6 +96,9 @@ public class TechSeminarDtlActivity extends BaseActivity {
             mEventID = seminarInfo.getEventID() + "";
         }
         LogUtil.i(TAG, "mEventID=" + mEventID);
+
+        mLogHelper.logSeminarInfo(mEventID);
+        mLogHelper.setBaiDuLog(getApplicationContext(), LogHelper.EVENT_ID_Info);
     }
 
     /**
@@ -117,7 +123,7 @@ public class TechSeminarDtlActivity extends BaseActivity {
                 m6Topic = topics.get(i);
                 sb.append(m6Topic.getImage()).append(M6.format);
                 mBannerUrl = sb.toString();
-                LogUtil.i(TAG,"mBannerUrl="+mBannerUrl);
+                LogUtil.i(TAG, "mBannerUrl=" + mBannerUrl);
                 return true;
             }
         }
@@ -135,7 +141,7 @@ public class TechSeminarDtlActivity extends BaseActivity {
         RequestOptions options = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE).override(AppUtil.getScreenWidth(), height);
         Glide.with(getApplicationContext()).load(Uri.parse(mBannerUrl)).apply(options).into(ivBanner);
 
-        LogUtil.i(TAG,"Uri.parse(mBannerUrl)="+Uri.parse(mBannerUrl));
+        LogUtil.i(TAG, "Uri.parse(mBannerUrl)=" + Uri.parse(mBannerUrl));
 
         if (!TextUtils.isEmpty(m6Topic.description)) {
             if (m6View == null) {
@@ -147,7 +153,9 @@ public class TechSeminarDtlActivity extends BaseActivity {
                 m6View.setVisibility(View.VISIBLE);
             }
         }
-        AppUtil.trackViewLog(303, "Technical", "", m6Topic.eventID);
+//        AppUtil.trackViewLog(303, "Technical", "", m6Topic.eventID);
+
+
     }
 
     public void onCall(String tel) {
@@ -166,6 +174,7 @@ public class TechSeminarDtlActivity extends BaseActivity {
     public void onCompanyClick(String companyId) {
         Intent intent = new Intent(this, ExhibitorDetailActivity.class);
         intent.putExtra(Constant.COMPANY_ID, companyId);
+        intent.putExtra("from", "seminarInfo");
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         overridePendingTransPad();

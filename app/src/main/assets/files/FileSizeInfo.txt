@@ -1,5 +1,4 @@
 {
-//useless
   "CurrentEvents":"0.5M",
   "TechnicalSeminar":"20K",
   "TravelInfo":"10K",

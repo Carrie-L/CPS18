@@ -5,11 +5,13 @@ import android.database.Cursor;
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.dao.ExhibitorDao;
-import com.adsale.ChinaPlas.dao.FloorDao;
+import com.adsale.ChinaPlas.dao.Map;
+import com.adsale.ChinaPlas.dao.MapDao;
 import com.adsale.ChinaPlas.dao.FloorPlanCoordinate;
 import com.adsale.ChinaPlas.dao.FloorPlanCoordinateDao;
 import com.adsale.ChinaPlas.dao.MapFloor;
 import com.adsale.ChinaPlas.dao.MapFloorDao;
+import com.adsale.ChinaPlas.dao.ZoneDao;
 import com.adsale.ChinaPlas.data.model.InterestedExhibitor;
 import com.adsale.ChinaPlas.utils.LogUtil;
 
@@ -24,7 +26,7 @@ public class FloorRepository {
     private final String TAG = "FloorRepository";
     private static FloorRepository INSTANCE;
     private MapFloorDao mapFloorDao;
-    private FloorDao mFloorDao;
+    private MapDao mMapDao;
     private FloorPlanCoordinateDao mFloorCoordinateDao;
 
     public static FloorRepository getInstance() {
@@ -45,8 +47,8 @@ public class FloorRepository {
     }
 
     private void checkFloorDaoNull() {
-        if (mFloorDao == null) {
-            throw new NullPointerException("mFloorDao cannot be null, please #initFloorDao");
+        if (mMapDao == null) {
+            mMapDao = App.mDBHelper.mMapDao;
         }
     }
 
@@ -59,12 +61,6 @@ public class FloorRepository {
         return (ArrayList<MapFloor>) mapFloorDao.queryBuilder().whereOr(MapFloorDao.Properties.UpdateDateTime.lt(lut), MapFloorDao.Properties.Down.eq(0)).list();// TODO: 2016/10/14   测试下载，将[le]改为[ge]
     }
 
-
-    //展商分布
-    public void initFloorDao() {
-        mFloorDao = App.mDBHelper.mFloorDao;
-    }
-
     /**
      * 查询Floor数据库所哟数据
      *
@@ -72,13 +68,13 @@ public class FloorRepository {
      */
     public ArrayList<InterestedExhibitor> getFloorIDLists() {
         ArrayList<InterestedExhibitor> floors = new ArrayList<InterestedExhibitor>();
-        Cursor cursor = App.mDBHelper.db.query("FLOOR", new String[]{"FLOOR_ID"}, null, null, null, null, "SEQ");
+        Cursor cursor = App.mDBHelper.db.query(MapDao.TABLENAME, new String[]{"FloorID=?"}, null, null, null, null, "SEQ");
         if (cursor != null) {
             String floorID;
             InterestedExhibitor floor;
             while (cursor.moveToNext()) {
-                floorID = cursor.getString(cursor.getColumnIndex("FLOOR_ID"));
-                if (!floorID.startsWith("A") && !floorID.equals("TBC")) {
+                floorID = cursor.getString(cursor.getColumnIndex(MapDao.Properties.FloorID.columnName));
+                if (!floorID.equals("TBC") && !floorID.equals("csv")) {
                     floor = new InterestedExhibitor();
                     floor.floorID = floorID;
                     floors.add(floor);
@@ -91,6 +87,7 @@ public class FloorRepository {
 
     /**
      * 展商分布：每个展馆的兴趣展商（我的参展商）的数量
+     * select count(COMPANY_ID) as Count," + ExhibitorDao.Properties.HallNo.columnName + " from EXHIBITOR where IS_FAVOURITE=? group by " + ExhibitorDao.Properties.HallNo.columnName
      *
      * @param floors
      * @return
@@ -100,10 +97,15 @@ public class FloorRepository {
         String floorId = "";
         int count = 0;
         InterestedExhibitor entity = null;
-
+        StringBuilder sql = new StringBuilder();
+        sql.append("select count(").append(ExhibitorDao.Properties.CompanyID.columnName)
+                .append(") as Count,").append(ExhibitorDao.Properties.HallNo.columnName)
+                .append(" from ").append(ExhibitorDao.TABLENAME)
+                .append(" where ").append(ExhibitorDao.Properties.IsFavourite.columnName)
+                .append("=? group by ").append(ExhibitorDao.Properties.HallNo.columnName);
         try {
             Cursor cursor = App.mDBHelper.db.rawQuery(
-                    "select count(COMPANY_ID) as Count," + ExhibitorDao.Properties.HallNo.columnName + " from EXHIBITOR where IS_FAVOURITE=? group by " + ExhibitorDao.Properties.HallNo.columnName,
+                    sql.toString(),
                     new String[]{"1"});
             if (cursor != null) {
                 int size = floors.size();
@@ -167,9 +169,24 @@ public class FloorRepository {
      * from EXHIBITOR E,FLOOR_PLAN_COORDINATE F WHERE F.BOOTH_NUM=E.BOOTH_NO AND F.BOOTH_NUM='1A91'
      */
     public ArrayList<Exhibitor> getBoothExhibitors(String boothNo) {
-        String sql = "select E.COMPANY_ID,E.COMPANY_NAME_EN,E.COMPANY_NAME_TW,E.COMPANY_NAME_CN,E.TEL,E.EMAIL,E.IS_FAVOURITE,E.BOOTH_NO\n" +
-                "  from EXHIBITOR E,FLOOR_PLAN_COORDINATE F WHERE F.BOOTH_NUM=E.BOOTH_NO AND F.BOOTH_NUM='%s'";
-        Cursor cursor = App.mDBHelper.db.rawQuery(String.format(sql, boothNo), null);
+        StringBuilder sql = new StringBuilder();
+        sql.append("select E.").append(ExhibitorDao.Properties.CompanyID.columnName)
+                .append(",E.").append(ExhibitorDao.Properties.CompanyNameEN.columnName)
+                .append(",E.").append(ExhibitorDao.Properties.CompanyNameTW.columnName)
+                .append(",E.").append(ExhibitorDao.Properties.CompanyNameCN.columnName)
+                .append(",E.").append(ExhibitorDao.Properties.Tel.columnName)
+                .append(",E.").append(ExhibitorDao.Properties.Email.columnName)
+                .append(",E.").append(ExhibitorDao.Properties.IsFavourite.columnName)
+                .append(",E.").append(ExhibitorDao.Properties.BoothNo.columnName)
+                .append(" from ").append(ExhibitorDao.TABLENAME).append(" E,").append(FloorPlanCoordinateDao.TABLENAME).append(" F WHERE F.")
+                .append(FloorPlanCoordinateDao.Properties.BoothNum.columnName).append("=E.")
+                .append(ExhibitorDao.Properties.BoothNo.columnName).append(" and F.")
+                .append(FloorPlanCoordinateDao.Properties.BoothNum.columnName).append("='%s'");
+
+
+//        String sql = "select E.COMPANY_ID,E.COMPANY_NAME_EN,E.COMPANY_NAME_TW,E.COMPANY_NAME_CN,E.TEL,E.EMAIL,E.IS_FAVOURITE,E.BOOTH_NO\n" +
+//                "  from EXHIBITOR E,FLOOR_PLAN_COORDINATE F WHERE F.BOOTH_NUM=E.BOOTH_NO AND F.BOOTH_NUM='%s'";
+        Cursor cursor = App.mDBHelper.db.rawQuery(String.format(sql.toString(), boothNo), null);
         ArrayList<Exhibitor> list = new ArrayList<>();
         Exhibitor exhibitor;
         if (cursor != null) {
@@ -200,9 +217,21 @@ public class FloorRepository {
      */
     public ArrayList<Exhibitor> getEditExhibitors(String etContent, String hall) {
         StringBuilder sbSQL = new StringBuilder();
-        sbSQL.append("select COMPANY_ID,COMPANY_NAME_EN,COMPANY_NAME_TW,COMPANY_NAME_CN,IS_FAVOURITE,BOOTH_NO" +
-                "   from EXHIBITOR WHERE (COMPANY_NAME_EN like '%")
-                .append(etContent).append("%' or COMPANY_NAME_TW like '%")
+        sbSQL.append("select ").append(ExhibitorDao.Properties.CompanyID.columnName)
+                .append(ExhibitorDao.Properties.CompanyNameEN.columnName)
+                .append(ExhibitorDao.Properties.CompanyNameTW.columnName)
+                .append(ExhibitorDao.Properties.CompanyNameCN.columnName)
+                .append(ExhibitorDao.Properties.Email.columnName)
+                .append(ExhibitorDao.Properties.IsFavourite.columnName)
+                .append(ExhibitorDao.Properties.BoothNo.columnName)
+                .append(ExhibitorDao.TABLENAME).append(" WHERE (")
+                .append(ExhibitorDao.Properties.CompanyID.columnName).append(" like '%")
+                .append(FloorPlanCoordinateDao.Properties.BoothNum.columnName).append("=E.")
+                .append(ExhibitorDao.Properties.BoothNo.columnName).append(" and F.")
+                .append(ExhibitorDao.Properties.BoothNo.columnName).append("='%s'");
+//        sbSQL.append("select COMPANY_ID,COMPANY_NAME_EN,COMPANY_NAME_TW,COMPANY_NAME_CN,IS_FAVOURITE,BOOTH_NO" +
+//                "   from EXHIBITOR WHERE (COMPANY_NAME_EN like '%")
+        sbSQL.append(etContent).append("%' or COMPANY_NAME_TW like '%")
                 .append(etContent).append("%' or COMPANY_NAME_CN like '%")
                 .append(etContent).append("%' or BOOTH_NO like '%")
                 .append(etContent).append("%') AND HALL_NO='").append(hall).append("' order by BOOTH_NO ");
@@ -225,5 +254,26 @@ public class FloorRepository {
         LogUtil.i(TAG, "List=" + list.size());
         return list;
     }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    public String getMapLUT() {
+        checkFloorDaoNull();
+        List<Map> list = mMapDao.queryBuilder().orderDesc(MapDao.Properties.updatedAt).limit(1).list();
+        if (list != null && list.size() > 0) {
+            return list.get(0).getUpdatedAt();
+        }
+        return "";
+    }
+
+    public void updateOrInsertMaps(List<Map> entities) {
+        checkFloorDaoNull();
+        mMapDao.insertOrReplaceInTx(entities);
+    }
+
+    public void updateOrInsertMap(Map entity) {
+        checkFloorDaoNull();
+        mMapDao.insertOrReplace(entity);
+    }
+
 
 }

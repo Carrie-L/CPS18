@@ -5,7 +5,7 @@ import android.databinding.ViewDataBinding;
 import com.adsale.ChinaPlas.BR;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.CpsBaseAdapter;
-import com.adsale.ChinaPlas.dao.ApplicationIndustry;
+import com.adsale.ChinaPlas.dao.Application;
 import com.adsale.ChinaPlas.data.model.ExhibitorFilter;
 import com.adsale.ChinaPlas.utils.LogUtil;
 
@@ -17,13 +17,13 @@ import java.util.ArrayList;
  * 应用行业列表
  */
 
-public class ApplicationAdapter extends CpsBaseAdapter<ApplicationIndustry> {
+public class ApplicationAdapter extends CpsBaseAdapter<Application> {
     private final String TAG = "ApplicationAdapter";
-    private ArrayList<ApplicationIndustry> list;
+    private ArrayList<Application> list;
     private ArrayList<ExhibitorFilter> filters;
     private ExhibitorFilter filter;
 
-    public ApplicationAdapter(ArrayList<ApplicationIndustry> list, ArrayList<ExhibitorFilter> filters) {
+    public ApplicationAdapter(ArrayList<Application> list, ArrayList<ExhibitorFilter> filters) {
         this.list = list;
         this.filters = filters;
     }
@@ -39,7 +39,7 @@ public class ApplicationAdapter extends CpsBaseAdapter<ApplicationIndustry> {
         super.bindVariable(binding);
     }
 
-    public void setList(ArrayList<ApplicationIndustry> list) {
+    public void setList(ArrayList<Application> list) {
         this.list = list;
         super.setList(list);
         LogUtil.i(TAG, "setList=" + list.size());
@@ -65,7 +65,7 @@ public class ApplicationAdapter extends CpsBaseAdapter<ApplicationIndustry> {
         return super.getItemViewType(position);
     }
 
-    public void onSelect(ApplicationIndustry entity) {
+    public void onSelect(Application entity) {
         if (entity.isSelected.get()) {
             LogUtil.i(TAG, "取消:" + entity.getApplicationName());
             entity.isSelected.set(false);

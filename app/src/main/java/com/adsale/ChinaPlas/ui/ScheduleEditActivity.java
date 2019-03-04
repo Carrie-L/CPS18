@@ -10,11 +10,14 @@ import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.dao.ScheduleInfo;
 import com.adsale.ChinaPlas.databinding.ActivityScheduleItemBinding;
+import com.adsale.ChinaPlas.helper.LogHelper;
 import com.adsale.ChinaPlas.ui.view.HelpView;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.viewmodel.ScheduleEditViewModel;
+
+import static com.adsale.ChinaPlas.App.mLogHelper;
 
 /**
  * 日程表 add or edit
@@ -48,7 +51,7 @@ public class ScheduleEditActivity extends BaseActivity implements ScheduleEditVi
 
         ScheduleInfo scheduleInfo = getIntent().getParcelableExtra(Constant.INTENT_SCHEDULE);
         if (scheduleInfo != null) {
-            LogUtil.i(TAG,"scheduleInfo="+scheduleInfo.toString());
+            LogUtil.i(TAG, "scheduleInfo=" + scheduleInfo.toString());
             mEditModel.isEdit.set(true);
             mEditModel.setId(scheduleInfo.getId() == null ? mEditModel.getId() : scheduleInfo.getId());
             mEditModel.setCompanyId(scheduleInfo.getCompanyID());
@@ -65,6 +68,8 @@ public class ScheduleEditActivity extends BaseActivity implements ScheduleEditVi
             }
         }
 
+        mLogHelper.logScheduleInfo(mEditModel.etStartDate.get() + "_" + mEditModel.mCompanyId);
+        mLogHelper.setBaiDuLog(getApplicationContext(), LogHelper.EVENT_ID_Info);
 
         mEditModel.setFragmentManager(getFragmentManager());
         if (HelpView.isFirstShow(HelpView.HELP_PAGE_SCHEDULE_DTL)) {

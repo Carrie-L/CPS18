@@ -1,4 +1,4 @@
 {
-  "csvlink":"https://o97tbiy1f.qnssl.com/FloorPlan/FloorPlan_20180410.csv",
-  "imagePath":"https://o97tbiy1f.qnssl.com/FloorPlan/"
+  "csvlink":"https://cdn.adsalecdn.com/App/2018/FloorPlan_20180329.csv",
+  "imagePath":"https://cdn.adsalecdn.com/App/2018/FloorPlan/"
 }

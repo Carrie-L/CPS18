@@ -9,6 +9,7 @@ import android.databinding.ObservableBoolean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 
@@ -23,8 +24,11 @@ public class Industry implements Parcelable {
     private String CatSC;
     private Integer TCStroke;
     private String SCPY;
-    private Boolean IsSelected;
-    private String EN_SORT;
+    private String SortEN;
+
+    private Boolean IsDelete;
+    private String createdAt;
+    private String updatedAt;
 
     // KEEP FIELDS - put your custom fields here
     public final ObservableBoolean isTypeLabel = new ObservableBoolean();
@@ -38,15 +42,17 @@ public class Industry implements Parcelable {
         this.CatalogProductSubID = CatalogProductSubID;
     }
 
-    public Industry(String CatalogProductSubID, String CatEng, String CatTC, String CatSC, Integer TCStroke, String SCPY, Boolean IsSelected, String enSort) {
+    public Industry(String CatalogProductSubID, String CatEng, String CatTC, String CatSC, Integer TCStroke, String SCPY, String enSort, Boolean IsDelete, String createdAt, String updatedAt) {
         this.CatalogProductSubID = CatalogProductSubID;
         this.CatEng = CatEng;
         this.CatTC = CatTC;
         this.CatSC = CatSC;
         this.TCStroke = TCStroke;
         this.SCPY = SCPY;
-        this.IsSelected = IsSelected;
-        this.EN_SORT = enSort;
+        this.SortEN = enSort;
+        this.IsDelete = IsDelete;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public String getCatalogProductSubID() {
@@ -97,32 +103,52 @@ public class Industry implements Parcelable {
         this.SCPY = SCPY;
     }
 
-    public String getEN_SORT() {
-        return EN_SORT;
+    public String getSortEN() {
+        return SortEN;
     }
 
-    public void setEN_SORT(String EN_SORT) {
-        this.EN_SORT = EN_SORT;
-    }
-
-    public Boolean getIsSelected() {
-        return IsSelected;
-    }
-
-    public void setIsSelected(Boolean IsSelected) {
-        this.IsSelected = IsSelected;
+    public void setSortEN(String SortEN) {
+        this.SortEN = SortEN;
     }
 
     // KEEP METHODS - put your custom methods here
+    public Boolean getIsDelete() {
+        return IsDelete;
+    }
+
+    public void setIsDelete(Boolean IsDelete) {
+        this.IsDelete = IsDelete;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
     public String getIndustryName() {
         return AppUtil.getName(CatTC, CatEng, CatSC);
     }
 
     public String getSort() {
-        if (EN_SORT.contains("#")) {
-            EN_SORT = "#";
+        if (App.mLanguage.get() == 1 && SortEN.contains("#")) {
+            SortEN = "#";
+        } else if (App.mLanguage.get() == 2 && SCPY.contains("#")) {
+            SCPY = "#";
+        } else if (App.mLanguage.get() == 0 && TCStroke == 999) {
+            return AppUtil.getName("#", SortEN, SCPY);
         }
-        return AppUtil.getName(TCStroke + Constant.TRAD_STROKE, EN_SORT, SCPY);
+        return AppUtil.getName(TCStroke + Constant.TRAD_STROKE, SortEN, SCPY);
     }
 
     public void setIndustryName(int language, String industryName) {
@@ -154,6 +180,14 @@ public class Industry implements Parcelable {
     public int count;
     public String IndustryIDParent;
 
+    @Override
+    public String toString() {
+        return "Industry{" +
+                "SCPY='" + SCPY + '\'' +
+                ", SortEN='" + SortEN + '\'' +
+                ", IsDelete=" + IsDelete +
+                '}';
+    }
 
 
     // KEEP METHODS END
@@ -171,8 +205,10 @@ public class Industry implements Parcelable {
         dest.writeString(this.CatSC);
         dest.writeValue(this.TCStroke);
         dest.writeString(this.SCPY);
-        dest.writeValue(this.IsSelected);
-        dest.writeString(this.EN_SORT);
+        dest.writeString(this.SortEN);
+        dest.writeValue(this.IsDelete);
+        dest.writeString(this.createdAt);
+        dest.writeString(this.updatedAt);
         dest.writeInt(this.count);
         dest.writeString(this.IndustryIDParent);
     }
@@ -184,13 +220,15 @@ public class Industry implements Parcelable {
         this.CatSC = in.readString();
         this.TCStroke = (Integer) in.readValue(Integer.class.getClassLoader());
         this.SCPY = in.readString();
-        this.IsSelected = (Boolean) in.readValue(Boolean.class.getClassLoader());
-        this.EN_SORT = in.readString();
+        this.SortEN = in.readString();
+        this.IsDelete = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.createdAt = in.readString();
+        this.updatedAt = in.readString();
         this.count = in.readInt();
         this.IndustryIDParent = in.readString();
     }
 
-    public static final Parcelable.Creator<Industry> CREATOR = new Parcelable.Creator<Industry>() {
+    public static final Creator<Industry> CREATOR = new Creator<Industry>() {
         public Industry createFromParcel(Parcel source) {
             return new Industry(source);
         }

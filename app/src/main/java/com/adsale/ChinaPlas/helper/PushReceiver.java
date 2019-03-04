@@ -82,8 +82,8 @@ public class PushReceiver extends BroadcastReceiver {
             if (subMsg != null && subMsg.length() > 5) {
                 subMsg = bundle.getString(JPushInterface.EXTRA_ALERT).substring(0, 5);
             }
-            AppUtil.trackViewLog(411, "PushMsg", "", subMsg);
-            AppUtil.setStatEvent(context, "PushMsg", "PushMsg_" + subMsg);
+            AppUtil.trackViewLog(411, "Push", "", subMsg);
+            AppUtil.setStatEvent(context, "Push", "Push_" + subMsg);
 
             //解析附加字段Json内容
             MessageCenter.Message message = Parser.parseJson(MessageCenter.Message.class, bundle.getString(JPushInterface.EXTRA_EXTRA));

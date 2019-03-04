@@ -17,6 +17,7 @@ import com.adsale.ChinaPlas.databinding.ActivityMyExhibitorBinding;
 import com.adsale.ChinaPlas.ui.view.HelpView;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
+import com.adsale.ChinaPlas.utils.NetWorkHelper;
 import com.adsale.ChinaPlas.utils.RecyclerItemDecoration;
 import com.adsale.ChinaPlas.utils.RecyclerViewScrollTo;
 import com.adsale.ChinaPlas.viewmodel.MyExhibitorViewModel;
@@ -82,11 +83,18 @@ public class MyExhibitorActivity extends BaseActivity implements OnIntentListene
             AppUtil.showAlertDialog(this, R.string.login_first_sync, R.string.login_text4, R.string.cancel, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    Intent intent = new Intent(MyExhibitorActivity.this, LoginActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.putExtra("from", "MyExhibitor");
+//                    Intent intent = new Intent(MyExhibitorActivity.this, LoginActivity.class);
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                    intent.putExtra("from", "MyExhibitor");
+//                    startActivity(intent);
+//                    overridePendingTransPad();
+
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    intent.putExtra(Constant.WEB_URL, String.format(NetWorkHelper.MY_CHINAPLAS_URL,AppUtil.getLanguageUrlType()));
+                    intent.putExtra(Constant.TITLE,getString(R.string.title_login));
                     startActivity(intent);
                     overridePendingTransPad();
+
                 }
             });
         }
@@ -105,6 +113,7 @@ public class MyExhibitorActivity extends BaseActivity implements OnIntentListene
         Intent intent = new Intent(this, ExhibitorDetailActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(Constant.COMPANY_ID, ((Exhibitor) entity).getCompanyID());
+        intent.putExtra("from", "myExhibitor");
         startActivity(intent);
         overridePendingTransPad();
     }

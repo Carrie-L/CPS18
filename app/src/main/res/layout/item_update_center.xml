@@ -25,7 +25,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@{obj.getStatus()==0?@drawable/bttn_red:@drawable/bttn_grey}"
+            android:background="@{obj.getStatus()==0?@color/home:@color/grey}"
             android:clickable="@{obj.getStatus()==0?true:false}"
             android:gravity="center"
             android:onClick="@{()->view.onUpdate(obj.getId())}"

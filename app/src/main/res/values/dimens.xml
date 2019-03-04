@@ -25,7 +25,9 @@
 
     <dimen name="floor_left_width">250dp</dimen>
 
-    <dimen name="loading_bottom">16dp</dimen>
+    <dimen name="loading_bottom">200dp</dimen>
+    <dimen name="event_item_bottom1">16dp</dimen>
+    <dimen name="event_item_bottom2">8dp</dimen>
 
     <!--技术交流会-->
     <dimen name="seminar_circle_size">48dp</dimen>

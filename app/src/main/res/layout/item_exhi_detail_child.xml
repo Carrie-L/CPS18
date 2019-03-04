@@ -43,9 +43,9 @@
             android:layout_marginRight="8dp"
             android:layout_toLeftOf="@id/iv_collect"
             android:scaleType="fitCenter"
-            android:visibility="@{adapter.isM3Show&amp;&amp;obj.isPhotoLogo?View.VISIBLE:View.INVISIBLE}"
+            android:visibility="@{adapter.isD4Show&amp;&amp;obj.isPhotoLogo?View.VISIBLE:View.GONE}"
             app:imgUrl="@{obj.photoFileName}" />
-        <!--android:visibility="@{adapter.isM3Show?View.VISIBLE:View.INVISIBLE}"-->
+        <!--android:visibility="@{adapisD4ShowShow?View.VISIBLE:View.INVISIBLE}"-->
         <!--app:imgUrl="@{obj.photoFileName}"-->
 
 
@@ -95,7 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_company_name"
-                android:layout_marginLeft="130dp"
+                android:layout_toRightOf="@id/tv_booth"
                 android:drawableLeft="@drawable/icon_country"
                 android:drawablePadding="10dp"
                 android:drawableStart="@drawable/icon_country"

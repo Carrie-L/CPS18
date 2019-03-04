@@ -5,8 +5,7 @@ import android.databinding.ViewDataBinding;
 import com.adsale.ChinaPlas.BR;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.CpsBaseAdapter;
-import com.adsale.ChinaPlas.dao.ApplicationIndustry;
-import com.adsale.ChinaPlas.dao.Floor;
+import com.adsale.ChinaPlas.dao.Map;
 import com.adsale.ChinaPlas.data.model.ExhibitorFilter;
 import com.adsale.ChinaPlas.utils.LogUtil;
 
@@ -24,7 +23,7 @@ public class TextAdapter<T> extends CpsBaseAdapter<T> {
     private ArrayList<T> list;
     private ArrayList<ExhibitorFilter> filters;
     private ExhibitorFilter filter;
-    private Floor floor;
+    private Map floor;
 
     public TextAdapter(ArrayList<T> list, ArrayList<ExhibitorFilter> filters) {
         this.list = list;
@@ -64,9 +63,9 @@ public class TextAdapter<T> extends CpsBaseAdapter<T> {
     }
 
     public void onSelect(T entity) {
-        floor = (Floor) entity;
+        floor = (Map) entity;
         if (floor.isSelected.get()) {
-            LogUtil.i(TAG, "取消:" + floor.getFloorName());
+            LogUtil.i(TAG, "取消:" + floor.getFloorID());
             floor.isSelected.set(false);
             int size = filters.size();
             if (size > 0) {
@@ -78,9 +77,9 @@ public class TextAdapter<T> extends CpsBaseAdapter<T> {
                 }
             }
         } else {
-            LogUtil.i(TAG, "添加：" + floor.getFloorName());
+            LogUtil.i(TAG, "添加：" + floor.getFloorID());
             floor.isSelected.set(true);
-            filter = new ExhibitorFilter(3, floor.getFloorID(), floor.getFloorName());
+            filter = new ExhibitorFilter(3, floor.getFloorID(), floor.getFloorID());
             filters.add(filter);
         }
         LogUtil.i(TAG, "onSelect::filters=" + filters.size());

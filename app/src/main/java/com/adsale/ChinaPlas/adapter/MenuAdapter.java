@@ -78,12 +78,7 @@ public class MenuAdapter extends CpsBaseAdapter<MainIcon> {
         this.mListener = listener;
         this.navViewModel = navViewModel;
         isTablet = AppUtil.isTablet();
-
-//        LogUtil.i(TAG, "largeMenus=" + largeMenus.size() + "," + largeMenus.toString());
-
-        mBaseUrl = NetWorkHelper.DOWNLOAD_PATH.concat("WebContent/");
-
-//        mBaseUrl = App.rootDir.concat("MainIcon/");
+        mBaseUrl = NetWorkHelper.Download_MainIcon_Url;
 
         int height = 0;
         int iconSize = 0;
@@ -132,7 +127,7 @@ public class MenuAdapter extends CpsBaseAdapter<MainIcon> {
             innerIcons = new ArrayList<>();/* 必须在里面 */
             for (int j = 0; j < innerSize; j++) {
                 littleIcon = littleMenus.get(j);
-                if (littleIcon.getMenuList().contains(largeIcon.getMenuList())) {
+                if (littleIcon.getMenuSeq().contains(largeIcon.getMenuSeq())) {
                     innerIcons.add(littleIcon);
                 }
             }
@@ -152,10 +147,10 @@ public class MenuAdapter extends CpsBaseAdapter<MainIcon> {
     public void onBindViewHolder(CpsBaseViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
 
-        if(App.isNetworkAvailable){
+        if (App.isNetworkAvailable) {
             LogUtil.i(TAG, "menu: url");
             Glide.with(mContext).load(Uri.parse(mBaseUrl.concat(largeMenus.get(position).getIcon()))).apply(requestOptions).into(menuBinding.icon);//
-        }else{
+        } else {
             LogUtil.i(TAG, "menu: asset");
             Glide.with(mContext).load("file:///android_asset/MainIcon/".concat(largeMenus.get(position).getIcon())).apply(requestOptions).into(menuBinding.icon);
         }

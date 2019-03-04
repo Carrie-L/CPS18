@@ -17,11 +17,9 @@ public class NewsLink {
     private String Link;
     private String SEQ;
     /** Not-null value. */
-    private String CreateDateTime;
+    private String createdAt;
     /** Not-null value. */
-    private String UpdateDateTime;
-    /** Not-null value. */
-    private String RecordTimeStamp;
+    private String updatedAt;
 
     // KEEP FIELDS - put your custom fields here
     // KEEP FIELDS END
@@ -33,16 +31,15 @@ public class NewsLink {
         this.LinkID = LinkID;
     }
 
-    public NewsLink(String LinkID, String NewsID, String Photo, String Title, String Link, String SEQ, String CreateDateTime, String UpdateDateTime, String RecordTimeStamp) {
+    public NewsLink(String LinkID, String NewsID, String Photo, String Title, String Link, String SEQ, String CreateDateTime, String UpdateDateTime) {
         this.LinkID = LinkID;
         this.NewsID = NewsID;
         this.Photo = Photo;
         this.Title = Title;
         this.Link = Link;
         this.SEQ = SEQ;
-        this.CreateDateTime = CreateDateTime;
-        this.UpdateDateTime = UpdateDateTime;
-        this.RecordTimeStamp = RecordTimeStamp;
+        this.createdAt = CreateDateTime;
+        this.updatedAt = UpdateDateTime;
     }
 
     public String getLinkID() {
@@ -97,33 +94,25 @@ public class NewsLink {
 
     /** Not-null value. */
     public String getCreateDateTime() {
-        return CreateDateTime;
+        return createdAt;
     }
 
     /** Not-null value; ensure this value is available before it is saved to the database. */
     public void setCreateDateTime(String CreateDateTime) {
-        this.CreateDateTime = CreateDateTime;
+        this.createdAt = CreateDateTime;
     }
 
     /** Not-null value. */
     public String getUpdateDateTime() {
-        return UpdateDateTime;
+        return updatedAt;
     }
 
     /** Not-null value; ensure this value is available before it is saved to the database. */
     public void setUpdateDateTime(String UpdateDateTime) {
-        this.UpdateDateTime = UpdateDateTime;
+        this.updatedAt = UpdateDateTime;
     }
 
-    /** Not-null value. */
-    public String getRecordTimeStamp() {
-        return RecordTimeStamp;
-    }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
-    public void setRecordTimeStamp(String RecordTimeStamp) {
-        this.RecordTimeStamp = RecordTimeStamp;
-    }
 
     // KEEP METHODS - put your custom methods here
     // KEEP METHODS END

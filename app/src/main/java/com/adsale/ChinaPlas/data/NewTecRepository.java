@@ -3,11 +3,9 @@ package com.adsale.ChinaPlas.data;
 import android.database.Cursor;
 
 import com.adsale.ChinaPlas.App;
-import com.adsale.ChinaPlas.dao.ApplicationIndustry;
+import com.adsale.ChinaPlas.dao.Application;
 import com.adsale.ChinaPlas.dao.DBHelper;
 import com.adsale.ChinaPlas.dao.NewCategoryID;
-import com.adsale.ChinaPlas.dao.NewCategoryMaster;
-import com.adsale.ChinaPlas.dao.NewCategoryMasterDao;
 import com.adsale.ChinaPlas.dao.NewCategorySub;
 import com.adsale.ChinaPlas.dao.NewCategorySubDao;
 import com.adsale.ChinaPlas.dao.NewCategoryIDDao;
@@ -24,6 +22,7 @@ import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.Parser;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import de.greenrobot.dao.AbstractDao;
 
@@ -64,7 +63,7 @@ public class NewTecRepository {
         if (mInfoDao == null) {
             throw new NullPointerException("mInfoDao cannot be null,please #initDao()");
         }
-        Cursor cursor = App.mDBHelper.db.rawQuery("select N.*,I.IMAGE__FILE AS IMAGE from NEW_PRODUCT_INFO N, PRODUCT_IMAGE I WHERE N.RID=I.RID", null);
+        Cursor cursor = App.mDBHelper.db.rawQuery("select N.*,I.IMAGE__FILE AS IMAGE from NEW_PRODUCT_INFO N, PRODUCT_IMAGE I WHERE N.RID=I.RID order by N.RID", null);
         return getInfoList(cursor);
     }
 
@@ -93,13 +92,13 @@ public class NewTecRepository {
         return list;
     }
 
-    public ArrayList<ApplicationIndustry> getApplications(ArrayList<ApplicationIndustry> list) {
+    public ArrayList<Application> getApplications(ArrayList<Application> list) {
         Cursor cursor = App.mDBHelper.db.rawQuery("SELECT * FROM PRODUCT_APPLICATION ORDER BY ORDERING", null);
         if (cursor != null) {
-            ApplicationIndustry entity;
+            Application entity;
             while (cursor.moveToNext()) {
-                entity = new ApplicationIndustry(cursor.getString(0), cursor.getString(1), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(5));
-                list.add(entity);
+//                entity = new Application(cursor.getString(0), cursor.getString(1), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(5));
+//                list.add(entity);
             }
             cursor.close();
         }
@@ -113,15 +112,15 @@ public class NewTecRepository {
      * @param typeId MainTypeId
      * @return
      */
-    public ArrayList<ApplicationIndustry> getNewTecFilterList(ArrayList<ApplicationIndustry> list, String typeId) {
+    public ArrayList<Application> getNewTecFilterList(ArrayList<Application> list, String typeId) {
         if (mCategorySubDao == null) {
             mCategorySubDao = App.mDBHelper.mCategorySubDao;
         }
         Cursor cursor = App.mDBHelper.db.rawQuery("select * from NEW_CATEGORY_SUB where MainTypeId='" + typeId + "' ORDER BY OrderId", null);
         if (cursor != null) {
-            ApplicationIndustry entity;
+            Application entity;
             while (cursor.moveToNext()) {
-                entity = new ApplicationIndustry(cursor.getString(4), cursor.getString(1), cursor.getString(2), cursor.getString(3), null, null);
+                entity = new Application(cursor.getString(4), cursor.getString(1), cursor.getString(2), cursor.getString(3), null, null);
                 list.add(entity);
             }
             cursor.close();
@@ -170,7 +169,7 @@ public class NewTecRepository {
                 if (industriesStr.size() == 0) {
                     industriesStr.add(" select RID from NEW_CATEGORY_ID where CATEGORY = '" + filter.id + "' ");
 
-                } else{
+                } else {
                     industriesStr.add("  and CATEGORY = '" + filter.id + "' ");
                 }
 //                industriesStr.add(" select RID from NEW_CATEGORY_ID where CATEGORY = '".concat(filter.id).concat("'"));
@@ -213,6 +212,7 @@ public class NewTecRepository {
     }
 
     public void insertCategorySubAll(ArrayList<NewCategorySub> list) {
+        LogUtil.i("NEWTECH:", "insertCategorySubAll:" + list.size());
         mCategorySubDao.insertOrReplaceInTx(list);
     }
 
@@ -237,6 +237,7 @@ public class NewTecRepository {
     }
 
     public void clearCategorySub() {
+        LogUtil.i("NEWTECH:", "clearCategorySub");
         checkDao(mCategorySubDao);
         mCategorySubDao.deleteAll();
     }
@@ -245,6 +246,40 @@ public class NewTecRepository {
         if (dao == null) {
             initDao();
         }
+    }
+
+    /**
+     * 获取
+     *
+     * @param RID
+     * @return
+     */
+    public List<NewProductInfo> getNewProductInfoScroll(String RID) {
+        checkDao(mInfoDao);
+//        List<NewProductInfo> list = mInfoDao.queryBuilder().orderAsc(NewProductInfoDao.Properties.RID).list();
+        List<NewProductInfo> list = getAllProductInfoList();
+        List<NewProductInfo> results = new ArrayList<>();
+        int size = list.size();
+        NewProductInfo entity;
+        for (int i = 0; i < size; i++) {
+            entity = list.get(i);
+            if (entity.getRID().equals(RID)) {
+                results.add(entity);
+                if (i == 0) {
+                    LogUtil.i("NewTecRepo", "第0个，添加后面一个❤ " + list.get(i + 1).getCompanyName());
+                    results.add( list.get(i + 1));
+                } else if (i == size - 1) {
+                    LogUtil.i("NewTecRepo", "最后一个，添加前面一个❤ " + list.get(i - 1).getCompanyName());
+                    results.add(0, list.get(i - 1));
+                } else {
+                    LogUtil.i("NewTecRepo", "在中间，添加左右❤ " + list.get(i - 1).getCompanyName() + ",   " + list.get(i + 1).getCompanyName());
+                    results.add(0,list.get(i - 1));
+                    results.add(2, list.get(i + 1));
+                }
+                break;
+            }
+        }
+        return results;
     }
 
 

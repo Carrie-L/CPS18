@@ -17,36 +17,20 @@
         android:layout_height="match_parent"
         tools:context="com.adsale.ChinaPlas.ui.FloorDetailActivity">
 
-        <LinearLayout
-            android:id="@+id/ll_m4"
+
+        <FrameLayout
+            android:id="@+id/frame_d6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:orientation="horizontal">
+            />
 
-            <ImageView
-                android:id="@+id/iv_m4_left"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="@{()->model.onM4Click(1)}"
-                android:visibility="invisible" />
-
-            <ImageView
-                android:id="@+id/iv_m4_right"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:onClick="@{()->model.onM4Click(2)}"
-                android:visibility="invisible" />
-
-        </LinearLayout>
 
         <com.adsale.ChinaPlas.PhotoView.PhotoView
             android:id="@+id/iv_map"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/ll_m4"
+            android:layout_above="@id/frame_d6"
             android:scaleType="fitCenter" />
 
         <ImageView

@@ -5,7 +5,6 @@ import android.databinding.ViewDataBinding;
 import com.adsale.ChinaPlas.BR;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.CpsBaseAdapter;
-import com.adsale.ChinaPlas.dao.Floor;
 import com.adsale.ChinaPlas.dao.Zone;
 import com.adsale.ChinaPlas.data.model.ExhibitorFilter;
 import com.adsale.ChinaPlas.utils.LogUtil;
@@ -40,7 +39,7 @@ public class ZoneAdapter extends CpsBaseAdapter<Zone> {
     public void setList(ArrayList<Zone> list) {
         this.list = list;
         super.setList(list);
-        LogUtil.i(TAG, "setList=" + list.size());
+        LogUtil.i(TAG, "setList=" + list.size()+", "+list.toString());
     }
 
     @Override

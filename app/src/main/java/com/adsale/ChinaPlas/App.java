@@ -20,6 +20,8 @@ import com.adsale.ChinaPlas.dao.DBHelper;
 import com.adsale.ChinaPlas.dao.DaoMaster;
 import com.adsale.ChinaPlas.dao.DaoSession;
 import com.adsale.ChinaPlas.dao.TempOpenHelper;
+import com.adsale.ChinaPlas.helper.BmobHelper;
+import com.adsale.ChinaPlas.helper.LogHelper;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.CrashHandler;
@@ -41,6 +43,8 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobConfig;
+import cn.bmob.v3.BmobQuery;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 import cn.sharesdk.framework.ShareSDK;
@@ -65,8 +69,9 @@ public class App extends MultiDexApplication {
     public static SharedPreferences mSP_Sync;
     public static SharedPreferences mSP_HP;
     public static SharedPreferences mSP_DownloadCenter;
+    public static SharedPreferences mSP_EventPage;
 
-    public static final String DATABASE_NAME = "cps18.db";
+    public static final String DATABASE_NAME = "cps19.db";
 
     private DaoMaster daoMaster;
     public SQLiteDatabase db;
@@ -85,6 +90,7 @@ public class App extends MultiDexApplication {
     public static final ObservableInt mLanguage = new ObservableInt();
     private TempOpenHelper mTempOpenHelper;
     public static Configuration configuration;
+    public static LogHelper mLogHelper;
 
     //    public static String memoryFileDir;
 
@@ -105,13 +111,15 @@ public class App extends MultiDexApplication {
         initCrashHandle();
         resources = getResources();
 
+        mLogHelper = LogHelper.getInstance();
+
 //      initLeakCanary();
 
         DB_PATH = "/data" + Environment.getDataDirectory().getAbsolutePath() + "/" + getPackageName() + "/databases";
 
         mConnectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        rootDir = getDir("cps18", MODE_PRIVATE).getAbsolutePath() + "/";
+        rootDir = getDir("cps19", MODE_PRIVATE).getAbsolutePath() + "/";
         filesDir = getFilesDir().getAbsolutePath() + "/";// /data/user/0/com.adsale.ChinaPlas/files/
         LogUtil.i(TAG, "rootDir=" + rootDir);
         LogUtil.i(TAG, "filesDir=" + filesDir);
@@ -135,11 +143,14 @@ public class App extends MultiDexApplication {
 
         //第一：默认初始化
         Bmob.initialize(this, "7fba88ccf93642ad18f878d23354a483");
+        BmobQuery.clearAllCachedResults();
+
+
 
 
     }
 
-    private void initLeakCanary(){
+    private void initLeakCanary() {
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
             // You should not init your app in this process.
@@ -155,11 +166,17 @@ public class App extends MultiDexApplication {
         String registrationID = JPushInterface.getRegistrationID(getApplicationContext());
         LogUtil.i("App_JPushInterface", "registrationID=" + registrationID);
         // 别名
-        setJPushAlias();
-//        testJPush();
+        if (ReleaseHelper.IsMyTestVersion) {
+            testJPush();
+        } else {
+            setJPushAlias();
+        }
+
+
     }
 
     private void setJPushAlias() {
+        LogUtil.i(TAG, "-setJPushAlias-");
         int language = AppUtil.getCurLanguage();
         if (language == 0) {
             JPushInterface.setAlias(getApplicationContext(), 1, "TCUser");
@@ -171,7 +188,8 @@ public class App extends MultiDexApplication {
     }
 
     private void testJPush() {
-        JPushInterface.setAlias(this, "Carrie180320", new TagAliasCallback() {
+        LogUtil.i(TAG, "-testJPush-");
+        JPushInterface.setAlias(this, "Carrie2019", new TagAliasCallback() {
             @Override
             public void gotResult(int arg0, String arg1, Set<String> arg2) {
                 LogUtil.i("App:JPushInterface", "返回状态码arg0=" + arg0 + ",别名arg1=" +
@@ -235,6 +253,7 @@ public class App extends MultiDexApplication {
         mSP_Sync = getSharedPreferences(Constant.SYNC_DATA, MODE_PRIVATE);
         mSP_DownloadCenter = getSharedPreferences(Constant.SP_DOWNLOAD_CENTER, MODE_PRIVATE);
         mSP_HP = getSharedPreferences(Constant.SP_HP, MODE_PRIVATE);
+        mSP_EventPage = getSharedPreferences(Constant.SP_EVENT_PAGE, MODE_PRIVATE);
     }
 
     @Override
@@ -275,7 +294,7 @@ public class App extends MultiDexApplication {
             if (!(new File(dbfile).exists())) {
                 LogUtil.e(TAG, "数据库不存在，从raw中导入");
                 // 判断数据库文件是否存在，若不存在则执行导入，否则直接打开数据库
-                InputStream is = resources.openRawResource(R.raw.cps18); // 欲导入的数据库
+                InputStream is = resources.openRawResource(R.raw.cps19); // 欲导入的数据库
                 FileOutputStream fos = new FileOutputStream(dbfile);
                 byte[] buffer = new byte[4000];
                 int count = 0;

@@ -4,6 +4,7 @@ package com.adsale.ChinaPlas.dao;
 
 // KEEP INCLUDES - put your custom includes here
 // KEEP INCLUDES END
+
 /**
  * Entity mapped to table "PRODUCT_IMAGE".
  */
@@ -13,16 +14,17 @@ public class ProductImage {
     private String PID;
     private String Image_File;
 
+
     // KEEP FIELDS - put your custom fields here
     // KEEP FIELDS END
 
     public ProductImage() {
     }
 
-    public ProductImage(String RID, String PID, String Image_File) {
+    public ProductImage(String RID, String PID, String image_File) {
         this.RID = RID;
         this.PID = PID;
-        this.Image_File = Image_File;
+        Image_File = image_File;
     }
 
     public String getRID() {
@@ -49,11 +51,17 @@ public class ProductImage {
         this.Image_File = Image_File;
     }
 
+
     // KEEP METHODS - put your custom methods here
     public void parser(String[] strings) {
         this.RID = strings[0];
         this.PID = strings[1];
         this.Image_File = strings[2];
+        if (Image_File.contains("JPG")) {
+            Image_File = Image_File.replace("JPG", "jpg");
+        } else if (Image_File.contains("PNG")) {
+            Image_File = Image_File.replace("PNG", "png");
+        }
     }
     // KEEP METHODS END
 

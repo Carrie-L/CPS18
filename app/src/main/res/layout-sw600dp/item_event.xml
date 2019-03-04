@@ -9,7 +9,7 @@
 
         <variable
             name="obj"
-            type="com.adsale.ChinaPlas.data.model.ConcurrentEvent.Pages" />
+            type="com.adsale.ChinaPlas.dao.ConcurrentEvent" />
 
         <variable
             name="adapter"
@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitXY"
-                app:imgUrl="@{obj.getImageLink()}" />
+                app:imgUrl="@{obj.getBackgroundUrlPad()}" />
 
             <ImageView
                 android:layout_width="22dp"
@@ -90,7 +90,7 @@
                 android:layout_marginStart="48dp"
                 android:layout_toEndOf="@id/tv_event_location"
                 android:src="@drawable/ic_event_prereg"
-                android:visibility="@{obj.pre_reg!=null&amp;&amp;Integer.valueOf(obj.pre_reg)==0?View.VISIBLE:View.GONE}" />
+                android:visibility="@{obj.isPreReg?View.VISIBLE:View.GONE}" />
 
             <ImageView
                 android:id="@+id/iv_event_pay"
@@ -103,7 +103,7 @@
                 android:layout_marginTop="1dp"
                 android:layout_toEndOf="@id/iv_event_prereg"
                 android:src="@drawable/ic_event_pay"
-                android:visibility="@{obj.entrance_fee!=null&amp;&amp;Integer.valueOf(obj.entrance_fee)==0?View.VISIBLE:View.GONE}" />
+                android:visibility="@{obj.isFree?View.VISIBLE:View.GONE}" />
 
         </RelativeLayout>
 

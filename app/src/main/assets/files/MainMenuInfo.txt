@@ -1,80 +1,10 @@
-{
-  "IconPath": "https://o97tbiy1f.qnssl.com/SidebarIcons/",
+﻿{
+  "IconPath": "http://cdn-adsalecdn.oss-cn-shenzhen.aliyuncs.com/App/2019/MainIcons/",
   "TopBanners": [
-    {
-      "EN": {
-        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/phone_allinone.jpg",
-        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/tablet_allinone.jpg",
-        "Function": "5",
-        "InnerPage": "CurrentEventsTxt",
-        "Link": "https://www.chinaplasonline.com/CPS18/Events/lang-eng/TechTalk.aspx",
-        "companyID": "229048",
-        "eventID": "DesignInnovationCMF",
-        "seminarID": "15",
-        "newsID": "0000000409"
-      },
-      "SC": {
-        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/phone_allinone.jpg",
-        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/tablet_allinone.jpg",
-        "Function": "5",
-        "InnerPage": "CurrentEventsTxt",
-        "Link": "https://www.chinaplasonline.com/CPS18/Events/lang-simp/TechTalk.aspx",
-        "companyID": "229048",
-        "eventID": "DesignInnovationCMF",
-        "seminarID": "15",
-        "newsID": "0000000409"
-      },
-      "TC": {
-        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/phone_allinone.jpg",
-        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/tablet_allinone.jpg",
-        "Function": "5",
-        "InnerPage": "CurrentEventsTxt",
-        "Link": "https://www.chinaplasonline.com/CPS18/Events/lang-trad/TechTalk.aspx",
-        "companyID": "229048",
-        "eventID": "DesignInnovationCMF",
-        "seminarID": "15",
-        "newsID": "0000000409"
-      }
-    },
-{
-      "EN": {
-        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/phone_EastBenefits_EN.jpg",
-        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/tablet_EastBenefits_EN.jpg",
-        "Function": "0",
-        "InnerPage": "CurrentEventsTxt",
-        "Link": "https://www.chinaplasonline.com/CPS18/Events/lang-eng/MedicalPlasticsConnect.aspx",
-        "companyID": "229048",
-        "eventID": "GuidedTechnicalTour",
-        "seminarID": "15",
-        "newsID": "0000000409"
-      },
-      "SC": {
-        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/phone_EastBenefits_SC.jpg",
-        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/tablet_EastBenefits_SC.jpg",
-        "Function": "0",
-        "InnerPage": "CurrentEventsTxt",
-        "Link": "https://www.chinaplasonline.com/CPS18/Events/lang-simp/MedicalPlasticsConnect.aspx",
-        "companyID": "229048",
-        "eventID": "GuidedTechnicalTour",
-        "seminarID": "15",
-        "newsID": "0000000409"
-      },
-      "TC": {
-        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/phone_EastBenefits_TC.jpg",
-        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/tablet_EastBenefits_TC.jpg",
-        "Function": "0",
-        "InnerPage": "CurrentEventsTxt",
-        "Link": "https://www.chinaplasonline.com/CPS18/Events/lang-trad/MedicalPlasticsConnect.aspx",
-        "companyID": "229048",
-        "eventID": "GuidedTechnicalTour",
-        "seminarID": "15",
-        "newsID": "0000000409"
-      }
-    },
  {
       "EN": {
-        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/Banner_en.png",
-        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/Tablet_banner_en.png",
+        "BannerImage": "https://cdn.adsalecdn.com/App/2019/MainMenuImages/Banner_eng.png",
+        "BannerImage_Pad": "https://cdn.adsalecdn.com/App/2019/MainMenuImages/Tablet_banner_en.png",
         "Function": "5",
         "InnerPage": "GeneralInformation",
         "Link": "baidu.com",
@@ -84,8 +14,8 @@
         "newsID": "0000000409"
       },
       "SC": {
-        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/Banner_sc.png",
-        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/Tablet_banner_sc.png",
+        "BannerImage": "https://cdn.adsalecdn.com/App/2019/MainMenuImages/Banner_sc.png",
+        "BannerImage_Pad": "https://cdn.adsalecdn.com/App/2019/MainMenuImages/Tablet_banner_sc.png",
         "Function": "5",
         "InnerPage": "GeneralInformation",
         "Link": "baidu.com",
@@ -95,8 +25,8 @@
         "newsID": "0000000409"
       },
       "TC": {
-        "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/Banner_tc.png",
-        "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/Tablet_banner_tc.png",
+        "BannerImage": "https://cdn.adsalecdn.com/App/2019/MainMenuImages/Banner_tc.png",
+        "BannerImage_Pad": "https://cdn.adsalecdn.com/App/2019/MainMenuImages/Tablet_banner_tc.png",
         "Function": "5",
         "InnerPage": "GeneralInformation",
         "Link": "baidu.com",
@@ -109,10 +39,10 @@
   ],
   "LeftBottomBanner": {
  "EN": {
-      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon11_en.png",
-      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon11_en.png",
+      "BannerImage": "https://cdn.adsalecdn.com/App/2019/MainMenuImages/icon11_en.png",
+      "BannerImage_Pad": "https://cdn.adsalecdn.com/App/2019/MainMenuImages/icon11_en.png",
       "Function": "5",
-      "InnerPage": "VisitingTips",
+      "InnerPage": "Visitor",
       "Link": "baidu.com",
       "companyID": "229048",
       "eventID": "TechTalk",
@@ -120,10 +50,10 @@
       "newsID": "0000000409"
     },
     "SC": {
-      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon11_sc.png",
-      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon11_sc.png",
+      "BannerImage": "https://cdn.adsalecdn.com/App/2019/MainMenuImages/icon11_sc.png",
+      "BannerImage_Pad": "https://cdn.adsalecdn.com/App/2019/MainMenuImages/icon11_sc.png",
       "Function": "5",
-      "InnerPage": "VisitingTips",
+      "InnerPage": "Visitor",
       "Link": "baidu.com",
       "companyID": "229048",
       "eventID": "TechTalk",
@@ -131,10 +61,10 @@
       "newsID": "0000000409"
     },
     "TC": {
-      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon11_tc.png",
-      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/icon11_tc.png",
+      "BannerImage": "https://cdn.adsalecdn.com/App/2019/MainMenuImages/icon11_tc.png",
+      "BannerImage_Pad": "https://cdn.adsalecdn.com/App/2019/MainMenuImages/icon11_tc.png",
       "Function": "5",
-      "InnerPage": "VisitingTips",
+      "InnerPage": "Visitor",
       "Link": "baidu.com",
       "companyID": "229048",
       "eventID": "TechTalk",
@@ -144,10 +74,10 @@
   },
  "RightBottomBanner": {
     "EN": {
-      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/BottomAdBanner1_en.png",
-      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/BottomAdBanner1_en.png",
+      "BannerImage": "https://cdn.adsalecdn.com/App/2019/MainMenuImages/BottomAdBanner1_en.png",
+      "BannerImage_Pad": "https://cdn.adsalecdn.com/App/2019/MainMenuImages/BottomAdBanner1_en.png",
       "Function": "5",
-      "InnerPage": "HallMapTextWithoutHelp",
+      "InnerPage": "ContactUs",
       "Link": "baidu.com",
       "companyID": "229048",
       "eventID": "001",
@@ -155,10 +85,10 @@
       "newsID": "0000000409"
     },
     "SC": {
-      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/BottomAdBanner1_sc.png",
-      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/BottomAdBanner1_sc.png",
+      "BannerImage": "https://cdn.adsalecdn.com/App/2019/MainMenuImages/BottomAdBanner1_sc.png",
+      "BannerImage_Pad": "https://cdn.adsalecdn.com/App/2019/MainMenuImages/BottomAdBanner1_sc.png",
       "Function": "5",
-      "InnerPage": "HallMapTextWithoutHelp",
+      "InnerPage": "ContactUs",
       "Link": "baidu.com",
       "companyID": "229048",
       "eventID": "001",
@@ -166,10 +96,10 @@
       "newsID": "0000000409"
     },
     "TC": {
-      "BannerImage": "https://o97tbiy1f.qnssl.com/MainMenuImages/BottomAdBanner1_tc.png",
-      "BannerImage_Pad": "https://o97tbiy1f.qnssl.com/MainMenuImages/BottomAdBanner1_tc.png",
+      "BannerImage": "https://cdn.adsalecdn.com/App/2019/MainMenuImages/BottomAdBanner1_tc.png",
+      "BannerImage_Pad": "https://cdn.adsalecdn.com/App/2019/MainMenuImages/BottomAdBanner1_tc.png",
       "Function": "5",
-      "InnerPage": "HallMapTextWithoutHelp",
+      "InnerPage": "ContactUs",
       "Link": "baidu.com",
       "companyID": "229048",
       "eventID": "001",

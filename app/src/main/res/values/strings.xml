@@ -30,9 +30,9 @@
     <string name="data_bking">正在備份數據&#8230;</string>
     <string name="data_bk_success">備份完成</string>
 
-    <string name="login_first_add_exhibitor">需要登錄后才能添加參展商，是否登錄？</string>
-    <string name="login_first_add_schedule">需要登錄后才能添加議程，是否登錄？</string>
-    <string name="login_first_save_note">需要登錄后才能保存筆記，是否登錄？</string>
+    <string name="login_first_add_exhibitor">您需要登錄＂MyCHINAPLAS＂才能儲存展商紀錄到您的感興趣展商列表＂我的參展商＂。</string>
+    <string name="login_first_add_schedule">您需要登錄＂MyCHINAPLAS＂才能添加議程，是否登錄？</string>
+    <string name="login_first_save_note">您需要登錄＂MyCHINAPLAS＂才能保存筆記，是否登錄？</string>
 
     <!--预登记-->
     <string name="reg_reset">重置</string>
@@ -43,14 +43,16 @@
     <string name="confirm">確定</string>
     <string name="cancel">取消</string>
 
-    <string name="ts_date">2018年4月</string>
+    <string name="ts_date">2019年5月</string>
 
     <!--MyAccount-->
     <string name="title_my_account">用戶小工具</string>
-    <string name="title_my_exhibitor">我的CHINAPLAS</string>
+    <string name="title_my_chinaplas">MyCHINAPLAS</string>
+    <string name="title_my_exhibitor">我的參展商</string>
     <string name="title_schedule">我的日程表</string>
     <string name="title_my_name_card">我的名片</string>
     <string name="title_history_exhibitor">展商瀏覽紀錄</string>
+
     <!-- logout -->
     <string name="logout">登出</string>
     <string name="logout_message">確認登出?</string>
@@ -69,7 +71,7 @@
     <string name="schedule_minute">分鐘</string>
     <string name="schedule_save">儲存</string>
     <string name="schedule_del">刪除</string>
-    <string name="schedule_date">2018年4月</string>
+    <string name="schedule_date">2019年5月</string>
 
     <string name="schedule_exhibitor">參展商</string>
     <string name="schedule_event">同期活動</string>
@@ -130,6 +132,9 @@
     <string name="toast_floor_not_shown">詳細展館平面圖稍後公布。</string>
     <string name="toast_floor_download">為了更好的體驗平面圖功能，請您更新展館平面圖對應數據。</string>
     <string name="toast_floor_update">請您更新平面圖數據，以便獲取更准確的資料。</string>
+
+    <string name="title_privacy">私隱政策聲明</string>
+    <string name="title_user_item">使用條款</string>
 
     <string name="title_filter">篩選</string>
     <string name="filter_industry">產品類別</string>
@@ -220,15 +225,15 @@
 
     <!--同期活动-->
     <string name="event_btn_all">全部</string>
-    <string name="event_btn_24">24</string>
-    <string name="event_btn_25">25</string>
-    <string name="event_btn_26">26</string>
-    <string name="event_btn_27">27</string>
-    <string name="event_date_24">2018.04.24</string>
-    <string name="event_date_25">2018.04.25</string>
-    <string name="event_date_26">2018.04.26</string>
-    <string name="event_date_27">2018.04.27</string>
-    <string name="event_date_base">2018.04.%s</string>
+    <string name="event_btn_1">21</string>
+    <string name="event_btn_2">22</string>
+    <string name="event_btn_3">23</string>
+    <string name="event_btn_4">24</string>
+    <string name="event_date_24">2019.05.21</string>
+    <string name="event_date_25">2019.05.22</string>
+    <string name="event_date_26">2019.05.23</string>
+    <string name="event_date_27">2019.05.24</string>
+    <string name="event_date_base">2019.05.%s</string>
     <string name="tech_zone">A</string>
     <string name="tech_am">上午</string>
     <string name="tech_pm">下午</string>
@@ -259,6 +264,8 @@
     <string name="uc_update_all">更新全部</string>
 
     <string name="apk_update_msg">檢測到新版本，是否更新？</string>
+    <string name="apk_update_title">更新版本</string>
+    <string name="apk_progress">%s%%</string>
 
 
     <!--文档下载中心-->
@@ -322,7 +329,7 @@
 
 
     <string name="home">主目錄</string>
-    <string name="my_exhibt_on_map">Distribution</string>
+    <string name="my_exhibt_on_map">展台位置</string>
 
     <string name="dialog_prompt">提示</string>
     <string name="dialog_sync_prompt_message">請登錄你的賬戶，進行參展商同步</string>
@@ -339,7 +346,7 @@
 
     <!-- Setting -->
     <string name="select_url">請選擇網站版本</string>
-    <string name="sharetitle">國際橡塑展2018</string>
+    <string name="sharetitle">國際橡塑展2019</string>
 
     <string-array name="url_ver">
         <item>完整版</item>
@@ -369,9 +376,9 @@
 
 
     <!-- 分享 -->
-    <string name="share_setting_text">國際橡塑展手機應用程式已經開發下載！</string>
-    <string name="share_setting_url">http://www.chinaplasonline.com/CPS18/Mobile/Home/lang-trad/MobileApp.aspx</string>
-    <string name="share_news_link">http://www.chinaplasonline.com/CPS18/Mobile/Home/lang-trad/WhatsNew.aspx</string>
+    <string name="share_setting_text">國際橡塑展手機應用程式已經開放下載！</string>
+    <string name="share_setting_url">https://www.chinaplasonline.com/CPS19/mobileapp/trad/app</string>
+    <string name="share_news_link">https://www.chinaplasonline.com/CPS19/showpress/trad</string>
     <string name="share_sinna_weibo">新浪微博</string>
     <string name="share_qq">QQ</string>
     <string name="share_qq_zone">QQ空間</string>
@@ -381,7 +388,7 @@
     <string name="share_facebook">Facebook</string>
     <string name="share_twitter">Twitter</string>
     <string name="share_whatsApp">WhatsApp</string>
-    <string name="share_title">2018 國際橡塑展</string>
+    <string name="share_title">2019 國際橡塑展</string>
 
     <string name="share_exhibitor_booth">展台號：</string>
 
@@ -446,12 +453,12 @@
     <string name="title_exhibitor">展商名單</string>
     <string name="title_new_tec">首發及熱點技術</string>
 
-    <string name="notes">歡迎來臨國際橡塑展2018</string>
+    <string name="notes">歡迎來臨國際橡塑展2019</string>
     <string name="ask_addToCalendar">確定要將展覽日期存入日曆表嗎？</string>
     <string name="addToCalendar_success">國際橡塑展的展覽日期已經加到此裝置的日曆表。</string>
     <string name="addToCalendar_fail">匯入行事曆失敗！</string>
     <string name="calendar_description">「CHINAPLAS 國際橡塑展」伴隨著中國塑料及橡膠行業成長逾30年，至今已發展成為亞洲最具規模之橡塑業展會，並對中國橡塑業的發展產生了積極的推動作用。目前，「CHINAPLAS 國際橡塑展」不單是亞洲最大型的塑料及橡膠業展覽會，業內人士更公認其影響力僅次於全球第一大橡塑展的德國「K展」, 成為橡塑業的世界第二大展會。 </string>
-    <string name="calendar_location">中國‧上海‧虹橋‧國家會展中心\n (中國上海市青浦區崧澤大道333號)</string>
+    <string name="calendar_location">中國廣州．琶洲．中國進出口商品交易會展館\n [中國廣州市琶洲閱江中路382號(郵編：510335)]</string>
 
     <string name="dialog_update_event">同期活動內容已更新，請於“內容更新中心”更新最新資料。</string>
     <string name="addScheduleInfo">新增議程</string>

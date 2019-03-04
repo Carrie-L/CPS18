@@ -137,10 +137,20 @@ public class LoadTransferTempDB {
         }, BackpressureStrategy.BUFFER);
     }
 
+    /**
+     * select COMPANY_ID,IS_FAVOURITE,NOTE from EXHIBITOR WHERE IS_FAVOURITE=1 OR NOTE!=''
+     */
     private void insertExhibitorTemp() {
         long startTime = System.currentTimeMillis();
-
-        Cursor cursor = db.rawQuery("select COMPANY_ID,IS_FAVOURITE,NOTE from EXHIBITOR WHERE IS_FAVOURITE=1 OR NOTE!=''", null);
+        StringBuilder sql = new StringBuilder();
+        sql.append("select ").append(ExhibitorDao.Properties.CompanyID.columnName)
+                .append(",").append(ExhibitorDao.Properties.IsFavourite.columnName)
+                .append(",").append(ExhibitorDao.Properties.Note.columnName)
+                .append(",").append(ExhibitorDao.Properties.Rate.columnName)
+                .append(" from ").append(ExhibitorDao.TABLENAME)
+                .append(" WHERE ").append(ExhibitorDao.Properties.IsFavourite.columnName)
+                .append(" OR ").append(ExhibitorDao.Properties.Note.columnName).append("!=''");
+        Cursor cursor = db.rawQuery(sql.toString(), null);
         ContentValues cv;
         long success = 0;
         if (cursor != null) {
@@ -154,6 +164,7 @@ public class LoadTransferTempDB {
                 cv.put("COMPANY_ID", cursor.getString(0));
                 cv.put("IS_FAVOURITE", cursor.getString(1));
                 cv.put("NOTE", cursor.getString(2));
+                cv.put("RATE", cursor.getString(3));
                 success = tempDB.insert(EXHIBITOR_TABLE_TEMP, null, cv);
             }
             cursor.close();
@@ -165,7 +176,7 @@ public class LoadTransferTempDB {
 
     private void insertHistoryTemp() {
         long startTime = System.currentTimeMillis();
-        Cursor cursor = db.rawQuery("select * from HISTORY_EXHIBITOR", null);
+        Cursor cursor = db.rawQuery("select * from " + HistoryExhibitorDao.TABLENAME, null);
         ContentValues cv = new ContentValues();
         if (cursor != null) {
             if (cursor.getCount() <= 0) {
@@ -190,7 +201,7 @@ public class LoadTransferTempDB {
 
     private void insertScheduleTemp() {
         long startTime = System.currentTimeMillis();
-        Cursor cursor = db.rawQuery("select * from SCHEDULE_INFO", null);
+        Cursor cursor = db.rawQuery("select * from " + ScheduleInfoDao.TABLENAME, null);
         ContentValues cv = new ContentValues();
         if (cursor != null) {
             if (cursor.getCount() <= 0) {
@@ -274,10 +285,11 @@ public class LoadTransferTempDB {
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 companyId = cursor.getString(0);
-                cv.put("COMPANY_ID", companyId);
-                cv.put("IS_FAVOURITE", cursor.getString(1));
-                cv.put("NOTE", cursor.getString(2));
-                success = db.update(ExhibitorDao.TABLENAME, cv, "COMPANY_ID=?", new String[]{companyId});
+                cv.put(ExhibitorDao.Properties.CompanyID.columnName, companyId);
+                cv.put(ExhibitorDao.Properties.IsFavourite.columnName, cursor.getString(1));
+                cv.put(ExhibitorDao.Properties.Note.columnName, cursor.getString(2));
+                cv.put(ExhibitorDao.Properties.Rate.columnName, cursor.getString(3));
+                success = db.update(ExhibitorDao.TABLENAME, cv, ExhibitorDao.Properties.CompanyID.columnName + "=?", new String[]{companyId});
             }
             cursor.close();
         }

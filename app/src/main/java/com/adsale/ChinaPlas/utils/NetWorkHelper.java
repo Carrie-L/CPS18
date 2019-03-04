@@ -17,6 +17,8 @@ public class NetWorkHelper {
     private static final String TAG = "NetWorkHelper";
     private static final MediaType MEDIA_TYPE_XML = MediaType.parse("text/xml; charset=UTF-8");
 
+    public static final String CPS_URL = "https://www.chinaplasonline.com/CPS19/idx/%s";
+
     /* Test service */
 //    private static final String PROJECT_CODE = "CPS18";
 //    public static final String DOWNLOAD_PATH = "https://eform.adsale.com.hk/AppCPS18Services/";
@@ -27,16 +29,28 @@ public class NetWorkHelper {
     private static final String PROJECT_CODE = "CPS2018";// scanFile : normal
     public static final String DOWNLOAD_PATH = "https://eform.adsale.com.hk/AppCPS2018Services/";
     public static final String WEBSERVICEURL = "https://eform.adsale.com.hk/AppCPS2018Services/wsCLE15.asmx";
-    public static final String DOWN_TXT_URL = "https://forms.adsale.com.hk/VirtualDirectory/AppCPS2018CMS/AppFiles/{fileName}";
+//    public static final String DOWN_TXT_URL = "https://forms.adsale.com.hk/VirtualDirectory/AppCPS2018CMS/AppFiles/{fileName}";
+    public static final String DOWN_TXT_URL = "http://cdn.adsalecdn.com/App/2019/files/{fileName}";
 
     /* MainIcon 下載地址： https://eform.adsale.com.hk/AppCPS2018Services/WebContent/20180323092519267.png  */
 
-    /* loading页的下载地址 */
-    public static final String DOWN_WEBCONTENT_URL = "WebContent/{fileName}";
-    public static final String APK_VERSION_TXT_URL = "https://eform.adsale.com.hk/AppCPS2018services/ApkVersion.txt";
+    /*  最新 2019 url 下載地址 */
+    public static final String DOWNLOAD_BASE_URL = "http://cdn.adsalecdn.com/App/2019/";
+    public static final String Download_MainIcon_Url = "http://cdn.adsalecdn.com/App/2019/MainIcons/";
+    public static final String DOWNLOAD_WCONTENT_URL = "http://cdn.adsalecdn.com/App/2019/WebContent/";    // webContent url
 
-    public static final String FULL_WEBSITE="http://www.chinaplasonline.com/CPS18/Home/%s/Information.aspx";
-    public static final String MOBILE_WEBSITE="http://www.chinaplasonline.com/CPS18/Mobile/%s/Home.aspx";
+    /* DownloadClient 下载路径 */
+    public static final String DOWN_WEBCONTENT_URL = "WebContent/{fileName}";
+    public static final String DOWN_MAP_URL = "FloorPlan/{fileName}";
+    public static final String DOWN_EVENT_URL = "ConcurrentEvent/{fileName}";  // 同期活动详情页 url   http://cdn.adsalecdn.com/App/2019/ConcurrentEvent/
+
+
+    /** txt 下载地址 */
+    public static final String TXT_MAIN_URL = "http://cdn.adsalecdn.com/App/2019/files/MainMenuInfo.txt";
+    public static final String TXT_AD_URL = "http://cdn.adsalecdn.com/App/2019/files/advertisement.txt";
+    public static final String TXT_NOTIFICATION_URL = "http://cdn.adsalecdn.com/App/2019/files/notification.txt";
+    public static final String APK_VERSION_TXT_URL = "http://cdn.adsalecdn.com/App/2019/files/apkVersion.txt";
+    public static final String TXT_NEW_TEC = "http://cdn.adsalecdn.com/App/2019/files/NewTechInfo.txt";  // 新技术产品的广告
 
     public static final String MOBILE_EXHI_HIGHLIGHTS="https://www.chinaplasonline.com/CPS18/Mobile/Home/%s/NewTechnologyeBook.aspx?eh=1";   //lang-trad
 
@@ -60,18 +74,21 @@ public class NetWorkHelper {
 
     /*预登记*/
 //    public static final String Register_URL = "https://www.chinaplasonline.com/CPS18/Mobile/Home/%s/QuickPreReg.aspx?device=mobileapp";
-    public static final String Register_URL = "https://www.chinaplasonline.com/CPS19/preregistration/simp?device=mobileapp";
-    public static final String MY_CHINAPLAS_URL = "https://www.chinaplasonline.com/CPS19/mychinaplas/simp/?device=APP";
+//    public static final String Register_URL = "https://www.chinaplasonline.com/CPS19/preregistration/%s?device=mobileapp";
+    public static final String Register_URL = "https://www.chinaplasonline.com/CPS19/preregistrationlanding/%s?device=APP";
 
+//    public static final String MY_CHINAPLAS_URL = "https://www.chinaplasonline.com/CPS19/mychinaplas/%s?device=APP";  /*  网页登录链接  */
+//    public static final String MY_CHINAPLAS_URL = "https://www.chinaplasonline.com/CPS19/mychinaplas/%s/APPLogin?device=APP";  /*  网页登录链接  */
+    public static final String MY_CHINAPLAS_URL = "https://www.chinaplasonline.com/CPS19/mychinaplas/%s?device=APP";  /*  网页登录链接  */
 
-
-
-
-//    public static final String REGISTER_CHARGE="https://epayment.adsale-marketing.com.cn/vreg/PayMent/PayAPPjump";/* 获取charge数据 */
+    public static final String REGISTER_INVOICE_URL = "https://www.chinaplasonline.com/CPS19/PreRegInvoice/%s?device=APP&guid=%s";
     public static final String REGISTER_CHARGE="https://epayment.adsale-marketing.com.cn/vreg/PreregSubmitCloud/PayAPPjump";/* 获取charge数据 */
     public static final String REGISTER_BASE_URL="https://epayment.adsale-marketing.com.cn/vreg/PreregSubmitCloud/";
     public static final String REGISTER_CONFIRM_PAY="https://epayment.adsale-marketing.com.cn/vreg/PreregMobileSMS/APPSelectPay"; /* 向服务器确认是否支付成功 */
-    public static final String CONFIRM_URL = "https://www.chinaplasonline.com/CPS19/PreregSuccess/simp/?device=mobileapp&guid=%s";
+    public static final String CONFIRM_URL = "https://www.chinaplasonline.com/CPS19/PreregSuccess/%s/?device=mobileapp&guid=%s";
+
+
+    public static final String API_TOKEN = "https://www.chinaplasonline.com/CPS19/CPSAPI/GetVistorInfoByMid?token=%s&langid=%s";
 
 
 //    public static final String REGISTER_CONFIRM_URL="https://www.chinaplasonline.com/CPS18/Mobile/Home/%1s/QuickPreRegResult.aspx?image=%2s";  /*  确认信链接 */
@@ -91,18 +108,20 @@ public class NetWorkHelper {
     //   https://www.chinaplasonline.com/CPS19/PreregSuccess/simp/?device=mobileapp&guid=99DB247DA11F40C583D5A1CCFE81751F
 
 
-    public static final String REGISTER_INVOICE_URL="https://www.chinaplasonline.com/CPS18/Mobile/Home/%1s/PreRegInvoice.aspx?image=%2s";  /*  发票链接 */
+//    public static final String REGISTER_INVOICE_URL="https://www.chinaplasonline.com/CPS18/Mobile/Home/%1s/PreRegInvoice.aspx?image=%2s";  /*  发票链接 */
     public static final String REGISTER_EMAIL_DATA="http://eform.adsale.com.hk/GeniusAnalyst/api/appapi/GetVisitorDataByEmail";  /*  登录后返回预登记图片信息 */
 
     /*订阅电子快讯*/
     public static final String Subscribe_BASE_URL = "https://eform.adsale.com.hk/FormR/ContactUs/";
-    public static final String Subscribe_LAST_URL = "EnewsSub.aspx?showid=479&device=app&WAct=9105";//&lang={langType}
+    public static final String Subscribe_LAST_URL = "EnewsSub.aspx?showid=505&device=app&WAct=9105";//&lang={langType}
 
     /*  内容更新中心baseUrl */
     public static final String UC_BASE_URL="https://o97tbiy1f.qnssl.com/";
 
     public static final String LOGJSON="http://eform.adsale.com.hk/adsaleApi/CpsApp/CPSAddTrackingJson";
-    public static final String SHARE_EXHIBITOR_URL="http://www.chinaplasonline.com/CPS18/Mobile/Home/lang-%1$s/searchType-5/company-%2$s/SearchExhibitor.aspx";
+//    public static final String SHARE_EXHIBITOR_URL="http://www.chinaplasonline.com/CPS18/Mobile/Home/lang-%1$s/searchType-5/company-%2$s/SearchExhibitor.aspx";
+    public static final String SHARE_EXHIBITOR_URL="https://www.chinaplasonline.com/ExhibitorList19/exhibitorinfo/%1$s/展商详情?compid=%2$s&src=61";
+    public static final String SHARE_EXHIBITOR_EN_URL="https://www.chinaplasonline.com/ExhibitorList19/exhibitorinfo/eng/exhibitor_info?compid=%1$s&src=61";
 
 
 

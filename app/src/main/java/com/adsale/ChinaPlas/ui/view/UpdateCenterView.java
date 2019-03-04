@@ -139,7 +139,7 @@ public class UpdateCenterView extends RelativeLayout {
             getUpdateLink4();
 //            downOneZip(urlEntity.link, dir);
             downFloorPlan();
-        } else if (index == 2) { // Floor Plan
+        } else if (index == 2) { // Map Plan
 //            dir = rootDir.concat(Constant.DIR_FLOOR_PLAN);
 //            dir = createFile(dir);
             getUpdateLink1();

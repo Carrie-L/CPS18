@@ -21,10 +21,15 @@
             >
 
             <ImageView
+                android:id="@id/iv_help"
+                style="@style/help_btn_style"
+                android:onClick="@{()->view.onHelpPage()}" />
+
+            <ImageView
                 android:id="@+id/iv_filter"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:layout_alignParentRight="true"
+                android:layout_toLeftOf="@id/iv_help"
                 android:onClick="@{() -> view.onFilter()}"
                 android:scaleType="center"
                 android:src="@drawable/icon_filter2" />

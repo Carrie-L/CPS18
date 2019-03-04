@@ -51,7 +51,6 @@ public class LoginViewModel {
     public final ObservableField<String> loginLang = new ObservableField<>();
     public final ObservableBoolean isBtnCanGetCode = new ObservableBoolean(true);   //  发送验证码的按钮能否按下
 
-
     private Disposable mDisposable;
 
     private Context mContext;
@@ -424,7 +423,7 @@ public class LoginViewModel {
         App.mSP_Login.edit().putString(Constant.USER_EMAIL, loginEmail.get().trim()).putString(Constant.USER_PWD, loginPwd.get().trim()).putString(Constant.VMID, vmid.trim()).putBoolean(Constant.IS_LOGIN, true).apply();
         LogUtil.i(TAG, "NAME=" + loginEmail.get() + ",PWD=" + loginPwd.get());
         AppUtil.trackViewLog(429, "UserLogin", "", "");
-        AppUtil.setStatEvent(mContext, "UserLogin", "UL");
+        AppUtil.setStatEvent(mContext, "Login", "Login_OK");
     }
 
     private void downRegImg() {

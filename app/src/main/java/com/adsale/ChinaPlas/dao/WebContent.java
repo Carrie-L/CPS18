@@ -5,39 +5,18 @@ package com.adsale.ChinaPlas.dao;
 // KEEP INCLUDES - put your custom includes here
 // KEEP INCLUDES END
 
-import android.text.TextUtils;
-
-import com.adsale.ChinaPlas.utils.AppUtil;
-
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Entity mapped to table "WEB_CONTENT".
  */
-public class WebContent {
+public class WebContent implements Parcelable {
 
-    private String PageId;
-    private String TitleTW;
-    private String TitleEN;
-    private String TitleCN;
-    private int CType;
-    private String CFile;
-    private String ZipDateTime;
-    private String ContentTC;
-    private String ContentEN;
-    private String ContentSC;
-    private int IsDown;
-    /**
-     * Not-null value.
-     */
-    private String CreateDateTime;
-    /**
-     * Not-null value.
-     */
-    private String UpdateDateTime;
-    /**
-     * Not-null value.
-     */
-    private String RecordTimeStamp;
+    private String ContentID;
+    private String FileName;
+    private String createdAt;
+    private String updatedAt;
 
     // KEEP FIELDS - put your custom fields here
     // KEEP FIELDS END
@@ -45,191 +24,90 @@ public class WebContent {
     public WebContent() {
     }
 
-    public WebContent(String PageId) {
-        this.PageId = PageId;
+    public WebContent(String ContentID) {
+        this.ContentID = ContentID;
     }
 
-    public WebContent(String PageId, String TitleTW, String TitleEN, String TitleCN, int CType, String CFile, String ZipDateTime, String ContentTC, String ContentEN, String ContentSC, int IsDown, String CreateDateTime, String UpdateDateTime, String RecordTimeStamp) {
-        this.PageId = PageId;
-        this.TitleTW = TitleTW;
-        this.TitleEN = TitleEN;
-        this.TitleCN = TitleCN;
-        this.CType = CType;
-        this.CFile = CFile;
-        this.ZipDateTime = ZipDateTime;
-        this.ContentTC = ContentTC;
-        this.ContentEN = ContentEN;
-        this.ContentSC = ContentSC;
-        this.IsDown = IsDown;
-        this.CreateDateTime = CreateDateTime;
-        this.UpdateDateTime = UpdateDateTime;
-        this.RecordTimeStamp = RecordTimeStamp;
+    public WebContent(String ContentID, String FileName, String createdAt, String updatedAt) {
+        this.ContentID = ContentID;
+        this.FileName = FileName;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
-    public String getPageId() {
-        return PageId;
+    public String getContentID() {
+        return ContentID;
     }
 
-    public void setPageId(String PageId) {
-        this.PageId = PageId;
+    public void setContentID(String ContentID) {
+        this.ContentID = ContentID;
     }
 
-    public String getTitleTW() {
-        return TitleTW;
+    public String getFileName() {
+        return FileName;
     }
 
-    public void setTitleTW(String TitleTW) {
-        this.TitleTW = TitleTW;
+    public void setFileName(String FileName) {
+        this.FileName = FileName;
     }
 
-    public String getTitleEN() {
-        return TitleEN;
+    public String getCreatedAt() {
+        return createdAt;
     }
 
-    public void setTitleEN(String TitleEN) {
-        this.TitleEN = TitleEN;
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public String getTitleCN() {
-        return TitleCN;
+    public String getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setTitleCN(String TitleCN) {
-        this.TitleCN = TitleCN;
-    }
-
-    public int getCType() {
-        return CType;
-    }
-
-    public void setCType(int CType) {
-        this.CType = CType;
-    }
-
-    public String getCFile() {
-        return CFile;
-    }
-
-    public void setCFile(String CFile) {
-        this.CFile = CFile;
-    }
-
-    public String getZipDateTime() {
-        return ZipDateTime;
-    }
-
-    public void setZipDateTime(String ZipDateTime) {
-        this.ZipDateTime = ZipDateTime;
-    }
-
-    public String getContentTC() {
-        return ContentTC;
-    }
-
-    public void setContentTC(String ContentTC) {
-        this.ContentTC = ContentTC;
-    }
-
-    public String getContentEN() {
-        return ContentEN;
-    }
-
-    public void setContentEN(String ContentEN) {
-        this.ContentEN = ContentEN;
-    }
-
-    public String getContentSC() {
-        return ContentSC;
-    }
-
-    public void setContentSC(String ContentSC) {
-        this.ContentSC = ContentSC;
-    }
-
-    public int getIsDown() {
-        return IsDown;
-    }
-
-    public void setIsDown(int IsDown) {
-        this.IsDown = IsDown;
-    }
-
-    /**
-     * Not-null value.
-     */
-    public String getCreateDateTime() {
-        return CreateDateTime;
-    }
-
-    /**
-     * Not-null value; ensure this value is available before it is saved to the database.
-     */
-    public void setCreateDateTime(String CreateDateTime) {
-        this.CreateDateTime = CreateDateTime;
-    }
-
-    /**
-     * Not-null value.
-     */
-    public String getUpdateDateTime() {
-        return UpdateDateTime;
-    }
-
-    /**
-     * Not-null value; ensure this value is available before it is saved to the database.
-     */
-    public void setUpdateDateTime(String UpdateDateTime) {
-        this.UpdateDateTime = UpdateDateTime;
-    }
-
-    /**
-     * Not-null value.
-     */
-    public String getRecordTimeStamp() {
-        return RecordTimeStamp;
-    }
-
-    /**
-     * Not-null value; ensure this value is available before it is saved to the database.
-     */
-    public void setRecordTimeStamp(String RecordTimeStamp) {
-        this.RecordTimeStamp = RecordTimeStamp;
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     // KEEP METHODS - put your custom methods here
 
-    public String getContent(int language) {
-        return AppUtil.getName(language, ContentTC, ContentEN, ContentSC);
+    @Override
+    public String toString() {
+        return "WebContent{" +
+                "ContentID='" + ContentID + '\'' +
+                ", FileName='" + FileName + '\'' +
+                ", createdAt='" + createdAt + '\'' +
+                ", updatedAt='" + updatedAt + '\'' +
+                '}';
     }
-
-    public boolean getPreInfo(String pre, WebContent entity) {
-        if (check().equals(pre)) {
-            return true;
-        }
-        return false;
-    }
-
-    private String check() {
-        if (!TextUtils.isEmpty(TitleCN)) {
-            return TitleCN;
-        } else if (!TextUtils.isEmpty(TitleEN)) {
-            return TitleEN;
-        } else {
-            return TitleTW;
-        }
-    }
-
-    public String getTitle(int language) {
-        if (language == 2) {
-            return TitleCN;
-        } else if (language == 1) {
-            return TitleEN;
-        } else {
-            return TitleTW;
-        }
-    }
-
 
     // KEEP METHODS END
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.ContentID);
+        dest.writeString(this.FileName);
+        dest.writeString(this.createdAt);
+        dest.writeString(this.updatedAt);
+    }
+
+    protected WebContent(Parcel in) {
+        this.ContentID = in.readString();
+        this.FileName = in.readString();
+        this.createdAt = in.readString();
+        this.updatedAt = in.readString();
+    }
+
+    public static final Parcelable.Creator<WebContent> CREATOR = new Parcelable.Creator<WebContent>() {
+        public WebContent createFromParcel(Parcel source) {
+            return new WebContent(source);
+        }
+
+        public WebContent[] newArray(int size) {
+            return new WebContent[size];
+        }
+    };
 }

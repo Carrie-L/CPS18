@@ -5,6 +5,9 @@ package com.adsale.ChinaPlas.dao;
 // KEEP INCLUDES - put your custom includes here
 // KEEP INCLUDES END
 
+import android.databinding.ObservableInt;
+
+import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.utils.AppUtil;
 
 import static com.adsale.ChinaPlas.utils.AppUtil.getName;
@@ -23,10 +26,24 @@ public class HistoryExhibitor {
     private String Time;
 
     // KEEP FIELDS - put your custom fields here
-    
-    /**1=Today,0=Yesterday,-1=Past*/
-    public int status;
+
+    /**
+     * 1=Today,0=Yesterday,-1=Past
+     */
+//    public int status;
+
+    public final ObservableInt status = new ObservableInt();
     // KEEP FIELDS END
+
+//    public int getLabel() {
+//        if (status == 1) {
+//            return R.string.today;
+//        } else if (status == 0) {
+//            return R.string.yesterday;
+//        } else {
+//            return R.string.past_records;
+//        }
+//    }
 
     public HistoryExhibitor() {
     }
@@ -102,23 +119,27 @@ public class HistoryExhibitor {
     }
 
     // KEEP METHODS - put your custom methods here
-    
-    /**展商浏览次数/访问频率*/
-    public int frequency;
-    
-    
-    
-    @Override
-	public String toString() {
-		return "HistoryExhibitor [id=" + id + ", CompanyID=" + CompanyID + ", CompanyNameEN=" + CompanyNameEN
-				+ ", CompanyNameCN=" + CompanyNameCN + ", CompanyNameTW=" + CompanyNameTW + ", Booth=" + Booth
-				+ ", Time=" + Time + ", status=" + status + ", frequency=" + frequency + "]";
-	}
 
-	
-    
-	public String getCompanyName(int language){
-    	return AppUtil.getName(language, CompanyNameTW, CompanyNameEN, CompanyNameCN);
+    /**
+     * 展商浏览次数/访问频率
+     */
+    public int frequency;
+
+    public String getFrequency() {
+        return "" + frequency;
+    }
+
+
+    @Override
+    public String toString() {
+        return "HistoryExhibitor [id=" + id + ", CompanyID=" + CompanyID + ", CompanyNameEN=" + CompanyNameEN
+                + ", CompanyNameCN=" + CompanyNameCN + ", CompanyNameTW=" + CompanyNameTW + ", Booth=" + Booth
+                + ", Time=" + Time + ", status=" + status + ", frequency=" + frequency + "]";
+    }
+
+
+    public String getCompanyName() {
+        return AppUtil.getName(CompanyNameTW, CompanyNameEN, CompanyNameCN);
     }
     // KEEP METHODS END
 

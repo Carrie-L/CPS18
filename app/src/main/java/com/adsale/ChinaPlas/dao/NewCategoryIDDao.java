@@ -22,7 +22,7 @@ public class NewCategoryIDDao extends AbstractDao<NewCategoryID, Void> {
      * Can be used for QueryBuilder and for referencing column names.
     */
     public static class Properties {
-        public final static Property Category = new Property(0, String.class, "Category", false, "CATEGORY");
+        public final static Property Category = new Property(0, String.class, "Category", false, "Category");
         public final static Property RID = new Property(1, String.class, "RID", false, "RID");
     };
 

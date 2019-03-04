@@ -67,9 +67,11 @@
                 android:background="@{navModel.isLoginSuccess.get()?@drawable/ic_drawer_sync:@drawable/ic_drawer_login}"
                 android:gravity="center"
                 android:onClick="@{navModel.isLoginSuccess.get()?navModel::sync:navModel::login}"
-                android:text="@{navModel.isLoginSuccess.get()?@string/drawer_sync:@string/left_menu_login}"
+                android:text="@{navModel.drawerLoginOrSync.get()}"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
+
+            <!--android:text="@{navModel.isLoginSuccess.get()?@string/drawer_sync:@string/left_menu_login}"-->
 
             <!--navModel.drawerLoginOrSync.get()-->
 

@@ -1,5 +1,7 @@
 package com.adsale.ChinaPlas.ui;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,9 +10,11 @@ import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
+import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.databinding.ActivityNcardBinding;
+import com.adsale.ChinaPlas.ui.view.HelpView;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.PermissionUtil;
 import com.adsale.ChinaPlas.viewmodel.NCardViewModel;
@@ -40,6 +44,10 @@ public class NCardActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        if (HelpView.isFirstShow(HelpView.HELP_PAGE_MY_NAMECARD)) {
+            onHelpPage();
+            App.mSP_HP.edit().putInt("HELP_PAGE_" + HelpView.HELP_PAGE_MY_NAMECARD, HelpView.HELP_PAGE_MY_NAMECARD).apply();
+        }
         spNameCard = getSharedPreferences("MyNameCard", Context.MODE_PRIVATE);
         generateQRCodeBitmap();
     }
@@ -94,7 +102,6 @@ public class NCardActivity extends BaseActivity {
         }
     }
 
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -103,5 +110,17 @@ public class NCardActivity extends BaseActivity {
         } else {
             Toast.makeText(getApplicationContext(), getString(R.string.no_camera_permission), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void onHelpPage() {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment fragment = getFragmentManager().findFragmentByTag("Dialog");
+        if (fragment != null) {
+            ft.remove(fragment);
+        }
+        ft.addToBackStack(null);
+
+        HelpView helpDialog = HelpView.newInstance(HelpView.HELP_PAGE_MY_NAMECARD);
+        helpDialog.show(ft, "Dialog");
     }
 }

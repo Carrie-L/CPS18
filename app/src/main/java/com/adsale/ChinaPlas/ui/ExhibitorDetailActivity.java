@@ -4,7 +4,9 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.databinding.ViewDataBinding;
+import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.widget.LinearLayout;
 
 import com.adsale.ChinaPlas.App;
@@ -14,9 +16,13 @@ import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.dao.NewProductInfo;
 import com.adsale.ChinaPlas.data.OnIntentListener;
+import com.adsale.ChinaPlas.data.model.EPO;
 import com.adsale.ChinaPlas.databinding.ActivityExhibitorDetailBinding;
 import com.adsale.ChinaPlas.databinding.ActivityExhibitorDetailM5Binding;
 import com.adsale.ChinaPlas.helper.ADHelper;
+import com.adsale.ChinaPlas.helper.EPOHelper;
+import com.adsale.ChinaPlas.helper.LogHelper;
+import com.adsale.ChinaPlas.ui.view.ExhiDtlInfoView;
 import com.adsale.ChinaPlas.ui.view.HelpView;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
@@ -24,21 +30,29 @@ import com.adsale.ChinaPlas.utils.DisplayUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.PermissionUtil;
 import com.adsale.ChinaPlas.viewmodel.ExhibitorDtlViewModel;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 
+import static com.adsale.ChinaPlas.App.mLogHelper;
 import static com.adsale.ChinaPlas.utils.Constant.SCHEDULE_DAY01;
 
 /**
  * [Constant.COMPANY_ID]
+ * [2019/3/4 新增 来源 [from] 用于统计]
  */
-public class ExhibitorDetailActivity extends BaseActivity implements OnIntentListener {
+public class ExhibitorDetailActivity extends BaseActivity implements OnIntentListener, ExhiDtlInfoView.OnCallPhoneListener {
 
     private ExhibitorDtlViewModel mViewModel;
-    private ADHelper adHelper;
+//    private ADHelper adHelper;
 
     private final Integer REQUET_TAKE_PHOTO = 101;
     private final Integer REQUET_DELETE_PHOTO = 102;
     private String mPhotoPath;
     private HelpView helpDialog;
+    private ActivityExhibitorDetailM5Binding binding;
+    private EPO.D4 D4;
+    private String companyId;
 
     @Override
     protected void preView() {
@@ -54,33 +68,53 @@ public class ExhibitorDetailActivity extends BaseActivity implements OnIntentLis
         int height = (width * (isTablet ? 77 : 184)) / (isTablet ? 349 : 209);
         LinearLayout.LayoutParams bottomParams = new LinearLayout.LayoutParams(width, height);
 
-        String companyId = getIntent().getStringExtra(Constant.COMPANY_ID);
-        adHelper = new ADHelper(this);
-        int M5Index = adHelper.isM5Show(companyId);
-        if (M5Index == -1) {// not show m5
+        companyId = getIntent().getStringExtra(Constant.COMPANY_ID);
+
+        EPOHelper epoHelper = EPOHelper.getInstance();
+        D4 = epoHelper.getItemD4(companyId);
+
+        if (epoHelper.isAdOpen() && D4 != null && D4.isOpen == 1) {// show d4
+            binding = ActivityExhibitorDetailM5Binding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
+            mViewModel = new ExhibitorDtlViewModel(getApplicationContext(), binding.flDtlContent);
+            bindingVariable(binding);
+            mViewModel.setD4Data(D4);
+            mViewModel.start(companyId, this, binding.viewstubDtlView.getViewStub(), true, this);
+            binding.llButton.ivCompanyInfo.setLayoutParams(bottomParams);
+            binding.llButton.ivCollect.setLayoutParams(bottomParams);
+            binding.llButton.ivNote.setLayoutParams(bottomParams);
+            binding.llButton.ivSchedule.setLayoutParams(bottomParams);
+            binding.llButton.ivShare.setLayoutParams(bottomParams);
+            showD4Pic();
+        } else {
             ActivityExhibitorDetailBinding binding = ActivityExhibitorDetailBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
             mViewModel = new ExhibitorDtlViewModel(getApplicationContext(), binding.flDtlContent);
             bindingVariable(binding);
-            mViewModel.start(companyId, this, binding.viewstubDtlView.getViewStub(), false);
+            mViewModel.start(companyId, this, binding.viewstubDtlView.getViewStub(), false, this);
             binding.llButton.ivCompanyInfo.setLayoutParams(bottomParams);
             binding.llButton.ivCollect.setLayoutParams(bottomParams);
             binding.llButton.ivNote.setLayoutParams(bottomParams);
             binding.llButton.ivSchedule.setLayoutParams(bottomParams);
             binding.llButton.ivShare.setLayoutParams(bottomParams);
-        } else {
-            ActivityExhibitorDetailM5Binding binding = ActivityExhibitorDetailM5Binding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
-            mViewModel = new ExhibitorDtlViewModel(getApplicationContext(), binding.flDtlContent);
-            bindingVariable(binding);
-            mViewModel.setM5Data(adHelper.getAdObj(),M5Index);
-            mViewModel.start(companyId, this, binding.viewstubDtlView.getViewStub(), true);
-            binding.llButton.ivCompanyInfo.setLayoutParams(bottomParams);
-            binding.llButton.ivCollect.setLayoutParams(bottomParams);
-            binding.llButton.ivNote.setLayoutParams(bottomParams);
-            binding.llButton.ivSchedule.setLayoutParams(bottomParams);
-            binding.llButton.ivShare.setLayoutParams(bottomParams);
-            adHelper.showM5(M5Index, binding.m5Left, binding.m5Center, binding.m5Right, binding.m5Logo);
         }
         AppUtil.trackViewLog(198, "EPage", "", companyId);
+    }
+
+    private void showD4Pic() {
+        String d4BaseUrl = AppUtil.getAdBaseUrl() + "D4/";
+        RequestOptions options = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.RESOURCE).placeholder(R.drawable.scan_mask);
+        Glide.with(getApplicationContext()).load(Uri.parse(mViewModel.exhibitor.getPhotoFileName())).apply(options).thumbnail(0.1f).into(binding.adLogo);
+        Glide.with(getApplicationContext()).load(Uri.parse(d4BaseUrl + D4.products[0])).apply(options).thumbnail(0.1f).into(binding.left);
+        Glide.with(getApplicationContext()).load(Uri.parse(d4BaseUrl + D4.products[1])).apply(options).thumbnail(0.1f).into(binding.center);
+        Glide.with(getApplicationContext()).load(Uri.parse(d4BaseUrl + D4.products[2])).apply(options).thumbnail(0.1f).into(binding.right);
+
+        LogUtil.i(TAG, "D4 LEFT=" + d4BaseUrl + D4.products[0]);
+
+//        AppUtil.trackViewLog(205, "Ad", "M5", companyId);
+//        AppUtil.setStatEvent(getApplicationContext(), "ViewM5", "Ad_M5_".concat(companyId));
+
+        mLogHelper.logD4(companyId, true);
+        mLogHelper.setBaiDuLog(getApplicationContext(), LogHelper.EVENT_ID_AD_VIEW);
+
     }
 
     private void bindingVariable(ViewDataBinding binding) {
@@ -97,8 +131,13 @@ public class ExhibitorDetailActivity extends BaseActivity implements OnIntentLis
         }
         mViewModel.addToHistory();
         mViewModel.setActivity(this);
-        AppUtil.trackViewLog(198, "EPage", "", mViewModel.exhibitor.getCompanyID());
-        AppUtil.setStatEvent(getApplicationContext(), "EPage", "EPage_" + mViewModel.exhibitor.getCompanyID());
+//        AppUtil.trackViewLog(198, "EPage", "", mViewModel.exhibitor.getCompanyID());
+//        AppUtil.setStatEvent(getApplicationContext(), "EPage", "EPage_" + mViewModel.exhibitor.getCompanyID());
+
+        String from = getIntent().getStringExtra("from");
+        mLogHelper.logCompanyInfo(mViewModel.exhibitor.getCompanyID() + (TextUtils.isEmpty(from) ? "" : "_" + from));
+        mLogHelper.setBaiDuLog(getApplicationContext(), LogHelper.EVENT_ID_Info);
+
     }
 
     private void showHelpPage() {
@@ -125,7 +164,7 @@ public class ExhibitorDetailActivity extends BaseActivity implements OnIntentLis
             if (toCls.getSimpleName().contains("ScheduleEditActivity")) {
                 Intent intent = new Intent(this, toCls);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("title",getString(R.string.title_add_schedule));
+                intent.putExtra("title", getString(R.string.title_add_schedule));
                 intent.putExtra(Constant.INTENT_EXHIBITOR, (Exhibitor) entity);
                 intent.putExtra("date", SCHEDULE_DAY01);
                 startActivity(intent);
@@ -150,14 +189,17 @@ public class ExhibitorDetailActivity extends BaseActivity implements OnIntentLis
         }
     }
 
-    public void onM5Click(int position) {
-        AppUtil.trackViewLog(415, "CA", "M5", mViewModel.exhibitor.getCompanyID());
-        AppUtil.setStatEvent(getApplicationContext(), "ClickM5", "CA_M5_" + mViewModel.exhibitor.getCompanyID());
+    public void onD4Click(int position) {
+//        AppUtil.trackViewLog(415, "CA", "M5", mViewModel.exhibitor.getCompanyID());
+//        AppUtil.setStatEvent(getApplicationContext(), "ClickM5", "CA_M5_" + mViewModel.exhibitor.getCompanyID());
+
+        mLogHelper.logD4(mViewModel.exhibitor.getCompanyID(), false);
+        mLogHelper.setBaiDuLog(getApplicationContext(), LogHelper.EVENT_ID_AD_Click);
 
         Intent intent = new Intent(this, ImageActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("url", adHelper.getM5ProductUrl(position));
-        intent.putExtra("title",mViewModel.exhibitor.getCompanyName());
+        intent.putExtra("url", AppUtil.getAdBaseUrl() + "D4/" + D4.products[position - 1]);
+        intent.putExtra("title", mViewModel.exhibitor.getCompanyName());
         startActivity(intent);
         overridePendingTransPad();
 
@@ -238,5 +280,10 @@ public class ExhibitorDetailActivity extends BaseActivity implements OnIntentLis
             mViewModel.saveNoteAndRate();
         }
         super.back();
+    }
+
+    @Override
+    public void callPhone(String number) {
+        AppUtil.callPhoneIntent(this, number);
     }
 }

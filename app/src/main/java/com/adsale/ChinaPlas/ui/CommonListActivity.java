@@ -12,12 +12,13 @@ import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.ApplicationAdapter;
 import com.adsale.ChinaPlas.adapter.MessageCenterAdapter;
 import com.adsale.ChinaPlas.base.BaseActivity;
-import com.adsale.ChinaPlas.dao.ApplicationIndustry;
+import com.adsale.ChinaPlas.dao.Application;
 import com.adsale.ChinaPlas.dao.HistoryExhibitor;
 import com.adsale.ChinaPlas.data.model.ExhibitorFilter;
 import com.adsale.ChinaPlas.data.model.MessageCenter;
 import com.adsale.ChinaPlas.databinding.ActivityCommonListBinding;
 import com.adsale.ChinaPlas.helper.IntentHelper;
+import com.adsale.ChinaPlas.helper.LogHelper;
 import com.adsale.ChinaPlas.ui.view.CpsRecyclerView;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
@@ -28,6 +29,8 @@ import com.adsale.ChinaPlas.utils.RecyclerItemClickListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+
+import static com.adsale.ChinaPlas.App.mLogHelper;
 
 /**
  * Created by new on 2016/10/13.
@@ -113,10 +116,10 @@ public class CommonListActivity extends BaseActivity {
 //        NewTecRepository newTecRepository = NewTecRepository.newInstance();
 //        newTecRepository.initDao();
 //        newTecRepository.getCategories();
-        ArrayList<ApplicationIndustry> list = new ArrayList<>();
+        ArrayList<Application> list = new ArrayList<>();
         productFilters = new ArrayList<>();
-        list.add(new ApplicationIndustry("0", getString(R.string.new_tec_Product_A)));
-        list.add(new ApplicationIndustry("1", getString(R.string.new_tec_Product_B)));
+        list.add(new Application("0", getString(R.string.new_tec_Product_A)));
+        list.add(new Application("1", getString(R.string.new_tec_Product_B)));
         recyclerView.setCpsAdapter(new ApplicationAdapter(list, productFilters));
         nodata.set(productFilters.isEmpty());
     }
@@ -172,12 +175,18 @@ public class CommonListActivity extends BaseActivity {
 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    mLogHelper.logNotificationInfo(message.date+"_GO");
+                    mLogHelper.setBaiDuLog(getApplicationContext(), LogHelper.EVENT_ID_Info);
+
                     IntentHelper intentHelper = new IntentHelper(CommonListActivity.this);
                     intentHelper.messageIntent(message, false);
                 }
             });
         }
         builder.show();
+
+        mLogHelper.logNotificationInfo(message.date);
+        mLogHelper.setBaiDuLog(getApplicationContext(), LogHelper.EVENT_ID_Info);
     }
 
 

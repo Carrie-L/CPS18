@@ -5,11 +5,10 @@ import android.app.FragmentTransaction;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.Image;
 import android.net.Uri;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -22,18 +21,18 @@ import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.dao.ScheduleInfo;
 import com.adsale.ChinaPlas.data.DownloadClient;
-import com.adsale.ChinaPlas.data.ListBindings;
-import com.adsale.ChinaPlas.data.LoginClient;
 import com.adsale.ChinaPlas.data.OtherRepository;
-import com.adsale.ChinaPlas.data.model.ConcurrentEvent;
+import com.adsale.ChinaPlas.helper.EPOHelper;
+import com.adsale.ChinaPlas.helper.LogHelper;
 import com.adsale.ChinaPlas.ui.view.HelpView;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.FileUtil;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.NetWorkHelper;
-import com.adsale.ChinaPlas.utils.Parser;
 import com.adsale.ChinaPlas.utils.ReRxUtils;
+import com.adsale.ChinaPlas.dao.ConcurrentEvent;
+import com.bumptech.glide.Glide;
 
 import java.io.File;
 
@@ -43,14 +42,15 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
-import retrofit2.Response;
 
+import static com.adsale.ChinaPlas.App.mLogHelper;
 import static com.adsale.ChinaPlas.App.rootDir;
-import static com.adsale.ChinaPlas.utils.FileUtil.createFile;
 
 /**
  * must intent data: [Constant.WEB_URL]
  * [Url] : e.g.:【"ConcurrentEvent/001"】,内存中的文件夹名称需与asset目录下的一致，最后不需要[/]
+ * <p>
+ * optional:  同期活动页：[ConcurrentEvent] entity
  */
 public class WebContentActivity extends BaseActivity {
 
@@ -61,7 +61,10 @@ public class WebContentActivity extends BaseActivity {
     private HelpView helpDialog;
     private Disposable mEventDisposable;
     private String eventPageId;
-    private ConcurrentEvent mEventTxt;
+    private ConcurrentEvent mEvent;
+    private OtherRepository otherRepository;
+    private ImageView ivAD;
+    private EPOHelper mEPOHelper;
 
     @Override
     protected void preView() {
@@ -73,6 +76,7 @@ public class WebContentActivity extends BaseActivity {
     protected void initView() {
         getLayoutInflater().inflate(R.layout.activity_web_content, mBaseFrameLayout, true);
         webView = findViewById(R.id.web_content_view);
+        ivAD = findViewById(R.id.iv_ad);
         TAG = "WebContentActivity";
         settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
@@ -91,7 +95,7 @@ public class WebContentActivity extends BaseActivity {
             openPDF();
         } else if ((mIntentUrl.toLowerCase().startsWith("http") && !checkImageUrl(mIntentUrl)) || mIntentUrl.toLowerCase().startsWith("web:")) {
             loadWebUrl();
-        } else if (!mIntentUrl.contains("ConcurrentEvent")) { // 同期活动的在onResume()里另外判断
+        } else if (!mIntentUrl.contains("ConcurrentEvent")) { // 2018: 同期活动的在onResume()里另外判断   // 2019:改为不在resume中。去年的因为要跳转到更新中心，所以需要在onResume中显示。今年无需跳转，所以直接在start里显示
             loadLocalHtml(getHtmName());
         }
 
@@ -101,8 +105,13 @@ public class WebContentActivity extends BaseActivity {
 
         // show help
         if (mIntentUrl.contains("ConcurrentEvent")) {
+            LogUtil.e(TAG, "show ConcurrentEvent");
             showEventHelp();
-        } else if (mBaiduTJ != null && mBaiduTJ.toLowerCase().contains("hallmap")) {
+            // 显示详情页面
+            eventPageId = mIntentUrl.replace("ConcurrentEvent/", "");
+            LogUtil.i(TAG, "eventPageId=" + eventPageId);
+            toEventDtl();
+        } else if (mBaiduTJ != null && (mBaiduTJ.toLowerCase().contains("hallmap") || mBaiduTJ.toLowerCase().contains("floorplan"))) {
             showOverallHelp();
         }
     }
@@ -121,6 +130,8 @@ public class WebContentActivity extends BaseActivity {
         settings.setSupportZoom(true);
         settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(true);
+
+        showD5Overall();
 
         LogUtil.i(TAG, "showOverallHelp");
         if (mBaiduTJ.toLowerCase().contains("withouthelp")) {
@@ -164,10 +175,20 @@ public class WebContentActivity extends BaseActivity {
         ivAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mEvent == null) {
+                    return;
+                }
                 Intent intent = new Intent(getApplicationContext(), ScheduleEditActivity.class);
                 ScheduleInfo entity = new ScheduleInfo();
                 entity.setId(null);
-                entity.setTitle(getIntent().getStringExtra("title")); // 千万不能用barTitle.get() ，会错，虽然很奇怪。
+//                entity.setTitle(getIntent().getStringExtra("title")); // 千万不能用barTitle.get() ，会错，虽然很奇怪。
+                entity.setTitle(mEvent.getTitle());
+                entity.setLocation(mEvent.getVenue());
+                entity.setStartDate(mEvent.getYearDate());
+                String duration = mEvent.getDuration();
+                if (duration != null && duration.contains("-") && duration.length() > 1) {
+                    entity.setStartTime(mEvent.getDuration().split("-")[0]);
+                }
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra(Constant.INTENT_SCHEDULE, entity);
                 intent.putExtra("title", getString(R.string.title_add_schedule));
@@ -175,123 +196,6 @@ public class WebContentActivity extends BaseActivity {
                 overridePendingTransPad();
             }
         });
-
-    }
-
-    private boolean isEventHasUpdate() {
-        OtherRepository repository = OtherRepository.getInstance();
-        return repository.isEventCanUpdate();
-    }
-
-    private void intentToUpdateCenter() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(getString(R.string.dialog_update_event));
-        builder.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                mIntent = new Intent(getApplicationContext(), UpdateCenterActivity.class);
-                startActivity(mIntent);
-                intent();
-            }
-        }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        }).show();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        if (mIntentUrl.contains("ConcurrentEvent")) {
-            // 如果是同期活动详情页，① 在sd/asset中存在，直接打开本地htm ② 本地没有，则下载数据包。
-            parseEvent();
-            LogUtil.i(TAG, "eventPageId=" + eventPageId);
-            StringBuilder sbPath = new StringBuilder();
-            sbPath.append(rootDir).append(mIntentUrl).append("/").append(getHtmName());
-            if (new File(sbPath.toString()).exists()) {
-                LogUtil.i(TAG, "sd卡中存在：" + mIntentUrl);
-                loadLocalHtml(getHtmName());
-            } else if (AppUtil.isFileInAsset("ConcurrentEvent", eventPageId)) {
-                loadLocalHtml(getHtmName());
-            } else {
-                // 更新中心中是否有更新，有，跳转到更新中心，返回时resume里打开html；无，直接下载zip包
-                if (isEventHasUpdate()) {
-                    LogUtil.i(TAG, "跳转到更新中心");
-                    intentToUpdateCenter();
-                } else {
-                    LogUtil.i(TAG, "下载：" + mIntentUrl);
-                    downloadSingleEventZip();
-                }
-            }
-        }
-    }
-
-    private void parseEvent() {
-        mEventTxt = Parser.parseJsonFilesDirFile(ConcurrentEvent.class, Constant.TXT_CONCURRENT_EVENT);
-        int size = mEventTxt.pages.size();
-        eventPageId = "";
-        for (int i = 0; i < size; i++) {
-            if (mIntentUrl.contains(mEventTxt.pages.get(i).pageID)) {
-                eventPageId = mEventTxt.pages.get(i).pageID;
-                barTitle.set(mEventTxt.pages.get(i).getTitle());
-                LogUtil.i(TAG, "mIntentUrl=" + mIntentUrl + ",pageID=" + eventPageId);
-                break;
-            }
-        }
-    }
-
-    private void downloadSingleEventZip() {
-        if (mEventTxt == null) {
-            parseEvent();
-        }
-        DownloadClient client = ReRxUtils.setupRxtrofit(DownloadClient.class, mEventTxt.htmlFilePath);
-        client.downloadFile(eventPageId + ".zip")
-                .map(new Function<Response<ResponseBody>, Boolean>() {
-                    @Override
-                    public Boolean apply(Response<ResponseBody> responseBodyResponse) throws Exception {
-                        ResponseBody body = responseBodyResponse.body();
-                        boolean isUnZiped = false;
-                        if (body != null) {
-                            LogUtil.i(TAG, "解压zip");
-                            StringBuilder sbDir = new StringBuilder();
-                            sbDir.append(rootDir).append(mIntentUrl).append("/");
-                            createFile(rootDir + "ConcurrentEvent/");
-                            createFile(sbDir.toString());
-                            isUnZiped = FileUtil.unpackZip(eventPageId, body.byteStream(), sbDir.toString());
-                            sbDir = null;
-                        }
-                        return isUnZiped;
-                    }
-                }).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Boolean>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        mEventDisposable = d;
-                    }
-
-                    @Override
-                    public void onNext(Boolean value) {
-                        LogUtil.i(TAG, "zip解压结果：" + value);
-                        if (value) {
-                            loadLocalHtml(getHtmName());
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-
     }
 
     private void showEventHelpPage() {
@@ -318,6 +222,39 @@ public class WebContentActivity extends BaseActivity {
         helpDialog.show(ft, "Dialog");
     }
 
+    /**
+     * 总览平面图底部广告 D5
+     */
+    private void showD5Overall() {
+        LogUtil.i(TAG, "showD5Overall");
+        mEPOHelper = EPOHelper.getInstance();
+        if (!mEPOHelper.isD5Open()) {
+            return;
+        }
+        ivAD.setVisibility(View.VISIBLE);
+        final int index = mEPOHelper.getD5ShowIndex();
+        LogUtil.i(TAG, "getD5ShowIndex= " + index);
+        Glide.with(getApplicationContext()).load(Uri.parse(mEPOHelper.getD5Banner(index))).into(ivAD);
+        mEPOHelper.setD5ShowIndex(index);
+
+        mLogHelper.logD5(mEPOHelper.getD5CompanyID(index), true);
+        mLogHelper.setBaiDuLog(getApplicationContext(), LogHelper.EVENT_ID_AD_VIEW);
+
+        ivAD.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mLogHelper.logD5(mEPOHelper.getD5CompanyID(index), false);
+                mLogHelper.setBaiDuLog(getApplicationContext(), LogHelper.EVENT_ID_AD_VIEW);
+
+                Intent intent = new Intent(getApplicationContext(), ExhibitorDetailActivity.class);
+                intent.putExtra(Constant.COMPANY_ID, mEPOHelper.getD5CompanyID(index));
+                intent.putExtra("from", "D5");
+                startActivity(intent);
+                overridePendingTransPad();
+            }
+        });
+    }
+
     private boolean checkImageUrl(String url) {
         return url.endsWith("jpg") || url.endsWith("png");
     }
@@ -331,6 +268,8 @@ public class WebContentActivity extends BaseActivity {
         }
         webView.loadUrl(sb.toString());
         LogUtil.i(TAG, "loadLocalHtml= " + sb.toString());
+
+        showD7();
     }
 
     private void loadWebUrl() {
@@ -339,7 +278,7 @@ public class WebContentActivity extends BaseActivity {
     }
 
     private String getHtmName() {
-        return AppUtil.getName("TC.htm", "EN.htm", "SC.htm");
+        return AppUtil.getName("TC.html", "EN.html", "SC.html");
     }
 
     private String mUrl;
@@ -358,6 +297,12 @@ public class WebContentActivity extends BaseActivity {
                     toRegisterAty();
                 } else if (startsWith("web")) {
                     web();
+                    return true;
+                } else if (endsWith("pdf")) {
+                    pdf();
+                    return true;
+                } else if (endsWith("mp4")) {
+                    mp4();
                     return true;
                 } else if (startsWith("http")) {
                     http();
@@ -408,27 +353,25 @@ public class WebContentActivity extends BaseActivity {
     }
 
     private void toEventDtl() {
-        StringBuilder sbPath = new StringBuilder();
-        sbPath.append(rootDir).append("ConcurrentEvent/").append(eventPageId).append("/").append(getHtmName());
-        if (new File(sbPath.toString()).exists()) {
-            LogUtil.i(TAG, "sd卡中存在：" + mIntentUrl);
-            loadLocalHtml(getHtmName());
-        } else if (AppUtil.isFileInAsset("ConcurrentEvent", eventPageId)) {
-            loadLocalHtml(getHtmName());
+        loadLocalHtml(getHtmName());
+
+        ConcurrentEvent entity = getIntent().getParcelableExtra("ConcurrentEvent");
+        if (entity != null) {
+            mLogHelper.logEventInfo(entity.getDate() + "_" + entity.getEventID());
         } else {
-            // 更新中心中是否有更新，有，跳转到更新中心，返回时resume里打开html；无，直接下载zip包
-            if (isEventHasUpdate()) {
-                LogUtil.i(TAG, "跳转到更新中心");
-                intentToUpdateCenter();
-            } else {
-                LogUtil.i(TAG, "下载：" + mIntentUrl);
-                downloadSingleEventZip();
-            }
+            mLogHelper.logEventInfo(eventPageId);
         }
+        mLogHelper.setBaiDuLog(getApplicationContext(), LogHelper.EVENT_ID_Info);
+
+
     }
 
     private boolean startsWith(String abc) {
         return mUrl.toLowerCase().startsWith(abc);
+    }
+
+    private boolean endsWith(String abc) {
+        return mUrl.toLowerCase().endsWith(abc);
     }
 
     private void toImageAty() {
@@ -448,10 +391,21 @@ public class WebContentActivity extends BaseActivity {
         startActivity(new Intent(Intent.ACTION_VIEW, uri));
     }
 
+    private void mp4() {
+        Uri uri = Uri.parse(mUrl);
+        startActivity(new Intent(Intent.ACTION_VIEW, uri));
+    }
+
+    private void pdf() {
+        LogUtil.i(TAG, "startsWith(\"pdf————url=" + mUrl);
+        Uri uri = Uri.parse(mUrl);
+        startActivity(new Intent(Intent.ACTION_VIEW, uri));
+    }
+
     private void http() {
         mIntent = new Intent(WebContentActivity.this, WebViewActivity.class);
         mIntent.putExtra(Constant.WEB_URL, mUrl);
-//                    mIntent.putExtra("title", gTitle);
+        mIntent.putExtra("title", barTitle.get());
     }
 
     private void mailTo() {
@@ -486,6 +440,43 @@ public class WebContentActivity extends BaseActivity {
         mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(mIntent);
         overridePendingTransPad();
+    }
+
+    private Integer D7_INDEX = -1;
+
+    private void showD7() {
+        LogUtil.i(TAG, "showD7:mIntentUrl= " + mIntentUrl);
+        if (mIntentUrl.contains("MI00000077")) { // 展会概览
+            D7_INDEX = 1;
+        } else if (mIntentUrl.equals("WebContent/7")) { // 如何到达展馆
+            D7_INDEX = 2;
+        } else if (mIntentUrl.contains("MI00000073")) { // 旅游住宿
+            D7_INDEX = 3;
+        } else if (mIntentUrl.contains("MI00000076")) { // 展馆设施
+            D7_INDEX = 5;
+        } else if (mIntentUrl.contains("MI00000078")) { // 参展小贴士
+            D7_INDEX = 6;
+        }
+        LogUtil.i(TAG, "showD7:D7_INDEX= " + D7_INDEX);
+        final EPOHelper epoHelper = EPOHelper.getInstance();
+        if (!epoHelper.isD7Open(D7_INDEX)) {
+            return;
+        }
+        ivAD.setVisibility(View.VISIBLE);
+        epoHelper.setD7ViewLog(D7_INDEX, getApplicationContext());
+        Glide.with(getApplicationContext()).load(epoHelper.getD7Image(D7_INDEX)).into(ivAD);
+        ivAD.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                com.adsale.ChinaPlas.data.model.EPO.D7 D7 = epoHelper.getItemD7(D7_INDEX);
+                Intent intent = epoHelper.intentAd(D7.function, D7.companyID, D7.PageID);
+                if (intent != null && !TextUtils.isEmpty(intent.getAction())) {
+                    epoHelper.setD7ClickLog(D7_INDEX, getApplicationContext());
+                    startActivity(intent);
+                    overridePendingTransPad();
+                }
+            }
+        });
     }
 
     @Override

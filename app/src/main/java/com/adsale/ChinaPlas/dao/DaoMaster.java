@@ -24,12 +24,12 @@ public class DaoMaster extends AbstractDaoMaster {
     /** Creates underlying database table using DAOs. */
     public static void createAllTables(SQLiteDatabase db, boolean ifNotExists) {
         MainIconDao.createTable(db, ifNotExists);
-        ApplicationIndustryDao.createTable(db, ifNotExists);
-        ApplicationCompanyDao.createTable(db, ifNotExists);
+        ApplicationDao.createTable(db, ifNotExists);
+        CompanyApplicationDao.createTable(db, ifNotExists);
         CountryDao.createTable(db, ifNotExists);
         ExhibitorDao.createTable(db, ifNotExists);
         ExhibitorUserUpdateDao.createTable(db, ifNotExists);
-        FloorDao.createTable(db, ifNotExists);
+        MapDao.createTable(db, ifNotExists);
         MapFloorDao.createTable(db, ifNotExists);
         NameCardDao.createTable(db, ifNotExists);
         NewsDao.createTable(db, ifNotExists);
@@ -40,7 +40,6 @@ public class DaoMaster extends AbstractDaoMaster {
         BussinessMappingDao.createTable(db, ifNotExists);
         HistoryExhibitorDao.createTable(db, ifNotExists);
         UpdateCenterDao.createTable(db, ifNotExists);
-        ExhibitorIndustryDtlDao.createTable(db, ifNotExists);
         IndustryDao.createTable(db, ifNotExists);
         SeminarInfoDao.createTable(db, ifNotExists);
         SeminarSpeakerDao.createTable(db, ifNotExists);
@@ -56,12 +55,12 @@ public class DaoMaster extends AbstractDaoMaster {
     /** Drops underlying database table using DAOs. */
     public static void dropAllTables(SQLiteDatabase db, boolean ifExists) {
         MainIconDao.dropTable(db, ifExists);
-        ApplicationIndustryDao.dropTable(db, ifExists);
-        ApplicationCompanyDao.dropTable(db, ifExists);
+        ApplicationDao.dropTable(db, ifExists);
+        CompanyApplicationDao.dropTable(db, ifExists);
         CountryDao.dropTable(db, ifExists);
         ExhibitorDao.dropTable(db, ifExists);
         ExhibitorUserUpdateDao.dropTable(db, ifExists);
-        FloorDao.dropTable(db, ifExists);
+        MapDao.dropTable(db, ifExists);
         MapFloorDao.dropTable(db, ifExists);
         NameCardDao.dropTable(db, ifExists);
         NewsDao.dropTable(db, ifExists);
@@ -72,7 +71,6 @@ public class DaoMaster extends AbstractDaoMaster {
         BussinessMappingDao.dropTable(db, ifExists);
         HistoryExhibitorDao.dropTable(db, ifExists);
         UpdateCenterDao.dropTable(db, ifExists);
-        ExhibitorIndustryDtlDao.dropTable(db, ifExists);
         IndustryDao.dropTable(db, ifExists);
         SeminarInfoDao.dropTable(db, ifExists);
         SeminarSpeakerDao.dropTable(db, ifExists);
@@ -129,12 +127,15 @@ public class DaoMaster extends AbstractDaoMaster {
     public DaoMaster(SQLiteDatabase db) {
         super(db, SCHEMA_VERSION);
         registerDaoClass(MainIconDao.class);
-        registerDaoClass(ApplicationIndustryDao.class);
-        registerDaoClass(ApplicationCompanyDao.class);
+        registerDaoClass(MainIconTestDao.class);
+        registerDaoClass(ApplicationDao.class);
+        registerDaoClass(CompanyApplicationDao.class);
+        registerDaoClass(IndustryDao.class);
+        registerDaoClass(CompanyProductDao.class);
         registerDaoClass(CountryDao.class);
         registerDaoClass(ExhibitorDao.class);
         registerDaoClass(ExhibitorUserUpdateDao.class);
-        registerDaoClass(FloorDao.class);
+        registerDaoClass(MapDao.class);
         registerDaoClass(MapFloorDao.class);
         registerDaoClass(NameCardDao.class);
         registerDaoClass(NewsDao.class);
@@ -145,8 +146,6 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(BussinessMappingDao.class);
         registerDaoClass(HistoryExhibitorDao.class);
         registerDaoClass(UpdateCenterDao.class);
-        registerDaoClass(ExhibitorIndustryDtlDao.class);
-        registerDaoClass(IndustryDao.class);
         registerDaoClass(SeminarInfoDao.class);
         registerDaoClass(SeminarSpeakerDao.class);
         registerDaoClass(FloorPlanCoordinateDao.class);
@@ -157,6 +156,9 @@ public class DaoMaster extends AbstractDaoMaster {
         registerDaoClass(NewCategorySubDao.class);
         registerDaoClass(ExhibitorZoneDao.class);
         registerDaoClass(ZoneDao.class);
+        registerDaoClass(ConcurrentEventDao.class);
+        registerDaoClass(EventApplicationDao.class);
+
     }
     
     public DaoSession newSession() {

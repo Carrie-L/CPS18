@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.net.Uri;
@@ -87,7 +88,7 @@ public class PadMainActivity extends BaseActivity implements OnIntentListener {
         mainViewModel.setM2AD();
 
         helpPage();
-        whetherToUC();
+//        whetherToUC();
         if (!TextUtils.isEmpty(mainViewModel.m2LargeUrl)) {
             m2UpAnimation(mainViewModel.m2LargeUrl);
         }
@@ -99,6 +100,10 @@ public class PadMainActivity extends BaseActivity implements OnIntentListener {
         super.onConfigurationChanged(newConfig);
         // 必不可少。否則平板多語言會混亂
         AppUtil.switchLanguage(getApplicationContext(), AppUtil.getCurLanguage());
+
+//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+
     }
 
     private void initRecyclerView() {
@@ -166,6 +171,11 @@ public class PadMainActivity extends BaseActivity implements OnIntentListener {
     @Override
     protected void onResume() {
         super.onResume();
+
+        if (isTablet && getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
+
         LogUtil.i(TAG, "=== onResume === isLogin=" + isLogin);
         LogUtil.i(TAG, "=== onResume ===  mNavViewModel.isLoginSuccess=" + mNavViewModel.isLoginSuccess.get());
         LogUtil.i(TAG, "=== onResume ===  AppUtil.isLogin()=" + AppUtil.isLogin());
@@ -178,11 +188,11 @@ public class PadMainActivity extends BaseActivity implements OnIntentListener {
         LogUtil.i(TAG, "onResume: mNavViewModel.mCurrLang=" + mNavViewModel.mCurrLang.get());
 
         if (AppUtil.getCurLanguage() != mNavViewModel.mCurrLang.get()) {
-            mNavViewModel.mCurrLang.set(AppUtil.getCurLanguage());
             mNavViewModel.updateLanguage();
             refreshImages();
-            AppUtil.switchLanguage(getApplicationContext(), AppUtil.getCurLanguage());
+            AppUtil.switchLanguage(getApplicationContext(), App.mLanguage.get());
         }
+        mNavViewModel.mCurrLang.set(App.mLanguage.get());
 
         updateCenterCount();
 

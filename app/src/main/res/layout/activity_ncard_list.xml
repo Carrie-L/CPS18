@@ -3,25 +3,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
-            type="com.adsale.ChinaPlas.viewmodel.NCardViewModel"/>
+            type="com.adsale.ChinaPlas.viewmodel.NCardViewModel" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         >
+
+        <ImageView
+            android:id="@id/iv_help"
+            style="@style/help_btn_style"
+            android:background="#ccc"
+            android:onClick="@{()->viewModel.onHelpPage()}" />
 
         <EditText
             android:id="@+id/et_search"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:layout_toLeftOf="@id/iv_help"
             android:background="@drawable/filter_bg"
             android:hint="@string/search_name_card"
             android:paddingLeft="32dp"
-
 
             />
 
@@ -29,36 +38,33 @@
             android:id="@+id/syncOperatorImg"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginTop="12dp"
             android:layout_marginLeft="10dp"
-            android:src="@drawable/search_bar_icon_normal"
-            />
+            android:layout_marginTop="12dp"
+            android:src="@drawable/search_bar_icon_normal" />
 
         <Button
             android:id="@+id/btn_export"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="120dp"
+            android:layout_height="48dp"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="16dp"
             android:layout_marginLeft="32dp"
-            android:background="@drawable/btn_red3"
+            android:background="@color/home"
+            android:onClick="@{() -> viewModel.exportBsCard()}"
             android:paddingLeft="3dp"
             android:paddingRight="3dp"
             android:text="@string/btn_export_name_card"
-            android:textColor="@color/white"
-            android:onClick="@{() -> viewModel.exportBsCard()}"
-            />
+            android:textColor="@color/white" />
 
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/edittext_bg"
-            android:layout_below="@id/et_search"
             android:layout_above="@id/btn_export"
+            android:layout_below="@id/et_search"
             android:layout_margin="16dp"
+            android:background="@drawable/edittext_bg"
             android:padding="16dp"
-            app:items="@{viewModel.nameCards}"
-            />
+            app:items="@{viewModel.nameCards}" />
 
         <TextView
             style="@style/no_data_style"

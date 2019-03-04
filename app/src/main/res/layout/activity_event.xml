@@ -16,62 +16,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:id="@+id/iv_refresh"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/ic_refresh"
-            android:onClick="@{()->eventModel.onRefresh()}" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_toLeftOf="@id/iv_refresh"
-            android:onClick="@{()->eventModel.onFilter()}">
-
-            <ImageView
-                android:id="@+id/iv_arrow"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:background="@drawable/ic_right_arrow" />
-
-            <TextView
-                android:id="@+id/tv_label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"
-                android:layout_marginTop="4dp"
-                android:layout_toLeftOf="@id/iv_arrow"
-                android:drawableLeft="@drawable/ic_fiter_industry"
-                android:drawablePadding="8dp"
-                android:paddingLeft="8dp"
-                android:text="@string/filter_application"
-                android:textSize="16sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_label"
-                android:ellipsize="end"
-                android:paddingLeft="37dp"
-                android:singleLine="true"
-                android:text="@{eventModel.filterWords}"
-                android:textColor="@color/home"
-                android:textSize="12sp" />
-
-        </RelativeLayout>
-
-        <ImageView
-            android:id="@+id/line"
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_below="@id/iv_refresh"
-            android:background="@color/grey" />
+        android:layout_height="match_parent"
+        android:background="@color/white_grey">
 
         <ImageView
             android:id="@+id/iv_ad"
@@ -87,69 +33,110 @@
             android:layout_height="match_parent"
             android:layout_above="@id/iv_ad"
             android:layout_alignParentTop="true"
-            android:layout_below="@id/line"
-            android:layout_marginTop="1dp"
             app:cardElevation="2dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-              >
+                android:layout_height="match_parent">
+
+                <!--<ImageView-->
+                    <!--android:id="@+id/btn_filter"-->
+                    <!--style="@style/event_btn_style"-->
+                    <!--android:layout_gravity="center_horizontal"-->
+                    <!--android:onClick="@{()->eventModel.onFilter()}"-->
+                    <!--android:background="@{eventModel.isFiltering?@drawable/dot_focused:@drawable/dot_grey_event}"-->
+                    <!--android:src="@{eventModel.isFiltering?@drawable/icon_filter:@drawable/ic_filter2_blue}"-->
+                    <!--/>-->
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/btn_filter"
+                    style="@style/event_btn_style"
+                    android:layout_gravity="center_horizontal"
+                    app:backgroundTint="@color/white_grey"
+                    android:onClick="@{()->eventModel.onFilter()}"
+                    android:src="@{eventModel.isFiltering?@drawable/ic_filter_solid:@drawable/ic_filter_blank}"
+                    app:fabSize="normal" />
+
+                <!--app:backgroundTint="@{eventModel.isFiltering?@color/home:@color/white_grey}"-->
+
+                <!--android:background="@{eventModel.isFiltering?@drawable/dot_focused:@drawable/dot_grey_event}"-->
 
                 <TextView
                     android:id="@+id/btn0"
                     style="@style/event_btn_style"
+                    android:layout_below="@id/btn_filter"
                     android:layout_gravity="center_horizontal"
+                    android:background="@{eventModel.mClickPos==-1?@drawable/dot_focused:@drawable/dot_grey_event}"
+                    android:onClick="@{()->eventModel.chooseDate(-1)}"
+                    android:text="@string/event_btn_all"
+                    android:textColor="@{eventModel.mClickPos==-1?@color/white:@color/home}" />
+
+                <TextView
+                    android:id="@+id/btn00"
+                    style="@style/event_btn_style"
+                    android:layout_below="@id/btn0"
                     android:background="@{eventModel.mClickPos==0?@drawable/dot_focused:@drawable/dot_grey_event}"
                     android:onClick="@{()->eventModel.chooseDate(0)}"
-                    android:text="@string/event_btn_all"
+                    android:text="20"
                     android:textColor="@{eventModel.mClickPos==0?@color/white:@color/home}" />
 
                 <TextView
                     android:id="@+id/btn1"
-                    android:layout_below="@id/btn0"
                     style="@style/event_btn_style"
+                    android:layout_below="@id/btn00"
                     android:background="@{eventModel.mClickPos==1?@drawable/dot_focused:@drawable/dot_grey_event}"
                     android:onClick="@{()->eventModel.chooseDate(1)}"
-                    android:text="@string/event_btn_24"
+                    android:text="@string/event_btn_1"
                     android:textColor="@{eventModel.mClickPos==1?@color/white:@color/home}" />
 
                 <TextView
                     android:id="@+id/btn2"
-                    android:layout_below="@id/btn1"
                     style="@style/event_btn_style"
+                    android:layout_below="@id/btn1"
                     android:background="@{eventModel.mClickPos==2?@drawable/dot_focused:@drawable/dot_grey_event}"
                     android:onClick="@{()->eventModel.chooseDate(2)}"
-                    android:text="@string/event_btn_25"
+                    android:text="@string/event_btn_2"
                     android:textColor="@{eventModel.mClickPos==2?@color/white:@color/home}" />
 
                 <TextView
                     android:id="@+id/btn3"
-                    android:layout_below="@id/btn2"
                     style="@style/event_btn_style"
+                    android:layout_below="@id/btn2"
                     android:background="@{eventModel.mClickPos==3?@drawable/dot_focused:@drawable/dot_grey_event}"
                     android:onClick="@{()->eventModel.chooseDate(3)}"
-                    android:text="@string/event_btn_26"
+                    android:text="@string/event_btn_3"
                     android:textColor="@{eventModel.mClickPos==3?@color/white:@color/home}" />
 
                 <TextView
                     android:id="@+id/btn4"
-                    android:layout_below="@id/btn3"
                     style="@style/event_btn_style"
+                    android:layout_below="@id/btn3"
                     android:background="@{eventModel.mClickPos==4?@drawable/dot_focused:@drawable/dot_grey_event}"
                     android:onClick="@{()->eventModel.chooseDate(4)}"
-                    android:text="@string/event_btn_27"
+                    android:text="@string/event_btn_4"
                     android:textColor="@{eventModel.mClickPos==4?@color/white:@color/home}" />
 
                 <ImageView
                     android:id="@+id/iv_help"
-                  android:layout_width="match_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="32dp"
                     android:gravity="center"
                     android:src="@drawable/ic_help" />
+
+                <ImageView
+                    android:id="@+id/iv_refresh"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_above="@id/iv_help"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/dot_grey"
+                    android:onClick="@{()->eventModel.onRefresh()}"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_reset2" />
 
 
             </RelativeLayout>
@@ -162,7 +149,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/iv_ad"
-            android:layout_below="@id/line"
             android:layout_marginLeft="@dimen/card_view_little_margin"
             android:layout_toRightOf="@id/ll_left_btn" />
 

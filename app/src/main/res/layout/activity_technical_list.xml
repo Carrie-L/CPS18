@@ -47,7 +47,7 @@
                 <!-- day 1 -->
                 <TextView
                     style="@style/tech_date_style"
-                    android:text="@string/event_btn_24" />
+                    android:text="@string/event_btn_1" />
 
                 <ImageView style="@style/tech_line_style" />
 
@@ -66,7 +66,7 @@
                 <!-- day 2 -->
                 <TextView
                     style="@style/tech_date_style"
-                    android:text="@string/event_btn_25" />
+                    android:text="@string/event_btn_2" />
 
                 <ImageView style="@style/tech_line_style" />
 
@@ -85,7 +85,7 @@
                 <!-- day 3 -->
                 <TextView
                     style="@style/tech_date_style"
-                    android:text="@string/event_btn_26" />
+                    android:text="@string/event_btn_3" />
 
                 <ImageView style="@style/tech_line_style" />
 
@@ -104,7 +104,7 @@
                 <!-- day 4 -->
                 <TextView
                     style="@style/tech_date_style"
-                    android:text="@string/event_btn_27" />
+                    android:text="@string/event_btn_4" />
 
                 <ImageView style="@style/tech_line_style" />
 

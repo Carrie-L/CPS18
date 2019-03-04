@@ -46,6 +46,7 @@ public class NewTec {
             return "AD{" +
                     " BoothNo='" + BoothNo + '\'' +
                     " LogoImageLink='" + LogoImageLink + '\'' +
+                    " vedioLink='" + vedioLink + '\'' +
                     '}';
         }
 

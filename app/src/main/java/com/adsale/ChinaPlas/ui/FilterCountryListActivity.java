@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.LinearLayout;
 
+import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.adapter.CountryAdapter;
 import com.adsale.ChinaPlas.base.BaseActivity;
 import com.adsale.ChinaPlas.dao.Country;
@@ -16,6 +17,7 @@ import com.adsale.ChinaPlas.databinding.ActivityFilterCountryBinding;
 import com.adsale.ChinaPlas.ui.view.SideLetter;
 import com.adsale.ChinaPlas.utils.LogUtil;
 import com.adsale.ChinaPlas.utils.RecyclerViewScrollTo;
+import com.baidu.mobstat.StatService;
 
 import java.util.ArrayList;
 
@@ -106,6 +108,10 @@ public class FilterCountryListActivity extends BaseActivity implements SideLette
     }
 
     private void setResultData() {
+        if(filters.size()>0){
+            App.mLogHelper.eventLog(403, "FilterE", "Country", App.mLogHelper.getFiltersName(filters));
+            StatService.onEvent(getApplicationContext(), "FilterE", App.mLogHelper.getTrackingName());
+        }
         Intent intent = new Intent();
         intent.putExtra("data", filters);
         LogUtil.i(TAG, "onDestroy::filters=" + filters.size() + "," + filters.toString());

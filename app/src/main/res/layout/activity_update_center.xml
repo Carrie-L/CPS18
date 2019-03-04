@@ -21,6 +21,7 @@
             android:background="@{model.statusAll?@drawable/btn_update_all_red:@drawable/btn_update_all_grey}"
             android:clickable="@{model.statusAll}"
             android:gravity="center"
+            android:visibility="gone"
             android:onClick="@{()->model.onUpdateAll()}"
             android:textColor="@{model.statusAll?@color/white:@color/gray_qrcode_tips}" />
 
@@ -31,16 +32,17 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/btn_update_all"
             android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp">
+            android:layout_marginRight="16dp"
+            >
 
-            <TextView
+            <Button
                 android:id="@+id/tv_update"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="120dp"
+                android:layout_height="48dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:background="@{model.list.get(0).getStatus()==0?@drawable/bttn_red:@drawable/bttn_grey}"
+                android:background="@{model.list.get(0).getStatus()==0?@color/home:@color/grey}"
                 android:clickable="@{model.list.get(0).getStatus()==0}"
                 android:gravity="center"
                 android:onClick="@{()->model.onUpdate(0)}"
@@ -50,8 +52,9 @@
             <TextView
                 android:id="@+id/tv_update_name"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
                 android:layout_toLeftOf="@id/tv_update"
                 android:layout_toStartOf="@id/tv_update"
                 android:text="@string/uc_exhibitor"
@@ -83,7 +86,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/uc1"
             android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp">
+            android:layout_marginRight="16dp"
+            android:visibility="gone"
+            >
 
             <TextView
                 android:id="@+id/tv_update1"
@@ -92,7 +97,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:background="@{model.list.get(1).getStatus()==0?@drawable/bttn_red:@drawable/bttn_grey}"
+                android:background="@{model.list.get(1).getStatus()==0?@color/home:@color/grey}"
                 android:clickable="@{model.list.get(1).getStatus()==0}"
                 android:gravity="center"
                 android:onClick="@{()->model.onUpdate(1)}"
@@ -134,7 +139,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/uc2"
             android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp">
+            android:layout_marginRight="16dp"
+            android:visibility="gone"
+            >
 
             <TextView
                 android:id="@+id/tv_update3"
@@ -143,7 +150,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:background="@{model.list.get(2).getStatus()==0?@drawable/bttn_red:@drawable/bttn_grey}"
+                android:background="@{model.list.get(2).getStatus()==0?@color/home:@color/grey}"
                 android:clickable="@{model.list.get(2).getStatus()==0}"
                 android:gravity="center"
                 android:onClick="@{()->model.onUpdate(2)}"
@@ -184,6 +191,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/uc3"
+            android:visibility="gone"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp">
 
@@ -194,7 +202,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:background="@{model.list.get(3).getStatus()==0?@drawable/bttn_red:@drawable/bttn_grey}"
+                android:background="@{model.list.get(3).getStatus()==0?@color/home:@color/grey}"
                 android:clickable="@{model.list.get(3).getStatus()==0}"
                 android:gravity="center"
                 android:onClick="@{()->model.onUpdate(3)}"
@@ -236,6 +244,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/uc4"
             android:layout_marginLeft="16dp"
+            android:visibility="gone"
             android:layout_marginRight="16dp">
 
             <TextView
@@ -245,7 +254,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:background="@{model.list.get(4).getStatus()==0?@drawable/bttn_red:@drawable/bttn_grey}"
+                android:background="@{model.list.get(4).getStatus()==0?@color/home:@color/grey}"
                 android:clickable="@{model.list.get(4).getStatus()==0}"
                 android:gravity="center"
                 android:onClick="@{()->model.onUpdate(4)}"

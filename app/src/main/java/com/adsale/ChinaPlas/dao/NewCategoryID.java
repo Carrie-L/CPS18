@@ -18,8 +18,8 @@ public class NewCategoryID {
     public NewCategoryID() {
     }
 
-    public NewCategoryID(String Category, String RID) {
-        this.Category = Category;
+    public NewCategoryID(String category, String RID) {
+        Category = category;
         this.RID = RID;
     }
 
@@ -38,6 +38,8 @@ public class NewCategoryID {
     public void setRID(String RID) {
         this.RID = RID;
     }
+
+
 
     // KEEP METHODS - put your custom methods here
     public void parser(String[] strings) {

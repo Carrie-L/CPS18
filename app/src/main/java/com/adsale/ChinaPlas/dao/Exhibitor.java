@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
+import com.adsale.ChinaPlas.utils.LogUtil;
 
 // KEEP INCLUDES END
 
@@ -27,44 +28,37 @@ public class Exhibitor implements Parcelable {
     private String AddressE;
     private String AddressT;
     private String AddressS;
-    private String Postal;
     private String Tel;
     private String Fax;
     private String Email;
     private String Website;
     private String CountryID;
-    private String AddressE1;
-    private String AddressT1;
-    private String AddressS1;
-    private String AddressE2;
-    private String AddressT2;
-    private String AddressS2;
     private String BoothNo;
     private String StrokeEng;
     private String StrokeTrad;
     private String StrokeSimp;
     private String PYSimp;
     private String ImgFolder;
-    private String ExhibitNameE;
-    private String ExhibitNameS;
-    private String ExhibitNameT;
     private String DescE;
     private String DescS;
     private String DescT;
     private String PhotoFileName;
-    private String ConfArea;
-    private String FreeArea;
-    private String PillarArea;
     private String NewTechUpdateDate;
-    private Integer SeqEN;
-    private Integer SeqTC;
-    private Integer SeqSC;
+    private String SeqEN;
+    private String SeqTC;
+    private String SeqSC;
     private String HallNo;
-    private Integer IsFavourite;
+    private Integer IsFavourite = 0;
     private String Note = "";
-    private Integer Rate;
+    private Integer Rate = 0;
+    private Boolean IsDelete = false;
+    public Double seqHall;  // HallNo的排序
 
     // KEEP FIELDS - put your custom fields here
+    private String descUpdatedAt;
+    private String updatedAt;
+
+
     private int i = 0;
 
     public String CompanyName;
@@ -72,10 +66,14 @@ public class Exhibitor implements Parcelable {
     public String CountryName;
 
     public ObservableBoolean isPhotoLogo = new ObservableBoolean(true);
-    public final ObservableBoolean isCollected = new ObservableBoolean(false);
+    public ObservableBoolean isCollected = new ObservableBoolean(false);
 
     public ObservableBoolean isTypeLabel = new ObservableBoolean();
+    public ObservableBoolean isD3Banner = new ObservableBoolean(false);
     private int language;
+
+    public int function;
+    public String pageID;
 
     // KEEP FIELDS END
 
@@ -86,7 +84,7 @@ public class Exhibitor implements Parcelable {
         this.CompanyID = CompanyID;
     }
 
-    public Exhibitor(String CompanyID, String CompanyNameEN, String CompanyNameTW, String CompanyNameCN, String AddressE, String AddressT, String AddressS, String Postal, String Tel, String Fax, String Email, String Website, String CountryID, String AddressE1, String AddressT1, String AddressS1, String AddressE2, String AddressT2, String AddressS2, String BoothNo, String StrokeEng, String StrokeTrad, String StrokeSimp, String PYSimp, String ImgFolder, String ExhibitNameE, String ExhibitNameS, String ExhibitNameT, String DescE, String DescS, String DescT, String PhotoFileName, String ConfArea, String FreeArea, String PillarArea, String NewTechUpdateDate, Integer SeqEN, Integer SeqTC, Integer SeqSC, String HallNo, Integer IsFavourite, String Note, Integer Rate) {
+    public Exhibitor(String CompanyID, String CompanyNameEN, String CompanyNameTW, String CompanyNameCN, String AddressE, String AddressT, String AddressS, String Tel, String Fax, String Email, String Website, String CountryID, String BoothNo, String StrokeEng, String StrokeTrad, String StrokeSimp, String PYSimp, String ImgFolder, String DescE, String DescS, String DescT, String PhotoFileName, String NewTechUpdateDate, String SeqEN, String SeqTC, String SeqSC, String HallNo, Integer IsFavourite, String Note, Integer Rate, Boolean IsDelete, String createdAt, String updatedAt, Double seqHall) {
         this.CompanyID = CompanyID;
         this.CompanyNameEN = CompanyNameEN;
         this.CompanyNameTW = CompanyNameTW;
@@ -94,34 +92,21 @@ public class Exhibitor implements Parcelable {
         this.AddressE = AddressE;
         this.AddressT = AddressT;
         this.AddressS = AddressS;
-        this.Postal = Postal;
         this.Tel = Tel;
         this.Fax = Fax;
         this.Email = Email;
         this.Website = Website;
         this.CountryID = CountryID;
-        this.AddressE1 = AddressE1;
-        this.AddressT1 = AddressT1;
-        this.AddressS1 = AddressS1;
-        this.AddressE2 = AddressE2;
-        this.AddressT2 = AddressT2;
-        this.AddressS2 = AddressS2;
         this.BoothNo = BoothNo;
         this.StrokeEng = StrokeEng;
         this.StrokeTrad = StrokeTrad;
         this.StrokeSimp = StrokeSimp;
         this.PYSimp = PYSimp;
         this.ImgFolder = ImgFolder;
-        this.ExhibitNameE = ExhibitNameE;
-        this.ExhibitNameS = ExhibitNameS;
-        this.ExhibitNameT = ExhibitNameT;
         this.DescE = DescE;
         this.DescS = DescS;
         this.DescT = DescT;
         this.PhotoFileName = PhotoFileName;
-        this.ConfArea = ConfArea;
-        this.FreeArea = FreeArea;
-        this.PillarArea = PillarArea;
         this.NewTechUpdateDate = NewTechUpdateDate;
         this.SeqEN = SeqEN;
         this.SeqTC = SeqTC;
@@ -130,6 +115,18 @@ public class Exhibitor implements Parcelable {
         this.IsFavourite = IsFavourite;
         this.Note = Note;
         this.Rate = Rate;
+        this.IsDelete = IsDelete;
+        this.descUpdatedAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.seqHall = seqHall;
+    }
+
+    public String getDescUpdatedAt() {
+        return descUpdatedAt;
+    }
+
+    public void setDescUpdatedAt(String descUpdatedAt) {
+        this.descUpdatedAt = descUpdatedAt;
     }
 
     public String getCompanyID() {
@@ -188,14 +185,6 @@ public class Exhibitor implements Parcelable {
         this.AddressS = AddressS;
     }
 
-    public String getPostal() {
-        return Postal;
-    }
-
-    public void setPostal(String Postal) {
-        this.Postal = Postal;
-    }
-
     public String getTel() {
         return Tel;
     }
@@ -234,54 +223,6 @@ public class Exhibitor implements Parcelable {
 
     public void setCountryID(String CountryID) {
         this.CountryID = CountryID;
-    }
-
-    public String getAddressE1() {
-        return AddressE1;
-    }
-
-    public void setAddressE1(String AddressE1) {
-        this.AddressE1 = AddressE1;
-    }
-
-    public String getAddressT1() {
-        return AddressT1;
-    }
-
-    public void setAddressT1(String AddressT1) {
-        this.AddressT1 = AddressT1;
-    }
-
-    public String getAddressS1() {
-        return AddressS1;
-    }
-
-    public void setAddressS1(String AddressS1) {
-        this.AddressS1 = AddressS1;
-    }
-
-    public String getAddressE2() {
-        return AddressE2;
-    }
-
-    public void setAddressE2(String AddressE2) {
-        this.AddressE2 = AddressE2;
-    }
-
-    public String getAddressT2() {
-        return AddressT2;
-    }
-
-    public void setAddressT2(String AddressT2) {
-        this.AddressT2 = AddressT2;
-    }
-
-    public String getAddressS2() {
-        return AddressS2;
-    }
-
-    public void setAddressS2(String AddressS2) {
-        this.AddressS2 = AddressS2;
     }
 
     public String getBoothNo() {
@@ -324,38 +265,6 @@ public class Exhibitor implements Parcelable {
         this.PYSimp = PYSimp;
     }
 
-    public String getImgFolder() {
-        return ImgFolder;
-    }
-
-    public void setImgFolder(String ImgFolder) {
-        this.ImgFolder = ImgFolder;
-    }
-
-    public String getExhibitNameE() {
-        return ExhibitNameE;
-    }
-
-    public void setExhibitNameE(String ExhibitNameE) {
-        this.ExhibitNameE = ExhibitNameE;
-    }
-
-    public String getExhibitNameS() {
-        return ExhibitNameS;
-    }
-
-    public void setExhibitNameS(String ExhibitNameS) {
-        this.ExhibitNameS = ExhibitNameS;
-    }
-
-    public String getExhibitNameT() {
-        return ExhibitNameT;
-    }
-
-    public void setExhibitNameT(String ExhibitNameT) {
-        this.ExhibitNameT = ExhibitNameT;
-    }
-
     public String getDescE() {
         return DescE;
     }
@@ -389,64 +298,19 @@ public class Exhibitor implements Parcelable {
         isPhotoLogo.set(PhotoFileName != null && !PhotoFileName.isEmpty());
     }
 
-    public void setConfArea(String confArea) {
-        ConfArea = confArea;
-    }
-
-    public void setFreeArea(String freeArea) {
-        FreeArea = freeArea;
-    }
-
-    public void setPillarArea(String pillarArea) {
-        PillarArea = pillarArea;
-    }
-
     public void setNewTechUpdateDate(String newTechUpdateDate) {
         NewTechUpdateDate = newTechUpdateDate;
-    }
-
-    public String getConfArea() {
-        return ConfArea;
-    }
-
-    public String getFreeArea() {
-        return FreeArea;
-    }
-
-    public String getPillarArea() {
-        return PillarArea;
     }
 
     public String getNewTechUpdateDate() {
         return NewTechUpdateDate;
     }
 
-    public Integer getSeqEN() {
-        return SeqEN;
-    }
-
-    public void setSeqEN(Integer SeqEN) {
-        this.SeqEN = SeqEN;
-    }
-
-    public Integer getSeqTC() {
-        return SeqTC;
-    }
-
-    public void setSeqTC(Integer SeqTC) {
-        this.SeqTC = SeqTC;
-    }
-
-    public Integer getSeqSC() {
-        return SeqSC;
-    }
-
-    public void setSeqSC(Integer SeqSC) {
-        this.SeqSC = SeqSC;
-    }
-
     public String getHallNo() {
-        return HallNo;
+        if (HallNo.contains("PP")) {
+            HallNo = "PP";
+        }
+        return HallNo.trim();
     }
 
     public void setHallNo(String HallNo) {
@@ -454,6 +318,9 @@ public class Exhibitor implements Parcelable {
     }
 
     public Integer getIsFavourite() {
+        if (IsFavourite == null) {
+            IsFavourite = 0;
+        }
         return IsFavourite;
     }
 
@@ -470,13 +337,66 @@ public class Exhibitor implements Parcelable {
         this.Note = Note;
     }
 
-    public Integer getRate() {
-        return Rate;
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public void setSeqHall(Double seqHall) {
+        this.seqHall = seqHall;
+    }
+
+    public void setImgFolder(String imgFolder) {
+        ImgFolder = imgFolder;
+    }
+
+    public void setSeqEN(String seqEN) {
+        SeqEN = seqEN;
+    }
+
+    public void setSeqTC(String seqTC) {
+        SeqTC = seqTC;
+    }
+
+    public void setSeqSC(String seqSC) {
+        SeqSC = seqSC;
     }
 
     public void setRate(Integer rate) {
         Rate = rate;
     }
+
+    public void setDelete(Boolean delete) {
+        IsDelete = delete;
+    }
+
+    public String getImgFolder() {
+        return ImgFolder;
+    }
+
+    public String getSeqEN() {
+        return SeqEN;
+    }
+
+    public String getSeqTC() {
+        return SeqTC;
+    }
+
+    public String getSeqSC() {
+        return SeqSC;
+    }
+
+    public Integer getRate() {
+        return Rate;
+    }
+
+    public Boolean getDelete() {
+        return IsDelete;
+    }
+
 
     // KEEP METHODS - put your custom methods here
     public String getCompanyName(int language) {
@@ -511,6 +431,63 @@ public class Exhibitor implements Parcelable {
             return AddressE;
         } else if (AppUtil.getCurLanguage() == 2 && !TextUtils.isEmpty(AddressS)) {
             return AddressS;
+        } else {
+            return address();
+        }
+
+//        if (AppUtil.getCurLanguage() == 0) {
+//            if (!TextUtils.isEmpty(AddressT)) {
+//                return AddressT;
+//            } else {
+//                return address();
+//            }
+//        } else if (AppUtil.getCurLanguage() == 1) {
+//            if (!TextUtils.isEmpty(AddressE)) {
+//                return AddressE;
+//            } else {
+//                return address();
+//            }
+//        } else {
+//            if (AppUtil.getCurLanguage() == 2) {
+//                if (!TextUtils.isEmpty(AddressS)) {
+//                    return AddressS;
+//                } else {
+//                    return address();
+//                }
+//            }
+//        }
+
+
+//            if (AppUtil.getCurLanguage() == 0 && TextUtils.isEmpty(AddressT)) {
+//                if (!TextUtils.isEmpty(AddressS)) {
+//                    return AddressS;
+//                } else if (!TextUtils.isEmpty(AddressE)) {
+//                    return AddressE;
+//                }
+//            } else if (AppUtil.getCurLanguage() == 1 && TextUtils.isEmpty(AddressE)) {
+//                if (!TextUtils.isEmpty(AddressS)) {
+//                    return AddressS;
+//                } else if (!TextUtils.isEmpty(AddressE)) {
+//                    return AddressE;
+//                }
+//            } else if (AppUtil.getCurLanguage() == 2 && TextUtils.isEmpty(AddressS)) {
+//                if (!TextUtils.isEmpty(AddressS)) {
+//                    return AddressS;
+//                } else if (!TextUtils.isEmpty(AddressE)) {
+//                    return AddressE;
+//                }
+//            }
+//        return "";
+
+    }
+
+    private String address() {
+        if (!TextUtils.isEmpty(AddressT)) {
+            return AddressT;
+        } else if (!TextUtils.isEmpty(AddressE)) {
+            return AddressE;
+        } else if (!TextUtils.isEmpty(AddressS)) {
+            return AddressS;
         }
         return "";
     }
@@ -538,7 +515,6 @@ public class Exhibitor implements Parcelable {
         }
         return columnName;
     }
-
 
     /**
      * 在初始化数据时，把最后的 # 或 TBC 或 N/A 前面加上 999 或 ZZZ ，目的是为了排序的时候让它们在最后，省却还需另外排序的麻烦。
@@ -574,6 +550,16 @@ public class Exhibitor implements Parcelable {
         return Sort;
     }
 
+    public void setSort(String sort) {
+        if (App.mLanguage.get() == 1) {
+            StrokeEng = sort;
+        } else if (App.mLanguage.get() == 0) {
+            StrokeTrad = sort;
+        } else {
+            PYSimp = sort;
+        }
+    }
+
     private boolean checkStrokeEngNull() {
         return language == 1 && !TextUtils.isEmpty(StrokeEng);
     }
@@ -584,16 +570,6 @@ public class Exhibitor implements Parcelable {
 
     private boolean checkStrokeTradNull() {
         return language == 0 && !TextUtils.isEmpty(StrokeTrad);
-    }
-
-    private String getDesc(int language) {
-        if (language == 0) {
-            return DescT;
-        } else if (language == 1) {
-            return DescE;
-        } else {
-            return DescS;
-        }
     }
 
     public String getDescription() {
@@ -620,10 +596,13 @@ public class Exhibitor implements Parcelable {
     }
 
     public void parseExhibitor(String[] csv) {
-//        CompanyID|NameInEngDisp|NameInTradDisp|NameInSimpDisp|AddressE|AddressT|AddressS|Postal|Tel|Fax|Email|   —�??0-10
-//        Website|CountryID|AddressE1|AddressT1|asAddressS1| AddressE2|asAddressT2|AddressS2|BoothNo|StrokeEng|StrokeTrad  —�?? 11-21
-//        |StrokeSimp|PYSimp|ImgFolder|ExhibitNameE|ExhibitNameS|ExhibitNameT|DescE|DescS|DescT|PhotoFileName  —�?? 22-31
-//        |ConfArea|FreeArea|PillarArea|NewTechUpdateDate|SEQ_EN|SEQ_TC|SEQ_SC|HallNo  // 32 - 39
+//        CompanyID | CompanyNameEN | CompanyNameTW | CompanyNameCN | AddressE | AddressT | AddressS |
+// Postal | Tel | Fax | Email | Website | CountryID | BoothNo | StrokeEng | StrokeTrad | StrokeSimp
+// | PYSimp | ImgFolder | DescE | DescS | DescT | PhotoFileName | NewTechUpdateDate | SEQ_EN | SEQ_TC | SEQ_SC | HallNo
+
+
+        // CompanyID|CompanyNameEN|CompanyNameTW|CompanyNameCN|AddressE|AddressT|AddressS|Tel|Fax|Email|Website|CountryID
+        // |BoothNo|StrokeEng|StrokeTrad|StrokeSimp|PYSimp|ImgFolder|DescE|DescS|DescT|PhotoFileName|NewTechUpdateDate|SEQ_EN|SEQ_TC|SEQ_SC|HallNo
 
         this.CompanyID = csv[0];
         this.CompanyNameEN = csv[1];
@@ -632,56 +611,186 @@ public class Exhibitor implements Parcelable {
         this.AddressE = csv[4];
         this.AddressT = csv[5];
         this.AddressS = csv[6];
-        this.Postal = csv[7];
-        this.Tel = csv[8];
-        this.Fax = csv[9];
-        this.Email = csv[10];
-        this.Website = csv[11];
-        this.CountryID = csv[12];
-        this.AddressE1 = csv[13];
-        this.AddressT1 = csv[14];
-        this.AddressS1 = csv[15];
-        this.AddressE2 = csv[16];
-        this.AddressT2 = csv[17];
-        this.AddressS2 = csv[18];
-        this.BoothNo = csv[19];
-        this.StrokeEng = csv[20];
-        this.StrokeTrad = csv[21];
-        this.StrokeSimp = csv[22];
-        this.PYSimp = csv[23];
-        this.ImgFolder = csv[24];
-        this.ExhibitNameE = csv[25];
-        this.ExhibitNameS = csv[26];
-        this.ExhibitNameT = csv[27];
-        this.DescE = csv[28];
-        this.DescS = csv[29];
-        this.DescT = csv[30];
-        this.PhotoFileName = csv[31];
-        this.ConfArea = csv[32];
-        this.FreeArea = csv[33];
-        this.PillarArea = csv[34];
-        this.NewTechUpdateDate = csv[35];
-        i = 4;
-        this.SeqEN = Integer.valueOf(csv[32 + i]);
-        this.SeqTC = Integer.valueOf(csv[33 + i]);
-        this.SeqSC = Integer.valueOf(csv[34 + i]);
-        this.HallNo = csv[35 + i];
+        this.Tel = csv[7];
+        this.Fax = csv[8];
+        this.Email = csv[9];
+        this.Website = csv[10];
+        this.CountryID = csv[11];
+        this.BoothNo = csv[12];
+        this.StrokeEng = csv[13];
+        this.StrokeTrad = csv[14];
+        this.StrokeSimp = csv[15];
+        this.PYSimp = csv[16];
+        this.ImgFolder = csv[17];
+        this.DescE = csv[18];
+        this.DescS = csv[19];
+        this.DescT = csv[20];
+        this.PhotoFileName = csv[21];
+        this.NewTechUpdateDate = csv[22];
+        this.SeqEN = csv[23];
+        this.SeqTC = csv[24];
+        this.SeqSC = csv[25];
+        this.HallNo = csv[26];
+
+        if (HallNo.equals("1.1")) {
+            seqHall = 1.0;
+        } else if (HallNo.equals("1.2")) {
+            seqHall = 2.0;
+        } else if (HallNo.equals("2.1")) {
+            seqHall = 3.0;
+        } else if (HallNo.equals("2.1Y")) {
+            seqHall = 3.1;
+        } else if (HallNo.equals("2.2")) {
+            seqHall = 4.0;
+        } else if (HallNo.equals("3.1")) {
+            seqHall = 5.0;
+        } else if (HallNo.equals("3.1Y")) {
+            seqHall = 5.1;
+        } else if (HallNo.equals("3.2")) {
+            seqHall = 6.0;
+        } else if (HallNo.equals("4.1")) {
+            seqHall = 7.0;
+        } else if (HallNo.equals("4.1Y")) {
+            seqHall = 7.1;
+        } else if (HallNo.equals("4.2")) {
+            seqHall = 8.0;
+        } else if (HallNo.equals("5.1")) {
+            seqHall = 9.0;
+        } else if (HallNo.equals("5.2")) {
+            seqHall = 10.0;
+        } else if (HallNo.equals("6.1")) {
+            seqHall = 11.0;
+        } else if (HallNo.equals("7.1")) {
+            seqHall = 12.0;
+        } else if (HallNo.equals("8.1")) {
+            seqHall = 13.0;
+        } else if (HallNo.equals("8.1A")) {
+            seqHall = 14.0;
+        } else if (HallNo.equals("8.1B")) {
+            seqHall = 15.0;
+        } else if (HallNo.toUpperCase().contains("PP")) {
+            seqHall = 16.0;
+        } else if (HallNo.contains("9.1")) {
+            seqHall = 17.0;
+        } else if (HallNo.contains("9.2")) {
+            seqHall = 18.0;
+        } else if (HallNo.contains("9.3")) {
+            seqHall = 19.0;
+        } else if (HallNo.equals("10.1")) {
+            seqHall = 20.0;
+        } else if (HallNo.equals("10.2")) {
+            seqHall = 21.0;
+        } else if (HallNo.equals("10.3")) {
+            seqHall = 22.0;
+        } else if (HallNo.equals("11.1")) {
+            seqHall = 23.0;
+        } else if (HallNo.equals("11.2")) {
+            seqHall = 24.0;
+        } else if (HallNo.equals("11.3")) {
+            seqHall = 25.0;
+        } else if (HallNo.equals("12.1")) {
+            seqHall = 26.0;
+        } else if (HallNo.equals("12.2")) {
+            seqHall = 27.0;
+        } else if (HallNo.equals("13.1")) {
+            seqHall = 28.0;
+        } else if (HallNo.equals("13.2")) {
+            seqHall = 29.0;
+        } else if (HallNo.equals("TBC")) {
+            seqHall = 30.0;
+        }
+
+
+    }
+
+    private void setSeqHall(Exhibitor entity) {
+        if (entity.getHallNo().equals("1.1")) {
+            entity.seqHall = 1.0;
+        } else if (entity.getHallNo().equals("1.2")) {
+            entity.seqHall = 2.0;
+        } else if (entity.getHallNo().equals("2.1")) {
+            entity.seqHall = 3.0;
+        } else if (entity.getHallNo().equals("2.1Y")) {
+            entity.seqHall = 3.1;
+        } else if (entity.getHallNo().equals("2.2")) {
+            entity.seqHall = 4.0;
+        } else if (entity.getHallNo().equals("3.1")) {
+            entity.seqHall = 5.0;
+        } else if (entity.getHallNo().equals("3.1Y")) {
+            entity.seqHall = 5.1;
+        } else if (entity.getHallNo().equals("3.2")) {
+            entity.seqHall = 6.0;
+        } else if (entity.getHallNo().equals("4.1")) {
+            entity.seqHall = 7.0;
+        } else if (entity.getHallNo().equals("4.1Y")) {
+            entity.seqHall = 7.1;
+        } else if (entity.getHallNo().equals("4.2")) {
+            entity.seqHall = 8.0;
+        } else if (entity.getHallNo().equals("5.1")) {
+            entity.seqHall = 9.0;
+        } else if (entity.getHallNo().equals("5.2")) {
+            entity.seqHall = 10.0;
+        } else if (entity.getHallNo().equals("6.1")) {
+            entity.seqHall = 11.0;
+        } else if (entity.getHallNo().equals("7.1")) {
+            entity.seqHall = 12.0;
+        } else if (entity.getHallNo().equals("8.1")) {
+            entity.seqHall = 13.0;
+        } else if (entity.getHallNo().equals("8.1A")) {
+            entity.seqHall = 14.0;
+        } else if (entity.getHallNo().equals("8.1B")) {
+            entity.seqHall = 15.0;
+        } else if (entity.getHallNo().toUpperCase().contains("PP")) {
+            entity.seqHall = 16.0;
+        } else if (entity.getHallNo().contains("9.1")) {
+            entity.seqHall = 17.0;
+        } else if (entity.getHallNo().equals("9.2")) {
+            entity.seqHall = 18.0;
+        } else if (entity.getHallNo().equals("9.3")) {
+            entity.seqHall = 19.0;
+        } else if (entity.getHallNo().equals("10.1")) {
+            entity.seqHall = 20.0;
+        } else if (entity.getHallNo().equals("10.2")) {
+            entity.seqHall = 21.0;
+        } else if (entity.getHallNo().equals("10.3")) {
+            entity.seqHall = 22.0;
+        } else if (entity.getHallNo().equals("11.1")) {
+            entity.seqHall = 23.0;
+        } else if (entity.getHallNo().equals("11.2")) {
+            entity.seqHall = 24.0;
+        } else if (entity.getHallNo().equals("11.3")) {
+            entity.seqHall = 25.0;
+        } else if (entity.getHallNo().equals("12.1")) {
+            entity.seqHall = 26.0;
+        } else if (entity.getHallNo().equals("12.2")) {
+            entity.seqHall = 27.0;
+        } else if (entity.getHallNo().equals("13.1")) {
+            entity.seqHall = 28.0;
+        } else if (entity.getHallNo().equals("13.2")) {
+            entity.seqHall = 29.0;
+        } else if (entity.getHallNo().equals("TBC")) {
+            entity.seqHall = 30.0;
+        }
     }
 
 
     @Override
     public String toString() {
-        return "Exhibitor [CompanyID=" + CompanyID + ", CompanyNameEN=" + CompanyNameEN + ", CompanyNameTW="
-                + CompanyNameTW + ", CompanyNameCN=" + CompanyNameCN + ", BoothNo=" + BoothNo + ", StrokeEng=" + StrokeEng
-                + ", StrokeTrad=" + StrokeTrad + ", StrokeSimp=" + StrokeSimp + ", PYSimp=" + PYSimp + ", ImgFolder="
-                + ImgFolder + ", ExhibitNameE=" + ExhibitNameE + ", ExhibitNameS=" + ExhibitNameS + ", ExhibitNameT="
-                + ExhibitNameT + ", DescE=" + DescE + ", DescS=" + DescS + ", DescT=" + DescT + ", PhotoFileName="
-                + PhotoFileName + ", SeqEN=" + SeqEN + ", SeqTC=" + SeqTC + ", SeqSC=" + SeqSC + ", HallNo=" + HallNo
-                + ", IsFavourite=" + IsFavourite + ", percent=" + percent + "]";
+//        return "Exhibitor [CompanyID=" + CompanyID + ", CompanyNameEN=" + CompanyNameEN + ", CompanyNameTW="
+//                + CompanyNameTW + ", CompanyNameCN=" + CompanyNameCN + ", BoothNo=" + BoothNo + ", StrokeEng=" + StrokeEng
+//                + ", StrokeTrad=" + StrokeTrad + ", StrokeSimp=" + StrokeSimp + ", PYSimp=" + PYSimp + ", ImgFolder="
+//                + ImgFolder + ", ExhibitNameE=" + ExhibitNameE + ", ExhibitNameS=" + ExhibitNameS + ", ExhibitNameT="
+//                + ExhibitNameT + ", DescE=" + DescE + ", DescS=" + DescS + ", DescT=" + DescT + ", PhotoFileName="
+//                + PhotoFileName + ", SeqEN=" + SeqEN + ", SeqTC=" + SeqTC + ", SeqSC=" + SeqSC + ", HallNo=" + HallNo
+//                + ", IsFavourite=" + IsFavourite + ", percent=" + percent + "]";
+
+
+        return "Exhibitor [CompanyID=" + CompanyID + ", CompanyNameCN=" + CompanyNameCN + "]";
     }
 
 
     // KEEP METHODS END
+
 
     @Override
     public int describeContents() {
@@ -697,46 +806,40 @@ public class Exhibitor implements Parcelable {
         dest.writeString(this.AddressE);
         dest.writeString(this.AddressT);
         dest.writeString(this.AddressS);
-        dest.writeString(this.Postal);
         dest.writeString(this.Tel);
         dest.writeString(this.Fax);
         dest.writeString(this.Email);
         dest.writeString(this.Website);
         dest.writeString(this.CountryID);
-        dest.writeString(this.AddressE1);
-        dest.writeString(this.AddressT1);
-        dest.writeString(this.AddressS1);
-        dest.writeString(this.AddressE2);
-        dest.writeString(this.AddressT2);
-        dest.writeString(this.AddressS2);
         dest.writeString(this.BoothNo);
         dest.writeString(this.StrokeEng);
         dest.writeString(this.StrokeTrad);
         dest.writeString(this.StrokeSimp);
         dest.writeString(this.PYSimp);
         dest.writeString(this.ImgFolder);
-        dest.writeString(this.ExhibitNameE);
-        dest.writeString(this.ExhibitNameS);
-        dest.writeString(this.ExhibitNameT);
         dest.writeString(this.DescE);
         dest.writeString(this.DescS);
         dest.writeString(this.DescT);
         dest.writeString(this.PhotoFileName);
-        dest.writeString(this.ConfArea);
-        dest.writeString(this.FreeArea);
-        dest.writeString(this.PillarArea);
         dest.writeString(this.NewTechUpdateDate);
-        dest.writeValue(this.SeqEN);
-        dest.writeValue(this.SeqTC);
-        dest.writeValue(this.SeqSC);
+        dest.writeString(this.SeqEN);
+        dest.writeString(this.SeqTC);
+        dest.writeString(this.SeqSC);
         dest.writeString(this.HallNo);
         dest.writeValue(this.IsFavourite);
         dest.writeString(this.Note);
-        dest.writeValue(this.Rate);
+        dest.writeInt(this.Rate);
+        dest.writeValue(this.IsDelete);
+        dest.writeString(this.descUpdatedAt);
+        dest.writeString(this.updatedAt);
+        dest.writeInt(this.i);
         dest.writeString(this.CompanyName);
         dest.writeString(this.Sort);
         dest.writeString(this.CountryName);
         dest.writeParcelable(this.isPhotoLogo, 0);
+        dest.writeParcelable(this.isCollected, 0);
+        dest.writeParcelable(this.isTypeLabel, 0);
+        dest.writeInt(this.language);
         dest.writeInt(this.percent);
     }
 
@@ -748,50 +851,44 @@ public class Exhibitor implements Parcelable {
         this.AddressE = in.readString();
         this.AddressT = in.readString();
         this.AddressS = in.readString();
-        this.Postal = in.readString();
         this.Tel = in.readString();
         this.Fax = in.readString();
         this.Email = in.readString();
         this.Website = in.readString();
         this.CountryID = in.readString();
-        this.AddressE1 = in.readString();
-        this.AddressT1 = in.readString();
-        this.AddressS1 = in.readString();
-        this.AddressE2 = in.readString();
-        this.AddressT2 = in.readString();
-        this.AddressS2 = in.readString();
         this.BoothNo = in.readString();
         this.StrokeEng = in.readString();
         this.StrokeTrad = in.readString();
         this.StrokeSimp = in.readString();
         this.PYSimp = in.readString();
         this.ImgFolder = in.readString();
-        this.ExhibitNameE = in.readString();
-        this.ExhibitNameS = in.readString();
-        this.ExhibitNameT = in.readString();
         this.DescE = in.readString();
         this.DescS = in.readString();
         this.DescT = in.readString();
         this.PhotoFileName = in.readString();
-        this.ConfArea = in.readString();
-        this.FreeArea = in.readString();
-        this.PillarArea = in.readString();
         this.NewTechUpdateDate = in.readString();
-        this.SeqEN = (Integer) in.readValue(Integer.class.getClassLoader());
-        this.SeqTC = (Integer) in.readValue(Integer.class.getClassLoader());
-        this.SeqSC = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.SeqEN = in.readString();
+        this.SeqTC = in.readString();
+        this.SeqSC = in.readString();
         this.HallNo = in.readString();
         this.IsFavourite = (Integer) in.readValue(Integer.class.getClassLoader());
         this.Note = in.readString();
-        this.Rate = (Integer) in.readValue(Integer.class.getClassLoader());
+        this.Rate = in.readInt();
+        this.IsDelete = (Boolean) in.readValue(Boolean.class.getClassLoader());
+        this.descUpdatedAt = in.readString();
+        this.updatedAt = in.readString();
+        this.i = in.readInt();
         this.CompanyName = in.readString();
         this.Sort = in.readString();
         this.CountryName = in.readString();
         this.isPhotoLogo = in.readParcelable(ObservableBoolean.class.getClassLoader());
+        this.isCollected = in.readParcelable(ObservableBoolean.class.getClassLoader());
+        this.isTypeLabel = in.readParcelable(ObservableBoolean.class.getClassLoader());
+        this.language = in.readInt();
         this.percent = in.readInt();
     }
 
-    public static final Creator<Exhibitor> CREATOR = new Creator<Exhibitor>() {
+    public static final Parcelable.Creator<Exhibitor> CREATOR = new Parcelable.Creator<Exhibitor>() {
         public Exhibitor createFromParcel(Parcel source) {
             return new Exhibitor(source);
         }

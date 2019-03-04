@@ -2,8 +2,12 @@ package com.adsale.ChinaPlas.ui;
 
 import android.content.Intent;
 import android.databinding.ObservableField;
+import android.net.Uri;
 import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.base.BaseActivity;
@@ -11,11 +15,20 @@ import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.data.model.ExhibitorFilter;
 import com.adsale.ChinaPlas.databinding.ActivityExhibitorFilterBinding;
 import com.adsale.ChinaPlas.helper.ADHelper;
+import com.adsale.ChinaPlas.helper.EPOHelper;
+import com.adsale.ChinaPlas.helper.IntentHelper;
+import com.adsale.ChinaPlas.helper.LogHelper;
 import com.adsale.ChinaPlas.ui.view.FilterView;
 import com.adsale.ChinaPlas.utils.AppUtil;
+import com.adsale.ChinaPlas.utils.Constant;
 import com.adsale.ChinaPlas.utils.LogUtil;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
+
+import static com.adsale.ChinaPlas.App.mLogHelper;
 
 public class ExhibitorFilterActivity extends BaseActivity implements OnIntentListener {
     public final ObservableField<String> etKeyword = new ObservableField<>("");
@@ -28,6 +41,7 @@ public class ExhibitorFilterActivity extends BaseActivity implements OnIntentLis
     private ArrayList<ExhibitorFilter> allFilters = new ArrayList<>();
     private SwitchCompat switchNewTec;
     private String[] names;
+    private ImageView ivAD;
 
     @Override
     protected void initView() {
@@ -41,8 +55,46 @@ public class ExhibitorFilterActivity extends BaseActivity implements OnIntentLis
         boothFilterView = binding.boothFilterView;
         switchNewTec = binding.switchNewTec;
 
-        ADHelper adHelper = new ADHelper(this);
-        adHelper.showM3(binding.ivAd);
+        ivAD = binding.ivAd;
+        showD3();
+    }
+
+    private void showD3() {
+        final EPOHelper epoHelper = EPOHelper.getInstance();
+        epoHelper.parseAd();
+        final int index = epoHelper.count();
+        if (!epoHelper.isD3Open(index)) {
+            return;
+        }
+        ivAD.setVisibility(View.VISIBLE);
+        RequestOptions requestOptions = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true);
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) ivAD.getLayoutParams();
+        params.width = AppUtil.getScreenWidth();
+        params.height = AppUtil.getCalculatedHeight(Constant.M3_WIDTH, Constant.M3_HEIGHT);
+        ivAD.setLayoutParams(params);
+
+        epoHelper.setD3Index(index);
+        LogUtil.i(TAG, "SHOWM3:URL=" + epoHelper.getD3Images());
+        Glide.with(getApplicationContext()).load(Uri.parse(epoHelper.getD3Images())).apply(requestOptions).into(ivAD);
+        epoHelper.changeD3Count();
+
+//        AppUtil.trackViewLog(203, "Ad", "M3", epoHelper.getD3CompanyID());
+//        AppUtil.setStatEvent(getApplicationContext(), "ViewM3", "Ad_M3_" + epoHelper.getD3CompanyID());
+        mLogHelper.logD3Filter(epoHelper.getD3Function(), epoHelper.getD3PageID(), true);
+        mLogHelper.setBaiDuLog(getApplicationContext(), LogHelper.EVENT_ID_AD_VIEW);
+
+        ivAD.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = IntentHelper.intentToCompany(epoHelper.getD3CompanyID());
+                startActivity(intent);
+                overridePendingTransPad();
+
+                mLogHelper.logD3Filter(epoHelper.getD3Function(), epoHelper.getD3PageID(), false);
+                mLogHelper.setBaiDuLog(getApplicationContext(), LogHelper.EVENT_ID_AD_Click);
+            }
+        });
+
     }
 
     @Override
@@ -67,6 +119,7 @@ public class ExhibitorFilterActivity extends BaseActivity implements OnIntentLis
 
     /**
      * item跳转在{@link com.adsale.ChinaPlas.ui.view.FilterView#onItemClick}
+     *
      * @param requestCode
      * @param resultCode
      * @param data
@@ -99,8 +152,8 @@ public class ExhibitorFilterActivity extends BaseActivity implements OnIntentLis
         if (!TextUtils.isEmpty(etKeyword.get().trim())) {
             newTecFilter = new ExhibitorFilter(5, "", etKeyword.get().trim());
             allFilters.add(newTecFilter);
-            AppUtil.setStatEvent(getApplicationContext(), "KeySearch", "Page_KeySearch_"+etKeyword.get().trim());
-            AppUtil.trackViewLog( 188, "Page", "", "KeywordSearch_"+etKeyword.get().trim());
+            AppUtil.setStatEvent(getApplicationContext(), "KeySearch", "Page_KeySearch_" + etKeyword.get().trim());
+            AppUtil.trackViewLog(188, "Page", "", "KeywordSearch_" + etKeyword.get().trim());
         }
 
         if (switchNewTec.isChecked()) {

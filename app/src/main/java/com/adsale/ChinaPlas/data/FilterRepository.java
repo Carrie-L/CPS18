@@ -3,19 +3,22 @@ package com.adsale.ChinaPlas.data;
 import android.database.Cursor;
 
 import com.adsale.ChinaPlas.App;
-import com.adsale.ChinaPlas.dao.ApplicationIndustry;
-import com.adsale.ChinaPlas.dao.ApplicationIndustryDao;
+import com.adsale.ChinaPlas.dao.Application;
+import com.adsale.ChinaPlas.dao.ApplicationDao;
+import com.adsale.ChinaPlas.dao.CompanyApplicationDao;
+import com.adsale.ChinaPlas.dao.CompanyProductDao;
 import com.adsale.ChinaPlas.dao.Country;
 import com.adsale.ChinaPlas.dao.CountryDao;
-import com.adsale.ChinaPlas.dao.ExhibitorIndustryDtlDao;
-import com.adsale.ChinaPlas.dao.Floor;
-import com.adsale.ChinaPlas.dao.FloorDao;
+import com.adsale.ChinaPlas.dao.ExhibitorDao;
+import com.adsale.ChinaPlas.dao.Map;
+import com.adsale.ChinaPlas.dao.MapDao;
 import com.adsale.ChinaPlas.dao.Industry;
 import com.adsale.ChinaPlas.dao.IndustryDao;
 import com.adsale.ChinaPlas.dao.Zone;
 import com.adsale.ChinaPlas.dao.ZoneDao;
 import com.adsale.ChinaPlas.data.model.Text2;
 import com.adsale.ChinaPlas.utils.AppUtil;
+import com.adsale.ChinaPlas.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -32,14 +35,14 @@ public class FilterRepository {
     private final String TAG = "FilterRepository";
     private static FilterRepository INSTANCE;
     private IndustryDao mIndustryDao;
-    private ApplicationIndustryDao mAppIndustryDao;
+    private ApplicationDao mApplicationDao;
     private CountryDao mCountryDao;
-    private FloorDao mFloorDao;
+    private MapDao mFloorDao;
     private ZoneDao mZoneDao;
 
     public static FilterRepository getInstance() {
         if (INSTANCE == null) {
-            return new FilterRepository();
+            INSTANCE = new FilterRepository();
         }
         return INSTANCE;
     }
@@ -51,19 +54,42 @@ public class FilterRepository {
 
     private void checkIndustryDaoNull() {
         if (mIndustryDao == null) {
-            throw new NullPointerException("mIndustryDao cannot be null, please #initIndustryDao");
+//            throw new NullPointerException("mIndustryDao cannot be null, please #initIndustryDao");
+            initIndustryDao();
         }
     }
 
     public ArrayList<Industry> getIndustries(int language, ArrayList<String> letters) {
         checkIndustryDaoNull();
         ArrayList<Industry> list = new ArrayList<>();
-        String sql = "select * from INDUSTRY order by %s";
-        sql = String.format(sql, language == 0 ? "TCSTROKE" : language == 1 ? "EN_SORT" : "SCPY");
-        Cursor cursor = App.mDBHelper.db.rawQuery(sql, null);
+//        List<Industry> lett = new ArrayList<>();
+
+//        if (language == 0) {
+//            list = (ArrayList<Industry>) mIndustryDao.queryBuilder().orderCustom(IndustryDao.Properties.TCStroke, "ORDER BY cast(TCStroke as int)").list();
+//        } else if (language == 1) {
+//            list = (ArrayList<Industry>) mIndustryDao.queryBuilder().orderAsc(IndustryDao.Properties.SortEN).list();
+//        } else {
+//            list = (ArrayList<Industry>) mIndustryDao.queryBuilder().orderAsc(IndustryDao.Properties.SCPY).list();
+//        }
+//        lett = mIndustryDao.queryBuilder().distinct().orderAsc(IndustryDao.Properties.SortEN).list();
+//        LogUtil.i(TAG, "lett= " + lett);
+
+//        String sql = "select * from INDUSTRY order by %s";
+        StringBuilder sql = new StringBuilder();
+        sql.append("select * from ").append(IndustryDao.TABLENAME).append(" order by ");
+        if (language == 0) {
+            sql.append("cast(").append(IndustryDao.Properties.TCStroke.columnName).append(" as int)");
+        } else if (language == 1) {
+            sql.append(IndustryDao.Properties.SortEN.columnName);
+        } else {
+            sql.append(IndustryDao.Properties.SCPY.columnName);
+        }
+        LogUtil.i(TAG, "sql= " + sql.toString());
+        Cursor cursor = App.mDBHelper.db.rawQuery(sql.toString(), null);
         Industry entity;
         if (cursor != null) {
             while (cursor.moveToNext()) {
+//                String sortEN = cursor.getString(cursor.getColumnIndex("SortEN"));
                 entity = mIndustryDao.readEntity(cursor, 0);
                 list.add(entity);
                 letters.add(entity.getSort());
@@ -77,41 +103,23 @@ public class FilterRepository {
         return list;
     }
 
+    /**
+     * SELECT T."CatalogProductSubID",T."CatEng",T."CatTC",T."CatSC",T."TCStroke",T."SCPY",T."SortEN",T."IsDelete",T."createdAt",T."updatedAt",T."IsSelected" FROM "Industry" T  WHERE CatEng like "%y%" or CatTC like "%y%" or CatSC like "%y%"  order by SCPY
+     *
+     * @param text kw
+     * @return ArrayList
+     */
     public ArrayList<Industry> getSearchIndustries(String text) {
         checkIndustryDaoNull();
+        StringBuilder sbuilder = new StringBuilder();
+        sbuilder.append(IndustryDao.Properties.CatEng.columnName).append(" like \"%").append(text).append("%\" or ")
+                .append(IndustryDao.Properties.CatTC.columnName).append(" like \"%").append(text).append("%\" or ")
+                .append(IndustryDao.Properties.CatSC.columnName).append(" like \"%").append(text).append("%\" ")
+                .append(" order by ")
+                .append(App.mLanguage.get() == 0 ? "CAST(TCStroke AS INT)" : App.mLanguage.get() == 1 ? IndustryDao.Properties.SortEN.columnName : IndustryDao.Properties.SCPY.columnName);
+
         return (ArrayList<Industry>) mIndustryDao.queryBuilder().where
-                (new WhereCondition.StringCondition(" CAT_ENG like \"%" + text + "%\" or CAT_TC like \"%" + text + "%\" or CAT_SC like \"%" + text + "%\" order by ".concat(orderBy())))
-                .list();
-    }
-
-    public ArrayList<String> getIndustryLetters() {
-        int language = AppUtil.getCurLanguage();
-        ArrayList<String> list = new ArrayList<>();
-        String sql;
-        if (language == 0) {
-            sql = "select distinct TCSTROKE from INDUSTRY order by TCSTROKE";
-        } else if (language == 1) {
-            sql = "select distinct EN_SORT from INDUSTRY order by EN_SORT";
-        } else {
-            sql = "select distinct SCPY from INDUSTRY order by SCPY";
-        }
-        Cursor cursor = App.mDBHelper.db.rawQuery(sql, null);
-        String sort = "";
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
-                sort = cursor.getString(0);
-                if (language == 1 && sort.contains("#")) {
-                    sort = "#";
-                }
-                list.add(sort);
-            }
-            cursor.close();
-        }
-        return list;
-    }
-
-    private String orderBy() {
-        return AppUtil.getName("TCSTROKE ASC", "EN_SORT ASC", "SCPY ASC");
+                (new WhereCondition.StringCondition(sbuilder.toString())).list();
     }
 
     /**
@@ -120,10 +128,10 @@ public class FilterRepository {
      * @return ArrayList<Text2>
      */
     public ArrayList<Text2> getIndustries(String companyID) {
-        List<Industry> industries = mIndustryDao.queryRawCreate("," + ExhibitorIndustryDtlDao.TABLENAME + " E where T."
+        List<Industry> industries = mIndustryDao.queryRawCreate("," + CompanyProductDao.TABLENAME + " E where T."
                 + IndustryDao.Properties.CatalogProductSubID.columnName + "=E."
-                + ExhibitorIndustryDtlDao.Properties.CatalogProductSubID.columnName + " AND E."
-                + ExhibitorIndustryDtlDao.Properties.CompanyID.columnName + "=? ", companyID).list();
+                + CompanyProductDao.Properties.CatalogProductSubID.columnName + " AND E."
+                + CompanyProductDao.Properties.CompanyID.columnName + "=? ", companyID).list();
 
         int size = industries.size();
         ArrayList<Text2> texts = new ArrayList<>();
@@ -136,53 +144,57 @@ public class FilterRepository {
     }
 
 
-    /* ------------------- ApplicationIndustry -------------------------- */
+    /* ------------------- Application -------------------------- */
     public void initAppIndustryDao() {
-        mAppIndustryDao = App.mDBHelper.mAppIndustryDao;
+        mApplicationDao = App.mDBHelper.mApplicationDao;
     }
 
     private void checkAppIndustryDaoNull() {
-        if (mAppIndustryDao == null) {
-            throw new NullPointerException("mAppIndustryDao cannot be null, please #initAppIndustryDao");
+        if (mApplicationDao == null) {
+            throw new NullPointerException("mApplicationDao cannot be null, please #initAppIndustryDao");
         }
     }
 
     /**
      * select * from APPLICATION_INDUSTRY where TCSTROKE!="#" order by cast(TCSTROKE as int)
      */
-    public ArrayList<ApplicationIndustry> getApplicationIndustries() {
+    public ArrayList<Application> getApplicationIndustries() {
         checkAppIndustryDaoNull();
-        ArrayList<ApplicationIndustry> list;
-        ArrayList<ApplicationIndustry> temps;
+        ArrayList<Application> list;
         if (AppUtil.getCurLanguage() == 0) {
-            list = (ArrayList<ApplicationIndustry>) mAppIndustryDao.queryBuilder().where(new WhereCondition.StringCondition(" TCSTROKE!=\"#\" order by cast(TCSTROKE as int)")).list();
-            temps = (ArrayList<ApplicationIndustry>) mAppIndustryDao.queryBuilder().where(new WhereCondition.StringCondition(" TCSTROKE=\"#\" order by cast(TCSTROKE as int)")).list();
+            list = (ArrayList<Application>) mApplicationDao.queryBuilder().where(new WhereCondition.StringCondition(" 1 order by cast(TCStroke as int)")).list();
         } else {
-            list = (ArrayList<ApplicationIndustry>) mAppIndustryDao.queryBuilder().where(ApplicationIndustryDao.Properties.SCPY.notEq("#")).orderAsc(ApplicationIndustryDao.Properties.SCPY).list();
-            temps = (ArrayList<ApplicationIndustry>) mAppIndustryDao.queryBuilder().where(ApplicationIndustryDao.Properties.SCPY.eq("#")).orderAsc(ApplicationIndustryDao.Properties.SCPY).list();
+            list = (ArrayList<Application>) mApplicationDao.queryBuilder().orderAsc(ApplicationDao.Properties.SCPY).list();
         }
-        list.addAll(temps);
         return list;
     }
 
     /**
      * Exhibitor Dtl
      * 与AppCompany表连接查询
+     * <p>
+     * ,CompanyApplication AS A where T.INDUSTRY_ID=A.INDUSTRY_ID and A.COMPANY_ID=?
      *
      * @return ArrayList<Text2>
      */
     public ArrayList<Text2> queryAppIndustryLists(String companyID) {
-        List<ApplicationIndustry> entities = mAppIndustryDao.queryRawCreate(
-                ",APPLICATION_COMPANY AS A where T.INDUSTRY_ID=A.INDUSTRY_ID and A.COMPANY_ID=?",
+        StringBuilder sb = new StringBuilder();
+        sb.append(",").append(CompanyApplicationDao.TABLENAME).append(" AS A where T.").append(ApplicationDao.Properties.IndustryID.columnName)
+                .append("=A.").append(CompanyApplicationDao.Properties.IndustryID.columnName).append(" and A.").append(CompanyApplicationDao.Properties.CompanyID.columnName).append("=?");
+        List<Application> entities = mApplicationDao.queryRawCreate(
+//                ",CompanyApplication AS A where T.INDUSTRY_ID=A.INDUSTRY_ID and A.COMPANY_ID=?",
+                sb.toString(),
                 new Object[]{companyID}).list();
 
         int size = entities.size();
+        LogUtil.i(TAG, "queryAppIndustryLists  size= " + size);
         ArrayList<Text2> texts = new ArrayList<>();
-        ApplicationIndustry entity;
+        Application entity;
         for (int i = 0; i < size; i++) {
             entity = entities.get(i);
             texts.add(new Text2(entity.getIndustryID(), entity.getApplicationName()));
         }
+        LogUtil.i(TAG, "queryAppIndustryLists= " + texts.size());
         return texts;
     }
 
@@ -194,7 +206,7 @@ public class FilterRepository {
 
     private void checkCountryDaoNull() {
         if (mCountryDao == null) {
-            throw new NullPointerException("mCountryDao cannot be null, please #initCountryDao");
+            initCountryDao();
         }
     }
 
@@ -207,15 +219,19 @@ public class FilterRepository {
      */
     public ArrayList<Country> getCountries(ArrayList<String> letters) {
         checkCountryDaoNull();
-        String sql = "select C.* from COUNTRY C WHERE COUNTRY_ID IN (SELECT DISTINCT COUNTRY_ID FROM EXHIBITOR ) order by ";
+        StringBuilder sql = new StringBuilder();
+        sql.append("select C.* from Country C WHERE CountryID IN (SELECT DISTINCT ")
+                .append(ExhibitorDao.Properties.CountryID.columnName).append(" FROM ")
+                .append(ExhibitorDao.TABLENAME).append(" )order by  ");
+//        String sql = "select C.* from Country C WHERE CountryID IN (SELECT DISTINCT CountryID FROM Exhibitor )order by ";   //  WHERE CountryID IN (SELECT DISTINCT CountryID FROM Exhibitor )   zzzs 20181129 todo 目前Exhibitor表里貌似没有CountryID字段，导致查询失败
         if (AppUtil.getCurLanguage() == 0) {
-            sql = sql.concat("cast(SORT_TW as int)");
+            sql = sql.append("cast(SortTC as int)");
         } else if (AppUtil.getCurLanguage() == 1) {
-            sql = sql.concat("SORT_EN");
+            sql = sql.append(CountryDao.Properties.SortEN.columnName);
         } else {
-            sql = sql.concat("SORT_CN");
+            sql = sql.append(CountryDao.Properties.SortSC.columnName);
         }
-        Cursor cursor = App.mDBHelper.db.rawQuery(sql, null);
+        Cursor cursor = App.mDBHelper.db.rawQuery(sql.toString(), null);
         ArrayList<Country> list = new ArrayList<>();
         Country entity;
         if (cursor != null) {
@@ -261,18 +277,50 @@ public class FilterRepository {
 
     /* ------------------- Hall -------------------------- */
     public void initFloorDao() {
-        mFloorDao = App.mDBHelper.mFloorDao;
+        mFloorDao = App.mDBHelper.mMapDao;
     }
 
     private void checkFloorDaoNull() {
         if (mFloorDao == null) {
-            throw new NullPointerException("mFloorDao cannot be null, please #initFloorDao");
+            initFloorDao();
         }
     }
 
-    public ArrayList<Floor> getFloors() {
+    /**
+     * select F.FloorNameSC, F.FloorID , count(F.FloorID) as Count,E.HallNo from Map F, EXHIBITOR E where  (E.HallNo = F.FloorID) OR (F.FloorID like "%Y" AND E.HallNo like "%Y") and F.FloorID not like "%csv%"
+     group by F.FloorID ORDER BY SEQ
+     */
+    public ArrayList<Map> getFloorsWiithExhibitor() {
         checkFloorDaoNull();
-        return (ArrayList<Floor>) mFloorDao.queryBuilder().orderAsc(FloorDao.Properties.SEQ).list();
+        ArrayList<Map> floors = new ArrayList<>();
+        StringBuilder sql = new StringBuilder();
+        sql.append("select F.");
+        if (App.mLanguage.get() == 0) {
+            sql.append(MapDao.Properties.FloorNameTC.columnName);
+        } else if (App.mLanguage.get() == 1) {
+            sql.append(MapDao.Properties.FloorNameEN.columnName);
+        } else {
+            sql.append(MapDao.Properties.FloorNameSC.columnName);
+        }
+        sql.append(", F.").append(MapDao.Properties.FloorID.columnName).append(",count(F.").append(MapDao.Properties.FloorID.columnName)
+                .append(") as Count from ").append(MapDao.TABLENAME).append(" F, ").append(ExhibitorDao.TABLENAME)
+                .append(" E WHERE (E.HallNo = F.FloorID) OR (F.FloorID like \"%Y\" AND E.HallNo like \"%Y\") and F.FloorID not like \"%csv%\" ")
+                .append(" group by F.").append(MapDao.Properties.FloorID.columnName).append(" order by ").append(MapDao.Properties.SEQ.columnName);
+        LogUtil.i(TAG, "sql = " + sql.toString());
+
+        Cursor cursor = App.mDBHelper.db.rawQuery(sql.toString(), new String[]{});
+        if (cursor != null) {
+            Map entity;
+            while (cursor.moveToNext()) {
+                entity = new Map();
+                entity.setFloorName(cursor.getString(0));
+                entity.setFloorID(cursor.getString(1));
+                entity.count.set(cursor.getInt(2));
+                floors.add(entity);
+            }
+            cursor.close();
+        }
+        return floors;
     }
 
     /* ------------------- Zone -------------------------- */
@@ -291,6 +339,7 @@ public class FilterRepository {
         } else {
             return (ArrayList<Zone>) mZoneDao.queryBuilder().where(ZoneDao.Properties.ThemeZoneDescriptionSC.notEq("NULL")).list();
         }
+//        return (ArrayList<Zone>) mZoneDao.loadAll();
     }
 
 }

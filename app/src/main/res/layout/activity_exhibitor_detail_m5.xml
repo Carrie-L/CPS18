@@ -45,7 +45,7 @@
                     android:layout_height="wrap_content">
 
                     <ImageView
-                        android:id="@+id/m5Logo"
+                        android:id="@+id/adLogo"
                         android:layout_width="wrap_content"
                         android:layout_height="45dp"
                         android:layout_alignParentLeft="true"
@@ -66,16 +66,16 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="16dp"
                         android:layout_marginTop="12dp"
-                        android:layout_toEndOf="@id/m5Logo"
+                        android:layout_toEndOf="@id/adLogo"
                         android:layout_toLeftOf="@id/iv_help"
-                        android:layout_toRightOf="@id/m5Logo"
+                        android:layout_toRightOf="@id/adLogo"
                         android:layout_toStartOf="@id/iv_help"
                         android:text="@{model.companyName}"
                         android:textSize="17sp" />
                 </RelativeLayout>
 
                 <LinearLayout
-                    android:id="@+id/ll_m5_product"
+                    android:id="@+id/ll_product"
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
                     android:layout_below="@id/rl_title"
@@ -86,27 +86,27 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/m5Left"
+                        android:id="@+id/left"
                         android:layout_width="0dp"
                         android:layout_height="70dp"
                         android:layout_weight="1"
-                        android:onClick="@{()->aty.onM5Click(1)}"
+                        android:onClick="@{()->aty.onD4Click(1)}"
                         />
 
                     <ImageView
-                        android:id="@+id/m5Center"
+                        android:id="@+id/center"
                         android:layout_width="0dp"
                         android:layout_height="70dp"
                         android:layout_weight="1"
-                        android:onClick="@{()->aty.onM5Click(2)}"
+                        android:onClick="@{()->aty.onD4Click(2)}"
                         />
 
                     <ImageView
-                        android:id="@+id/m5Right"
+                        android:id="@+id/right"
                         android:layout_width="0dp"
                         android:layout_height="70dp"
                         android:layout_weight="1"
-                        android:onClick="@{()->aty.onM5Click(3)}"
+                        android:onClick="@{()->aty.onD4Click(3)}"
                         />
                 </LinearLayout>
 

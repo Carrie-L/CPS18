@@ -5,16 +5,17 @@ import android.content.res.AssetManager;
 import android.text.TextUtils;
 
 import com.adsale.ChinaPlas.App;
-import com.adsale.ChinaPlas.dao.ApplicationCompany;
-import com.adsale.ChinaPlas.dao.ApplicationIndustry;
+import com.adsale.ChinaPlas.dao.Application;
+import com.adsale.ChinaPlas.dao.CompanyApplication;
 import com.adsale.ChinaPlas.dao.BussinessMapping;
+import com.adsale.ChinaPlas.dao.CompanyProduct;
+import com.adsale.ChinaPlas.dao.Country;
+import com.adsale.ChinaPlas.dao.DBHelper;
 import com.adsale.ChinaPlas.dao.Exhibitor;
-import com.adsale.ChinaPlas.dao.ExhibitorIndustryDtl;
 import com.adsale.ChinaPlas.dao.ExhibitorZone;
-import com.adsale.ChinaPlas.dao.Floor;
+import com.adsale.ChinaPlas.dao.Map;
 import com.adsale.ChinaPlas.dao.FloorPlanCoordinate;
 import com.adsale.ChinaPlas.dao.Industry;
-import com.adsale.ChinaPlas.dao.NewCategoryMaster;
 import com.adsale.ChinaPlas.dao.NewCategorySub;
 import com.adsale.ChinaPlas.dao.NewCategoryID;
 import com.adsale.ChinaPlas.dao.NewProductInfo;
@@ -45,7 +46,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import static com.adsale.ChinaPlas.utils.AppUtil.getAssetInputStream;
 import static com.adsale.ChinaPlas.utils.AppUtil.getInputStream;
+import static com.adsale.ChinaPlas.utils.AppUtil.getInputStreamFromSd;
+import static com.adsale.ChinaPlas.utils.AppUtil.getInputStreamFromSdOrAsset;
 
 
 public class CSVHelper {
@@ -180,15 +184,23 @@ public class CSVHelper {
     /**
      * 读取exhibitors.csv，且存入数据库表EXHIBITOR
      * <p> 解析两个csv，将数据合并起来，一起插入数据库
-     *
-     * @param is1   exhibitor.csv
-     * @param isDes <font color="#f97798">exhibitorDes.csv</font>
+     * <p>
+     * exhibitor.csv
+     * <font color="#f97798">exhibitorDes.csv</font>
      */
-    public void readExhibitorCSV(InputStream is1, InputStream isDes) {
+    public void readExhibitorCSV(String exhibitorPath, String descPath) {
+        if (!new File(exhibitorPath).exists()) {
+            return;
+        }
+        if (!new File(descPath).exists()) {
+            return;
+        }
         long startTime = System.currentTimeMillis();
         ArrayList<Exhibitor> entities = new ArrayList<>();
         Exhibitor entity = null;
         CSVReader reader;
+        InputStream isDes = getInputStream(descPath);
+        InputStream is1 = getInputStream(exhibitorPath);
         if (isDes != null) {
             try {
                 reader = new CSVReader(new InputStreamReader(is1, "UTF8"));
@@ -208,16 +220,15 @@ public class CSVHelper {
                         entity.setCompanyNameEN(entity.getCompanyNameEN().trim());
                         entity.setCompanyNameTW(entity.getCompanyNameTW().trim());
 
-                        if (entity.getStrokeEng().equals("#")) {
+                        if (entity.getStrokeEng().contains("#")) {
                             entity.setStrokeEng("ZZZ#");
                         }
-                        if (entity.getStrokeTrad().equals("#")) {
+                        if (entity.getStrokeTrad().contains("#")) {
                             entity.setStrokeTrad("999#");
                         }
-                        if (entity.getPYSimp().equals("#")) {
+                        if (entity.getPYSimp().contains("#")) {
                             entity.setPYSimp("ZZZ#");
                         }
-
                         if (entity.getIsFavourite() == null) {
                             entity.setIsFavourite(0);
                         }
@@ -237,7 +248,7 @@ public class CSVHelper {
                     e.printStackTrace();
                 }
             }
-            LogUtil.i(TAG, "SD卡：readExhibitorCSV所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
+            LogUtil.i(TAG, "SD卡：readExhibitorCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
 
             readExhibitorDesCSV(isDes, entities);
         }
@@ -276,11 +287,12 @@ public class CSVHelper {
                     e.printStackTrace();
                 }
             }
-            LogUtil.i(TAG, "SD卡：readExhibitorDescriptonCSV所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
+            LogUtil.i(TAG, "SD卡：readExhibitorDescriptonCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
 
             combineExhibitorList(list, lists);
         }
     }
+
 
     /**
      * 合并两个csv数据，插入数据库
@@ -309,25 +321,33 @@ public class CSVHelper {
 
         long startTime2 = System.currentTimeMillis();
         mExhibitorRepository.insertExhibitorAll(list1);
+        AppUtil.setUpdateExhibitorSuccess(true);
+        AppUtil.setExhibitorHasUpdate(false);
         AppUtil.getDuringTime(TAG, "插入Exhibitor数据库", startTime2);
     }
 
     /**
-     * 读取CompanyApplication.csv，且存入数据库表APPLICATION_COMPANY
+     * 读取CompanyProduct.csv，且存入数据库表 CompanyProduct
      */
-    private void readCompanyApplicationCSV(InputStream is) {
+    private void readCompanyProductCSV(String path) {
+        if (!new File(path).exists()) {
+            return;
+        }
         long startTime = System.currentTimeMillis();
-        ArrayList<ApplicationCompany> entities = new ArrayList<>();
-        ApplicationCompany entity = null;
+        ArrayList<CompanyProduct> entities = new ArrayList<>();
+        CompanyProduct entity = null;
         CSVReader reader;
+        InputStream is = getInputStream(path);
         if (is != null) {
             try {
                 reader = new CSVReader(new InputStreamReader(is, "UTF8"));
                 String[] line = reader.readNext();
                 if (line != null) {
                     while ((line = reader.readNext()) != null) {
-                        entity = new ApplicationCompany();
+                        entity = new CompanyProduct();
                         entity.parserID(line);
+                        entity.setUpdatedAt("2019-01-08 17:42:27");
+                        entity.setCreatedAt("2019-01-08 17:42:27");
                         entities.add(entity);
                     }
                 }
@@ -344,31 +364,83 @@ public class CSVHelper {
                     e.printStackTrace();
                 }
             }
-            LogUtil.i(TAG, "SD卡：readCompanyApplicationCSV所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
+//            LogUtil.i(TAG, "SD卡：readCompanyProductCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
 
             // 此表沒有主鍵
             long startTime2 = System.currentTimeMillis();
-            mExhibitorRepository.deleteAllAppCompany();
-            mExhibitorRepository.insertApplicationCompaniesAll(entities);
-            LogUtil.i(TAG, "存儲readCompanyApplicationCSV所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
+            mExhibitorRepository.deleteAllCompanyProduct();
+            mExhibitorRepository.insertCompanyProductAll(entities);
+            LogUtil.i(TAG, "存儲 CompanyProduct 所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
         }
     }
 
     /**
-     * 读取Application.csv，且存入数据库表APPLICATION_INDUSTRY
+     * 读取CompanyApplication.csv，且存入数据库表APPLICATION_COMPANY
      */
-    private void readApplicationCSV(InputStream is) {
+    private void readCompanyApplicationCSV(String path) {
+        if (!new File(path).exists()) {
+            return;
+        }
         long startTime = System.currentTimeMillis();
-        ArrayList<ApplicationIndustry> entities = new ArrayList<>();
-        ApplicationIndustry entity = null;
+        ArrayList<CompanyApplication> entities = new ArrayList<>();
+        CompanyApplication entity = null;
         CSVReader reader;
+        InputStream is = getInputStream(path);
         if (is != null) {
             try {
                 reader = new CSVReader(new InputStreamReader(is, "UTF8"));
                 String[] line = reader.readNext();
                 if (line != null) {
                     while ((line = reader.readNext()) != null) {
-                        entity = new ApplicationIndustry();
+                        entity = new CompanyApplication();
+                        entity.parserID(line);
+                        entity.setUpdatedAt("2019-01-08 17:42:27");
+                        entity.setCreatedAt("2019-01-08 17:42:27");
+                        entities.add(entity);
+                    }
+                }
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (is != null) {
+                        is.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+//            LogUtil.i(TAG, "SD卡：readCompanyApplicationCSV所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
+
+            // 此表沒有主鍵
+            long startTime2 = System.currentTimeMillis();
+            mExhibitorRepository.deleteAllAppCompany();
+            mExhibitorRepository.insertApplicationCompaniesAll(entities);
+            LogUtil.i(TAG, "存儲 CompanyApplication 所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
+        }
+    }
+
+    /**
+     * 读取Application.csv，且存入数据库表APPLICATION_INDUSTRY
+     */
+    private void readApplicationCSV(String path) {
+        if (!new File(path).exists()) {
+            return;
+        }
+        long startTime = System.currentTimeMillis();
+        ArrayList<Application> entities = new ArrayList<>();
+        Application entity = null;
+        CSVReader reader;
+        InputStream is = getInputStream(path);
+        if (is != null) {
+            try {
+                reader = new CSVReader(new InputStreamReader(is, "UTF8"));
+                String[] line = reader.readNext();
+                if (line != null) {
+                    while ((line = reader.readNext()) != null) {
+                        entity = new Application();
                         entity.parser(line);
                         entities.add(entity);
                     }
@@ -386,9 +458,7 @@ public class CSVHelper {
                     e.printStackTrace();
                 }
             }
-            LogUtil.i(TAG, "SD卡：readApplicationCSV所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
-
-
+//            LogUtil.i(TAG, "SD卡：readApplicationCSV所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
             long startTime2 = System.currentTimeMillis();
             mExhibitorRepository.insertAppIndustryAll(entities);
             LogUtil.i(TAG, "存儲readApplicationCSV所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
@@ -398,11 +468,15 @@ public class CSVHelper {
     /**
      * 读取ExhibitionCatalogProductLang.csv，且存入数据库表INDUSTRY
      */
-    private void readExhibitionCatalogProductLangCSV(InputStream is) {
+    private void readExhibitionCatalogProductLangCSV(String path) {
+        if (!new File(path).exists()) {
+            return;
+        }
         long startTime = System.currentTimeMillis();
         ArrayList<Industry> entities = new ArrayList<>();
         Industry entity = null;
         CSVReader reader;
+        InputStream is = getInputStream(path);
         if (is != null) {
             try {
                 reader = new CSVReader(new InputStreamReader(is, "UTF8"));
@@ -424,9 +498,9 @@ public class CSVHelper {
                         }
                         enSort = AppUtil.getFirstChar(enSort);
                         if (enSort.contains("#")) {
-                            entity.setEN_SORT("ZZZ".concat(enSort));
+                            entity.setSortEN("ZZZ".concat(enSort));
                         } else {
-                            entity.setEN_SORT(enSort);
+                            entity.setSortEN(enSort);
                         }
                         entities.add(entity);
                     }
@@ -444,54 +518,13 @@ public class CSVHelper {
                     e.printStackTrace();
                 }
             }
-            LogUtil.i(TAG, "SD卡：readExhibitionCatalogProductLangCSV所花费的时间为:" + (System.currentTimeMillis() - startTime)
-                    + "ms");
+//            LogUtil.i(TAG, "SD卡：readExhibitionCatalogProductLangCSV所花费的时间为:" + (System.currentTimeMillis() - startTime)
+//                    + "ms");
 
             long startTime2 = System.currentTimeMillis();
             mExhibitorRepository.insertIndustryAll(entities);
-            LogUtil.i(TAG, "存儲readExhibitionCatalogProductLangCSV所花费的时间为:" + (System.currentTimeMillis() - startTime2)
+            LogUtil.i(TAG, "存儲 Product 所花费的时间为:" + (System.currentTimeMillis() - startTime2)
                     + "ms");
-        }
-    }
-
-    /**
-     * 读取CompanyCatalogProduct.csv，且存入数据库表EXHIBITOR_INDUSTRY_DTL
-     */
-    private void readCompanyCatalogProductCSV(InputStream is) {
-        long startTime = System.currentTimeMillis();
-        ArrayList<ExhibitorIndustryDtl> entities = new ArrayList<>();
-        ExhibitorIndustryDtl entity = null;
-        CSVReader reader;
-        if (is != null) {
-            try {
-                reader = new CSVReader(new InputStreamReader(is, "UTF8"));
-                String[] line = reader.readNext();
-                if (line != null) {
-                    while ((line = reader.readNext()) != null) {
-                        entity = new ExhibitorIndustryDtl();
-                        entity.parser(line);
-                        entities.add(entity);
-                    }
-                }
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    if (is != null) {
-                        is.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            LogUtil.i(TAG, "SD卡：readExhibitionCatalogProductCSV所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
-
-            long startTime2 = System.currentTimeMillis();
-            mExhibitorRepository.deleteExhibitorIndustryDtlAll();
-            mExhibitorRepository.insertExhibitorDtlAll(entities);
-            LogUtil.i(TAG, "存儲readExhibitionCatalogProductCSV所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
         }
     }
 
@@ -543,7 +576,7 @@ public class CSVHelper {
      * 读取FloorPlan.csv，且存入数据库表FLOOR_PLAN_COORDINATE 文件名也有可能加后缀，如：FloorPlan_0313V3.csv
      * <P>FloorPlan坐标信息
      */
-    public void readFloorPlanCSV(InputStream is) {
+    public boolean readFloorPlanCSV(InputStream is) {
         long startTime = System.currentTimeMillis();
         ArrayList<FloorPlanCoordinate> entities = new ArrayList<>();
         FloorPlanCoordinate entity;
@@ -559,15 +592,12 @@ public class CSVHelper {
                         entities.add(entity);
                     }
                 }
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
+                return false;
             } finally {
                 try {
-                    if (is != null) {
-                        is.close();
-                    }
+                    is.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -579,7 +609,9 @@ public class CSVHelper {
             repository.clearFloorCoordinate();
             repository.insertFloorCoordinate(entities);
             LogUtil.i(TAG, "存儲readFloorPlanCSV所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
+            return true;
         }
+        return false;
     }
 //
 //
@@ -588,20 +620,24 @@ public class CSVHelper {
      * 读取Hall.csv，且存入数据库表FLOOR_PLAN_COORDINATE
      * <P>FloorPlan坐标信息
      */
-    private void readHallCSV(InputStream is) {
+    private void readHallCSV(String path) {
+        if (!new File(path).exists()) {
+            return;
+        }
         long startTime = System.currentTimeMillis();
-        ArrayList<Floor> entities = new ArrayList<>();
-        Floor entity;
+        ArrayList<Map> entities = new ArrayList<>();
+        Map entity;
         CSVReader reader;
+        InputStream is = getInputStream(path);
         if (is != null) {
             try {
                 reader = new CSVReader(new InputStreamReader(is, "UTF8"));
                 String[] line = reader.readNext();
                 if (line != null) {
                     while ((line = reader.readNext()) != null) {
-                        entity = new Floor();
-                        entity.parser(line);
-                        entities.add(entity);
+//                        entity = new Map();
+//                        entity.parser(line);
+//                        entities.add(entity);
                     }
                 }
             } catch (UnsupportedEncodingException e) {
@@ -626,11 +662,15 @@ public class CSVHelper {
         }
     }
 
-    private void readExhibitorZoneCSV(InputStream is) {
+    private void readExhibitorZoneCSV(String path) {
+        if (!new File(path).exists()) {
+            return;
+        }
         long startTime = System.currentTimeMillis();
         ArrayList<ExhibitorZone> entities = new ArrayList<>();
         ExhibitorZone entity = null;
         CSVReader reader;
+        InputStream is = getInputStream(path);
         if (is != null) {
             try {
                 reader = new CSVReader(new InputStreamReader(is, "UTF8"));
@@ -655,19 +695,23 @@ public class CSVHelper {
                     e.printStackTrace();
                 }
             }
-            LogUtil.i(TAG, "SD卡：ExhibitorZoneCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
+//            LogUtil.i(TAG, "SD卡：ExhibitorZoneCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
             long startTime2 = System.currentTimeMillis();
             mExhibitorRepository.clearExhibitorZone();
             mExhibitorRepository.insertExhibitorZoneAll(entities);
-            LogUtil.i(TAG, "存儲 readExhibitorZoneCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
+            LogUtil.i(TAG, "存儲 ExhibitorZone 所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
         }
     }
 
-    private void readZoneCSV(InputStream is) {
+    private void readZoneCSV(String path) {
+        if (!new File(path).exists()) {
+            return;
+        }
         long startTime = System.currentTimeMillis();
         ArrayList<Zone> entities = new ArrayList<>();
         Zone entity = null;
         CSVReader reader;
+        InputStream is = getInputStream(path);
         if (is != null) {
             try {
                 reader = new CSVReader(new InputStreamReader(is, "UTF8"));
@@ -692,11 +736,52 @@ public class CSVHelper {
                     e.printStackTrace();
                 }
             }
-            LogUtil.i(TAG, "SD卡：ExhibitorZoneCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
+//            LogUtil.i(TAG, "SD卡：ExhibitorZoneCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
             long startTime2 = System.currentTimeMillis();
             mExhibitorRepository.clearZone();
             mExhibitorRepository.insertZoneAll(entities);
             LogUtil.i(TAG, "存儲 read Zone CSV 所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
+        }
+    }
+
+    private void readCountryCSV(String path) {
+        if (!new File(path).exists()) {
+            return;
+        }
+        long startTime = System.currentTimeMillis();
+        ArrayList<Country> entities = new ArrayList<>();
+        Country entity = null;
+        CSVReader reader;
+        InputStream is = getInputStream(path);
+        if (is != null) {
+            try {
+                reader = new CSVReader(new InputStreamReader(is, "UTF8"));
+                String[] line = reader.readNext();
+                if (line != null) {
+                    while ((line = reader.readNext()) != null) {
+                        entity = new Country();
+                        entity.parser(line);
+                        entities.add(entity);
+                    }
+                }
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (is != null) {
+                        is.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            LogUtil.i(TAG, "SD卡：readCountryCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
+            long startTime2 = System.currentTimeMillis();
+            mExhibitorRepository.clearCounutry();
+            mExhibitorRepository.insertCountryAll(entities);
+            LogUtil.i(TAG, "存儲 readCountryCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
         }
     }
 
@@ -784,7 +869,6 @@ public class CSVHelper {
     }
 
 
-
     //
 //    public  void readBussinessMappingCSV(DBHelper InputStream is) {
 //        long startTime = System.currentTimeMillis();
@@ -840,30 +924,33 @@ public class CSVHelper {
         if (mExhibitorRepository == null) {
             throw new NullPointerException("mExhibitorRepository cannot be null, please #initExhibitorCsvHelper() first.");
         }
-        mExhibitorRepository.deleteAllAppCompany();
-        mExhibitorRepository.clearAppIndustry();
-        mExhibitorRepository.deleteBsnsMappingAll();
-        mExhibitorRepository.deleteExhibitorIndustryDtlAll();
-        mExhibitorRepository.clearIndustry();
-        mExhibitorRepository.clearFloor();
-        mExhibitorRepository.clearExhibitorAll();
-        mExhibitorRepository.clearExhibitorZone();
-        mExhibitorRepository.clearZone();
-
-        readApplicationCSV(getInputStream("ExhibitorData/Application.csv"));
-        readCompanyApplicationCSV(getInputStream("ExhibitorData/CompanyApplication.csv"));
-        readBusinessMappingCSV(getInputStream("ExhibitorData/BusinessMapping.csv"));
-        readCompanyCatalogProductCSV(getInputStream("ExhibitorData/CompanyCatalogProduct.csv"));
-        readExhibitionCatalogProductLangCSV(getInputStream("ExhibitorData/ExhibitionCatalogProductLang.csv"));
-        readExhibitorCSV(getInputStream("ExhibitorData/exhibitors.csv"), getInputStream("ExhibitorData/ExhibitorDescripton.csv"));//Exhibitor Data/
-        readHallCSV(getInputStream("ExhibitorData/Hall.csv"));
-        readExhibitorZoneCSV(getInputStream("ExhibitorData/ExhibitorZone.csv"));
-        readZoneCSV(getInputStream("ExhibitorData/Zone.csv"));
+        readApplicationCSV(App.rootDir + "ExhibitorData/Application.csv");
+        readCompanyApplicationCSV(App.rootDir + "ExhibitorData/CompanyApplication.csv");
+        readCompanyProductCSV(App.rootDir + "ExhibitorData/CompanyProduct.csv");
+        readExhibitionCatalogProductLangCSV(App.rootDir + "ExhibitorData/Product.csv");
+        readExhibitorCSV(App.rootDir + "ExhibitorData/exhibitors.csv", App.rootDir + "ExhibitorData/ExhibitorDescripton.csv");//Exhibitor Data/
+//        testExhibitor();
+        readExhibitorZoneCSV(App.rootDir + "ExhibitorData/ExhibitorZone.csv");
+        readZoneCSV(App.rootDir + "ExhibitorData/Zone.csv");
+        readCountryCSV(App.rootDir + "ExhibitorData/Country.csv");
 
         long endTime = System.currentTimeMillis();
         LogUtil.i(TAG, "导入完成：" + (endTime - startTime) + "ms");
 
     }
+
+    private void testExhibitor() {
+        readExhibitorCSVTest(getAssetInputStream("ExhibitorData/exhibitors.csv"), getAssetInputStream("ExhibitorData/ExhibitorDescripton.csv"));//Exhibitor Data/
+    }
+
+//    /**
+//     * 检查 csv是否存在，存在则解析，否则不解析
+//     * @param fileName
+//     * @return
+//     */
+//    private boolean checkCsvExists(String fileName) {
+//        return new File(App.rootDir.concat(fileName)).exists();
+//    }
 
     /*   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  New Tec CSV  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    */
     private NewTecRepository mNewTecRepository;
@@ -873,14 +960,23 @@ public class CSVHelper {
     }
 
     public boolean readNewTecCSV() {
-        if (    readNewProductInfoCSV(getInputStream(Constant.CSV_NEWTEC_PRODUCT_INFO)) &&
-                readNewProductIDCSV(getInputStream(Constant.CSV_NEWTEC_PRODUCTS_ID)) &&
-                readNewCategorySubCSV(getInputStream(Constant.CSV_NEWTEC_CATOGORY_SUB)) &&
-                readNewCategoryIDCSV(getInputStream(Constant.CSV_NEWTEC_CATEGORY_ID)) &&
-                readProductImageCSV(getInputStream(Constant.CSV_NEWTEC_PRODUCT_IMG))) {
-            return true;
-        }
-        return false;
+        readNewProductInfoCSV(getInputStreamFromSd(Constant.CSV_NEWTEC_PRODUCT_INFO));
+        readNewProductIDCSV(getInputStreamFromSd(Constant.CSV_NEWTEC_PRODUCTS_ID));
+        readNewCategorySubCSV(getInputStreamFromSd(Constant.CSV_NEWTEC_CATOGORY_SUB));
+        readNewCategoryIDCSV(getInputStreamFromSd(Constant.CSV_NEWTEC_CATEGORY_ID));
+        readProductImageCSV(getInputStreamFromSd(Constant.CSV_NEWTEC_PRODUCT_IMG));
+//        if (readNewProductInfoCSV(getInputStreamFromSd(Constant.CSV_NEWTEC_PRODUCT_INFO)) &&
+//                readNewProductIDCSV(getInputStreamFromSd(Constant.CSV_NEWTEC_PRODUCTS_ID)) &&
+//                readNewCategorySubCSV(getInputStreamFromSd(Constant.CSV_NEWTEC_CATOGORY_SUB)) &&
+//                readNewCategoryIDCSV(getInputStreamFromSd(Constant.CSV_NEWTEC_CATEGORY_ID)) &&
+//                readProductImageCSV(getInputStreamFromSd(Constant.CSV_NEWTEC_PRODUCT_IMG))) {
+        return true;
+    }
+
+    public void readNewTecCSV2(){
+        LogUtil.i(TAG,"readNewTecCSV2");
+        readNewCategoryIDCSV(getInputStreamFromSdOrAsset(Constant.CSV_NEWTEC_CATEGORY_ID));
+        readProductImageCSV(getInputStreamFromSdOrAsset(Constant.CSV_NEWTEC_PRODUCT_IMG));
     }
 
     private boolean readNewProductInfoCSV(InputStream is) {
@@ -911,7 +1007,7 @@ public class CSVHelper {
                 e.printStackTrace();
             }
         }
-        LogUtil.i(TAG, "SD卡：NewProductInfoCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
+        LogUtil.i("NEWTECH:", "NEWTECH: SD卡：NewProductInfoCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
 
         long startTime2 = System.currentTimeMillis();
         if (mNewTecRepository == null) {
@@ -919,7 +1015,7 @@ public class CSVHelper {
         }
         mNewTecRepository.clearProductInfo();
         mNewTecRepository.insertNewProductInfoAll(entities);
-        LogUtil.i(TAG, "存儲 insertNewProductInfoAll 所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
+        LogUtil.i("NEWTECH:", "存儲 NewProductInfoCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
         return true;
     }
 
@@ -951,7 +1047,7 @@ public class CSVHelper {
                 e.printStackTrace();
             }
         }
-        LogUtil.i(TAG, "SD卡：readNewProductAndApplicationCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
+        LogUtil.i("NEWTECH:", "SD卡：ProductID readNewProductAndApplicationCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
 
         long startTime2 = System.currentTimeMillis();
         if (mNewTecRepository == null) {
@@ -959,16 +1055,18 @@ public class CSVHelper {
         }
         mNewTecRepository.clearNewProductID();
         mNewTecRepository.insertNewProductsIDAll(entities);
-        LogUtil.i(TAG, "存儲 insertNewProductsAndApplicationAll 所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
+        LogUtil.i("NEWTECH:", "存儲 ProductID insertNewProductsAndApplicationAll 所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
         return true;
     }
 
     private boolean readNewCategoryIDCSV(InputStream is) {
+        LogUtil.i("NEWTECH:", "readNewCategoryIDCSV");
         long startTime = System.currentTimeMillis();
         ArrayList<NewCategoryID> entities = new ArrayList<>();
         NewCategoryID entity;
         CSVReader reader;
         if (is == null) {
+            LogUtil.i("NEWTECH:", "readNewCategoryIDCSV   is == null");
             return false;
         }
         try {
@@ -991,7 +1089,7 @@ public class CSVHelper {
                 e.printStackTrace();
             }
         }
-        LogUtil.i(TAG, "SD卡：readNewCategoryIDCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms"+entities.size()+","+entities.toString());
+        LogUtil.i("NEWTECH:", "SD卡：readNewCategoryIDCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms" + entities.size() + "," + entities.toString());
 
         long startTime2 = System.currentTimeMillis();
         if (mNewTecRepository == null) {
@@ -999,10 +1097,9 @@ public class CSVHelper {
         }
         mNewTecRepository.clearCategoryID();
         mNewTecRepository.insertNewCategoryIDAll(entities);
-        LogUtil.i(TAG, "存儲 readNewCategoryIDCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
+        LogUtil.i("NEWTECH:", "存儲 readNewCategoryIDCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
         return true;
     }
-
 
 
     private boolean readProductImageCSV(InputStream is) {
@@ -1020,6 +1117,9 @@ public class CSVHelper {
                 while ((line = reader.readNext()) != null) {
                     entity = new ProductImage();
                     entity.parser(line);
+
+
+
                     entities.add(entity);
                 }
             }
@@ -1033,35 +1133,41 @@ public class CSVHelper {
                 e.printStackTrace();
             }
         }
-        LogUtil.i(TAG, "SD卡：readProductImageCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
+        LogUtil.i("NEWTECH:", "SD卡：readProductImageCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
 
         long startTime2 = System.currentTimeMillis();
         if (mNewTecRepository == null) {
-            throw new NullPointerException("mNewTecRepository cannot be null,please #initNewTec()");
+
         }
         mNewTecRepository.clearProductImage();
         mNewTecRepository.insertProductImageAll(entities);
-        LogUtil.i(TAG, "存儲 insertProductImageAll 所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
+        LogUtil.i("NEWTECH:", "存儲 insertProductImageAll 所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
         return true;
     }
 
     private boolean readNewCategorySubCSV(InputStream is) {
+        LogUtil.i("NEWTECH:", "readNewCategorySubCSV");
         long startTime = System.currentTimeMillis();
         ArrayList<NewCategorySub> entities = new ArrayList<>();
         NewCategorySub entity;
         CSVReader reader;
         if (is == null) {
+            LogUtil.i("NEWTECH:", "readNewCategorySubCSV  is == null");
             return false;
         }
         try {
+            LogUtil.i("NEWTECH:", "readNewCategorySubCSV 1");
             reader = new CSVReader(new InputStreamReader(is, "UTF8"));
             String[] line = reader.readNext();
             if (line != null) {
+                LogUtil.i("NEWTECH:", "readNewCategorySubCSV line != null");
                 while ((line = reader.readNext()) != null) {
                     entity = new NewCategorySub();
                     entity.parser(line);
                     entities.add(entity);
                 }
+            }else{
+                LogUtil.i("NEWTECH:", "readNewCategorySubCSV line == null");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -1073,31 +1179,29 @@ public class CSVHelper {
                 e.printStackTrace();
             }
         }
-        LogUtil.i(TAG, "SD卡：NewCategorySubCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
+        LogUtil.i("NEWTECH:", "SD卡：NewCategorySubCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms"  +entities.size());
 
         long startTime2 = System.currentTimeMillis();
         if (mNewTecRepository == null) {
-            throw new NullPointerException("mNewTecRepository cannot be null,please #initNewTec()");
+            LogUtil.i("NEWTECH:", "readNewCategorySubCSV  mNewTecRepository == null");
         }
         mNewTecRepository.clearCategorySub();
         mNewTecRepository.insertCategorySubAll(entities);
-        LogUtil.i(TAG, "存儲 NewCategorySubCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
+        LogUtil.i("NEWTECH:", "存儲 NewCategorySubCSV 所花费的时间为:" + (System.currentTimeMillis() - startTime2) + "ms");
         return true;
     }
 
 
-
-}
-//
+    //
 //    /**
 //     * 仅用于测试，asset目录下
 //     * @param dbHelper
 //     */
-//    public  void processExhibitorCsvTest(DBHelper dbHelper) {
-//        long startTime = System.currentTimeMillis();
-//
-//        LogUtil.i(TAG, "processExhibitorCsvTest......");
-//
+    public void processExhibitorCsvTest(DBHelper dbHelper) {
+        long startTime = System.currentTimeMillis();
+
+        LogUtil.i(TAG, "processExhibitorCsvTest......");
+
 //        dbHelper.deleteAllAppCompany();
 //        dbHelper.clearAppIndustry();
 //        dbHelper.deleteBsnsMappingAll();
@@ -1105,18 +1209,79 @@ public class CSVHelper {
 //        dbHelper.clearIndustry();
 //        dbHelper.clearFloor();
 //        dbHelper.clearExhibitorAll();
-//
+
 //        readApplicationCSV(getInputStreamAsscts("Application.csv"));
 //        readCompanyApplicationCSV(getInputStreamAsscts("CompanyApplication.csv"));
 //        readBusinessMappingCSV(getInputStreamAsscts("BusinessMapping.csv"));
-//        readCompanyCatalogProductCSV(getInputStreamAsscts("CompanyCatalogProduct.csv"));
+//        readCompanyCatalogProductCSV(getInputStreamAsscts("CompanyProduct.csv"));
 //        readExhibitionCatalogProductLangCSV(getInputStreamAsscts("ExhibitionCatalogProductLang.csv"));
 //        readExhibitorCSV(getInputStreamAsscts("exhibitors.csv"), getInputStreamAsscts("ExhibitorDescripton.csv"));//Exhibitor Data/
 //        readHallCSV(getInputStreamAsscts("Hall.csv"));
-//
-//        long endTime = System.currentTimeMillis();
-//        LogUtil.i(TAG, "导入完成：" + (endTime - startTime) + "ms");
-//
-//    }
-//
-//}
+
+        long endTime = System.currentTimeMillis();
+        LogUtil.i(TAG, "导入完成：" + (endTime - startTime) + "ms");
+
+    }
+
+    public void readExhibitorCSVTest(InputStream is1, InputStream isDes) {
+        long startTime = System.currentTimeMillis();
+        ArrayList<Exhibitor> entities = new ArrayList<>();
+        Exhibitor entity = null;
+        CSVReader reader;
+        if (isDes != null) {
+            try {
+                reader = new CSVReader(new InputStreamReader(is1, "UTF8"));
+                String[] line = reader.readNext();
+                if (line != null) {
+                    while ((line = reader.readNext()) != null) {
+                        entity = new Exhibitor();
+                        entity.parseExhibitor(line);
+                        if (TextUtils.isEmpty(entity.getStrokeEng().trim())) {
+                            entity.setStrokeEng(AppUtil.getFirstChar(entity.getCompanyNameEN().trim()));
+                        }
+                        if (Character.isDigit(entity.getStrokeEng().trim().charAt(0))) {
+                            entity.setStrokeEng("#");
+                        }
+                        //去掉空格
+                        entity.setCompanyNameCN(entity.getCompanyNameCN().trim());
+                        entity.setCompanyNameEN(entity.getCompanyNameEN().trim());
+                        entity.setCompanyNameTW(entity.getCompanyNameTW().trim());
+
+                        if (entity.getStrokeEng().contains("#")) {
+                            entity.setStrokeEng("ZZZ#");
+                        }
+                        if (entity.getStrokeTrad().contains("#")) {
+                            entity.setStrokeTrad("999#");
+                        }
+                        if (entity.getPYSimp().contains("#")) {
+                            entity.setPYSimp("ZZZ#");
+                        }
+
+                        if (entity.getIsFavourite() == null) {
+                            entity.setIsFavourite(0);
+                        }
+//                        entity.setUpdatedAt();
+//                        entity.setDescUpdatedAt();
+                        entities.add(entity);
+                    }
+                }
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (is1 != null) {
+                        is1.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            LogUtil.i(TAG, "SD卡：readExhibitorCSV所花费的时间为:" + (System.currentTimeMillis() - startTime) + "ms");
+
+            readExhibitorDesCSV(isDes, entities);
+        }
+    }
+
+}

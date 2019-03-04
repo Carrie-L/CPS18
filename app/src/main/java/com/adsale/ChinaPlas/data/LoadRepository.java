@@ -134,10 +134,10 @@ public class LoadRepository {
 
     void setLUT() {
         mSP_lut.edit()
-                .putString(MainIconDao.TABLENAME, getMaxUT(MainIconDao.Properties.UpdateDateTime, mMainIconDao).getUpdateDateTime())
-                .putString(NewsDao.TABLENAME, getMaxUT(NewsDao.Properties.UpdateDateTime, mNewsDao).getUpdateDateTime())
-                .putString(NewsLinkDao.TABLENAME, getMaxUT(NewsLinkDao.Properties.UpdateDateTime, mNewsLinkDao).getUpdateDateTime())
-                .putString(WebContentDao.TABLENAME, getMaxUT(WebContentDao.Properties.UpdateDateTime, mWebContentDao).getUpdateDateTime())
+//                .putString(MainIconDao.TABLENAME, getMaxUT(MainIconDao.Properties.UpdatedAt, mMainIconDao).getUpdateDateTime())
+                .putString(NewsDao.TABLENAME, getMaxUT(NewsDao.Properties.UpdatedAt, mNewsDao).getUpdateDateTime())
+                .putString(NewsLinkDao.TABLENAME, getMaxUT(NewsLinkDao.Properties.UpdatedAt, mNewsLinkDao).getUpdateDateTime())
+                .putString(WebContentDao.TABLENAME, getMaxUT(WebContentDao.Properties.UpdatedAt, mWebContentDao).getUpdatedAt())
                 .putString(MapFloorDao.TABLENAME, getMaxUT(MapFloorDao.Properties.UpdateDateTime, mMapFloorDao).getUpdateDateTime())
                 .apply();
     }
@@ -153,11 +153,11 @@ public class LoadRepository {
 
     public String getNewsLUT() {
 //        App.mDBHelper.mNewsDao.rawQuery("select UPDATE_DATE_TIME from NEWS ORDER BY UPDATE_DATE_TIME DESC LIMIT 1 ",null);
-        return App.mDBHelper.mNewsDao.queryBuilder().orderDesc(NewsDao.Properties.UpdateDateTime).limit(1).list().get(0).getUpdateDateTime();
+        return App.mDBHelper.mNewsDao.queryBuilder().orderDesc(NewsDao.Properties.UpdatedAt).limit(1).list().get(0).getUpdateDateTime();
     }
 
     public String getNewsLinkLUT() {
-        return App.mDBHelper.mLinkDao.queryBuilder().orderDesc(NewsLinkDao.Properties.UpdateDateTime).limit(1).list().get(0).getUpdateDateTime();
+        return App.mDBHelper.mLinkDao.queryBuilder().orderDesc(NewsLinkDao.Properties.UpdatedAt).limit(1).list().get(0).getUpdateDateTime();
     }
 
 

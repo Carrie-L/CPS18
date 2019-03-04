@@ -7,13 +7,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
-import com.adsale.ChinaPlas.adapter.TextAdapter;
+import com.adsale.ChinaPlas.adapter.HallAdapter;
 import com.adsale.ChinaPlas.base.BaseActivity;
-import com.adsale.ChinaPlas.dao.Floor;
+import com.adsale.ChinaPlas.dao.Map;
 import com.adsale.ChinaPlas.data.FilterRepository;
 import com.adsale.ChinaPlas.data.model.ExhibitorFilter;
 import com.adsale.ChinaPlas.utils.LogUtil;
+import com.baidu.mobstat.StatService;
 
 import java.util.ArrayList;
 
@@ -24,14 +26,14 @@ import java.util.ArrayList;
 
 public class FilterHallListActivity extends BaseActivity {
     private RecyclerView recyclerView;
-    private ArrayList<Floor> mList = new ArrayList<>();
+    private ArrayList<Map> mList = new ArrayList<>();
     private ArrayList<ExhibitorFilter> filters;
 
     @Override
     protected void preView() {
         super.preView();
-        isChangeTitleHomeIcon=true;
-        mTypePrefix="Page_SearchByHall";
+        isChangeTitleHomeIcon = true;
+        mTypePrefix = "Page_SearchByHall";
     }
 
     @Override
@@ -47,10 +49,10 @@ public class FilterHallListActivity extends BaseActivity {
     protected void initData() {
         FilterRepository mRepository = FilterRepository.getInstance();
         mRepository.initFloorDao();
-        mList = mRepository.getFloors();
+        mList = mRepository.getFloorsWiithExhibitor();
 
         filters = new ArrayList<>();
-        TextAdapter<Floor> adapter = new TextAdapter<>(mList, filters);
+        HallAdapter adapter = new HallAdapter(mList, filters);
         recyclerView.setAdapter(adapter);
     }
 
@@ -58,7 +60,7 @@ public class FilterHallListActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         int size = mList.size();
-        Floor entity;
+        Map entity;
         for (int i = 0; i < size; i++) {
             entity = mList.get(i);
             entity.isSelected.set(false);
@@ -70,6 +72,10 @@ public class FilterHallListActivity extends BaseActivity {
     }
 
     private void setResultData() {
+        if (filters.size() > 0) {
+            App.mLogHelper.eventLog(403, "FilterE", "Hall", App.mLogHelper.getFiltersName(filters));
+            StatService.onEvent(getApplicationContext(), "FilterE", App.mLogHelper.getTrackingName());
+        }
         Intent intent = new Intent();
         intent.putExtra("data", filters);
         LogUtil.i(TAG, "onDestroy::filters=" + filters.size() + "," + filters.toString());

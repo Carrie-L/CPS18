@@ -16,6 +16,7 @@ import com.adsale.ChinaPlas.ui.WebContentActivity;
 import com.adsale.ChinaPlas.ui.WebViewActivity;
 import com.adsale.ChinaPlas.utils.AppUtil;
 import com.adsale.ChinaPlas.utils.Constant;
+import com.adsale.ChinaPlas.utils.LogUtil;
 
 /**
  * Created by Carrie on 2017/11/10.
@@ -36,31 +37,27 @@ public class IntentHelper<T> {
         Intent intent = new Intent();
         switch (Integer.valueOf(message.function)) {
             case 1://展商詳情頁
-                ExhibitorRepository repository = new ExhibitorRepository();
-                if (!repository.isExhibitorIDExists(message.ID)) {
-                    Toast.makeText(activity, activity.getString(R.string.no_exhibitor), Toast.LENGTH_SHORT).show();
-                    return;
-                }
+//                ExhibitorRepository repository = new ExhibitorRepository();
+//                if (!repository.isExhibitorIDExists(message.ID)) {
+//                    Toast.makeText(activity, activity.getString(R.string.no_exhibitor), Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
 //                intent = new Intent(activity, ExhibitorDetailActivity.class);
 //                intent.putExtra(Constant.COMPANY_ID, message.ID);
+
+                intent = intentToCompany(message.ID);
+
                 break;
             case 2://新闻
-                if (TextUtils.isEmpty(message.ID)) {
-                    intent = new Intent(activity, NewsActivity.class);
-                } else {
-                    intent = new Intent(activity, NewsDtlActivity.class);
-                    intent.putExtra("NewsID", message.ID);
-                }
+                intent = intentToNews(message.ID);
                 break;
 
             case 3://同期活动
-                intent = new Intent(activity, WebContentActivity.class);
-                intent.putExtra(Constant.WEB_URL, "ConcurrentEvent/".concat(message.ID));
+                intent = intentToCurEvent(message.ID);
                 break;
 
             case 4://link
-                intent = new Intent(activity, WebViewActivity.class);
-                intent.putExtra(Constant.WEB_URL, message.ID);
+                intent = intentToWebView(message.ID);
                 break;
 
             case 5://预登记
@@ -68,8 +65,7 @@ public class IntentHelper<T> {
                 break;
 
             case 6://新闻详情
-                intent = new Intent(activity, NewsDtlActivity.class);
-                intent.putExtra("NewsID", message.ID);
+                intent = intentToNews(message.ID);
                 break;
 
             default:
@@ -87,6 +83,104 @@ public class IntentHelper<T> {
             }
         }
 
+    }
+
+
+    public static Intent intentAd(int function, String companyId, String pageId) {
+        LogUtil.i("IntentHelper", "intentAd: function=" + function + ",companyId=" + companyId + ",pageId=" + pageId);
+        switch (function) {
+            case 1: // 展商详情
+                return intentToCompany(pageId);
+            case 2: // 同期活动详情
+                return intentToCurEvent(pageId);
+            case 3: // 技术交流会详情
+                return intentToSeminar(pageId, companyId);
+            case 4: // 新闻详情
+                return intentToNews(pageId);
+            case 5: // baiduTJ
+
+                break;
+            case 6: // link   pageId 为 url
+                return IntentHelper.intentToWebView(pageId);
+            case 10: // mapDetail
+                return intentToMapDetail(pageId);
+            case 99:
+                return intentToWebContent(pageId);
+        }
+        return new Intent();
+    }
+
+    public static Intent intentToMapDetail(String pageId) {
+        Intent intent = new Intent();
+        intent.setAction(Constant.ACTION_MAP_DETAIL);
+        intent.putExtra("BOOTH", pageId.split("-")[0]);
+        intent.putExtra("HALL", pageId.split("-")[1]);
+        return null;
+    }
+
+    public static Intent intentToWebView(String pageId) {
+        Intent intent = new Intent();
+        intent.setAction(Constant.ACTION_WEB_VIEW);
+        intent.putExtra(Constant.WEB_URL, pageId);
+        return null;
+    }
+
+    public static Intent intentToWebContent(String pageId) {
+        Intent intent = new Intent();
+        intent.setAction(Constant.ACTION_WEB_CONTENT);
+        intent.putExtra(Constant.WEB_URL, "WebContent/" + pageId);
+        return intent;
+    }
+
+    public static Intent intentToCompany(String adCompanyId) {
+        Intent intent = new Intent();
+        ExhibitorRepository repository = ExhibitorRepository.getInstance();
+        if (!repository.isExhibitorIDExists(adCompanyId)) {
+            LogUtil.i("IntentHelper", adCompanyId + " 不存在啦");
+//            Toast.makeText(mContext, mContext.getString(R.string.no_exhibitor), Toast.LENGTH_SHORT).show();
+            return null;
+        } else {
+            LogUtil.i("IntentHelper", ",companyID=" + adCompanyId);
+//            intent = new Intent(mContext, ExhibitorDetailActivity.class);
+            intent.setAction(Constant.ACTION_EXHIBITOR_DTL);
+            intent.putExtra("CompanyID", adCompanyId);
+            intent.putExtra("title", Constant.TITLE_EXHIBITOR_DTL);
+            intent.putExtra("from", "other");
+
+            return intent;
+        }
+    }
+
+    public static Intent intentToCurEvent(String eventId) {
+        Intent intent = new Intent(Constant.ACTION_WEB_CONTENT);
+//        intent = new Intent(mContext, WebContentActivity.class);
+        intent.putExtra(Constant.WEB_URL, "ConcurrentEvent/".concat(eventId));
+        intent.putExtra("PageID", eventId);
+        intent.putExtra("title", Constant.TITLE_EVENT);
+        return intent;
+    }
+
+    public static Intent intentToSeminar(String seminarId, String adCompanyId) {
+        Intent intent = new Intent();
+//        intent = new Intent(mContext, TechSeminarDtlActivity.class);
+        intent.setAction(Constant.ACTION_SEMINAR_INFO);
+        intent.putExtra(Constant.INTENT_SEMINAR_DTL_ID, seminarId);
+        LogUtil.i("IntentHelper", "M:seminarID=" + seminarId);
+        intent.putExtra("title", Constant.TITLE_SEMINAR);
+        intent.putExtra("adCompanyID", adCompanyId);
+        return intent;
+    }
+
+    public static Intent intentToNews(String newsId) {
+        Intent intent = new Intent();
+        if (TextUtils.isEmpty(newsId)) {
+            intent.setAction(Constant.ACTION_NEWS);
+        } else {
+            intent.setAction(Constant.ACTION_NEWS_DTL);
+            intent.putExtra("ID", newsId);
+        }
+        intent.putExtra("title", Constant.TITLE_NEWS);
+        return intent;
     }
 
 

@@ -98,9 +98,6 @@ public class SyncViewModel {
     }
 
     public void syncMyExhibitor() {
-        AppUtil.trackViewLog(419, "SME", "", "");// SME_en_Android
-        AppUtil.setStatEvent(mContext, "SyncMyExhibitor", "SME");
-
         final LoginClient client = ReRxUtils.setupRxtrofit(LoginClient.class, NetWorkHelper.BASE_URL_CPS);
         client.sync(getRequestBody())
                 .map(new Function<retrofit2.Response<ResponseBody>, Boolean>() {
@@ -127,8 +124,15 @@ public class SyncViewModel {
                         LogUtil.i(TAG, "sync: aBoolean=" + aBoolean);
                         if (aBoolean) {
                             Toast.makeText(mContext, mContext.getString(R.string.syncSuccess), Toast.LENGTH_SHORT).show();
+
+                            AppUtil.trackViewLog(419, "Sync", "", "");// SME_en_Android
+                            AppUtil.setStatEvent(mContext, "Sync", "Sync_OK");
+
                         } else {
                             Toast.makeText(mContext, mContext.getString(R.string.syncFailure), Toast.LENGTH_SHORT).show();
+
+                            AppUtil.trackViewLog(419, "Sync", "", "");// SME_en_Android
+                            AppUtil.setStatEvent(mContext, "Sync", "Sync_Fail");
                         }
                         if (mSyncCallback != null) {
                             mSyncCallback.sync(aBoolean);

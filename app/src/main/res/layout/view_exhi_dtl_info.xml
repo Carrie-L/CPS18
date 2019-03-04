@@ -32,16 +32,19 @@
             <TextView
                 style="@style/exhi_dtl_text_draw_style"
                 android:drawableLeft="@drawable/ic_booth"
-                android:onClick="@{()->view.onBooth()}"
                 android:text="@{obj.boothNo}"
-                android:textColor="@color/link" />
-
+                android:onClick="@{()->view.onBooth()}"
+                android:textColor="@color/link"
+               />
+            <!--没有平面图，暂时注释。20181129-->
+            <!--android:onClick="@{()->view.onBooth()}"-->
+            <!--android:textColor="@color/link"-->
 
             <!-- address -->
             <TextView
                 style="@style/exhi_dtl_text_draw_style"
                 android:drawableLeft="@drawable/ic_add"
-                android:text="@{obj.address}"
+                android:text="@{obj.getAddress}"
                 android:textColor="@color/grey11"
                 android:visibility="@{TextUtils.isEmpty(obj.address)?View.GONE:View.VISIBLE}" />
 

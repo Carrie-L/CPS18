@@ -45,20 +45,20 @@ public class DrawerListAdapter extends CpsBaseAdapter<MainIcon> {
         this.navViewModel = navViewModel;
     }
 
-    public void updateCenterCount(int count) {
-        int size = list.size();
-        LogUtil.i(TAG, "updateCenterCount_uc_count=" + count + ",size=" + size);
-        MainIcon entity;
-        for (int i = 0; i < size; i++) {
-            entity = list.get(i);
-            if (entity.getBaiDu_TJ().trim().equals("ContentUpdate")) {
-                entity.updateCount.set(count);
-                list.set(i, entity);
-                notifyItemChanged(i);
-                break;
-            }
-        }
-    }
+//    public void updateCenterCount(int count) {
+//        int size = list.size();
+//        LogUtil.i(TAG, "updateCenterCount_uc_count=" + count + ",size=" + size);
+//        MainIcon entity;
+//        for (int i = 0; i < size; i++) {
+//            entity = list.get(i);
+//            if (entity.getBaiDu_TJ().trim().equals("ContentUpdate")) {
+//                entity.updateCount.set(count);
+//                list.set(i, entity);
+//                notifyItemChanged(i);
+//                break;
+//            }
+//        }
+//    }
 
     public void onItemClick(MainIcon entity) {
         LogUtil.i(TAG, "entity =" + entity.getBaiDu_TJ() + ",context = " + mContext.getClass().getSimpleName());
@@ -75,7 +75,8 @@ public class DrawerListAdapter extends CpsBaseAdapter<MainIcon> {
     }
 
     private void showChild(MainIcon entity) {
-        mChildFirstPos = Integer.valueOf(entity.getDrawerList().split("_")[1]); // 因为 drawerList 的值从1开始，而list position从0开始，因此刚好第一个子项等于父drawerList而无需加1
+//        mChildFirstPos = Integer.valueOf(entity.getDrawerSeq().split("_")[1]); // 因为 drawerList 的值从1开始，而list position从0开始，因此刚好第一个子项等于父drawerList而无需加1
+        mChildFirstPos = Integer.valueOf(entity.getDrawerSeq());
         if (mClickPos.get() == -1) { // 当前没有展开的，直接添加
             insertChild(entity);
         } else if (mClickPos.get() == mChildFirstPos - 1) { // 点击的和当前展开的一样，就把它收起来
@@ -99,15 +100,19 @@ public class DrawerListAdapter extends CpsBaseAdapter<MainIcon> {
         children.clear();
         for (int i = 0; i < size; i++) {
             icon = leftIcons.get(i);
-            if (icon.getDrawerList().contains(entity.getDrawerList()) && !icon.isDrawerHasChild.get()) { // S_3_1. S_3_1包含S_3，但本身不属于isDrawerHasChild
+//            if (icon.getDrawerSeq().contains(entity.getDrawerSeq()) && !icon.isDrawerHasChild.get()) { // S_3_1. S_3_1包含S_3，但本身不属于isDrawerHasChild
+            if (icon.getDrawerSeq().split("_")[0].equals(entity.getDrawerSeq()) && !icon.isDrawerHasChild.get()) {
                 icon.isDrawerChild.set(true);
                 children.add(icon);
             }
         }
         mClickPos.set(mChildFirstPos - 1);
         list.addAll(mChildFirstPos, children);
+
+        LogUtil.i(TAG, "mChildFirstPos=" + mChildFirstPos + ",mClickPos=" + mClickPos.get() + "," + entity.getDrawerSeq());
+
         notifyItemRangeInserted(mChildFirstPos, children.size());//position + 1
-        drawerListStr.set(entity.getDrawerList());
+        drawerListStr.set(entity.getDrawerSeq());
     }
 
     @Override

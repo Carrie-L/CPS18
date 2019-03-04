@@ -50,7 +50,7 @@ public class SideLetter extends View {
     private void init(Context context) {
         int fontSize = DisplayUtil.dip2px(getContext(), 12);
         paint = new TextPaint();
-        paint.setColor(context.getResources().getColor(R.color.home));
+        paint.setColor(context.getResources().getColor(R.color.colorAccent));
         paint.setTextSize(fontSize);
         paint.setStyle(Style.FILL);
 //        paint.setTextAlign(Paint.Align.CENTER);
@@ -74,11 +74,13 @@ public class SideLetter extends View {
             setBackgroundResource(R.drawable.scrollbar_bg);
             String letter = arrIndexList.get(idx);
             if (mListener != null) {
+//                if (letter.contains("PP")) {
+//                    letter = "PP";
+//                }
                 mListener.onClick(letter);
-                LogUtil.i("SideLetter","letter="+letter);
+                LogUtil.i("SideLetter", "letter=" + letter);
             }
-        }
-        else if (event.getAction() == MotionEvent.ACTION_UP) {
+        } else if (event.getAction() == MotionEvent.ACTION_UP) {
             setBackgroundDrawable(new ColorDrawable(0x00000000));
         }
 
@@ -97,7 +99,7 @@ public class SideLetter extends View {
             y = (i + 1) * itemHeight;
             float textWidth = paint.measureText(arrIndexList.get(i));
             float width = getMeasuredWidth();
-            canvas.drawText(arrIndexList.get(i), textWidth <= width ? (width-textWidth) / 2 : 0, y - (itemHeight / 2), paint); // y-(itemHeight/2):让字母显示在item vertical center
+            canvas.drawText(arrIndexList.get(i), textWidth <= width ? (width - textWidth) / 2 : 0, y - (itemHeight / 2), paint); // y-(itemHeight/2):让字母显示在item vertical center
         }
     }
 

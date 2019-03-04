@@ -1,5 +1,8 @@
 package com.adsale.ChinaPlas.viewmodel;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.content.Context;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
@@ -10,12 +13,18 @@ import com.adsale.ChinaPlas.dao.Exhibitor;
 import com.adsale.ChinaPlas.data.ExhibitorRepository;
 import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.data.model.ExhibitorFilter;
+import com.adsale.ChinaPlas.helper.EPOHelper;
+import com.adsale.ChinaPlas.helper.LogHelper;
+import com.adsale.ChinaPlas.helper.OnHelpCallback;
 import com.adsale.ChinaPlas.ui.ExhibitorFilterActivity;
+import com.adsale.ChinaPlas.ui.view.HelpView;
 import com.adsale.ChinaPlas.ui.view.SideDataView;
 import com.adsale.ChinaPlas.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import static com.adsale.ChinaPlas.App.mLogHelper;
 
 /**
  * Created by Carrie on 2017/11/9.
@@ -94,6 +103,103 @@ public class ExhibitorListViewModel {
         mId = id;
     }
 
+    private OnHelpCallback mHelpCallback;
+
+    public void setOnHelpCallback(OnHelpCallback callback) {
+        mHelpCallback = callback;
+    }
+
+    public void insertAds() {
+        EPOHelper epoHelper = EPOHelper.getInstance();
+        int insertIndex = 0;
+        int adSize = epoHelper.getD3Size();
+        int size = mExhibitors.size();
+        LogUtil.i(TAG, "adSize=" + adSize + ",size=" + size);
+        if (size == 0) {
+            return;
+        }
+        if (adSize == 0) {
+            return;
+        }
+        epoHelper.switchD3SEQ();
+        Exhibitor adBanner;
+        for (int i = 0; i < size; i++) {
+            insertIndex = i == 1 ? 0 : i == 6 ? 1 : i == 11 ? 2 : 0;  // 0,1,2
+            if (insertIndex < adSize) {
+                if (i == 1 || i == 6 || i == 11) {
+                    epoHelper.setD3Index(insertIndex);
+                    adBanner = new Exhibitor(epoHelper.getD3CompanyID());
+                    adBanner.setPhotoFileName(epoHelper.getD3Images());
+                    adBanner.isTypeLabel.set(false);
+                    adBanner.isD3Banner.set(true);
+                    adBanner.function = epoHelper.getD3Function();
+                    adBanner.pageID = epoHelper.getD3PageID();
+                    adBanner.setSort(mExhibitors.get(i).getSort());
+                    LogUtil.i(TAG, "i=" + i + ", sort=" + mExhibitors.get(i).getSort() + ",companyName=" + mExhibitors.get(i).getCompanyName());
+                    mExhibitors.add(i + 1, adBanner);
+
+                    if (!isSearching) {
+                        mLogHelper.logD3(adBanner.function, adBanner.pageID, true);
+                        mLogHelper.setBaiDuLog(mContext, mLogHelper.getTrackingName());
+                        LogUtil.i(TAG,"add logD3 ❤");
+                    }
+                }
+            } else {
+                break;
+            }
+        }
+
+
+        LogUtil.i(TAG, "❤❤❤ insertAds ❤❤❤ adSize= " + adSize);
+    }
+
+    private Context mContext;
+
+    public void setContext(Context context) {
+        mContext = context;
+    }
+
+//    public void insertAds() {
+//        EPOHelper epoHelper = EPOHelper.getInstance();
+//        int adSize = epoHelper.getD3Size();
+//        int size = mExhibitors.size();
+//        if (size == 0) {
+//            return;
+//        }
+//        if (adSize == 0) {
+//            return;
+//        }
+//        Exhibitor adBanner;
+//        for (int i = 0; i < adSize; i++) {
+//            epoHelper.setD3Index(i);
+//            adBanner = new Exhibitor(epoHelper.getD3CompanyID());
+//            adBanner.setPhotoFileName(epoHelper.getD3Images());
+//            adBanner.isTypeLabel.set(false);
+//            adBanner.isD3Banner.set(true);
+//
+//            if (size < 2) {
+//                adBanner.setSort(mExhibitors.get(0).getSort());
+//                mExhibitors.add(adBanner);
+//                break;
+//            } else if (2 <= size && size <= 4) {
+//                adBanner.setSort(mExhibitors.get(1).getSort());
+//                mExhibitors.add(2, adBanner);
+//                break;
+//            } else {
+//                int pos = 2 * (i + 1);
+//                if (pos - size == 1) {  // <6时，展示2个
+//                    break;
+//                }
+//                adBanner.setSort(mExhibitors.get((pos - 1)).getSort());
+//                mExhibitors.add(pos, adBanner);
+//            }
+//
+//
+//        }
+//        epoHelper.changeD3Count();
+//        LogUtil.i(TAG, "❤❤❤ insertAds ❤❤❤ adSize= " + adSize);
+//    }
+
     public void getAllExhibitorsAZ() {
         mExhibitors.clear();
         mLetters.clear();
@@ -110,8 +216,9 @@ public class ExhibitorListViewModel {
         mLetters.addAll(mAllSideAZCaches);
         if (adapter != null) { /* 第一次进入页面时，adapter == null ,不需要刷新 */
             refreshUI();
+        } else {   //  第一次进入时，也插入广告
+            insertAds();
         }
-
     }
 
     public void sort(double a[], int low, int hight) {
@@ -143,11 +250,11 @@ public class ExhibitorListViewModel {
     }
 
     private void sortLetter() {
-        LogUtil.i(TAG,"sortLetter");
-        if ( !isSortAZ.get()) {
+        LogUtil.i(TAG, "sortLetter");
+        if (!isSortAZ.get()) {
             LogUtil.i(TAG, "mLetters before>>> " + mLetters.toString());
             long startTime = System.currentTimeMillis();
-            String[] halls = {"1", "2", "3", "4.1", "4.2", "5.1", "5.2",  "6.1", "6.2", "7.1","7.2", "8.1", "8.2"};
+            String[] halls = {"1", "2", "3", "4.1", "4.2", "5.1", "5.2", "6.1", "6.2", "7.1", "7.2", "8.1", "8.2"};
             double[] dLetters = new double[halls.length];
             int size = halls.length;
             for (int i = 0; i < size; i++) {
@@ -156,8 +263,8 @@ public class ExhibitorListViewModel {
             }
             quickSort(dLetters);
             long endTime = System.currentTimeMillis();
-            LogUtil.i(TAG,"SORT SPEND TIME : "+(endTime - startTime)+"ms");
-            LogUtil.i(TAG, "mLetters before>>> " + Arrays.toString(dLetters));
+            LogUtil.i(TAG, "SORT SPEND TIME : " + (endTime - startTime) + "ms");
+            LogUtil.i(TAG, "mLetters after>>> " + Arrays.toString(dLetters));
         }
     }
 
@@ -264,7 +371,7 @@ public class ExhibitorListViewModel {
         } else {
             getAllExhibitorsHall();
         }
-        sortLetter();
+//        sortLetter();
     }
 
     public void search(String keyword) {
@@ -294,11 +401,16 @@ public class ExhibitorListViewModel {
         refreshUI();
     }
 
+    public void onHelpPage() {
+        mHelpCallback.show();
+    }
+
     public void onImgFilter() {
         mListener.onIntent(null, ExhibitorFilterActivity.class);
     }
 
     private void refreshUI() {
+        insertAds();
         adapter.setList(mExhibitors);
         sideDataView.refreshExhibitors(mExhibitors, mLetters);
     }

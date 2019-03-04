@@ -1,15 +1,15 @@
 ﻿{
-  "htmlFilePath": "https://o97tbiy1f.qnssl.com/events/htmlFile/",
+  "htmlFilePath": "https://cdn.adsalecdn.com/App/2018/events/htmlFile/",
   "pages": [
     {
-      "version": "2",   // 与本地version比较，有更新则下载zip
+      "version": "1",
       "title_en": "3rd Industry 4.0 Conference",
       "title_cn": "第三届工业4.0论坛",
       "title_tc": "第三屆工業4.0論壇",
       "pageID": "IndustryConference"
     },
     {
-      "version": "9",
+      "version": "4",
       "title_en": "CMF Inspiration for Design x Innovation",
       "title_cn": "设计 x 创新：CMF 灵感之源",
       "title_tc": "設計 x 創新：CMF 靈感之源",
@@ -30,14 +30,14 @@
       "pageID": "HouseholdApplianceIndustry"
     },
 {
-      "version": "2",
+      "version": "1",
       "title_en": "Automotive Lightweight Materials and Technology Applications Seminar",
       "title_cn": "汽车轻量化材料与应用技术研讨会",
       "title_tc": "汽車輕量化材料與應用技術研討會",
       "pageID": "AutoLightweightMaterialsSeminar"
     },
 {
-      "version": "2",
+      "version": "1",
       "title_en": "Automotive Low VOCs Materials Technology and Applications Seminar",
       "title_cn": "汽车材料低VOC技术与应用研讨会",
       "title_tc": "汽車材料低VOC技術與應用研討會",
@@ -53,7 +53,7 @@
 ,
 
 {
-      "version": "4",
+      "version": "1",
       "title_en": "International Summit for The Development of Flexible Packaging Industry",
       "title_cn": "软包装行业发展国际论坛",
       "title_tc": "軟包裝行業發展國際論壇",
@@ -81,25 +81,11 @@
       "pageID": "Day4specials"
     },
 {
-      "version": "4",
+      "version": "1",
 	     "title_en": "Medical Plastics Open Forum",
             "title_cn": "医用塑料公开论坛",
             "title_tc": "醫用塑料公開論壇",
       "pageID": "MedicalPlastics"
-    },
-{
-      "version": "5",
-            "title_en": "Bottles Recycle Program: Re-Create Together",
-            "title_cn": "「瓶安中国‧塑造新生」回收行动",
-            "title_tc": "「瓶安中國‧塑造新生」回收行動",
-      "pageID": "RecycleProgram"
-    },
-{
-      "version": "2",
-            "title_en": "Tech Talk: Diversified Technologies Release",
-            "title_cn": "科技讲台 - 多元化科技产品发布",
-            "title_tc": "科技講台 - 多元化科技產品發佈",
-      "pageID": "TechTalk"
     }
   ]
 }

@@ -1,6 +1,9 @@
 package com.adsale.ChinaPlas.viewmodel;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
@@ -16,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.adsale.ChinaPlas.App;
 import com.adsale.ChinaPlas.R;
 import com.adsale.ChinaPlas.adapter.ExhibitorPhotoAdapter;
 import com.adsale.ChinaPlas.adapter.NewTecListAdapter;
@@ -30,13 +34,16 @@ import com.adsale.ChinaPlas.data.FilterRepository;
 import com.adsale.ChinaPlas.data.NewTecRepository;
 import com.adsale.ChinaPlas.data.OnIntentListener;
 import com.adsale.ChinaPlas.data.ScheduleRepository;
+import com.adsale.ChinaPlas.data.model.EPO;
 import com.adsale.ChinaPlas.data.model.Text2;
 import com.adsale.ChinaPlas.data.model.adAdvertisementObj;
 import com.adsale.ChinaPlas.databinding.LayoutExhibitorAddScheduleBinding;
 import com.adsale.ChinaPlas.databinding.ViewNoteBinding;
 import com.adsale.ChinaPlas.ui.ExhibitorDetailActivity;
+import com.adsale.ChinaPlas.ui.LoginActivity;
 import com.adsale.ChinaPlas.ui.ScheduleEditActivity;
 import com.adsale.ChinaPlas.ui.TakePhotoActivity;
+import com.adsale.ChinaPlas.ui.WebViewActivity;
 import com.adsale.ChinaPlas.ui.view.AboutView;
 import com.adsale.ChinaPlas.ui.view.ExhiDtlInfoView;
 import com.adsale.ChinaPlas.utils.AppUtil;
@@ -93,9 +100,9 @@ public class ExhibitorDtlViewModel {
     private ScheduleAdapter mScheduleAdapter;
     private ViewStub mViewStub;
     private View mNoteView;
-    private String M5Description;
-    private adAdvertisementObj adObj;
-    private int M5Index;
+//    private String M5Description;
+    //    private adAdvertisementObj adObj;
+    private EPO.D4 D4;
     private AboutView mAboutView;
     private ArrayList<String> mPhotos = new ArrayList<>();
     private String mPhotoDir = "";
@@ -109,8 +116,15 @@ public class ExhibitorDtlViewModel {
         inflater = LayoutInflater.from(mContext);
     }
 
-    public void start(String companyID, OnIntentListener listener, ViewStub viewStub, boolean isAder) {
+    public void setOnCallPhoneListener(ExhiDtlInfoView.OnCallPhoneListener listener) {
+
+    }
+
+    private ExhiDtlInfoView.OnCallPhoneListener mCallListener;
+
+    public void start(String companyID, OnIntentListener listener, ViewStub viewStub, boolean isAder, ExhiDtlInfoView.OnCallPhoneListener callListener) {
         mListener = listener;
+        mCallListener = callListener;
         mViewStub = viewStub;
         mRepository = ExhibitorRepository.getInstance();
         LogUtil.i(TAG, "start:companyID=" + companyID);
@@ -128,10 +142,9 @@ public class ExhibitorDtlViewModel {
         getNewTecList();
     }
 
-    public void setM5Data(adAdvertisementObj adObj, int M5Index) {
-        this.adObj = adObj;
-        this.M5Index = M5Index;
-        M5Description = adObj.M5.description.get(M5Index).getDescription(AppUtil.getCurLanguage());
+    public void setD4Data(EPO.D4 D4) {
+        this.D4 = D4;
+//        M5Description = D4.getAbout();
     }
 
     public void addToHistory() {
@@ -146,6 +159,7 @@ public class ExhibitorDtlViewModel {
         if (mInfoView == null) {
             LogUtil.e(TAG, "mInfoView==null, so init it.");
             mInfoView = new ExhiDtlInfoView(mContext);
+            mInfoView.setOnCallPhoneListener(mCallListener);
             mInfoView.setData(exhibitor);
         }
         mInfoFrameLayout.addView(mInfoView);
@@ -156,9 +170,8 @@ public class ExhibitorDtlViewModel {
         mInfoFrameLayout.removeAllViews();
         if (mAboutView == null) {
             mAboutView = new AboutView(mContext);
-            String[] images = adObj.M5.videos.get(M5Index).imagelinks;
-            String[] videos = adObj.M5.videos.get(M5Index).videolinks;
-            mAboutView.initData(M5Description, adObj.M5.website[M5Index], images, videos);
+//            mAboutView.initData(M5Description, D4.website, D4.videoCover, D4.videoLink);
+            mAboutView.initData(D4);
         }
         mInfoFrameLayout.addView(mAboutView);
     }
@@ -214,7 +227,7 @@ public class ExhibitorDtlViewModel {
         if (mNewTecRV == null) {
             mNewTecRV = new RecyclerView(mContext);
             setRecyclerView(mNewTecRV);
-            NewTecListAdapter mTecAdapter = new NewTecListAdapter( newProductInfos, mListener);
+            NewTecListAdapter mTecAdapter = new NewTecListAdapter(newProductInfos, mListener);
             mNewTecRV.setAdapter(mTecAdapter);
         }
         mInfoFrameLayout.removeAllViews();
@@ -225,13 +238,39 @@ public class ExhibitorDtlViewModel {
      * 收藏/取消 到我的参展商
      */
     public void onCollect() {
-        isCollected.set(!isCollected.get());
-        exhibitor.setIsFavourite(isCollected.get() ? 1 : 0);
-        mRepository.updateIsFavourite(mContext,exhibitor.getCompanyID(), exhibitor.getIsFavourite());
-        if (isCollected.get()) { // 只有收藏展商时记录，取消展商不记录
-            AppUtil.trackViewLog(414, "BE", "", exhibitor.getCompanyID());
-            AppUtil.setStatEvent(mContext, "BookmarkExh", "BE_" + exhibitor.getCompanyID());
+        if (AppUtil.isLogin()) {
+            isCollected.set(!isCollected.get());
+            exhibitor.setIsFavourite(isCollected.get() ? 1 : 0);
+            mRepository.updateIsFavourite(mContext, exhibitor.getCompanyID(), exhibitor.getIsFavourite());
+            if (isCollected.get()) { // 只有收藏展商时记录，取消展商不记录
+                AppUtil.trackViewLog(414, "AddExhibitor", "", exhibitor.getCompanyID());
+                AppUtil.setStatEvent(mContext, "AddExhibitor", "AddExhibitor_EInfo_" + exhibitor.getCompanyID());
+            }
+        } else {
+            toastLogin(mContext.getString(R.string.login_first_add_exhibitor));
         }
+    }
+
+    private void toastLogin(String msg) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setMessage(msg)
+                .setPositiveButton(mContext.getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(activity, LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra(Constant.WEB_URL, String.format(NetWorkHelper.MY_CHINAPLAS_URL, AppUtil.getLanguageUrlType()));
+                        intent.putExtra(Constant.TITLE, mContext.getString(R.string.title_login));
+                        intent.putExtra("ExhibitorInfo", true); // 登录成功后返回到用户小工具列表
+                        mContext.startActivity(intent);
+                    }
+                })
+                .setNegativeButton(mContext.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
     }
 
     /*   ↓↓↓ ------------------------ Note --------------------------- ↓↓↓           */
@@ -384,21 +423,25 @@ public class ExhibitorDtlViewModel {
     public final ObservableBoolean isScheduleNoData = new ObservableBoolean();
 
     public void onSchedule() {
-        setIsView(3);
-        initContentFrame();
-        mContentFrameLayout.removeAllViews();
-        if (mScheduleView == null) {
-            LayoutExhibitorAddScheduleBinding scheduleBinding = LayoutExhibitorAddScheduleBinding.inflate(inflater);
-            mScheduleView = scheduleBinding.getRoot();
-            scheduleBinding.setModel(this);
-            scheduleBinding.executePendingBindings();
-            RecyclerView mScheduleRV = scheduleBinding.rvSchedule;
-            setRecyclerView(mScheduleRV);
-            getExhibitorSchedules();
-            mScheduleAdapter = new ScheduleAdapter(mScheduleInfos, mContext);
-            mScheduleRV.setAdapter(mScheduleAdapter);
+        if (AppUtil.isLogin()) {
+            setIsView(3);
+            initContentFrame();
+            mContentFrameLayout.removeAllViews();
+            if (mScheduleView == null) {
+                LayoutExhibitorAddScheduleBinding scheduleBinding = LayoutExhibitorAddScheduleBinding.inflate(inflater);
+                mScheduleView = scheduleBinding.getRoot();
+                scheduleBinding.setModel(this);
+                scheduleBinding.executePendingBindings();
+                RecyclerView mScheduleRV = scheduleBinding.rvSchedule;
+                setRecyclerView(mScheduleRV);
+                getExhibitorSchedules();
+                mScheduleAdapter = new ScheduleAdapter(mScheduleInfos, mContext);
+                mScheduleRV.setAdapter(mScheduleAdapter);
+            }
+            mContentFrameLayout.addView(mScheduleView);
+        } else {
+            toastLogin(mContext.getString(R.string.login_first_add_schedule));
         }
-        mContentFrameLayout.addView(mScheduleView);
     }
 
     public void updateSchedule() {
@@ -420,7 +463,12 @@ public class ExhibitorDtlViewModel {
 /*   ↑↑↑↑ ------------------------ Schedule End  --------------------------- ↑↑↑↑           */
 
     public void onShare() {
-        String url = String.format(NetWorkHelper.SHARE_EXHIBITOR_URL, AppUtil.getName("trad", "eng", "simp"), exhibitor.getCompanyID());
+        String url = "";
+        if (App.mLanguage.get() == 1) {
+            url = String.format(NetWorkHelper.SHARE_EXHIBITOR_EN_URL, exhibitor.getCompanyID());
+        } else {
+            url = String.format(NetWorkHelper.SHARE_EXHIBITOR_URL, AppUtil.getName("trad", "eng", "simp"), exhibitor.getCompanyID());
+        }
         LogUtil.i(TAG, "分享展商地址为：" + url);
 
         ShareSDKDialog shareSDKDialog = new ShareSDKDialog();
@@ -428,7 +476,7 @@ public class ExhibitorDtlViewModel {
                 Constant.SHARE_IMAGE_URL, url, Constant.SHARE_IMAGE_PATH);
 
         AppUtil.trackViewLog(425, "SE", "", exhibitor.getCompanyID());
-        AppUtil.setStatEvent(mContext, "ShareExhibitor", "SE_".concat(exhibitor.getCompanyID()));
+        AppUtil.setStatEvent(mContext, "Share", "Share_Exhibitor_".concat(exhibitor.getCompanyID()));
 
     }
 

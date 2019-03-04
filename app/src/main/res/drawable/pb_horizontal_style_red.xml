@@ -35,9 +35,9 @@
 
                 <gradient
                     android:angle="270.0"
-                    android:centerColor="@color/home"
-                    android:endColor="@color/home"
-                    android:startColor="@color/home" />
+                    android:centerColor="@color/tiffany"
+                    android:endColor="@color/tiffany"
+                    android:startColor="@color/tiffany" />
             </shape>
         </clip>
     </item>

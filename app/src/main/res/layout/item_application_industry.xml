@@ -5,7 +5,7 @@
         <import type="android.view.View"/>
         <variable
             name="obj"
-            type="com.adsale.ChinaPlas.dao.ApplicationIndustry" />
+            type="com.adsale.ChinaPlas.dao.Application" />
         <variable
             name="adapter"
             type="com.adsale.ChinaPlas.adapter.ApplicationAdapter"/>

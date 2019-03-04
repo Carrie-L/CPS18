@@ -15,36 +15,29 @@ import de.greenrobot.dao.internal.DaoConfig;
  */
 public class MainIconDao extends AbstractDao<MainIcon, String> {
 
-    public static final String TABLENAME = "MAIN_ICON";
+    public static final String TABLENAME = "MainIcon";
 
     /**
      * Properties of entity MainIcon.<br/>
      * Can be used for QueryBuilder and for referencing column names.
      */
     public static class Properties {
-        public final static Property IconID = new Property(0, String.class, "IconID", true, "ICON_ID");
-        public final static Property TitleTW = new Property(1, String.class, "TitleTW", false, "TITLE_TW");
-        public final static Property TitleCN = new Property(2, String.class, "TitleCN", false, "TITLE_CN");
-        public final static Property TitleEN = new Property(3, String.class, "TitleEN", false, "TITLE_EN");
-        public final static Property Icon = new Property(4, String.class, "Icon", false, "ICON");
-        public final static Property CType = new Property(5, int.class, "CType", false, "CTYPE");
-        public final static Property CFile = new Property(6, String.class, "CFile", false, "CFILE");
-        public final static Property ZipDateTime = new Property(7, String.class, "ZipDateTime", false, "ZIP_DATE_TIME");
-        public final static Property IsHidden = new Property(8, int.class, "IsHidden", false, "IS_HIDDEN");
-        public final static Property SEQ = new Property(9, int.class, "SEQ", false, "SEQ");
-        public final static Property CreateDateTime = new Property(10, String.class, "CreateDateTime", false, "CREATE_DATE_TIME");
-        public final static Property UpdateDateTime = new Property(11, String.class, "UpdateDateTime", false, "UPDATE_DATE_TIME");
-        public final static Property RecordTimeStamp = new Property(12, String.class, "RecordTimeStamp", false, "RECORD_TIME_STAMP");
-        public final static Property IsDown = new Property(13, int.class, "IsDown", false, "IS_DOWN");
-        public final static Property BaiDu_TJ = new Property(14, String.class, "BaiDu_TJ", false, "BAI_DU__TJ");
-        public final static Property Google_TJ = new Property(15, String.class, "Google_TJ", false, "GOOGLE__TJ");
-        public final static Property DrawerList = new Property(16, String.class, "DrawerList", false, "DRAWER_LIST");
-        public final static Property MenuList = new Property(17, String.class, "MenuList", false, "MENU_LIST");
-        public final static Property DrawerIcon = new Property(18, String.class, "DrawerIcon", false, "DRAWER_ICON");
-        public final static Property IconTextColor = new Property(19, String.class, "IconTextColor", false, "ICON_TEXT_COLOR");
-        public final static Property IsDelete = new Property(20, int.class, "IsDelete", false, "IS_DELETE");
+        public final static Property IconID = new Property(0, String.class, "IconID", true, "IconID");
+        public final static Property TitleTW = new Property(1, String.class, "TitleTW", false, "TitleTW");
+        public final static Property TitleCN = new Property(2, String.class, "TitleCN", false, "TitleCN");
+        public final static Property TitleEN = new Property(3, String.class, "TitleEN", false, "TitleEN");
+        public final static Property MenuSeq = new Property(4, String.class, "MenuSeq", false, "MenuSeq");
+        public final static Property DrawerSeq = new Property(5, String.class, "DrawerSeq", false, "DrawerSeq");
+        public final static Property BaiDu_TJ = new Property(6, String.class, "BaiDu_TJ", false, "BaiDu_TJ");
+        public final static Property Google_TJ = new Property(7, String.class, "Google_TJ", false, "Google_TJ");
+        public final static Property CFile = new Property(8, String.class, "CFile", false, "CFile");
+        public final static Property DrawerIcon = new Property(9, String.class, "DrawerIcon", false, "DrawerIcon");
+        public final static Property Icon = new Property(10, String.class, "Icon", false, "Icon");
+        public final static Property IsDelete = new Property(11, Boolean.class, "IsDelete", false, "IsDelete");
+        public final static Property IsHidden = new Property(12, Boolean.class, "IsHidden", false, "IsHidden");
+        public final static Property CreatedAt = new Property(13, String.class, "createdAt", false, "createdAt");
+        public final static Property UpdatedAt = new Property(14, String.class, "updatedAt", false, "updatedAt");
     }
-
 
     public MainIconDao(DaoConfig config) {
         super(config);
@@ -59,32 +52,11 @@ public class MainIconDao extends AbstractDao<MainIcon, String> {
      */
     public static void createTable(SQLiteDatabase db, boolean ifNotExists) {
         String constraint = ifNotExists ? "IF NOT EXISTS " : "";
-        db.execSQL("CREATE TABLE " + constraint + "\"MAIN_ICON\" (" + //
-                "\"ICON_ID\" TEXT PRIMARY KEY NOT NULL ," + // 0: IconID
-                "\"TITLE_TW\" TEXT NOT NULL ," + // 1: TitleTW
-                "\"TITLE_CN\" TEXT NOT NULL ," + // 2: TitleCN
-                "\"TITLE_EN\" TEXT NOT NULL ," + // 3: TitleEN
-                "\"ICON\" TEXT NOT NULL ," + // 4: Icon
-                "\"CTYPE\" INTEGER NOT NULL ," + // 5: CType
-                "\"CFILE\" TEXT," + // 6: CFile
-                "\"ZIP_DATE_TIME\" TEXT," + // 7: ZipDateTime
-                "\"IS_HIDDEN\" INTEGER NOT NULL ," + // 8: IsHidden
-                "\"SEQ\" INTEGER NOT NULL ," + // 9: SEQ
-                "\"CREATE_DATE_TIME\" TEXT NOT NULL ," + // 10: CreateDateTime
-                "\"UPDATE_DATE_TIME\" TEXT NOT NULL ," + // 11: UpdateDateTime
-                "\"RECORD_TIME_STAMP\" TEXT NOT NULL ," + // 12: RecordTimeStamp
-                "\"IS_DOWN\" INTEGER NOT NULL ," + // 13: IsDown
-                "\"BAI_DU__TJ\" TEXT NOT NULL ," + // 14: BaiDu_TJ
-                "\"GOOGLE__TJ\" TEXT ," + // 15: Google_TJ
-                "\"DRAWER_LIST\" TEXT ," + // DrawerList
-                "\"MENU_LIST\" TEXT ," + //  MenuList
-                "\"DRAWER_ICON\" TEXT ," + //  DrawerIcon
-                "\"ICON_TEXT_COLOR\" TEXT)," + // IconTextColor
-                "\"IS_DELETE\" INTEGER);"); // IconTextColor
+        //CREATE TABLE MainIcon (
+//        IconID TEXT,TitleTW TEXT NOT NULL ,TitleCN TEXT NOT NULL ,TitleEN TEXT NOT NULL ,MenuSeq TEXT,DrawerSeq TEXT,BaiDu_TJ TEXT,Google_TJ TEXT,CFile TEXT,DrawerIcon TEXTIcon TEXT,IsDelete INTEGER,IsHidden INTEGER,createdAt INTEGER,updatedAt INTEGER);
 
-
+        db.execSQL(""); // 14: updatedAt
     }
-//      ,String DrawerList,String MenuList,String DrawerIcon,String IconTextColor)
 
     /**
      * Drops the underlying database table.
@@ -108,55 +80,71 @@ public class MainIconDao extends AbstractDao<MainIcon, String> {
         stmt.bindString(2, entity.getTitleTW());
         stmt.bindString(3, entity.getTitleCN());
         stmt.bindString(4, entity.getTitleEN());
-        stmt.bindString(5, entity.getIcon());
-        stmt.bindLong(6, entity.getCType());
 
-        String CFile = entity.getCFile();
-        if (CFile != null) {
-            stmt.bindString(7, CFile);
+        String MenuSeq = entity.getMenuSeq();
+        if (MenuSeq != null) {
+            stmt.bindString(5, MenuSeq);
         }
 
-        String ZipDateTime = entity.getZipDateTime();
-        if (ZipDateTime != null) {
-            stmt.bindString(8, ZipDateTime);
+        String DrawerSeq = entity.getDrawerSeq();
+        if (DrawerSeq != null) {
+            stmt.bindString(6, DrawerSeq);
         }
-        stmt.bindLong(9, entity.getIsHidden());
-        stmt.bindLong(10, entity.getSEQ());
-        stmt.bindString(11, entity.getCreateDateTime());
-        stmt.bindString(12, entity.getUpdateDateTime());
-        stmt.bindString(13, entity.getRecordTimeStamp());
-        stmt.bindLong(14, entity.getIsDown());
-        stmt.bindString(15, entity.getBaiDu_TJ());
+
+        String BaiDu_TJ = entity.getBaiDu_TJ();
+        if (BaiDu_TJ != null) {
+            stmt.bindString(7, BaiDu_TJ);
+        }
 
         String Google_TJ = entity.getGoogle_TJ();
         if (Google_TJ != null) {
-            stmt.bindString(16, Google_TJ);
+            stmt.bindString(8, Google_TJ);
         }
 
-        String DrawerList = entity.getDrawerList();
-        if (DrawerList != null) {
-            stmt.bindString(17, DrawerList);
-        }
-
-        String MenuList = entity.getMenuList();
-        if (MenuList != null) {
-            stmt.bindString(18, MenuList);
+        String CFile = entity.getCFile();
+        if (CFile != null) {
+            stmt.bindString(9, CFile);
         }
 
         String DrawerIcon = entity.getDrawerIcon();
         if (DrawerIcon != null) {
-            stmt.bindString(19, DrawerIcon);
+            stmt.bindString(10, DrawerIcon);
         }
 
-        String IconTextColor = entity.getIconTextColor();
-        if (IconTextColor != null) {
-            stmt.bindString(20, IconTextColor);
+        String Icon = entity.getIcon();
+        if (Icon != null) {
+            stmt.bindString(11, Icon);
         }
 
-        int isDelete = entity.getIsDelete();
-        stmt.bindLong(21, entity.getIsDelete());
+        Boolean IsDelete = entity.getIsDelete();
+        if (IsDelete != null) {
+            stmt.bindLong(12, IsDelete ? 1L : 0L);
+        }
 
+        Boolean IsHidden = entity.getIsHidden();
+        if (IsHidden != null) {
+            stmt.bindLong(13, IsHidden ? 1L : 0L);
+        }
 
+        String createdAt = entity.getCreatedAt();
+        if (createdAt != null) {
+            stmt.bindString(14, createdAt);
+        }
+
+        String updatedAt = entity.getUpdatedAt();
+        if (updatedAt != null) {
+            stmt.bindString(15, updatedAt);
+        }
+//
+//        Date createdAt = entity.getCreatedAt();
+//        if (createdAt != null) {
+//            stmt.bindLong(14, createdAt.getTime());
+//        }
+//
+//        java.util.Date updatedAt = entity.getUpdatedAt();
+//        if (updatedAt != null) {
+//            stmt.bindLong(15, updatedAt.getTime());
+//        }
     }
 
     /**
@@ -164,7 +152,7 @@ public class MainIconDao extends AbstractDao<MainIcon, String> {
      */
     @Override
     public String readKey(Cursor cursor, int offset) {
-        return cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0);
+        return null;
     }
 
     /**
@@ -177,23 +165,17 @@ public class MainIconDao extends AbstractDao<MainIcon, String> {
                 cursor.getString(offset + 1), // TitleTW
                 cursor.getString(offset + 2), // TitleCN
                 cursor.getString(offset + 3), // TitleEN
-                cursor.getString(offset + 4), // Icon
-                cursor.getInt(offset + 5), // CType
-                cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // CFile
-                cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // ZipDateTime
-                cursor.getInt(offset + 8), // IsHidden
-                cursor.getInt(offset + 9), // SEQ
-                cursor.getString(offset + 10), // CreateDateTime
-                cursor.getString(offset + 11), // UpdateDateTime
-                cursor.getString(offset + 12), // RecordTimeStamp
-                cursor.getInt(offset + 13), // IsDown
-                cursor.getString(offset + 14), // BaiDu_TJ
-                cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15), // Google_TJ
-                cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16), // DrawerList
-                cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17), // MenuList
-                cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18), // DrawerIcon
-                cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19), // IconTextColor
-                cursor.getInt(offset + 20) // IconTextColor
+                cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // MenuSeq
+                cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // DrawerSeq
+                cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // BaiDu_TJ
+                cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // Google_TJ
+                cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // CFile
+                cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // DrawerIcon
+                cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // Icon
+                cursor.isNull(offset + 11) ? null : cursor.getShort(offset + 11) != 0, // IsDelete
+                cursor.isNull(offset + 12) ? null : cursor.getShort(offset + 12) != 0, // IsHidden
+                cursor.isNull(offset + 13) ? null :cursor.getString(offset + 13), // createdAt
+                cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14) // updatedAt
         );
         return entity;
     }
@@ -207,24 +189,17 @@ public class MainIconDao extends AbstractDao<MainIcon, String> {
         entity.setTitleTW(cursor.getString(offset + 1));
         entity.setTitleCN(cursor.getString(offset + 2));
         entity.setTitleEN(cursor.getString(offset + 3));
-        entity.setIcon(cursor.getString(offset + 4));
-        entity.setCType(cursor.getInt(offset + 5));
-        entity.setCFile(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
-        entity.setZipDateTime(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
-        entity.setIsHidden(cursor.getInt(offset + 8));
-        entity.setSEQ(cursor.getInt(offset + 9));
-        entity.setCreateDateTime(cursor.getString(offset + 10));
-        entity.setUpdateDateTime(cursor.getString(offset + 11));
-        entity.setRecordTimeStamp(cursor.getString(offset + 12));
-        entity.setIsDown(cursor.getInt(offset + 13));
-        entity.setBaiDu_TJ(cursor.getString(offset + 14));
-        entity.setGoogle_TJ(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
-        entity.setDrawerList(cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16));
-        entity.setMenuList(cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17));
-        entity.setDrawerIcon(cursor.isNull(offset + 18) ? null : cursor.getString(offset + 18));
-        entity.setIconTextColor(cursor.isNull(offset + 19) ? null : cursor.getString(offset + 19));
-        entity.setIsDelete(cursor.getInt(offset + 20));
-
+        entity.setMenuSeq(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setDrawerSeq(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setBaiDu_TJ(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setGoogle_TJ(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setCFile(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
+        entity.setDrawerIcon(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
+        entity.setIcon(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
+        entity.setIsDelete(cursor.isNull(offset + 11) ? null : cursor.getShort(offset + 11) != 0);
+        entity.setIsHidden(cursor.isNull(offset + 12) ? null : cursor.getShort(offset + 12) != 0);
+        entity.setCreatedAt(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
+        entity.setUpdatedAt(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
     }
 
     /**
@@ -232,7 +207,8 @@ public class MainIconDao extends AbstractDao<MainIcon, String> {
      */
     @Override
     protected String updateKeyAfterInsert(MainIcon entity, long rowId) {
-        return entity.getIconID();
+        // Unsupported or missing PK type
+        return null;
     }
 
     /**
@@ -240,11 +216,7 @@ public class MainIconDao extends AbstractDao<MainIcon, String> {
      */
     @Override
     public String getKey(MainIcon entity) {
-        if (entity != null) {
-            return entity.getIconID();
-        } else {
-            return null;
-        }
+        return null;
     }
 
     /**
@@ -256,3 +228,6 @@ public class MainIconDao extends AbstractDao<MainIcon, String> {
     }
 
 }
+
+
+

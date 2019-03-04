@@ -9,112 +9,128 @@
 
         <variable
             name="obj"
-            type="com.adsale.ChinaPlas.data.model.ConcurrentEvent.Pages" />
+            type="com.adsale.ChinaPlas.dao.ConcurrentEvent" />
 
         <variable
             name="adapter"
             type="com.adsale.ChinaPlas.adapter.EventAdapter" />
     </data>
 
-    <LinearLayout
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="2dp">
+        <!--android:layout_marginBottom="@{obj.isTypeLabel==1?@dimen/event_item_bottom1:@dimen/event_item_bottom2}"-->
 
-        <TextView
-            android:id="@+id/tv_event_header"
-            style="@style/event_header_style"
-            android:text="@{String.format(@string/event_date_base,obj.date)}"
-            android:visibility="@{obj.isTypeLabel==1?View.VISIBLE:View.GONE}" />
-
-
-    <RelativeLayout
-        android:id="@+id/rl_event"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="@{() -> adapter.onItemClick(obj)}"
-        >
-
-            <ImageView
-                android:id="@+id/iv_event_bg"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitXY"
-                app:imgUrl="@{obj.getImageLink()}" />
-
-            <ImageView
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="8dp"
-                android:background="@drawable/ic_right_arrow2" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_event_title"
+                android:id="@+id/tv_event_header"
+                style="@style/event_header_style"
+                android:text="@{String.format(@string/event_date_base,obj.date)}"
+                android:visibility="@{obj.isTypeLabel==1?View.VISIBLE:View.GONE}" />
+
+
+            <RelativeLayout
+                android:id="@+id/rl_event"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="12dp"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textSize="16sp"
-                android:text="@{obj.getTitle()}"
-                android:textColor="#000"
-                />
-            <!--android:text="@{obj.getTitle()}"-->
+                android:onClick="@{() -> adapter.onItemClick(obj)}"
+                android:padding="8dp">
 
-            <TextView
-                android:id="@+id/tv_event_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_alignLeft="@id/tv_event_title"
-                android:layout_below="@id/tv_event_title"
-                android:drawableLeft="@drawable/ic_event_date"
-                android:drawablePadding="8dp"
-                android:textColor="@color/grey21"
-                android:gravity="center_vertical"
-                android:text="@{obj.duration}" />
+                <ImageView
+                    android:id="@+id/iv_event_bg"
+                    android:layout_width="100dp"
+                    android:layout_height="67dp"
+                    android:scaleType="fitStart"
+                    app:imgUrl="@{obj.getBackgroundUrl()}" />
 
-            <TextView
-                android:id="@+id/tv_event_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_alignLeft="@id/tv_event_title"
-                android:layout_below="@id/tv_event_time"
-                android:drawableLeft="@drawable/ic_event_location"
-                android:drawablePadding="8dp"
-                android:textColor="@color/grey21"
-                android:gravity="center_vertical"
-                android:text="@{obj.location}" />
+                <ImageView
+                    android:id="@+id/iv_arrow"
+                    android:layout_width="16dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/ic_right_arrow2" />
 
-            <ImageView
-                android:id="@+id/iv_event_prereg"
-                android:layout_width="wrap_content"
-                android:layout_height="18dp"
-                android:layout_below="@id/tv_event_location"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="6dp"
-                android:src="@drawable/ic_event_prereg"
-                android:visibility="@{obj.pre_reg!=null&amp;&amp;Integer.valueOf(obj.pre_reg)==0?View.VISIBLE:View.GONE}" />
+                <TextView
+                    android:id="@+id/tv_event_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="67dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_alignTop="@id/iv_event_bg"
+                    android:layout_toRightOf="@id/iv_event_bg"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="3"
+                    android:text="@{obj.getTitle()}"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+                <!--android:text="@{obj.getTitle()}"-->
 
-        <ImageView
-            android:id="@+id/iv_event_pay"
-            android:layout_width="wrap_content"
-            android:layout_height="18dp"
-            android:layout_alignTop="@+id/iv_event_prereg"
-            android:layout_marginStart="15dp"
-            android:layout_toEndOf="@+id/tv_event_location"
-            android:src="@drawable/ic_event_pay"
-            android:visibility="@{obj.entrance_fee!=null&amp;&amp;Integer.valueOf(obj.entrance_fee)==0?View.VISIBLE:View.GONE}" />
+                <TextView
+                    android:id="@+id/tv_event_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/iv_event_bg"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:drawableLeft="@drawable/ic_event_date"
+                    android:drawablePadding="12dp"
+                    android:gravity="center_vertical"
+                    android:paddingEnd="8dp"
+                    android:text="@{obj.duration}"
+                    android:textColor="@color/grey21" />
+
+                <TextView
+                    android:id="@+id/tv_event_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/tv_event_time"
+                    android:layout_below="@id/tv_event_time"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="5dp"
+                    android:drawableLeft="@drawable/ic_event_location"
+                    android:drawablePadding="12dp"
+                    android:gravity="center_vertical"
+                    android:text="@{obj.location}"
+                    android:textColor="@color/grey21" />
+
+                <ImageView
+                    android:id="@+id/iv_event_pay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="18dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/tv_event_location"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="5dp"
+                    android:src="@drawable/ic_dollor"
+                    android:visibility="@{obj.isFree?View.INVISIBLE:View.VISIBLE}" />
+
+                <ImageView
+                    android:id="@+id/iv_event_prereg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="18dp"
+                    android:layout_below="@id/tv_event_location"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toLeftOf="@id/iv_event_pay"
+                    android:src="@drawable/ic_event_prereg"
+                    android:visibility="@{obj.isPreReg?View.VISIBLE:View.GONE}" />
 
 
-    </RelativeLayout>
+            </RelativeLayout>
 
-    </LinearLayout>
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
 </layout>

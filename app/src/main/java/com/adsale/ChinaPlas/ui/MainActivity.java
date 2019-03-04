@@ -67,6 +67,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        LogUtil.i(TAG,"--initView--");
         mTypePrefix = "Page_Menu";
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater(), mBaseFrameLayout, true);
         spHelpPage = getSharedPreferences("HelpPage", MODE_PRIVATE);
@@ -81,7 +82,7 @@ public class MainActivity extends BaseActivity {
         setFragment();
         helpPage();
 
-        OtherRepository   repository = OtherRepository.getInstance();
+        OtherRepository repository = OtherRepository.getInstance();
         repository.initUpdateCenterDao();
         uc_count = repository.getNeedUpdatedCount();
         App.mSP_Config.edit().putInt("UC_COUNT", uc_count).apply();
@@ -89,35 +90,7 @@ public class MainActivity extends BaseActivity {
             intentToUpdateCenter();
         }
 
-        getMainIcon();
     }
-
-    private void getMainIcon(){
-        BmobQuery<MainIcon> query = new BmobQuery<>();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
-        String localUpdateAt = "2018-09-15 14:43:52";
-        Date date = null;
-        try {
-            date = sdf.parse(localUpdateAt);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        query.addWhereGreaterThan("updatedAt",new BmobDate(date));
-        query.findObjects(new FindListener<MainIcon>() {
-            @Override
-            public void done(List<MainIcon> list, BmobException e) {
-                LogUtil.i(TAG,"getMainIcon::: list = "+list.size()+","+list.toString());
-            }
-        });
-
-
-
-
-
-
-    }
-
-
 
     private void setFragment() {
         if (mainFragment == null) {
@@ -127,7 +100,6 @@ public class MainActivity extends BaseActivity {
         }
         App.mSP_Config.edit().putBoolean("isM2Popup", false).apply();
     }
-
 
 
     @Override
@@ -146,10 +118,10 @@ public class MainActivity extends BaseActivity {
         LogUtil.i(TAG, "onResume: mNavViewModel.mCurrLang=" + mNavViewModel.mCurrLang.get());
 
         if (AppUtil.getCurLanguage() != mNavViewModel.mCurrLang.get()) {
-            mNavViewModel.mCurrLang.set(AppUtil.getCurLanguage());
+            mNavViewModel.mCurrLang.set(App.mLanguage.get());
             mNavViewModel.updateLanguage();
             mainFragment.refreshImages();
-            AppUtil.switchLanguage(getApplicationContext(), AppUtil.getCurLanguage());
+            AppUtil.switchLanguage(getApplicationContext(),App.mLanguage.get());
         }
 
         updateCenterCount();
